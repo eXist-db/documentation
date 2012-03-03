@@ -12,7 +12,6 @@
             <surname>Meier</surname>
         </author>
     </bookinfo>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
     <chapter>
         <title>URL Rewriting and MVC Framework</title>
         <abstract>
@@ -45,13 +44,10 @@
             <para>When designing RESTful web applications, a common rule is to provide meaningful
                 URIs to the user. For example, our eXist wiki implements a hierarchical document
                 space. The user can directly browse to a document by entering the path to it into
-                the browser's location bar. The URL <ulink
-                    url="http://atomic.exist-db.org/HowTo/OxygenXML/"
-                    >http://atomic.exist-db.org/HowTo/OxygenXML/eXistXmlRpcChanged</ulink> will
+                the browser's location bar. The URL <ulink url="http://atomic.exist-db.org/HowTo/OxygenXML/">http://atomic.exist-db.org/HowTo/OxygenXML/eXistXmlRpcChanged</ulink> will
                 directly lead to the corresponding document.</para>
             <para>Internally, however, all document views are handled by the same XQuery script.
-                Above URL will actually be forwarded to an XQuery called <filename
-                    >index.xql</filename> as follows:</para>
+                Above URL will actually be forwarded to an XQuery called <filename>index.xql</filename> as follows:</para>
             <synopsis>index.xql?feed=HowTo/OxygenXML/&amp;ref=eXistXmlRpcChanged</synopsis>
             <para>The XQuery code which does the rewrite magic is shown below:</para>
             <programlisting language="xquery"><![CDATA[
@@ -62,8 +58,7 @@ return
             <add-parameter name="feed" value="{$params[1]}"/>
             <add-parameter name="ref" value="{$params[2]}"/>
         </forward>
-    </dispatch>]]>
-            </programlisting>
+    </dispatch>]]></programlisting>
             <para>The forward element tells XQueryURLRewrite to pass the request to the specified
                 URL. You could also forward to a servlet instead of an URL by specifying its name
                 (servlet="ServletName"). The forwarding is done via the
@@ -116,8 +111,7 @@ return
                         <para>The last part of the request URI after the section leading to the
                             controller. If the resource <filename>example.xml</filename> resides
                             within the same directory as the controller query,
-                                <option>$exist:path</option> will be <filename
-                                >/example.xml</filename>.</para>
+                                <option>$exist:path</option> will be <filename>/example.xml</filename>.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -133,8 +127,7 @@ return
                         <para>The part of the URI leading to the current controller script. For
                             example, if the request path is <filename>/xquery/test.xql</filename>
                             and the controller is in the <filename>xquery</filename> directory,
-                                <option>$exist:controller</option> would contain <filename
-                                >/xquery</filename>.</para>
+                                <option>$exist:controller</option> would contain <filename>/xquery</filename>.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -144,8 +137,7 @@ return
                             prefix, <option>$exist:prefix</option> returns that prefix. For example,
                             the default configuration maps the path <filename>/tools</filename> to a
                             collection in the database (see below). In this case,
-                                <option>$exist:prefix</option> would contain <filename
-                                >/tools</filename>.</para>
+                                <option>$exist:prefix</option> would contain <filename>/tools</filename>.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -154,22 +146,20 @@ return
                         <para>The root of the current controller hierarchy. This may either point to
                             the file system or to a collection in the database. Use this variable to
                             locate resources relative to the root of the application. For example,
-                            assume you want to process a request through stylesheet <filename
-                                >db2xhtml.xsl</filename>, which could <emphasis>either</emphasis> be
+                            assume you want to process a request through stylesheet <filename>db2xhtml.xsl</filename>, which could <emphasis>either</emphasis> be
                             stored in the <filename>/stylesheets</filename> directory in the root of
                             the webapp or - if the app is running from within the db - the
                             corresponding <filename>/stylesheets</filename> collection. You want
                             your app to be able to run from either location. The solution is to use
                                 <option>exist:root</option>:</para>
-                        <synopsis language="xml">&lt;forward servlet="XSLTServlet">
+                        <synopsis language="xml">&lt;forward servlet="XSLTServlet"&gt;
     &lt;set-attribute name="xslt.stylesheet"
-    	value="{$exist:root}/stylesheets/db2xhtml.xsl"/>
-&lt;/forward></synopsis>
+    	value="{$exist:root}/stylesheets/db2xhtml.xsl"/&gt;
+&lt;/forward&gt;</synopsis>
                     </listitem>
                 </varlistentry>
             </variablelist>
-            <para>To summarize: if the request path is <filename
-                    >/exist/tools/sandbox/get-examples.xql</filename>,
+            <para>To summarize: if the request path is <filename>/exist/tools/sandbox/get-examples.xql</filename>,
                     <option>$exist:prefix</option> would contain <filename>/tools</filename>,
                     <option>$exist:controller</option> would point to <filename>/sandbox</filename>,
                     <option>$exist:path</option> would be <filename>/get-examples.xql</filename>,
@@ -181,15 +171,11 @@ return
         </section>
         <section>
             <title>Locating Controller Scripts and Configuring Base Mappings</title>
-            <para>By convention, the controller XQueries should be called <filename
-                    >controller.xql</filename>. XQueryURLRewrite will try to guess the path to the
+            <para>By convention, the controller XQueries should be called <filename>controller.xql</filename>. XQueryURLRewrite will try to guess the path to the
                 most-specific controller query by looking at the request path. For example, in the
-                standard eXist distribution, the main controller file is located in <filename
-                    >webapp/controller.xql</filename>, but there are other controllers in the
-                subdirectories <filename>webapp/sandbox</filename> or <filename
-                    >webapp/admin</filename>. If the servlet filter receives a request path
-                    <uri>http://localhost:8080/exist/sandbox/</uri>, it will find the <filename
-                    >controller.xql</filename> file in the <filename>sandbox</filename> directory
+                standard eXist distribution, the main controller file is located in <filename>webapp/controller.xql</filename>, but there are other controllers in the
+                subdirectories <filename>webapp/sandbox</filename> or <filename>webapp/admin</filename>. If the servlet filter receives a request path
+                    <uri>http://localhost:8080/exist/sandbox/</uri>, it will find the <filename>controller.xql</filename> file in the <filename>sandbox</filename> directory
                 and execute this controller instead of the main controller.</para>
             <para>It is also possible to store the controller XQuery into the database instead of
                 the file system. This makes sense if you want to keep a part of your web application
@@ -203,10 +189,12 @@ return
             <para>It basically has two components:</para>
             <itemizedlist>
                 <listitem>
-                    <para><sgmltag>forward</sgmltag> actions which map patterns to servlets</para>
+                    <para>
+                        <sgmltag>forward</sgmltag> actions which map patterns to servlets</para>
                 </listitem>
                 <listitem>
-                    <para><sgmltag>root</sgmltag> elements define the root for a file system or db
+                    <para>
+                        <sgmltag>root</sgmltag> elements define the root for a file system or db
                         collection hierarchy </para>
                 </listitem>
             </itemizedlist>
@@ -234,8 +222,7 @@ return
                 default corresponding to <filename>EXIST_HOME/webapp</filename>). For example, the
                 URI</para>
             <synopsis>http://localhost:8080/exist/tools/admin/admin.xql</synopsis>
-            <para>will be handled by the controller stored in database collection <filename
-                    >/db/www/admin/</filename> (if there is one) or will directly resolve to
+            <para>will be handled by the controller stored in database collection <filename>/db/www/admin/</filename> (if there is one) or will directly resolve to
                     <filename>/db/www/admin/admin.xql</filename>. In this case, all relative or
                 absolute URIs within the controller will be resolved against the database, not the
                 file system. However, there's a possibility to escape this path interpretation, described
@@ -256,10 +243,8 @@ return
                     <sgmltag>view</sgmltag> element is just a wrapper around another sequence of
                     <sgmltag>forward</sgmltag> or <sgmltag>rewrite</sgmltag> actions.</para>
             <para>For example, most of the documentation that comes with eXist is written in the
-                docbook format and needs to be send through an XSLT stylesheet (<filename
-                    >webapp/stylesheets/db2html.xsl</filename>) to be transformed into HTML. This is
-                done by returning the following <sgmltag>dispatch</sgmltag> fragment from <filename
-                    >webapp/controller.xql</filename>:</para>
+                docbook format and needs to be send through an XSLT stylesheet (<filename>webapp/stylesheets/db2html.xsl</filename>) to be transformed into HTML. This is
+                done by returning the following <sgmltag>dispatch</sgmltag> fragment from <filename>webapp/controller.xql</filename>:</para>
             <programlisting language="XML"><![CDATA[<dispatch xmlns="http://exist.sourceforge.net/NS/exist">
 	<view>
 		<forward servlet="XSLTServlet">
@@ -280,8 +265,7 @@ return
                 304 (NOT MODIFIED), which indicates that the client can use the version it has
                 cached.</para>
             <para>We can also pass a request through more than one "view". The following fragment
-                applies two stylesheets in sequence (code taken from <filename
-                    >webapp/xquery/controller.xql</filename>):</para>
+                applies two stylesheets in sequence (code taken from <filename>webapp/xquery/controller.xql</filename>):</para>
             <example>
                 <title>Applying more than one stylesheet</title>
                 <programlisting language="xquery"><![CDATA[if ($name eq 'acronyms.xql') then
@@ -550,13 +534,10 @@ if (starts-with($exist:path, "/libs/")) then
         <forward url="/{substring-after($exist:path, '/libs/')}" absolute="yes"/>
     </dispatch>]]></programlisting>
             </example>
-            
             <para>This simply removes the /libs/ prefix and sets absolute="yes", so the path will be
                 resolved relative to the main context of the servlet engine, usually /exist/. In your HTML, you can now
                 write:</para>
-            
             <synopsis language="xml"><![CDATA[<script type="text/javascript" src="/libs/scripts/jquery/jquery-1.6.2.min.js"></script>]]></synopsis>
-            
             <para>This will locate the jquery file in <filename>webapp/scripts/jquery/...</filename>, even if the rest of your
                 application is stored in the db and not on the file system.</para>
         </section>
@@ -628,8 +609,7 @@ if (starts-with($exist:path, "/libs/")) then
                             <para>The path to the XSL stylesheet. Relative paths will be resolved
                                 against the current request URI, absolute paths against the context
                                 of the web application (/exist). To reference a stylesheet which is
-                                stored in the database, use an XML:DB URI, e.g. <filename
-                                    >xmldb:exist:///db/styles/myxsl.xsl</filename>.</para>
+                                stored in the database, use an XML:DB URI, e.g. <filename>xmldb:exist:///db/styles/myxsl.xsl</filename>.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
@@ -654,7 +634,8 @@ if (starts-with($exist:path, "/libs/")) then
                     <varlistentry>
                         <term>xslt.password</term>
                         <listitem>
-                            <para>Password for the user given in <option>xslt.user</option></para>
+                            <para>Password for the user given in <option>xslt.user</option>
+                            </para>
                         </listitem>
                     </varlistentry>
                 </variablelist>

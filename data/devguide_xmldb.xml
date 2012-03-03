@@ -10,32 +10,29 @@
             <firstname>Wolfgang M.</firstname>
             <surname>Meier</surname>
             <affiliation>
-                <address format="linespecific"><email>wolfgang at exist-db.org</email></address>
+                <address format="linespecific">
+                    <email>wolfgang at exist-db.org</email>
+                </address>
             </affiliation>
         </author>
     </bookinfo>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
     <chapter id="ch01">
         <title>Developer's Guide</title>
         <section>
             <title>Writing Java Applications with the XML:DB API</title>
-
             <para>The preferred way to work with eXist when developing Java applications is to use
                 the XML:DB API. This API provides a common interface to native or XML-enabled
                 databases and supports the development of portable, reusable applications. eXist's
                 implementation of the XML:DB standards follows the Xindice implementation, and
-                conforms to the latest working drafts put forth by the <ulink
-                    url="http://xmldb-org.sourceforge.net/xapi/">XML:DB Initiative</ulink>. For more
+                conforms to the latest working drafts put forth by the <ulink url="http://xmldb-org.sourceforge.net/xapi/">XML:DB Initiative</ulink>. For more
                 information, refer to the <ulink url="api/index.html">Javadocs for this API</ulink>.</para>
-
             <para>The basic components employed by the XML:DB API are <emphasis>drivers</emphasis>,
                     <emphasis>collections</emphasis>, <emphasis>resources</emphasis> and
                     <emphasis>services</emphasis>.</para>
-
-            <para><emphasis>Drivers</emphasis> are implementations of the database interface that
+            <para>
+                <emphasis>Drivers</emphasis> are implementations of the database interface that
                 encapsulate the database access logic for specific XML database products. They are
                 provided by the product vendor and must be registered with the database manager.</para>
-
             <para>A <emphasis>collection</emphasis> is a hierarchical container for
                     <emphasis>resources</emphasis> and further sub-collections. Currently two
                 different resources are defined by the API: <classname>XMLResource</classname> and
@@ -46,8 +43,7 @@
                 querying a collection with XPath, or managing a collection.</para>
             <note>
                 <para>There are several XML:DB examples provided in eXist's
-                    <filename>samples</filename> directory . To start an example, use the <filename
-                        moreinfo="none">start.jar</filename> jar file and pass the name of the
+                    <filename>samples</filename> directory . To start an example, use the <filename moreinfo="none">start.jar</filename> jar file and pass the name of the
                     example class as the first parameter, for instance:</para>
                 <synopsis format="linespecific">java -jar start.jar 
 					org.exist.examples.xmldb.Retrieve [- other options]</synopsis>
@@ -58,7 +54,6 @@
                 printed to standard output.</para>
             <example>
                 <title>Retrieving a Document with XML:DB</title>
-                
                 <programlisting format="linespecific" language="java"><![CDATA[
 import org.xmldb.api.base.*;
 import org.xmldb.api.modules.*;
@@ -162,10 +157,8 @@ public class RetrieveExample {
                 the second, which is used to distinguish between different versions of the service
                 defined by the XML:DB API.</para>
             <para>The following is an example of using the XML:DB API to execute a database query:</para>
-
             <example>
                 <title>Querying the Database with XPath(XML:DB API)</title>
-                
                 <programlisting format="linespecific" language="java"><![CDATA[
 import org.xmldb.api.base.*;
 import org.xmldb.api.modules.*;
@@ -232,7 +225,6 @@ public class XPathExample {
                 the previous example code would look as follows:</para>
             <example>
                 <title>Compiling a Query (XML:DB API)</title>
-                
                 <programlisting format="linespecific" language="java"><![CDATA[
 import org.xmldb.api.base.*;
 import org.xmldb.api.modules.*;
@@ -303,7 +295,6 @@ public class XQueryExample {
                     <classname>CollectionManagementService</classname> service.</para>
             <example>
                 <title>Adding a File (XML:DB API)</title>
-                
                 <programlisting format="linespecific" language="java"><![CDATA[
 import java.io.File;
 import org.exist.xmldb.EXistResource;
@@ -418,23 +409,19 @@ public class StoreExample {
                 <title>Additional Services</title>
                 <para>eXist provides several services in addition to those defined by the XML:DB
                     specification:</para>
-                <para>The <ulink url="api/org/exist/xmldb/UserManagementService.html"
-                        >UserManagementService</ulink> service contains methods to manage users and
+                <para>The <ulink url="api/org/exist/xmldb/UserManagementService.html">UserManagementService</ulink> service contains methods to manage users and
                     handle permissions. These methods resemble common Unix commands such as
                         <methodname>chown</methodname> or <methodname>chmod</methodname>. As with
                     other services, <classname>UserManagementService</classname> can be retrieved
                     from a collection object, as in:</para>
                 <synopsis format="linespecific">UserManagementService service = 
                     (UserManagementService)collection.getService("UserManagementService", "1.0");</synopsis>
-                <para>Another service called <ulink
-                        url="api/org/exist/xmldb/DatabaseInstanceManager.html"
-                        >DatabaseInstanceManager</ulink>, provides a single method to shut down the
+                <para>Another service called <ulink url="api/org/exist/xmldb/DatabaseInstanceManager.html">DatabaseInstanceManager</ulink>, provides a single method to shut down the
                     database instance accessed by the driver. You have to be a member of the
                         <option>dba</option> user group to use this method or an exception will be
                     thrown. See the <ulink url="deployment.xml#embedded">Deployment Guide</ulink>
                     for an example.</para>
-                <para>Finally, interface <ulink url="api/org/exist/xmldb/IndexQueryService.html"
-                        >IndexQueryService</ulink> supports access to the terms and elements
+                <para>Finally, interface <ulink url="api/org/exist/xmldb/IndexQueryService.html">IndexQueryService</ulink> supports access to the terms and elements
                     contained in eXist's internal index. Method getIndexedElements() returns a list
                     of element occurrences for the current collection. For each occurring element,
                     the element's name and a frequency count is returned.</para>

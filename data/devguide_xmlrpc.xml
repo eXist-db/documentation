@@ -16,7 +16,6 @@
             </affiliation>
         </author>
     </bookinfo>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
     <chapter id="ch01">
         <title>Developer's Guide</title>
         <section>
@@ -24,15 +23,12 @@
             <para>XML-RPC (XML Remote Procedural Call) provides a simple way to call remote
                 procedures from a wide variety of programming languages. eXist's XML-RPC API makes
                 it easy to access eXist from other applications, CGI scripts, PHP, JSP and more. For
-                more information on XML-RPC see <ulink url="http://www.xmlrpc.org"
-                >www.xmlrpc.org</ulink>. For the Java server, eXist uses the XML-RPC library created
-                by Hannes Wallnoefer which recently has moved to Apache (see: <ulink
-                    url="http://xml.apache.org/xmlrpc">http://xml.apache.org/xmlrpc</ulink>). Perl
+                more information on XML-RPC see <ulink url="http://www.xmlrpc.org">www.xmlrpc.org</ulink>. For the Java server, eXist uses the XML-RPC library created
+                by Hannes Wallnoefer which recently has moved to Apache (see: <ulink url="http://xml.apache.org/xmlrpc">http://xml.apache.org/xmlrpc</ulink>). Perl
                 examples use the RPC::XML package, which should be available at every CPAN mirror
                 (see <ulink url="http://www.cpan.org">CPAN</ulink>).</para>
             <para>The following is a small example, which shows how to talk to eXist from Java using
-                the Apache XML-RPC library. This example can be found in <filename moreinfo="none"
-                    >samples/org/exist/examples/xmldb/Retrieve.java</filename>.</para>
+                the Apache XML-RPC library. This example can be found in <filename moreinfo="none">samples/org/exist/examples/xmldb/Retrieve.java</filename>.</para>
             <example>
                 <title>Retrieving a document from eXist</title>
                 <programlisting format="linespecific" language="java"> <![CDATA[
@@ -77,7 +73,6 @@ public static void main( String args[] ) throws Exception {
                 Vector <parameter>params</parameter>. Various output properties can also be set
                 through the hashtable argument (see the method description below). Since all
                 parameters are passed in a Vector, they are necessarily Java objects.</para>
-
             <para>XML-RPC messages (requests and responses sent between the server and client) are
                 themselves XML documents. In some cases, these documents may use a character
                 encoding which is in conflict with the encoding of the document we would like to
@@ -202,11 +197,8 @@ sub process {
                 that some methods like <methodname>getDocument()</methodname> and
                     <methodname>retrieve()</methodname> accept a struct to specify optional output
                 properties.</para>
-
             <para>In general, the following optional fields for methods are supported:</para>
-
             <variablelist>
-
                 <varlistentry>
                     <term>indent</term>
                     <listitem>
@@ -272,7 +264,6 @@ sub process {
                     </listitem>
                 </varlistentry>
             </variablelist>
-
             <section>
                 <title>Retrieving documents</title>
                 <itemizedlist>
@@ -305,7 +296,8 @@ sub process {
                         <para>To retrieve a document from the database, but limit the number of
                             bytes transmitted in one chunk to avoid memory shortage on the server,
                             use the following:</para>
-                        <para><methodname>getDocumentData()</methodname> returns a struct containing
+                        <para>
+                            <methodname>getDocumentData()</methodname> returns a struct containing
                             the following fields: <parameter>data</parameter>,
                             <parameter>handle</parameter>, <parameter>offset</parameter>, <parameter>supports-long-offset</parameter>.
                                 <parameter>data</parameter> contains the document's data (as
@@ -324,7 +316,8 @@ sub process {
                             call) to <methodname>getNextChunk()</methodname> or <methodname>getNextExtendedChunk()</methodname>.
 			    Once the last chunk is read, <parameter>offset</parameter> will be 0 and the handle becomes
                             invalid.</para>
-			<para><methodname>getNextChunk()</methodname> and <methodname>getNextExtendedChunk()</methodname> do
+                        <para>
+                            <methodname>getNextChunk()</methodname> and <methodname>getNextExtendedChunk()</methodname> do
 			more or less the same, but with the difference that <methodname>getNextExtendedChunk()</methodname>
 			does not have the 2GB limitation in <parameter>offset</parameter>. As previous eXist servers could not
 			implement it, you must take into account the <parameter>supports-long-offset</parameter> parameter from
@@ -559,7 +552,8 @@ sub process {
                             the following fields: <parameter>queryTime</parameter>,
                             <parameter>hits</parameter>, <parameter>documents</parameter>,
                                 <parameter>doctype</parameter>.</para>
-                        <para><parameter>queryTime</parameter> and <parameter>hits</parameter> are
+                        <para>
+                            <parameter>queryTime</parameter> and <parameter>hits</parameter> are
                             integer values that describe the processing time in milliseconds for the
                             query execution and the number of hits in the result-set respectively.
                             The field <parameter>documents</parameter> is an array of an array (i.e.
@@ -724,8 +718,8 @@ sub process {
                             collection expressed as a long value),
                             <parameter>permissions</parameter> (the active permissions that apply to
                             the collection as an integer value).</para>
-
-                        <para><parameter>collections</parameter> is an array listing the names of
+                        <para>
+                            <parameter>collections</parameter> is an array listing the names of
                             available sub-collections in this collection.</para>
                         <variablelist>
                             <title>Parameters:</title>
@@ -766,11 +760,11 @@ sub process {
                             collection expressed as a long value),
                             <parameter>permissions</parameter> (the active permissions that apply to
                             the collection as an integer value).</para>
-
-                        <para><parameter>collections</parameter> is an array listing the names of
+                        <para>
+                            <parameter>collections</parameter> is an array listing the names of
                             available sub-collections in this collection.</para>
-
-                        <para><parameter>documents</parameter> is an array listing information on
+                        <para>
+                            <parameter>documents</parameter> is an array listing information on
                             all of the documents in this collection. Each item in the array is a
                             struct with the following fields: name, owner, group, permissions, type.
                             The type field contains a string describing the type of the resource:
@@ -898,8 +892,7 @@ sub process {
                                 <listitem>
                                     <para>The permissions assigned to the resource, which can be
                                         specified either as an integer value constructed using the
-                                            <ulink url="api/org/exist/security/Permission"
-                                            >Permission</ulink> class, or using a modification
+                                            <ulink url="api/org/exist/security/Permission">Permission</ulink> class, or using a modification
                                         string. The bit encoding of the integer value corresponds to
                                         Unix conventions. The modification string has the following
                                         syntax:</para>

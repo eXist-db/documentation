@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id$ -->
-<!-- modified jens_petersen 2010-05-20 -->
+<!-- $Id$ --><!-- modified jens_petersen 2010-05-20 -->
 <book>
     <bookinfo>
         <graphic fileref="logo.jpg"/>
@@ -11,10 +10,12 @@
             <firstname>Wolfgang M.</firstname>
             <surname>Meier</surname>
             <affiliation>
-                <address format="linespecific"><email>wolfgang at exist-db.org</email></address>
-            </affiliation></author>
+                <address format="linespecific">
+                    <email>wolfgang at exist-db.org</email>
+                </address>
+            </affiliation>
+        </author>
     </bookinfo>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
     <chapter>
         <title>Quick Start</title>
         <section id="objectives">
@@ -25,20 +26,16 @@
         <section id="requirements">
             <title>Requirements</title>
             <para>eXist can be installed on newer versions of Linux, Windows and Mac OS X. In order
-                to run the eXist installer, it is necessary to have the <ulink
-                    url="http://java.sun.com/javase/downloads/widget/jdk6.jsp">Java Development Kit
+                to run the eXist installer, it is necessary to have the <ulink url="http://java.sun.com/javase/downloads/widget/jdk6.jsp">Java Development Kit
                     (JDK)</ulink> installed on your operating system. eXist needs version 1.6 of the
                 JDK. It won't run with JDK 7 yet! The JDK is pre-installed on Mac OS X through 10.6;
-                for instructions on how to install JDK on Windows, see this <ulink
-                    url="http://java.about.com/od/gettingstarted/ss/installjdk.htm">guide</ulink>;
-                for instructions on how to install JDK on Linux, see this <ulink
-                    url="http://www.wikihow.com/Install-Java-on-Linux">guide</ulink>. </para>
+                for instructions on how to install JDK on Windows, see this <ulink url="http://java.about.com/od/gettingstarted/ss/installjdk.htm">guide</ulink>;
+                for instructions on how to install JDK on Linux, see this <ulink url="http://www.wikihow.com/Install-Java-on-Linux">guide</ulink>. </para>
             <para>
                 In order to be able to install and start up eXist on Mac OS X and Linux, you need to know the basics of how to use your operating system's terminal (Applications/Utilities/Terminal.app on Mac OS X). On Windows, knowing how to use the command
             prompt is not required for installing eXist.
             </para>
-            <para>Some knowledge of XML and XQuery is required in order to start using eXist to query XML documents. The <ulink
-                    url="http://en.wikibooks.org/wiki/XQuery">XQuery Wikibook</ulink> is a useful resource for learning how to use XQuery with eXist; it
+            <para>Some knowledge of XML and XQuery is required in order to start using eXist to query XML documents. The <ulink url="http://en.wikibooks.org/wiki/XQuery">XQuery Wikibook</ulink> is a useful resource for learning how to use XQuery with eXist; it
                 also contains references to other resources for learning XQuery. </para>
         </section>
         <section id="installation">
@@ -50,7 +47,8 @@
                 one of the following:</para>
             <procedure>
                 <step>
-                    <para>Windows and Mac users: Double-click on the installer file: <filename> eXist-setup-[version]-revXXXXX.jar</filename></para>                    
+                    <para>Windows and Mac users: Double-click on the installer file: <filename> eXist-setup-[version]-revXXXXX.jar</filename>
+                    </para>
                 </step>
                 <step>
                     <para>Linux users: Entering the following command in a Unix shell using the <command>-jar</command> option:</para>
@@ -62,14 +60,13 @@
             <para>During installation, you are asked to supply a password for the eXist administrator account (the "admin" password). You are strongly encouraged to set the admin password on all installations of eXist, even those without internet access; otherwise the eXist
             security manager will be disabled. The admin password asked for during the install procedure is not the admin password of your operating system, but the password to be used for the eXist admin account.</para>
             <para>eXist, through Jetty, by default uses port 8080. There may be other services on your system using this port. To see whether this is the case, enter <ulink url="http://localhost:8080/">http://localhost:8080/</ulink> in your browser. If another service occupies this port, you cannot start up eXist unless you shut down the service in question or make eXist use another port. To make eXist use another port, open the file <filename moreinfo="none">/tools/jetty/etc/jetty.xml</filename> inside your eXist installation in a text or XML editor and change the value "8080" in</para>
-            
-            <synopsis format="linespecific">&lt;Set name=&quot;port&quot;&gt;&lt;SystemProperty name=&quot;jetty.port&quot; default=&quot;8080&quot;/&gt;&lt;/Set&gt;</synopsis>
+            <synopsis format="linespecific">&lt;Set name="port"&gt;&lt;SystemProperty name="jetty.port" default="8080"/&gt;&lt;/Set&gt;</synopsis>
             <para>to a port that is not used, e.g. "8899":</para>
-            <synopsis format="linespecific">&lt;Set name=&quot;port&quot;&gt;&lt;SystemProperty name=&quot;jetty.port&quot; default=&quot;8899&quot;/&gt;&lt;/Set&gt;</synopsis>
+            <synopsis format="linespecific">&lt;Set name="port"&gt;&lt;SystemProperty name="jetty.port" default="8899"/&gt;&lt;/Set&gt;</synopsis>
             <para>eXist uses port 8443 for confidential communication. Another service may also be using this port.  To make eXist use another port, open the file <filename moreinfo="none">/tools/jetty/etc/jetty.xml</filename> and change the value "8443" in</para>
-            <synopsis format="linespecific">&lt;Set name=&quot;confidentialPort&quot;&gt;8443&lt;/Set&gt;</synopsis>
+            <synopsis format="linespecific">&lt;Set name="confidentialPort"&gt;8443&lt;/Set&gt;</synopsis>
             <para>and</para>
-            <synopsis format="linespecific">&lt;Set name=&quot;Port&quot;&gt;8443&lt;/Set&gt;</synopsis>
+            <synopsis format="linespecific">&lt;Set name="Port"&gt;8443&lt;/Set&gt;</synopsis>
             <para>to a port that is not used, e.g. "8444".</para>
             <!-- Installation on a headless system does not belong in a quick start. Jens Petersen. 
             <note>
@@ -92,8 +89,7 @@
                     <para>Open the terminal or command prompt</para>
                 </step>
                 <step>
-                    <para>Change to the directory where you installed eXist (e.g. "<filename>/usr/local/lib/exist/</filename>", "<filename>/Applications/exist/</filename>" or "<filename
-                        >C:\Program Files\eXist</filename>").</para>
+                    <para>Change to the directory where you installed eXist (e.g. "<filename>/usr/local/lib/exist/</filename>", "<filename>/Applications/exist/</filename>" or "<filename>C:\Program Files\eXist</filename>").</para>
                 </step>
                 <step>
                     <para>If you are a Linux or Mac user, enter the following:</para>
@@ -105,7 +101,7 @@
             <para>If these scripts do not launch eXist, you can launch it by changing to the directory where you installed eXist and entering the following into the console:</para>
             <synopsis>java -Xmx128M -Djava.endorsed.dirs=lib/endorsed -jar start.jar jetty</synopsis>
                 <!--Question: why does this connect to www.terracotta.org? I have an app that intercepts all requests like this and it says that Terminal wants to connect on port 80 o www.terracotta.org. If I deny the connection, eXist still starts up. Jens Petersen-->
-                <para>If you have problems running the shell/batch scripts, read
+            <para>If you have problems running the shell/batch scripts, read
                         <ulink url="#appendix">Running Executable Files</ulink> below.</para>
             <para>
                 While eXist starts up, log output appears in the console. If eXist 
@@ -151,15 +147,14 @@ Logging already initialized. Skipping...
                     scripts and have to be set correctly before the scripts are run (you can also insert the lines required in the beginning of the scripts themselves).</para>
                 <itemizedlist>
                     <listitem>
-                        <para><envar>JAVA_HOME</envar> should point to the directory where the Java
+                        <para>
+                            <envar>JAVA_HOME</envar> should point to the directory where the Java
                             JDK is installed. A common problem is that the path added by the
                             installer points to the JRE, not the JDK. 
                             For instructions about how to set JAVA_HOME on Windows, 
                             follow the instructions in this <ulink url="http://confluence.atlassian.com/display/DOC/Setting+the+JAVA_HOME+Variable+in+Windows">guide</ulink>; 
-                            on Linux, follow this <ulink url="http://www.cyberciti.biz/faq/linux-unix-set-java_home-path-variable/"
-                                >guide</ulink>, and
-                            on Mac OS X, follow this <ulink url="http://www.mehtanirav.com/2008/09/02/setting-java_home-on-mac-os-x-105"
-                                >guide</ulink>. 
+                            on Linux, follow this <ulink url="http://www.cyberciti.biz/faq/linux-unix-set-java_home-path-variable/">guide</ulink>, and
+                            on Mac OS X, follow this <ulink url="http://www.mehtanirav.com/2008/09/02/setting-java_home-on-mac-os-x-105">guide</ulink>. 
                         </para>
                     </listitem>
                     <listitem>
@@ -167,16 +162,14 @@ Logging already initialized. Skipping...
                             <envar>EXIST_HOME</envar> should point to the directory that contains the
                             configuration file <filename moreinfo="none">conf.xml</filename>, so
                             that the server uses the path <filename>EXIST_HOME/conf.xml</filename>.
-                            For example, if the <envar>EXIST_HOME</envar> path is <filename
-                                >C:\Program Files\eXist</filename>, the server will look for
+                            For example, if the <envar>EXIST_HOME</envar> path is <filename>C:\Program Files\eXist</filename>, the server will look for
                             <filename>C:\Program Files\eXist\conf.xml</filename>. You can set EXIST_HOME in the same way that you set JAVA_HOME; thus, on Mac OS X, you would enter "export EXIST_HOME=/Applications/eXist" in the Terminal. 
                         </para>
                     </listitem>
                 </itemizedlist>
-                <para>You should also ensure that you have "write" permissions set for the <filename
-                    moreinfo="none">data</filename> directory located in <filename
-                        moreinfo="none">webapp/WEB-INF/</filename>.</para>
-            </note>        </section>
+                <para>You should also ensure that you have "write" permissions set for the <filename moreinfo="none">data</filename> directory located in <filename moreinfo="none">webapp/WEB-INF/</filename>.</para>
+            </note>
+        </section>
         <section id="acccessing">
             <title>Accessing the Server</title>
             <para>In the default setup, eXist runs inside a web application served by a
@@ -184,8 +177,7 @@ Logging already initialized. Skipping...
                 interfaces are provided as servlets. To test that the server is running, enter the
                 following URL in a web browser:</para>
             <para>
-                <ulink url="http://localhost:8080/exist/index.xml"
-                    >http://localhost:8080/exist/index.xml</ulink>
+                <ulink url="http://localhost:8080/exist/index.xml">http://localhost:8080/exist/index.xml</ulink>
             </para>
             <para>(If you have changed the port used by eXist, you have to change the port value in the URL. In the console output upon start-up, the correct URL is given towards the end.)</para>
             <para>You should now see the following web page: </para>
@@ -220,12 +212,9 @@ Logging already initialized. Skipping...
                             <td>
                                 <para>To start using these sample applications, you must log in to
                                     the eXist database administration page. To log in, go to the
-                                    <ulink url="http://localhost:8080/exist/admin/admin.xql"
-                                        >Administration &#187; Admin</ulink> link
+                                    <ulink url="http://localhost:8080/exist/admin/admin.xql">Administration » Admin</ulink> link
                                         
-                                        located on the sidebar menu on the <ulink
-                                            url="http://localhost:8080/exist/"
-                                            >local eXist homepage</ulink>.</para>
+                                        located on the sidebar menu on the <ulink url="http://localhost:8080/exist/">local eXist homepage</ulink>.</para>
                                 <para>You should now see the login screen as shown on the
                                     right.</para>
                                 <para>Enter the username "admin" and the password you set during installation (or
@@ -250,15 +239,9 @@ Logging already initialized. Skipping...
                         </tr>
                         <tr>
                             <td>
-                                <para>After the example data has been imported, you can go back to the <ulink
-                                    url="http://localhost:8080/exist/"
-                                    >Home</ulink> page and you will now be able to query the imported files through a number of small web applications listed in <ulink
-                                        url="http://localhost:8080/exist/examples.xml"
-                                        >All Examples</ulink> in the "Examples" tab.</para>     
+                                <para>After the example data has been imported, you can go back to the <ulink url="http://localhost:8080/exist/">Home</ulink> page and you will now be able to query the imported files through a number of small web applications listed in <ulink url="http://localhost:8080/exist/examples.xml">All Examples</ulink> in the "Examples" tab.</para>     
                                     <!--"All Examples" should be moved up to the top in the Examples tab. "Bibliographic" should read "Bibliography". Jens Petersen-->
-                                <para>The simplest of these applications is the <ulink
-                                    url="http://localhost:8080/exist/sandbox/"
-                                    >XQuery Sandbox</ulink> shown on the right which allows
+                                <para>The simplest of these applications is the <ulink url="http://localhost:8080/exist/sandbox/">XQuery Sandbox</ulink> shown on the right which allows
                                     users to submit queries to the XML files imported into the database. The XQuery Sandbox
                                     provides the easiest way to start experimenting with
                                     eXist and XQuery.</para>
@@ -309,7 +292,6 @@ Logging already initialized. Skipping...
             <menuchoice>Local URL</menuchoice>. Clicking on it will open the app.</para>
             <para>But you can also manually enter the apps' URL in the browser. All apps have an URL following
                 the pattern:</para>
-            
             <synopsis>http://localhost:8080/exist/appy/my-app-abbreviation</synopsis>
         </section>
         <section id="administering">
@@ -323,7 +305,6 @@ Logging already initialized. Skipping...
                 a graphical login interface. -->
                 Additional information on using the Admin Client from
                 the command line is available in the section on <ulink url="client.xml">Using the Java Client on the Command Line</ulink>.</para>
-            
             <para>You can launch the client by doing one of the
                 following:</para>
             <procedure>
@@ -372,7 +353,8 @@ Logging already initialized. Skipping...
                                     For now, you should run the client remotely (running eXist on localhost is also running it remotely). 
                                     <!--The "embedded" option is useful for backup/restore or mass uploads
                                     of data (writing to an embedded instance avoids the network
-                                    overhead).--></para>
+                                    overhead).-->
+                                </para>
                                 <para>If you connect to a remote database, the URL field specifies
                                     the location of the database server. For the standard database setup used here, use the
                                     displayed default URI
@@ -451,17 +433,15 @@ Logging already initialized. Skipping...
             <!-- is hitting "^C" harmful? Jens Petersen-->
             <procedure>
                 <step>
-                    <para>Java Admin Client: select Connection &#187; Shutdown
+                    <para>Java Admin Client: select Connection » Shutdown
                         from the menu.</para>
                 </step>
                 <step>
                     <para>Admin Webpage: select the Shutdown link
-                            (<ulink url="http://localhost:8080/exist/admin/admin.xql"
-                            >http://localhost:8080/admin.xql</ulink>)</para>
+                            (<ulink url="http://localhost:8080/exist/admin/admin.xql">http://localhost:8080/admin.xql</ulink>)</para>
                 </step>
                 <step>
-                    <para>Run the <filename>bin/shutdown.sh</filename> (Unix) or <filename
-                            >shutdown.bat</filename> (DOS/Windows) scripts.</para>
+                    <para>Run the <filename>bin/shutdown.sh</filename> (Unix) or <filename>shutdown.bat</filename> (DOS/Windows) scripts.</para>
                 </step>
                 <step>
                     <para>Manually enter on the command-line:</para>
@@ -512,7 +492,7 @@ Logging already initialized. Skipping...
                 in the screenshot or from the command line:</para>
             <synopsis>
                 cd tools\wrapper\bin
-                wrapper.exe &#x002d;&#x002d;start ..\conf\wrapper.conf
+                wrapper.exe [can't have 2 adjoining hyphens in comments! so take out this space: - -]start ..\conf\wrapper.conf
             </synopsis>
             <para>For Linux, all of the start/shutdown scripts can be found in <filename
                     >tools/wrapper/bin/exist.sh</filename>. You can create a link to this file from
@@ -524,19 +504,16 @@ Logging already initialized. Skipping...
                 distribution for instructions.</para>
         </section>
         -->
-        
         <section id="troubleshooting">
             <title>If Something Goes Wrong ...</title>
             <para>If you experience any problems while installing eXist, your first step should be
                 to check the log files to get additional information about the source of the
                 problem. eXist uses the <emphasis>log4j-package</emphasis> to write output logs to
-                files. By default, this output is written to the directory <filename moreinfo="none"
-                    >webapp/WEB-INF/logs</filename>. <!--Or, if you are running eXist as a Windows or
+                files. By default, this output is written to the directory <filename moreinfo="none">webapp/WEB-INF/logs</filename>. <!--Or, if you are running eXist as a Windows or
                 Unix service, check the directory <filename>tools/wrapper/logs</filename>. -->The main
-                log files for eXist itself are <filename>exist.log</filename> and <filename
-                    >xmldb.log</filename>. <!-- The other log files show output from Cocoon.  --></para>
-            <para>If you encounter a problem you are unable to fix, check the <ulink
-                url="index.xml#mailinglists">mailing list</ulink> archives for postings on similar
+                log files for eXist itself are <filename>exist.log</filename> and <filename>xmldb.log</filename>. <!-- The other log files show output from Cocoon.  -->
+            </para>
+            <para>If you encounter a problem you are unable to fix, check the <ulink url="index.xml#mailinglists">mailing list</ulink> archives for postings on similar
                 errors. If you cannot find a posting, or you are still unsure about the problem, 
                 consider posting your problem on the list for feedback. If you do decide to
                 post a message, please include any exception message you find, both in the logs and
@@ -547,15 +524,15 @@ Logging already initialized. Skipping...
         <section id="bin-executables">
             <title>Running Executable Files</title>
             <para>Included in the distribution are a number of useful <filename>.sh</filename> (Unix
-                Shell) and <filename>.bat</filename> (DOS batch) programs located in the <filename
-                    >bin</filename> directory. If you installed the source distribution or used the
+                Shell) and <filename>.bat</filename> (DOS batch) programs located in the <filename>bin</filename> directory. If you installed the source distribution or used the
                 installer, you can find this directory in the root directory of the distribution. <!-- If
                 you installed the <filename>exist.war</filename> file (Web Application Archive), you
                 will find the <filename>bin</filename> directory in the location the <filename
                 >.war</filename> file was unpacked. </para>
             <para>These shell and batch scripts are simply wrappers (interfaces between the
                 executable Java programs) around the bootstrap loader contained in the jar file
-                <filename>start.jar</filename>.--></para>
+                <filename>start.jar</filename>.-->
+            </para>
             <para>If you find the programs do not launch, you can also manually launch these files
                 on the command-line, and specify which application you would like to start.</para>
             <para>To manually launch these scripts:</para>
@@ -567,8 +544,7 @@ Logging already initialized. Skipping...
                         <synopsis>java -jar start.jar jetty</synopsis>
                         <para>Description: Starts the included Jetty web server at port 8080. eXist
                             <!--and Cocoon (a web development framework) are --> is installed as a web
-                            application, located at <ulink url="http://localhost:8080/exist/"
-                                >http://localhost:8080/exist/</ulink>. </para>
+                            application, located at <ulink url="http://localhost:8080/exist/">http://localhost:8080/exist/</ulink>. </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -577,8 +553,7 @@ Logging already initialized. Skipping...
                         <para>Enter on the command-line:</para>
                         <synopsis>java -jar start.jar shutdown</synopsis>
                         <para>Description: Closes the running instance of eXist. If eXist has been
-                            started with <filename>startup.sh</filename>, calling <filename
-                                >shutdown.sh</filename> will also stop the Jetty web server.
+                            started with <filename>startup.sh</filename>, calling <filename>shutdown.sh</filename> will also stop the Jetty web server.
                             Otherwise, only the database is stopped by this call, since eXist has no
                             control over the environment in which it is running. You should
                                 <emphasis>always</emphasis> call <filename>shutdown</filename>

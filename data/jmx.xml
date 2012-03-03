@@ -8,7 +8,6 @@
         <date>September 2009</date>
         <orgname>The eXist Project</orgname>
     </bookinfo>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
     <chapter>
         <title>Java Management Extensions (JMX)</title>
         <section>
@@ -39,8 +38,7 @@
 -Dcom.sun.management.jmxremote.ssl=false
 ]]></synopsis>
             <note>
-                <para>This option makes the server publicly accessible. Please check the <ulink
-                        url="http://java.sun.com/j2se/1.5.0/docs/guide/management/agent.html">Sun
+                <para>This option makes the server publicly accessible. Please check the <ulink url="http://java.sun.com/j2se/1.5.0/docs/guide/management/agent.html">Sun
                         JMX</ulink> documentation for details.</para>
             </note>
             <para>The extension can be activated by passing a command-line parameter to the exist
@@ -59,9 +57,7 @@
 bin\server.bat -jmx 1099
 ]]></synopsis>
             <note>
-                <para>In the Sun Java SE 6 platform the JMX agent for Local monitoring is <ulink
-                        url="http://java.sun.com/javase/6/docs/technotes/guides/management/agent.html"
-                        >enabled</ulink> by default.</para>
+                <para>In the Sun Java SE 6 platform the JMX agent for Local monitoring is <ulink url="http://java.sun.com/javase/6/docs/technotes/guides/management/agent.html">enabled</ulink> by default.</para>
             </note>
         </section>
         <section>
@@ -159,8 +155,9 @@ bin\server.bat -jmx 1099
                 <para>eXist also provides a servlet which connects to the JMX interface and returns
                     a status report for the database as XML. By default, the servlet listens
                     on</para>
-                
-                <synopsis><ulink url="http://localhost:8080/exist/status">http://localhost:8080/exist/status</ulink></synopsis>
+                <synopsis>
+                    <ulink url="http://localhost:8080/exist/status">http://localhost:8080/exist/status</ulink>
+                </synopsis>
                 <para>For simplicity, the different JMX objects in eXist are organized into
                     categories. One or more categories can be passed to the servlet in parameter
                         <option>c</option>. The following categories are recognized:</para>
@@ -219,8 +216,9 @@ bin\server.bat -jmx 1099
                 </variablelist>
                 <para>For example, to get a report on current memory usage and running instances,
                     use the following URL:</para>
-                
-                <synopsis><ulink url="http://localhost:8080/exist/status?c=memory&amp;c=instances">http://localhost:8080/exist/status?c=memory&amp;c=instances</ulink></synopsis>
+                <synopsis>
+                    <ulink url="http://localhost:8080/exist/status?c=memory&amp;c=instances">http://localhost:8080/exist/status?c=memory&amp;c=instances</ulink>
+                </synopsis>
                 <para>This should return an XML document as follows:</para>
                 <programlisting language="xml"><![CDATA[<jmx:jmx xmlns:jmx="http://exist-db.org/jmx"> 
     <jmx:MemoryImpl name="java.lang:type=Memory"> 
@@ -250,25 +248,21 @@ bin\server.bat -jmx 1099
         <jmx:CollectionCacheMem>25165824</jmx:CollectionCacheMem> 
     </jmx:Database> 
 </jmx:jmx>]]></programlisting>
-                
                 <section>
                     <title>Testing responsiveness using "ping"</title>
-                    
                     <para>The servlet also implements a simple "ping" operation. Ping will first try to obtain an internal
                         database broker object. If the db is under very high load or deadlocked, it will run out of broker
                         objects and ping will not be able to obtain one within a certain time. This is thus a good indication
                         that the database has become unresponsive for requests. If a broker object could be obtained, the servlet
                         will run a simple XQuery to test the availability of the XQuery engine.</para>
-                    
                     <para>To run a "ping", call the servlet with parameter <option>operation=ping</option>.
                     The operation also accepts an optional timeout parameter, <option>t=timeout-in-ms</option>, which defines
                     a timeout in milliseconds. For example, the following URL starts a ping with a timeout of 2 seconds:</para>
-                    
-                    <synopsis><ulink url="http://localhost:8080/exist/status?operation=ping&amp;t=2000">http://localhost:8080/exist/status?operation=ping&amp;t=2000</ulink></synopsis>
-                    
+                    <synopsis>
+                        <ulink url="http://localhost:8080/exist/status?operation=ping&amp;t=2000">http://localhost:8080/exist/status?operation=ping&amp;t=2000</ulink>
+                    </synopsis>
                     <para>If the ping returns within the specified timeout, the servlet returns the attributes of the SanityReport
                     JMX bean, which will include an element &lt;jmx:Status&gt;PING_OK&lt;/jmx:Status&gt;:</para>
-                    
                     <programlisting language="xml"><![CDATA[<jmx:jmx xmlns:jmx="http://exist-db.org/jmx"> 
     <jmx:SanityReport name="org.exist.management.exist.tasks:type=SanityReport"> 
         <jmx:Status>PING_OK</jmx:Status> 
@@ -280,10 +274,8 @@ bin\server.bat -jmx 1099
         <jmx:Errors/> 
     </jmx:SanityReport> 
     </jmx:jmx>]]></programlisting>
-                    
                     <para>If the ping takes longer than the timeout, you'll instead find an element  &lt;jmx:error&gt; in the returned XML. 
                     In this case, additional information on running queries, memory consumption and database locks will be provided:</para>
-                    
                     <programlisting language="xml"><![CDATA[<jmx:jmx xmlns:jmx="http://exist-db.org/jmx"> 
     <jmx:error>no response on ping after 2000ms</jmx:error> 
     <jmx:SanityReport name="org.exist.management.exist.tasks:type=SanityReport"> 
@@ -298,7 +290,6 @@ bin\server.bat -jmx 1099
     ...
 </jmx:jmx>]]></programlisting>
                 </section>
-                
             </section>
         </section>
     </chapter>

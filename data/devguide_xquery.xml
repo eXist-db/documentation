@@ -13,9 +13,9 @@
                 <address format="linespecific">
                     <email>wolfgang at exist-db.org</email>
                 </address>
-            </affiliation></author>
+            </affiliation>
+        </author>
     </bookinfo>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
     <chapter id="ch01">
         <title>Developer's Guide</title>
         <section id="sectXQuery">
@@ -101,8 +101,7 @@
                     <varlistentry>
                         <term>XQueryServlet</term>
                         <listitem>
-                            <para>This servlet responds to URL-patterns (e.g. <filename
-                                    >*.xql</filename> and <filename>*.xqy</filename>) as defined in
+                            <para>This servlet responds to URL-patterns (e.g. <filename>*.xql</filename> and <filename>*.xqy</filename>) as defined in
                                 the <filename>web.xml</filename> configuration file of the
                                 application. The servlet will interpret this pattern as pointing to
                                 a valid XQuery file. The XQuery file is then loaded, compiled and
@@ -110,15 +109,14 @@
                                 the client in the content of the HTTP response.</para>
                             <para>The <option>Content-Type</option> header of the HTTP response will
                                 be set to the value of the <option>media-type</option> serialization
-                                property defined by the XQuery (see <ulink
-                                    url="xquery.xml#serialization">serialization
+                                property defined by the XQuery (see <ulink url="xquery.xml#serialization">serialization
                                 parameters</ulink>).</para>
                             <para>To use the servlet, you must define the URL-patterns for your web
-                                application by adding the following to the <filename
-                                    >WEB-INF/web.xml</filename> configuration file:</para>
+                                application by adding the following to the <filename>WEB-INF/web.xml</filename> configuration file:</para>
                             <example>
                                 <title>Configuration for the Servlet</title>
-                                <programlisting><markup><![CDATA[
+                                <programlisting>
+                                    <markup><![CDATA[
 <web-app>
     <display-name>eXist Server</display-name>
     <description>eXist Server Setup</description>
@@ -138,7 +136,8 @@
 	  <url-pattern>*.xql</url-pattern>
     </servlet-mapping>
 </web-app>
-]]></markup></programlisting>
+]]></markup>
+                                </programlisting>
                             </example>
                             <para>This will configure the servlet to respond to any URL-pattern
                                 ending with the <option>.xql</option> file extension as specified in
@@ -147,11 +146,9 @@
                                     <sgmltag>url-pattern</sgmltag> definition so as not to interfere
                                 with Cocoon examples, which exclusively use this file extension.
                                 Also note that the <option>uri</option> parameter in
-                                    <sgmltag>init-param</sgmltag> specifies the <filename
-                                    >XML:DB</filename> root collection used by the servlet. To
+                                    <sgmltag>init-param</sgmltag> specifies the <filename>XML:DB</filename> root collection used by the servlet. To
                                 configure this parameter to have the servlet access a remote
-                                database, follow instructions provided in the <ulink
-                                    url="deployment.xml">deployment docs</ulink>.</para>
+                                database, follow instructions provided in the <ulink url="deployment.xml">deployment docs</ulink>.</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>
@@ -159,10 +156,8 @@
             <section>
                 <title>A Simple Example</title>
                 <para>To illustrate the use of the XQueryServlet and the HTTP extension functions,
-                    let's have a look at a very basic example: a simple <ulink
-                        url="xquery/guess.xql">number guessing</ulink> game running on the server.
-                    The source code for this game is found in <filename
-                        >webapp/xquery/guess.xql</filename>. As the file extension indicates, this
+                    let's have a look at a very basic example: a simple <ulink url="xquery/guess.xql">number guessing</ulink> game running on the server.
+                    The source code for this game is found in <filename>webapp/xquery/guess.xql</filename>. As the file extension indicates, this
                     particular script is processed by the XQueryServlet. The full script is as
                     follows:</para>
                 <example>
@@ -277,7 +272,8 @@ as empty()
         session:set-attribute("guesses", 0)
     )
 };]]></synopsis>
-                <para><methodname>local:random()</methodname> generates a new random and stores it
+                <para>
+                    <methodname>local:random()</methodname> generates a new random and stores it
                     into the session. The "guesses" session attribute is reset to 0.</para>
                 <para>Back to <methodname>local:main()</methodname>: if <parameter>$rand</parameter>
                     is set, the function checks if the user entered a guess, which should have been
@@ -314,7 +310,8 @@ $rand as xs:integer) as element()
                 <orderedlist>
                     <listitem>
                         <para>the XQuery document should be stored as a <emphasis>binary
-                                resource</emphasis></para>
+                                resource</emphasis>
+                        </para>
                     </listitem>
                     <listitem>
                         <para>the <emphasis>mime-type</emphasis> of the resource has to be
@@ -327,8 +324,7 @@ $rand as xs:integer) as element()
                     </listitem>
                 </orderedlist>
                 <para>As an example, you can use the above number-guessing game. Store the XQuery
-                    file into a database collection, e.g. as <filename
-                    >/db/test/guess.xql</filename>.Next, point you web browser to the REST
+                    file into a database collection, e.g. as <filename>/db/test/guess.xql</filename>.Next, point you web browser to the REST
                     URL:</para>
                 <synopsis>
                     <ulink url="rest/db/test/guess.xql">http://localhost:8080/exist/rest/db/test/guess.xql</ulink>

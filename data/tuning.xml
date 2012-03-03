@@ -10,10 +10,12 @@
             <firstname>Wolfgang M.</firstname>
             <surname>Meier</surname>
             <affiliation>
-                <address format="linespecific"><email>wolfgang at exist-db.org</email></address>
-            </affiliation></author>
+                <address format="linespecific">
+                    <email>wolfgang at exist-db.org</email>
+                </address>
+            </affiliation>
+        </author>
     </bookinfo>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
     <chapter>
         <title>Tuning the Database</title>
         <section>
@@ -25,8 +27,7 @@
                     <option>-Xmx</option> parameter passed to Java on the command line. If you
                 launch eXist via one of the shell or batch scripts, you need to change
                     <option>-Xmx</option> in there.</para>
-            <para>On a <emphasis>Unix</emphasis> system, edit <filename
-                    >EXIST_HOME/bin/functions.d/eXist-settings.sh</filename>. Search for the
+            <para>On a <emphasis>Unix</emphasis> system, edit <filename>EXIST_HOME/bin/functions.d/eXist-settings.sh</filename>. Search for the
                     <option>JAVA_OPTIONS</option> variable, which sets <option>-Xmx</option> for the
                 server. The <option>CLIENT_JAVA_OPTIONS</option> variable does the same for the Java
                 admin client. Instead of directly editing <filename>eXist-settings.sh</filename>,
@@ -34,8 +35,7 @@
             <para>On <emphasis>Windows</emphasis>, the <option>-Xmx</option> settings is done in the
                 main .bat files, .e.g. <filename>EXIST_HOME\bin\startup.bat</filename>.</para>
             <para>If you launch <emphasis>eXist as a service</emphasis>, all Java settings will be
-                controlled by the service wrapper. In this case, the file to edit is <filename
-                    >EXIST_HOME/tools/wrapper/conf/wrapper.conf</filename>. Search for the following
+                controlled by the service wrapper. In this case, the file to edit is <filename>EXIST_HOME/tools/wrapper/conf/wrapper.conf</filename>. Search for the following
                 lines:</para>
             <synopsis># Maximum Java Heap Size (in MB)
 wrapper.java.maxmemory=128</synopsis>
@@ -58,8 +58,7 @@ wrapper.java.maxmemory=128</synopsis>
 <db-connection cacheSize="48M" collectionCache="24M" database="native"
         files="webapp/WEB-INF/data" pageSize="4096" nodesBuffer="-1">]]></programlisting>
             </example>
-            <para>The default <ulink url="http://www.exist-db.org/configuration.html#N101B8"
-                    >setting</ulink> for <option>cacheSize</option> is very conservative (48M). It
+            <para>The default <ulink url="http://www.exist-db.org/configuration.html#N101B8">setting</ulink> for <option>cacheSize</option> is very conservative (48M). It
                 will be ok for smaller databases, but you may soon experience a performance drop
                 when indexing more than several 100M of XML data. Consider increasing
                     <option>cacheSize</option> up to approx. 1/3 of the main memory available to
@@ -93,8 +92,7 @@ wrapper.java.maxmemory=128</synopsis>
                 <synopsis>//SPEECH[SPEAKER = "HAMLET"]</synopsis>
                 <para>the query engine will fall back to a full scan over all
                         <sgmltag>SPEAKER</sgmltag> elements in the db. This is very slow and limits
-                    concurrency. You should at least create a global index definition (in <filename
-                        >/db/system/config/db/collection.xconf</filename>) and add range indexes for
+                    concurrency. You should at least create a global index definition (in <filename>/db/system/config/db/collection.xconf</filename>) and add range indexes for
                     the most frequently used comparisons.</para>
             </section>
             <section>
@@ -112,8 +110,7 @@ wrapper.java.maxmemory=128</synopsis>
                     </listitem>
                     <listitem>
                         <para>the index is unspecific. The query engine cannot use it as efficiently
-                            as a dedicated index on a set of named elements or attributes (<ulink
-                                url="#idxdefs">see below</ulink>).</para>
+                            as a dedicated index on a set of named elements or attributes (<ulink url="#idxdefs">see below</ulink>).</para>
                     </listitem>
                 </orderedlist>
                 <para>If you experience memory issues or observe a constantly decreasing performance
@@ -121,8 +118,7 @@ wrapper.java.maxmemory=128</synopsis>
                     steps:</para>
                 <itemizedlist>
                     <listitem>
-                        <para>disable the default full text index in your index <ulink
-                                url="indexing.xml#N10422">definitions</ulink>:</para>
+                        <para>disable the default full text index in your index <ulink url="indexing.xml#N10422">definitions</ulink>:</para>
                         <programlisting language="xquery"><![CDATA[
 <collection xmlns="http://exist-db.org/collection-config/1.0">
     <index>
@@ -139,7 +135,8 @@ wrapper.java.maxmemory=128</synopsis>
                     </listitem>
                     <listitem>
                         <para>if you are using eXist 1.4, consider <emphasis>switching to the new
-                                    <ulink url="lucene.xml">Lucene-based index</ulink></emphasis>.
+                                    <ulink url="lucene.xml">Lucene-based index</ulink>
+                            </emphasis>.
                             It provides better performance and stability.</para>
                     </listitem>
                 </itemizedlist>
@@ -168,8 +165,7 @@ wrapper.java.maxmemory=128</synopsis>
                     the query engine to apply all available optimization techniques, which can
                     improve query times by an order of magnitude. Replacing a context-dependant
                     index by a simple index on qname can thus result in a performance boost, thanks
-                    to eXist's new <ulink url="http://atomic.exist-db.org/blogs/eXist/NewIndexing"
-                        >query-rewriting optimizer</ulink>. Older versions of eXist did not offer
+                    to eXist's new <ulink url="http://atomic.exist-db.org/blogs/eXist/NewIndexing">query-rewriting optimizer</ulink>. Older versions of eXist did not offer
                     those possibilities.</para>
             </section>
             <!-- Extend and move to the index configuration guide? -->
@@ -203,8 +199,7 @@ wrapper.java.maxmemory=128</synopsis>
                         (<code>matches(author, "^Joe.*")</code>), though you may also consider using
                     a full text index in the latter case. However, please note that range indexes on
                     strings are <emphasis>case-sensitive</emphasis> or rather, to use the correct
-                    formulation, sensitive to the default <ulink
-                        url="http://en.wikipedia.org/wiki/Collation">collation</ulink>. If you need
+                    formulation, sensitive to the default <ulink url="http://en.wikipedia.org/wiki/Collation">collation</ulink>. If you need
                     case-insensitive queries, consider an ngram index.</para>
             </section>
             <section>
@@ -234,8 +229,7 @@ wrapper.java.maxmemory=128</synopsis>
             <section>
                 <title>Prefer short paths</title>
                 <para>eXist uses indexes to directly locate an element or attribute by its name. It
-                    doesn't need to <ulink url="http://en.wikipedia.org/wiki/Tree_traversal"
-                        >traverse</ulink> the entire document tree. This means that the direct
+                    doesn't need to <ulink url="http://en.wikipedia.org/wiki/Tree_traversal">traverse</ulink> the entire document tree. This means that the direct
                     selection of a node through a single descendant step is
                         <emphasis>faster</emphasis> than walking down the child axis. For
                     example:</para>

@@ -8,14 +8,11 @@
         <date>September 2009</date>
         <orgname>The eXist Project</orgname>
     </bookinfo>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
     <chapter>
         <title>Legacy Full Text Index</title>
-
         <para>This index is used to query for a sequence of separate "words" or tokens in a longer
             stream of text. While building the index, the text is parsed into single tokens which
             are then stored in the index.</para>
-
         <important>
             <para>Historically, eXist has been creating a default full text index on all text nodes
                 and attribute values. This is no longer the case! Creating default indexes on data
@@ -23,27 +20,25 @@
                 providing a wider range of different indexes which can be much better optimized than
                 the default index and will offer superior performance.</para>
         </important>
-
         <para>Anyway, as for the other index types, you can configure the full text index in the
             collection configuration and we will try to keep the configuration of the new index
             backwards compatible. We thus recommend to create a collection configuration file,
             disable the default index-all behaviour and define some explicit full text indexes on
             your documents. The details of this process will be described below.</para>
-
         <para>The full text index is only used in combination with eXist's fulltext search
             extensions. In particular, you can use the following eXist-specific operators and
             functions that apply a fulltext index:</para>
-
         <itemizedlist>
             <listitem>
-                <para>Operators: <command>&amp;=</command> and <command>|=</command></para>
+                <para>Operators: <command>&amp;=</command> and <command>|=</command>
+                </para>
             </listitem>
             <listitem>
                 <para>Main Functions: <function>text:match-all()</function>,
-                        <function>text:match-any()</function> and <function>near()</function></para>
+                        <function>text:match-any()</function> and <function>near()</function>
+                </para>
             </listitem>
         </itemizedlist>
-
         <note>
             <para>It is important to note that, if you have disabled full text indexing for certain
                 elements, these operators and functions will also be effectively disabled, and will
@@ -52,10 +47,8 @@
                 this is in direct contrast to the operation of range indexing, which does fallback
                 to full searching of the document if no range index applies (see below).</para>
         </note>
-
         <section id="ftidxconf">
             <title>Full text index configuration</title>
-
             <para>The <emphasis>fulltext index</emphasis> is defined by the
                     <sgmltag>fulltext</sgmltag> element - along with <sgmltag>include</sgmltag>,
                     <sgmltag>exclude</sgmltag> and <sgmltag>create</sgmltag> elements. The full text
@@ -66,13 +59,11 @@
                 or hide nodes from the default indexing. The indexes created by the default indexing
                 are always context-dependant. The nodes to include/exclude are thus specified via a
                     <option>path</option> attribute, not a <option>qname</option> attribute. </para>
-
             <para>However, you can create explicit indexes on a qname using the
                     <sgmltag>create</sgmltag> element. This is the recommended approach. In fact, as
                 the full text index is currently being redesigned, we are not sure if we will keep
                 the current default full text indexing in its current state. A fulltext
                 configuration which only uses <sgmltag>create</sgmltag> elements is shown below: </para>
-
             <example>
                 <title>Full text index configuration</title>
                 <programlisting>
@@ -85,46 +76,38 @@
 ]]></markup>
                 </programlisting>
             </example>
-
             <para>With this example, the full text default attribute is set to "none", which
                 disables the default full text indexing for all document elements. Attribute nodes
                 are handled separately. Setting <option>attributes="false"</option> disables the
                 default indexing for attributes as well. </para>
-
             <para>The first child element creates a standard full text index on all
                     <sgmltag>author</sgmltag> elements, identified by their
                     <emphasis>qname</emphasis>. The second one puts an index on
                     <sgmltag>title</sgmltag>, but adds an option <option>content="mixed"</option>.
                 This parameter causes the indexer to watch out for mixed-content nodes. For example,
                 if your source XML contains markup like:</para>
-
             <example>
                 <title>Mixed Content Element</title>
                 <programlisting>
                     <markup><![CDATA[<p>Some <span>un</span><span>even</span> amount.</p>]]></markup>
                 </programlisting>
             </example>
-
             <para>You may want to treat "uneven" as a single word so you can query for p |=
                 "uneven". In this case, you need to pass content="mixed" to the indexer. The
                 concatenated text nodes of element mixed and all its descendants will be passed to
                 the indexer as one single string. The indexer thus sees and indexes "uneven" as a
                 single token.</para>
-
             <para>On the other hand, if you have</para>
-
             <example>
                 <title>Not a Mixed Content Element</title>
                 <programlisting>
                     <markup><![CDATA[<date><year>1183</year><month>March</month><date>]]></markup>
                 </programlisting>
             </example>
-
             <para>you probably want to be able to query for "March" even though there's no space
                 between the year and month elements. In this case the standard settings are ok as
                 they will add a virtual break between the elements.</para>
         </section>
-        
         <section id="ftidx">
             <title>Querying Text (Fulltext Searching)</title>
             <para>The standard XPath/XQuery function library contains most of the common string
@@ -161,9 +144,7 @@
                 <title>Operators</title>
                 <para>In this section, we discuss each of eXist's text-search extensions. In
                     cases where the order and distance of search terms is not important, eXist
-                    offers two additional operators for simple keyword queries: <command
-                        moreinfo="none">&amp;=</command> and <command moreinfo="none"
-                            >|=</command>.</para>
+                    offers two additional operators for simple keyword queries: <command moreinfo="none">&amp;=</command> and <command moreinfo="none">|=</command>.</para>
                 <variablelist>
                     <varlistentry>
                         <term>node-set &amp;= 'string of keywords'</term>
@@ -187,8 +168,7 @@
                     </varlistentry>
                 </variablelist>
                 <note>
-                    <para>With the <command moreinfo="none">&amp;=</command> and <command
-                        moreinfo="none">|=</command>operations, keyword search strings are
+                    <para>With the <command moreinfo="none">&amp;=</command> and <command moreinfo="none">|=</command>operations, keyword search strings are
                         split into tokens using the default tokenizer function. The current
                         implementation of this operation will work well for all European
                         languages. For non-European languages, however, eXist uses the
@@ -228,8 +208,7 @@
                     <varlistentry>
                         <term>near()</term>
                         <listitem>
-                            <para>As shown in a previous example, the <command moreinfo="none"
-                                >near()</command> function behaves quite similarly to the
+                            <para>As shown in a previous example, the <command moreinfo="none">near()</command> function behaves quite similarly to the
                                 <command moreinfo="none">&amp;=</command> operator, but also
                                 pays attention to the order of search terms and their distance
                                 from each other in the source document.</para>
@@ -259,9 +238,7 @@
                     <varlistentry>
                         <term>text:match-all() / text:match-any()</term>
                         <listitem>
-                            <para>These two functions are variations of the <command
-                                moreinfo="none">&amp;=</command> and <command
-                                    moreinfo="none">|=</command> operators, and interpret their
+                            <para>These two functions are variations of the <command moreinfo="none">&amp;=</command> and <command moreinfo="none">|=</command> operators, and interpret their
                                 arguments as regular expressions. <emphasis>However</emphasis>,
                                 contrary to the <command>matches()</command> function in the
                                 XQuery core library, <command>text:match-all()</command> and
@@ -290,19 +267,14 @@
                                 separate argument, so the syntax looks like:</para>
                             <synopsis format="linespecific">text:match-all(node-set, 'regexp' [, 'regexp' ...])</synopsis>
                             <note>
-                                <para>Please note that the <command moreinfo="none"
-                                    >text:match-any()</command> functions will try to match
+                                <para>Please note that the <command moreinfo="none">text:match-any()</command> functions will try to match
                                     the regular expression against the entire keyword. For
                                     example, the expression</para>
                                 <synopsis format="linespecific">//SPEECH[text:match-all(LINE, 'li[vf]e')]</synopsis>
                                 <para>will match 'live', 'life', but not 'lives'.</para>
-                                <para>eXist uses the <ulink
-                                    url="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/package-summary.html"
-                                    >java.util.regex API</ulink> for regular expressions. A
+                                <para>eXist uses the <ulink url="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/package-summary.html">java.util.regex API</ulink> for regular expressions. A
                                     description of the supported regexp syntax can be found on
-                                    the <ulink
-                                        url="http://java.sun.com/docs/books/tutorial/extra/regex/"
-                                        >Sun Java Tutorial</ulink>.</para>
+                                    the <ulink url="http://java.sun.com/docs/books/tutorial/extra/regex/">Sun Java Tutorial</ulink>.</para>
                             </note>
                         </listitem>
                     </varlistentry>

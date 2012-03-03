@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?oxygen RNGSchema="http://www.oasis-open.org/docbook/xml/5.0/rng/docbook.rng" type="xml"?>
-<!-- $Id$ -->
+<?oxygen RNGSchema="http://www.oasis-open.org/docbook/xml/5.0/rng/docbook.rng" type="xml"?><!-- $Id$ -->
 <book>
-    <bookinfo subject=""><graphic fileref="logo.jpg"/>
+    <bookinfo subject="">
+        <graphic fileref="logo.jpg"/>
         <productname>Open Source Native XML Database</productname>
         <title>Developer's Guide</title>
         <subject>Code Review Guide</subject>
@@ -14,11 +14,13 @@
                 <address format="linespecific">
                     <email>loren at syntactica.com</email>
                 </address>
-            </affiliation></author></bookinfo>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
+            </affiliation>
+        </author>
+    </bookinfo>
     <chapter>
         <title>Code Review Guide</title>
-        <section><title>Introduction</title>Several aspects of the design and deployment of the
+        <section>
+            <title>Introduction</title>Several aspects of the design and deployment of the
             custom solution will be analyzed and appropriate recommendations be provided as well.
             These criteria are to be followed when conducting code review. <orderedlist>
                 <listitem>
@@ -45,8 +47,10 @@
                 <listitem>
                     <para>Has code been properly documented: JavaDoc, etc.?</para>
                 </listitem>
-            </orderedlist><para>And in general, we will look for the 7 Deadly Sins of Software
-                Design and make recommendation accordingly:</para><itemizedlist>
+            </orderedlist>
+            <para>And in general, we will look for the 7 Deadly Sins of Software
+                Design and make recommendation accordingly:</para>
+            <itemizedlist>
                 <listitem>
                     <para>Rigidity: Make it hard to change, especially if changes might result in
                         ripple effects or when you don't know what will happen when you make
@@ -78,10 +82,12 @@
                     <para>Needless Repetition: The same code is scattered about which makes it error
                         prone.</para>
                 </listitem>
-            </itemizedlist><para>
+            </itemizedlist>
+            <para>
                 <emphasis role="italic">The 7th Deadly Sin of Software Design is (the obvious) "Not
                     doing any". </emphasis>
-            </para></section>
+            </para>
+        </section>
         <section>
             <title>Clean Unnecessary Code</title>
             <para>As our business need and technique evolves, there are more and more changes to our
@@ -206,8 +212,11 @@ return prop;
 ]]></programlisting>
             <para>The FileInputStream is not closed before returning from the method.</para>
         </section>
-        <section><title>Comply to Java Coding Standards</title><para>Code conventions are important
-                to programmers for a number of reasons:</para><itemizedlist>
+        <section>
+            <title>Comply to Java Coding Standards</title>
+            <para>Code conventions are important
+                to programmers for a number of reasons:</para>
+            <itemizedlist>
                 <listitem>
                     <para>80% of the lifetime cost of a piece of software goes to
                         maintenance.</para>
@@ -224,47 +233,66 @@ return prop;
                     <para>If you ship your source code as a product, you need to make sure it is as
                         well packaged and clean as any other product you create.</para>
                 </listitem>
-            </itemizedlist><para>Sun coding standards is the standards eXist follows for coding. In
-                addition to that, there is some addendum.</para><emphasis role="underline">
+            </itemizedlist>
+            <para>Sun coding standards is the standards eXist follows for coding. In
+                addition to that, there is some addendum.</para>
+            <emphasis role="underline">
                 <para> Comments </para>
-            </emphasis><para>Further details on JavaDoc comments over and above the Sun standard,
-                can be found in the Sun Doc Comments how to guide. </para><para>Have JavaDoc comment
-                for all classes </para><para>Each class should have a comment. This comment should
-                describe the function, intent and role of the class. </para><para>Have JavaDoc
-                comment for all methods </para><para>Each method should have a comment describing
+            </emphasis>
+            <para>Further details on JavaDoc comments over and above the Sun standard,
+                can be found in the Sun Doc Comments how to guide. </para>
+            <para>Have JavaDoc comment
+                for all classes </para>
+            <para>Each class should have a comment. This comment should
+                describe the function, intent and role of the class. </para>
+            <para>Have JavaDoc
+                comment for all methods </para>
+            <para>Each method should have a comment describing
                 how the method is called and what it does. Discussion of implementation specifics
                 should be avoided since this is not for the user of a method to know in most cases.
-                That information belongs in implementation comments. </para><para>Within the method
+                That information belongs in implementation comments. </para>
+            <para>Within the method
                 JavaDoc comment, info should be added on the parameters. Each method JavaDoc comment
                 should contain an @param comment for each parameter, an @return comment if not a
                 void or constructor method, and an @throws comment for each exception (cf.
-                Documenting Exceptions with @throws Tag). </para><para>The method pre and post
+                Documenting Exceptions with @throws Tag). </para>
+            <para>The method pre and post
                 conditions should be documented here. Pre-conditions comprise parameter ranges and
                 the overall state of the object and system expected when calling the method.
                 Post-conditions should document the expected return value sets and the state of the
                 object and system that will apply when the method exits. These should map to
-                assertions. </para><para>The JavaDoc should also document traceability of this
+                assertions. </para>
+            <para>The JavaDoc should also document traceability of this
                 method to the design and the requirements. Have JavaDoc comment for all fields Each
                 non-trivial field should have a comment describing the role and purpose of the
                 field, as well as any other appropriate information such as the range.
-                </para><emphasis role="underline">
+                </para>
+            <emphasis role="underline">
                 <para>Exceptions</para>
-            </emphasis><para>All exceptions should be handled, it is never acceptable to simply
+            </emphasis>
+            <para>All exceptions should be handled, it is never acceptable to simply
                 print the exception message and stack trace. Exceptions should be dealt and
-                corrective or informative action taken to highlight the issue.</para><para>For
+                corrective or informative action taken to highlight the issue.</para>
+            <para>For
                 debugging purposes the stack trace should be logged at the final destination of the
                 exception or at whenever the exception is modified, for example throwing a
-                XXException instead of a java.io.IOException.</para><emphasis role="underline">
+                XXException instead of a java.io.IOException.</para>
+            <emphasis role="underline">
                 <para>Logging</para>
-            </emphasis><para>If no logging system is in use in the package already or the logging is
-                unconditional, then log4j should be used for all logging. Please see the <emphasis
-                    role="bold"><emphasis role="italic">Log4J Logging
-                Guide</emphasis></emphasis>.</para><para>If a class has unconditional logging, then
+            </emphasis>
+            <para>If no logging system is in use in the package already or the logging is
+                unconditional, then log4j should be used for all logging. Please see the <emphasis role="bold">
+                    <emphasis role="italic">Log4J Logging
+                Guide</emphasis>
+                </emphasis>.</para>
+            <para>If a class has unconditional logging, then
                 it should be updated to use log4j. A case of unconditional logging is where there
                 are System.out.println() in the code with no conditions surrounding the call. This
                 unnecessarily clutters the log and places a burden on
-                performance.</para><para>Logging should always be performed at method exit and entry
-                as follows:</para><itemizedlist>
+                performance.</para>
+            <para>Logging should always be performed at method exit and entry
+                as follows:</para>
+            <itemizedlist>
                 <listitem>
                     <para>Log entry</para>
                 </listitem>
@@ -275,23 +303,30 @@ return prop;
                 <listitem>
                     <para>Log return values</para>
                 </listitem>
-            </itemizedlist><para>The occurrence of exceptions and the stack trace should also be
-                logged as info level items.</para><para>Logging calls should be wrapped in
+            </itemizedlist>
+            <para>The occurrence of exceptions and the stack trace should also be
+                logged as info level items.</para>
+            <para>Logging calls should be wrapped in
                 enablement checks so that arguments do not get unnecessarily evaluated for
-                example:</para><programlisting format="linespecific" language="java"><![CDATA[
+                example:</para>
+            <programlisting format="linespecific" language="java"><![CDATA[
   If (getLogger().isDebugEnabled() {
     getLogger().debug("Entering - method - argList");
     getLogger().debug("Arg1 :"+ theArgValue1); 
     getLogger().debug("Arg2 :"+ theArgValue2);
   }
-]]></programlisting><emphasis role="underline">
+]]></programlisting>
+            <emphasis role="underline">
                 <para>Assertions </para>
-            </emphasis><para>Assertions should be used in the code to verify that the expected
+            </emphasis>
+            <para>Assertions should be used in the code to verify that the expected
                 results have occurred. Assertions should be used as liberally as possible.
-                </para><para>Standard Assertions should be performed at method entry and exit; these
+                </para>
+            <para>Standard Assertions should be performed at method entry and exit; these
                 methods should validate the pre and post-conditions for the method. All arguments
                 should be checked for validity as should the return values. Similarly the state of
                 the object and broader system should be checked as appropriate on both method entry
-                and exit, for example if a file is open. </para></section>
+                and exit, for example if a file is open. </para>
+        </section>
     </chapter>
 </book>

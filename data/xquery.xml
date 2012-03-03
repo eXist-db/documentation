@@ -8,7 +8,6 @@
         <date>November 2009</date>
         <orgname>The eXist Project</orgname>
     </bookinfo>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
     <chapter>
         <title>XQuery</title>
         <section>
@@ -22,8 +21,7 @@
             <para>The XQuery implementation is tested against the official XQuery Test Suite (XQTS
                 version 1.0.2). This suite contains more than 14,000 tests. As of November 2007,
                 eXist passes more than 99% of the test suite, but we are continuously trying to
-                improve these results. Current test results are reported on the <ulink
-                    url="http://xqts.exist-db.org/">web site</ulink>. A good part of the remaining
+                improve these results. Current test results are reported on the <ulink url="http://xqts.exist-db.org/">web site</ulink>. A good part of the remaining
                 failures is caused by smaller problems in the XQuery parser, computed constructors
                 and the missing schema support in eXist.</para>
             <note>
@@ -55,15 +53,11 @@
             </note>
             <para>In addition to the standard features, eXist provides extended support for
                     <emphasis>modules</emphasis> and implements the <emphasis>full axis</emphasis>
-                feature, which means you can use the <emphasis>optional axes</emphasis>: <command
-                    >ancestor</command>, <command>ancestor-or-self</command>, <command
-                    >following</command>, <command>following-sibling</command>, <command
-                    >preceding</command>, and <command>preceding-sibling</command>.</para>
+                feature, which means you can use the <emphasis>optional axes</emphasis>: <command>ancestor</command>, <command>ancestor-or-self</command>, <command>following</command>, <command>following-sibling</command>, <command>preceding</command>, and <command>preceding-sibling</command>.</para>
         </section>
         <section>
             <title>Function Library</title>
-            <para>A complete list of eXist-supported XQuery functions can be viewed on the <ulink
-                    url="xquery/functions.xql">XQuery Function Documentation</ulink> page or the new
+            <para>A complete list of eXist-supported XQuery functions can be viewed on the <ulink url="xquery/functions.xql">XQuery Function Documentation</ulink> page or the new
                     <ulink url="functions">XQuery Function Documentation Browser</ulink>. Each function description is taken directly from the signature
                 provided by the class implementing the <classname>Function</classname> interface.
             </para>
@@ -106,8 +100,7 @@ at "xmldb:exist:///db/modules/test.xqm";</synopsis>
                 the following import to load the module from a Java package:</para>
             <synopsis language="xquery">import module namespace status="http://exist-db.org/xquery/admin-interface/status" 
 at "resource:org/exist/xquery/lib/test.xqm";</synopsis>
-            <para>Finally, XQuery modules can also be implemented in Java (see <ulink
-                    url="#javamods">below</ulink>), in which case you can import them by specifying
+            <para>Finally, XQuery modules can also be implemented in Java (see <ulink url="#javamods">below</ulink>), in which case you can import them by specifying
                 the class path of the Module class:</para>
             <synopsis language="xquery">import module namespace xdiff="http://exist-db.org/xquery/xmldiff"
 at "java:org.exist.xquery.modules.xmldiff.XmlDiffModule";</synopsis>
@@ -130,16 +123,14 @@ at "java:org.exist.xquery.modules.xmldiff.XmlDiffModule";</synopsis>
                             load path is the URI of that collection.</para>
                         <para>For example, if you access an XQuery via the REST server:</para>
                         <synopsis>http://localhost:8080/exist/servlet/db/modules/test.xq</synopsis>
-                        <para>All relative module paths will be resolved relative to the <filename
-                                >/db/modules</filename> collection.</para>
+                        <para>All relative module paths will be resolved relative to the <filename>/db/modules</filename> collection.</para>
                     </listitem>
                 </orderedlist>
             </section>
             <section>
                 <title>Builtin Modules</title>
                 <para>eXist comes with a set of utility modules, which are all implemented in Java.
-                    You can also write your own modules as described <ulink url="#javamods"
-                        >below</ulink>. Some of these utility modules are frequently used in
+                    You can also write your own modules as described <ulink url="#javamods">below</ulink>. Some of these utility modules are frequently used in
                     queries, so they are automatically imported into every query by default.</para>
                 <para>The query engine allows you to configure which modules will be auto-loaded.
                     The <sgmltag>builtin-modules</sgmltag> element in <filename>conf.xml</filename>
@@ -148,7 +139,7 @@ at "java:org.exist.xquery.modules.xmldiff.XmlDiffModule";</synopsis>
                 <example>
                     <title>Auto-loaded Modules</title>
                     <programlisting>
-<markup><![CDATA[<xquery enable-java-binding="no">
+                        <markup><![CDATA[<xquery enable-java-binding="no">
     <builtin-modules>
         <module uri="http://exist-db.org/xquery/util"
             class="org.exist.xquery.functions.util.UtilModule"/>
@@ -188,24 +179,19 @@ at "java:org.exist.xquery.modules.xmldiff.XmlDiffModule";</synopsis>
                 <para>A database can contain a virtually unlimited set of collections and documents.
                     By default, database queries that use the XML:DB API will only process the
                     documents in the current XML:DB collection. However, four additional functions
-                    are available to change this behavior: <command>doc()</command>, <command
-                        moreinfo="none">xmldb:document()</command>, <command moreinfo="none"
-                        >collection()</command> and <command>xmldb:xcollection()</command>. The
+                    are available to change this behavior: <command>doc()</command>, <command moreinfo="none">xmldb:document()</command>, <command moreinfo="none">collection()</command> and <command>xmldb:xcollection()</command>. The
                         <command>collection()</command> and <command>doc()</command> functions are
                     standard XQuery/XPath functions; whereas, <command>xmldb:xcollection()</command>
                     and <command>xmldb:document()</command> are eXist-specific extensions.</para>
-                <para>Without an URI scheme, eXist interprets the arguments to <command
-                        >collection()</command> and <command>doc()</command> as absolute or relative
+                <para>Without an URI scheme, eXist interprets the arguments to <command>collection()</command> and <command>doc()</command> as absolute or relative
                     paths, leading to some collection or document within the database. For
                     example:</para>
                 <synopsis>doc("/db/collection1/collection2/resource.xml")</synopsis>
-                <para>refers to a resource stored in <filename
-                        >/db/collection1/collection2</filename>.</para>
+                <para>refers to a resource stored in <filename>/db/collection1/collection2</filename>.</para>
                 <synopsis>doc("resource.xml")</synopsis>
                 <para>references a resource relative to the base URI property defined in the static
                     XQuery context. The base URI contains an XML:DB URI pointing to the base
-                    collection for the current query context, e.g. <filename
-                        >xmldb:exist:///db</filename>.</para>
+                    collection for the current query context, e.g. <filename>xmldb:exist:///db</filename>.</para>
                 <para>The base collection depends on how the query context was initialized. If you
                     call a query via the XML:DB API, the base collection is the collection from
                     which the query service was obtained. All relative URLs will be resolved
@@ -243,23 +229,14 @@ at "java:org.exist.xquery.modules.xmldiff.XmlDiffModule";</synopsis>
                                 evaluation. By default, documents found in subcollections of the
                                 specified collection are also included. For example, suppose we have
                                 a collection <filename moreinfo="none">/db/test</filename> that
-                                includes two subcollections <filename moreinfo="none"
-                                    >/db/test/abc</filename> and <filename moreinfo="none"
-                                    >/db/test/def</filename>. In this case, the function call
+                                includes two subcollections <filename moreinfo="none">/db/test/abc</filename> and <filename moreinfo="none">/db/test/def</filename>. In this case, the function call
                                     <command moreinfo="none">collection('/db/test')</command> will
-                                include all of the resources found in <filename moreinfo="none"
-                                    >/db/test</filename>, <filename moreinfo="none"
-                                    >/db/test/abc</filename> and <filename moreinfo="none"
-                                    >/db/test/def</filename>.</para>
-                            <para>The function <command moreinfo="none"
-                                    >xmldb:xcollection()</command> can be used to change the
+                                include all of the resources found in <filename moreinfo="none">/db/test</filename>, <filename moreinfo="none">/db/test/abc</filename> and <filename moreinfo="none">/db/test/def</filename>.</para>
+                            <para>The function <command moreinfo="none">xmldb:xcollection()</command> can be used to change the
                                 behavior of <command moreinfo="none">collection()</command>. For
                                 instance, the function call </para>
                             <synopsis format="linespecific">xmldb:xcollection('/db/test')//title</synopsis>
-                            <para>will ONLY include resources found in <filename moreinfo="none"
-                                    >/db/test</filename>, but NOT in <filename moreinfo="none"
-                                    >/db/test/abc</filename> or <filename moreinfo="none"
-                                    >/db/test/def</filename>.</para>
+                            <para>will ONLY include resources found in <filename moreinfo="none">/db/test</filename>, but NOT in <filename moreinfo="none">/db/test/abc</filename> or <filename moreinfo="none">/db/test/def</filename>.</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>
@@ -294,12 +271,10 @@ for $rec in /rdf:RDF/* return
             {$rec}
         </rdf:RDF>
     )
-]]>
-                    </programlisting>
+]]></programlisting>
                 </example>
                 <para>Let's look at this script in some detail. First, since the extension functions
-                    are based on the XML:DB API, we have to register a database driver with <command
-                        >xdb:register-database</command>. Then we can create a new sub-collection,
+                    are based on the XML:DB API, we have to register a database driver with <command>xdb:register-database</command>. Then we can create a new sub-collection,
                     called "output" using <command>xdb:create-collection</command>, for which we
                     need to be logged in appropriately using <command>xmldb:login</command>.</para>
                 <para>Next, the <command>for</command>-loop iterates through all child elements of
@@ -393,16 +368,13 @@ declare function local:do-query() as element()
 
 		{ local:do-query() }
 	</body>
-</html>]]>
-                                </programlisting>
+</html>]]></programlisting>
                 </example>
                 <para>In this example, there is one XQuery script responsible for evaluating the
                     user-supplied parameters, which uses the parameters from the HTTP request to
-                    construct another XQuery expression, which it then passes to <command
-                        >util:eval</command> for evaluation. The application would then post-process
+                    construct another XQuery expression, which it then passes to <command>util:eval</command> for evaluation. The application would then post-process
                     the returned results, and display them to the user. (For more information on how
-                    to write web applications using XQuery, go to our <ulink url="devguide.xml"
-                        >Developer's Guide</ulink>.)</para>
+                    to write web applications using XQuery, go to our <ulink url="devguide.xml">Developer's Guide</ulink>.)</para>
             </section>
             <section>
                 <title>XSL Transformations</title>
@@ -488,8 +460,7 @@ declare function local:do-query() as element()
                                 name of the parameter, the second specifies a default value, which
                                 is returned if the parameter is not set. This function returns a
                                 sequence containing the values for the parameter. The above script
-                                (Adding/Subtracting Two Numbers) offers an example of how <command
-                                    >request:get-parameter</command> can be used to read HTTP
+                                (Adding/Subtracting Two Numbers) offers an example of how <command>request:get-parameter</command> can be used to read HTTP
                                 request parameters.</para>
                         </listitem>
                     </varlistentry>
@@ -509,8 +480,7 @@ declare function local:do-query() as element()
                             <para>Other session functions read and set session attributes, among
                                 other operations. For example, an XQuery or Java object value can be
                                 stored in a session attribute, to cache query results. For more
-                                example scripts, please look at our <ulink url="examples.xml"
-                                    >Examples</ulink> page, under the XQuery Examples
+                                example scripts, please look at our <ulink url="examples.xml">Examples</ulink> page, under the XQuery Examples
                                 section.</para>
                         </listitem>
                     </varlistentry>
@@ -520,8 +490,7 @@ declare function local:do-query() as element()
         <section id="javamods">
             <title>Java Binding</title>
             <para>eXist supports calls to arbitrary Java methods from within XQuery. The binding
-                mechanism follows the short-cut technique introduced by <ulink
-                    url="http://saxon.sf.net"> Saxon</ulink> (a collection of tools for processing
+                mechanism follows the short-cut technique introduced by <ulink url="http://saxon.sf.net"> Saxon</ulink> (a collection of tools for processing
                 XML documents). The class where the external function will be found is identified by
                 the namespace URI of the function call. The namespace URI should start with the
                 prefix <option>java:</option> followed by the fully qualified class name of the
@@ -797,9 +766,12 @@ return $w</synopsis>
             <para>Note that these same options can be passed using the
                     <methodname>XPathQueryService.setProperty()</methodname> and
                     <methodname>XQueryService.setProperty()</methodname> methods in Java. These
-                methods are defined in <classname><ulink url="http://download.oracle.com/javase/6/docs/api/javax/xml/transform/OutputKeys.html">javax.xml.transform.OutputKeys</ulink></classname> and
-                     <classname><ulink url="api/org/exist/storage/serializers/EXistOutputKeys.html"
-                    >EXistOutputKeys</ulink></classname>. The latter eXist-specific options include the
+                methods are defined in <classname>
+                    <ulink url="http://download.oracle.com/javase/6/docs/api/javax/xml/transform/OutputKeys.html">javax.xml.transform.OutputKeys</ulink>
+                </classname> and
+                     <classname>
+                    <ulink url="api/org/exist/storage/serializers/EXistOutputKeys.html">EXistOutputKeys</ulink>
+                </classname>. The latter eXist-specific options include the
                 following:</para>
             <variablelist>
                 <varlistentry>
@@ -854,8 +826,7 @@ return $w</synopsis>
                     <listitem>
                         <para>determines the serialization method. Should be one of "xml", "xhtml",
                             "json", or "text". The "xhtml" method makes sure that XHTML elements with an
-                            empty content model are serialized in the minimized form, i.e. <literal
-                                >img</literal> will be output as <sgmltag>img/</sgmltag>. </para>
+                            empty content model are serialized in the minimized form, i.e. <literal>img</literal> will be output as <sgmltag>img/</sgmltag>. </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -969,9 +940,7 @@ return $w</synopsis>
                 different drafts of the XQuery specification. In earlier eXist releases, pragmas
                 were used similar to what is now the "declare option" prolog expression. The new
                 syntax is quite different: pragmas can now be wrapped around an arbitrary XQuery
-                expression (see the <ulink
-                    url="http://www.w3.org/TR/xquery/#id-extension-expressions"
-                    >specification</ulink>). </para>
+                expression (see the <ulink url="http://www.w3.org/TR/xquery/#id-extension-expressions">specification</ulink>). </para>
             <para>Currently, eXist recognizes the following pragmas:</para>
             <section>
                 <title>exist:timer</title>
@@ -984,16 +953,17 @@ return $w</synopsis>
                 <example>
                     <title>Configure log4j to Display Trace Output</title>
                     <programlisting>
-	                    <markup><![CDATA[<root>
+                        <markup><![CDATA[<root>
 	    <priority value="trace"/>
 	    <appender-ref ref="console"/>
 	</root>]]></markup>
-	                </programlisting>
+                    </programlisting>
                 </example>
             </section>
             <section>
                 <title>exist:batch-transaction</title>
-                <para><emphasis>Currently only for XQuery Update Extensions.</emphasis> Provides a
+                <para>
+                    <emphasis>Currently only for XQuery Update Extensions.</emphasis> Provides a
                     method for batching updates on the database into a single Transaction, allowing
                     a set of updates to be atomically guaranteed. Also for each affected document or
                     collection, any configured Triggers will only be called once, the
@@ -1009,7 +979,8 @@ return $w</synopsis>
             </section>
             <section>
                 <title>exist:force-index-use</title>
-                <para><emphasis>For debugging purposes</emphasis>. An expression that can be
+                <para>
+                    <emphasis>For debugging purposes</emphasis>. An expression that can be
                     assisted by indexes: comparisons, <function>fn:matches()</function>... Will
                     raise an error if, for any reason, this assistance can not be performed.</para>
                 <para>This can help to check whether the indexes are correctly defined or

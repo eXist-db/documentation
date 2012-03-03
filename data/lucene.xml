@@ -8,7 +8,6 @@
         <date>September 2009</date>
         <orgname>The eXist Project</orgname>
     </bookinfo>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
     <chapter>
         <title>Lucene-based Full Text Index</title>
         <section>
@@ -37,8 +36,7 @@
                 <step>
                     <para>Before building eXist, you need to enable the Lucene module by editing
                             <code>extensions/indexes/build.properties</code> (also see the
-                        documentation on <ulink
-                            url="http://www.exist-db.org/indexing.html#moduleconf">index
+                        documentation on <ulink url="http://www.exist-db.org/indexing.html#moduleconf">index
                             modules</ulink>):</para>
                     <example>
                         <title>build.properties</title>
@@ -48,17 +46,15 @@ include.index.lucene = true
                     </example>
                 </step>
                 <step>
-                    <para>Then <emphasis>(re-)build eXist</emphasis> using the provided <filename
-                            >build.sh</filename> or <filename>build.bat</filename>. The build
+                    <para>Then <emphasis>(re-)build eXist</emphasis> using the provided <filename>build.sh</filename> or <filename>build.bat</filename>. The build
                         process downloads the required Lucene jars automatically. If everything
-                        builds ok, you should find a jar <filename
-                            >exist-lucene-module.jar</filename> in the <filename
-                            >lib/extensions</filename> directory. Next, edit the main configuration
+                        builds ok, you should find a jar <filename>exist-lucene-module.jar</filename> in the <filename>lib/extensions</filename> directory. Next, edit the main configuration
                         file, <filename>conf.xml</filename> and comment in the two lucene-related
                         sections:</para>
                     <example>
                         <title>conf.xml</title>
-                        <programlisting><markup><![CDATA[<modules>
+                        <programlisting>
+                            <markup><![CDATA[<modules>
   <module id="lucene-index" class="org.exist.indexing.lucene.LuceneIndex" buffer="32"/>
   ...
 </modules>
@@ -67,7 +63,8 @@ include.index.lucene = true
   <module id="lucene-index" class="org.exist.indexing.lucene.LuceneIndex"/>
   ...
 </builtin-modules>
-]]></markup></programlisting>
+]]></markup>
+                        </programlisting>
                     </example>
                 </step>
             </procedure>
@@ -82,9 +79,7 @@ include.index.lucene = true
                         <listitem>
                             <para>Defines the amount of memory (in megabytes) Lucene will use for
                                 buffering index entries before they are written to disk. See the
-                                    <ulink
-                                    url="http://lucene.apache.org/java/2_9_1/api/all/org/apache/lucene/index/IndexWriter.html#setRAMBufferSizeMB(double)"
-                                    >Lucene javadocs</ulink>.</para>
+                                    <ulink url="http://lucene.apache.org/java/2_9_1/api/all/org/apache/lucene/index/IndexWriter.html#setRAMBufferSizeMB(double)">Lucene javadocs</ulink>.</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>
@@ -92,14 +87,13 @@ include.index.lucene = true
         </section>
         <section>
             <title>Configuring the Index</title>
-            <para>Like other indexes, you create a lucene index by configuring it in a <filename
-                    >collection.xconf</filename> document. If you have never done that before, read
-                the corresponding <ulink url="http://www.exist-db.org/indexing.html#idxconf"
-                    >documentation</ulink>. An example <filename>collection.xconf</filename> is
+            <para>Like other indexes, you create a lucene index by configuring it in a <filename>collection.xconf</filename> document. If you have never done that before, read
+                the corresponding <ulink url="http://www.exist-db.org/indexing.html#idxconf">documentation</ulink>. An example <filename>collection.xconf</filename> is
                 shown below:</para>
             <example>
                 <title>collection.xconf</title>
-                <programlisting><markup><![CDATA[<collection xmlns="http://exist-db.org/collection-config/1.0">
+                <programlisting>
+                    <markup><![CDATA[<collection xmlns="http://exist-db.org/collection-config/1.0">
     <index xmlns:atom="http://www.w3.org/2005/Atom"
         xmlns:html="http://www.w3.org/1999/xhtml"
         xmlns:wiki="http://exist-db.org/xquery/wiki">
@@ -121,7 +115,8 @@ include.index.lucene = true
         </lucene>
     </index>
 </collection>
-]]></markup></programlisting>
+]]></markup>
+                </programlisting>
             </example>
             <para>You can either define a lucene index on a single element or attribute name
                 (qname="...") or a node path with wildcards (match="...", see below). It is
@@ -134,11 +129,13 @@ include.index.lucene = true
                 SPEECH, which includes the text of all its descendant text nodes (*except* those
                 filtered out by an optional <sgmltag>ignore</sgmltag>). For example, consider the
                 fragment:</para>
-            <programlisting><markup><![CDATA[<SPEECH>
+            <programlisting>
+                <markup><![CDATA[<SPEECH>
     <SPEAKER>Second Witch</SPEAKER>
     <LINE>Fillet of a fenny snake,</LINE>
     <LINE>In the cauldron boil and bake;</LINE>
-</SPEECH>]]></markup></programlisting>
+</SPEECH>]]></markup>
+            </programlisting>
             <para>If you have an index on SPEECH, Lucene will create a "document" with the text
                 "Second Witch Fillet of a fenny snake, In the cauldron boil and bake;" and indexes
                 it. eXist internally links this Lucene document to the SPEECH node, but Lucene has
@@ -155,13 +152,17 @@ include.index.lucene = true
                 parent LINE.</para>
             <para>However, you are free to give the user both options, i.e. use SPEECH and LINE as
                 context at the same time. How? Simply define a second index on LINE:</para>
-            <programlisting><markup><![CDATA[<text qname="SPEECH"/>
-<text qname="LINE"/>]]></markup></programlisting>
+            <programlisting>
+                <markup><![CDATA[<text qname="SPEECH"/>
+<text qname="LINE"/>]]></markup>
+            </programlisting>
             <para>Let's use a different example to illustrate that. Assume you have a document with
                 encoded place names:</para>
             <example>
                 <title>Paragraph with place name</title>
-                <programlisting><markup><![CDATA[<p>He loves <placeName>Paris</placeName>.</p>]]></markup></programlisting>
+                <programlisting>
+                    <markup><![CDATA[<p>He loves <placeName>Paris</placeName>.</p>]]></markup>
+                </programlisting>
             </example>
             <para>For a general query you probably want to search through all paragraphs. However,
                 you may also want to provide an advanced search option, which allows the user to
@@ -169,10 +170,12 @@ include.index.lucene = true
                 placeName as well:</para>
             <example>
                 <title>collection.xconf fragment</title>
-                <programlisting><markup><![CDATA[<lucene>
+                <programlisting>
+                    <markup><![CDATA[<lucene>
     <text qname="p"/>
     <text qname="placeName"/>
-</lucene>]]></markup></programlisting>
+</lucene>]]></markup>
+                </programlisting>
             </example>
             <para>Based on this setup, you'll be able to query for the word 'Paris' anywhere in a
                 paragraph:</para>
@@ -186,8 +189,10 @@ include.index.lucene = true
                     so please be careful when using it.</para>
                 <para>Assume you want to define an index on all the possible elements below SPEECH.
                     You can do this by creating one index for every element:</para>
-                <programlisting><markup><![CDATA[<text qname="LINE"/>
-<text qname="SPEAKER"/>]]></markup></programlisting>
+                <programlisting>
+                    <markup><![CDATA[<text qname="LINE"/>
+<text qname="SPEAKER"/>]]></markup>
+                </programlisting>
                 <para>As a shortcut, you can use a <option>match</option> attribute with a
                     wildcard:</para>
                 <synopsis language="xml"><![CDATA[<text match="//SPEECH/*"/>]]></synopsis>
@@ -203,10 +208,8 @@ include.index.lucene = true
                     differentiate between the two. In some cases, I could decide to put the index on
                     the paragraph level, but then I don't need the index on the section since I can
                     always get from the paragraph back to the section.</para>
-                <para>If you query a larger context, you can use the <ulink url="kwic.xml"
-                        >KWIC</ulink> module to show the user only a certain chunk of text
-                        <emphasis>surrounding</emphasis> each match. Or you can ask eXist to <ulink
-                        url="kwic.xml#highlight">highlight each match</ulink> with an
+                <para>If you query a larger context, you can use the <ulink url="kwic.xml">KWIC</ulink> module to show the user only a certain chunk of text
+                        <emphasis>surrounding</emphasis> each match. Or you can ask eXist to <ulink url="kwic.xml#highlight">highlight each match</ulink> with an
                         <sgmltag>exist:match</sgmltag> tag, which you can later use to locate the
                     matches within the text.</para>
             </section>
@@ -218,7 +221,9 @@ include.index.lucene = true
                         or token. For example, if you have an element:</para>
                     <example>
                         <title>Not a Mixed Content Element</title>
-                        <programlisting><markup><![CDATA[<size><width>12</width><height>8</height></size>]]></markup></programlisting>
+                        <programlisting>
+                            <markup><![CDATA[<size><width>12</width><height>8</height></size>]]></markup>
+                        </programlisting>
                     </example>
                     <para>You want "12" and "8" to be indexed as separate tokens, even though
                         there's no whitespace between the elements. By default, eXist will indeed
@@ -228,7 +233,9 @@ include.index.lucene = true
                         For example:</para>
                     <example>
                         <title>Mixed Content Node</title>
-                        <programlisting><markup><![CDATA[<p>This is <b>un</b>clear.</p>]]></markup></programlisting>
+                        <programlisting>
+                            <markup><![CDATA[<p>This is <b>un</b>clear.</p>]]></markup>
+                        </programlisting>
                     </example>
                     <para>In this case, you want "unclear" to be indexed as one word. This can be
                         done by telling eXist which nodes are "inline" nodes. The example
@@ -247,8 +254,10 @@ include.index.lucene = true
                         are a good example:</para>
                     <example>
                         <title>Paragraph With Inline Note</title>
-                        <programlisting><markup><![CDATA[<p>This is a paragraph
-<note>containing an inline note</note>.</p>]]></markup></programlisting>
+                        <programlisting>
+                            <markup><![CDATA[<p>This is a paragraph
+<note>containing an inline note</note>.</p>]]></markup>
+                        </programlisting>
                     </example>
                     <para>Use an <sgmltag>ignore</sgmltag> element in the collection configuration
                         to have eXist ignore the note:</para>
@@ -263,11 +272,13 @@ include.index.lucene = true
                             <sgmltag>note</sgmltag>:</para>
                     <example>
                         <title>collection.xconf fragment</title>
-                        <programlisting><markup><![CDATA[<lucene>
+                        <programlisting>
+                            <markup><![CDATA[<lucene>
     <text qname="p"/>
     <text qname="note"/>
     <ignore qname="note"/>
-</lucene>]]></markup></programlisting>
+</lucene>]]></markup>
+                        </programlisting>
                     </example>
                     <para>If <sgmltag>note</sgmltag> appears within <sgmltag>p</sgmltag>, it will
                         not be added to the index on <sgmltag>p</sgmltag>, but only to the index on
@@ -287,7 +298,8 @@ include.index.lucene = true
                     Here's how we configure the documentation search indexes in eXist:</para>
                 <example>
                     <title>collection.xconf using boost</title>
-                    <programlisting><markup><![CDATA[<lucene>
+                    <programlisting>
+                        <markup><![CDATA[<lucene>
     <analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/>
     <text qname="section">
         <ignore qname="title"/>
@@ -296,7 +308,8 @@ include.index.lucene = true
         <ignore qname="synopsis"/>
     </text>
     <text qname="title" boost="2.0"/>
-</lucene>]]></markup></programlisting>
+</lucene>]]></markup>
+                    </programlisting>
                 </example>
                 <para>The title index gets a boost of 2.0 to make sure that title matches get a
                     higher score. Since the <sgmltag>title</sgmltag> element does occur within
@@ -318,22 +331,20 @@ order by ft:score($sect) descending return $sect</synopsis>
                     be used for different indexes.</para>
                 <example>
                     <title/>
-                    <programlisting><markup><![CDATA[<lucene>
+                    <programlisting>
+                        <markup><![CDATA[<lucene>
     <analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/>
     <analyzer id="ws" class="org.apache.lucene.analysis.WhitespaceAnalyzer"/>
     <text match="//SPEECH//*"/>
     <text qname="TITLE" analyzer="ws"/>
-</lucene>]]></markup></programlisting>
+</lucene>]]></markup>
+                    </programlisting>
                 </example>
-                <para>In the example above, we define that Lucene's <ulink
-                        url="http://lucene.apache.org/java/2_4_1/api/org/apache/lucene/analysis/standard/StandardAnalyzer.html"
-                        >StandardAnalyzer</ulink> should be used by default (the
+                <para>In the example above, we define that Lucene's <ulink url="http://lucene.apache.org/java/2_4_1/api/org/apache/lucene/analysis/standard/StandardAnalyzer.html">StandardAnalyzer</ulink> should be used by default (the
                         <sgmltag>analyzer</sgmltag> element without <option>id</option> attribute).
                     We provide an additional analyzer and assign it the id <option>ws</option>, by
                     which the analyzer can be referenced in the actual index definitions.</para>
-                <para>The <ulink
-                        url="http://lucene.apache.org/java/2_4_1/api/org/apache/lucene/analysis/WhitespaceAnalyzer.html"
-                        >whitespace analyzer</ulink> is the most basic one. As the name says, it
+                <para>The <ulink url="http://lucene.apache.org/java/2_4_1/api/org/apache/lucene/analysis/WhitespaceAnalyzer.html">whitespace analyzer</ulink> is the most basic one. As the name says, it
                     tokenizes the text at white space characters, but treats all other characters -
                     including punctuation - as part of the token. The tokens are not converted to
                     lower case and there's no stopword filter applied.</para>
@@ -343,15 +354,18 @@ order by ft:score($sect) descending return $sect</synopsis>
                     <para>We currently support passing: String, File, Integer, Boolean and Set&lt;String&gt; value parameters to the Analyzer's constructor. If no type is specified in the parameter configuration, then String is assumed by default.</para>
                     <example>
                         <title>Providing a Stop Words file for the Standard Analyzer</title>
-                        <programlisting><markup><![CDATA[
+                        <programlisting>
+                            <markup><![CDATA[
 <analyzer id="stdstops" class="org.apache.lucene.analysis.standard.StandardAnalyzer">
     <param name="stopwords" type="java.io.File" value="/tmp/stop.txt"/>
 </analyzer>
-                            ]]></markup></programlisting>
+                            ]]></markup>
+                        </programlisting>
                     </example>
                     <example>
                         <title>Providing a list of Stop Words for the Standard Analyzer</title>
-                        <programlisting><markup><![CDATA[
+                        <programlisting>
+                            <markup><![CDATA[
 <analyzer id="stdstops" class="org.apache.lucene.analysis.standard.StandardAnalyzer">
     <param name="stopwords" type="java.util.Set">
         <value>the</value>
@@ -360,12 +374,14 @@ order by ft:score($sect) descending return $sect</synopsis>
         <value>that</value>
     </param>
 </analyzer>
-                            ]]></markup></programlisting>
+                            ]]></markup>
+                        </programlisting>
                     </example>
                     <example>
                         <title>Using the Snowball Analyzer</title>
                         <para>Note that using the Snowball analyzer requires you to add additional libraries to lib/user.</para>
-                        <programlisting><markup><![CDATA[
+                        <programlisting>
+                            <markup><![CDATA[
 <analyzer id="sbstops" class="org.apache.lucene.analysis.snowball.SnowballAnalyzer">
     <param name="name" value="English"/>
     <param name="stopwords" type="java.util.Set">
@@ -375,7 +391,8 @@ order by ft:score($sect) descending return $sect</synopsis>
         <value>that</value>
     </param>
 </analyzer>
-                            ]]></markup></programlisting>
+                            ]]></markup>
+                        </programlisting>
                     </example>
                 </section>
                 <para>We will certainly add more features in the future, e.g. a possibility to
@@ -393,8 +410,7 @@ order by ft:score($sect) descending return $sect</synopsis>
 order by ft:score($m) descending
 return $m]]></programlisting>
             </example>
-            <para>The query function takes a query string in Lucene's default <ulink
-                    url="http://lucene.apache.org/java/2_4_0/queryparsersyntax.html">query
+            <para>The query function takes a query string in Lucene's default <ulink url="http://lucene.apache.org/java/2_4_0/queryparsersyntax.html">query
                     syntax</ulink>. It returns a set of nodes which are relevant with respect to the
                 query. Lucene assigns a relevance score or rank to each match. This score is
                 preserved by eXist and can be accessed through the score function, which returns a
@@ -407,8 +423,7 @@ return $m]]></programlisting>
                 SPEECH.</para>
             <para>The Lucene module is fully supported by eXist's query-rewriting optimizer, which
                 means that the query engine can rewrite the XQuery expression to make best use of
-                the available indexes. All the rules and hints given in the <ulink url="tuning.xml"
-                    >tuning</ulink> guide do fully apply to the Lucene index.</para>
+                the available indexes. All the rules and hints given in the <ulink url="tuning.xml">tuning</ulink> guide do fully apply to the Lucene index.</para>
             <para>To present search results in a <emphasis>Keywords in Context</emphasis> format,
                 you may want to have a look at eXist's <ulink url="kwic.xml">KWIC</ulink>
                 module.</para>
@@ -559,7 +574,8 @@ return //SPEECH[ft:query(., $query)]
                             <sgmltag>near</sgmltag>
                         </term>
                         <listitem>
-                            <para><sgmltag>near</sgmltag> is a powerful alternative to
+                            <para>
+                                <sgmltag>near</sgmltag> is a powerful alternative to
                                     <sgmltag>phrase</sgmltag> and one of the features not available
                                 through the standard Lucene query parser.</para>
                             <para>If the element has text content only, it will be tokenized into
@@ -606,7 +622,6 @@ return //SPEECH[ft:query(., $query)]]]></synopsis>
                 <para>The ft:query function allows a third parameter, which can be used to pass
                     some additional settings to the query engine. The parameter should contain an XML 
                     fragment which lists the configuration properties to be set as child elements:</para>
-                
                 <example>
                     <title/>
                     <programlisting language="xquery"><![CDATA[
@@ -620,9 +635,7 @@ let $options :=
 return
     //SPEECH[ft:query(., $query, $options)]]]></programlisting>
                 </example>
-                
                 <para>The meaning of those properties is as follows</para>
-                
                 <variablelist>
                     <varlistentry>
                         <term>filter-rewrite</term>

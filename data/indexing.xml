@@ -8,7 +8,6 @@
         <date>November 2009</date>
         <orgname>The eXist Project</orgname>
     </bookinfo>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
     <chapter>
         <title>Configuring Database Indexes</title>
         <section>
@@ -63,7 +62,8 @@
                 </listitem>
                 <listitem>
                     <para>
-                        <emphasis><ulink url="devguide_indexes.xml#spatial">Spatial Indexes</ulink>
+                        <emphasis>
+                            <ulink url="devguide_indexes.xml#spatial">Spatial Indexes</ulink>
                             (Experimental)</emphasis>: These map elements of the documents in a
                         collection containing georeferenced geometries to dedicated data structures
                         that allow efficient spatial queries. </para>
@@ -77,8 +77,7 @@
             <para>Since version 1.2, eXist features a new modularized indexing architecture. Most
                 types of indexes have been moved out of the database core and are now maintained as
                 pluggable extensions. The full text, ngram and spatial indexes fall under this
-                category. Please refer to the blog <ulink
-                    url="http://atomic.exist-db.org/wiki/blogs/eXist/NewIndexing">article</ulink>
+                category. Please refer to the blog <ulink url="http://atomic.exist-db.org/wiki/blogs/eXist/NewIndexing">article</ulink>
                 which introduced the new architecture.</para>
         </section>
         <section>
@@ -120,7 +119,7 @@
                 <example>
                     <title>Example: List Entry</title>
                     <programlisting>
-<markup><![CDATA[<items>
+                        <markup><![CDATA[<items>
     <item n="1">
        <name>Tall Bookcase</name>
        <price>299.99</price>
@@ -138,14 +137,12 @@
                         Schema Definition</ulink> (XSD) data type of <command>xs:double</command>.
                     Using this builtin type to define a range index, we can improve the efficiency
                     of searches for <sgmltag>price</sgmltag> values. (Instructions on how to
-                    configure range indexes using configuration files are provided under the <ulink
-                        url="#idxconf">Configuring Indexes</ulink> section below.) During indexing,
+                    configure range indexes using configuration files are provided under the <ulink url="#idxconf">Configuring Indexes</ulink> section below.) During indexing,
                     eXist will apply this data type selection by attempting to cast all
                         <sgmltag>price</sgmltag> values as double floating point numbers, and add
                     appropriate values to the index. Values that cannot be cast as double floating
                     point numbers are therefore ignored. This range index will then be used by any
-                    expression that compares <sgmltag>price</sgmltag> to an <command
-                        >xs:double</command> value - for instance:</para>
+                    expression that compares <sgmltag>price</sgmltag> to an <command>xs:double</command> value - for instance:</para>
                 <synopsis>//item[price &gt; 100.0]</synopsis>
                 <para>For non-string data types, the range index provides the query engine a more
                     efficient method of data conversion. Instead of retrieving the value of each
@@ -160,8 +157,7 @@
                     scan starting at 100. </para>
                 <para>For string data, the index will also be used by the standard functions
                         <function>fn:contains()</function>, <function>fn:starts-with()</function>,
-                        <function>fn:ends-with()</function> and <function
-                    >fn:matches()</function>.</para>
+                        <function>fn:ends-with()</function> and <function>fn:matches()</function>.</para>
                 <para>To illustrate this functionality, let's return to the previous example. If you
                     define a range index of type <command>xs:string</command> for element
                         <sgmltag>name</sgmltag>, a query on this element to select tall bookcases
@@ -175,8 +171,7 @@
                 <synopsis>//item[fn:matches(name, '^[Tt]all\s[Bb]')]</synopsis>
                 <para>Also, if you really need to search for an exact substring in a longer text
                     sequence, it is often better to use the NGram index instead of the range index,
-                    i.e. use <function>ngram:contains()</function> instead of <function
-                        >fn:contains()</function>. Unfortunately, there's no equivalent NGram
+                    i.e. use <function>ngram:contains()</function> instead of <function>fn:contains()</function>. Unfortunately, there's no equivalent NGram
                     function for <function>fn:matches()</function> yet, but we may add one in the
                     future as it could help to increase performance dramatically.</para>
                 <para>In general, three conditions must be met in order to optimize a search using a
@@ -240,8 +235,7 @@
                 <title>Spatial Index</title>
                 <para>A working proof-of-concept index, which listens for spatial geometries
                     described through the Geography Markup Language (GML). A detailed description of
-                    the implementation can be found in the <ulink url="devguide_indexes.xml#spatial"
-                        >Developer's Guide to Modularized Indexes</ulink>.</para>
+                    the implementation can be found in the <ulink url="devguide_indexes.xml#spatial">Developer's Guide to Modularized Indexes</ulink>.</para>
             </section>
         </section>
         <section>
@@ -292,8 +286,7 @@
                     <listitem>
                         <para>A working proof-of-concept index, which listens for spatial geometries
                             described through the Geography Markup Language (GML). A detailed
-                            description of the implementation can be found in the <ulink
-                                url="devguide_indexes.xml">Developer's Guide to Modularized
+                            description of the implementation can be found in the <ulink url="devguide_indexes.xml">Developer's Guide to Modularized
                                 Indexes</ulink>.</para>
                     </listitem>
                 </varlistentry>
@@ -307,8 +300,7 @@
                 eXist. However, enabling the spatial index is a simple process:</para>
             <procedure>
                 <step>
-                    <para>Copy the properties file <filename
-                            >extensions/indexes/build.properties</filename> and store it as
+                    <para>Copy the properties file <filename>extensions/indexes/build.properties</filename> and store it as
                             <filename>local.properties</filename> in the same directory.</para>
                 </step>
                 <step>
@@ -341,7 +333,7 @@ include.index.spatial = false
             <example>
                 <title>Index Plugin Configuration in conf.xml</title>
                 <programlisting>
-<markup><![CDATA[<modules>
+                    <markup><![CDATA[<modules>
     <module id="ngram-index" class="org.exist.indexing.ngram.NGramIndex"
         file="ngram.dbx" n="3"/>
     <!-- The full text index is always required and should
@@ -381,11 +373,8 @@ include.index.spatial = false
                 by default. That being said, the <filename>conf.xml</filename> file should only
                 define the default global <emphasis>index creation policy</emphasis>.</para>
             <para> To configure a given collection - e.g. <filename>/db/foo</filename> - create a
-                file <filename>collection.xconf</filename> and store it as <filename
-                    >/db/system/config/db/foo/collection.xconf</filename>. Note the replication of
-                the <filename>/db/foo</filename> hierarchy inside <filename
-                    >/db/system/config/</filename>. Subcollections which do not have a <filename
-                    >collection.xconf</filename> file of their own will be governed by the
+                file <filename>collection.xconf</filename> and store it as <filename>/db/system/config/db/foo/collection.xconf</filename>. Note the replication of
+                the <filename>/db/foo</filename> hierarchy inside <filename>/db/system/config/</filename>. Subcollections which do not have a <filename>collection.xconf</filename> file of their own will be governed by the
                 configuration policy specified for the closest ancestor collection which does have
                 such a file, so you are not required to specify a configuration for every
                 collection. Note, however, that configuration settings do not cascade. If you choose
@@ -425,8 +414,8 @@ include.index.spatial = false
                                         collection, you need to trigger a "manual reindex" of the
                                         collection being updated. You can re-index collections using
                                         the Java Admin Client (shown on the right). From the Admin
-                                        menu, select <guimenu>File</guimenu>&#187;<guimenuitem
-                                            >Reindex Collection</guimenuitem></para>
+                                        menu, select <guimenu>File</guimenu>»<guimenuitem>Reindex Collection</guimenuitem>
+                                    </para>
                                 </td>
                                 <td>
                                     <screenshot>
@@ -446,7 +435,8 @@ include.index.spatial = false
                 <para>The following example shows a configuration example:</para>
                 <example>
                     <title>Configuration Document</title>
-                    <programlisting><markup><![CDATA[
+                    <programlisting>
+                        <markup><![CDATA[
 <collection xmlns="http://exist-db.org/collection-config/1.0">
     <index>
         <!-- Old full text index configuration. Deprecated. -->
@@ -476,7 +466,8 @@ include.index.spatial = false
         <ngram qname="title"/>
     </index>
 </collection>
-]]></markup></programlisting>
+]]></markup>
+                    </programlisting>
                 </example>
                 <para>All configuration documents have the <sgmltag>collection</sgmltag> root
                     element (in the <literal>http://exist-db.org/collection-config/1.0
@@ -498,7 +489,7 @@ include.index.spatial = false
                     <example>
                         <title>Using Namespaces</title>
                         <programlisting>
-<markup><![CDATA[
+                            <markup><![CDATA[
 <collection xmlns="http://exist-db.org/collection-config/1.0">
     <index xmlns:atom="http://www.w3.org/2005/Atom">
         <fulltext default="none" attributes="no">
@@ -523,7 +514,7 @@ include.index.spatial = false
                     <example>
                         <title>Range Index Configuration</title>
                         <programlisting>
-<markup><![CDATA[<!-- Range indexes -->
+                            <markup><![CDATA[<!-- Range indexes -->
 <create qname="title" type="xs:string"/>
 <create qname="author" type="xs:string"/>
 <create qname="year" type="xs:integer"/>
@@ -537,10 +528,7 @@ include.index.spatial = false
                         or a <option>qname</option> attribute.</para>
                     <para>As range indexes are type specific, the <option>type</option> attribute is
                         always required. The type should be one of the atomic XML schema types,
-                        currently including <command>xs:string</command>, <command
-                            >xs:integer</command> and its derived types, <command
-                            >xs:double</command>, <command>xs:float</command>, <command
-                            >xs:boolean</command> and <command>xs:dateTime</command>. Further types
+                        currently including <command>xs:string</command>, <command>xs:integer</command> and its derived types, <command>xs:double</command>, <command>xs:float</command>, <command>xs:boolean</command> and <command>xs:dateTime</command>. Further types
                         may be added in the future. If the name of the type is unknown, the index
                         configuration will be ignored and you will get a warning written into the
                         logs.</para>
@@ -577,7 +565,8 @@ include.index.spatial = false
                         syntax uses the following components to construct paths:</para>
                     <itemizedlist>
                         <listitem>
-                            <para>Elements are specified by their <emphasis>qname</emphasis></para>
+                            <para>Elements are specified by their <emphasis>qname</emphasis>
+                            </para>
                         </listitem>
                         <listitem>
                             <para>Attributes are specified by <option>@attributeName</option>, so if
@@ -663,7 +652,7 @@ include.index.spatial = false
                 files. For expressions that can benefit from a range index, you should now see
                 messages like "Checking if range index can be used ..." or "Using range index for
                 key...".</para>
-            <synopsis>//city[population > 100000]</synopsis>
+            <synopsis>//city[population &gt; 100000]</synopsis>
             <para>Without further query optimizations, I receive the following trace output:</para>
             <example>
                 <title>TRACE Output</title>
@@ -688,8 +677,7 @@ include.index.spatial = false
 04 Jan 2008 14:26:24,866 [main] TRACE (Optimize.java [eval]:117) - Found: 49
 ]]></screen>
             </example>
-            <para>Another possibility to see what's in your index is to use the <function
-                    >util:index-keys</function> function (for range indexes):</para>
+            <para>Another possibility to see what's in your index is to use the <function>util:index-keys</function> function (for range indexes):</para>
             <example>
                 <title>Query to List Index Contents</title>
                 <programlisting language="xquery"><![CDATA[declare function local:term-callback($term as xs:string, $data as xs:integer+) as element() {
@@ -726,8 +714,7 @@ util:index-keys(//name, "A", util:function(xs:QName("local:term-callback"), 2), 
    </entry>
 };
 
-text:index-terms(//name, "A", util:function(xs:QName("local:term-callback"), 2), 1000)]]>
-                </programlisting>
+text:index-terms(//name, "A", util:function(xs:QName("local:term-callback"), 2), 1000)]]></programlisting>
             </example>
         </section>
     </chapter>

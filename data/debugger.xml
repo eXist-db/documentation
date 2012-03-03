@@ -14,7 +14,6 @@
             </affiliation-->
         </author>
     </bookinfo>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
     <chapter>
         <title>Debugger</title>
         <para>Starting with eXist-db release 1.4 the database provides an facility to debug xquery code on the server.
@@ -31,7 +30,8 @@
                         <para>Download the required jar files.</para>
                     </step>
                     <step>
-                        <para>Recompile eXist-db: <synopsis format="linespecific">build.sh</synopsis></para>
+                        <para>Recompile eXist-db: <synopsis format="linespecific">build.sh</synopsis>
+                        </para>
                     </step>
                 </procedure>
             </para>
@@ -100,15 +100,12 @@
                     </variablelist>
                 </para>
             </section>
-
             <section>
                 <title>VIM</title>
-                <para> To debug with vim you have to install the <ulink
-                        url="http://www.vim.org/scripts/script.php?script_id=1152">remote debugger interface</ulink> for
+                <para> To debug with vim you have to install the <ulink url="http://www.vim.org/scripts/script.php?script_id=1152">remote debugger interface</ulink> for
                     the <ulink url="http://xdebug.org/docs-dbgp.php">DBGp</ulink> protocol. In the editor you can press
                     &lt;F5&gt; and browse xquery file in debug mode within 5 seconds</para>
             </section>
         </section>
-
     </chapter>
 </book>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?oxygen RNGSchema="http://www.oasis-open.org/docbook/xml/5.0/rng/docbook.rng" type="xml"?>
-<!-- $Id$ -->
+<?oxygen RNGSchema="http://www.oasis-open.org/docbook/xml/5.0/rng/docbook.rng" type="xml"?><!-- $Id$ -->
 <book>
     <bookinfo>
         <graphic fileref="logo.jpg"/>
@@ -17,7 +16,6 @@
             </affiliation>
         </author>
     </bookinfo>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
     <chapter>
         <title>Scheduler Module</title>
         <section>
@@ -37,8 +35,7 @@
                 <section>
                     <title>System Startup</title>
                     <para>The jobs that are initiated at system startup are invoked by the settings
-                        within the &lt;scheduler> tag in the <emphasis role="bold"
-                            >conf.xml</emphasis> file. There is a full set of instructions with
+                        within the &lt;scheduler&gt; tag in the <emphasis role="bold">conf.xml</emphasis> file. There is a full set of instructions with
                         example jobs (that are commented out) in the file.</para>
                 </section>
                 <section>
@@ -98,20 +95,16 @@
             <section>
                 <title>XQuery Jobs</title>
                 <para> If the job is written in XQuery (not suitable for startup or system jobs)
-                    then this should be a path to an XQuery stored in the database. e.g. <emphasis
-                        role="bold">/db/myCollection/myJob.xql</emphasis>
+                    then this should be a path to an XQuery stored in the database. e.g. <emphasis role="bold">/db/myCollection/myJob.xql</emphasis>
                 </para>
                 <para>XQuery job's will be launched under the guest account initially, although the
-                    running XQuery may switch permissions through calls to <emphasis role="bold"
-                        >xmldb:login()</emphasis>. </para>
+                    running XQuery may switch permissions through calls to <emphasis role="bold">xmldb:login()</emphasis>. </para>
             </section>
             <section>
                 <title>Java Jobs</title>
                 <para>A Java job that is to be invoked from the XQuery function module has to be
-                    extended from the <emphasis role="bold"
-                        >org.exist.scheduler.UserJavaJob</emphasis> class. A startup or system Java
-                    job that is invoked from the conf.xml file implements <emphasis role="bold"
-                        >org.exist.storage.SystemTask</emphasis>.</para>
+                    extended from the <emphasis role="bold">org.exist.scheduler.UserJavaJob</emphasis> class. A startup or system Java
+                    job that is invoked from the conf.xml file implements <emphasis role="bold">org.exist.storage.SystemTask</emphasis>.</para>
                 <example>
                     <title>Sample Java Source File</title>
                     <programlisting format="linespecific" language="java"><![CDATA[
@@ -149,16 +142,12 @@ public class TestJob extends UserJavaJob {
                 <title>Introduction</title>
                 <para>A scheduled job can be run on a periodic basis. When the job is scheduled, it
                     can be specified to run every <emphasis role="italic">n</emphasis> milliseconds.
-                    There is the additional option to start after <emphasis role="italic"
-                        >x</emphasis> milliseconds and to only be repeated <emphasis role="italic"
-                        >y</emphasis> times after the initial execution.</para>
+                    There is the additional option to start after <emphasis role="italic">x</emphasis> milliseconds and to only be repeated <emphasis role="italic">y</emphasis> times after the initial execution.</para>
             </section>
         </section>
         <section>
             <title>Cron</title>
-            <note>This section was copied from <a
-                    href="http://www.opensymphony.com/quartz/wikidocs/CronTriggers%20Tutorial.html"
-                    >OpenSymphony CronTriggers Tutorial</a>.</note>
+            <note>This section was copied from <a href="http://www.opensymphony.com/quartz/wikidocs/CronTriggers%20Tutorial.html">OpenSymphony CronTriggers Tutorial</a>.</note>
             <section>
                 <title>Introduction</title>
                 <para>cron is a UNIX tool that has been around for a long time, so its scheduling

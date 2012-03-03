@@ -10,11 +10,12 @@
             <firstname>Wolfgang M.</firstname>
             <surname>Meier</surname>
             <affiliation>
-                <address format="linespecific"><email>wolfgang at exist-db.org</email></address>
+                <address format="linespecific">
+                    <email>wolfgang at exist-db.org</email>
+                </address>
             </affiliation>
         </author>
     </bookinfo>
-	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
     <chapter>
         <title>XQuery Update Extensions</title>
         <para>Previous versions of eXist already offered some functions to
@@ -36,10 +37,8 @@
                 i.e. you can't use it to modify the results returned by a query. For example, the following
                 query has no visible effect because it operates on an in-memory fragment:
             </para>
-            
             <synopsis language="xquery"><![CDATA[let $doc := <root><a/></root>
 return (update insert <b/> into $doc/a, $doc)]]></synopsis>
-            
             <para>The query just ignores the update and returns the constructed root element (it would 
                 probably be less confusing if the query would just throw an exception. We may have to change 
                 that ...)</para>
@@ -63,7 +62,6 @@ for $address in //address
 return
     update delete //address]]></programlisting>
         </example>
-        
         <para>However, an expression like the following is safe as it only modifies the 
             current iteration variable:</para>
         <example>
@@ -81,7 +79,6 @@ return
             {$address/city, $address/email}
         </address>]]></programlisting>
         </example>
-        
         <section>
             <title>Insert</title>
             <synopsis>update insert expr ( into | following | preceding )
@@ -104,17 +101,20 @@ return
                     <term>following</term>
                     <listitem>
                         <para>The content is inserted immediately after the node specified
-                            in exprSingle.</para></listitem>
+                            in exprSingle.</para>
+                    </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term>preceding</term>
-                    <listitem><para>The content is inserted before the node specified
-                        in exprSingle.</para></listitem>
+                    <listitem>
+                        <para>The content is inserted before the node specified
+                        in exprSingle.</para>
+                    </listitem>
                 </varlistentry>
             </variablelist>
             <example>
                 <title>Insert Example</title>
-<programlisting language="xquery"><![CDATA[
+                <programlisting language="xquery"><![CDATA[
 update insert <email type="office">andrew@gmail.com</email> into //address[fname="Andrew"]
 ]]></programlisting>
             </example>
@@ -131,7 +131,6 @@ update insert <email type="office">andrew@gmail.com</email> into //address[fname
             <example>
                 <title>Replace Example</title>
                 <programlisting language="xquery"><![CDATA[update replace //fname[. = "Andrew"] with <fname>Andy</fname>]]></programlisting>
-                
             </example>
         </section>
         <section>
@@ -156,7 +155,7 @@ update insert <email type="office">andrew@gmail.com</email> into //address[fname
             <synopsis>update rename expr as exprSingle</synopsis>
             <para>Renames the nodes in expr using the string value of the first
                 item in exprSingle as the new name of the node. expr should
-                evaluate to a set of elements or attributes.</para> 
+                evaluate to a set of elements or attributes.</para>
         </section>
     </chapter>
 </book>

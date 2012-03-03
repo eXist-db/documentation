@@ -10,10 +10,12 @@
             <firstname>Wolfgang M.</firstname>
             <surname>Meier</surname>
             <affiliation>
-                <address format="linespecific"><email>wolfgang at exist-db.org</email></address>
-            </affiliation></author>
+                <address format="linespecific">
+                    <email>wolfgang at exist-db.org</email>
+                </address>
+            </affiliation>
+        </author>
     </bookinfo>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
     <chapter>
         <title>Database Backup and Restore</title>
         <abstract>
@@ -105,12 +107,11 @@
             <procedure>
                 <step>
                     <para>Select either the Backup Icon (arrow pointed upward) in the toolbar OR
-                        <guimenuitem>Tools &#187; Backup</guimenuitem> from the menu.</para>
+                        <guimenuitem>Tools » Backup</guimenuitem> from the menu.</para>
                 </step>
                 <step>
                     <para>From the <guimenuitem>Collection</guimenuitem> drop-down menu, select the
-                        collection to backup. To backup the entire database, select <filename
-                            >/db</filename>. Otherwise, select the topmost collection that should be
+                        collection to backup. To backup the entire database, select <filename>/db</filename>. Otherwise, select the topmost collection that should be
                         stored. Note, however, that user data and permissions will only be exported
                         if you backup the entire database.</para>
                     <screenshot>
@@ -144,7 +145,8 @@
                         -p <emphasis>[admin_password]</emphasis> 
                         -b <emphasis>[collection_path]</emphasis> 
                         -d <emphasis>[target_path]</emphasis>
-                        -ouri=<emphasis>[xml_uri]</emphasis></synopsis>
+                        -ouri=<emphasis>[xml_uri]</emphasis>
+                    </synopsis>
                     <para>To view the all of the available options for this command, use the
                         <parameter>-h</parameter> parameter.</para>
                 </listitem>
@@ -154,15 +156,14 @@
                 <emphasis>target directory</emphasis> on your system. You can also specify the
                 current admin username using the <parameter>-u</parameter> parameter, and the admin
                 password using the <parameter>-p</parameter> parameter. For example, to backup the
-                entire database on a Unix system to the target directory <filename
-                    >/var/backup/hd060501</filename>, you would enter the following:</para>
+                entire database on a Unix system to the target directory <filename>/var/backup/hd060501</filename>, you would enter the following:</para>
             <synopsis>bin/backup.sh -u admin -p admin-pass -b /db -d /var/backup/hd060501</synopsis>
-            <para>By default, the utility connects to the database at the URI: <filename
-                    >xmldb:exist://localhost:8080/exist/xmlrpc</filename>. If you want to backup a
+            <para>By default, the utility connects to the database at the URI: <filename>xmldb:exist://localhost:8080/exist/xmlrpc</filename>. If you want to backup a
                 database at a different location, specify its <command>XML:DB URI</command>
                 (excluding any collection path) using the <parameter>-ouri</parameter> parameter.
                 For example, the following backup on a Unix Tomcat system running on port 80 specifies the database URI
-                <filename>xmldb:exist://192.168.1.2:80/xmlrpc</filename></para>
+                <filename>xmldb:exist://192.168.1.2:80/xmlrpc</filename>
+            </para>
             <synopsis>bin/backup.sh -u admin -p admin-pass -b /db -d /var/backup/hd060501
                 -ouri=xmldb:exist://192.168.1.2:80/xmlrpc</synopsis>
             <note>
@@ -181,8 +182,7 @@
                 clients will be blocked and added to the internal queue. Once the backup is
                 complete, the database will switch back to normal service and all locks will be
                 released.</para>
-            <para>You can trigger the backup via the web interface <ulink url="admin/admin.xql"
-                    >admin client</ulink>:</para>
+            <para>You can trigger the backup via the web interface <ulink url="admin/admin.xql">admin client</ulink>:</para>
             <screenshot>
                 <graphic fileref="resources/backup4.png"/>
             </screenshot>
@@ -199,9 +199,7 @@
             <para>Beginning with version 1.2.5, eXist can also create <emphasis>incremental
                     backups</emphasis>. Only resources which were modified since the last backup are
                 archived.</para>
-            <para>All backups will be stored in ZIP format into a directory <filename
-                    >export/</filename> below the main data directory, which means <filename
-                    >webapp/WEB-INF/data/export/</filename> by default (unless you configured a
+            <para>All backups will be stored in ZIP format into a directory <filename>export/</filename> below the main data directory, which means <filename>webapp/WEB-INF/data/export/</filename> by default (unless you configured a
                 different data directory in <filename>conf.xml</filename>).</para>
         </section>
         <section>
@@ -225,8 +223,8 @@
                 </listitem>
                 <listitem>
                     <para>Documents which are intact but belong to a destroyed collection will be
-                        stored into a special collection <filename
-                            >/db/lost_and_found</filename></para>
+                        stored into a special collection <filename>/db/lost_and_found</filename>
+                    </para>
                 </listitem>
                 <listitem>
                     <para>Damaged documents are detected and are removed from the backup</para>
@@ -236,8 +234,7 @@
                 <title>Scheduling Backups and Consistency Checks</title>
                 <para>The core class for the server-side backup as well as consistency checks is
                     called <classname>ConsistencyCheckTask</classname>. It can be registered as a
-                    system task with eXist's <ulink url="configuration.xml#N104CF"
-                        >scheduler</ulink>. To do this, add the following definition to the scheduler
+                    system task with eXist's <ulink url="configuration.xml#N104CF">scheduler</ulink>. To do this, add the following definition to the scheduler
                     section in <filename>conf.xml</filename>:</para>
                 <example>
                     <title>Job Definition in conf.xml</title>
@@ -254,9 +251,7 @@
                     starting at midnight. The time/frequency of the backup is specified in the
                     <option>cron-trigger</option> attribute. The syntax is borrowed from the
                     Unix cron utility, though there are small differences. Please consult the Quartz
-                    documentation about <ulink
-                        url="http://www.opensymphony.com/quartz/wikidocs/TutorialLesson6.html"
-                        >CronTrigger</ulink> configuration.</para>
+                    documentation about <ulink url="http://www.opensymphony.com/quartz/wikidocs/TutorialLesson6.html">CronTrigger</ulink> configuration.</para>
                 <para>The task accepts the following parameters:</para>
                 <variablelist>
                     <varlistentry>
@@ -311,8 +306,7 @@
             </section>
             <section>
                 <title>Triggering Backups from XQuery</title>
-                <para>System jobs can also be triggered from an XQuery using the <command
-                        >system:trigger-system-task</command> function defined in the "system"
+                <para>System jobs can also be triggered from an XQuery using the <command>system:trigger-system-task</command> function defined in the "system"
                     module: </para>
                 <example>
                     <title>Triggering a Backup From XQuery</title>
@@ -376,8 +370,7 @@
             Description: 32]]></screen>
                 </example>
                 <para>You can also subscribe to the notifications made available by the SanityReport
-                    MBean to be informed of sanity check results. Please consult the <ulink
-                        url="jmx.xml">documentation</ulink> on how to configure JMX.</para>
+                    MBean to be informed of sanity check results. Please consult the <ulink url="jmx.xml">documentation</ulink> on how to configure JMX.</para>
             </section>
         </section>
         <section id="restore">
@@ -398,8 +391,7 @@
                         <para>Stop the running eXist database instance</para>
                     </step>
                     <step>
-                        <para>Change into directory <filename
-                                >EXIST_HOME/webapp/WEB-INF/data</filename> or another directory you
+                        <para>Change into directory <filename>EXIST_HOME/webapp/WEB-INF/data</filename> or another directory you
                             specified as data directory in the configuration (conf.xml). </para>
                     </step>
                     <step>
@@ -429,14 +421,13 @@
                 <procedure>
                     <step>
                         <para>Select either the Restore Icon (arrow pointed downward) in the toolbar
-                            OR <guimenuitem>Tools &#187; Restore</guimenuitem> from the menu.</para>
+                            OR <guimenuitem>Tools » Restore</guimenuitem> from the menu.</para>
                     </step>
                     <step>
                         <para>The dialog box shown below will then prompt you to select the backup
                             descriptor <filename>__contents__.xml</filename> from the topmost
                             directory you want restored. To restore the entire database, select the
-                            <filename>__contents__.xml</filename> from the <filename
-                                >db/</filename> directory.</para>
+                            <filename>__contents__.xml</filename> from the <filename>db/</filename> directory.</para>
                         <screenshot>
                             <graphic fileref="resources/backup2.png"/>
                         </screenshot>
@@ -482,7 +473,8 @@
                 <para>The above instructions assume that you have a standard eXist installation directory in place, either from a release package or a full build environment. That is not
                     always the case on remotely deployed server instances that might be running using only an eXist WAR file in an application server (eg. Tomcat).</para>
                 <para>To support such deployment scenarios, and make it easier to do restores local to the deployed server, there is an ant build target called:
-                    <synopsis>backrest</synopsis></para>
+                    <synopsis>backrest</synopsis>
+                </para>
                 <para>Building the backrest target will create a fully-self contained zip file in the backrest directory that can be copied to a remote server and used to do both restores and backups local to that server.
                 </para>
                 <para>Just unzip the backrest zip file, preserviding subdirectories, and execute either the backup.bat or backup.sh scripts per the prior instructions and parameter usage.

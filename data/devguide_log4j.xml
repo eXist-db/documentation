@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?oxygen RNGSchema="http://www.oasis-open.org/docbook/xml/5.0/rng/docbook.rng" type="xml"?>
-<!-- $Id$ -->
+<?oxygen RNGSchema="http://www.oasis-open.org/docbook/xml/5.0/rng/docbook.rng" type="xml"?><!-- $Id$ -->
 <book>
     <bookinfo subject="">
         <graphic fileref="logo.jpg"/>
@@ -15,9 +14,9 @@
                 <address format="linespecific">
                     <email>loren at syntactica.com</email>
                 </address>
-            </affiliation></author>
+            </affiliation>
+        </author>
     </bookinfo>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
     <chapter>
         <title>Log4J Logging Guide</title>
         <section>
@@ -329,8 +328,9 @@ public void fatal(Object message, Throwable t); ]]></programlisting>
         </section>
         <section>
             <title>Configuring log4j</title>
-            <para>In 1.4 the <emphasis role="bold"><emphasis role="italic"
-                    >log4j.xml</emphasis></emphasis> configuration file control log4j’s behavior. </para>
+            <para>In 1.4 the <emphasis role="bold">
+                    <emphasis role="italic">log4j.xml</emphasis>
+                </emphasis> configuration file control log4j’s behavior. </para>
             <para>The full format of this configuration file is described here and a short
                 introduction of the basics is given here. Note this is the simpler, but less
                 powerful, form of log4j configuration file. An XML-based configuration file format
@@ -346,35 +346,43 @@ public void fatal(Object message, Throwable t); ]]></programlisting>
                 trace, debug, info, or warn log events in the log4j output. </para>
             <para>To turn on a given logging level for all loggers, find the log4j.root property and
                 change the priority value to the desired level. For instance, change </para>
-            <programlisting><markup><![CDATA[
+            <programlisting>
+                <markup><![CDATA[
     <root>
         <priority value="debug"/>
         <appender-ref ref="exist.core"/>
     </root>
-]]></markup></programlisting>
+]]></markup>
+            </programlisting>
             <para>to</para>
-            <programlisting><markup><![CDATA[
+            <programlisting>
+                <markup><![CDATA[
     <root>
         <priority value="info"/>
         <appender-ref ref="exist.core"/>
     </root>
-]]></markup></programlisting>
+]]></markup>
+            </programlisting>
             <para>Of course this will result in a cacophony of log output, so you’ll generally want
                 to adjust the logging level at a more specific level. To do this you can append a
                 line to the properties file of following form:</para>
-            <programlisting><markup><![CDATA[
+            <programlisting>
+                <markup><![CDATA[
     <category name="targetedLoggerName" additivity="false">
         <priority value="desiredLogLevel"/>
         <appender-ref ref="exist.xacml"/>
     </category>
- ]]></markup></programlisting>
+ ]]></markup>
+            </programlisting>
             <para>For instance, you would add</para>
-            <programlisting><markup><![CDATA[
+            <programlisting>
+                <markup><![CDATA[
     <category name="org.exist.security" additivity="false">
         <priority value="info"/>
         <appender-ref ref="exist.security"/>
     </category>
-]]></markup></programlisting>
+]]></markup>
+            </programlisting>
             <para>to set the “org.exist.security” logger’s level to “info”. Note that doing so also
                 causes all the default log level of all org.exist.security loggers to be set to
                 “INFO”. For example, the level of the org.exist.security.xacml logger would also be
@@ -561,7 +569,8 @@ public void fatal(Object message, Throwable t); ]]></programlisting>
                         <para>Allowing them to specify the formatting of these attribute (e.g. comma
                             delimited, with or without attribute names, etc)</para>
                     </listitem>
-                </itemizedlist></para>
+                </itemizedlist>
+            </para>
             <para>Examples of such cases include request access and periodic statistics logging. </para>
             <para>We have a re-usable utility for just this purpose,
                 xx.jmx.core.AttributeListWrapper. See its existing usages for examples of how to use

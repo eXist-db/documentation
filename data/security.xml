@@ -19,8 +19,11 @@
             <firstname>Wolfgang</firstname>
             <surname>Meier</surname>
             <affiliation>
-                <address format="linespecific"><email>wolfgang at exist-db.org</email></address>
-            </affiliation></author>
+                <address format="linespecific">
+                    <email>wolfgang at exist-db.org</email>
+                </address>
+            </affiliation>
+        </author>
         <author>
             <firstname>Loren</firstname>
             <surname>Cahlander</surname>
@@ -28,9 +31,9 @@
                 <address format="linespecific">
                     <email>loren at syntactica.com</email>
                 </address>
-            </affiliation></author>
+            </affiliation>
+        </author>
     </bookinfo>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
     <chapter>
         <title>User Authentication and Access Control</title>
         <section>
@@ -50,11 +53,12 @@
 <security-manager xmlns="http://exist-db.org/Configuration" last-account-id="11" last-group-id="10" version="2.0">
     <Authentication-Entry-Point>/authentication/login</Authentication-Entry-Point>
 </security-manager>
-]]>
-                </markup>
+]]></markup>
             </programlisting>
             <para>This file is generated during database startup.</para>
-            <para><important>The eXist-db Realm is always enabled implicitly.</important></para>
+            <para>
+                <important>The eXist-db Realm is always enabled implicitly.</important>
+            </para>
         </section>
         <section>
             <title>Realms</title>
@@ -63,14 +67,15 @@
                 <title>eXist-db Realm</title>
                 <para>The eXist-db realm is the default internal realm. By default this realm provides for the '<emphasis>SYSTEM</emphasis>', '<emphasis>admin</emphasis>' and '<emphasis>guest</emphasis>' users and '<emphasis>DBA</emphasis>' and '<emphasis>guest</emphasis>' groups. Any additional users or groups created in eXist-db will be added to this realm.</para>
                 <para>Every eXist-db realm user has an account with a username, password and metadata that is stored in the database. Each user may belong to zero or more groups.</para>
-                <para>User and group information for the eXist-db realm is maintained in the collection <filename
-                    >/db/system/security/exist</filename>.
+                <para>User and group information for the eXist-db realm is maintained in the collection <filename>/db/system/security/exist</filename>.
                     <important>The security collections in /db/system/security should not be manually manipulated or read, rather they should be accessed via the SecurityManager class or the SecurityManager Module. Directly manipulation can lead to inconsistent state and security issues.</important>
                 </para>
                 <para>The following is a simple example of a user account document for the eXist-db realm e.g. <filename>/db/system/security/exist/accounts/aretter.xml</filename>:</para>
                 <example>
-                    <title><filename>aretter.xml</filename> Account Document</title>
-                    <programlisting><markup><![CDATA[<account xmlns="http://exist-db.org/Configuration" id="11">
+                    <title>
+                        <filename>aretter.xml</filename> Account Document</title>
+                    <programlisting>
+                        <markup><![CDATA[<account xmlns="http://exist-db.org/Configuration" id="11">
     <password>{RIPEMD160}Vi7e971INiGmyWGT1bm63bHj1gf=</password>
     <group name="dba"/>
     <expired>false</expired>
@@ -78,7 +83,7 @@
     <metadata/>
     <name>aretter</name>
 </account>]]></markup>
-                </programlisting>
+                    </programlisting>
                 </example>
                 <para>As we see from this example, passwords are hashed using a
                     <emphasis>RIPEMD-160</emphasis> algorithm (e.g. <option>aretter</option> has the
@@ -106,21 +111,20 @@
             </section>
             <section>
                 <title>Legacy Internal Realm</title>
-                <para>Before eXist-db 2.0, the internal security realm was maintained in a different manner. The details are included here for the purpose of informing decisions on migration.</para>                
+                <para>Before eXist-db 2.0, the internal security realm was maintained in a different manner. The details are included here for the purpose of informing decisions on migration.</para>
                 <para>Every eXist database user has an account with a username, password and other
                     information that is stored in the database. Furthermore, every user belongs to one
                     or more groups - and respectively, every resource in the database is owned by a user
                     and by a group. By default, the owner is set to the user who created the resource,
                     and his primary group, but eXist allows for different permissions for the owner, the
-                    owner's group and others. However, only the owner of the resource (or <filename
-                        >dba</filename> users) can change these permissions.</para>
-                <para>User and group information is found in the designated XML file <filename
-                    >/db/system/users.xml</filename> located in collection <filename
-                        >/db/system</filename>. This file is generated during database startup. The
+                    owner's group and others. However, only the owner of the resource (or <filename>dba</filename> users) can change these permissions.</para>
+                <para>User and group information is found in the designated XML file <filename>/db/system/users.xml</filename> located in collection <filename>/db/system</filename>. This file is generated during database startup. The
                     following is a simple example of a <filename>users.xml</filename> document: </para>
                 <example>
-                    <title><filename>users.xml</filename> User Information</title>
-                    <programlisting><markup><![CDATA[<auth>
+                    <title>
+                        <filename>users.xml</filename> User Information</title>
+                    <programlisting>
+                        <markup><![CDATA[<auth>
     <groups last-id="3">
         <group name="dba" id="1"/>
         <group name="guest" id="2"/>
@@ -138,14 +142,13 @@
         </user>
     </users>
 </auth>]]></markup>
-                </programlisting>
+                    </programlisting>
                 </example>
                 <para>As we see from this example, passwords are encrypted using an
                     <emphasis>MD5</emphasis> algorithm (e.g. <option>user-1</option> has the
                     <emphasis>MD5</emphasis>-encrypted password "7f0261c14d7d1b8e51680a013daa623e").
                     Therefore, whenever a user enters his or her password, the database generates an MD5
-                    encryption and compares it to the encryption stored in <filename
-                        >users.xml</filename>. Since it is very difficult for users to guess the
+                    encryption and compares it to the encryption stored in <filename>users.xml</filename>. Since it is very difficult for users to guess the
                     original password from the MD5 string, passwords in eXist should be sufficiently
                     secure.</para>
                 <para>Note that the <filename>/db/system</filename> collection is (by default) only
@@ -163,7 +166,6 @@
                 </important>
             </section>
         </section>
-        
         <section>
             <title>Changing the Administrator Password</title>
             <informaltable>
@@ -172,26 +174,24 @@
                         <tr>
                             <td>
                                 <para>When the database is started for the first time, two default
-                                    users are created: &quot;admin&quot; and &quot;guest&quot;. (The
-                                    &quot;admin&quot; user is a member of the <option>dba</option>
+                                    users are created: "admin" and "guest". (The
+                                    "admin" user is a member of the <option>dba</option>
                                     group, and therefore has administrative privileges; the
-                                    &quot;guest&quot; user is a member of the group
-                                    &quot;guest&quot; and is not an administrator). At this inital
-                                    point, the &quot;admin&quot; password is set to
+                                    "guest" user is a member of the group
+                                    "guest" and is not an administrator). At this inital
+                                    point, the "admin" password is set to
                                         <option>null</option>, and so access to the database is
                                         <emphasis>initially</emphasis> granted to everyone. To set
                                     restrictions on database access, you must first set a password
-                                    for the &quot;admin&quot; user. To do this, use either the
-                                        <emphasis>Admin Client</emphasis> or the <ulink
-                                        url="admin/admin.xql">administrative web interface</ulink>.
+                                    for the "admin" user. To do this, use either the
+                                        <emphasis>Admin Client</emphasis> or the <ulink url="admin/admin.xql">administrative web interface</ulink>.
                                     If eXist is used for applications intended for online web
                                     publications, or as an embedded library, it is exposed it to
                                     potential exploitation. It is therefore strongly advised that
                                     you first change the admin password.</para>
                                 <para>The Admin Client graphical user interface has a dialog box for
                                     user management. To open this dialog box, enter
-                                        <keysym>Ctrl-U</keysym> or select <guimenuitem
-                                        >Tools</guimenuitem> &#187;<guimenuitem>Edit
+                                        <keysym>Ctrl-U</keysym> or select <guimenuitem>Tools</guimenuitem> »<guimenuitem>Edit
                                         users</guimenuitem>. This will pop-up the dialog box as
                                     shown to the right.</para>
                                 <orderedlist>
@@ -244,10 +244,10 @@ exist:/db>quit
                     <synopsis format="linespecific">bin/client.sh -u admin (Unix)</synopsis>
                 </step>
             </procedure>
-            <para>The other default user, &quot;guest&quot;, also has the password
-                &quot;guest&quot;. The guest identity is internally assigned to all clients which
+            <para>The other default user, "guest", also has the password
+                "guest". The guest identity is internally assigned to all clients which
                 have not authenticated themselves. For example, the Xincon WebDAV interface does not
-                support authentication, so &quot;guest&quot; is assumed for its users by default.
+                support authentication, so "guest" is assumed for its users by default.
                 Note that this aspect of WebDAV is a potential source of confusion, and you have to
                 be careful about setting read/write permissions for this API.</para>
         </section>
@@ -278,9 +278,7 @@ enter groups: users]]></screen>
             <section>
                 <title>Unix Model</title>
                 <para>The default that is based on the UNIX <emphasis role="bold">read</emphasis>,
-                        <emphasis role="bold">write</emphasis> and <emphasis role="bold"
-                        >execute</emphasis> flags for <emphasis role="bold">owner</emphasis>, <emphasis
-                            role="bold">group</emphasis> and <emphasis role="bold">world</emphasis>. In versions prior to eXist-db 2.0, there was no <emphasis role="bold">execute</emphasis> flag, rather an <emphasis role="bold">update</emphasis> flag was present.</para>
+                        <emphasis role="bold">write</emphasis> and <emphasis role="bold">execute</emphasis> flags for <emphasis role="bold">owner</emphasis>, <emphasis role="bold">group</emphasis> and <emphasis role="bold">world</emphasis>. In versions prior to eXist-db 2.0, there was no <emphasis role="bold">execute</emphasis> flag, rather an <emphasis role="bold">update</emphasis> flag was present.</para>
                 <screenshot>
                     <graphic fileref="resources/owner-group-world.png"/>
                 </screenshot>
@@ -336,9 +334,8 @@ enter groups: users]]></screen>
                     three characters (five through seven) set the permissions for groups, and the last
                     three for others (i.e. anyone else who can access the database). Given the previous
                     example, we can see that all files except <filename>r_and_j.xml</filename> are owned
-                    by user &quot;admin&quot; and group &quot;dba&quot;.</para>
-                <para>As mentioned in the previous section, the database root collection <filename
-                        >/db</filename> initially has permissions set to <option>drwxr-xr-x</option>,
+                    by user "admin" and group "dba".</para>
+                <para>As mentioned in the previous section, the database root collection <filename>/db</filename> initially has permissions set to <option>drwxr-xr-x</option>,
                     i.e. full access is granted to everyone. Also note that <option>-rw-r--r--</option>
                     is the default setting for all newly created resources, i.e. the owner has read/write permissions but not execure, and the group and others (world) has
                     read permissions.</para>
@@ -353,8 +350,7 @@ enter groups: users]]></screen>
                                                 Properties</emphasis> dialog box (shown on the right) in
                                             the Admin Client or the <command>chmod</command> command in
                                             the shell window. The <emphasis>Edit Properties</emphasis>
-                                            dialog box is opened by selecting <guimenuitem
-                                                >Files</guimenuitem> &#187;<guimenuitem>Resource
+                                            dialog box is opened by selecting <guimenuitem>Files</guimenuitem> »<guimenuitem>Resource
                                                 Properties</guimenuitem> from the menu, OR by clicking
                                             on the <guiicon>Properties Icon</guiicon> (image of
                                             checkboxes) in the toolbar. This dialog box shows permission
@@ -399,8 +395,7 @@ enter groups: users]]></screen>
                     <para>For example, to grant the write permission to the group and deny all to
                         others, you may use:</para>
                     <synopsis>chmod hamlet.xml group=+write,other=-read,-execute,-write</synopsis>
-                    <para>If you do not specify a resource in the first argument of the <command
-                            >chmod</command> command, the permission string will be applied to the
+                    <para>If you do not specify a resource in the first argument of the <command>chmod</command> command, the permission string will be applied to the
                         current collection. This is an important feature if you want to change
                         permissions for the <filename>/db</filename> root collection, which would
                         otherwise not be possible. For example, to deny write permissions to others for
@@ -539,7 +534,7 @@ enter groups: users]]></screen>
                             <entry namest="col1" nameend="col2">Operation</entry>
                             <entry>Parent of Source Collection</entry>
                             <entry>Source Collection</entry>
-                            <entry>Parent of Destination Collection</entry>    
+                            <entry>Parent of Destination Collection</entry>
                             <entry>Destination Collection (if exists)</entry>
                         </row>
                     </thead>

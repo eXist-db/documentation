@@ -10,10 +10,12 @@
             <firstname>Wolfgang M.</firstname>
             <surname>Meier</surname>
             <affiliation>
-                <address format="linespecific"><email>wolfgang at exist-db.org</email></address>
-            </affiliation></author>
+                <address format="linespecific">
+                    <email>wolfgang at exist-db.org</email>
+                </address>
+            </affiliation>
+        </author>
     </bookinfo>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
     <chapter>
         <title>Upgrade Guide</title>
         <section>
@@ -34,8 +36,7 @@
                 <step>
                     <para>If the new version is <emphasis>binary compatible</emphasis>, replace the
                         data directory of the new install with the one from the old one.</para>
-                    <para>Otherwise you need to do a full <ulink url="backup.xml#restore"
-                            >restore</ulink> of the data.</para>
+                    <para>Otherwise you need to do a full <ulink url="backup.xml#restore">restore</ulink> of the data.</para>
                 </step>
             </procedure>
         </section>
@@ -75,15 +76,15 @@
     <fulltext attributes="false" default="none">
         <exclude path="/auth"/>
     </fulltext>
-</index>]]></markup></programlisting>
+</index>]]></markup>
+                            </programlisting>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
                         <term>Document Validation</term>
                         <listitem>
                             <para>Validation of XML documents during storage is now <emphasis>turned
-                                    off by default</emphasis> in <filename
-                                >conf.xml</filename>:</para>
+                                    off by default</emphasis> in <filename>conf.xml</filename>:</para>
                             <synopsis language="xml"><![CDATA[<validation mode="no">]]></synopsis>
                             <para>The previous <option>auto</option> setting was apparently too
                                 confusing for new users who did not know what to do if eXist refused
@@ -97,8 +98,7 @@
                         <term>Cocoon</term>
                         <listitem>
                             <para>eXist does no longer require Cocoon for viewing documentation and
-                                samples. Cocoon has been largely replaced by eXist's own <ulink
-                                    url="urlrewrite.xml">URL rewriting and MVC
+                                samples. Cocoon has been largely replaced by eXist's own <ulink url="urlrewrite.xml">URL rewriting and MVC
                                 framework</ulink>.</para>
                             <para>Consequently, we now limit Cocoon to one directory of the web
                                 application (<filename>webapp/cocoon</filename>) and moved all the

@@ -10,23 +10,30 @@
             <firstname>Loren</firstname>
             <surname>Cahlander</surname>
             <affiliation>
-                <address format="linespecific"><email>loren.cahlander at gmail.com</email></address>
-            </affiliation></author>
+                <address format="linespecific">
+                    <email>loren.cahlander at gmail.com</email>
+                </address>
+            </affiliation>
+        </author>
         <author>
             <firstname>Dan</firstname>
             <surname>McCreary</surname>
             <affiliation>
-                <address format="linespecific"><email>dan.mccreary at gmail.com</email></address>
-            </affiliation></author>
+                <address format="linespecific">
+                    <email>dan.mccreary at gmail.com</email>
+                </address>
+            </affiliation>
+        </author>
         <author>
             <firstname>Leif-Jöran</firstname>
             <surname>Olsson</surname>
             <affiliation>
-                <address format="linespecific"><email>ljo at exist-db.org</email></address>
-            </affiliation></author>
-
+                <address format="linespecific">
+                    <email>ljo at exist-db.org</email>
+                </address>
+            </affiliation>
+        </author>
     </bookinfo>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
     <chapter>
         <title>Steps to Create LEXA, the eXist Stack</title>
         <para>This article is to create a best practice for creating a secure eXist server. This is
@@ -48,10 +55,9 @@
                 </listitem>
                 <listitem>
                     <para>A Secure sockets layer (SSL) for encrypting all web pages</para>
-                    
                 </listitem>
-                
-            </itemizedlist></para>
+            </itemizedlist>
+        </para>
         <para>This guide reviews all the steps necessary to install these functions on a standard
             GNU/Linux server. We specifically have used the Ubuntu 10.04 LTS release but we also
             plan to support RedHat and CentOS.</para>
@@ -64,22 +70,19 @@
                 <title>Logging</title>
                 <para>The default Apache2 access and error logging to non rotating log files is not
                     adequate for any operational environment. The solution is to place the following
-                    at the beginning of <emphasis role="italic"
-                        >/etc/apache2/sites-available/default</emphasis> and remove the <emphasis
-                        role="bold">ErrorLog</emphasis>, <emphasis role="bold">LogLevel</emphasis>,
+                    at the beginning of <emphasis role="italic">/etc/apache2/sites-available/default</emphasis> and remove the <emphasis role="bold">ErrorLog</emphasis>, <emphasis role="bold">LogLevel</emphasis>,
                     and <emphasis role="bold">CustomLog</emphasis> elements inside the VirtualHost
-                    entries for both <emphasis role="italic"
-                        >/etc/apache2/sites-available/default</emphasis> and <emphasis role="italic"
-                        >/etc/apache2/sites-available/default-ssl</emphasis>. This will create a
+                    entries for both <emphasis role="italic">/etc/apache2/sites-available/default</emphasis> and <emphasis role="italic">/etc/apache2/sites-available/default-ssl</emphasis>. This will create a
                     rotating access log file in the filename format
                         /var/log/apache2/access.<emphasis role="italic">yyyy.mm.dd</emphasis>.log
                     and adds extra fields into the log file that will be used by the awstats web
                     statisctics application. The rotating error log file in the filename style
-                        /var/log/apache2/error.<emphasis role="italic"
-                    >yyyy.mm.dd</emphasis>.log.</para>
-                <para><emphasis role="bold">Add the following code to beginning of
-                        /etc/apache2/sites-available/default before the &lt;VirtualHost *:80>
-                        element.</emphasis></para>
+                        /var/log/apache2/error.<emphasis role="italic">yyyy.mm.dd</emphasis>.log.</para>
+                <para>
+                    <emphasis role="bold">Add the following code to beginning of
+                        /etc/apache2/sites-available/default before the &lt;VirtualHost *:80&gt;
+                        element.</emphasis>
+                </para>
                 <programlisting language="xml"><![CDATA[ErrorLog "|/usr/sbin/rotatelogs -l /var/log/apache2/error.%Y.%m.%d.log 86400"
 
 # Possible values include: debug, info, notice, warn, error, crit,
@@ -89,44 +92,42 @@ LogLevel warn
 CustomLog "|/usr/sbin/rotatelogs -l /var/log/apache2/access.%Y.%m.%d.log 86400" "%v %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\""
 
 ]]></programlisting>
-                <para>Change the following in <emphasis role="italic"
-                        >/etc/apache2/sites-available/default</emphasis> from:</para>
+                <para>Change the following in <emphasis role="italic">/etc/apache2/sites-available/default</emphasis> from:</para>
                 <programlisting language="xml">    Alias /doc/ "/usr/share/doc/"
-    &lt;Directory "/usr/share/doc/">
+    &lt;Directory "/usr/share/doc/"&gt;
         Options Indexes MultiViews FollowSymLinks
         AllowOverride None
         Order deny,allow
         Deny from all
         Allow from 127.0.0.0/255.0.0.0 ::1/128
-    &lt;/Directory></programlisting>
+    &lt;/Directory&gt;</programlisting>
                 <para>to:</para>
                 <programlisting language="xml">    Alias /doc "/usr/share/doc/"
     Alias /doc/ "/usr/share/doc/"
-    &lt;Directory "/usr/share/doc/">
+    &lt;Directory "/usr/share/doc/"&gt;
         Options Indexes MultiViews FollowSymLinks
         AllowOverride None
         Order allow,deny
         Allow from all
-    &lt;/Directory></programlisting>
+    &lt;/Directory&gt;</programlisting>
                 <para>Restart Apache2 to enable the change to the log format:</para>
                 <synopsis>sudo /etc/init.d/apache2 stop</synopsis>
                 <synopsis>sudo rm /var/log/apache2/*.log</synopsis>
                 <synopsis>sudo /etc/init.d/apache2 start</synopsis>
-<para>
+                <para>
 You can now access the Apache manual by selecting the following link:
 </para>
-
-<programlisting><synopsis>http://vm.exist-db.org/doc/apache2-doc/manual/en/index.html</synopsis></programlisting>
+                <programlisting>
+                    <synopsis>http://vm.exist-db.org/doc/apache2-doc/manual/en/index.html</synopsis>
+                </programlisting>
                 <para>You should see a menu of all the Apache 2 documentation.</para>
             </section>
             <section>
                 <title>Conclusion</title>
-                <para>The Apache web server is now installed and activated. The <emphasis
-                        role="bold">It Works!</emphasis> page can be seen by opening <link
-                        linkend="">http://localhost/</link>.</para>
+                <para>The Apache web server is now installed and activated. The <emphasis role="bold">It Works!</emphasis> page can be seen by opening <link linkend="">http://localhost/</link>.</para>
                 <para>
                     <para>
-                    <inlinegraphic fileref="resources/stack/apache-confirm.png" scale="75"/>
+                        <inlinegraphic fileref="resources/stack/apache-confirm.png" scale="75"/>
                     </para>
                     Documents related to the services installed on the server can be viewed at
                         <link linkend="">http://localhost/doc/</link>. The cgi-bin scripts can be
@@ -141,8 +142,7 @@ You can now access the Apache manual by selecting the following link:
                 you have a certificate from a certificate authority, then the SSLCertificate entries
                 in the VirtualHost entry will have to be modified to use the certificate from the
                 certificate authority.</para>
-            <para>Install ssl-cert and create the SSL VirtualHost file <emphasis role="bold"
-                    >default-ssl</emphasis>.</para>
+            <para>Install ssl-cert and create the SSL VirtualHost file <emphasis role="bold">default-ssl</emphasis>.</para>
             <synopsis>sudo apt-get install ssl-cert</synopsis>
             <para>Create the directory to contain the certificates</para>
             <synopsis>sudo mkdir /etc/apache2/ssl</synopsis>
@@ -169,13 +169,16 @@ SSLCertificateChainFile /etc/apache2/ssl/gd_bundle.crt</synopsis>
             <synopsis>sudo /etc/init.d/apache2 restart</synopsis>
             <para>SSL is now enabled.  You should be able to test it by using "https" in the web
             browser.  For example the following will bring up the Apache documentation.  Note that the "s" following the "http".</para>
-            
-            <programlisting><synopsis>https://vm.exist-db.org/doc/apache2-doc/manual/en/index.html</synopsis></programlisting>
+            <programlisting>
+                <synopsis>https://vm.exist-db.org/doc/apache2-doc/manual/en/index.html</synopsis>
+            </programlisting>
             <note>
-            <para>If you did not get a SSL certificate from a commercial supplier you can use a self-signed certificate.
+                <para>If you did not get a SSL certificate from a commercial supplier you can use a self-signed certificate.
             If you do your users will see a panel such as the following the first time they access the web site:</para>
-            <para><inlinegraphic fileref="resources/stack/untrused-confirm.png"/></para>
-            <para>You must instruct them to click the "I Understand the Risks" option so that the SSL is listed
+                <para>
+                    <inlinegraphic fileref="resources/stack/untrused-confirm.png"/>
+                </para>
+                <para>You must instruct them to click the "I Understand the Risks" option so that the SSL is listed
             in their list of trused sites.  After this them must click the "Add Exception" button.</para>
             </note>
         </section>
@@ -196,7 +199,7 @@ SSLCertificateChainFile /etc/apache2/ssl/gd_bundle.crt</synopsis>
             <synopsis>ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/cosine.ldif
 ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/inetorgperson.ldif
 ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/nis.ldif</synopsis>
-            <para></para>
+            <para/>
             <synopsis>vi /home/exist/db.ldif</synopsis>
             <para>and insert the following listing:</para>
             <programlisting language="ldif"><![CDATA[###########################################################
@@ -257,15 +260,12 @@ dn: olcDatabase={0}config,cn=config
 changetype: modify
 delete: olcAccess
 ]]></programlisting>
-            
-            <note><para>Note that this file has LDAP administration password (identified by olcRootPW) in it with the
-                    default value of "1234". If you want to change this put in your own password. </para></note>
-            
+            <note>
+                <para>Note that this file has LDAP administration password (identified by olcRootPW) in it with the
+                    default value of "1234". If you want to change this put in your own password. </para>
+            </note>
             <synopsis>sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /home/exist/db.ldif</synopsis>
             <synopsis>sudo vi /home/exist/base.ldif</synopsis>
-            
-
-            
             <para>and insert the following:</para>
             <programlisting language="ldif"><![CDATA[dn: dc=exist-db,dc=org
 objectClass: dcObject
@@ -345,13 +345,12 @@ gidNumber: 600
 cn: backup-access
 
 ]]></programlisting>
-            
-            <note><para>Note that this file has database administration password in it with the default value of
+            <note>
+                <para>Note that this file has database administration password in it with the default value of
                     "admin123". If you want to change this put in your own password into the correct
-                    location.. </para></note>
-            
-            <para>You can now load this configuration file into the LDAP database with the <emphasis
-                    role="bold">ldapadd</emphasis> command.:</para>
+                    location.. </para>
+            </note>
+            <para>You can now load this configuration file into the LDAP database with the <emphasis role="bold">ldapadd</emphasis> command.:</para>
             <synopsis>sudo ldapadd -x -D cn=admin,dc=exist-db,dc=org -W -f /home/exist/base.ldif</synopsis>
             <para>When prompted for the password, use "1234" unless you changed the value in
                     <emphasis role="italic">db.ldif</emphasis>.</para>
@@ -374,8 +373,7 @@ cn: backup-access
             <synopsis>sudo a2enmod authnz_ldap</synopsis>
             <synopsis>sudo /etc/init.d/apache2 reload</synopsis>
             <para>The LDAP module is now enabled.</para>
-            <para>Configure ldap-account-manager. Open the <emphasis role="bold"
-                    >https://vm.exist-db.org/lam/</emphasis> website in this VM and then select
+            <para>Configure ldap-account-manager. Open the <emphasis role="bold">https://vm.exist-db.org/lam/</emphasis> website in this VM and then select
                     <emphasis role="italic">LAM configuration</emphasis>.</para>
             <screenshot>
                 <graphic fileref="resources/stack/lam-01.png"/>
@@ -392,8 +390,7 @@ cn: backup-access
             <para>In the <emphasis role="italic">General settings</emphasis> page, update the
                     <emphasis role="italic">Tree suffix</emphasis> and <emphasis role="italic">List
                     of valid users</emphasis> to the system configurations loaded into th LDAP
-                server by <emphasis role="italic">/home/exist/db.ldif</emphasis> and <emphasis
-                    role="italic">/home/exist/base.ldif</emphasis>.</para>
+                server by <emphasis role="italic">/home/exist/db.ldif</emphasis> and <emphasis role="italic">/home/exist/base.ldif</emphasis>.</para>
             <screenshot>
                 <graphic fileref="resources/stack/lam-04.png"/>
             </screenshot>
@@ -401,10 +398,8 @@ cn: backup-access
             <screenshot>
                 <graphic fileref="resources/stack/lam-05.png"/>
             </screenshot>
-            <para>Delete <emphasis role="italic">Samba domains</emphasis> and <emphasis
-                    role="italic">Hosts</emphasis>.  Update the Users and Groups to the system
-                configurations loaded into th LDAP server by <emphasis role="italic"
-                    >/home/exist/base.ldif</emphasis>.</para>
+            <para>Delete <emphasis role="italic">Samba domains</emphasis> and <emphasis role="italic">Hosts</emphasis>.  Update the Users and Groups to the system
+                configurations loaded into th LDAP server by <emphasis role="italic">/home/exist/base.ldif</emphasis>.</para>
             <screenshot>
                 <graphic fileref="resources/stack/lam-06.png"/>
             </screenshot>
@@ -412,8 +407,7 @@ cn: backup-access
             <screenshot>
                 <graphic fileref="resources/stack/lam-07.png"/>
             </screenshot>
-            <para>Remove the <emphasis role="italic">Shadow</emphasis> and <emphasis role="italic"
-                    >Samba 3</emphasis> entries from Selected modules.</para>
+            <para>Remove the <emphasis role="italic">Shadow</emphasis> and <emphasis role="italic">Samba 3</emphasis> entries from Selected modules.</para>
             <screenshot>
                 <graphic fileref="resources/stack/lam-08.png"/>
             </screenshot>
@@ -422,8 +416,7 @@ cn: backup-access
                 <graphic fileref="resources/stack/lam-09.png"/>
             </screenshot>
             <para>Check all of the <emphasis role="italic">Hidden options</emphasis> that you do not
-                wish to be shown in create/edit user page.  Then select <emphasis role="italic"
-                    >Save</emphasis>.</para>
+                wish to be shown in create/edit user page.  Then select <emphasis role="italic">Save</emphasis>.</para>
             <screenshot>
                 <graphic fileref="resources/stack/lam-10.png"/>
             </screenshot>
@@ -460,7 +453,7 @@ cn: backup-access
             <synopsis>sudo /etc/init.d/apache2 reload</synopsis>
             <para>The ldap-account-manager is now configured and access to it is also
                 secured.</para>
-        </section> 
+        </section>
         <section id="mailman">
             <title>Installing Mailman</title>
             <para>The mailman is a mailing list manager.  It will be used to to send out mailings to
@@ -500,7 +493,7 @@ vm-commit-unsubscribe:  "|/var/lib/mailman/mail/mailman unsubscribe vm-commit"
 ]]></programlisting>
             <synopsis>newaliases</synopsis>
             <synopsis>sudo /etc/init.d/mailman start</synopsis>
-        </section> 
+        </section>
         <section id="subversion">
             <title>Installing Subversion</title>
             <para>Install the packages</para>
@@ -613,7 +606,7 @@ smtp_hostname = localhost
 #
 # The client name can be extracted with a regular expression like:
 #
-#   for_paths = clients/(?P&lt;client>[^/]*)($|/)
+#   for_paths = clients/(?P&lt;client&gt;[^/]*)($|/)
 #
 # The substitution is performed using Python's dict-based string
 # interpolation syntax:
@@ -813,7 +806,7 @@ show_nonmatching_paths = yes
 # mapping to derive their email address from their repository username.
 #
 # [projects]
-# for_repos = .*/(?P&lt;project>.*)
+# for_repos = .*/(?P&lt;project&gt;.*)
 # from_addr = %(author)s
 # to_addr = %(project)s
 #
@@ -848,7 +841,7 @@ show_nonmatching_paths = yes
 #
 # [another-example]
 # # commits to personal repositories should go to that person
-# for_repos = /home/(?P&lt;who>[^/]*)/repos
+# for_repos = /home/(?P&lt;who&gt;[^/]*)/repos
 # to_addr = %(who)s@example.com
 #
 </programlisting>
@@ -857,8 +850,7 @@ show_nonmatching_paths = yes
             <synopsis>cp /var/local/svn/vm.exist-db.org/test-repos/hooks/post-commit.tmpl /var/local/svn/vm.exist-db.org/test-repos/hooks/post-commit</synopsis>
             <synopsis>vi /var/local/svn/vm.exist-db.org/test-repos/hooks/post-commit</synopsis>
             <synopsis>chmod ug+x /var/local/svn/vm.exist-db.org/test-repos/hooks/post-commit</synopsis>
-            <para>Change the following line in <emphasis role="italic"
-                    >/var/local/svn/vm.exist-db.org/test-repos/hooks/post-commit</emphasis>
+            <para>Change the following line in <emphasis role="italic">/var/local/svn/vm.exist-db.org/test-repos/hooks/post-commit</emphasis>
                 from:</para>
             <programlisting>"$REPOS"/hooks/mailer.py commit "$REPOS" $REV "$REPOS"/mailer.conf</programlisting>
             <para>to:</para>
@@ -915,16 +907,25 @@ show_nonmatching_paths = yes
                 what was changed in a particular revision.</para>
             <synopsis>sudo apt-get install websvn enscript</synopsis>
             <para>Configure WebSVN:</para>
-            <screenshot><graphic fileref="resources/stack/websvn-01.png"/></screenshot>
+            <screenshot>
+                <graphic fileref="resources/stack/websvn-01.png"/>
+            </screenshot>
             <para>Select Apache configuration apache2</para>
-            <screenshot><graphic fileref="resources/stack/websvn-02.png"/></screenshot>
-            <para>Select the parent svn directory <emphasis role="italic"
-                    >/var/local/svn/vm.exist-db.org</emphasis>.</para>
-            <screenshot><graphic fileref="resources/stack/websvn-03.png"/></screenshot>
+            <screenshot>
+                <graphic fileref="resources/stack/websvn-02.png"/>
+            </screenshot>
+            <para>Select the parent svn directory <emphasis role="italic">/var/local/svn/vm.exist-db.org</emphasis>.</para>
+            <screenshot>
+                <graphic fileref="resources/stack/websvn-03.png"/>
+            </screenshot>
             <para>Clear the repository entry.</para>
-            <screenshot><graphic fileref="resources/stack/websvn-04.png"/></screenshot>
+            <screenshot>
+                <graphic fileref="resources/stack/websvn-04.png"/>
+            </screenshot>
             <para>Select Ok</para>
-            <screenshot><graphic fileref="resources/stack/websvn-05.png"/></screenshot>
+            <screenshot>
+                <graphic fileref="resources/stack/websvn-05.png"/>
+            </screenshot>
             <para>Edit /etc/apache2/sites-available/default-ssl and add the following:</para>
             <programlisting language="xml"><![CDATA[
 Alias /websvn/ "/usr/share/websvn/"
@@ -950,7 +951,9 @@ Alias /websvn/ "/usr/share/websvn/"
             <para>Restart the Apache2 server:</para>
             <synopsis>sudo /etc/init.d/apache2 restart</synopsis>
             <para>Browse the subversion repository through /websvn/</para>
-            <screenshot><graphic fileref="resources/stack/websvn.png"/></screenshot>
+            <screenshot>
+                <graphic fileref="resources/stack/websvn.png"/>
+            </screenshot>
         </section>
         <section id="exist">
             <title>Installing eXist</title>
@@ -960,8 +963,10 @@ Alias /websvn/ "/usr/share/websvn/"
             <synopsis>sudo java -jar eXist-setup-[version]-revXXXXX.jar -p /usr/local/eXist</synopsis>
             <section>
                 <title>Connect to the LDAP repository</title>
-                <note><para>eXist currently does not work well with LDAP.  This is in process of being rectified.  Please
-                    stay tuned for further updates.</para></note>
+                <note>
+                    <para>eXist currently does not work well with LDAP.  This is in process of being rectified.  Please
+                    stay tuned for further updates.</para>
+                </note>
                 <para>In /usr/local/eXist/bin/functions.d/eXist-settings.sh, change:</para>
                 <programlisting>JAVA_OPTIONS="-Xms128m -Xmx512m -Dfile.encoding=UTF-8";</programlisting>
                 <para>To:</para>
@@ -971,7 +976,7 @@ Alias /websvn/ "/usr/share/websvn/"
                 <title>Edit the conf.xml file</title>
                 <para>To make use of the LDAP server for authentication, it requires a change to the
                     configuration file conf.xml.  Uncomment the following from conf.xml:</para>
-                <programlisting>&lt;security class="org.exist.security.ldap.SecurityManagerImpl" /></programlisting>
+                <programlisting>&lt;security class="org.exist.security.ldap.SecurityManagerImpl" /&gt;</programlisting>
                 <para>The default SecurityManager is:</para>
                 <synopsis>org.exist.security.internal.SecurityManagerImpl</synopsis>
             </section>
@@ -992,8 +997,8 @@ Alias /websvn/ "/usr/share/websvn/"
 		    RewriteRule         ^/(.*)$     /exist/$1   [PT]
 		  &lt;/VirtualHost&gt;
 		  </programlisting>
-		</para>
-            </section>            
+                </para>
+            </section>
         </section>
         <section id="awstats">
             <title>Installing awstats</title>
@@ -1074,8 +1079,6 @@ Alias /websvn/ "/usr/share/websvn/"
                     </tbody>
                 </tgroup>
             </table>
-            
         </section>
-        
     </chapter>
 </book>

@@ -8,7 +8,9 @@
             <firstname>James</firstname>
             <surname>Fuller</surname>
             <affiliation>
-                <address format="linespecific"><email>jim.fuller at webcomposite.com</email></address>
+                <address format="linespecific">
+                    <email>jim.fuller at webcomposite.com</email>
+                </address>
             </affiliation>
         </author>
         <author>
@@ -16,8 +18,6 @@
             <surname>Meier</surname>
         </author>
     </bookinfo>
-    
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
     <chapter>
         <section>
             <title>XForms Support in eXist</title>
@@ -39,8 +39,7 @@
                 betterFORM is a server-side W3C XForms 1.1 implementation written in Java that now is closely 
                 integrated within eXist. It covers 99% of the XForms recommendation and has been extensively 
                 tested against the official XForms 1.1 Test Suite. All modern browsers are supported without 
-                the need for plugins. betterFORM can also be obtained (<ulink
-                    url="https://github.com/betterFORM/betterFORM">via Github</ulink>) and run separately as a
+                the need for plugins. betterFORM can also be obtained (<ulink url="https://github.com/betterFORM/betterFORM">via Github</ulink>) and run separately as a
                 standard webapp. It is published under the BSD license.
             </para>
             <para>
@@ -57,7 +56,6 @@
                 <title>Getting started</title>
                 <para>betterFORM by now is activated once you have installed eXist on your machine.
                     By default betterFORM is configured to run XForms exclusively from the database.</para>
-
                 <para>To execute a XHTML/XForms document it is sufficient to store it into your database
                     (using WebDAV or the admin client) and access it via the REST interface.</para>
                 <para>betterFORM can also be configured to listen only for a certain collections or to fetch documents
@@ -65,7 +63,8 @@
                     webapp/WEB-INF/web.xml.</para>
                 <example>
                     <title>Configure filtermapping in web.xml</title>
-                    <programlisting><markup><![CDATA[
+                    <programlisting>
+                        <markup><![CDATA[
                         <filter-mapping>
                             <filter-name>XFormsFilter</filter-name>
                             <url-pattern>/rest/db/*</url-pattern>
@@ -78,33 +77,42 @@
                             <filter-name>XQueryURLRewrite</filter-name>
                             <url-pattern>/*</url-pattern>
                         </filter-mapping>                                                
-                    ]]></markup></programlisting>
-                </example>                         
+                    ]]></markup>
+                    </programlisting>
+                </example>
             </section>
             <section>
                 <title>betterFORM Add-ons</title>
                 <para>To ease the work with betterFORM it is highly recommended to install the betterFROM dashboard 
                     along with the FeatureExplorer and the demo application. Before the betterFORM add-ons can be 
                     used the examples (eXist-db-shipped files) must be installed via the 
-                    <ulink href="admin/admin.xql?panel=setup">Admin panel</ulink></para>
+                    <ulink href="admin/admin.xql?panel=setup">Admin panel</ulink>
+                </para>
                 <itemizedlist>
                     <listitem>
-                        <para><ulink href="dashboard.html"><emphasis role="bold">Dashboard</emphasis></ulink> 
+                        <para>
+                            <ulink href="dashboard.html">
+                                <emphasis role="bold">Dashboard</emphasis>
+                            </ulink> 
                             is a simple browser to your database. It allows to navigate the collections and shows all 
                             the containing files. It has a source code view and allows to upload a file into the 
                             database and to create collections.</para>
                     </listitem>
                     <listitem>
-                        <para><ulink href="rest/db/betterform/forms/reference/FeatureExplorer.xhtml">
-                            <emphasis role="bold">FeatureExplorer</emphasis></ulink> is the live documentation of 
+                        <para>
+                            <ulink href="rest/db/betterform/forms/reference/FeatureExplorer.xhtml">
+                                <emphasis role="bold">FeatureExplorer</emphasis>
+                            </ulink> is the live documentation of 
                             betterFORM. It is itself a XForms document that offers a navigation menu with links to
                             many sample XForms that show working examples along with the relevant links to the Spec. 
                             A live CSS reference helps with styling forms by showing all available CSS classes.
                             FeatureExplorer will be enhanced continuously as the feature-set grows.</para>
                     </listitem>
                     <listitem>
-                        <para><ulink href="rest/db/betterform/apps/timetracker/index.xql">
-                            <emphasis role="bold">Timetracker</emphasis></ulink> is a small but complete demo application. It
+                        <para>
+                            <ulink href="rest/db/betterform/apps/timetracker/index.xql">
+                                <emphasis role="bold">Timetracker</emphasis>
+                            </ulink> is a small but complete demo application. It
                             shows a basic <emphasis role="bold">XRX application</emphasis> and can give some 
                             hints for writing your own single-page applications with eXist and betterFORM.</para>
                     </listitem>
@@ -119,8 +127,7 @@
         <!-- XSLT FORMS SECTION -->
         <section>
             <title>Using XSLTForms inside of eXist</title>
-            <para>eXist now directly supports XForms via Alain Couthures' excellent <ulink
-                href="http://www.agencexml.com">XSLTForms</ulink> processor. XSLTForms implements the XForms 
+            <para>eXist now directly supports XForms via Alain Couthures' excellent <ulink href="http://www.agencexml.com">XSLTForms</ulink> processor. XSLTForms implements the XForms 
                 standard within the browser and is thus easy to integrate. XSLTForms transforms the XForms xml 
                 into an XHTML page with javascript that can process XForms.</para>
             <section>
@@ -135,18 +142,18 @@
                         <para>a javascript library</para>
                     </listitem>
                 </itemizedlist>
-                <para>The XSLT stylesheet can either be applied <emphasis role="bold"
-                    >server-side</emphasis> or within the <emphasis role="bold">client</emphasis>,
+                <para>The XSLT stylesheet can either be applied <emphasis role="bold">server-side</emphasis> or within the <emphasis role="bold">client</emphasis>,
                     i.e. the browser. To let the browser do the job, all you have to do is to prepend an
-                    XSL PI to your XForms document, pointing to the <filename
-                        >xsltforms/xsltforms.xsl</filename> stylesheet:</para>
+                    XSL PI to your XForms document, pointing to the <filename>xsltforms/xsltforms.xsl</filename> stylesheet:</para>
                 <example>
                     <title>Activate xforms by using XSL PI</title>
-                    <programlisting><markup><![CDATA[<?xml-stylesheet href="xsltforms/xsltforms.xsl" type="text/xsl"?>
+                    <programlisting>
+                        <markup><![CDATA[<?xml-stylesheet href="xsltforms/xsltforms.xsl" type="text/xsl"?>
     <html xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms">
         ...
     </html>
-    ]]></markup></programlisting>
+    ]]></markup>
+                    </programlisting>
                 </example>
                 <para>Please have a look at <ulink url="xforms/hello.xml">hello.xml</ulink> for a very basic
                     example using client-side transformation.</para>
@@ -155,7 +162,8 @@
                     <ulink url="urlrewrite.xml">XQueryURLRewrite</ulink> controller pipeline:</para>
                 <example>
                     <title>Applying the stylesheet server-side via controller.xql</title>
-                    <programlisting><markup><![CDATA[<dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+                    <programlisting>
+                        <markup><![CDATA[<dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <view>
             <forward servlet="XSLTServlet">
                 (: Apply xsltforms.xsl stylesheet :)
@@ -170,7 +178,8 @@
         	</forward>
         </view>
         <cache-control cache="yes"/>
-    </dispatch>]]></markup></programlisting>
+    </dispatch>]]></markup>
+                    </programlisting>
                 </example>
                 <para>It is important to set the <option>indent</option> serialization parameter to
                     "no", otherwise you'll get javascript errors when viewing the page. Also, if you
@@ -197,72 +206,89 @@
                 <itemizedlist>
                     <listitem>
                         <para>XSLT &amp; betterFORM XForms 
-                            <ulink url="xforms/examples.xml">Examples</ulink></para>
-                    </listitem>            
+                            <ulink url="xforms/examples.xml">Examples</ulink>
+                        </para>
+                    </listitem>
                 </itemizedlist>
             </section>
-            
             <section>
                 <title>Mailing Lists</title>
                 <itemizedlist>
                     <listitem>
                         <para>XSLTForms 
                             <ulink url="https://lists.sourceforge.net/lists/listinfo/xsltforms-support">
-                                mailing list</ulink></para>
+                                mailing list</ulink>
+                        </para>
                     </listitem>
                     <listitem>
                         <para>
                             <ulink url="https://lists.sourceforge.net/lists/listinfo/betterform-users">
-                                betterFORM Users</ulink></para>
+                                betterFORM Users</ulink>
+                        </para>
                     </listitem>
                     <listitem>
                         <para>
                             <ulink url="https://lists.sourceforge.net/lists/listinfo/betterform-developer">
-                                betterFORM Developers</ulink></para>
+                                betterFORM Developers</ulink>
+                        </para>
                     </listitem>
                 </itemizedlist>
             </section>
-            <section><title>XForms Specifications</title>
+            <section>
+                <title>XForms Specifications</title>
                 <itemizedlist>
                     <listitem>
                         <para>
                             <ulink url="http://www.w3.org/TR/xforms/">XForms v1.1 
-                                (W3C Recommendation)</ulink></para>
+                                (W3C Recommendation)</ulink>
+                        </para>
                     </listitem>
                 </itemizedlist>
             </section>
-            <section><title>Useful</title>
+            <section>
+                <title>Useful</title>
                 <itemizedlist>
                     <listitem>
-                        <para><ulink url="http://betterform.wordpress.com">betterFORM Blog</ulink></para>
+                        <para>
+                            <ulink url="http://betterform.wordpress.com">betterFORM Blog</ulink>
+                        </para>
                     </listitem>
                     <listitem>
-                        <para><ulink url="https://betterform.de/trac">betterFORM Issue Tracking</ulink></para>
+                        <para>
+                            <ulink url="https://betterform.de/trac">betterFORM Issue Tracking</ulink>
+                        </para>
                     </listitem>
                     <listitem>
-                        <para><ulink url="http://betterform.de">betterFORM homepage</ulink></para>
+                        <para>
+                            <ulink url="http://betterform.de">betterFORM homepage</ulink>
+                        </para>
                     </listitem>
                     <listitem>
-                        <para><ulink url="https://github.com/betterFORM/betterFORM">betterFORM@github</ulink> - source code available here</para>
+                        <para>
+                            <ulink url="https://github.com/betterFORM/betterFORM">betterFORM@github</ulink> - source code available here</para>
                     </listitem>
                     <listitem>
-                        <para><ulink url="http://betterform.de/reports/Firefox-3.0-Mac-OS-X-10.6-ConformanceReport1.1.html">betterFORM coverage</ulink>  of W3C XForms 1.1 Test Suite</para>
+                        <para>
+                            <ulink url="http://betterform.de/reports/Firefox-3.0-Mac-OS-X-10.6-ConformanceReport1.1.html">betterFORM coverage</ulink>  of W3C XForms 1.1 Test Suite</para>
                     </listitem>
                     <listitem>
-                        <para><ulink url="http://en.wikibooks.org/wiki/XForms">XForms Wikibook</ulink> is a useful place to learn XForms</para>
+                        <para>
+                            <ulink url="http://en.wikibooks.org/wiki/XForms">XForms Wikibook</ulink> is a useful place to learn XForms</para>
                     </listitem>
                     <listitem>
-                        <para><ulink url="http://en.wikibooks.org/wiki/XRX">XRX Wikibook</ulink> about XML application building</para>
+                        <para>
+                            <ulink url="http://en.wikibooks.org/wiki/XRX">XRX Wikibook</ulink> about XML application building</para>
                     </listitem>
                     <listitem>
-                        <para><ulink url="http://en.wikibooks.org/wiki/XSLTForms">XSLTForms Wikibook</ulink> is providing specific informations</para>
+                        <para>
+                            <ulink url="http://en.wikibooks.org/wiki/XSLTForms">XSLTForms Wikibook</ulink> is providing specific informations</para>
                     </listitem>
                     <listitem>
-                        <para><ulink url="http://www.agencexml.com/xforms-tests/testsuite/XForms1.1/Edition1/driverPages/html/">XSLTForms coverage</ulink> of W3C test suite</para>
+                        <para>
+                            <ulink url="http://www.agencexml.com/xforms-tests/testsuite/XForms1.1/Edition1/driverPages/html/">XSLTForms coverage</ulink> of W3C test suite</para>
                     </listitem>
                 </itemizedlist>
             </section>
         </section>
     </chapter>
-    
 </book>

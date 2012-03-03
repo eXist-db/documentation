@@ -10,7 +10,9 @@
             <firstname>Wolfgang M.</firstname>
             <surname>Meier</surname>
             <affiliation>
-                <address format="linespecific"><email>wolfgang at exist-db.org</email></address>
+                <address format="linespecific">
+                    <email>wolfgang at exist-db.org</email>
+                </address>
             </affiliation>
         </author>
         <author>
@@ -34,7 +36,6 @@
             </revision>
         </revhistory>
     </bookinfo>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="sidebar.xml"/>
     <chapter>
         <title>Application Server Configuration</title>
         <section>
@@ -49,8 +50,7 @@
                 the distribution (as specified by the system property <option>exist.home</option>)
                 will be loaded by default. On the other hand, if eXist is installed as a web
                 application (packaged in a <filename>.war</filename> file) in a servlet engine like
-                tomcat, <filename moreinfo="none"> conf.xml</filename> is read from the <filename
-                    moreinfo="none">WEB-INF</filename> directory of the web application.</para>
+                tomcat, <filename moreinfo="none"> conf.xml</filename> is read from the <filename moreinfo="none">WEB-INF</filename> directory of the web application.</para>
             <para>Why is the configuration file placed in two separate locations? The reason is that
                 eXist normally has no access to files outside the context in which it is running
                 when it is deployed as part of a web application. Therefore, when eXist is deployed
@@ -77,7 +77,9 @@
                 </thead>
                 <tbody>
                     <tr bgcolor="#F6F6F6" valign="top">
-                        <td><ulink url="debugger.xml">debugger</ulink></td>
+                        <td>
+                            <ulink url="debugger.xml">debugger</ulink>
+                        </td>
                         <td>
                             <para> This is an XQuery debugger.</para>
                         </td>
@@ -92,7 +94,9 @@
                         <td align="center" bgcolor="#FF0000">Off</td>
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
-                        <td><ulink url="config-fluent.xml">fluent</ulink></td>
+                        <td>
+                            <ulink url="config-fluent.xml">fluent</ulink>
+                        </td>
                         <td>
                             <para>This is an API for embedded access to eXist which is tightly integrated with java.</para>
                         </td>
@@ -122,7 +126,9 @@
                         <td align="center" bgcolor="#FF0000">Off</td>
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
-                        <td><ulink url="config-openid.xml">OpenID</ulink></td>
+                        <td>
+                            <ulink url="config-openid.xml">OpenID</ulink>
+                        </td>
                         <td>
                             <para> OpenID is an authentication mechanism where the identity of the
                                 user is maintained by trusted external providers.</para>
@@ -138,7 +144,9 @@
                         <td align="center" bgcolor="#FF0000">Off</td>
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
-                        <td><ulink url="config-versioning.xml">Versioning</ulink></td>
+                        <td>
+                            <ulink url="config-versioning.xml">Versioning</ulink>
+                        </td>
                         <td>
                             <para> Versioning extension</para>
                         </td>
@@ -153,7 +161,9 @@
                         <td align="center" bgcolor="#00FF00">On</td>
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
-                        <td><ulink url="config-xqdoc.xml">XQDoc</ulink></td>
+                        <td>
+                            <ulink url="config-xqdoc.xml">XQDoc</ulink>
+                        </td>
                         <td>
                             <para> xqDoc provides a simple vendor neutral solution for documenting
                                 XQuery library and main modules that is similar to JavaDoc.</para>
@@ -169,7 +179,9 @@
                         <td align="center" bgcolor="#00FF00">On</td>
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
-                        <td><ulink url="config-xslt.xml">XSLT</ulink></td>
+                        <td>
+                            <ulink url="config-xslt.xml">XSLT</ulink>
+                        </td>
                         <td>
                             <para>XSLT extension</para>
                         </td>
@@ -187,7 +199,9 @@
                         <td align="center" bgcolor="#00FF00">On</td>
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
-                        <td><ulink url="config-cache.xml">Cache</ulink></td>
+                        <td>
+                            <ulink url="config-cache.xml">Cache</ulink>
+                        </td>
                         <td>
                             <para> Cache module</para>
                         </td>
@@ -205,7 +219,9 @@
                         <td align="center" bgcolor="#FF0000">Off</td>
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
-                        <td><ulink url="config-compression.xml">Compression</ulink></td>
+                        <td>
+                            <ulink url="config-compression.xml">Compression</ulink>
+                        </td>
                         <td>
                             <para>Provides functions to manipulate archives, tar/zip/gzip</para>
                         </td>
@@ -223,7 +239,9 @@
                         <td align="center" bgcolor="#00FF00">On</td>
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
-                        <td><ulink url="config-context.xml">Context</ulink></td>
+                        <td>
+                            <ulink url="config-context.xml">Context</ulink>
+                        </td>
                         <td>
                             <para> Context module</para>
                         </td>
@@ -238,7 +256,9 @@
                         <td align="center" bgcolor="#FF0000">Off</td>
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
-                        <td><ulink url="config-counter.xml">Counter</ulink></td>
+                        <td>
+                            <ulink url="config-counter.xml">Counter</ulink>
+                        </td>
                         <td>
                             <para> Persistent counter module</para>
                         </td>
@@ -256,7 +276,9 @@
                         <td align="center" bgcolor="#00FF00">On</td>
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
-                        <td><ulink url="config-datetime.xml">Datetime</ulink></td>
+                        <td>
+                            <ulink url="config-datetime.xml">Datetime</ulink>
+                        </td>
                         <td>
                             <para> Date/DateTime/Time utility functions module</para>
                         </td>
@@ -274,7 +296,9 @@
                         <td align="center" bgcolor="#00FF00">On</td>
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
-                        <td><ulink url="config-example.xml">Example</ulink></td>
+                        <td>
+                            <ulink url="config-example.xml">Example</ulink>
+                        </td>
                         <td>
                             <para> This is an example Java based function module.  It is a template
                                 for creating other Java based function modules.</para>
@@ -293,7 +317,9 @@
                         <td align="center" bgcolor="#00FF00">On</td>
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
-                        <td><ulink url="config-file.xml">File</ulink></td>
+                        <td>
+                            <ulink url="config-file.xml">File</ulink>
+                        </td>
                         <td>
                             <para> Provides functions to manipulate files in the local file
                                 system.</para>
@@ -570,8 +596,10 @@
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>DatabaseAdminServlet</td>
-                        <td><para>This servlet can be used to ensure that eXist is running in the background. Just set the
-                                start-parameter to true and load-on-startup to 1 </para></td>
+                        <td>
+                            <para>This servlet can be used to ensure that eXist is running in the background. Just set the
+                                start-parameter to true and load-on-startup to 1 </para>
+                        </td>
                         <td>
                             <itemizedlist>
                                 <listitem>
@@ -602,7 +630,9 @@
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>XQueryServlet</td>
-                        <td><para>This generates HTML from an XQuery file</para></td>
+                        <td>
+                            <para>This generates HTML from an XQuery file</para>
+                        </td>
                         <td>
                             <itemizedlist>
                                 <listitem>
@@ -633,7 +663,9 @@
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>Axis/SOAP</td>
-                        <td><para>Axis provides eXist's web-services via SOAP</para></td>
+                        <td>
+                            <para>Axis provides eXist's web-services via SOAP</para>
+                        </td>
                         <td>
                             <itemizedlist>
                                 <listitem>
@@ -646,7 +678,9 @@
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
                         <td>Atom</td>
-                        <td><para>Atom Publishing Protocol</para></td>
+                        <td>
+                            <para>Atom Publishing Protocol</para>
+                        </td>
                         <td>
                             <itemizedlist>
                                 <listitem>
@@ -706,7 +740,9 @@
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>Scheduler</td>
-                        <td><para>This module executes scheduled system tasks.</para></td>
+                        <td>
+                            <para>This module executes scheduled system tasks.</para>
+                        </td>
                         <td>
                             <itemizedlist>
                                 <listitem>
@@ -734,8 +770,10 @@
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>XSLT Transformer</td>
-                        <td><para>Default settings for the XSLT Transformer. Allow's for a choice of
-                                implementation.</para></td>
+                        <td>
+                            <para>Default settings for the XSLT Transformer. Allow's for a choice of
+                                implementation.</para>
+                        </td>
                         <td>
                             <itemizedlist>
                                 <listitem>
@@ -782,7 +820,6 @@
                 </tbody>
             </informaltable>
         </section>
-
         <section id="conf.xml">
             <title>eXist Configuration: Editing conf.xml</title>
             <para>The configuration file <filename moreinfo="none">conf.xml</filename> can be
@@ -835,7 +872,7 @@
       <watchdog query-timeout="-1" output-size-limit="10000"/>
       <default-permissions collection="0775" resource="0775"/>
 </db-connection>]]></markup>
-</programlisting>
+                    </programlisting>
                 </example>
                 <section>
                     <title>&lt;db-connection&gt; Attributes</title>
@@ -856,8 +893,7 @@
                                     that this directory exists. If a relative path is specified, it
                                     will be based on the root directory as defined in the
                                         <option>exist.home</option> system property. If this data
-                                    directory does not have write permissions (see <ulink
-                                        url="security.xml"> User Authentication and Access
+                                    directory does not have write permissions (see <ulink url="security.xml"> User Authentication and Access
                                         Control</ulink>), eXist will internally switch to
                                         <emphasis>read-only mode</emphasis> such that any attempt to
                                     change the database will throw an exception.</para>
@@ -905,7 +941,7 @@
                                     data while indexing a document. If set to -1, eXist will use the
                                     entire free memory to buffer index entries and will flush the
                                     cache once the memory is full.</para>
-                                <para>If set to a value > 0, the buffer will be fixed to the given
+                                <para>If set to a value &gt; 0, the buffer will be fixed to the given
                                     size. The specified number corresponds to the number of nodes
                                     the buffer can hold, in thousands. Usually, a good default could
                                     be nodesBuffer="1000".</para>
@@ -919,7 +955,9 @@
                     </variablelist>
                 </section>
                 <section>
-                    <title><sgmltag>pool</sgmltag></title>
+                    <title>
+                        <sgmltag>pool</sgmltag>
+                    </title>
                     <para>These settings control the internal database connection pool.</para>
                     <variablelist>
                         <title>&lt;pool&gt; Attributes</title>
@@ -1080,8 +1118,7 @@
                                     setting can be overwritten in an XQuery by specifiying the
                                     option <option>exist:timeout</option>:</para>
                                 <synopsis language="xquery">declare option exist:timeout "time-in-ms";</synopsis>
-                                <para>Please check the documentation on <ulink
-                                        url="xquery.xml#xqopts">XQuery options</ulink>.</para>
+                                <para>Please check the documentation on <ulink url="xquery.xml#xqopts">XQuery options</ulink>.</para>
                             </listitem>
                         </varlistentry>
                         <varlistentry>
@@ -1129,7 +1166,9 @@
                                 <example>
                                     <title>&lt;security&gt; <emphasis>class</emphasis> Attribute
                                         (LDAP)</title>
-                                    <programlisting><markup>&lt;security class="org.exist.security.LDAPSecurityManager" /&gt;</markup></programlisting>
+                                    <programlisting>
+                                        <markup>&lt;security class="org.exist.security.LDAPSecurityManager" /&gt;</markup>
+                                    </programlisting>
                                 </example>
                                 <para>eXist is distributed with the following built-in security
                                     manager implementations:</para>
@@ -1148,8 +1187,7 @@
                                         <listitem>
                                             <para>Retrieves the user and groups from the LDAP
                                                 database. This requires addition configuration
-                                                parameters which are described in the <ulink
-                                                  url="ldap-security.xml">LDAP Security
+                                                parameters which are described in the <ulink url="ldap-security.xml">LDAP Security
                                                   Manager</ulink> documentation.</para>
                                         </listitem>
                                     </varlistentry>
@@ -1163,15 +1201,18 @@
                                     types:</para>
                                 <orderedlist>
                                     <listitem>
-                                        <para><option>plain</option> - Applies plain
+                                        <para>
+                                            <option>plain</option> - Applies plain
                                             encryption.</para>
                                     </listitem>
                                     <listitem>
-                                        <para><option>md5</option> (default) - Applies the MD5
+                                        <para>
+                                            <option>md5</option> (default) - Applies the MD5
                                             algorithm to encrypt passwords.</para>
                                     </listitem>
                                     <listitem>
-                                        <para><option>simple-md5</option> - Applies a simplified MD5
+                                        <para>
+                                            <option>simple-md5</option> - Applies a simplified MD5
                                             algorithm to encrypt passwords.</para>
                                     </listitem>
                                 </orderedlist>
@@ -1193,7 +1234,8 @@
                     example configuration is shown below:</para>
                 <example>
                     <title>Specifying Indexer-Options in conf.xml</title>
-                    <programlisting format="linespecific"><markup><![CDATA[<indexer caseSensitive="no"
+                    <programlisting format="linespecific">
+                        <markup><![CDATA[<indexer caseSensitive="no"
 	suppress-whitespace="both" index-depth="1"
 	tokenizer="org.exist.storage.analysis.SimpleTokenizer"
 	validation="no">
@@ -1225,7 +1267,7 @@
 	    <catalog file="samples/xcatalog.xml"/>
     </entity-resolver>
 </indexer>]]></markup>
-</programlisting>
+                    </programlisting>
                 </example>
                 <section>
                     <title>&lt;indexer&gt; Attributes</title>
@@ -1247,8 +1289,7 @@
                                     XQuery specs! The option should be regarded as a dirty
                                     workaround, which will be removed in the future. Please use the
                                     n-gram or full-text indexes for case-insensitive queries or - if
-                                    that is impossible - specify a <ulink
-                                        url="xquery.xml#collations">collation</ulink>.</para>
+                                    that is impossible - specify a <ulink url="xquery.xml#collations">collation</ulink>.</para>
                             </listitem>
                         </varlistentry>
                         <varlistentry>
@@ -1261,19 +1302,23 @@
                                     documents. Possible values for this attribute are:</para>
                                 <orderedlist>
                                     <listitem>
-                                        <para><option>leading</option> - Suppresses leading
+                                        <para>
+                                            <option>leading</option> - Suppresses leading
                                             whitespace.</para>
                                     </listitem>
                                     <listitem>
-                                        <para><option>trailing</option> - Suppresses trailing
+                                        <para>
+                                            <option>trailing</option> - Suppresses trailing
                                             whitespace.</para>
                                     </listitem>
                                     <listitem>
-                                        <para><option>both</option> - Suppresses leading and
+                                        <para>
+                                            <option>both</option> - Suppresses leading and
                                             trailing whitespace.</para>
                                     </listitem>
                                     <listitem>
-                                        <para><option>none</option> - Preserves all
+                                        <para>
+                                            <option>none</option> - Preserves all
                                             whitespace.</para>
                                     </listitem>
                                 </orderedlist>
@@ -1321,8 +1366,7 @@
                                 <para>Beginning with version 0.9, only top-level elements are added
                                     to the DOM index, whereas attributes and text nodes are always
                                     excluded. This results in much smaller index sizes and,
-                                    consequently, a smaller <filename moreinfo="none"
-                                        >dom.dbx</filename> file size. Usually, setting the
+                                    consequently, a smaller <filename moreinfo="none">dom.dbx</filename> file size. Usually, setting the
                                         <option>index-depth</option> to a value of
                                         "<option>2</option>" offers a reasonable compromise of index
                                     size and performance. However, if your documents are
@@ -1361,7 +1405,7 @@
                     <example>
                         <title>Configuring Index Modules</title>
                         <programlisting>
-                    <markup><![CDATA[<modules>
+                            <markup><![CDATA[<modules>
     <module id="ngram-index" class="org.exist.indexing.ngram.NGramIndex"
         file="ngram.dbx" n="3"/>
     <!--
@@ -1374,13 +1418,12 @@
          once the redesign has been completed. -->
 	<module id="ft-legacy-index" class="org.exist.fulltext.FTIndex"/>
 </modules>]]></markup>
-                </programlisting>
+                        </programlisting>
                     </example>
                     <para>The only common attributes for each <sgmltag>module</sgmltag> element are
                             <option>class</option> and <option>id</option>. The other attributes as
                         well as any nested elements are specific to the index implementation.
-                        Detailed information is available in the document on <ulink
-                            url="indexing.xml#moduleconf">Configuring Database
+                        Detailed information is available in the document on <ulink url="indexing.xml#moduleconf">Configuring Database
                         Indexes</ulink>.</para>
                 </section>
                 <section>
@@ -1405,7 +1448,9 @@
                 </section>
             </section>
             <section>
-                <title><sgmltag>scheduler</sgmltag></title>
+                <title>
+                    <sgmltag>scheduler</sgmltag>
+                </title>
                 <para>This section is used to configure asynchronous jobs with eXist's internal
                     scheduler. Three types of jobs are supported:</para>
                 <variablelist>
@@ -1438,11 +1483,11 @@
                         </listitem>
                     </varlistentry>
                 </variablelist>
-                <para>Below is an example which configures a <ulink url="backup.xml#backuptask"
-                        >BackupSystemTask</ulink>: </para>
+                <para>Below is an example which configures a <ulink url="backup.xml#backuptask">BackupSystemTask</ulink>: </para>
                 <example>
                     <title>Configuring a BackupSystemTask</title>
-                    <programlisting><markup><![CDATA[<scheduler>
+                    <programlisting>
+                        <markup><![CDATA[<scheduler>
     <job type="system" class="org.exist.storage.BackupSystemTask" cron-trigger="0 0 */6 * * ?">
         <parameter name="dir" value="backup"/>
         <parameter name="suffix" value=".zip"/>
@@ -1452,12 +1497,14 @@
         <parameter name="password" value=""/>
         <parameter name="zip-files-max" value="28"/>
     </job>
-</scheduler>]]></markup></programlisting>
+</scheduler>]]></markup>
+                    </programlisting>
                 </example>
                 <para>Each job is configured in a <sgmltag>job</sgmltag> element which accepts a
                     number of standard attributes:</para>
                 <section>
-                    <title><sgmltag>job</sgmltag> attributes</title>
+                    <title>
+                        <sgmltag>job</sgmltag> attributes</title>
                     <variablelist>
                         <varlistentry>
                             <term>type</term>
@@ -1577,15 +1624,18 @@
                                     source document. These are the accepted values:</para>
                                 <orderedlist>
                                     <listitem>
-                                        <para><option>all</option> - Adds debug information to every
+                                        <para>
+                                            <option>all</option> - Adds debug information to every
                                             node in the output.</para>
                                     </listitem>
                                     <listitem>
-                                        <para><option>element</option> - Adds debug information to
+                                        <para>
+                                            <option>element</option> - Adds debug information to
                                             top-level elements only.</para>
                                     </listitem>
                                     <listitem>
-                                        <para><option>none</option> (default) - Disables debugging
+                                        <para>
+                                            <option>none</option> (default) - Disables debugging
                                             feature.</para>
                                     </listitem>
                                 </orderedlist>
@@ -1614,19 +1664,22 @@
                 </section>
             </section>
             <section>
-                <title><sgmltag>transformer</sgmltag></title>
+                <title>
+                    <sgmltag>transformer</sgmltag>
+                </title>
                 <para>This section determines which XSLT processor will be used by eXist. By
                     default, eXist relies on Xalan, which is an XSLT 1.0 engine. Please refer to
                         <ulink url="http://atomic.exist-db.org/wiki/HowTo/XSLT2/">this howto</ulink>
                     to switch to an XSLT 2.0 processor like saxon.</para>
             </section>
             <section>
-                <title><sgmltag>validation</sgmltag></title>
+                <title>
+                    <sgmltag>validation</sgmltag>
+                </title>
                 <para>Defines the default validation settings that will be active when parsing XML
                     and links to catalog files. Catalog files are used to locate DTDs, schemas and
                     resolve external entities in general.</para>
-                <para>Please refer to the corresponding documentation on <ulink url="validation.xml"
-                        >XML Validation</ulink>.</para>
+                <para>Please refer to the corresponding documentation on <ulink url="validation.xml">XML Validation</ulink>.</para>
             </section>
             <section>
                 <title>&lt;xupdate&gt;</title>
@@ -1637,7 +1690,9 @@
                     called <option>allowed-fragmentation</option>:</para>
                 <example>
                     <title>XUpdate-Options in conf.xml</title>
-                    <programlisting format="linespecific"><markup><![CDATA[<xupdate allowed-fragmentation="20" enable-consistency-checks="no" />]]></markup></programlisting>
+                    <programlisting format="linespecific">
+                        <markup><![CDATA[<xupdate allowed-fragmentation="20" enable-consistency-checks="no" />]]></markup>
+                    </programlisting>
                 </example>
                 <section>
                     <title>&lt;xupdate&gt; Attributes</title>
@@ -1666,7 +1721,9 @@
                 </section>
             </section>
             <section>
-                <title><sgmltag>xquery</sgmltag></title>
+                <title>
+                    <sgmltag>xquery</sgmltag>
+                </title>
                 <example>
                     <title>XQuery Engine Configuration</title>
                     <programlisting>
@@ -1684,7 +1741,8 @@
                     features of the XQuery engine. It also lists the XQuery modules that will be
                     known to the query engine by default.</para>
                 <section>
-                    <title><sgmltag>xquery</sgmltag> attributes</title>
+                    <title>
+                        <sgmltag>xquery</sgmltag> attributes</title>
                     <variablelist>
                         <varlistentry>
                             <term>enable-java-binding=yes|no</term>
@@ -1759,8 +1817,7 @@
                             <listitem>
                                 <para>the query engine can often achieve considerable performance
                                     improvements by rewriting an XQuery expression into a more
-                                    efficient form (see the documentation about <ulink
-                                        url="indexing.xml#pathvsqname">indexing</ulink>). However,
+                                    efficient form (see the documentation about <ulink url="indexing.xml#pathvsqname">indexing</ulink>). However,
                                     these features are relatively new. If you have doubts about the
                                     correctness of a query result, you may temporarily set
                                         <option>enable-query-rewriting</option> to
@@ -1780,7 +1837,9 @@
                     </variablelist>
                 </section>
                 <section>
-                    <title><sgmltag>builtin-modules</sgmltag></title>
+                    <title>
+                        <sgmltag>builtin-modules</sgmltag>
+                    </title>
                     <para>This section lists the XQuery modules which will be known to the query
                         engine. The modules in this list can be imported into a query without
                         specifying a location. For example, the following entry:</para>
@@ -1795,8 +1854,7 @@ uri="http://exist-db.org/xquery/file" />]]></synopsis>
                         must point to the XQuery source code of the module, e.g.:</para>
                     <synopsis language="xml"><![CDATA[<module src="resource:org/exist/xquery/lib/json.xq" 
 uri="http://www.json.org"/>]]></synopsis>
-                    <para>For the src attribute, eXist understands the <ulink
-                            url="http://localhost:8080/exist/xquery.xml#N10195">same types of
+                    <para>For the src attribute, eXist understands the <ulink url="http://localhost:8080/exist/xquery.xml#N10195">same types of
                             URIs</ulink> as in an ordinary XQuery import statement.</para>
                 </section>
             </section>
