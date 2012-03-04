@@ -6,7 +6,7 @@ declare option exist:serialize "method=html5 media-type=text/html";
 
 declare variable $modules :=
     <modules>
-        <module prefix="docs" uri="http://exist-db.org/apps/docs" at="docs.xql"/>
+        <module prefix="dq" uri="http://exist-db.org/xquery/documentation" at="docs.xql"/>
     </modules>;
 
 let $content := request:get-data()
