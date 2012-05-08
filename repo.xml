@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<meta xmlns="http://exist-db.org/xquery/repo">
-    <description>eXist 2.0 documentation application.</description>
-    <author>Wolfgang Meier</author>
-    <website/>
-    <status>alpha</status>
-    <license>GNU-LGPL</license>
-    <copyright>true</copyright>
-    <type>application</type>
-    <target>/db/doc</target>
-    <prepare>pre-install.xql</prepare>
-    <finish/>
-    <permissions user="admin" password="" group="dba" mode="0775"/>
-</meta>
+<repo:meta xmlns="http://exist-db.org/xquery/repo" xmlns:repo="http://exist-db.org/xquery/repo">
+    <repo:description>eXist 2.0 documentation application.</repo:description>
+	<repo:author>Joe Wicentowski</repo:author>
+    <repo:author>Wolfgang Meier</repo:author>
+    <repo:website/>
+    <repo:status>alpha</repo:status>
+    <repo:license>GNU-LGPL</repo:license>
+    <repo:copyright>true</repo:copyright>
+    <repo:type>application</repo:type>
+    <repo:target>/db/doc</repo:target>
+    <repo:prepare>pre-install.xql</repo:prepare>
+    <repo:finish/>
+    <repo:permissions user="admin" password="" group="dba" mode="rw-rw-r--"/>
+    <deployed>2012-05-08T10:14:04.623+02:00</deployed>
+</repo:meta>

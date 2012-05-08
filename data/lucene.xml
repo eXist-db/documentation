@@ -40,30 +40,25 @@
                             modules</ulink>):</para>
                     <example>
                         <title>build.properties</title>
-                        <programlisting><![CDATA[# Lucene integration
+                        <programlisting># Lucene integration
 include.index.lucene = true
-]]></programlisting>
+</programlisting>
                     </example>
                 </step>
                 <step>
                     <para>Then <emphasis>(re-)build eXist</emphasis> using the provided <filename>build.sh</filename> or <filename>build.bat</filename>. The build
                         process downloads the required Lucene jars automatically. If everything
                         builds ok, you should find a jar <filename>exist-lucene-module.jar</filename> in the <filename>lib/extensions</filename> directory. Next, edit the main configuration
-                        file, <filename>conf.xml</filename> and comment in the two lucene-related
-                        sections:</para>
+                        file, <filename>conf.xml</filename> and comment in the lucene-related
+                        section:</para>
                     <example>
                         <title>conf.xml</title>
                         <programlisting>
-                            <markup><![CDATA[<modules>
-  <module id="lucene-index" class="org.exist.indexing.lucene.LuceneIndex" buffer="32"/>
-  ...
-</modules>
-...
-<builtin-modules>
-  <module id="lucene-index" class="org.exist.indexing.lucene.LuceneIndex"/>
-  ...
-</builtin-modules>
-]]></markup>
+                            <markup>&lt;modules&gt;
+    &lt;module id="lucene-index" class="org.exist.indexing.lucene.LuceneIndex" buffer="32"/&gt;
+    ...
+&lt;/modules&gt;
+</markup>
                         </programlisting>
                     </example>
                 </step>
@@ -93,29 +88,29 @@ include.index.lucene = true
             <example>
                 <title>collection.xconf</title>
                 <programlisting>
-                    <markup><![CDATA[<collection xmlns="http://exist-db.org/collection-config/1.0">
-    <index xmlns:atom="http://www.w3.org/2005/Atom"
+                    <markup>&lt;collection xmlns="http://exist-db.org/collection-config/1.0"&gt;
+    &lt;index xmlns:atom="http://www.w3.org/2005/Atom"
         xmlns:html="http://www.w3.org/1999/xhtml"
-        xmlns:wiki="http://exist-db.org/xquery/wiki">
-	    <!-- Disable the standard full text index -->
-        <fulltext default="none" attributes="no"/>
-	    <!-- Lucene index is configured below -->
-        <lucene>
-	        <analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/>
-            <analyzer id="ws" class="org.apache.lucene.analysis.WhitespaceAnalyzer"/>
-	        <text qname="TITLE" analyzer="ws"/>
-	        <text qname="p">
-	            <inline qname="em"/>
-            </text>
-            <text match="//foo/*"/>
-            <!-- "inline" and "ignore" can be specified globally or per-index as
-                 shown above -->
-	        <inline qname="b"/>
-	        <ignore qname="note"/>
-        </lucene>
-    </index>
-</collection>
-]]></markup>
+        xmlns:wiki="http://exist-db.org/xquery/wiki"&gt;
+	    &lt;!-- Disable the standard full text index --&gt;
+        &lt;fulltext default="none" attributes="no"/&gt;
+	    &lt;!-- Lucene index is configured below --&gt;
+        &lt;lucene&gt;
+	        &lt;analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/&gt;
+            &lt;analyzer id="ws" class="org.apache.lucene.analysis.WhitespaceAnalyzer"/&gt;
+	        &lt;text qname="TITLE" analyzer="ws"/&gt;
+	        &lt;text qname="p"&gt;
+	            &lt;inline qname="em"/&gt;
+            &lt;/text&gt;
+            &lt;text match="//foo/*"/&gt;
+            &lt;!-- "inline" and "ignore" can be specified globally or per-index as
+                 shown above --&gt;
+	        &lt;inline qname="b"/&gt;
+	        &lt;ignore qname="note"/&gt;
+        &lt;/lucene&gt;
+    &lt;/index&gt;
+&lt;/collection&gt;
+</markup>
                 </programlisting>
             </example>
             <para>You can either define a lucene index on a single element or attribute name
@@ -124,17 +119,17 @@ include.index.lucene = true
                 which has to be the same as in your query. To better understand this, let's have a
                 look at how the index creation is handled by eXist and Lucene. The following
                 configuration:</para>
-            <synopsis language="xml"><![CDATA[<text qname="SPEECH"/>]]></synopsis>
+            <synopsis language="xml">&lt;text qname="SPEECH"/&gt;</synopsis>
             <para>creates an index ONLY on SPEECH. What is passed to Lucene is the string value of
                 SPEECH, which includes the text of all its descendant text nodes (*except* those
                 filtered out by an optional <sgmltag>ignore</sgmltag>). For example, consider the
                 fragment:</para>
             <programlisting>
-                <markup><![CDATA[<SPEECH>
-    <SPEAKER>Second Witch</SPEAKER>
-    <LINE>Fillet of a fenny snake,</LINE>
-    <LINE>In the cauldron boil and bake;</LINE>
-</SPEECH>]]></markup>
+                <markup>&lt;SPEECH&gt;
+    &lt;SPEAKER&gt;Second Witch&lt;/SPEAKER&gt;
+    &lt;LINE&gt;Fillet of a fenny snake,&lt;/LINE&gt;
+    &lt;LINE&gt;In the cauldron boil and bake;&lt;/LINE&gt;
+&lt;/SPEECH&gt;</markup>
             </programlisting>
             <para>If you have an index on SPEECH, Lucene will create a "document" with the text
                 "Second Witch Fillet of a fenny snake, In the cauldron boil and bake;" and indexes
@@ -153,15 +148,15 @@ include.index.lucene = true
             <para>However, you are free to give the user both options, i.e. use SPEECH and LINE as
                 context at the same time. How? Simply define a second index on LINE:</para>
             <programlisting>
-                <markup><![CDATA[<text qname="SPEECH"/>
-<text qname="LINE"/>]]></markup>
+                <markup>&lt;text qname="SPEECH"/&gt;
+&lt;text qname="LINE"/&gt;</markup>
             </programlisting>
             <para>Let's use a different example to illustrate that. Assume you have a document with
                 encoded place names:</para>
             <example>
                 <title>Paragraph with place name</title>
                 <programlisting>
-                    <markup><![CDATA[<p>He loves <placeName>Paris</placeName>.</p>]]></markup>
+                    <markup>&lt;p&gt;He loves &lt;placeName&gt;Paris&lt;/placeName&gt;.&lt;/p&gt;</markup>
                 </programlisting>
             </example>
             <para>For a general query you probably want to search through all paragraphs. However,
@@ -171,10 +166,10 @@ include.index.lucene = true
             <example>
                 <title>collection.xconf fragment</title>
                 <programlisting>
-                    <markup><![CDATA[<lucene>
-    <text qname="p"/>
-    <text qname="placeName"/>
-</lucene>]]></markup>
+                    <markup>&lt;lucene&gt;
+    &lt;text qname="p"/&gt;
+    &lt;text qname="placeName"/&gt;
+&lt;/lucene&gt;</markup>
                 </programlisting>
             </example>
             <para>Based on this setup, you'll be able to query for the word 'Paris' anywhere in a
@@ -190,12 +185,12 @@ include.index.lucene = true
                 <para>Assume you want to define an index on all the possible elements below SPEECH.
                     You can do this by creating one index for every element:</para>
                 <programlisting>
-                    <markup><![CDATA[<text qname="LINE"/>
-<text qname="SPEAKER"/>]]></markup>
+                    <markup>&lt;text qname="LINE"/&gt;
+&lt;text qname="SPEAKER"/&gt;</markup>
                 </programlisting>
                 <para>As a shortcut, you can use a <option>match</option> attribute with a
                     wildcard:</para>
-                <synopsis language="xml"><![CDATA[<text match="//SPEECH/*"/>]]></synopsis>
+                <synopsis language="xml">&lt;text match="//SPEECH/*"/&gt;</synopsis>
                 <para>which will create a separate index on each child element of SPEECH it
                     encounters. Please note that the argument to match is a simple path pattern, not
                     an XPath expression. It only allows / and // to denote a child or descendant
@@ -222,7 +217,7 @@ include.index.lucene = true
                     <example>
                         <title>Not a Mixed Content Element</title>
                         <programlisting>
-                            <markup><![CDATA[<size><width>12</width><height>8</height></size>]]></markup>
+                            <markup>&lt;size&gt;&lt;width&gt;12&lt;/width&gt;&lt;height&gt;8&lt;/height&gt;&lt;/size&gt;</markup>
                         </programlisting>
                     </example>
                     <para>You want "12" and "8" to be indexed as separate tokens, even though
@@ -234,19 +229,19 @@ include.index.lucene = true
                     <example>
                         <title>Mixed Content Node</title>
                         <programlisting>
-                            <markup><![CDATA[<p>This is <b>un</b>clear.</p>]]></markup>
+                            <markup>&lt;p&gt;This is &lt;b&gt;un&lt;/b&gt;clear.&lt;/p&gt;</markup>
                         </programlisting>
                     </example>
                     <para>In this case, you want "unclear" to be indexed as one word. This can be
                         done by telling eXist which nodes are "inline" nodes. The example
                         configuration above defines:</para>
-                    <synopsis><![CDATA[<inline qname="b"/>]]></synopsis>
+                    <synopsis>&lt;inline qname="b"/&gt;</synopsis>
                 </section>
                 <para>The <sgmltag>inline</sgmltag> option can be specified globally, which means it
                     will be applied to all <sgmltag>b</sgmltag> elements, or per-index:</para>
-                <synopsis language="xml"><![CDATA[<text qname="p">
-    <inline qname="em"/>
-</text>]]></synopsis>
+                <synopsis language="xml">&lt;text qname="p"&gt;
+    &lt;inline qname="em"/&gt;
+&lt;/text&gt;</synopsis>
                 <section>
                     <title>Ignored elements</title>
                     <para>Also, it is sometimes necessary to skip the content of an inlined element,
@@ -255,13 +250,13 @@ include.index.lucene = true
                     <example>
                         <title>Paragraph With Inline Note</title>
                         <programlisting>
-                            <markup><![CDATA[<p>This is a paragraph
-<note>containing an inline note</note>.</p>]]></markup>
+                            <markup>&lt;p&gt;This is a paragraph
+&lt;note&gt;containing an inline note&lt;/note&gt;.&lt;/p&gt;</markup>
                         </programlisting>
                     </example>
                     <para>Use an <sgmltag>ignore</sgmltag> element in the collection configuration
                         to have eXist ignore the note:</para>
-                    <synopsis language="xml"><![CDATA[<ignore qname="note"/>]]></synopsis>
+                    <synopsis language="xml">&lt;ignore qname="note"/&gt;</synopsis>
                     <para>Basically, <sgmltag>ignore</sgmltag> simply allows you to hide a chunk of
                         text before Lucene sees it.</para>
                     <para>Like the <sgmltag>inline</sgmltag> tag, <sgmltag>ignore</sgmltag> may
@@ -273,11 +268,11 @@ include.index.lucene = true
                     <example>
                         <title>collection.xconf fragment</title>
                         <programlisting>
-                            <markup><![CDATA[<lucene>
-    <text qname="p"/>
-    <text qname="note"/>
-    <ignore qname="note"/>
-</lucene>]]></markup>
+                            <markup>&lt;lucene&gt;
+    &lt;text qname="p"/&gt;
+    &lt;text qname="note"/&gt;
+    &lt;ignore qname="note"/&gt;
+&lt;/lucene&gt;</markup>
                         </programlisting>
                     </example>
                     <para>If <sgmltag>note</sgmltag> appears within <sgmltag>p</sgmltag>, it will
@@ -299,16 +294,16 @@ include.index.lucene = true
                 <example>
                     <title>collection.xconf using boost</title>
                     <programlisting>
-                        <markup><![CDATA[<lucene>
-    <analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/>
-    <text qname="section">
-        <ignore qname="title"/>
-        <ignore qname="programlisting"/>
-        <ignore qname="screen"/>
-        <ignore qname="synopsis"/>
-    </text>
-    <text qname="title" boost="2.0"/>
-</lucene>]]></markup>
+                        <markup>&lt;lucene&gt;
+    &lt;analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/&gt;
+    &lt;text qname="section"&gt;
+        &lt;ignore qname="title"/&gt;
+        &lt;ignore qname="programlisting"/&gt;
+        &lt;ignore qname="screen"/&gt;
+        &lt;ignore qname="synopsis"/&gt;
+    &lt;/text&gt;
+    &lt;text qname="title" boost="2.0"/&gt;
+&lt;/lucene&gt;</markup>
                     </programlisting>
                 </example>
                 <para>The title index gets a boost of 2.0 to make sure that title matches get a
@@ -332,12 +327,12 @@ order by ft:score($sect) descending return $sect</synopsis>
                 <example>
                     <title/>
                     <programlisting>
-                        <markup><![CDATA[<lucene>
-    <analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/>
-    <analyzer id="ws" class="org.apache.lucene.analysis.WhitespaceAnalyzer"/>
-    <text match="//SPEECH//*"/>
-    <text qname="TITLE" analyzer="ws"/>
-</lucene>]]></markup>
+                        <markup>&lt;lucene&gt;
+    &lt;analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/&gt;
+    &lt;analyzer id="ws" class="org.apache.lucene.analysis.WhitespaceAnalyzer"/&gt;
+    &lt;text match="//SPEECH//*"/&gt;
+    &lt;text qname="TITLE" analyzer="ws"/&gt;
+&lt;/lucene&gt;</markup>
                     </programlisting>
                 </example>
                 <para>In the example above, we define that Lucene's <ulink url="http://lucene.apache.org/java/2_4_1/api/org/apache/lucene/analysis/standard/StandardAnalyzer.html">StandardAnalyzer</ulink> should be used by default (the
@@ -355,43 +350,43 @@ order by ft:score($sect) descending return $sect</synopsis>
                     <example>
                         <title>Providing a Stop Words file for the Standard Analyzer</title>
                         <programlisting>
-                            <markup><![CDATA[
-<analyzer id="stdstops" class="org.apache.lucene.analysis.standard.StandardAnalyzer">
-    <param name="stopwords" type="java.io.File" value="/tmp/stop.txt"/>
-</analyzer>
-                            ]]></markup>
+                            <markup>
+&lt;analyzer id="stdstops" class="org.apache.lucene.analysis.standard.StandardAnalyzer"&gt;
+    &lt;param name="stopwords" type="java.io.File" value="/tmp/stop.txt"/&gt;
+&lt;/analyzer&gt;
+                            </markup>
                         </programlisting>
                     </example>
                     <example>
                         <title>Providing a list of Stop Words for the Standard Analyzer</title>
                         <programlisting>
-                            <markup><![CDATA[
-<analyzer id="stdstops" class="org.apache.lucene.analysis.standard.StandardAnalyzer">
-    <param name="stopwords" type="java.util.Set">
-        <value>the</value>
-        <value>this</value>
-        <value>and</value>
-        <value>that</value>
-    </param>
-</analyzer>
-                            ]]></markup>
+                            <markup>
+&lt;analyzer id="stdstops" class="org.apache.lucene.analysis.standard.StandardAnalyzer"&gt;
+    &lt;param name="stopwords" type="java.util.Set"&gt;
+        &lt;value&gt;the&lt;/value&gt;
+        &lt;value&gt;this&lt;/value&gt;
+        &lt;value&gt;and&lt;/value&gt;
+        &lt;value&gt;that&lt;/value&gt;
+    &lt;/param&gt;
+&lt;/analyzer&gt;
+                            </markup>
                         </programlisting>
                     </example>
                     <example>
                         <title>Using the Snowball Analyzer</title>
                         <para>Note that using the Snowball analyzer requires you to add additional libraries to lib/user.</para>
                         <programlisting>
-                            <markup><![CDATA[
-<analyzer id="sbstops" class="org.apache.lucene.analysis.snowball.SnowballAnalyzer">
-    <param name="name" value="English"/>
-    <param name="stopwords" type="java.util.Set">
-        <value>the</value>
-        <value>this</value>
-        <value>and</value>
-        <value>that</value>
-    </param>
-</analyzer>
-                            ]]></markup>
+                            <markup>
+&lt;analyzer id="sbstops" class="org.apache.lucene.analysis.snowball.SnowballAnalyzer"&gt;
+    &lt;param name="name" value="English"/&gt;
+    &lt;param name="stopwords" type="java.util.Set"&gt;
+        &lt;value&gt;the&lt;/value&gt;
+        &lt;value&gt;this&lt;/value&gt;
+        &lt;value&gt;and&lt;/value&gt;
+        &lt;value&gt;that&lt;/value&gt;
+    &lt;/param&gt;
+&lt;/analyzer&gt;
+                            </markup>
                         </programlisting>
                     </example>
                 </section>
@@ -406,9 +401,9 @@ order by ft:score($sect) descending return $sect</synopsis>
             <para>Querying lucene from XQuery is straightforward. For example:</para>
             <example>
                 <title>A Simple Query</title>
-                <programlisting language="xquery"><![CDATA[for $m in //SPEECH[ft:query(., "boil bubble")]
+                <programlisting language="xquery">for $m in //SPEECH[ft:query(., "boil bubble")]
 order by ft:score($m) descending
-return $m]]></programlisting>
+return $m</programlisting>
             </example>
             <para>The query function takes a query string in Lucene's default <ulink url="http://lucene.apache.org/java/2_4_0/queryparsersyntax.html">query
                     syntax</ulink>. It returns a set of nodes which are relevant with respect to the
@@ -438,12 +433,12 @@ return $m]]></programlisting>
                     of terms should be relevant for a phrase query:</para>
                 <example>
                     <title>Using an XML Definition of the Query</title>
-                    <programlisting language="xquery"><![CDATA[let $query :=
-    <query>
-        <near ordered="no">miserable nation</near>
-    </query>
+                    <programlisting language="xquery">let $query :=
+    &lt;query&gt;
+        &lt;near ordered="no"&gt;miserable nation&lt;/near&gt;
+    &lt;/query&gt;
 return
-    //SPEECH[ft:query(., $query)]]]></programlisting>
+    //SPEECH[ft:query(., $query)]</programlisting>
                 </example>
                 <para>The following elements may occur within a query description:</para>
                 <variablelist>
@@ -455,12 +450,12 @@ return
                             <para>Defines a single term to be searched in the index. If the root
                                 query element contains a sequence of term elements, they will be
                                 combined as in a boolean "or" query. For example: </para>
-                            <synopsis language="xquery"><![CDATA[let $query :=
-    <query>
-        <term>nation</term><term>miserable</term>
-    </query>
+                            <synopsis language="xquery">let $query :=
+    &lt;query&gt;
+        &lt;term&gt;nation&lt;/term&gt;&lt;term&gt;miserable&lt;/term&gt;
+    &lt;/query&gt;
 return
-//SPEECH[ft:query(., $query)]]]></synopsis>
+//SPEECH[ft:query(., $query)]</synopsis>
                             <para>finds all SPEECH elements containing either "nation" or
                                 "miserable" or both.</para>
                         </listitem>
@@ -473,12 +468,12 @@ return
                             <para>A string with a '*' wildcard in it, which will be matched against
                                 the terms of a document. Can be used instead of a
                                     <sgmltag>term</sgmltag> element. For example:</para>
-                            <synopsis language="xquery"><![CDATA[let $query :=
-    <query>
-        <term>nation</term><wildcard>miser*</wildcard>
-    </query>
+                            <synopsis language="xquery">let $query :=
+    &lt;query&gt;
+        &lt;term&gt;nation&lt;/term&gt;&lt;wildcard&gt;miser*&lt;/wildcard&gt;
+    &lt;/query&gt;
 return
-//SPEECH[ft:query(., $query)]]]></synopsis>
+//SPEECH[ft:query(., $query)]</synopsis>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
@@ -489,12 +484,12 @@ return
                             <para>A regular expression which will be matched against the terms of a
                                 document. Can be used instead of a <sgmltag>term</sgmltag> element.
                                 For example:</para>
-                            <synopsis language="xquery"><![CDATA[let $query :=
-    <query>
-        <term>nation</term><regex>miser.*</regex>
-    </query>
+                            <synopsis language="xquery">let $query :=
+    &lt;query&gt;
+        &lt;term&gt;nation&lt;/term&gt;&lt;regex&gt;miser.*&lt;/regex&gt;
+    &lt;/query&gt;
 return
-//SPEECH[ft:query(., $query)]]]></synopsis>
+//SPEECH[ft:query(., $query)]</synopsis>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
@@ -529,11 +524,11 @@ return
                                     </listitem>
                                 </varlistentry>
                             </variablelist>
-                            <synopsis language="xquery"><![CDATA[let $query :=
-    <query>
-        <bool><term occur="must">boil</term><term occur="should">bubble</term></bool>
-    </query>
-return //SPEECH[ft:query(LINE, $query)]]]></synopsis>
+                            <synopsis language="xquery">let $query :=
+    &lt;query&gt;
+        &lt;bool&gt;&lt;term occur="must"&gt;boil&lt;/term&gt;&lt;term occur="should"&gt;bubble&lt;/term&gt;&lt;/bool&gt;
+    &lt;/query&gt;
+return //SPEECH[ft:query(LINE, $query)]</synopsis>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
@@ -545,28 +540,28 @@ return //SPEECH[ft:query(LINE, $query)]]]></synopsis>
                                 element may either contain explicit <sgmltag>term</sgmltag> elements
                                 or text content. Text will be automatically tokenized into a
                                 sequence of terms. For example:</para>
-                            <synopsis language="xquery"><![CDATA[let $query :=
-    <query>
-        <phrase>cauldron boil</phrase>
-    </query>
+                            <synopsis language="xquery">let $query :=
+    &lt;query&gt;
+        &lt;phrase&gt;cauldron boil&lt;/phrase&gt;
+    &lt;/query&gt;
 return //SPEECH[ft:query(., $query)]
-]]></synopsis>
+</synopsis>
                             <para>has the same effect as:</para>
-                            <synopsis language="xquery"><![CDATA[let $query :=
-    <query>
-        <phrase><term>cauldron</term><term>boil</term></phrase>
-    </query>
+                            <synopsis language="xquery">let $query :=
+    &lt;query&gt;
+        &lt;phrase&gt;&lt;term&gt;cauldron&lt;/term&gt;&lt;term&gt;boil&lt;/term&gt;&lt;/phrase&gt;
+    &lt;/query&gt;
 return //SPEECH[ft:query(., $query)]
-]]></synopsis>
+</synopsis>
                             <para>Attribute <parameter>slop</parameter> can be used for a proximity
                                 search: Lucene will try to find terms which are within the specified
                                 distance:</para>
-                            <synopsis language="xquery"><![CDATA[let $query :=
-    <query>
-        <phrase slop="10"><term>frog</term><term>dog</term></phrase>
-    </query>
+                            <synopsis language="xquery">let $query :=
+    &lt;query&gt;
+        &lt;phrase slop="10"&gt;&lt;term&gt;frog&lt;/term&gt;&lt;term&gt;dog&lt;/term&gt;&lt;/phrase&gt;
+    &lt;/query&gt;
 return //SPEECH[ft:query(., $query)]
-]]></synopsis>
+</synopsis>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
@@ -584,20 +579,20 @@ return //SPEECH[ft:query(., $query)]
                                     <sgmltag>first</sgmltag> and nested <sgmltag>near</sgmltag>
                                 elements. This makes it possible to search for two sequences of
                                 terms which are within a specific distance. For example:</para>
-                            <synopsis language="xquery"><![CDATA[let $query :=
-    <query>
-        <near slop="20"><term>snake</term><near>tongue dog</near></near>
-    </query>
-return //SPEECH[ft:query(., $query)]]]></synopsis>
+                            <synopsis language="xquery">let $query :=
+    &lt;query&gt;
+        &lt;near slop="20"&gt;&lt;term&gt;snake&lt;/term&gt;&lt;near&gt;tongue dog&lt;/near&gt;&lt;/near&gt;
+    &lt;/query&gt;
+return //SPEECH[ft:query(., $query)]</synopsis>
                             <para>Element <sgmltag>first</sgmltag> matches a span against the start
                                 of the text in the context node. It takes an optional attribute
                                     <parameter>end</parameter> to specify the maximum distance from
                                 the start of the text. For example:</para>
-                            <synopsis language="xquery"><![CDATA[let $query :=
-    <query>
-        <near slop="50"><first end="2"><near>second witch</near></first><near>tongue dog</near></near>
-    </query>
-    return //SPEECH[ft:query(., $query)]]]></synopsis>
+                            <synopsis language="xquery">let $query :=
+    &lt;query&gt;
+        &lt;near slop="50"&gt;&lt;first end="2"&gt;&lt;near&gt;second witch&lt;/near&gt;&lt;/first&gt;&lt;near&gt;tongue dog&lt;/near&gt;&lt;/near&gt;
+    &lt;/query&gt;
+    return //SPEECH[ft:query(., $query)]</synopsis>
                             <para>As shown above, the content of <sgmltag>first</sgmltag> can again
                                 be text, a <sgmltag>term</sgmltag> or
                                 <sgmltag>near</sgmltag>.</para>
@@ -605,11 +600,11 @@ return //SPEECH[ft:query(., $query)]]]></synopsis>
                                 be told to ignore the order of its components. Use parameter
                                     <parameter>ordered="yes|no"</parameter> to change near's
                                 behaviour. For example:</para>
-                            <synopsis language="xquery"><![CDATA[let $query :=
-    <query>
-        <near slop="100" ordered="no"><term>snake</term><term>bake</term></near>
-    </query>
-return //SPEECH[ft:query(., $query)]]]></synopsis>
+                            <synopsis language="xquery">let $query :=
+    &lt;query&gt;
+        &lt;near slop="100" ordered="no"&gt;&lt;term&gt;snake&lt;/term&gt;&lt;term&gt;bake&lt;/term&gt;&lt;/near&gt;
+    &lt;/query&gt;
+return //SPEECH[ft:query(., $query)]</synopsis>
                         </listitem>
                     </varlistentry>
                 </variablelist>
@@ -624,16 +619,16 @@ return //SPEECH[ft:query(., $query)]]]></synopsis>
                     fragment which lists the configuration properties to be set as child elements:</para>
                 <example>
                     <title/>
-                    <programlisting language="xquery"><![CDATA[
+                    <programlisting language="xquery">
 let $options :=
-    <options>
-        <default-operator>and</default-operator>
-        <phrase-slop>1</phrase-slop>
-        <leading-wildcard>no</leading-wildcard>
-        <filter-rewrite>yes</filter-rewrite>
-    </options>
+    &lt;options&gt;
+        &lt;default-operator&gt;and&lt;/default-operator&gt;
+        &lt;phrase-slop&gt;1&lt;/phrase-slop&gt;
+        &lt;leading-wildcard&gt;no&lt;/leading-wildcard&gt;
+        &lt;filter-rewrite&gt;yes&lt;/filter-rewrite&gt;
+    &lt;/options&gt;
 return
-    //SPEECH[ft:query(., $query, $options)]]]></programlisting>
+    //SPEECH[ft:query(., $query, $options)]</programlisting>
                 </example>
                 <para>The meaning of those properties is as follows</para>
                 <variablelist>

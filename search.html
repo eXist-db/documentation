@@ -1,4 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div class="templates:surround?with=templates/page.html&amp;at=main">
-    <div class="dq:main"/>
+    <div class="row" id="container-body">
+        <div class="span12" id="content">
+            <form name="f-query" action="search.html" method="GET" class="form-horizontal">
+                <div class="control-group">
+                    <label for="q" class="control-label">Search:</label>
+                    <div class="controls">
+                        <input name="q" type="text" class="templates:form-control"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="field" class="control-label">in</label>
+                    <div class="controls">
+                        <select name="field" class="templates:form-control">
+                            <option value="all">All</option>
+                            <option value="title">Headings Only</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="view" class="control-label">View:</label>
+                    <div class="controls">
+                        <select name="view" class="templates:form-control">
+                            <option value="summary">Summary</option>
+                            <option value="kwic">One Line</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <input id="f-btn-search" type="submit" name="action" value="Search"/>
+                    <input type="hidden" name="prev" value=""/>
+                </div>
+            </form>
+            <div class="dq:query"/>
+        </div>
+    </div>
 </div>

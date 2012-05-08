@@ -24,41 +24,12 @@ else if ($exist:path eq "/") then
 (: Pass all requests to XML files to the data directory, then through XSLT, then through view.xql, which handles HTML templating :)
 else if (ends-with($exist:resource, ".xml")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <!-- get XML file from data directory -->
-        {
-        if ($query) then 
-            <forward url="{$exist:controller}/modules/docs-query-highlighter.xql">
-				<add-parameter name="path" value="/db/doc/data/{$exist:resource}"/>
-			</forward>
-        else 
-            <forward url="{$exist:controller}/data/{$exist:path}"/>
-        }
+        <forward url="{$exist:controller}/templates/content.html">
+        </forward>
         <view>
-            <!-- pass XML file through XSLT, largely unchanged from original webapp/controller.xql's portion for documentation -->
-            <forward servlet="XSLTServlet">
-				<set-attribute name="xslt.stylesheet" value="{$exist:root}{$exist:controller}/stylesheets/db2xhtml.xsl"/>
-			    <set-attribute name="xslt.output.media-type" value="text/html"/>
-				<set-attribute name="xslt.output.doctype-public" value="-//W3C//DTD XHTML 1.0 Transitional//EN"/>
-				<set-attribute name="xslt.output.doctype-system" value="resources/xhtml1-transitional.dtd"/>
-				{
-				if ($query) then 
-        			(
-        			<set-attribute name="xslt.output.add-exist-id" value="all"/>,
-        		    <set-attribute name="xslt.highlight-matches" value="all"/>,
-        	        <set-attribute name="xslt.xinclude-path" value=".."/>
-        	        )
-                else ()
-				}
-				<set-attribute name="xslt.root" value="."/>
-			    {
-			        if ($exist:resource eq 'download.xml') then
-			            <set-attribute name="xslt.table-of-contents" value="'no'"/>
-	                else
-	                    ()
-                }
-			</forward>
             <!-- pass the results through view.xql -->
 			<forward url="{$exist:controller}/modules/view.xql">
+                <add-parameter name="doc" value="{$exist:resource}"/>
                 <set-attribute name="$exist:prefix" value="{$exist:prefix}"/>
                 <set-attribute name="$exist:controller" value="{$exist:controller}"/>
             </forward>

@@ -50,15 +50,15 @@
                 Above URL will actually be forwarded to an XQuery called <filename>index.xql</filename> as follows:</para>
             <synopsis>index.xql?feed=HowTo/OxygenXML/&amp;ref=eXistXmlRpcChanged</synopsis>
             <para>The XQuery code which does the rewrite magic is shown below:</para>
-            <programlisting language="xquery"><![CDATA[
+            <programlisting language="xquery">
 let $params := subsequence(text:groups($exist:path, '^/?(.*)/([^/]+)$'), 2)
 return
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="/index.xql">
-            <add-parameter name="feed" value="{$params[1]}"/>
-            <add-parameter name="ref" value="{$params[2]}"/>
-        </forward>
-    </dispatch>]]></programlisting>
+    &lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist"&gt;
+        &lt;forward url="/index.xql"&gt;
+            &lt;add-parameter name="feed" value="{$params[1]}"/&gt;
+            &lt;add-parameter name="ref" value="{$params[2]}"/&gt;
+        &lt;/forward&gt;
+    &lt;/dispatch&gt;</programlisting>
             <para>The forward element tells XQueryURLRewrite to pass the request to the specified
                 URL. You could also forward to a servlet instead of an URL by specifying its name
                 (servlet="ServletName"). The forwarding is done via the
@@ -72,18 +72,18 @@ return
             <para>If you want the user to see the rewritten URL, you can replace the
                     <sgmltag>forward</sgmltag> action with a <sgmltag>redirect</sgmltag>. A common
                 use for <sgmltag>redirect</sgmltag> is to send the user to a default page:</para>
-            <programlisting language="xquery"><![CDATA[if ($exist:path eq '/') then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-    	<redirect url="index.xml"/>
-    </dispatch>]]></programlisting>
+            <programlisting language="xquery">if ($exist:path eq '/') then
+    &lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist"&gt;
+    	&lt;redirect url="index.xml"/&gt;
+    &lt;/dispatch&gt;</programlisting>
             <para>If no action is specified within the dispatch element, the request will just be
                 passed through the filter chain and will be handled the normal way. The same happens
                 if the action is an element <sgmltag>ignore</sgmltag>. For example, the simplest
                 controller script would consist of a single ignore:</para>
-            <programlisting language="xml"><![CDATA[
-        <ignore xmlns="http://exist.sourceforge.net/NS/exist">
-            <cache-control cache="yes"/>
-        </ignore>]]></programlisting>
+            <programlisting language="xml">
+        &lt;ignore xmlns="http://exist.sourceforge.net/NS/exist"&gt;
+            &lt;cache-control cache="yes"/&gt;
+        &lt;/ignore&gt;</programlisting>
             <para>Most scripts in eXist return this if no other rule applies to a request.</para>
             <note>
                 <para>It is important to understand that only one (!) controller will ever be
@@ -210,12 +210,12 @@ return
             <para>The <sgmltag>root</sgmltag> elements define the roots of a directory or database
                 collection hierarchy, mapped to a certain base path. For example, the default
                     <filename>controller-config.xml</filename> uses two roots:</para>
-            <synopsis language="xml"><![CDATA[<!-- 
+            <synopsis language="xml">&lt;!-- 
  Default configuration: main web application is served from the
  webapp directory. 
--->
-<root pattern="/tools" path="xmldb:exist:///db/www"/>
-<root pattern=".*" path="/"/>]]></synopsis>
+--&gt;
+&lt;root pattern="/tools" path="xmldb:exist:///db/www"/&gt;
+&lt;root pattern=".*" path="/"/&gt;</synopsis>
             <para>This means that paths starting with <filename>/tools</filename> will be mapped to
                 the collection hierarchy below <filename>/db/www</filename>. Everything else is
                 handled by the catch all pattern pointing to the root directory of the webapp (by
@@ -245,15 +245,15 @@ return
             <para>For example, most of the documentation that comes with eXist is written in the
                 docbook format and needs to be send through an XSLT stylesheet (<filename>webapp/stylesheets/db2html.xsl</filename>) to be transformed into HTML. This is
                 done by returning the following <sgmltag>dispatch</sgmltag> fragment from <filename>webapp/controller.xql</filename>:</para>
-            <programlisting language="XML"><![CDATA[<dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-	<view>
-		<forward servlet="XSLTServlet">
-			<set-attribute name="xslt.stylesheet" 
-				value="stylesheets/db2html.xsl"/>
-		</forward>
-	</view>
-    <cache-control cache="no"/>
-</dispatch>]]></programlisting>
+            <programlisting language="xml">&lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist"&gt;
+	&lt;view&gt;
+		&lt;forward servlet="XSLTServlet"&gt;
+			&lt;set-attribute name="xslt.stylesheet" 
+				value="stylesheets/db2html.xsl"/&gt;
+		&lt;/forward&gt;
+	&lt;/view&gt;
+    &lt;cache-control cache="no"/&gt;
+&lt;/dispatch&gt;</programlisting>
             <para>There's no forwarding action outside the view in this example, so the request will
                 be handled by the servlet engine in the normal way. The response is then passed to
                 XSLTServlet. A new HTTP POST request is created whose body is set to the response
@@ -268,25 +268,25 @@ return
                 applies two stylesheets in sequence (code taken from <filename>webapp/xquery/controller.xql</filename>):</para>
             <example>
                 <title>Applying more than one stylesheet</title>
-                <programlisting language="xquery"><![CDATA[if ($name eq 'acronyms.xql') then
-	<dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-		<!-- query results are passed to XSLT servlet via request attribute -->
-		<set-attribute name="xquery.attribute"
-			value="model"/>
-		<view>
-			<forward servlet="XSLTServlet">
-				<set-attribute name="xslt.input"
-					value="model"/>
-				<set-attribute name="xslt.stylesheet"
-					value="xquery/stylesheets/acronyms.xsl"/>
-			</forward>
-			<forward servlet="XSLTServlet">
-				<clear-attribute name="xslt.input"/>
-				<set-attribute name="xslt.stylesheet" 
-					value="stylesheets/db2html.xsl"/>
-			</forward>
-		</view>
-	</dispatch>]]></programlisting>
+                <programlisting language="xquery">if ($name eq 'acronyms.xql') then
+	&lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist"&gt;
+		&lt;!-- query results are passed to XSLT servlet via request attribute --&gt;
+		&lt;set-attribute name="xquery.attribute"
+			value="model"/&gt;
+		&lt;view&gt;
+			&lt;forward servlet="XSLTServlet"&gt;
+				&lt;set-attribute name="xslt.input"
+					value="model"/&gt;
+				&lt;set-attribute name="xslt.stylesheet"
+					value="xquery/stylesheets/acronyms.xsl"/&gt;
+			&lt;/forward&gt;
+			&lt;forward servlet="XSLTServlet"&gt;
+				&lt;clear-attribute name="xslt.input"/&gt;
+				&lt;set-attribute name="xslt.stylesheet" 
+					value="stylesheets/db2html.xsl"/&gt;
+			&lt;/forward&gt;
+		&lt;/view&gt;
+	&lt;/dispatch&gt;</programlisting>
             </example>
             <para>The example also demonstrates how information can be passed between actions.
                 XQueryServlet - which is called implicitely because the URL ends with ".xql" - can
@@ -331,40 +331,40 @@ return
                 and stores it into a session for later use by the ajax frontend:</para>
             <example>
                 <title>Post-processing the results of an XQuery with a second XQuery</title>
-                <programlisting language="xquery"><![CDATA[if (starts-with($path, '/sandbox/execute')) then
+                <programlisting language="xquery">if (starts-with($path, '/sandbox/execute')) then
     let $query := request:get-parameter("qu", ())
     let $startTime := util:system-time()
     return
-        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-    		<!-- Query is executed by XQueryServlet -->
-            <forward servlet="XQueryServlet">
-    			<!-- Query is passed via the attribute 'xquery.source' -->
-                <set-attribute name="xquery.source" value="{$query}"/>
-    			<!-- Results should be written into attribute 'results' -->
-    			<set-attribute name="xquery.attribute" value="results"/>
-    			<!-- Errors should be passed through instead of terminating the request -->
-    			<set-attribute name="xquery.report-errors" value="yes"/>
-            </forward>
-    		<view>
-    			<!-- Post process the result: store it into the HTTP session
-    				and return the number of hits only. -->
-    			<forward url="session.xql">
-    				<clear-attribute name="xquery.source"/>
-    				<clear-attribute name="xquery.attribute"/>
-    				<set-attribute name="elapsed" 
-    					value="{string(seconds-from-duration(util:system-time() - $startTime))}"/>
-    			</forward>
-    		</view>
-        </dispatch>
+        &lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist"&gt;
+    		&lt;!-- Query is executed by XQueryServlet --&gt;
+            &lt;forward servlet="XQueryServlet"&gt;
+    			&lt;!-- Query is passed via the attribute 'xquery.source' --&gt;
+                &lt;set-attribute name="xquery.source" value="{$query}"/&gt;
+    			&lt;!-- Results should be written into attribute 'results' --&gt;
+    			&lt;set-attribute name="xquery.attribute" value="results"/&gt;
+    			&lt;!-- Errors should be passed through instead of terminating the request --&gt;
+    			&lt;set-attribute name="xquery.report-errors" value="yes"/&gt;
+            &lt;/forward&gt;
+    		&lt;view&gt;
+    			&lt;!-- Post process the result: store it into the HTTP session
+    				and return the number of hits only. --&gt;
+    			&lt;forward url="session.xql"&gt;
+    				&lt;clear-attribute name="xquery.source"/&gt;
+    				&lt;clear-attribute name="xquery.attribute"/&gt;
+    				&lt;set-attribute name="elapsed" 
+    					value="{string(seconds-from-duration(util:system-time() - $startTime))}"/&gt;
+    			&lt;/forward&gt;
+    		&lt;/view&gt;
+        &lt;/dispatch&gt;
     (: Retrieve an item from the query results stored in the HTTP session. The
     format of the URL will be /sandbox/results/X, where X is the number of the
     item in the result set :)
     else if (starts-with($path, '/sandbox/results/')) then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-    	<forward url="../session.xql">
-    		<add-parameter name="num" value="{$name}"/>
-    	</forward>
-    </dispatch>]]></programlisting>
+    &lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist"&gt;
+    	&lt;forward url="../session.xql"&gt;
+    		&lt;add-parameter name="num" value="{$name}"/&gt;
+    	&lt;/forward&gt;
+    &lt;/dispatch&gt;</programlisting>
             </example>
             <para>The client passes the user-supplied query string in a request parameter, so the
                 controller has to forward this to XQueryServlet somehow. Fortunately, XQueryServlet
@@ -528,16 +528,16 @@ return
                 snippet:</para>
             <example>
                 <title>Mapping all requests starting with /libs/ to a directory</title>
-                <programlisting language="xquery"><![CDATA[
+                <programlisting language="xquery">
 if (starts-with($exist:path, "/libs/")) then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="/{substring-after($exist:path, '/libs/')}" absolute="yes"/>
-    </dispatch>]]></programlisting>
+    &lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist"&gt;
+        &lt;forward url="/{substring-after($exist:path, '/libs/')}" absolute="yes"/&gt;
+    &lt;/dispatch&gt;</programlisting>
             </example>
             <para>This simply removes the /libs/ prefix and sets absolute="yes", so the path will be
                 resolved relative to the main context of the servlet engine, usually /exist/. In your HTML, you can now
                 write:</para>
-            <synopsis language="xml"><![CDATA[<script type="text/javascript" src="/libs/scripts/jquery/jquery-1.7.1.min.js"></script>]]></synopsis>
+            <synopsis language="xml">&lt;script type="text/javascript" src="/libs/scripts/jquery/jquery-1.7.1.min.js"&gt;&lt;/script&gt;</synopsis>
             <para>This will locate the jquery file in <filename>webapp/scripts/jquery/...</filename>, even if the rest of your
                 application is stored in the db and not on the file system.</para>
         </section>

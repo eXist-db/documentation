@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <html>
     <head>
         <title>Documentation App</title>
@@ -5,13 +6,13 @@
         <link rel="stylesheet" type="text/css" href="resources/css/exist.css"/>
         <link href="resources/scripts/shCore.css" rel="stylesheet" type="text/css"/>
         <link href="resources/scripts/shThemeDefault.css" rel="stylesheet" type="text/css"/>
-        <link href="http://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" src="libs/scripts/jquery/jquery-1.7.1.min.js"/>
         <script type="text/javascript" src="resources/scripts/jquery.scrollExtend.min.js"/>
         <script type="text/javascript" src="resources/scripts/shCore.js"/>
         <script type="text/javascript" src="resources/scripts/shBrushXQuery.js"/>
         <script type="text/javascript" src="resources/scripts/shBrushXml.js"/>
         <script type="text/javascript" src="resources/scripts/shBrushPlain.js"/>
+        <script type="text/javascript" src="resources/scripts/shBrushJava.js"/>
     </head>
     <body id="body">
         <div id="grey-top">
@@ -22,7 +23,8 @@
                     </div><!--/header-->
                     <div id="navigation" class="templates:fix-links?root=context">
                         <ul id="nav" class="dropdown dropdown-horizontal">
-                            <li class="dir" id="about">About Us
+                            <li class="dir" id="about">
+                                <span>About Us</span>
                                 <ul>
                                     <li>
                                         <a href="/credits.xml">Who we are</a>
@@ -35,34 +37,25 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="dir" id="documentation">Documentation
+                            <li class="dir" id="documentation">
+                                <span>Documentation</span>
                                 <ul>
                                     <li>
-                                        <a href="quickstart.xml">Quick Start</a>
+                                        <a href="/quickstart.xml">Quick Start</a>
                                     </li>
                                     <li>
                                         <a href="/xquery/functions.xql">Function Library</a>
                                     </li>
                                     <li>
-                                        <a href="documentation.xml">Main Documentation</a>
+                                        <a href="/documentation.xml">Main Documentation</a>
                                     </li>
                                     <li>
                                         <a href="http://en.wikibooks.org/wiki/XQuery">XQuery Wikibook</a>
                                     </li>
                                 </ul>
                             </li>
-                            <li class="dir" id="examples">Demo
-                                <ul>
-                                    <li>
-                                        <a href="http://demo.exist-db.org/exist/examples.xql">Examples/Demos</a>
-                                    </li>
-                                    <li>
-                                        <a href="/eXide/">eXide (XQuery IDE)</a>
-                                    </li>
-                                </ul>
-                            </li>
                             <li class="dir" id="community">
-                                <a href="#">Community</a>
+                                <span>Community</span>
                                 <ul>
                                     <li>
                                         <a href="/index.xml#mailing">Mailing List/IRC</a>
@@ -70,8 +63,11 @@
                                 </ul>
                             </li>
                             <li class="dir" id="development">
-                                <a href="#">Development</a>
+                                <span>Development</span>
                                 <ul>
+                                    <li>
+                                        <a href="/eXide/">eXide (XQuery IDE)</a>
+                                    </li>
                                     <li>
                                         <a href="/api/index.html">Javadocs</a>
                                     </li>
@@ -87,7 +83,7 @@
                                 </ul>
                             </li>
                             <li class="dir" id="administration">
-                                <a href="#">Administration</a>
+                                <span>Administration</span>
                                 <ul>
                                     <li>
                                         <a href="/admin/admin.xql">Admin</a>

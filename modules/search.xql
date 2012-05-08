@@ -3,7 +3,7 @@ xquery version "3.0";
 (:~ ================================================
     Implements the documentation search.
     ================================================ :)
-module namespace dq="http://exist-db.org/xquery/documentation";
+module namespace dq="http://exist-db.org/xquery/documentation/search";
 
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
 

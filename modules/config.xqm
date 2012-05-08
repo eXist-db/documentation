@@ -1,3 +1,5 @@
+xquery version "3.0";
+
 (:~
  : A set of helper functions to access the application context from
  : within a module.
@@ -24,6 +26,8 @@ declare variable $config:app-root :=
     return
         substring-before($modulePath, "/modules")
 ;
+
+declare variable $config:data-root := $config:app-root || "/data";
 
 (:~
  : Returns the repo.xml descriptor for the current application.

@@ -54,9 +54,9 @@ wrapper.java.maxmemory=128</synopsis>
                 caches.</para>
             <example>
                 <title>cacheSize parameter in conf.xml</title>
-                <programlisting language="xml"><![CDATA[
-<db-connection cacheSize="48M" collectionCache="24M" database="native"
-        files="webapp/WEB-INF/data" pageSize="4096" nodesBuffer="-1">]]></programlisting>
+                <programlisting language="xml">
+&lt;db-connection cacheSize="48M" collectionCache="24M" database="native"
+        files="webapp/WEB-INF/data" pageSize="4096" nodesBuffer="-1"&gt;</programlisting>
             </example>
             <para>The default <ulink url="http://www.exist-db.org/configuration.html#N101B8">setting</ulink> for <option>cacheSize</option> is very conservative (48M). It
                 will be ok for smaller databases, but you may soon experience a performance drop
@@ -119,14 +119,14 @@ wrapper.java.maxmemory=128</synopsis>
                 <itemizedlist>
                     <listitem>
                         <para>disable the default full text index in your index <ulink url="indexing.xml#N10422">definitions</ulink>:</para>
-                        <programlisting language="xquery"><![CDATA[
-<collection xmlns="http://exist-db.org/collection-config/1.0">
-    <index>
-        <fulltext default="none" attributes="false">
-        </fulltext>
-    </index>
+                        <programlisting language="xquery">
+&lt;collection xmlns="http://exist-db.org/collection-config/1.0"&gt;
+    &lt;index&gt;
+        &lt;fulltext default="none" attributes="false"&gt;
+        &lt;/fulltext&gt;
+    &lt;/index&gt;
     ...
-</collection>]]></programlisting>
+&lt;/collection&gt;</programlisting>
                     </listitem>
                     <listitem>
                         <para>recreate full text or other indexes only on those elements and
@@ -149,18 +149,18 @@ wrapper.java.maxmemory=128</synopsis>
                     them. A context-dependant index is defined on a path like
                         <code>/book/chapter/title</code>, while general indexes are defined on a
                     simple element or attribute qname:</para>
-                <programlisting language="xquery"><![CDATA[
-<collection xmlns="http://exist-db.org/collection-config/1.0">
-    <index>
-        <!-- Range indexes by qname -->
-        <create qname="title" type="xs:string"/>
-        <create qname="@ID" type="xs:string"/>
+                <programlisting language="xquery">
+&lt;collection xmlns="http://exist-db.org/collection-config/1.0"&gt;
+    &lt;index&gt;
+        &lt;!-- Range indexes by qname --&gt;
+        &lt;create qname="title" type="xs:string"/&gt;
+        &lt;create qname="@ID" type="xs:string"/&gt;
 
-        <!-- context-dependant configuration using the path attribute: -->
-        <create path="/book/title" type="xs:string"/>
-    </index>
-</collection>
-]]></programlisting>
+        &lt;!-- context-dependant configuration using the path attribute: --&gt;
+        &lt;create path="/book/title" type="xs:string"/&gt;
+    &lt;/index&gt;
+&lt;/collection&gt;
+</programlisting>
                 <para>Defining indexes on qnames may result in a larger index, but it also allows
                     the query engine to apply all available optimization techniques, which can
                     improve query times by an order of magnitude. Replacing a context-dependant
@@ -190,7 +190,7 @@ wrapper.java.maxmemory=128</synopsis>
                 <title>Use range indexes on strongly typed data or short strings</title>
                 <para>Range indexes work with the standard XQuery operators and string functions.
                     Querying for something like</para>
-                <synopsis language="xquery"><![CDATA[//book[year = 2000]]]></synopsis>
+                <synopsis language="xquery">//book[year = 2000]</synopsis>
                 <para>will always be slow without an index. As long as no index is defined, eXist
                     has to scan over every year element in the db, casting its string value to an
                     integer.</para>
@@ -245,16 +245,16 @@ wrapper.java.maxmemory=128</synopsis>
                     to process the most selective steps first. The earlier you can reduce the node
                     set to be processed, the faster your query will run. For example, assume we have
                     to find publications written by "Bjarne Stroustrup" after the year 2000:</para>
-                <synopsis language="xquery"><![CDATA[/dblp/*[year > 2000][author = 'Bjarne Stroustrup']]]></synopsis>
+                <synopsis language="xquery">/dblp/*[year &gt; 2000][author = 'Bjarne Stroustrup']</synopsis>
                 <para>The database has 568824 records matching <code>year &gt; 2000</code>, but only
                     41 of them were written by Stroustrup. Moving the filter on the author to the
                     front of the expression should thus result in better performance:</para>
-                <synopsis language="xquery"><![CDATA[/dblp/*[author = 'Bjarne Stroustrup'][year > 2000]]]></synopsis>
+                <synopsis language="xquery">/dblp/*[author = 'Bjarne Stroustrup'][year &gt; 2000]</synopsis>
                 <para>It would certainly be nice if eXist could do this kind of optimization
                     automatically. We are working on it. eXist recognizes more and more cases for
                     intelligent query rewritings. For example, it already transforms the boolean
                     expression</para>
-                <synopsis language="xquery"><![CDATA[/dblp/*[author = 'Bjarne Stroustrup' and year > 2000]]]></synopsis>
+                <synopsis language="xquery">/dblp/*[author = 'Bjarne Stroustrup' and year &gt; 2000]</synopsis>
                 <para>into a multi filter step as shown above.</para>
             </section>
             <section>
@@ -293,20 +293,19 @@ wrapper.java.maxmemory=128</synopsis>
                 <para>This is a variation of the problems discussed above. Many users tend to
                     formulate SQL-style queries using an explite "where" clause:</para>
                 <example>
-                    <title/>
-                    <programlisting language="xquery"><![CDATA[
+                    <programlisting language="xquery">
 for $e in //entry 
 where $e/@type = 'subject'
 return $e
-]]></programlisting>
+</programlisting>
                 </example>
                 <para>could be rewritten as:</para>
                 <example>
                     <title>Equivalent query using XPath predicate</title>
-                    <programlisting language="xquery"><![CDATA[
+                    <programlisting language="xquery">
 for $e in //entry[@type = 'subject'] 
 return $e
-]]></programlisting>
+</programlisting>
                 </example>
                 <para>The "for"..."where" expression forces the query engine into a step-by-step
                     iteration over the input sequence, testing each instance of $e against the where
@@ -343,23 +342,23 @@ return $e
                     once and use it as input for the main expression. For example:</para>
                 <example>
                     <title>Nested for loop</title>
-                    <programlisting language="xquery"><![CDATA[
+                    <programlisting language="xquery">
 for $path in ('/db/a', '/db/b')
 for $result in collection($path)//test[...]
 return
     ...
-]]></programlisting>
+</programlisting>
                 </example>
                 <para>will be less efficient than:</para>
                 <example>
                     <title>Single loop over initial node set</title>
-                    <programlisting language="xquery"><![CDATA[
+                    <programlisting language="xquery">
 let $docs :=
     for $path in ('/db/a', '/db/b') return $collection($path)
 for $result in $docs//test[...]
 return
     ...
-]]></programlisting>
+</programlisting>
                 </example>
             </section>
             <section>
@@ -369,15 +368,15 @@ return
                     top-down example:</para>
                 <example>
                     <title>Top-down query using nested for</title>
-                    <programlisting language="xquery"><![CDATA[
+                    <programlisting language="xquery">
 for $section in collection("/db/articles")//section
 for $match in $section//p[contains(., "XML")]
 return
-    <match>
-        <section>{$section/title/text()}</section>
+    &lt;match&gt;
+        &lt;section&gt;{$section/title/text()}&lt;/section&gt;
         {$match}
-    </match>
-]]></programlisting>
+    &lt;/match&gt;
+</programlisting>
                 </example>
                 <para>This query walks through a set of sections and queries each of them for
                     paragraphs containing the string "XML". It then outputs the title of the
@@ -388,14 +387,14 @@ return
                     approach:</para>
                 <example>
                     <title>Bottom-up query using ancestor axis</title>
-                    <programlisting language="xquery"><![CDATA[
+                    <programlisting language="xquery">
 for $match in collection("/db/articles")//section//p[contains(., "XML")]
 return
-    <match>
-        <section>{$match/ancestor::title/text()}</section>
+    &lt;match&gt;
+        &lt;section&gt;{$match/ancestor::title/text()}&lt;/section&gt;
         {$match}
-    </match>
-]]></programlisting>
+    &lt;/match&gt;
+</programlisting>
                 </example>
                 <para>The second query should be several times faster than the first one.</para>
             </section>
@@ -406,7 +405,7 @@ return
                     entries as the match could be at any position of an entry.</para>
                 <para>You can reduce the range of entries to be scanned by anchoring your pattern at
                     the start of a string (where applicable):</para>
-                <synopsis language="xquery"><![CDATA[fn:matches($str, "^XQuery")]]></synopsis>
+                <synopsis language="xquery">fn:matches($str, "^XQuery")</synopsis>
             </section>
             <section>
                 <title>Use fn:id to lookup xml:id attributes</title>
@@ -446,17 +445,17 @@ return
                     references into a session does not consume much memory.</para>
                 <example>
                     <title>Limiting output generation</title>
-                    <programlisting language="xquery"><![CDATA[let $nodes := (: select some nodes in the db :)
+                    <programlisting language="xquery">let $nodes := (: select some nodes in the db :)
 let $session := session:set-attribute("result", $nodes) (: store result into session :)
 (: only return the first 10 nodes :)
 for $node in subsequence($nodes, 1, 10)
 return
     (: Generate HTML for output :)
-    <div>(: Create complex HTML markup using $node :)</div>]]></programlisting>
+    &lt;div&gt;(: Create complex HTML markup using $node :)&lt;/div&gt;</programlisting>
                 </example>
                 <para>Please note also that eXist uses <emphasis>lazy evaluation</emphasis> when
                     constructing new XML fragments. For example:</para>
-                <synopsis language="xquery"><![CDATA[<book>{$node/title}</book>]]></synopsis>
+                <synopsis language="xquery">&lt;book&gt;{$node/title}&lt;/book&gt;</synopsis>
                 <para>Assuming that $node references a node in the database, the query engine will
                     not copy $node/title into the constructed <sgmltag>book</sgmltag> element.
                     Instead, only a reference is inserted. The reference will not be expanded until
@@ -473,7 +472,7 @@ return
                     in-memory XML fragments: before evaluating a path expression on an in-memory
                     node, the query engine stores the node into a persistent document created in a
                     temporary collection of the db. A very simple example is the query:</para>
-                <synopsis language="xquery"><![CDATA[(<root><node/></root>)//node]]></synopsis>
+                <synopsis language="xquery">(&lt;root&gt;&lt;node/&gt;&lt;/root&gt;)//node</synopsis>
                 <para>Executing this expression should leave a log message similar to the following
                     in your server logs (if you didn't disable debug messages):</para>
                 <screen>06 Mar 2009 16:46:07,786 [main] DEBUG (XQueryContext.java 
