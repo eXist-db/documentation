@@ -8,7 +8,6 @@ import module namespace dq="http://exist-db.org/xquery/documentation/search" at 
 
 declare variable $docbook:INLINE := 
     ("filename", "classname", "methodname", "option", "command", "parameter", "guimenu", "guimenuitem", "guibutton", "function", "envar");
-
 (:~
  : Load a docbook document. If a query was specified, re-run the query on the document
  : to get matches highlighted.
@@ -27,7 +26,7 @@ declare %public function docbook:load($node as node(), $params as element(parame
                 else
                     $context
             return
-                templates:process($node/*, util:expand($data, "add-exist-id=all"))
+                templates:process($node/*, util:expand($data/*, "add-exist-id=all"))
         else
             <p>Document not found: {$path}!</p>
 };
@@ -70,9 +69,15 @@ declare %private function docbook:to-html($nodes as node()*) {
             case document-node() return
                 docbook:to-html($node/*)
             case element(book) return
-                docbook:process-children($node/chapter)
+                <article>
+                    {docbook:process-children($node/chapter)}
+                    {docbook:print-authors($node)}
+                </article>
             case element(article) return
-                docbook:process-children($node/section)
+                <article>
+                    {docbook:process-children($node/section)}
+                    {docbook:print-authors($node)}
+                </article>
             case element(chapter) return
                 <section>
                 {docbook:process-children($node)}
@@ -144,6 +149,14 @@ declare %private function docbook:to-html($nodes as node()*) {
                 docbook:code($node)
             case element(programlisting) return
                 docbook:code($node)
+            case element(procedure) return
+                <div class="procedure">
+                    <ol>
+                    {docbook:process-children($node)}
+                    </ol>
+                </div>
+            case element(step) return
+                <li>{docbook:process-children($node)}</li>
             case element(toc) return
                 <ul class="toc">
                 {docbook:process-children($node)}
@@ -155,13 +168,15 @@ declare %private function docbook:to-html($nodes as node()*) {
             case element(exist:match) return
                 <span class="hi">{$node/text()}</span>
             case element() return
-                if (local-name($node) = $docbook:INLINE) then
-                    <span class="{local-name($node)}">{docbook:process-children($node)}</span>
-                else
-                    element { node-name($node) } {
-                        $node/@*,
-                        docbook:process-children($node)
-                    }
+                let $name := local-name($node)
+                return
+                    if ($name = $docbook:INLINE) then
+                        <span class="{local-name($node)}">{docbook:process-children($node)}</span>
+                    else
+                        element { node-name($node) } {
+                            $node/@*,
+                            docbook:process-children($node)
+                        }
             case text() return
                 $node
             default return
@@ -193,16 +208,31 @@ declare %private function docbook:code($elem as element()) {
         else
             ()
     return
-    if ($lang) then
-        <pre class="brush: {$lang}; gutter: false; wrap-lines: false;">
-        { replace($elem/string(), "^\s+", "") }
-        </pre>
-    else
-        <pre>{ replace($elem/string(), "^\s+", "") }</pre>
+        if ($lang) then
+            <pre class="brush: {$lang}; gutter: false; wrap-lines: false;">
+            { replace($elem/string(), "^\s+", "") }
+            </pre>
+        else
+            <pre>{ replace($elem/string(), "^\s+", "") }</pre>
 };
 
 declare %private function docbook:process-children($elem as element()) {
     for $child in $elem/node()
     return
         docbook:to-html($child)
+};
+
+declare %private function docbook:print-authors($root as element()) {
+    <div class="authors">
+    {
+        for $author in $root/bookinfo/author
+        return
+            <address>
+                <strong>{$author/firstname} {$author/surname}</strong>
+                { for $jobtitle in $author/jobtitle return (<br/>, $author/jobtitle/text()) }
+                { for $orgname in $author/orgname return (<br/>, $author/orgname/text()) }
+                { for $email in $author/email return (<br/>, <a href="mailto:{$author/email}">{$author/email/text()}</a>) }
+            </address>
+    }
+    </div>
 };

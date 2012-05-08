@@ -44,8 +44,8 @@
                         following in conf.xml:</para>
                     <example>
                         <title>Scheduler XQuery Module in conf.xml</title>
-                        <programlisting lang="xml"><![CDATA[<module class="org.exist.xquery.modules.scheduler.SchedulerModule"
-         uri="http://exist-db.org/xquery/scheduler" />]]></programlisting>
+                        <programlisting lang="xml">&lt;module class="org.exist.xquery.modules.scheduler.SchedulerModule"
+         uri="http://exist-db.org/xquery/scheduler" /&gt;</programlisting>
                     </example>
                     <para>Once the scheduler XQuery function module is active, then XQuery code can
                         be written to invoke and manage <emphasis role="bold">user</emphasis> type
@@ -107,7 +107,7 @@
                     job that is invoked from the conf.xml file implements <emphasis role="bold">org.exist.storage.SystemTask</emphasis>.</para>
                 <example>
                     <title>Sample Java Source File</title>
-                    <programlisting format="linespecific" language="java"><![CDATA[
+                    <programlisting format="linespecific" language="java">
 package org.exist.scheduler;
 
 import java.util.Map;
@@ -132,7 +132,7 @@ public class TestJob extends UserJavaJob {
         this.jobName = name;
     }
 }
-                ]]></programlisting>
+                </programlisting>
                 </example>
             </section>
         </section>
