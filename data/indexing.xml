@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
@@ -24,8 +23,8 @@
                     <para>
                         <emphasis>
                             <ulink url="#structuralidx">Structural Indexes</ulink>
-                        </emphasis>: These index the nodal structure, elements (tags) and
-                        attributes, of the documents in a collection.</para>
+                        </emphasis>: These index the nodal structure (the elements and
+                        attributes) of the documents in a collection.</para>
                 </listitem>
                 <listitem>
                     <para>
@@ -45,9 +44,9 @@
                     <para>
                         <emphasis>
                             <ulink url="lucene.xml">New Full Text Indexes</ulink>
-                        </emphasis>(eXist 1.4): new full text indexing module. Features faster and
+                        </emphasis> (from eXist 1.4): This new full text indexing module features faster and
                         customizable full text indexing by transparently integrating Lucene into the
-                        XQuery engine. Prefer this index over the old builtin implementation.
+                        XQuery engine. Prefer this index over the Legacy Full Text Index.
                     </para>
                 </listitem>
                 <listitem>
@@ -56,9 +55,9 @@
                             <ulink url="ngram.xml">NGram Indexes</ulink>
                         </emphasis>: These map specific text nodes and attributes of the documents
                         in a collection to splitted tokens of n-characters (where n = 3 by default).
-                        Very efficient for exact substring searches and for queries on scripts
-                        (mostly non-european ones) which can not be easily split into whitespace
-                        separated tokens and are thus a bad match for the full text index. </para>
+                        This is very efficient for exact substring searches and for queries on scripts
+                        (mostly non-European ones) which can not be easily split into whitespace
+                        separated tokens and are thus a bad match for the Lucene full text index. </para>
                 </listitem>
                 <listitem>
                     <para>
@@ -77,7 +76,7 @@
             <para>Since version 1.2, eXist features a new modularized indexing architecture. Most
                 types of indexes have been moved out of the database core and are now maintained as
                 pluggable extensions. The full text, ngram and spatial indexes fall under this
-                category. Please refer to the blog <ulink url="http://atomic.exist-db.org/wiki/blogs/eXist/NewIndexing">article</ulink>
+                category. Please refer to the blog <ulink url="http://http://atomic.exist-db.org/blogs/eXist/NewIndexing">article</ulink>
                 which introduced the new architecture.</para>
         </section>
         <section>
@@ -87,8 +86,8 @@
                 (see <ulink url="#moduleconf">below</ulink>). </para>
             <section id="structuralidx">
                 <title>Structural index</title>
-                <para>This index keeps track of the elements (tags), attributes, and nodal structure
-                    for all XML documents in a collection. It is created and maintained
+                <para>This index keeps track of the elements, attributes, and the nodal structure
+                    of all XML documents in a collection. It is created and maintained
                     automatically in eXist, and can neither be reconfigured nor disabled by the
                     user. The structural index is required for nearly all XPath and XQuery
                     expressions in eXist (with the exception of wildcard-only expressions such as
@@ -125,7 +124,7 @@
        <price>299.99</price>
     </item>
     <item n="2">
-       <name>Short Bookcase</name>
+       <name>Low Bookcase</name>
        <price>199.99</price>
     </item>
 </items>]]></markup>
@@ -144,14 +143,14 @@
                     point numbers are therefore ignored. This range index will then be used by any
                     expression that compares <sgmltag>price</sgmltag> to an <command>xs:double</command> value - for instance:</para>
                 <synopsis>//item[price &gt; 100.0]</synopsis>
-                <para>For non-string data types, the range index provides the query engine a more
+                <para>For non-string data types, the range index provides the query engine with a more
                     efficient method of data conversion. Instead of retrieving the value of each
                     selected element and casting it as a <command>xs:double</command> type, the
                     engine can evaluate the expression by using the range index as a form of lookup
                     index. Without an index, eXist has to do a full scan over all price
                         <sgmltag>price</sgmltag> elements, retrieve the string values of their text
                     node and cast them to a double number. This is a time-consuming process which
-                    also scales very bad with growing data sets. With a proper index, eXist needs
+                    also scales very badly with growing data sets. With a proper index, eXist needs
                     just a single index lookup to evaluate <command>price = 100.0</command>. The
                     range expression <command>price &gt; 100.0</command> is processed with an index
                     scan starting at 100. </para>
@@ -225,11 +224,10 @@
                 </orderedlist>
                 <para>Concerning range indexes on strings there's another restriction to be
                     considered: up to version 1.3, range indexes on strings can only be used with
-                    the default unicode collation. Also, string indexes will always be case
+                    the default Unicode collation. Also, string indexes will always be case
                     sensitive (while n-gram and full text indexes are not). It is not yet possible
                     to define a string index on a different collation (e.g. for German or French) or
-                    to make it case insensitve. This is a limitation we plan to address in the next
-                    release.</para>
+                    to make it case insensitve. This is a limitation we plan to address in the future.</para>
             </section>
             <section id="spatialidx">
                 <title>Spatial Index</title>
@@ -243,8 +241,8 @@
             <para>eXist features a <emphasis>modularized indexing architecture</emphasis>, which
                 allows arbitrary indexes to be plugged into an indexing pipeline. Consequently, some
                 indexes were moved out of the database core and are now available as plugins. For
-                the DB core, those indexes are a black box: they handle their own creation,
-                configuration, destruction etc.</para>
+                the database core, those indexes are a black box: they handle their own creation,
+                configuration, destruction, etc.</para>
             <para>While the structural and the range index are always available, the optional
                 indexes can be enabled or disabled on a given database instance. Optional modules
                 are:</para>
@@ -284,9 +282,7 @@
                         <ulink url="devguide_indexes.xml">Spatial Index</ulink>
                     </term>
                     <listitem>
-                        <para>A working proof-of-concept index, which listens for spatial geometries
-                            described through the Geography Markup Language (GML). A detailed
-                            description of the implementation can be found in the <ulink url="devguide_indexes.xml">Developer's Guide to Modularized
+                        <para>A detailed description can be found in the <ulink url="devguide_indexes.xml">Developer's Guide to Modularized
                                 Indexes</ulink>.</para>
                     </listitem>
                 </varlistentry>
@@ -294,7 +290,7 @@
         </section>
         <section id="moduleconf">
             <title>Enabling Index Modules</title>
-            <para>While a few indexes (n-gram, full text) are already pre-build in the standard
+            <para>While some indexes (n-gram, full text) are already pre-build in the standard
                 eXist distribution, other modules may need to be enabled first. For example, the
                 spatial index depends on a bunch of external libraries, which do not ship with
                 eXist. However, enabling the spatial index is a simple process:</para>
@@ -351,7 +347,7 @@ include.index.spatial = false
             <para>All other attributes or nested configuration elements below the
                     <sgmltag>module</sgmltag> element are specific to the implementation and will
                 differ between indexes. They should be documented by the index implementor.</para>
-            <para>If an index implementation can not be loaded from the specified class, the entry
+            <para>If an index implementation cannot be loaded from the specified class, the entry
                 will simply be ignored. A warning will be written to the logs which should provide
                 more information on the issue which caused the configuration to fail.</para>
         </section>
@@ -365,7 +361,7 @@ include.index.spatial = false
                 configuration document specifies collection-specific other settings such as triggers
                 or default permissions.</para>
             <para>The contents of the system collection (<filename>/db/system/config</filename>)
-                mirrors the hierarchical structure of the main collection. Configurations are shared
+                should mirror the hierarchical structure of the main collection. Configurations are shared
                 by descendants in the hierarchy unless they have their own configuration (i.e. the
                 configuration settings for the child collection override those set for the parent).
                 If no collection-specific configuration file is created for any document, the global
@@ -414,8 +410,13 @@ include.index.spatial = false
                                         collection, you need to trigger a "manual reindex" of the
                                         collection being updated. You can re-index collections using
                                         the Java Admin Client (shown on the right). From the Admin
-                                        menu, select <guimenu>File</guimenu>»<guimenuitem>Reindex Collection</guimenuitem>
-                                    </para>
+                                        menu, select <guimenu>File</guimenu>»<guimenuitem>Reindex Collection.</guimenuitem>
+                                    </para><para>You can also index by passing an XQuery to eXist:
+                                        <example>
+                                            <programlisting language="xquery">
+                                            <![CDATA[xmldb:reindex('/db/foo')]]>
+                                            </programlisting>
+                                        </example></para>
                                 </td>
                                 <td>
                                     <screenshot>
@@ -439,6 +440,7 @@ include.index.spatial = false
                         <markup><![CDATA[
 <collection xmlns="http://exist-db.org/collection-config/1.0">
     <index>
+        
         <!-- Old full text index configuration. Deprecated. -->
         <fulltext default="none" attributes="false">
             <!-- Full text indexes -->
@@ -447,6 +449,7 @@ include.index.spatial = false
             <!-- "old" context-dependant configuration using the path attribute: -->
             <include path="booktitle"/>
         </fulltext>
+        
         <!-- New full text index based on Lucene -->
         <lucene>
             <text qname="SPEECH">
@@ -454,6 +457,7 @@ include.index.spatial = false
             </text>
             <text qname="TITLE"/>
         </lucene>
+        
         <!-- Range indexes -->
         <create qname="title" type="xs:string"/>
         <create qname="author" type="xs:string"/>
@@ -469,14 +473,12 @@ include.index.spatial = false
 ]]></markup>
                     </programlisting>
                 </example>
-                <para>All configuration documents have the <sgmltag>collection</sgmltag> root
-                    element (in the <literal>http://exist-db.org/collection-config/1.0
-                        namespace</literal>). These documents also have an <sgmltag>index</sgmltag>
+                <para>All configuration documents documents have an <sgmltag>index</sgmltag>
                     element directly below the root element, which encloses the index configuration.
                     Only <emphasis>one</emphasis>
                     <sgmltag>index</sgmltag> element is permitted in a document. Apart from the
-                    index configuration, the document may also contain non index-related settings,
-                    e.g. for triggers, which will not be covered here. </para>
+                    index configuration, the document may also contain settings not related to indexing,
+                    e.g. for triggers; these will not be covered here. </para>
                 <para>In the <sgmltag>index</sgmltag> element are elements that define the various
                     index types. Each index type can add its own configuration elements, which are
                     directly forwarded to the corresponding index implementation. The example above
@@ -523,12 +525,12 @@ include.index.spatial = false
                         </programlisting>
                     </example>
                     <para>A range index is configured by adding a <sgmltag>create</sgmltag> element
-                        directly below the root <sgmltag>index</sgmltag> node. As explained above,
+                        directly below the root <sgmltag>index</sgmltag> element. As explained above,
                         the node to be indexed is either specified through a <option>path</option>
                         or a <option>qname</option> attribute.</para>
                     <para>As range indexes are type specific, the <option>type</option> attribute is
                         always required. The type should be one of the atomic XML schema types,
-                        currently including <command>xs:string</command>, <command>xs:integer</command> and its derived types, <command>xs:double</command>, <command>xs:float</command>, <command>xs:boolean</command> and <command>xs:dateTime</command>. Further types
+                        currently including <command>xs:string</command>, <command>xs:integer</command> and its derived types <command>xs:double</command> and <command>xs:float</command>, <command>xs:boolean</command> and <command>xs:dateTime</command>. Further types
                         may be added in the future. If the name of the type is unknown, the index
                         configuration will be ignored and you will get a warning written into the
                         logs.</para>
@@ -592,11 +594,11 @@ include.index.spatial = false
                         look at the context of each <sgmltag>title</sgmltag> node before we can
                         determine if this particular title is to be indexed or not.</para>
                     <para>This kind of context-dependant index definition helps to keep the index
-                        small. But unfortunately, it makes it hard for the query optimizer to
+                        small, but unfortunately it makes it hard for the query optimizer to
                         properly rewrite the expression tree without missing some nodes. The
                         optimizer needs to make an optimization decision at compile time, where the
                         context of an expression is unknown or at least not exactly known (read the
-                            <ulink url="http://atomic.exist-db.org/wiki/blogs/eXist/">blog
+                        <ulink url="http://atomic.exist-db.org/blogs/eXist/NewIndexing">blog
                             article</ulink> to get the whole picture). This means that some of the
                         highly efficient optimization techniques can not be applied to
                         context-dependant indexes!</para>
@@ -679,7 +681,7 @@ include.index.spatial = false
             </example>
             <para>Another possibility to see what's in your index is to use the <function>util:index-keys</function> function (for range indexes):</para>
             <example>
-                <title>Query to List Index Contents</title>
+                <title>Query to List Range Index Contents</title>
                 <programlisting language="xquery"><![CDATA[declare function local:term-callback($term as xs:string, $data as xs:integer+) as element() {
    <entry>
      <term>{$term}</term>
@@ -692,7 +694,7 @@ include.index.spatial = false
 util:index-keys(//name, "A", util:function(xs:QName("local:term-callback"), 2), 1000)]]></programlisting>
             </example>
             <para>This query will show you the first 1000 keys (starting with the letter 'A')
-                indexed for the element selected by the path expression <option>//city/name</option>
+                indexed for the element selected by the range index on <option>name</option>
                 together with some information about this key. The first argument to index-keys
                 specifies the node set for which index entries should be listed. The second argument
                 contains a start value which also determines the index type. For example, if the
@@ -700,10 +702,10 @@ util:index-keys(//name, "A", util:function(xs:QName("local:term-callback"), 2), 
                     <option>xs:string</option>, if it is an integer number, only indexes with type
                     <option>xs:integer</option> will be considered. For a string index, you may also
                 pass the empty string to retrieve all keys in the index.</para>
-            <para>Finally, to view the contents of the full text index instead of the range index, a
-                different function needs to be used, <function>text:index-terms</function> :</para>
+            <para>To view the contents of the full text index instead of the range index, you need to specify 
+                the index type as well:</para>
             <example>
-                <title>Query to List Full Test Index Contents</title>
+                <title>Query to List Full Text Index Contents</title>
                 <programlisting language="xquery">
 <![CDATA[declare function local:term-callback($term as xs:string, $data as xs:integer+) as element() {
    <entry>
@@ -714,8 +716,11 @@ util:index-keys(//name, "A", util:function(xs:QName("local:term-callback"), 2), 
    </entry>
 };
 
-text:index-terms(//name, "A", util:function(xs:QName("local:term-callback"), 2), 1000)]]></programlisting>
+util:index-keys(//PLAY[PLAYSUBT eq 'HAMLET']//SCENE, "a", util:function(xs:QName("local:term-callback"), 2), 1000, 'lucene-index')
+]]></programlisting>
             </example>
+            <para>From eXist 1.5, the Admin panel contains an Indexing page which provides access to the indexes through the above functions. 
+                The Query Profiling page provides ways to trace whether the indexes are used optimally.</para>
         </section>
     </chapter>
 </book>
