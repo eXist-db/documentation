@@ -23,8 +23,8 @@
                     <para>
                         <emphasis>
                             <ulink url="#structuralidx">Structural Indexes</ulink>
-                        </emphasis>: These index the nodal structure (the elements and
-                        attributes) of the documents in a collection.</para>
+                        </emphasis>: This index keeps track of the elements, attributes, and the nodal structure
+                        of all XML documents in a collection.</para>
                 </listitem>
                 <listitem>
                     <para>
@@ -36,7 +36,7 @@
                 <listitem>
                     <para>
                         <emphasis>
-                            <ulink url="ftlegacy.xml">Old Legacy Full Text Indexes</ulink>
+                            <ulink url="ftlegacy.xml">Legacy Legacy Full Text Indexes</ulink>
                         </emphasis>These map specific text nodes and attributes of the documents in
                         a collection to text tokens.</para>
                 </listitem>
@@ -44,7 +44,7 @@
                     <para>
                         <emphasis>
                             <ulink url="lucene.xml">New Full Text Indexes</ulink>
-                        </emphasis> (from eXist 1.4): This new full text indexing module features faster and
+                        </emphasis>: This full text indexing module features fast and
                         customizable full text indexing by transparently integrating Lucene into the
                         XQuery engine. Prefer this index over the Legacy Full Text Index.
                     </para>
@@ -67,12 +67,19 @@
                         collection containing georeferenced geometries to dedicated data structures
                         that allow efficient spatial queries. </para>
                 </listitem>
+                <listitem>
+                    <para>
+                        <emphasis>
+                            <ulink url="devguide_indexes.xml#spatial">xml:id Index</ulink>
+                            </emphasis>: An index of all xml:id attribute values is automatically created. 
+                            These values can be queried by fn:id(). </para>
+                </listitem>
             </orderedlist>
-            <note>
+            <!--<note>
                 <para>Currently, comments and processing instruction nodes are not indexed. Whether
                     they should be or not, and how some processing instructions could "hint" the
                     indexing process is still being considered.</para>
-            </note>
+            </note>-->
             <para>Since version 1.2, eXist features a new modularized indexing architecture. Most
                 types of indexes have been moved out of the database core and are now maintained as
                 pluggable extensions. The full text, ngram and spatial indexes fall under this
@@ -273,7 +280,7 @@
                         <ulink url="ftlegacy.xml">Legacy Full Text Index</ulink>
                     </term>
                     <listitem>
-                        <para>Old full text index. Deprecated, though still supported for backwards
+                        <para>Legacy full text index. Deprecated, though still supported for backwards
                             compatibility.</para>
                     </listitem>
                 </varlistentry>
@@ -410,13 +417,14 @@ include.index.spatial = false
                                         collection, you need to trigger a "manual reindex" of the
                                         collection being updated. You can re-index collections using
                                         the Java Admin Client (shown on the right). From the Admin
-                                        menu, select <guimenu>File</guimenu>»<guimenuitem>Reindex Collection.</guimenuitem>
-                                    </para><para>You can also index by passing an XQuery to eXist:
+                                        menu, select File»Reindex Collection.
+                                    </para>
+                                    <para>You can also index by passing an XQuery to eXist:
                                         <example>
                                             <programlisting language="xquery">
-                                            <![CDATA[xmldb:reindex('/db/foo')]]>
-                                            </programlisting>
-                                        </example></para>
+                                            <![CDATA[xmldb:reindex('/db/foo')]]></programlisting>
+                                        </example>
+                                    </para>
                                 </td>
                                 <td>
                                     <screenshot>
@@ -441,7 +449,7 @@ include.index.spatial = false
 <collection xmlns="http://exist-db.org/collection-config/1.0">
     <index>
         
-        <!-- Old full text index configuration. Deprecated. -->
+        <!-- Legacy full text index configuration. Deprecated. -->
         <fulltext default="none" attributes="false">
             <!-- Full text indexes -->
             <create qname="author"/>
@@ -679,7 +687,7 @@ include.index.spatial = false
 04 Jan 2008 14:26:24,866 [main] TRACE (Optimize.java [eval]:117) - Found: 49
 ]]></screen>
             </example>
-            <para>Another possibility to see what's in your index is to use the <function>util:index-keys</function> function (for range indexes):</para>
+            <para>Another possibility to see what's in your index is to use the <function>util:index-keys</function> function:</para>
             <example>
                 <title>Query to List Range Index Contents</title>
                 <programlisting language="xquery"><![CDATA[declare function local:term-callback($term as xs:string, $data as xs:integer+) as element() {
@@ -702,8 +710,7 @@ util:index-keys(//name, "A", util:function(xs:QName("local:term-callback"), 2), 
                     <option>xs:string</option>, if it is an integer number, only indexes with type
                     <option>xs:integer</option> will be considered. For a string index, you may also
                 pass the empty string to retrieve all keys in the index.</para>
-            <para>To view the contents of the full text index instead of the range index, you need to specify 
-                the index type as well:</para>
+            <para>To view the contents of the Lucene full text index, you need to specify the index type as well:</para>
             <example>
                 <title>Query to List Full Text Index Contents</title>
                 <programlisting language="xquery">
@@ -716,10 +723,10 @@ util:index-keys(//name, "A", util:function(xs:QName("local:term-callback"), 2), 
    </entry>
 };
 
-util:index-keys(//PLAY[PLAYSUBT eq 'HAMLET']//SCENE, "a", util:function(xs:QName("local:term-callback"), 2), 1000, 'lucene-index')
+util:index-keys(//SCENE, "a", util:function(xs:QName("local:term-callback"), 2), 1000, 'lucene-index')
 ]]></programlisting>
             </example>
-            <para>From eXist 1.5, the Admin panel contains an Indexing page which provides access to the indexes through the above functions. 
+            <para>The Admin panel contains an Indexing page which provides access to the indexes through the above functions. 
                 The Query Profiling page provides ways to trace whether the indexes are used optimally.</para>
         </section>
     </chapter>
