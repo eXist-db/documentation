@@ -1,5 +1,3 @@
-xquery version "3.0";
-
 (:~
  : A set of helper functions to access the application context from
  : within a module.
@@ -27,7 +25,14 @@ declare variable $config:app-root :=
         substring-before($modulePath, "/modules")
 ;
 
-declare variable $config:data-root := $config:app-root || "/data";
+declare variable $config:data-root := concat($config:app-root, "/data");
+
+declare function config:resolve($relPath as xs:string) {
+    if (starts-with($config:app-root, "/db")) then
+        doc(concat($config:app-root, "/", $relPath))
+    else
+        doc(concat("file://", $config:app-root, "/", $relPath))
+};
 
 (:~
  : Returns the repo.xml descriptor for the current application.
@@ -47,7 +52,7 @@ declare function config:expath-descriptor() as element(expath:package) {
  : For debugging: generates a table showing all properties defined
  : in the application descriptors.
  :)
-declare function config:app-info($node as node(), $params as element(parameters)?, $model as item()*) {
+declare function config:app-info($node as node(), $model as map(*)) {
     let $expath := config:expath-descriptor()
     let $repo := config:repo-descriptor()
     return

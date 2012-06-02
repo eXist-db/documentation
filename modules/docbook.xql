@@ -12,21 +12,20 @@ declare variable $docbook:INLINE :=
  : Load a docbook document. If a query was specified, re-run the query on the document
  : to get matches highlighted.
  :)
-declare %public function docbook:load($node as node(), $params as element(parameters)?, $model as item()*) {
-    let $query := request:get-parameter("q", ())
-    let $doc := request:get-parameter("doc", ())
-    let $field := request:get-parameter("field", "all")
+declare 
+    %public %templates:default("field", "all")
+function docbook:load($node as node(), $model as map(*), $q as xs:string?, $doc as xs:string?, $field as xs:string) {
     let $path := $config:data-root || "/" || $doc
     return
         if (exists($doc) and doc-available($path)) then
             let $context := doc($path)
             let $data :=
-                if ($query) then
-                    dq:do-query($context, $query, $field)
+                if ($q) then
+                    dq:do-query($context, $q, $field)
                 else
                     $context
             return
-                templates:process($node/*, util:expand($data/*, "add-exist-id=all"))
+                map { "doc" := util:expand($data/*, "add-exist-id=all") }
         else
             <p>Document not found: {$path}!</p>
 };
@@ -34,15 +33,15 @@ declare %public function docbook:load($node as node(), $params as element(parame
 (:~
  : Transform the docbook fragment given in $model.
  :)
-declare %public function docbook:to-html($node as node(), $params as element(parameters)?, $model as item()*) {
-    docbook:to-html($model)
+declare %public function docbook:to-html($node as node(), $model as map(*)) {
+    docbook:to-html($model("doc"))
 };
 
 (:~
  : Generate a table of contents.
  :)
-declare %public function docbook:toc($node as node(), $params as element(parameters)?, $model as item()*) {
-    docbook:print-sections($model/*/(chapter|section))
+declare %public function docbook:toc($node as node(), $model as map(*)) {
+    docbook:print-sections($model("doc")/*/(chapter|section))
 };
 
 declare %private function docbook:print-sections($sections as element()*) {

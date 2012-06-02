@@ -6,6 +6,7 @@ xquery version "3.0";
 module namespace dq="http://exist-db.org/xquery/documentation/search";
 
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
+import module namespace templates="http://exist-db.org/xquery/templates" at "templates.xql";
 
 import module namespace kwic="http://exist-db.org/xquery/kwic";
 
@@ -25,23 +26,22 @@ declare variable $dq:CHARS_KWIC := 60;
 (:~
     Templating function: process the query.
 :)
-declare %public function dq:query($node as node()*, $params as element(parameters)?, $model as item()*) {
-	let $query := request:get-parameter("q", ())
-	let $field := request:get-parameter("field", "all")
-	return
-		if ($query) then
-			let $hits := dq:do-query(collection($dq:COLLECTION), $query, $field)
-			let $docXPath :=
-                string-join(
-                    map-pairs(function($k, $v) { $k || "=" || $v }, ("q", "field"), ($query, $field)),
-                    "&amp;"
-                )
-			return
-                <div id="f-search">
-				{dq:print-results($hits, $docXPath)}
-                </div>
-		else
-			()
+declare 
+    %public %templates:default("field", "all") %templates:default("view", "summary")
+function dq:query($node as node()*, $model as map(*), $q as xs:string?, $field as xs:string, $view as xs:string) {
+	if ($q) then
+		let $hits := dq:do-query(collection($dq:COLLECTION), $q, $field)
+		let $docXPath :=
+            string-join(
+                map-pairs(function($k, $v) { $k || "=" || $v }, ("q", "field"), ($q, $field)),
+                "&amp;"
+            )
+		return
+            <div id="f-search">
+			{dq:print-results($hits, $docXPath, $view)}
+            </div>
+	else
+		()
 };
 
 (:~
@@ -80,9 +80,7 @@ declare %private function dq:print-headings($section as element()*, $docXPath as
 (:~
 	Display the query results.
 :)
-declare %private function dq:print-results($hits as element()*, $docXPath as xs:string) {
-	let $mode := request:get-parameter("view", "summary")
-	return
+declare %private function dq:print-results($hits as element()*, $docXPath as xs:string, $mode as xs:string) {
 		<div id="f-results">
 			<p class="heading">Found: {count($hits)}.</p>
 			{

@@ -25,7 +25,7 @@ declare variable $dq:CHARS_KWIC := 60;
 (:~
     Templating function: process the query.
 :)
-declare %public function dq:query($node as node()*, $params as element(parameters)?, $model as item()*) {
+declare %public function dq:query($node as node()*, $model as map(*)) {
 	let $query := request:get-parameter("q", ())
 	let $field := request:get-parameter("field", "all")
 	return
