@@ -9,28 +9,28 @@
                 <firstname>Dan</firstname>
                 <surname>McCreary</surname>
             </personname>
-            <email>dan@syntactica.com</email>
+      <email>dan at syntactica.com</email>
         </author>
         <author>
             <personname>
                 <firstname>Henry</firstname>
                 <surname>Neils</surname>
             </personname>
-            <email>henry@syntactica.com</email>
+      <email>henry at syntactica.com</email>
         </author>
         <author>
             <personname>
                 <firstname>Loren</firstname>
                 <surname>Cahlander</surname>
             </personname>
-            <email>loren@syntactica.com</email>
+      <email>loren at syntactica.com</email>
         </author>
         <author>
             <personname>
                 <firstname>Joe</firstname>
                 <surname>Wicentowski</surname>
             </personname>
-            <email>joewiz@gmail.com</email>
+      <email>joewiz at gmail.com</email>
         </author>
         <revhistory>
             <revision>
@@ -101,15 +101,15 @@
             correctly for the CRUDS components to work correctly. This example tries to use as
             little code as possible and yet still cover many of the key components of a fully
             functional XRX web application.</para>
-        <section>
-            <title>Intended Audience</title>
-            <para>Creating a new web application from scratch is a core skill that is necessary to
+    <section>
+      <title>Intended Audience</title>
+      <para>Creating a new web application from scratch is a core skill that is necessary to
                 understand the power of the XRX web application architecture. Our experience has
                 shown that once users get an understanding of how XRX applications are constructed
                 they can quickly become productive building new web applications. They also have a
                 much better understanding of the complex portions of the XRX application and why
                 these portions are usually automated in XRX frameworks.</para>
-            <para>This document is designed for new eXist users who would like to create their first
+      <para>This document is designed for new eXist-db users who would like to create their first
                 XRX application. For this process we assume that you have a basic understanding of
                 XML and understand concepts such as XML elements and XPath expressions. The user
                 should also be somewhat familiar with very basic HTML markup including the structure
@@ -128,10 +128,7 @@
         </section>
         <section>
             <title>Getting Started</title>
-            <para>To use this guide you will need to have following tools in place: <orderedlist>
-                    <listitem>
-                        <para>
-                            <emphasis role="bold">eXist</emphasis> You will need to have a version
+      <para>To use this guide you will need to have following tools in place: <orderedlist><listitem><para><emphasis role="bold">eXist-db</emphasis> You will need to have a version
                             of the <ulink url="http://exist-db.org">eXist</ulink> XML application server running on your local
                             system. By default eXist runs on port 8080 so that when you set your web
                             browser to http://localhost:8080/exist/ you should see the eXist
@@ -139,11 +136,7 @@
                             server. If you are doing this you must replace the word "localhost" with
                             the name of your remote server. Make sure that you take into account the
                             port number; it might not be 8080, or it may be missing, which implies
-                            that the port number is the default port 80.</para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <emphasis role="bold">XML and XQuery Editor</emphasis> You will need
+                            that the port number is the default port 80.</para></listitem><listitem><para><emphasis role="bold">XML and XQuery Editor</emphasis> You will need
                             some tool to edit XML and XQuery files. We strongly encourage you to use
                             a tool, such as the oXygen XML Editor, since this tool has special
                             additions to make editing XML and XQuery files easy. Simple text editors
@@ -152,55 +145,36 @@
                             syntax highlighting feature of editors like oXygen is very useful when
                             you are first learning an new programming system. Since there are 30-day
                             free trials of many tools we strongly encourage new users to use good
-                            XML editors.</para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <emphasis role="bold">File Uploader</emphasis> You will need some tool
+                            XML editors.</para></listitem><listitem><para><emphasis role="bold">File Uploader</emphasis> You will need some tool
                             to transfer your files directly to eXist. Tools like oXygen can save
                             directly to the eXist database, or you can also use a WebDAV client to
                             copy the files. There are also web uploader tools in the eXist admin
                             area and there are custom versions that also allow you to upload and
                             expand an entire ZIP file within the database. As a final option, you
-                            can also use the eXist Java console to upload files.</para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <emphasis role="bold">XForms</emphasis> You will need some XForms client
+                            can also use the eXist-db Java console to upload files.</para></listitem><listitem><para><emphasis role="bold">XForms</emphasis> You will need some XForms client
                             libraries. This example will use the XSLTForms client which is usually
                             installed in /db/xforms/xsltforms. You do not have to use libraries that
-                            are in the eXist database but this is sometimes preferable.</para>
-                    </listitem>
-                </orderedlist>
+                            are in the eXist-db database but this is sometimes preferable.</para></listitem></orderedlist>
             </para>
         </section>
         <section>
             <title>Terms and Concepts Used</title>
             <para>This example will use the following terms and concepts:</para>
-            <para>
-                <termdef>
-                    <emphasis role="bold">XRX</emphasis>
-                </termdef>XRX is the name of the web application architecture that we are
+      <para><termdef><emphasis role="bold">XRX</emphasis></termdef>XRX is the name of the web application architecture that we are
                 introducing in this guide. The term XRX comes from the combination of  XForms, REST,
                 and XQuery. XForms are used in the client (web browser), REST is the interface
                 between the client and the server, and XQuery is the server language. Two of the
                 most significant advantages of XRX over other architectures are: (1) it does not
                 require users to translate data into Java or .Net objects, and (2) it does not
                 require users to "shred" documents into rows of a relational database.</para>
-            <para>
-                <termdef>
-                    <emphasis role="bold">XForms</emphasis>
-                </termdef> is a W3C standard consisting of set of around 25 XML tags that are used
+      <para><termdef><emphasis role="bold">XForms</emphasis></termdef> is a W3C standard consisting of set of around 25 XML tags that are used
                 to define the structure of a web from. XForms is much more advanced than traditional
                 HTML forms, but can appear intimidating to the first time user. However, most simple
                 forms need only a few control types, and these can be quickly learned. XForms bind
                 user interface controls to each leaf element in an XML instance. XForms stores the
                 data in a model element in the HTML HEAD tag and then binds the leaf elements in the
                 model to web input controls. </para>
-            <para>
-                <termdef>
-                    <emphasis role="bold">XQuery</emphasis>
-                </termdef> is a W3C standard query language for selecting and transforming XML
+      <para><termdef><emphasis role="bold">XQuery</emphasis></termdef> is a W3C standard query language for selecting and transforming XML
                 structures. If you don't have programming experience, XQuery is not hard to pick up.
                 If you do have programming experience, XQuery is a little different than other
                 languages you may have used in the past. It is a "functional" programming language
@@ -210,9 +184,8 @@
                 with an XML database like eXist, XQuery is an ideal language for creating web
                 applications. eXist's highly efficient indexing abilities make full text searches
                 and other queries very fast, even when working with gigabytes of XML data. </para>
-            <sidebar>
-                <para>
-                    <emphasis role="bold">Note for New XQuery Users</emphasis>. There are some
+      <sidebar>
+        <para><emphasis role="bold">Note for New XQuery Users</emphasis>. There are some
                     things that are very different in XQuery that you should be aware of. In
                     general, all XQuery variables are <emphasis role="italic">immutable</emphasis>,
                     meaning that they are designed to be set once but never changed. So functions
@@ -221,10 +194,7 @@
                     statements. We will illustrate these in examples in future Beginner's
                     Guides.</para>
             </sidebar>
-            <para>
-                <termdef>
-                    <emphasis role="bold">REST</emphasis>
-                </termdef> is at the heart of the architecture of the World Wide Web. We use this
+      <para><termdef><emphasis role="bold">REST</emphasis></termdef> is at the heart of the architecture of the World Wide Web. We use this
                 "RESTful" approach to passing information around in our XRX application by simply
                 placing parameters at the end of a URL. For example, to pass a query keyword to a
                 our XRX application search service, our form appends the parameter q=myword to the
@@ -234,20 +204,14 @@
                 application under the default configuration will be
                     http://localhost:8080/exist/<emphasis role="bold">rest</emphasis>/db/apps/term/index.html. Note that the word "rest" comes after the
                 /exist/ and before the /db/.</para>
-            <para>Several additional terms and concepts are helpful in understanding the XRX
+      <para>Several additional terms and concepts are helpful in understanding the XRX
                 approach:</para>
-            <para>
-                <termdef>
-                    <emphasis role="bold">WebDAV</emphasis>
-                </termdef> is a protocol for transfering files, and we use eXist's WebDAV interface
+      <para><termdef><emphasis role="bold">WebDAV</emphasis></termdef> is a protocol for transfering files, and we use eXist's WebDAV interface
                 to move files to and from eXist and to list files in eXist collections. If you want
                 to add a folder to eXist you can do this through the WebDAV interface. When you use
                 oXygen or other editors you will also use the WebDAV interface. To open a file
                 through the WebDAV interface you might open http://localhost:8080/exist/<emphasis role="bold">webdav</emphasis>/db/apps/term/</para>
-            <para>
-                <termdef>
-                    <emphasis role="bold">Model-View Bindings</emphasis>
-                </termdef> is the term we use to describe how user interface elements (controls)
+      <para><termdef><emphasis role="bold">Model-View Bindings</emphasis></termdef> is the term we use to describe how user interface elements (controls)
                 within a form are associated with leaf-level elements within the XForms model. This
                 is similar to the Model-View-Controller (MVC) architecture in other systems, but in
                 the case of XForms event controls are part of the views. By using XPath statements
@@ -255,10 +219,7 @@
                 the browser constructs a dependency graph to keep the model and views in sync. This
                 makes forms development much easier since the form developer never needs to manually
                 move data between the model and the views.</para>
-            <para>
-                <termdef>
-                    <emphasis role="bold">Convention over Configuration</emphasis>
-                </termdef> is a common practice among modern web application frameworks like XRX of
+      <para><termdef><emphasis role="bold">Convention over Configuration</emphasis></termdef> is a common practice among modern web application frameworks like XRX of
                 using conventions such as standardized collection and file names, to reduce the
                 amount of configuration and thereby reduce the complexity and time required to
                 prototype and complete applications. Of course, users have the ability to change
@@ -276,24 +237,21 @@
             application:</para>
         <orderedlist>
             <listitem>
-                <para>
-                    <emphasis role="bold">Apps</emphasis> All XRX applications should be grouped in
+        <para><emphasis role="bold">Apps</emphasis> All XRX applications should be grouped in
                     a single collection. For example <emphasis role="bold">/db/apps</emphasis> or
                         <emphasis role="bold">/db/org/mycompany/apps</emphasis>. The exact location
                     of the apps collection in the databases is not relevant, but all apps should be
                     stored together in a collection called apps.</para>
             </listitem>
             <listitem>
-                <para>
-                    <emphasis role="bold">App</emphasis> Each XRX application should be grouped in a
+        <para><emphasis role="bold">App</emphasis> Each XRX application should be grouped in a
                     collection. This collection name should reflect the function of the application.
                     For example our business term application might be stored in the <emphasis role="bold">/db/apps/terms</emphasis> collection. The convention is to use
                     the plural ("terms" rather than "term") for the primary kind of content being
                     stored in the app.</para>
             </listitem>
             <listitem>
-                <para>
-                    <emphasis role="bold">Data</emphasis> Each XRX application should store its data
+        <para><emphasis role="bold">Data</emphasis> Each XRX application should store its data
                     in a separate data collection. For example our term manager application will
                     store all the data in /db/apps/terms/data. In this example the first term will
                     be stored in the file <emphasis role="bold">1.xml</emphasis> and the second in
@@ -301,8 +259,7 @@
                     terms we can increment a counter to add a new term.</para>
             </listitem>
             <listitem>
-                <para>
-                    <emphasis role="bold">Views</emphasis> Each XRX application should store
+        <para><emphasis role="bold">Views</emphasis> Each XRX application should store
                     read-only views of the data in a <emphasis role="bold">views</emphasis>
                     collection. In our example our term manager will store read-only views of the
                     data in the <emphasis role="bold">/db/term/apps/terms/views</emphasis>
@@ -312,20 +269,18 @@
                     records to prevent missing updates. Tools that do change or edit the data can be
                     stored in another collection such as <emphasis role="bold">edit</emphasis>. This
                     allows access control systems to limit who changes or deletes data.</para>
-            </listitem>
-            <listitem>
-                <para>
-                    <emphasis role="bold">Edit</emphasis> Each XRX application should store its edit
+      </listitem>
+      <listitem>
+        <para><emphasis role="bold">Edit</emphasis> Each XRX application should store its edit
                     functions in a collection called edit. For our term manager application this
                     would be <emphasis role="bold">/db/apps/term/edit</emphasis>. Edit function
                     include saving new terms, updating terms and deleting terms. By grouping all
                     edit functions together it is easy to deny access to users that do not have
                     permission to change items and to create consistent logging functions for audit
                     trails.</para>
-            </listitem>
-            <listitem>
-                <para>
-                    <emphasis role="bold">Search</emphasis> Each XRX application should store its
+      </listitem>
+      <listitem>
+        <para><emphasis role="bold">Search</emphasis> Each XRX application should store its
                     search functions in a collection called <emphasis role="bold">search</emphasis>.
                     For our term manager application this would be <emphasis role="bold">/db/apps/term/search</emphasis>. There are two functions stored here. A
                     simple HTML search form (search.html) and a RESTful search (service.xq).
@@ -335,8 +290,7 @@
                     how the files are indexed for search.)</para>
             </listitem>
             <listitem>
-                <para>
-                    <emphasis role="bold">AppInfo</emphasis> Each XRX application should store
+        <para><emphasis role="bold">AppInfo</emphasis> Each XRX application should store
                     information that pertains to the application in an XML file within the main
                     application collection. By convention this file is called the app-info.xml file.
                     Information such as the application name, description, author, version, license,
@@ -410,48 +364,48 @@ declare option exist:serialize "method=xhtml media-type=text/html indent=yes";
       }&lt;/ol&gt;
     &lt;/body&gt;
 &lt;/html&gt;</programlisting>
-            </para>
-            <para>This produces the following output:</para>
-            <para>
-                <inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="list-items-no-links.png" contentwidth="200"/>
-                    </imageobject>
-                </inlinemediaobject>
-            </para>
-            <para>There are few items to note. First note that we use the collection function to
+      </para>
+      <para>This produces the following output:</para>
+      <para>
+        <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="list-items-no-links.png" contentwidth="200"/>
+          </imageobject>
+        </inlinemediaobject>
+      </para>
+      <para>There are few items to note. First note that we use the collection function to
                 specify what data is being listed. We also return only items in the data collection
                 that have term as their root element. This allows us to put other data types within
                 the data collection without disrupting this report.</para>
-            <para>Our next step is to change each of the items listed into HTML links so that we can
+      <para>Our next step is to change each of the items listed into HTML links so that we can
                 view each individual item on a separate HTML page. To do this we change the
                 &lt;li&gt;{$term-name}&lt;/li&gt; to be the following code:</para>
-            <para>
-                <programlisting>&lt;li&gt;&lt;a href="view-item.xq?id={$term/id/text()}"&gt;{$term-name}&lt;/a&gt;&lt;/li&gt;</programlisting>
-            </para>
-            <para>This produces the following output:</para>
-            <para>
-                <inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="list-items-links.png" contentwidth="200"/>
-                    </imageobject>
-                </inlinemediaobject>
-            </para>
-            <para>This has the effect of taking each term's ID and using it as a RESTful parameter,
+      <para>
+        <programlisting>&lt;li&gt;&lt;a href="view-item.xq?id={$term/id/text()}"&gt;{$term-name}&lt;/a&gt;&lt;/li&gt;</programlisting>
+      </para>
+      <para>This produces the following output:</para>
+      <para>
+        <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="list-items-links.png" contentwidth="200"/>
+          </imageobject>
+        </inlinemediaobject>
+      </para>
+      <para>This has the effect of taking each term's ID and using it as a RESTful parameter,
                 so that when a user selects this link, the link to the view-item.xq query will
                 include the ID, and the query will know which term to display. We will use this same
                 technique many times. Note that this uses a relative path to the view-item.xq
                 program. So it is important to keep both the list items and the view items in the
                 same collection for this to work correctly.</para>
-            <para>Note that this list items works fine as long as we have just a few hundred terms.
+      <para>Note that this list items works fine as long as we have just a few hundred terms.
                 But as your collections get longer (usually above a few hundred items) you will want
                 to create a list items query that only lists the first 30 or so items and then has a
                 "next" button to get more items. This will be covered in another section (see
                 "Pagination in XQuery").</para>
-        </section>
-        <section>
-            <title>Viewing an Individual Item</title>
-            <para>Now that we have a list of all the items in a collection we are ready to drill
+    </section>
+    <section>
+      <title>Viewing an Individual Item</title>
+      <para>Now that we have a list of all the items in a collection we are ready to drill
                 down to a specific item and see all of the information about a single item. By
                 convention this is done by an XQuery file called "view-item.xq". The item viewer
                 takes a single parameter that is the ID of the item. It has to perform a query on
@@ -492,46 +446,36 @@ return
        &lt;b&gt;Term Status: &lt;/b&gt; {$term/publish-status-code/text()}&lt;br/&gt;
     &lt;/body&gt;
 &lt;/html&gt;</programlisting>
-            </para>
-            <para>This produces the following output:</para>
-            <para>
-                <inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="view-item.png" contentwidth="400"/>
-                    </imageobject>
-                </inlinemediaobject>
-            </para>
-        </section>
+      </para>
+      <para>This produces the following output:</para>
+      <para>
+        <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="view-item.png" contentwidth="400"/>
+          </imageobject>
+        </inlinemediaobject>
+      </para>
     </section>
-    <section>
-        <title>Searching Items</title>
-        <para>There are three items that we create to support search functions. These items are
-                the:<orderedlist>
-                <listitem>
-                    <para>An HTML search form</para>
-                </listitem>
-                <listitem>
-                    <para>A RESTful search service</para>
-                </listitem>
-                <listitem>
-                    <para>A configuration file for defining the indexes</para>
-                </listitem>
-            </orderedlist>
+  </section>
+  <section>
+    <title>Searching Items</title>
+    <para>There are three items that we create to support search functions. These items are
+                the:<orderedlist><listitem><para>An HTML search form</para></listitem><listitem><para>A RESTful search service</para></listitem><listitem><para>A configuration file for defining the indexes</para></listitem></orderedlist>
             There are two types of indexes we will create.  Structural indexes 
             are configured to work with specific XML structures such as IDs.  Fulltext indexes are used by
             eXist to make keyword searches very fast.  These both work by indexing new content and optimizing the indexes
             for fast retrieval.  Queries can run quickly and efficiently against the indexex rather
             than iterating through the files in the collection. In addition to these three files we
             also have a script that reindexes the collection of terms.</para>
-        <section>
-            <title>Search Configuration File</title>
-            <para>The following is a search configuration file that we store in the collection
+    <section>
+      <title>Search Configuration File</title>
+      <para>The following is a search configuration file that we store in the collection
                     <emphasis role="bold">/db/system/config/db/apps/term/data</emphasis>.</para>
-            <para>
-                <emphasis role="bold">/db/system/config/db/apps/term/data/collection.xconf</emphasis>
-            </para>
-            <para>
-                <programlisting>&lt;collection xmlns="http://exist-db.org/collection-config/1.0"&gt;
+      <para>
+        <emphasis role="bold">/db/system/config/db/apps/term/data/collection.xconf</emphasis>
+      </para>
+      <para>
+        <programlisting>&lt;collection xmlns="http://exist-db.org/collection-config/1.0"&gt;
     &lt;index&gt;
         &lt;!-- Disable the standard full text index --&gt;
         &lt;fulltext default="none" attributes="no"/&gt;
@@ -573,7 +517,7 @@ return
                 <programlisting>xmldb:login('/db/apps/terms/data', 'admin', 'myadminpassword'),
 xmldb:reindex('/db/apps/terms/data')</programlisting>
             </para>
-            <para>If you are not familiar with the eXist sandbox you can also run the following
+      <para>If you are not familiar with the eXist-db sandbox you can also run the following
                 XQuery script. It is stored in the app's admin collection. The script will login as
                 the administrator and then run the reindex function on the collection. It also
                 returns the time it took to reindex the collection. For collections that are under
@@ -639,32 +583,32 @@ return
         &lt;/form&gt;
     &lt;/body&gt;
 &lt;/html&gt;</programlisting>
-            </para>
-            <para>The following image shows a blank search screen form. To perform a search, the
+      </para>
+      <para>The following image shows a blank search screen form. To perform a search, the
                 user simply enters one or more keywords into the search form and selects the search
                 button (or enter key).</para>
-            <para>
-                <inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="search.png" contentwidth="300"/>
-                    </imageobject>
-                </inlinemediaobject>
-            </para>
-            <para>If you put a keyword in the input field the following URL will get
+      <para>
+        <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="search.png" contentwidth="300"/>
+          </imageobject>
+        </inlinemediaobject>
+      </para>
+      <para>If you put a keyword in the input field the following URL will get
                 generated:</para>
-            <para>
-                <programlisting>/db/apps/terms/search/search.xq?q=mykeyword</programlisting>
-            </para>
-        </section>
-        <section>
-            <title>The Search Service</title>
-            <para>The search service is an XQuery script that calls the fulltext search
+      <para>
+        <programlisting>/db/apps/terms/search/search.xq?q=mykeyword</programlisting>
+      </para>
+    </section>
+    <section>
+      <title>The Search Service</title>
+      <para>The search service is an XQuery script that calls the fulltext search
                 function.</para>
-            <para>
-                <emphasis role="bold">/db/apps/terms/search/search.xq</emphasis>
-            </para>
-            <para>
-                <programlisting>xquery version "1.0";
+      <para>
+        <emphasis role="bold">/db/apps/terms/search/search.xq</emphasis>
+      </para>
+      <para>
+        <programlisting>xquery version "1.0";
 
 declare option exist:serialize "method=xhtml media-type=text/html indent=yes";
 
@@ -866,34 +810,34 @@ return ($xslt-pi, $form)</programlisting>
             specific service on the server. In the example above there are two slightly different
             XQuery services, one for saving new items and one for updating existing items. We will
             be covering the save-new and the update queries later in this tutorial.</para>
-            <para>The query that is used is wrapped inside of the action attribute of the save
+      <para>The query that is used is wrapped inside of the action attribute of the save
             submission. Here is that code: </para>
-            <para>
-                <programlisting>action="{if ($new='true') then 
+      <para>
+        <programlisting>action="{if ($new='true') then 
     'save-new.xq'
 else 
     'update.xq'
 }"</programlisting>
-            </para>
-            <para>You can see that if the user is creating a new item the data is sent via an HTTP POST
+      </para>
+      <para>You can see that if the user is creating a new item the data is sent via an HTTP POST
             to the save-new.xq script. If the user does not have a new item the POST data is sent to
             the update.xq script.</para>
-            <para>Although we could have used a single save.xq script this structure allows you to
+      <para>Although we could have used a single save.xq script this structure allows you to
             trigger different behavior for different functions you may want. For example the
             save-new.xq might also trigger an e-mail notification when new records are saved for the
             first time, or a versioning routine might be triggeed only when the file is updated.
             Advanced user guides will have examples of both of these functions.</para>
-            <para>The next section of code to notice is that the ID element is only displayed using a
+      <para>The next section of code to notice is that the ID element is only displayed using a
             read-only <emphasis role="bold">&lt;xf:output&gt;</emphasis> element if the form is in
             update mode.</para>
-            <para>
-                <programlisting>if ($id) then
+      <para>
+        <programlisting>if ($id) then
     &lt;xf:output ref="id" class="id"&gt;
         &lt;xf:label&gt;ID:&lt;/xf:label&gt;
     &lt;/xf:output&gt;
 else ()</programlisting>
-            </para>
-            <para>This shows some of the power of combining XQuery and XForms. In this case we are using
+      </para>
+      <para>This shows some of the power of combining XQuery and XForms. In this case we are using
             logic on the server to conditionally include portions of the form based on the context.
             The process of using context such as mode, user, group, role, and project is central to
             understanding how forms can be dynamically created to precisely meet the needs of your
@@ -912,7 +856,7 @@ else ()</programlisting>
             through each of the controls in the XForms specification. In addition to the standard
             controls there are other controls that can also be integrated directly into XForms such
             as rich-text editors.)</para>
-            <para>Each of the input controls has a <emphasis role="bold">ref</emphasis> attribute that
+      <para>Each of the input controls has a <emphasis role="bold">ref</emphasis> attribute that
             indicates what element in the instance it is bound to. If you have multiple instances
             and multiple models you many not be able to use all the default values as in this
             example. This ref attribute is how leaf elements the model get bound to each input
@@ -1007,21 +951,21 @@ return
         &lt;a href="../views/list-items.xq"&gt;List all Terms&lt;/a&gt; 
     &lt;/body&gt;
 &lt;/html&gt;</programlisting>
-            </para>
-        </section>
-        <section>
-            <title>Updating Existing Items</title>
-            <para>The update function is simpler then the save function since it does not have to worry
+      </para>
+    </section>
+    <section>
+      <title>Updating Existing Items</title>
+      <para>The update function is simpler then the save function since it does not have to worry
             about creating a new file and incrementing a counter. It simply takes the incoming POST
             data and stores it in the file. Note that by default this means that the entire data
             file is updated and reindexed upon the store operation. eXist does contain versioning
             and it can be enabled by simply configuring a single XML file in the /db/system/config
             area.</para>
-            <para>
-                <emphasis role="bold"> /db/apps/terms/edit/update.xq </emphasis>
-            </para>
-            <para>
-                <programlisting>xquery version "1.0";
+      <para>
+        <emphasis role="bold"> /db/apps/terms/edit/update.xq </emphasis>
+      </para>
+      <para>
+        <programlisting>xquery version "1.0";
 
 declare option exist:serialize "method=xhtml media-type=text/html indent=yes";
  
@@ -1103,17 +1047,17 @@ return
         &lt;a  class="warn" href="../views/view-item.xq?id={$id}"&gt;Cancel (Back to View Term)&lt;/a&gt;
     &lt;/body&gt;
 &lt;/html&gt;</programlisting>
-            </para>
-        </section>
+      </para>
     </section>
-    <section>
-        <title>The Delete Script</title>
-        <para>The delete script also takes a single REST parameter of the ID</para>
-        <para>
-            <emphasis role="bold">/db/apps/terms/edit/delete.xq </emphasis>
-        </para>
-        <para>
-            <programlisting>xquery version "1.0";
+  </section>
+  <section>
+    <title>The Delete Script</title>
+    <para>The delete script also takes a single REST parameter of the ID</para>
+    <para>
+      <emphasis role="bold">/db/apps/terms/edit/delete.xq </emphasis>
+    </para>
+    <para>
+      <programlisting>xquery version "1.0";
 
 declare option exist:serialize "method=xhtml media-type=text/html indent=yes";
  
@@ -1186,81 +1130,31 @@ return
     <section>
         <title>Next Steps</title>
         <para>If you have managed to learn all of the CRUDS functions you are now ready to move on
-            the some more complex examples. Here are some suggestions for next steps. <orderedlist>
-                <listitem>
-                    <para>Create a collection /db/apps/modules and add a file called style.xml in
+            the some more complex examples. Here are some suggestions for next steps. <orderedlist><listitem><para>Create a collection /db/apps/modules and add a file called style.xml in
                         that collection. Add XQuery functions for style:header(), style:footer() and
-                        then reference these functions in each of your HTML web pages.</para>
-                </listitem>
-                <listitem>
-                    <para>Change the list-items.xq to use HTML tables to view each item.</para>
-                </listitem>
-                <listitem>
-                    <para>Use the eXist permission system to create a groups called "editor" and a
+                        then reference these functions in each of your HTML web pages.</para></listitem><listitem><para>Change the list-items.xq to use HTML tables to view each item.</para></listitem><listitem><para>Use the eXist-db permission system to create a groups called "editor" and a
                         group called "term-admin". Change the group permissions on the edit and
                         admin collections to only allow users in these groups to be able to access
-                        these collections.</para>
-                </listitem>
-                <listitem>
-                    <para>In the list-items.xq query, use XQuery sequences to pre-sort items and
+                        these collections.</para></listitem><listitem><para>In the list-items.xq query, use XQuery sequences to pre-sort items and
                         then display only an initial subset of the data using the subsequence
-                        function.</para>
-                </listitem>
-                <listitem>
-                    <para>Add URL parameters <emphasis role="bold">start</emphasis> and <emphasis role="bold">num</emphasis> to the list-items to indicate what record to
-                        start to display and how many records to display.</para>
-                </listitem>
-                <listitem>
-                    <para>Learn how to create one-to-many relationships in your forms using the
+                        function.</para></listitem><listitem><para>Add URL parameters <emphasis role="bold">start</emphasis> and <emphasis role="bold">num</emphasis> to the list-items to indicate what record to
+                        start to display and how many records to display.</para></listitem><listitem><para>Learn how to create one-to-many relationships in your forms using the
                             <emphasis role="bold">&lt;xf:repeat&gt;</emphasis> element. For example
                         create a form that allows you to add multiple phone numbers to a contact
-                        record or multiple authors to a book entry.</para>
-                </listitem>
-                <listitem>
-                    <para>Learn how to use XForms binding to conditionally display elements in a
-                        form.</para>
-                </listitem>
-                <listitem>
-                    <para>Get fancy with how tables of data are displayed. Add sorting to table
-                        columns.</para>
-                </listitem>
-                <listitem>
-                    <para>Add security to your forms by only allowing people in an "edit" group to
-                        be able to write to the data collection.</para>
-                    <para>Create roles for users such as editor, publisher and then copy the XML
-                        files to a remote host using the http-client() functions.</para>
-                </listitem>
-                <listitem>
-                    <para>Add forms that edit complex data using in-browser lists and
-                        inspectors.</para>
-                </listitem>
-                <listitem>
-                    <para>Create forms that manage document workflows. Add workflow steps that flow
-                        to the right as they expand.</para>
-                </listitem>
-                <listitem>
-                    <para>Create advanced search forms that use multiple selection criteria such as
-                        document types, authors or date ranges.</para>
-                </listitem>
-                <listitem>
-                    <para>Create complex business logic in how selection lists can be controlled.
+                        record or multiple authors to a book entry.</para></listitem><listitem><para>Learn how to use XForms binding to conditionally display elements in a
+                        form.</para></listitem><listitem><para>Get fancy with how tables of data are displayed. Add sorting to table
+                        columns.</para></listitem><listitem><para>Add security to your forms by only allowing people in an "edit" group to
+                        be able to write to the data collection.</para><para>Create roles for users such as editor, publisher and then copy the XML
+                        files to a remote host using the http-client() functions.</para></listitem><listitem><para>Add forms that edit complex data using in-browser lists and
+                        inspectors.</para></listitem><listitem><para>Create forms that manage document workflows. Add workflow steps that flow
+                        to the right as they expand.</para></listitem><listitem><para>Create advanced search forms that use multiple selection criteria such as
+                        document types, authors or date ranges.</para></listitem><listitem><para>Create complex business logic in how selection lists can be controlled.
                         Use one selection list to control the values of a second selection
-                        list.</para>
-                </listitem>
-                <listitem>
-                    <para>Move all of the codes in the publish-status selection list into an XML
+                        list.</para></listitem><listitem><para>Move all of the codes in the publish-status selection list into an XML
                         file and place it in a collection called <emphasis role="bold">code-tables</emphasis>. Then add an instance to the form that reads
-                        this code table into the form.</para>
-                </listitem>
-                <listitem>
-                    <para>Add a XQuery function that will take a status codes value and return its
-                        label.</para>
-                </listitem>
-                <listitem>
-                    <para>Modify the system configuration file for the /db/apps/terms/data
-                        collection to enable versioning when items are updated.</para>
-                </listitem>
-            </orderedlist>
+                        this code table into the form.</para></listitem><listitem><para>Add a XQuery function that will take a status codes value and return its
+                        label.</para></listitem><listitem><para>Modify the system configuration file for the /db/apps/terms/data
+                        collection to enable versioning when items are updated.</para></listitem></orderedlist>
         </para>
     </section>
     <section>

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id$ --><!-- modified jens_petersen 2010-05-20 -->
+<!-- $Id$ -->
+<!-- modified jens_petersen 2010-05-20 -->
 <book>
     <bookinfo>
         <graphic fileref="logo.jpg"/>
-        <productname>Open Source Native XML Database</productname>
+    <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Quick Start</title>
         <date>March 2010</date>
         <author>
@@ -25,7 +26,7 @@
         </section>
         <section id="requirements">
             <title>Requirements</title>
-            <para>eXist can be installed on newer versions of Linux, Windows and Mac OS X. In order
+      <para>eXist-db can be installed on newer versions of Linux, Windows and Mac OS X. In order
                 to run the eXist installer, it is necessary to have the <ulink url="http://java.sun.com/javase/downloads/widget/jdk6.jsp">Java Development Kit
                     (JDK)</ulink> installed on your operating system. eXist needs version 1.6 of the
                 JDK. It won't run with JDK 7 yet! The JDK is pre-installed on Mac OS X through 10.6;
@@ -35,20 +36,19 @@
                 In order to be able to install and start up eXist on Mac OS X and Linux, you need to know the basics of how to use your operating system's terminal (Applications/Utilities/Terminal.app on Mac OS X). On Windows, knowing how to use the command
             prompt is not required for installing eXist.
             </para>
-            <para>Some knowledge of XML and XQuery is required in order to start using eXist to query XML documents. The <ulink url="http://en.wikibooks.org/wiki/XQuery">XQuery Wikibook</ulink> is a useful resource for learning how to use XQuery with eXist; it
+      <para>Some knowledge of XML and XQuery is required in order to start using eXist-db to query XML documents. The <ulink url="http://en.wikibooks.org/wiki/XQuery">XQuery Wikibook</ulink> is a useful resource for learning how to use XQuery with eXist; it
                 also contains references to other resources for learning XQuery. </para>
         </section>
         <section id="installation">
             <title>Installing eXist</title>
-            <para>Download the <ulink url="download.xml">latest stable release</ulink> of eXist. The installer is a
+      <para>Download the <ulink url="download.xml">latest stable release</ulink> of eXist-db. The installer is a
                     <filename>.jar</filename> (Java Archive) file which automatically determines the correct system settings (i.e. paths and environment
                 variables) for eXist. On Windows and Linux, the installer can also create convenient desktop shortcuts for starting eXist.</para>
-            <para>Once the download has completed, launch the eXist installer by doing
+      <para>Once the download has completed, launch the eXist-db installer by doing
                 one of the following:</para>
             <procedure>
                 <step>
-                    <para>Windows and Mac users: Double-click on the installer file: <filename> eXist-setup-[version]-revXXXXX.jar</filename>
-                    </para>
+          <para>Windows and Mac users: Double-click on the installer file: <filename> eXist-setup-[version]-revXXXXX.jar</filename></para>
                 </step>
                 <step>
                     <para>Linux users: Entering the following command in a Unix shell using the <command>-jar</command> option:</para>
@@ -57,13 +57,13 @@
             <synopsis format="linespecific">java -jar eXist-setup-[version]-revXXXXX.jar</synopsis>
             <para>Windows and Mac users can also use this procedure, entering the same command in Windows command prompt or in a Unix shell.</para>
             <para>After the installer is launched, follow the prompts to complete the installation. </para>
-            <para>During installation, you are asked to supply a password for the eXist administrator account (the "admin" password). You are strongly encouraged to set the admin password on all installations of eXist, even those without internet access; otherwise the eXist
+      <para>During installation, you are asked to supply a password for the eXist-db administrator account (the "admin" password). You are strongly encouraged to set the admin password on all installations of eXist, even those without internet access; otherwise the eXist
             security manager will be disabled. The admin password asked for during the install procedure is not the admin password of your operating system, but the password to be used for the eXist admin account.</para>
-            <para>eXist, through Jetty, by default uses port 8080. There may be other services on your system using this port. To see whether this is the case, enter <ulink url="http://localhost:8080/">http://localhost:8080/</ulink> in your browser. If another service occupies this port, you cannot start up eXist unless you shut down the service in question or make eXist use another port. To make eXist use another port, open the file <filename moreinfo="none">/tools/jetty/etc/jetty.xml</filename> inside your eXist installation in a text or XML editor and change the value "8080" in</para>
+      <para>eXist, through Jetty, by default uses port 8080. There may be other services on your system using this port. To see whether this is the case, enter <ulink url="http://localhost:8080/">http://localhost:8080/</ulink> in your browser. If another service occupies this port, you cannot start up eXist-db unless you shut down the service in question or make eXist-db use another port. To make eXist-db use another port, open the file <filename moreinfo="none">/tools/jetty/etc/jetty.xml</filename> inside your eXist-db installation in a text or XML editor and change the value "8080" in</para>
             <synopsis format="linespecific">&lt;Set name="port"&gt;&lt;SystemProperty name="jetty.port" default="8080"/&gt;&lt;/Set&gt;</synopsis>
             <para>to a port that is not used, e.g. "8899":</para>
             <synopsis format="linespecific">&lt;Set name="port"&gt;&lt;SystemProperty name="jetty.port" default="8899"/&gt;&lt;/Set&gt;</synopsis>
-            <para>eXist uses port 8443 for confidential communication. Another service may also be using this port.  To make eXist use another port, open the file <filename moreinfo="none">/tools/jetty/etc/jetty.xml</filename> and change the value "8443" in</para>
+      <para>eXist-db uses port 8443 for confidential communication. Another service may also be using this port.  To make eXist-db use another port, open the file <filename moreinfo="none">/tools/jetty/etc/jetty.xml</filename> and change the value "8443" in</para>
             <synopsis format="linespecific">&lt;Set name="confidentialPort"&gt;8443&lt;/Set&gt;</synopsis>
             <para>and</para>
             <synopsis format="linespecific">&lt;Set name="Port"&gt;8443&lt;/Set&gt;</synopsis>

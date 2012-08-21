@@ -3,8 +3,8 @@
 <book>
     <bookinfo>
         <graphic fileref="logo.jpg"/>
-        <productname>Open Source Native XML Database</productname>
-        <title>Steps to Create LEXA, the eXist Stack</title>
+    <productname>eXist-db – Open Source Native XML Database</productname>
+    <title>Steps to Create LEXA, the eXist-db Stack</title>
         <date>May 2010</date>
         <author>
             <firstname>Loren</firstname>
@@ -35,29 +35,12 @@
         </author>
     </bookinfo>
     <chapter>
-        <title>Steps to Create LEXA, the eXist Stack</title>
-        <para>This article is to create a best practice for creating a secure eXist server. This is
+    <title>Steps to Create LEXA, the eXist-db Stack</title>
+    <para>This article is to create a best practice for creating a secure eXist-db server. This is
             all installed on a <ulink url="ubuntu-server.xml">virtual image of Ubuntu Server 10.04
                 LTS</ulink>.</para>
-        <para>We find that our users frequently want to run eXist on a server that has many other
-            functions enabled that are not part of the core eXist release.  These functions include:<itemizedlist>
-                <listitem>
-                    <para>An Apache web server that serves as a front-end for a web site</para>
-                </listitem>
-                <listitem>
-                    <para>A version control system (subversion)</para>
-                </listitem>
-                <listitem>
-                    <para>An e-mail server for notification</para>
-                </listitem>
-                <listitem>
-                    <para>An integrated authentication system (LDAP)</para>
-                </listitem>
-                <listitem>
-                    <para>A Secure sockets layer (SSL) for encrypting all web pages</para>
-                </listitem>
-            </itemizedlist>
-        </para>
+    <para>We find that our users frequently want to run eXist-db on a server that has many other
+            functions enabled that are not part of the core eXist-db release.  These functions include:<itemizedlist><listitem><para>An Apache web server that serves as a front-end for a web site</para></listitem><listitem><para>A version control system (subversion)</para></listitem><listitem><para>An e-mail server for notification</para></listitem><listitem><para>An integrated authentication system (LDAP)</para></listitem><listitem><para>A Secure sockets layer (SSL) for encrypting all web pages</para></listitem></itemizedlist></para>
         <para>This guide reviews all the steps necessary to install these functions on a standard
             GNU/Linux server. We specifically have used the Ubuntu 10.04 LTS release but we also
             plan to support RedHat and CentOS.</para>

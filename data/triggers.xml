@@ -3,41 +3,36 @@
 <book>
     <bookinfo>
         <graphic fileref="logo.jpg"/>
-        <productname>Open Source Native XML Database</productname>
+    <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Configuring Database Triggers</title>
-        <date>Match 2011</date>
-        <orgname>The eXist Project</orgname>
+    <date>August 2012</date>
+    <orgname>The eXist-db Project</orgname>
     </bookinfo>
     <chapter id="configuring-db-triggers">
         <title>Configuring Database Triggers</title>
-        <para>This document has been reviewed for eXist 1.5.</para>
+    <para>This document has been reviewed for eXist-db 2.0.</para>
         <section>
             <title>Overview</title>
-            <para>In this section, we discuss the types of database events that may be Triggered by eXist, as well
+      <para>In this section, we discuss the types of database events that may be Triggered by eXist-db, as well
                 as how Triggers are created and configured. It assumes readers have a basic
                 understanding of XML, Java and XQuery.</para>
             <para>Triggers may be configured by the User to respond to document and/or collection events.
                 From version 1.5, eXist defines five events, all of which are applicable to the collection configured with the Trigger:</para>
             <itemizedlist>
                 <listitem>
-                    <para>
-                        <emphasis>create</emphasis>: Fired when a collection or document is created</para>
+          <para><emphasis>create</emphasis>: Fired when a collection or document is created</para>
                 </listitem>
                 <listitem>
-                    <para>
-                        <emphasis>update</emphasis>: Fired when a collection or document is updated</para>
+          <para><emphasis>update</emphasis>: Fired when a collection or document is updated</para>
                 </listitem>
                 <listitem>
-                    <para>
-                        <emphasis>copy</emphasis>: Fired when a collection or document is copied</para>
+          <para><emphasis>copy</emphasis>: Fired when a collection or document is copied</para>
                 </listitem>
                 <listitem>
-                    <para>
-                        <emphasis>move</emphasis>: Fired when a collection or document is moved</para>
+          <para><emphasis>move</emphasis>: Fired when a collection or document is moved</para>
                 </listitem>
                 <listitem>
-                    <para>
-                        <emphasis>delete</emphasis>: Fired when a collection or document is deleted</para>
+          <para><emphasis>delete</emphasis>: Fired when a collection or document is deleted</para>
                 </listitem>
             </itemizedlist>
         </section>

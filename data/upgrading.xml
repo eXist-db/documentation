@@ -3,7 +3,7 @@
 <book>
     <bookinfo>
         <graphic fileref="logo.jpg"/>
-        <productname>Open Source Native XML Database</productname>
+    <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Upgrade Guide</title>
         <date>November 2009</date>
         <author>
@@ -20,7 +20,7 @@
         <title>Upgrade Guide</title>
         <section>
             <title>General Information</title>
-            <para>Never install a new version of eXist into the same directory as an older
+      <para>Never install a new version of eXist-db into the same directory as an older
                 version:</para>
             <procedure>
                 <step>
@@ -50,7 +50,7 @@
                     <varlistentry>
                         <term>Indexing</term>
                         <listitem>
-                            <para>eXist 1.2.x used to create a default full text index on all
+              <para>eXist-db 1.2.x used to create a default full text index on all
                                 elements in the db. This has been <emphasis>disabled</emphasis>. The
                                 main reasons for this are:</para>
                             <orderedlist>
@@ -97,7 +97,7 @@
                     <varlistentry>
                         <term>Cocoon</term>
                         <listitem>
-                            <para>eXist does no longer require Cocoon for viewing documentation and
+              <para>eXist-db does no longer require Cocoon for viewing documentation and
                                 samples. Cocoon has been largely replaced by eXist's own <ulink url="urlrewrite.xml">URL rewriting and MVC
                                 framework</ulink>.</para>
                             <para>Consequently, we now limit Cocoon to one directory of the web

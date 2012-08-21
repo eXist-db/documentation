@@ -3,9 +3,9 @@
 <book>
     <bookinfo>
         <graphic fileref="logo.jpg"/>
-        <productname>Open Source Native XML Database</productname>
-        <title>Proxying eXist behind a Web Server</title>
-        <orgname>The eXist Project</orgname>
+    <productname>eXist-db – Open Source Native XML Database</productname>
+    <title>Proxying eXist-db behind a Web Server</title>
+    <orgname>The eXist-db Project</orgname>
         <date>September 2009</date>
         <author>
             <firstname>Adam</firstname>
@@ -13,20 +13,20 @@
         </author>
     </bookinfo>
     <chapter>
-        <title>Production use - Proxying eXist behind a Web Server</title>
+    <title>Production use - Proxying eXist-db behind a Web Server</title>
         <abstract>
-            <para>From a security perspective, it is recognised best practice to proxy Web Application Servers behind dedicated Web Servers, and eXist is no exception.</para>
-            <para>Some other nice side-effects of proxying eXist behind a Web Server include -</para>
+      <para>From a security perspective, it is recognised best practice to proxy Web Application Servers behind dedicated Web Servers, and eXist-db is no exception.</para>
+      <para>Some other nice side-effects of proxying eXist-db behind a Web Server include -</para>
             <variablelist>
                 <varlistentry>
                     <term>Unified web namespace</term>
                     <listitem>
-                        <para>You can map eXist or an application build atop eXist into an existing web namespace. If your website is - http://www.mywebsite.com, then your eXist application could be mapped into http://www.mywebsite.com/myapplication/.</para>
+            <para>You can map eXist-db or an application build atop eXist-db into an existing web namespace. If your website is - http://www.mywebsite.com, then your eXist-db application could be mapped into http://www.mywebsite.com/myapplication/.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term>Virtual Hosting</term>
-                    <listitem>Providing your Web Server supports Virtual Hosting, then you should be able to proxy many URLs from different domains onto different eXist REST URLs which may belong to one or more eXist instances. This in effect allows a single eXist instance to perform virtual hosting.</listitem>
+          <listitem>Providing your Web Server supports Virtual Hosting, then you should be able to proxy many URLs from different domains onto different eXist-db REST URLs which may belong to one or more eXist-db instances. This in effect allows a single eXist-db instance to perform virtual hosting.</listitem>
                 </varlistentry>
             </variablelist>
             <para>Examples are provided for -</para>
@@ -48,12 +48,12 @@
             </variablelist>
         </abstract>
         <section>
-            <title>Example 1 - Proxying a Web Domain Name to an eXist Collection</title>
-            <para>In this example we look at how to proxy a web domain name onto an eXist Collection. We make the following assumptions -</para>
+      <title>Example 1 - Proxying a Web Domain Name to an eXist-db Collection</title>
+      <para>In this example we look at how to proxy a web domain name onto an eXist-db Collection. We make the following assumptions -</para>
             <orderedlist>
                 <listitem>http://www.mywebsite.com is our website domain name address</listitem>
-                <listitem>eXist is running in standalone mode (i.e. http://localhost:8088/) on the same host as the Web Server (i.e. http://localhost:80/)</listitem>
-                <listitem>/db/mywebsite.com is the eXist collection we want to proxy</listitem>
+        <listitem>eXist-db is running in standalone mode (i.e. http://localhost:8088/) on the same host as the Web Server (i.e. http://localhost:80/)</listitem>
+        <listitem>/db/mywebsite.com is the eXist-db collection we want to proxy</listitem>
                 <listitem>Web Server access logging will be written to /srv/www/vhosts/mywebsite.com/logs/access.log</listitem>
             </orderedlist>
             <section>

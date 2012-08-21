@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?oxygen RNGSchema="http://www.oasis-open.org/docbook/xml/5.0/rng/docbook.rng" type="xml"?><!-- $Id$ -->
+<?oxygen RNGSchema="http://www.oasis-open.org/docbook/xml/5.0/rng/docbook.rng" type="xml"?>
+<!-- $Id$ -->
 <book>
     <bookinfo>
         <graphic fileref="logo.jpg"/>
-        <productname>Open Source Native XML Database</productname>
+    <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Scheduler Module</title>
         <date>September 2009</date>
         <author>
@@ -27,7 +28,7 @@
                 clustering.</para>
             <section>
                 <title>Activating</title>
-                <para> There are two type of uses of the Quartz Scheduler within eXist. The first is
+        <para> There are two type of uses of the Quartz Scheduler within eXist-db. The first is
                     always active and is invoked at system startup. The second is the XQuery
                     function module for initiating and managing scheduled jobs. This second use is
                     not activated <emphasis role="italic">out-of-the-box</emphasis>. It has to be
@@ -44,8 +45,8 @@
                         following in conf.xml:</para>
                     <example>
                         <title>Scheduler XQuery Module in conf.xml</title>
-                        <programlisting lang="xml">&lt;module class="org.exist.xquery.modules.scheduler.SchedulerModule"
-         uri="http://exist-db.org/xquery/scheduler" /&gt;</programlisting>
+            <programlisting lang="xml"><![CDATA[<module class="org.exist.xquery.modules.scheduler.SchedulerModule"
+         uri="http://exist-db.org/xquery/scheduler" />]]></programlisting>
                     </example>
                     <para>Once the scheduler XQuery function module is active, then XQuery code can
                         be written to invoke and manage <emphasis role="bold">user</emphasis> type
@@ -107,7 +108,7 @@
                     job that is invoked from the conf.xml file implements <emphasis role="bold">org.exist.storage.SystemTask</emphasis>.</para>
                 <example>
                     <title>Sample Java Source File</title>
-                    <programlisting format="linespecific" language="java">
+          <programlisting format="linespecific" language="java"><![CDATA[
 package org.exist.scheduler;
 
 import java.util.Map;

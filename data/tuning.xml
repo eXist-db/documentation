@@ -3,9 +3,9 @@
 <book>
     <bookinfo>
         <graphic fileref="logo.jpg"/>
-        <productname>Open Source Native XML Database</productname>
-        <title>eXist - Tuning</title>
-        <date>November 2009</date>
+    <productname>eXist-db – Open Source Native XML Database</productname>
+    <title>eXist-db – Tuning</title>
+    <date>August 2012</date>
         <author>
             <firstname>Wolfgang M.</firstname>
             <surname>Meier</surname>
@@ -20,7 +20,7 @@
         <title>Tuning the Database</title>
         <section>
             <title>Memory settings</title>
-            <para>Java always limits the maximum amount of memory available to a process. eXist will
+      <para>Java always limits the maximum amount of memory available to a process. eXist-db will
                 thus not automatically use all of the memory available on your machine. The default
                 setting is limited to 512MB.</para>
             <para>The maximum amount of memory Java will allocate is determined by the
@@ -34,7 +34,7 @@
                 you may also override those variables globally in your own shell.</para>
             <para>On <emphasis>Windows</emphasis>, the <option>-Xmx</option> settings is done in the
                 main .bat files, .e.g. <filename>EXIST_HOME\bin\startup.bat</filename>.</para>
-            <para>If you launch <emphasis>eXist as a service</emphasis>, all Java settings will be
+      <para>If you launch <emphasis>eXist-db as a service</emphasis>, all Java settings will be
                 controlled by the service wrapper. In this case, the file to edit is <filename>EXIST_HOME/tools/wrapper/conf/wrapper.conf</filename>. Search for the following
                 lines:</para>
             <synopsis># Maximum Java Heap Size (in MB)
@@ -54,9 +54,9 @@ wrapper.java.maxmemory=128</synopsis>
                 caches.</para>
             <example>
                 <title>cacheSize parameter in conf.xml</title>
-                <programlisting language="xml">
-&lt;db-connection cacheSize="48M" collectionCache="24M" database="native"
-        files="webapp/WEB-INF/data" pageSize="4096" nodesBuffer="-1"&gt;</programlisting>
+        <programlisting language="xml"><![CDATA[
+<db-connection cacheSize="48M" collectionCache="24M" database="native"
+        files="webapp/WEB-INF/data" pageSize="4096" nodesBuffer="-1">]]></programlisting>
             </example>
             <para>The default <ulink url="http://www.exist-db.org/configuration.html#N101B8">setting</ulink> for <option>cacheSize</option> is very conservative (48M). It
                 will be ok for smaller databases, but you may soon experience a performance drop

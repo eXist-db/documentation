@@ -3,7 +3,7 @@
 <book>
     <bookinfo>
         <graphic fileref="logo.jpg"/>
-        <productname>Open Source Native XML Database</productname>
+    <productname>eXist-db – Open Source Native XML Database</productname>
         <title>XML Validation</title>
         <date>September 2009</date>
         <author>
@@ -20,22 +20,14 @@
         <title>XML Validation</title>
         <section id="sect1">
             <title>Introduction</title>
-            <para>eXist supports implicit and explicit validation of XML documents. Implicit validation can be executed
+      <para>eXist-db supports implicit and explicit validation of XML documents. Implicit validation can be executed
                 automatically when documents are being inserted into the database, explicit validation can be performed
                 through the use of provided XQuery extension functions.</para>
         </section>
         <section id="sect2">
             <title>Implicit validation</title>
             <para>To enable implicit validation, the eXist-db configuration must be changed by editing the file
-                    <filename>conf.xml</filename>. The following items must be configured:<itemizedlist>
-                    <listitem>
-                        <para>Validation mode</para>
-                    </listitem>
-                    <listitem>
-                        <para>Catalog Entity Resolver</para>
-                    </listitem>
-                </itemizedlist>
-            </para>
+                    <filename>conf.xml</filename>. The following items must be configured:<itemizedlist><listitem><para>Validation mode</para></listitem><listitem><para>Catalog Entity Resolver</para></listitem></itemizedlist></para>
             <section>
                 <title>Validation mode</title>
                 <example>

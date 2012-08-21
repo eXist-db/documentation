@@ -3,16 +3,16 @@
 <book>
     <bookinfo>
         <graphic fileref="logo.jpg"/>
-        <productname>Open Source Native XML Database</productname>
+    <productname>eXist-db – Open Source Native XML Database</productname>
         <title>XQuery Documentation</title>
-        <date>November 2009</date>
-        <orgname>The eXist Project</orgname>
+    <date>August 2012</date>
+    <orgname>The eXist-db Project</orgname>
     </bookinfo>
     <chapter>
         <title>XQuery</title>
         <section>
             <title>Overview (Current Status of XQuery Support)</title>
-            <para>eXist implements core XQuery syntax (with the exception of XML Schema-related
+      <para>eXist-db implements core XQuery syntax (with the exception of XML Schema-related
                 features) as specified in the <ulink url="http://www.w3.org/TR/xquery/">W3C
                     recommendation</ulink>. Functions in the standard function library should also
                 follow the <ulink url="http://www.w3.org/TR/xpath-functions/">"XQuery 1.0 and XPath
@@ -25,13 +25,13 @@
                 failures is caused by smaller problems in the XQuery parser, computed constructors
                 and the missing schema support in eXist.</para>
             <note>
-                <para>eXist implements ALL features described in the XQuery specification with the
+        <para>eXist-db implements ALL features described in the XQuery specification with the
                     EXCEPTION of the following unsupported features:</para>
                 <itemizedlist>
                     <listitem>
                         <para>Schema-related Features: <command>validate</command>, <command>import
                                 schema</command>.</para>
-                        <para>eXist's XQuery processor does currently not support the schema import
+            <para>eXist-db's XQuery processor does currently not support the schema import
                             and schema validation features defined as optional in the XQuery
                             specification. The database does not store type information along with
                             the nodes. It therefore cannot know the typed value of a node and has to
@@ -42,7 +42,7 @@
                             supported, but the test <command>element(test-node,
                                 xs:integer)</command> will result in a syntax error.</para>
                         <important>
-                            <para>To avoid misunderstandings: eXist does nevertheless support strong
+              <para>To avoid misunderstandings: eXist-db does nevertheless support strong
                                 typing whenever the expected type of an expression, a function
                                 argument or function return value is explicitely specified or can be
                                 known otherwise. Don't expect eXist to be laxist about type
@@ -51,20 +51,20 @@
                     </listitem>
                 </itemizedlist>
             </note>
-            <para>In addition to the standard features, eXist provides extended support for
+      <para>In addition to the standard features, eXist-db provides extended support for
                     <emphasis>modules</emphasis> and implements the <emphasis>full axis</emphasis>
                 feature, which means you can use the <emphasis>optional axes</emphasis>: <command>ancestor</command>, <command>ancestor-or-self</command>, <command>following</command>, <command>following-sibling</command>, <command>preceding</command>, and <command>preceding-sibling</command>.</para>
         </section>
         <section>
             <title>Function Library</title>
-            <para>A complete list of eXist-supported XQuery functions can be viewed on the <ulink url="xquery/functions.xql">XQuery Function Documentation</ulink> page or the new
+      <para>A complete list of eXist-db-supported XQuery functions can be viewed on the <ulink url="xquery/functions.xql">XQuery Function Documentation</ulink> page or the new
                     <ulink url="functions">XQuery Function Documentation Browser</ulink>. Each function description is taken directly from the signature
                 provided by the class implementing the <classname>Function</classname> interface.
             </para>
         </section>
         <section>
             <title>The Module System</title>
-            <para>Using eXist, you can write entire web applications in XQuery. This may result in
+      <para>Using eXist-db, you can write entire web applications in XQuery. This may result in
                 rather complex XQuery scripts, consisting of several thousand lines of code. Being
                 able to package related functions into modules is thus an important feature. eXist
                 allows modules to be imported from a variety of sources:</para>
@@ -104,7 +104,7 @@ at "resource:org/exist/xquery/lib/test.xqm";</synopsis>
                 the class path of the Module class:</para>
             <synopsis language="xquery">import module namespace xdiff="http://exist-db.org/xquery/xmldiff"
 at "java:org.exist.xquery.modules.xmldiff.XmlDiffModule";</synopsis>
-            <para>The <filename>extensions/modules</filename> directory in the eXist distribution
+      <para>The <filename>extensions/modules</filename> directory in the eXist-db distribution
                 contains a number of useful modules, which could also serve as examples for
                 implementing your own.</para>
             <section>
@@ -129,7 +129,7 @@ at "java:org.exist.xquery.modules.xmldiff.XmlDiffModule";</synopsis>
             </section>
             <section>
                 <title>Builtin Modules</title>
-                <para>eXist comes with a set of utility modules, which are all implemented in Java.
+        <para>eXist-db comes with a set of utility modules, which are all implemented in Java.
                     You can also write your own modules as described <ulink url="#javamods">below</ulink>. Some of these utility modules are frequently used in
                     queries, so they are automatically imported into every query by default.</para>
                 <para>The query engine allows you to configure which modules will be auto-loaded.

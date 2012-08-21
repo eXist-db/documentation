@@ -3,7 +3,7 @@
 <book>
     <bookinfo>
         <graphic fileref="logo.jpg"/>
-        <productname>Open Source Native XML Database</productname>
+    <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Using WebDAV to Access the Database</title>
         <date>March 2011</date>
         <author>
@@ -20,11 +20,11 @@
         <title>WebDAV</title>
         <section id="webdav">
             <title>Introducing WebDAV</title>
-            <para>eXist ships with a <ulink url="http://en.wikipedia.org/wiki/WebDAV">WebDAV</ulink> interface.  WebDAV makes it possible to manage database
+      <para>eXist-db ships with a <ulink url="http://en.wikipedia.org/wiki/WebDAV">WebDAV</ulink> interface.  WebDAV makes it possible to manage database
                 collections and documents just like directories and files in a file system.  You can copy,
                 move, delete, view or edit files with any application supporting the WebDAV protocol, including Windows
                 Explorer, Mac OS X Finder, <ulink url="http://www.webdav.org/cadaver">cadaver</ulink>, <ulink url="http://www.konqueror.org/">KDE Konqueror</ulink>, <ulink url="http://www.oxygenxml.com/">oXygen XML Editor</ulink>, <ulink url="http://www.altova.com/">XML Spy</ulink>, <ulink url="http://www.libreoffice.org/">LibreOffice</ulink> and many others (see "Compatibility" below).</para>
-            <para>While eXist has had WebDAV support since version 1.0b2, the new WebDAV implementation since 
+      <para>While eXist-db has had WebDAV support since version 1.0b2, the new WebDAV implementation since 
                 version 1.4.1 brings improved WebDAV compatibility, thanks to its use of the excellent open-source <ulink url="http://milton.ettrema.com/">Milton</ulink> WebDAV API for Java. </para>
             <para>In the default configuration
                 the WebDAV server can be accessed via the URLs <ulink url="http://localhost:8080/exist/webdav/db/">http://localhost:8080/exist/webdav/db/</ulink> and <ulink url="https://localhost:8443/exist/webdav/db/">https://localhost:8443/exist/webdav/db/</ulink> (since eXist-db 2.0).
@@ -77,69 +77,36 @@
                         be solved by changing a registry key. Read more on <ulink url="http://support.microsoft.com/kb/841215">MSDN</ulink> and <ulink url="http://greenbytes.de/tech/webdav/webdav-redirector-list.html">greenbytes.de</ulink>.  However, SSL connections do bring improved
                         security.</para>
                 </note>
-                <para>Perform the following steps in Internet Explorer: <itemizedlist>
-                        <listitem>
-                            <para>Select <command>File -&gt; Open</command>.</para>
-                        </listitem>
-                        <listitem>
-                            <para>Fill in URL like
+        <para>Perform the following steps in Internet Explorer: <itemizedlist><listitem><para>Select <command>File -&gt; Open</command>.</para></listitem><listitem><para>Fill in URL like
                                     <command>http://localhost:8080/exist/webdav/db/</command> or
-                                    <command>https://localhost:8443/exist/webdav/db/</command>.</para>
-                        </listitem>
-                        <listitem>
-                            <para>Check "Open as Web Folder".</para>
-                        </listitem>
-                        <listitem>
-                            <para>Click OK.</para>
-                        </listitem>
-                    </itemizedlist>
-                    <screenshot>
-                        <graphic fileref="resources/webdav_xp_webfolders.png"/>
-                    </screenshot>
+                                    <command>https://localhost:8443/exist/webdav/db/</command>.</para></listitem><listitem><para>Check "Open as Web Folder".</para></listitem><listitem><para>Click OK.</para></listitem></itemizedlist>
+                    <screenshot><graphic fileref="resources/webdav_xp_webfolders.png"/></screenshot>
                 </para>
             </section>
             <section id="networkplaces">
                 <title>Windows XP's My Network Places</title>
-                <para>This enables you to access eXist from almost any Windows XP application that supports 'Network
-                    Places' in the standard File dialog: <screenshot>
-                        <graphic fileref="resources/webdav_xp_mnp0.png"/>
-                    </screenshot>
+        <para>This enables you to access eXist-db from almost any Windows XP application that supports 'Network
+                    Places' in the standard File dialog: <screenshot><graphic fileref="resources/webdav_xp_mnp0.png"/></screenshot>
                 </para>
-                <para>First, go to "My Network Places", click "Add..." <screenshot>
-                        <graphic fileref="resources/webdav_xp_mnp1.png"/>
-                    </screenshot>
+        <para>First, go to "My Network Places", click "Add..." <screenshot><graphic fileref="resources/webdav_xp_mnp1.png"/></screenshot>
                 </para>
-                <para>Then select the service provider. <screenshot>
-                        <graphic fileref="resources/webdav_xp_mnp2.png"/>
-                    </screenshot>
+        <para>Then select the service provider. <screenshot><graphic fileref="resources/webdav_xp_mnp2.png"/></screenshot>
                 </para>
-                <para>Then enter the eXist WebDAV URL, e.g. http://localhost:8080/exist/webdav/db/. <screenshot>
-                        <graphic fileref="resources/webdav_xp_mnp3.png"/>
-                    </screenshot>
+        <para>Then enter the eXist-db WebDAV URL, e.g. http://localhost:8080/exist/webdav/db/. <screenshot><graphic fileref="resources/webdav_xp_mnp3.png"/></screenshot>
                 </para>
-                <para>Finally click on the icon to access eXist. <screenshot>
-                        <graphic fileref="resources/webdav_xp_mnp4.png"/>
-                    </screenshot>
+        <para>Finally click on the icon to access eXist-db. <screenshot><graphic fileref="resources/webdav_xp_mnp4.png"/></screenshot>
                 </para>
             </section>
             <section id="macosx">
                 <title>Mac OS X Finder</title>
-                <para>The eXist database can be accessed easily with the Mac OS X Finder. First select in the Finder "Go"
-                    and "Connect to Server..." <screenshot>
-                        <graphic fileref="resources/webdav_macosx_1.png"/>
-                    </screenshot>
+        <para>The eXist-db database can be accessed easily with the Mac OS X Finder. First select in the Finder "Go"
+                    and "Connect to Server..." <screenshot><graphic fileref="resources/webdav_macosx_1.png"/></screenshot>
                 </para>
-                <para>Fill in the eXist WebDAV URL http://localhost:8080/exist/webdav/db/ <screenshot>
-                        <graphic fileref="resources/webdav_macosx_2.png"/>
-                    </screenshot>
+        <para>Fill in the eXist-db WebDAV URL http://localhost:8080/exist/webdav/db/ <screenshot><graphic fileref="resources/webdav_macosx_2.png"/></screenshot>
                 </para>
-                <para>Enter a username and password... <screenshot>
-                        <graphic fileref="resources/webdav_macosx_3.png"/>
-                    </screenshot>
+        <para>Enter a username and password... <screenshot><graphic fileref="resources/webdav_macosx_3.png"/></screenshot>
                 </para>
-                <para>And the database is accessible! <screenshot>
-                        <graphic fileref="resources/webdav_macosx_4.png"/>
-                    </screenshot>
+        <para>And the database is accessible! <screenshot><graphic fileref="resources/webdav_macosx_4.png"/></screenshot>
                 </para>
                 <note>
                     <para>In the last few OSX releases Apple repetitively changed their WebDAV implementation
@@ -194,8 +161,7 @@
                 <para>
                     <itemizedlist>
                         <listitem>
-                            <para>Select <command>File -&gt; Open URL</command>
-                            </para>
+              <para>Select <command>File -&gt; Open URL</command></para>
                         </listitem>
                         <listitem>
                             <para>Enter <command>Username, Password</command>
@@ -214,9 +180,7 @@
             <section id="kde">
                 <title>KDE Konqueror</title>
                 <para>Enter an URL like <command>webdav://localhost:8080/exist/webdav/db</command>. Use
-                        <command>webdavs://</command> for WebDAV over SSL. <screenshot>
-                        <graphic fileref="resources/webdav_konqueror.png"/>
-                    </screenshot>
+                        <command>webdavs://</command> for WebDAV over SSL. <screenshot><graphic fileref="resources/webdav_konqueror.png"/></screenshot>
                 </para>
             </section>
             <section id="libreoffice">
@@ -233,20 +197,16 @@
                 <para>
                     The first step is configuring LibreOffice to use the LibreOffice Open/Save dialogs instead
                     of the dialogs that are provided by the operating system:
-                    <screenshot>
-                        <graphic fileref="resources/webdav_libreoffice_settings.gif"/>
-                    </screenshot>
+                    <screenshot><graphic fileref="resources/webdav_libreoffice_settings.gif"/></screenshot>
                     Now it is possible to type an URL in the File-Open dialog. Enter <ulink url="http://localhost:8080/exist/webdav/db/">http://localhost:8080/exist/webdav/db/</ulink> and provide your login credentials. Now the dialogbox
                     shows the content of the database:
-                    <screenshot>
-                        <graphic fileref="resources/webdav_libreoffice_open.gif"/>
-                    </screenshot>
+                    <screenshot><graphic fileref="resources/webdav_libreoffice_open.gif"/></screenshot>
                 </para>
             </section>
         </section>
         <section id="revert">
             <title>Reverting to the old WebDAV implementation</title>
-            <para>Before eXist version 1.4.1 a custom implementation was used.  This implementation has been
+      <para>Before eXist-db version 1.4.1 a custom implementation was used.  This implementation has been
                 deprecated because it was not stable enough and many WebDAV clients could not connect to the
                 server.  Although not recommended, it is possible to switch back to the old implementation by
                 modifying the WebDAV configuration entry in the file <command>WEB-INF/controller-config.xml</command>.

@@ -29,7 +29,7 @@
         <title>Database Deployment</title>
         <section>
             <title>Overview</title>
-            <para>There are <emphasis>three</emphasis> ways to deploy the eXist database:</para>
+      <para>There are <emphasis>three</emphasis> ways to deploy the eXist-db database:</para>
             <orderedlist>
                 <listitem>
                     <para>
@@ -40,7 +40,7 @@
                         the default mode established when the database has been deployed according
                         to instructions provided in the <ulink url="quickstart.xml">Quick Start
                             Guide</ulink>.</para>
-                    <para>All resources used by eXist in this mode will have paths relative to the
+          <para>All resources used by eXist-db in this mode will have paths relative to the
                         web application's current context. For example, eXist will store all its
                         database files in the <filename>WEB-INF/data</filename> directory of the web
                         application.</para>
@@ -49,7 +49,7 @@
                     <para>
                         <emphasis>Stand-alone Server Process</emphasis>
                     </para>
-                    <para>In stand-alone mode, eXist runs in its own Java virtual machine (JVM).
+          <para>In stand-alone mode, eXist-db runs in its own Java virtual machine (JVM).
                         Clients have to access the database through the network, either using the
                         XML-RPC or WebDAV protocol or the REST-style HTTP API (see the <ulink url="devguide.xml">Developer's Guide</ulink>).</para>
                 </listitem>
@@ -67,7 +67,7 @@
                 multiple users. Also note that servlets running in the same web application context
                 will have direct access to the database. External client applications may still 
                 use the supplied network interfaces.</para>
-            <para>As detailed instructions on how to set up eXist for use with a servlet-engine are
+      <para>As detailed instructions on how to set up eXist-db for use with a servlet-engine are
                 provided in the <ulink url="quickstart.xml">Quick Start Guide</ulink>, the sections
                 in this document concern the other two deployment options. In section 2, we
                 introduce the XML:DB URI and explain how different servers are addressed by Java
@@ -77,7 +77,7 @@
         </section>
         <section>
             <title>Addressing Different Servers using the XML:DB URI</title>
-            <para>One way to access eXist from Java applications is to use the XML:DB API. The
+      <para>One way to access eXist-db from Java applications is to use the XML:DB API. The
                 XML:DB API uses a specific URI scheme to locate a collection of XML resources on the
                 server. You will encounter XML:DB URIs when working with the Java client, the backup
                 tools and sometimes in XQuery functions. It is thus important to understand how the
@@ -121,8 +121,8 @@
             <synopsis format="linespecific">bin/client.sh -l</synopsis>
         </section>
         <section>
-            <title>Deploying eXist in a Servlet Container</title>
-            <para>The standard distribution does by default launch eXist as a web application
+      <title>Deploying eXist-db in a Servlet Container</title>
+      <para>The standard distribution does by default launch eXist-db as a web application
                 deployed in a servlet container (if you start eXist via <filename>bin/startup.sh</filename> or <filename>bin\startup.bat</filename>). The
                 container used is <ulink url="http://jetty.mortbay.org/">Jetty</ulink>.</para>
             <para>The Jetty configuration can be found in <filename>tools/jetty/etc/jetty.xml</filename>.
@@ -157,7 +157,7 @@
             <synopsis>java -jar WEB-INF/lib/start.jar client -ls</synopsis>
         </section>
         <section>
-            <title>Running eXist as a Stand-alone Server</title>
+      <title>Running eXist-db as a Stand-alone Server</title>
             <para>There are many cases in which it is preferable to have the database engine running
                 in its own Java virtual machine. In stand-alone mode, eXist will launch its own,
                 embedded web server to provide XML-RPC, WebDAV and REST services to the outside

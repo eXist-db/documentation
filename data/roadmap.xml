@@ -15,7 +15,7 @@
             <event start="2006" end="2007" isDuration="true"/>
             <who>wolf</who>
             <remark>
-                <p> The numbering scheme at the core of eXist 1.0 did limit the maximum size of a
+        <p> The numbering scheme at the core of eXist-db 1.0 did limit the maximum size of a
                     document to be stored within the database. In eXist releases 1.1 and later this
                     is fixed.</p>
             </remark>
@@ -61,7 +61,7 @@
             <event start="20080201T000000Z" end="20080226T000000Z" task="20" isDuration="true"/>
             <who>wolf</who>
             <remark>
-                <p>eXist currently uses 2 DOM (document object model) implementations: one for nodes
+        <p>eXist-db currently uses 2 DOM (document object model) implementations: one for nodes
                     stored in the db, and a different one for in-memory nodes constructed during an
                     XQuery. The two models can not be mixed. To process an XQuery expression on an
                     in-memory node, the query engine needs to create a temporary persistent copy.
@@ -193,7 +193,7 @@
             <event start="20070201T000000Z" end="20070614T000000Z" isDuration="true"/>
             <who/>
             <remark>
-                <p>eXist now offers spatial indexes in SVN trunk as of July 2007 and in version 1.2
+        <p>eXist-db now offers spatial indexes in SVN trunk as of July 2007 and in version 1.2
                     and later releases.</p>
             </remark>
         </part>
@@ -229,7 +229,7 @@
             <p>The journal log and the recovery manager should be stable and are covered by
                 extensive tests. However, recovery failures can not be excluded entirely. The tests
                 can't reproduce every possible real-world scenario.</p>
-            <p>However, some steps remain for eXist to become a fully transactional database system.
+      <p>However, some steps remain for eXist-db to become a fully transactional database system.
                 Transaction support is currently limited to the functionality needed for crash
                 recovery. Though we maintain transactions internally, they are currently not exposed
                 to applications. Also, read operations are not transactional right now.</p>
@@ -324,7 +324,7 @@
                     database structure. It should be possible to recreate the db if at least
                     dom.dbx, collections.dbx and symbols.dbx are more or less intact. If a single
                     document is damaged, it could be filtered out.</p>
-                <p>As of version 1.2.4, eXist provides a <a href="http://exist-db.org/backup.html#consistency">consistency check and
+        <p>As of version 1.2.4, eXist-db provides a <a href="http://exist-db.org/backup.html#consistency">consistency check and
                         repair</a> tool.</p>
             </remark>
         </part>
@@ -386,7 +386,7 @@
                 This is unnecessary. A more modular architecture would allow different security
                 managers to be plugged in. It would be the responsibility of the security manager
                 implementation to handle ACL lists.</p>
-            <p>Since version 1.1, eXist supports the XACML standard for fine-grained access control
+      <p>Since version 1.1, eXist-db supports the XACML standard for fine-grained access control
                 to stored XQueries, Java classes etc.</p>
         </remark>
         <part>
@@ -532,7 +532,7 @@
                 align with the XQuery 1.0 recommendation. Basically, almost all core language
                 features are implemented, excluding schema related features, which are currently
                 beyond eXist's scope.</p>
-            <p>XQuery support in eXist is covered by the official W3C XQuery Test Suite (XQTS) 1.02.
+      <p>XQuery support in eXist-db is covered by the official W3C XQuery Test Suite (XQTS) 1.02.
                 Implementing the official XQTS XQuery test suite was a top priority in order to
                 guarantee standard conformance and avoid future regressions.</p>
         </remark>
@@ -615,7 +615,7 @@
             <event start="20080515T000000Z" end="20080609T000000Z" task="23" isDuration="true"/>
             <who>wolf, perig</who>
             <remark>
-                <p>With the 1.2 release, eXist features a new query-rewriting optimizer. It analyzes
+        <p>With the 1.2 release, eXist-db features a new query-rewriting optimizer. It analyzes
                     the query at compile time and searches for optimizable subexpressions within the
                     query tree. If it finds an optimizable expression, the optimizer will modify the
                     query and wrap some special instructions around the optimizable code block.
@@ -669,7 +669,7 @@
             <progress>0</progress>
             <who/>
             <remark>
-                <p> eXist already provides a util:catch() function which basically corresponds to a
+        <p> eXist-db already provides a util:catch() function which basically corresponds to a
                     Java try-catch. The XQuery 1.1 draft also defines try-catch, but more closely
                     integrated with XQuery. It should not be too difficult to implement this in
                     eXist. See <a href="http://www.zorba-xquery.com/doc/zorba-0.9.2/zorba/html/trycatch.html">http://www.zorba-xquery.com/doc/zorba-0.9.2/zorba/html/trycatch.html</a>
@@ -685,8 +685,7 @@
             <event start="20080315T000000Z" end="20080516T120000Z" duration="1440000" task="22" isDuration="true"/>
             <who>ljo, dmitriy</who>
             <remark>
-                <p>Remote debugging protocol - <a href="http://www.xdebug.org">DBGp</a>
-                </p>
+        <p>Remote debugging protocol - <a href="http://www.xdebug.org">DBGp</a></p>
                 <p>Command line debugger similar to jdb as prototype</p>
                 <p>Decide which functionality to expose.</p>
             </remark>
@@ -897,7 +896,7 @@
             <who>wolf</who>
             <event start="20071020T000000Z" end="20071031T000000Z" isDuration="true"/>
             <remark>
-                <p>The documentation that comes with eXist should be made searchable. I started
+        <p>The documentation that comes with eXist-db should be made searchable. I started
                     working on a search interface which is based on eXist's own full text search
                     features.</p>
                 <p class="update">As of Oct. 2008, a <a href="http://demo.exist-db.org/search.xql">search function</a> is provided. It requires features only available in SVN

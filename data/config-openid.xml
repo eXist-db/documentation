@@ -3,10 +3,10 @@
 <book>
     <bookinfo>
         <graphic fileref="logo.jpg"/>
-        <productname>Open Source Native XML Database</productname>
+    <productname>eXist-db – Open Source Native XML Database</productname>
         <copyright>
             <year>2010</year>
-            <holder>The eXist Project</holder>
+      <holder>The eXist-db Project</holder>
         </copyright>
         <title>Configuring the OpenID Authentication Service</title>
         <date>April 2010</date>
@@ -41,7 +41,7 @@
                     </glossentry>
                     <glossentry>
                         <glossterm>OpenID Provider</glossterm>
-                        <glossdef>An IdP that provides an OpenID authentication service on which a Relying Party (an eXist application for these purposes) relies for an assertion.</glossdef>
+            <glossdef>An IdP that provides an OpenID authentication service on which a Relying Party (an eXist-db application for these purposes) relies for an assertion.</glossdef>
                     </glossentry>
                 </glosslist>
             </para>
@@ -61,9 +61,7 @@
 include.feature.security.openid = true
 ]]></programlisting>
                 </example>
-                <para>This extension compiles into <emphasis role="bold">
-                        <emphasis role="italic">lib/extensions/exist-security-openid.jar</emphasis>
-                    </emphasis>.</para>
+        <para>This extension compiles into <emphasis role="bold"><emphasis role="italic">lib/extensions/exist-security-openid.jar</emphasis></emphasis>.</para>
             </section>
             <section>
                 <title>Enabling the Service</title>
@@ -73,9 +71,7 @@ include.feature.security.openid = true
             <section>
                 <title>Disabling the Service</title>
                 <para>The only way to disable this service once it is enabled is to remove the
-                        <emphasis role="bold">
-                        <emphasis role="italic">lib/extensions/exist-security-openid.jar</emphasis>
-                    </emphasis>
+                        <emphasis role="bold"><emphasis role="italic">lib/extensions/exist-security-openid.jar</emphasis></emphasis>
                     file.</para>
             </section>
         </section>

@@ -3,7 +3,7 @@
 <book>
     <bookinfo>
         <graphic fileref="logo.jpg"/>
-        <productname>Open Source Native XML Database</productname>
+    <productname>eXist-db – Open Source Native XML Database</productname>
         <title>User Authentication and Access Control</title>
         <date>January 2012</date>
         <author>
@@ -38,7 +38,7 @@
         <title>User Authentication and Access Control</title>
         <section>
             <title>Overview</title>
-            <para>In this section, we discuss eXist's security features and how to manage database
+      <para>In this section, we discuss eXist-db's security features and how to manage database
                 users, groups and access control. eXist-db was orginally based upon a Unix
                 permissions model with a single internal authentication realm. eXist-db version 2.0
                 and later also include support for Access Control Lists and authentication using
@@ -48,8 +48,7 @@
             <title>Security Manager</title>
             <para>eXist-db since version 2.0 has a central security manager which is configured by the file <filename>/db/system/security/config.xml</filename>. This file controls what authentication realms are available to the Security Manager.</para>
             <programlisting language="xml">
-                <markup>
-<![CDATA[
+        <markup><![CDATA[
 <security-manager xmlns="http://exist-db.org/Configuration" last-account-id="11" last-group-id="10" version="2.0">
     <Authentication-Entry-Point>/authentication/login</Authentication-Entry-Point>
 </security-manager>
@@ -72,8 +71,7 @@
                 </para>
                 <para>The following is a simple example of a user account document for the eXist-db realm e.g. <filename>/db/system/security/exist/accounts/aretter.xml</filename>:</para>
                 <example>
-                    <title>
-                        <filename>aretter.xml</filename> Account Document</title>
+          <title><filename>aretter.xml</filename> Account Document</title>
                     <programlisting>
                         <markup><![CDATA[<account xmlns="http://exist-db.org/Configuration" id="11">
     <password>{RIPEMD160}Vi7e971INiGmyWGT1bm63bHj1gf=</password>

@@ -20,39 +20,40 @@
             <firstname>Alex</firstname>
             <email>alexmilowski@users.sourceforge.net</email>
         </author>
-        <revhistory>
-            <revision>
-                <revnumber>2</revnumber>
-                <date>April 2010</date>
+    <author>
+      <firstname>Leif-Jöran</firstname>
+      <surname>Olsson</surname>
+      <affiliation>
+        <address format="linespecific">
+          <email>ljo at exist-db.org</email>
+        </address>
+      </affiliation>
+    </author>
                 <author>
                     <personname>
                         <firstname>Loren</firstname>
                         <surname>Cahlander</surname>
                     </personname>
-                    <email>loren@syntactica.com</email>
+      <email>loren at syntactica.com</email>
                 </author>
-                <revremark>Changing to identify various features of eXist and how to turn on, turn
-                    off and configure the feature.</revremark>
-            </revision>
-        </revhistory>
     </bookinfo>
     <chapter>
         <title>Application Server Configuration</title>
         <section>
             <title>Overview</title>
-            <para>This section deals with the configuration of the eXist Application Server. The
-                main configuration file for <application>eXist</application> is called
+      <para>This section deals with the configuration of the eXist-db Application Server. The
+                main configuration file for <application>eXist-db</application> is called
                     <filename>conf.xml</filename>, which is loaded from different directories
                 depending on the server set-up (see <ulink url="deployment.xml">Server
                     Deployment</ulink> for more information).</para>
-            <para>Specifically, if you installed the standalone eXist distribution with the
+      <para>Specifically, if you installed the standalone eXist-db distribution with the
                 installer, the <filename>conf.xml</filename> file located in the root directory of
                 the distribution (as specified by the system property <option>exist.home</option>)
-                will be loaded by default. On the other hand, if eXist is installed as a web
+                will be loaded by default. On the other hand, if eXist-db is installed as a web
                 application (packaged in a <filename>.war</filename> file) in a servlet engine like
                 tomcat, <filename moreinfo="none"> conf.xml</filename> is read from the <filename moreinfo="none">WEB-INF</filename> directory of the web application.</para>
             <para>Why is the configuration file placed in two separate locations? The reason is that
-                eXist normally has no access to files outside the context in which it is running
+                eXist-db normally has no access to files outside the context in which it is running
                 when it is deployed as part of a web application. Therefore, when eXist is deployed
                 in this way, the configuration is read from the <filename>WEB-INF</filename>
                 directory.</para>
@@ -98,7 +99,7 @@
                             <ulink url="config-fluent.xml">fluent</ulink>
                         </td>
                         <td>
-                            <para>This is an API for embedded access to eXist which is tightly integrated with java.</para>
+              <para>This is an API for embedded access to eXist-db which is tightly integrated with java.</para>
                         </td>
                         <td>
                             <itemizedlist>
@@ -597,7 +598,7 @@
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>DatabaseAdminServlet</td>
                         <td>
-                            <para>This servlet can be used to ensure that eXist is running in the background. Just set the
+              <para>This servlet can be used to ensure that eXist-db is running in the background. Just set the
                                 start-parameter to true and load-on-startup to 1 </para>
                         </td>
                         <td>
@@ -709,7 +710,7 @@
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>Security</td>
                         <td>
-                            <para>This defines the security manager that is to be used by eXist. The
+              <para>This defines the security manager that is to be used by eXist-db. The
                                 current options are native (where the usernames and hashed passwords
                                 are store in the database) or LDAP.</para>
                         </td>
@@ -821,7 +822,7 @@
             </informaltable>
         </section>
         <section id="conf.xml">
-            <title>eXist Configuration: Editing conf.xml</title>
+      <title>eXist-db Configuration: Editing conf.xml</title>
             <para>The configuration file <filename moreinfo="none">conf.xml</filename> can be
                 divided into four sections with the following elements:</para>
             <variablelist>
@@ -855,7 +856,7 @@
                 elements.</para>
             <section>
                 <title>&lt;db-connection&gt;</title>
-                <para>This element contains basic default storage settings for eXist, including
+        <para>This element contains basic default storage settings for eXist-db, including
                     memory and system limits. Only one <sgmltag>db-connection</sgmltag> should be
                     specified. An example configuration for the native back-end is shown
                     below:</para>

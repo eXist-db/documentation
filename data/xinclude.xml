@@ -4,32 +4,32 @@
     <bookinfo>
         <graphic fileref="logo.jpg"/>
         <style href="styles/default-style.css"/>
-        <title>Open Source XML Database</title>
+        <title>eXist-db – Open Source XML Database</title>
         <author>
             <firstname>Wolfgang M.</firstname>
             <surname>Meier</surname>
             <affiliation>
                 <address format="linespecific">
-                    <email>wolfgang@exist-db.org</email>
+                    <email>wolfgang at exist-db.org</email>
                 </address>
             </affiliation>
         </author>
     </bookinfo>
     <chapter>
         <title>XInclude Examples</title>
-        <para>eXist comes with partial support for the XInclude standard. As default, eXist's XML
+        <para>eXist-db comes with partial support for the XInclude standard. As default, eXist-db's XML
             serializer will scan all XML fragments for XInclude tags. The XInclude processor is
             implemented as a filter which sits between the serializer's output event stream and the
             receiver. If it finds an XInclude element, it will try to expand it. The current element
             in the stream is replaced by the result of the XInclude operation. XInclude processing
-            is thus applied whenever eXist serializes an XML fragment, be it a document, the result
+            is thus applied whenever eXist-db serializes an XML fragment, be it a document, the result
             of an XQuery or an XSLT stylesheet.</para>
-        <para>eXist's support for XInclude is not complete. You cannot directly include raw text, only XML.
+        <para>eXist-db's support for XInclude is not complete. You cannot directly include raw text, only XML.
             XPointers are restricted to XPath; the additional features defined in the XPointer spec
-            (points and locations) are not supported by eXist (in fact, no applications support these at the present time), 
-            though with eXist one can use XPath functions to partly substitute for XPointer's important string-range() function..
+            (points and locations) are not supported by eXist-db (in fact, no applications support these at the present time), 
+            though with eXist-db one can use XPath functions to partly substitute for XPointer's important string-range() function..
         </para>
-        <para>eXist expands XIncludes at serialization time, which means that the query engine will
+        <para>eXist-db expands XIncludes at serialization time, which means that the query engine will
             see the XInclude tags <emphasis>before</emphasis> they are expanded. You therefore
             cannot query across XIncludes - unless you create your own code (e.g. an XQuery
             function) for it. We would certainly like to support queries over xincluded content in
@@ -38,7 +38,7 @@
             in general, however, XInclude is more powerful (except that entity declarations are able include raw text).
         </para>
         <para>
-            The following sections present some examples of how XInclude can be used in eXist.</para>
+            The following sections present some examples of how XInclude can be used in eXist-db.</para>
         <note>
             <para>In order to see the live effect of most of the
                 examples below, install the Demo app via 
@@ -282,15 +282,15 @@ declare variable $var2 external;</synopsis>
         <section>
             <title>Including resources from external URIs or the file system</title>
             <para>If the URI in the href attribute specifies 
-			a known scheme (like http: or file:), eXist will try to load it as an external 
+			a known scheme (like http: or file:), eXist-db will try to load it as an external 
 			resource. For example:</para>
             <synopsis language="xml">&lt;xi:include href="http://localhost:8080/exist/rest/db/doc/data/disclaimer-short.xml"/&gt;</synopsis>
             <para>Should load "disclaimer-short.xml" via HTTP (assuming that the URL is correct
-			and you are using the default eXist setup):</para>
+			and you are using the default eXist-db setup):</para>
             <synopsis language="xml">
                 <xi:include href="http://localhost:8080/exist/rest/db/doc/data/disclaimer-short.xml">
                     <xi:fallback>
-                        <p>Included url not found! Example assumes eXist is running at
+                        <p>Included url not found! Example assumes eXist-db is running at
 					http://localhost:8080/exist/</p>
                     </xi:fallback>
                 </xi:include>

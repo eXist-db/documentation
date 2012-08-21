@@ -2,7 +2,7 @@
 <book>
     <bookinfo>
         <graphic fileref="logo.jpg"/>
-        <productname>Open Source Native XML Database</productname>
+    <productname>eXist-db – Open Source Native XML Database</productname>
         <title>XForms Introduction</title>
         <author>
             <firstname>James</firstname>
@@ -20,21 +20,21 @@
     </bookinfo>
     <chapter>
         <section>
-            <title>XForms Support in eXist</title>
-            <para>eXist now has broad support for the W3C XForms standard. It offers a client-side 
+      <title>XForms Support in eXist-db</title>
+      <para>eXist-db now has broad support for the W3C XForms standard. It offers a client-side 
                 (<ulink href="http://www.agencexml.com">XSLTForms</ulink>) and a server-side 
                 (<ulink href="http://www.betterform.de">betterFORM</ulink>) implementation and thus is ideally 
                 equipped to build complete applications that use XML from front to back.
             </para>
-            <para> However, eXist will also work with other XForms processors, like Orbeon or Chiba (the ancestor 
+      <para> However, eXist-db will also work with other XForms processors, like Orbeon or Chiba (the ancestor 
                 of betterFORM).</para>
-            <para>As eXist has support for RESTful interactions saving XML
+      <para>As eXist-db has support for RESTful interactions saving XML
                 data is as easy as using a HTTP PUT submission. For more complex tasks, you can submit your
                 XForms instances to an XQuery, post-process them and get the results back into your
                 form. Several examples are provided.</para>
         </section>
         <section>
-            <title>Using betterFORM inside of eXist</title>
+      <title>Using betterFORM inside of eXist-db</title>
             <para>
                 betterFORM is a server-side W3C XForms 1.1 implementation written in Java that now is closely 
                 integrated within eXist. It covers 99% of the XForms recommendation and has been extensively 
@@ -54,7 +54,7 @@
             </para>
             <section>
                 <title>Getting started</title>
-                <para>betterFORM by now is activated once you have installed eXist on your machine.
+        <para>betterFORM by now is activated once you have installed eXist-db on your machine.
                     By default betterFORM is configured to run XForms exclusively from the database.</para>
                 <para>To execute a XHTML/XForms document it is sufficient to store it into your database
                     (using WebDAV or the admin client) and access it via the REST interface.</para>
@@ -67,7 +67,7 @@
                         <markup><![CDATA[
                         <filter-mapping>
                             <filter-name>XFormsFilter</filter-name>
-                            <url-pattern>/rest/db/*</url-pattern>
+                            <url-pattern>/apps/*</url-pattern>
                         </filter-mapping>
                         <filter-mapping>
                             <filter-name>XFormsFilter</filter-name>
