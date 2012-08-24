@@ -27,7 +27,7 @@
         <para>eXist-db's support for XInclude is not complete. You cannot directly include raw text, only XML.
             XPointers are restricted to XPath; the additional features defined in the XPointer spec
             (points and locations) are not supported by eXist-db (in fact, no applications support these at the present time), 
-            though with eXist-db one can use XPath functions to partly substitute for XPointer's important string-range() function..
+            though with eXist-db one can use XPath functions to partly substitute for XPointer's important string-range() function.
         </para>
         <para>eXist-db expands XIncludes at serialization time, which means that the query engine will
             see the XInclude tags <emphasis>before</emphasis> they are expanded. You therefore
@@ -56,8 +56,9 @@
             <synopsis language="xml">
                 <xi:include href="/db/doc/data/disclaimer-short.xml">
                     <xi:fallback>
-                        <p>For this XInclude example to work, you need to install the
-						Documentation application. See the Package Reposistory in the Admin panel.</p>
+                        <p>For this XInclude example to work, you need to install
+			the Documentation application. 
+			See the Package Reposistory in the Admin panel.</p>
                     </xi:fallback>
                 </xi:include>
             </synopsis>
@@ -98,8 +99,9 @@
             <synopsis language="xml">
                 <xi:include href="disclaimer.xml" xpointer="statement">
                     <xi:fallback>
-                        <p>For this XInclude example to work, you need to install the
-						Documentation application. See the Package Reposistory in the Admin panel.</p>
+                        <p>For this XInclude example to work, you need to install
+			the Documentation application.
+			See the Package Reposistory in the Admin panel.</p>
                     </xi:fallback>
                 </xi:include>
             </synopsis>
@@ -120,8 +122,9 @@
             <synopsis language="xml">
                 <xi:include href="/db/demo/data/macbeth.xml" xpointer="xpointer(//PLAY/ACT[1]/SCENE[1]/STAGEDIR[1])">
                     <xi:fallback>
-                        <p>For this XInclude example to work, you need to install the
-						Demo application. See the Package Reposistory in the Admin panel.</p>
+                        <p>For this XInclude example to work, you need to install
+			the Demo application.
+			See the Package Reposistory in the Admin panel.</p>
                     </xi:fallback>
                 </xi:include>
             </synopsis>
@@ -135,12 +138,13 @@
             <synopsis language="xml">
                 <xi:include href="/db/demo/data/hamlet.xml" xpointer="xpointer(//SPEECH[ft:query(., '&#34;slings and arrows&#34;')]/LINE[1])">
                     <xi:fallback>
-                        <p>For this XInclude example to work, you need to install the
-                        Demo application. See the Package Reposistory in the Admin panel.</p>
+                        <p>For this XInclude example to work, you need to install
+			the Demo application.
+			See the Package Reposistory in the Admin panel.</p>
                     </xi:fallback>
                 </xi:include>
             </synopsis>
-            <para>Note that only the first hit is retrieved - one cannot in this way list all the instances 
+            <para>Note that only the first hit is retrieved – one cannot in this way list all the instances 
                 of the word "love" in Romeo and Juliet.</para>
             <para>An XPath expression will be applied to the entire collection if the path in href
                 points to a collection and not a single document:</para>
@@ -166,8 +170,9 @@
             <synopsis language="xml">
                 <xi:include href="disclaimer.xml" xpointer="xpointer(//comment:comment)xmlns(t=http://nop.com)xmlns(comment=http://test.org)">
                     <xi:fallback>
-                        <p>For this XInclude example to work, you need to install the
-						Demo app. See the Package Reposistory in the Admin panel.</p>
+                        <p>For this XInclude example to work, you need to install
+			the Demo app.
+			See the Package Reposistory in the Admin panel.</p>
                     </xi:fallback>
                 </xi:include>
             </synopsis>
@@ -186,8 +191,9 @@
             <synopsis language="xml">
                 <xi:include href="/db/demo/data" xpointer="xpointer(string-join(//SPEECH[ft:query(., '&#34;cursed spite&#34;')]/LINE, '&#xA;'))">
                     <xi:fallback>
-                        <p>For this XInclude example to work, you need to install the
-                        Demo application. See the Package Reposistory in the Admin panel.</p>
+                        <p>For this XInclude example to work, you need to install
+			the Demo application.
+			See the Package Reposistory in the Admin panel.</p>
                     </xi:fallback>
                 </xi:include>
             </synopsis>
@@ -208,8 +214,9 @@
             <synopsis language="xml">
                 <xi:include href="/db/demo/data/hamlet.xml" xpointer="xpointer(substring(string-join(//PLAY/ACT[3]/SCENE[1]/SPEECH[19]/LINE[1],''), 22, 20))">
                     <xi:fallback>
-                        <p>For this XInclude example to work, you need to install the
-                        Demo application. See the Package Reposistory in the Admin panel.</p>
+                        <p>For this XInclude example to work, you need to install
+			the Demo application.
+			See the Package Reposistory in the Admin panel.</p>
                     </xi:fallback>
                 </xi:include>
             </synopsis>
@@ -225,8 +232,9 @@
             <synopsis language="xml">
                 <xi:include href="/db/demo/data/hamlet.xml" xpointer="xpointer(substring(string-join(//PLAY/ACT[3]/SCENE[1]/SPEECH[19],''), 202, 24))">
                     <xi:fallback>
-                        <p>For this XInclude example to work, you need to install the
-                        Demo application. See the Package Reposistory in the Admin panel.</p>
+                        <p>For this XInclude example to work, you need to install
+			the Demo application.
+			See the Package Reposistory in the Admin panel.</p>
                     </xi:fallback>
                 </xi:include>
             </synopsis>
@@ -244,8 +252,9 @@
             <synopsis language="xml">
                 <xi:include href="display-collection.xq">
                     <xi:fallback>
-                        <p>For this XInclude example to work, you need to install the
-						Documentation app. See the Package Reposistory in the Admin panel.</p>
+                        <p>For this XInclude example to work, you need to install
+			the Documentation app.
+			See the Package Reposistory in the Admin panel.</p>
                     </xi:fallback>
                 </xi:include>
             </synopsis>
@@ -253,12 +262,11 @@
             <variablelist>
                 <varlistentry>
                     <term>$xinclude:current-doc</term>
-                    <listitem>the name of the document which (x)includes the query (without the
-                        collection path)</listitem>
+                    <listitem><para>the name of the document which xincludes the query (without the collection path)</para></listitem>
                 </varlistentry>
                 <varlistentry>
                     <term>$xinclude:current-collection</term>
-                    <listitem>the collection in which the current document resides</listitem>
+                    <listitem><para>the collection in which the current document resides</para></listitem>
                 </varlistentry>
             </variablelist>
             <para>The example above calls these functions. </para>
@@ -273,8 +281,9 @@ declare variable $var2 external;</synopsis>
             <synopsis language="xml">
                 <xi:include href="testvars.xq?var1=Hello&amp;var2=World">
                     <xi:fallback>
-                        <p>For this XInclude example to work, you need to install the
-						Demo application. See the Package Reposistory in the Admin panel.</p>
+                        <p>For this XInclude example to work, you need to install
+			the Demo application.
+			See the Package Reposistory in the Admin panel.</p>
                     </xi:fallback>
                 </xi:include>
             </synopsis>
