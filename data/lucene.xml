@@ -405,7 +405,7 @@ order by ft:score($sect) descending return $sect</synopsis>
 order by ft:score($m) descending
 return $m</programlisting>
             </example>
-            <para>The query function takes a query string in Lucene's default <ulink url="http://lucene.apache.org/java/2_4_0/queryparsersyntax.html">query
+            <para>The query function takes a query string in Lucene's default <ulink url="http://lucene.apache.org/core/3_6_0/queryparsersyntax.html">query
                     syntax</ulink>. It returns a set of nodes which are relevant with respect to the
                 query. Lucene assigns a relevance score or rank to each match. This score is
                 preserved by eXist and can be accessed through the score function, which returns a
