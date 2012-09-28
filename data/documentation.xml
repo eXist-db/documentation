@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
         <graphic fileref="logo.jpg"/>
-    <productname>eXist-db – Open Source Native XML Database</productname>
+        <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Documentation</title>
-    <date>August 2012</date>
+        <date>August 2012</date>
         <author>
             <firstname>Wolfgang M.</firstname>
             <surname>Meier</surname>
@@ -20,8 +19,8 @@
         <title>Documentation</title>
         <section>
             <title>Recommended Reading</title>
-            <para>If you are new to eXist, we recommend the following
-                documents to get an overview of the most important features:</para>
+            <para>If you are new to eXist, we recommend the following documents to get an overview
+                of the most important features:</para>
             <itemizedlist>
                 <listitem>
                     <para>
@@ -45,80 +44,119 @@
                     </para>
                 </listitem>
             </itemizedlist>
-            <para>There are <ulink url="articles">articles, tutorials and blog
-                    posts</ulink> which may provide valuable information.</para>
+            <para>There are <ulink url="articles">articles, tutorials and blog posts</ulink> which
+                may provide valuable information.</para>
         </section>
         <section>
             <title>Available Documentation</title>
             <para>We recommend to have a look at the <ulink url="quickstart.xml">Quick Start</ulink>
                 first, then maybe continue to read about <ulink url="xquery.xml">XQuery
                     support</ulink>, in particular eXist-specific extensions and features.</para>
-      <para>You can <ulink url="xquery/search.xql">search the documentation</ulink> as well as
+            <para>You can <ulink url="xquery/search.xql">search the documentation</ulink> as well as
                 the XQuery <ulink url="xquery/functions.xql">function module library</ulink>.</para>
+            <section>
+                <title>Getting Started</title>
+                <table class="documentation">
+                    <tgroup cols="2">
+                        <tbody>
+                            <tr>
+                                <td class="doclink">
+                                    <ulink url="quickstart.xml">Quick Start</ulink>:</td>
+                                <td>Installing eXist-db.</td>
+                            </tr>
+                            <!-- TODO -->
+                            <!--<tr>
+                                <td class="doclink">
+                                    <ulink url="dashboard.xml">Dashboard</ulink>:</td>
+                                <td>Using the eXist-db Dashboard app to install applications from the eXist-db.org public application repository.</td>
+                            </tr>
+                            <tr>
+                                <td class="doclink">
+                                    <ulink url="exide.xml">eXide</ulink>:</td>
+                                <td>Using the eXide app to write queries and build your own applications.</td>
+                            </tr>-->
+                            <tr>
+                                <td class="doclink">
+                                    <ulink url="upgrading.xml">Upgrade Guide</ulink>:</td>
+                                <td>Upgrading from an older version of eXist-db.</td>
+                            </tr>
+                            <tr>
+                                <td class="doclink">
+                                    <ulink url="troubleshooting.xml">Troubleshooting</ulink>:</td>
+                                <td>Troubleshooting installation problems and other advanced
+                                    installation topics.</td>
+                            </tr>
+                            <tr>
+                                <td class="doclink">
+                                    <ulink url="older-versions.xml">Older Versions</ulink>:</td>
+                                <td>Help with issues specific to versions of eXist older than the
+                                    latest current stable release.</td>
+                            </tr>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </section>
             <section>
                 <title>General</title>
                 <table class="documentation">
                     <tgroup cols="2">
                         <tbody>
                             <tr>
-                <td class="doclink"><ulink url="quickstart.xml">Quick
-                                    Start</ulink>:</td>
-                <td>Getting started with eXist-db.</td>
-                            </tr>
-                            <tr>
-                <td class="doclink"><ulink url="upgrading.xml">Upgrade
-                                    Guide</ulink>:</td>
-                <td>Upgrading eXist.db.</td>
-                            </tr>
-                            <tr>
-                <td class="doclink"><ulink url="articles">External
-                                    Articles</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="articles">External Articles</ulink>:</td>
                                 <td>Links to external articles, tutorials, and blog posts.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="indexing.xml">Configuring
-                                        Indexes</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="indexing.xml">Configuring Indexes</ulink>:</td>
                                 <td>How to configure indexes. (<emphasis>must read</emphasis>)</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="deployment.xml">Deployment</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="deployment.xml">Deployment</ulink>:</td>
                                 <td>Alternatives for server deployment.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="devguide.xml">Developer's
-                                        Guide</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="devguide.xml">Developer's Guide</ulink>:</td>
                                 <td>Using various interfaces: XML:DB API, XML-RPC, REST, SOAP.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="security.xml">Security</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="security.xml">Security</ulink>:</td>
                                 <td>Creating/changing users, passwords, and resource
-									permissions.</td>
+                                    permissions.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="configuration.xml">Server
+                                <td class="doclink">
+                                    <ulink url="configuration.xml">Server
                                     Configuration</ulink>:</td>
                                 <td>Configuring the server.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="exist-stack.xml">LEXA, the eXist-db
+                                <td class="doclink">
+                                    <ulink url="exist-stack.xml">LEXA, the eXist-db
                                     Stack</ulink>:</td>
-                <td>How to create an implementation of LEXA, the eXist-db stack.</td>
+                                <td>How to create an implementation of LEXA, the eXist-db
+                                    stack.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="tuning.xml">Tuning
-                                    Guide</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="tuning.xml">Tuning Guide</ulink>:</td>
                                 <td>A few rules to consider when tuning the db and XQueries.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="repo/repo.xml">Package Repository</ulink>:</td>
-                                <td>Manage libraries &amp; application packages (.xar) using eXist-db Package Repository.
-                                </td>
+                                <td class="doclink">
+                                    <ulink url="repo/repo.xml">Package Repository</ulink>:</td>
+                                <td>Manage libraries &amp; application packages (.xar) using
+                                    eXist-db Package Repository. </td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="repo/public/">Public Repository</ulink>:</td>
-                <td>This instance of eXist-db XML Database comes with its own public
-									repository for distributing packages to other eXist XML
-									databases. </td>
+                                <td class="doclink">
+                                    <ulink url="repo/public/">Public Repository</ulink>:</td>
+                                <td>This instance of eXist-db XML Database comes with its own public
+                                    repository for distributing packages to other eXist XML
+                                    databases. </td>
                             </tr>
                         </tbody>
                     </tgroup>
@@ -130,24 +168,24 @@
                     <tgroup cols="2">
                         <tbody>
                             <tr>
-                <td class="doclink"><ulink url="ant-tasks.xml">Ant
-                                    Tasks</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="ant-tasks.xml">Ant Tasks</ulink>:</td>
                                 <td>How to automate tasks with Ant.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="atompub.xml">Atom Publishing
-                                        Protocol</ulink>:</td>
-                                <td>Treat your collections as Atom feeds!  Configure and access
-									eXist using the Atom Publishing Protocol.</td>
+                                <td class="doclink">
+                                    <ulink url="atompub.xml">Atom Publishing Protocol</ulink>:</td>
+                                <td>Treat your collections as Atom feeds! Configure and access eXist
+                                    using the Atom Publishing Protocol.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="backup.xml">Backup and
-                                        Restore</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="backup.xml">Backup and Restore</ulink>:</td>
                                 <td>How to backup/restore your database contents.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="triggers.xml">Configuring
-                                        Triggers</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="triggers.xml">Configuring Triggers</ulink>:</td>
                                 <td>How to configure triggers.</td>
                             </tr>
                             <tr>
@@ -157,125 +195,143 @@
                                 <td>Java Management Extensions (JMX) support.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="java-admin-client.xml">Java Admin
-                                        Client</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="client.xml">Java Admin Client</ulink>:</td>
                                 <td>Using the Java client from the command line.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="kwic.xml">KWIC display
-                                        module</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="kwic.xml">KWIC display module</ulink>:</td>
                                 <td>An XQuery module to easily produce a Keywords in Context (KWIC)
-									output of search results.</td>
+                                    output of search results.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="ldap-security.xml">LDAP Security
-                                        Manager</ulink>:</td>
-                <td>Configuring eXist-db to use LDAP for users and groups.</td>
+                                <td class="doclink">
+                                    <ulink url="ldap-security.xml">LDAP Security
+                                    Manager</ulink>:</td>
+                                <td>Configuring eXist-db to use LDAP for users and groups.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="lucene.xml">Lucene-based Full Text
-                                        Index</ulink>:</td>
-                <td>Apache Lucene integrated into eXist-db's XQuery engine.</td>
+                                <td class="doclink">
+                                    <ulink url="lucene.xml">Lucene-based Full Text
+                                    Index</ulink>:</td>
+                                <td>Apache Lucene integrated into eXist-db's XQuery engine.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="scheduler.xml">Scheduler
-                                        Module</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="scheduler.xml">Scheduler Module</ulink>:</td>
                                 <td>An optional module to schedule jobs.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="urlrewrite.xml">URL Rewriting and
-                                        MVC Framework</ulink>:</td>
-                                <td>Simple-but-powerful URL rewriting and redirection.  Provides
-									some support for MVC (model-view-controller) and servlet-based
-									pipelines.</td>
+                                <td class="doclink">
+                                    <ulink url="urlrewrite.xml">URL Rewriting and MVC
+                                        Framework</ulink>:</td>
+                                <td>Simple-but-powerful URL rewriting and redirection. Provides some
+                                    support for MVC (model-view-controller) and servlet-based
+                                    pipelines.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="validation.xml">Validation</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="validation.xml">Validation</ulink>:</td>
                                 <td>Validate XML documents.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="versioning.xml">Versioning</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="versioning.xml">Versioning</ulink>:</td>
                                 <td>Versioning extensions.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="webdav.xml">WebDAV</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="webdav.xml">WebDAV</ulink>:</td>
                                 <td>How to setup your favourite WebDAV application.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="xacml.xml">XACML</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="xacml.xml">XACML</ulink>:</td>
                                 <td>XQuery access control.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="xinclude.xml">XInclude</ulink>:</td>
-                <td>XInclude support in eXist-db.</td>
+                                <td class="doclink">
+                                    <ulink url="xinclude.xml">XInclude</ulink>:</td>
+                                <td>XInclude support in eXist-db.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="xforms.xml">XForms</ulink>:</td>
-                <td>XForms support in eXist-db (using betterFORM or XSLTForms).</td>
+                                <td class="doclink">
+                                    <ulink url="xforms.xml">XForms</ulink>:</td>
+                                <td>XForms support in eXist-db (using betterFORM or XSLTForms).</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="xproc/xproc.xml">XProc</ulink>:</td>
-                <td>XProc support in eXist-db (using xprocxq).</td>
+                                <td class="doclink">
+                                    <ulink url="xproc/xproc.xml">XProc</ulink>:</td>
+                                <td>XProc support in eXist-db (using xprocxq).</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="xquery.xml">XQuery</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="xquery.xml">XQuery</ulink>:</td>
                                 <td>Current status, supported features, and extensions.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="update_ext.xml">XQuery Update
-                                        Extensions</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="update_ext.xml">XQuery Update
+                                    Extensions</ulink>:</td>
                                 <td>Extensions to update document fragments from within an
-									XQuery.</td>
+                                    XQuery.</td>
                             </tr>
                             <tr>
                                 <td class="doclink">
                                     <ulink url="debugger.xml">XQuery Debugger</ulink>
                                 </td>
                                 <td>A debugging interface to XQuery code on the server. This is
-									functional, but incomplete (the client side in particular). We
-									used emacs and vi as our main clients during development.  </td>
+                                    functional, but incomplete (the client side in particular). We
+                                    used emacs and vi as our main clients during development. </td>
                             </tr>
                         </tbody>
                     </tgroup>
                 </table>
             </section>
             <section>
-        <title>eXist-db Development</title>
+                <title>eXist-db Development</title>
                 <table class="documentation">
                     <tgroup cols="2">
                         <tbody>
                             <tr>
-                <td class="doclink"><ulink url="devguide_manifesto.xml">eXist-db Developer Manifesto</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="devguide_manifesto.xml">eXist-db Developer
+                                        Manifesto</ulink>:</td>
                                 <td>Guidelines for contributing to the eXist-db codebase.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="building.xml">Building
-                                    eXist</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="building.xml">Building eXist</ulink>:</td>
                                 <td>Compiling and building eXist, using the Subversion
-									repository.</td>
+                                    repository.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="devguide_codereview.xml">Code Review
-                                        Guide</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="devguide_codereview.xml">Code Review
+                                    Guide</ulink>:</td>
                                 <td>Notes on reviewing code during development.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="devguide_indexes.xml">Developer's
-                                        Guide to Modularized Indexes</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="devguide_indexes.xml">Developer's Guide to
+                                        Modularized Indexes</ulink>:</td>
                                 <td>Describes how modularized indexes work through a use case.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="eclipse.xml">Eclipse Setup
-                                        Notes</ulink>:</td>
-                <td>How to set up Eclipse to run eXist-db in debugging mode.</td>
+                                <td class="doclink">
+                                    <ulink url="eclipse.xml">Eclipse Setup Notes</ulink>:</td>
+                                <td>How to set up Eclipse to run eXist-db in debugging mode.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="devguide_log4j.xml">Log4J Logging
-                                        Guide</ulink>:</td>
-                <td>How use Log4J within eXist-db code.</td>
+                                <td class="doclink">
+                                    <ulink url="devguide_log4j.xml">Log4J Logging
+                                    Guide</ulink>:</td>
+                                <td>How use Log4J within eXist-db code.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="testing/testing.xml">Test Guide</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="testing/testing.xml">Test Guide</ulink>:</td>
                                 <td>Perform XQuery tests with the XQuery unit test suite.</td>
                             </tr>
                         </tbody>
@@ -288,12 +344,16 @@
                     <tgroup cols="2">
                         <tbody>
                             <tr>
-                <td class="doclink"><ulink url="production_good_practice.xml">Production use Good Practice</ulink>:</td>
+                                <td class="doclink">
+                                    <ulink url="production_good_practice.xml">Production use Good
+                                        Practice</ulink>:</td>
                                 <td>Best Practices for production environments.</td>
                             </tr>
                             <tr>
-                <td class="doclink"><ulink url="production_web_proxying.xml">Proxying eXist-db behind a Web Server</ulink>:</td>
-                <td>How to proxy eXist-db behind various web servers.</td>
+                                <td class="doclink">
+                                    <ulink url="production_web_proxying.xml">Proxying eXist-db
+                                        behind a Web Server</ulink>:</td>
+                                <td>How to proxy eXist-db behind various web servers.</td>
                             </tr>
                         </tbody>
                     </tgroup>
@@ -302,7 +362,8 @@
         </section>
         <section>
             <title>Documentation on the Wiki</title>
-            <para>Further documentation can be found in the <ulink url="http://atomic.exist-db.org">Wiki</ulink>. Among other things, have a look at:</para>
+            <para>Further documentation can be found in the <ulink url="http://atomic.exist-db.org"
+                    >Wiki</ulink>. Among other things, have a look at:</para>
             <itemizedlist>
                 <listitem>
                     <para>

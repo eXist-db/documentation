@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book>
+    <bookinfo>
+        <graphic fileref="logo.jpg"/>
+        <productname>eXist-db – Open Source Native XML Database</productname>
+        <title>Older Versions</title>
+        <date>September 2012</date>
+    </bookinfo>
+    <chapter>
+        <title>Older Versions</title>
+        <section id="v1.4-installation">
+            <title>eXist-1.4.x: Installation Notes</title>
+            <para>eXist 1.4.x requires the Java 1.6 JDK from Oracle for installation; the Java JRE
+                does not suffice, nor do versions earlier than 1.6. See Oracle's <ulink
+                    url="http://www.java.com/en/download/help/index_installing.xml">Installing
+                    java</ulink> page for instructions on installing the Java 1.6 JDK.</para>
+            <para>The Mac and Linux versions of eXist 1.4.x lack the menubar/toolbar icons for
+                starting, shutting down, and restarting eXist.</para>
+            <!-- TODO poll the devs for other differences -->
+        </section>
+        <section id="v1.4-repository">
+            <title>eXist 1.4.x: Installing Sample Applications using the Admin Webpage</title>
+            <para>eXist version 2.0.x comes with an application repository, which allows users to
+                download and deploy eXist-db based applications with a single mouse click. Most of
+                the examples can be installed from the application repository. If you are using
+                eXist 2.0, continue with the section describing <ulink url="app-repository.xml"
+                    >installation via the repository</ulink>.</para>
+            <para>On eXist 1.4.x, the repository was not yet available, so you have to use the admin
+                web application to download and install data.</para>
+            <para>To begin using the database system, you must first create document collections and
+                import files into eXist. To help you in learning these and other basic database
+                operations, a number of simple XQuery web applications have been included with the
+                eXist distribution. These applications are designed to allow users to experiment and
+                query sample XML documents using the eXist database system. </para>
+            <informaltable>
+                <tgroup cols="2">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <para>To start using these sample applications, you must log in to
+                                    the eXist database administration page. To log in, go to the
+                                        <ulink url="http://localhost:8080/exist/admin/admin.xql"
+                                        >Administration » Admin</ulink> link located on the sidebar
+                                    menu on the <ulink url="http://localhost:8080/exist/">local
+                                        eXist homepage</ulink>.</para>
+                                <para>You should now see the login screen as shown on the
+                                    right.</para>
+                                <para>Enter the username "admin" and the password you set during
+                                    installation (or which you have set by other means). </para>
+                            </td>
+                            <td>
+                                <screenshot>
+                                    <graphic fileref="resources/admin1.png"/>
+                                </screenshot>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <para>Once you have logged in, select Examples Setup from the menu
+                                    on the left. Most of the example data is shipped with eXist, but
+                                    some files need to be downloaded. Check the "The XML Acronym
+                                    Demystifier" and "The Mondial Database (Europe)" in order to
+                                    download these files. Click on the "Import Files" button to
+                                    import the example data into eXist.</para>
+                                <para>After you have imported the files, you can access the
+                                    collections they are imported into by clicking on "Browse
+                                    Collections". Here you can upload and delete individual files,
+                                    as well as view the contents of them.</para>
+                            </td>
+                            <td>
+                                <screenshot>
+                                    <graphic fileref="resources/admin2.png"/>
+                                </screenshot>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <para>After the example data has been imported, you can go back to
+                                    the <ulink url="http://localhost:8080/exist/">Home</ulink> page
+                                    and you will now be able to query the imported files through a
+                                    number of small web applications listed in <ulink
+                                        url="http://localhost:8080/exist/examples.xml">All
+                                        Examples</ulink> in the "Examples" tab.</para>
+                                <!--"All Examples" should be moved up to the top in the Examples tab. "Bibliographic" should read "Bibliography". Jens Petersen-->
+                                <para>The simplest of these applications is the <ulink
+                                        url="http://localhost:8080/exist/sandbox/">XQuery
+                                        Sandbox</ulink> shown on the right which allows users to
+                                    submit queries to the XML files imported into the database. The
+                                    XQuery Sandbox provides the easiest way to start experimenting
+                                    with eXist and XQuery.</para>
+                                <para>A number of sample queries are furnished through the dropdown
+                                    menu. After modifying the queries, you can store them in the
+                                    slots on the left. Click on an empty slot to store the query in
+                                    the main query field. If you click on a slot with a stored
+                                    query, the contents of the stored query and the main query field
+                                    will be swapped.
+                                    <!-- Users have complained that they do not understand this mechanism. Perhaps it would be an idea to have separate store and display buttons. Jens Petersen -->
+                                </para>
+                            </td>
+                            <td>
+                                <screenshot>
+                                    <graphic fileref="resources/sandbox.png"/>
+                                </screenshot>
+                            </td>
+                        </tr>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </chapter>
+</book>
