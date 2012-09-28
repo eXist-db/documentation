@@ -18,7 +18,20 @@ if ($exist:path eq '') then
     
 else if ($exist:path eq "/") then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <redirect url="documentation.xml"/>
+        <forward url="{$exist:controller}/templates/content.html">
+        </forward>
+        <view>
+            <!-- pass the results through view.xql -->
+			<forward url="{$exist:controller}/modules/view.xql">
+                <add-parameter name="doc" value="documentation.xml"/>
+                <set-attribute name="$exist:prefix" value="{$exist:prefix}"/>
+                <set-attribute name="$exist:controller" value="{$exist:controller}"/>
+            </forward>
+        </view>
+        <error-handler>
+            <forward url="{$exist:controller}/error-page.html" method="get"/>
+            <forward url="{$exist:controller}/modules/view.xql"/>
+        </error-handler>
     </dispatch>
 
 (: Pass all requests to XML files to the data directory, then through XSLT, then through view.xql, which handles HTML templating :)

@@ -41,7 +41,12 @@ declare %public function docbook:to-html($node as node(), $model as map(*)) {
  : Generate a table of contents.
  :)
 declare %public function docbook:toc($node as node(), $model as map(*)) {
-    docbook:print-sections($model("doc")/*/(chapter|section))
+    <div>
+        <h3>Contents</h3>
+        {
+        docbook:print-sections($model("doc")/*/(chapter|section))
+        }
+    </div>
 };
 
 declare %private function docbook:print-sections($sections as element()*) {
@@ -103,7 +108,10 @@ declare %private function docbook:to-html($nodes as node()*) {
                         docbook:process-children($node)
                     }
             case element(para) return
-                <p>{docbook:process-children($node)}</p>
+                if ($node/parent::listitem) then
+                    docbook:process-children($node)
+                else
+                    <p>{docbook:process-children($node)}</p>
             case element(emphasis) return
                 <em>{docbook:process-children($node)}</em>
             case element(itemizedlist) return
