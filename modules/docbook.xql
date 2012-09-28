@@ -169,6 +169,8 @@ declare %private function docbook:to-html($nodes as node()*) {
                 </div>
             case element(step) return
                 <li>{docbook:process-children($node)}</li>
+            case element(filename) return
+                <code style="font-size:smaller; line-height:inherit">{docbook:process-children($node)}</code>
             case element(toc) return
                 <ul class="toc">
                 {docbook:process-children($node)}
