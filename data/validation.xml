@@ -67,7 +67,7 @@
                 <para>All grammars (XML schema, DTD) that are used for implicit validation must be registered with eXist
                     using <ulink url="http://www.oasis-open.org/committees/download.php/14809/xml-catalogs.html">OASIS
                         catalog</ulink> files. These catalog files can be stored on disk and/or in the database itself.
-                    In eXist the actual resolving is performed by the apache <a href="http://xml.apache.org/commons/components/resolver/">xml-commons resolver</a>
+                    In eXist the actual resolving is performed by the apache <ulink url="http://xml.apache.org/commons/components/resolver/">xml-commons resolver</ulink>
                     library.</para>
                 <para>It is possible to configure any number of catalog entries in the entity-resolver section of
                     conf.xml . The relative "uri="s are resolved relative to the location of the catalog
@@ -111,7 +111,7 @@
                 <title>Collection configuration</title>
                 <para>Within the database the validation mode for each individal collection can be configured using
                         <emphasis>collection.xconf</emphasis> documents, in the same way these are used for configuring
-                        <a href="indexing.xml">indexes</a>. These documents need to be stored in
+                        <ulink url="indexing.xml">indexes</ulink>. These documents need to be stored in
                     '/db/system/config/db/....'.</para>
                 <example>
                     <title>collection.xconf</title>
@@ -137,11 +137,11 @@
                     <listitem>
                         <para>Jing</para>
                     </listitem>
-                </itemizedlist>Each of these options are discussed in the following sections. Consult the <a href="xquery/functions.xql">XQuery Function Documentation</a> for detailed functions
+                </itemizedlist>Each of these options are discussed in the following sections. Consult the <ulink url="xquery/functions.xql">XQuery Function Documentation</ulink> for detailed functions
                 descriptions.</para>
             <section>
                 <title>JAXP</title>
-                <para>The JAXP validation functions are based on the validation capabilities of the <a href="http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/parsers/package-summary.html">javax.xml.parsers</a> API. The actual validation is performed by the <a href="http://xerces.apache.org/xerces2-j/">Xerces2</a> library.</para>
+                <para>The JAXP validation functions are based on the validation capabilities of the <ulink url="http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/parsers/package-summary.html">javax.xml.parsers</ulink> API. The actual validation is performed by the <ulink url="http://xerces.apache.org/xerces2-j/">Xerces2</ulink> library.</para>
                 <para>When parsing an XML document a reference to a grammar (either DTDs or XSDs) is found, then the
                     parser attempts resolve the grammar reference by following either the XSD xsi:schemaLocation,
                     xsi:noNamespaceSchemaLocation hints, the DTD DOCTYPE SYSTEM information, or by outsourcing the
@@ -190,7 +190,7 @@
             </section>
             <section>
                 <title>JAXV</title>
-                <para>The JAXV validation functions are based on the <a href="http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/validation/package-summary.html">java.xml.validation</a> API which has been introduced in Java 5 to provide a
+                <para>The JAXV validation functions are based on the <ulink url="http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/validation/package-summary.html">java.xml.validation</ulink> API which has been introduced in Java 5 to provide a
                     schema-language-independent interface to validation services. Although officially the specification
                     allows use of additional schema languages, only XML schemas can be really used so far. </para>
                 <para/>
@@ -214,8 +214,8 @@
             </section>
             <section>
                 <title>Jing</title>
-                <para>The Jing validation functions are based on James Clark's <a href="http://www.thaiopensource.com/relaxng/jing.html">Jing</a> library. eXist uses the maintained version
-												that is available via <a href="http://code.google.com/p/jing-trang/">Google Code</a>. The library relies on the <a href="http://www.thaiopensource.com/relaxng/api/jing/com/thaiopensource/validate/ValidationDriver.html">com.thaiopensource.validate.ValidationDriver</a> which supports a wide range of grammar types: <itemizedlist>
+                <para>The Jing validation functions are based on James Clark's <ulink url="http://www.thaiopensource.com/relaxng/jing.html">Jing</ulink> library. eXist uses the maintained version
+												that is available via <ulink url="http://code.google.com/p/jing-trang/">Google Code</ulink>. The library relies on the <ulink url="http://www.thaiopensource.com/relaxng/api/jing/com/thaiopensource/validate/ValidationDriver.html">com.thaiopensource.validate.ValidationDriver</ulink> which supports a wide range of grammar types: <itemizedlist>
                         <listitem>
                             <para>XML schema (.xsd)</para>
                         </listitem>
@@ -345,7 +345,7 @@
         </section>
         <section id="sect4a">
             <title>Interactive Client</title>
-            <para>The interactive shell mode of the <a href="client.xml">java client</a> provides a simple
+            <para>The interactive shell mode of the <ulink  url="java-admin-client.xml">Java Admin Client</ulink> provides a simple
                     <emphasis>validate</emphasis> command that accepts the similar explicit validation arguments.</para>
         </section>
         <!--
@@ -409,8 +409,8 @@
             <para>
                 <itemizedlist>
                     <listitem>
-                        <para>Tomcat has an long standing bug which makes it impossible to register a custom <a href="http://java.sun.com/developer/onlineTraining/protocolhandlers/">protocol
-                                handler</a> (object <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/net/URLStreamHandler.html">URLStreamHandler</a>) to the JVM. The alternative is to register the object by setting
+                        <para>Tomcat has an long standing bug which makes it impossible to register a custom <ulink url="http://java.sun.com/developer/onlineTraining/protocolhandlers/">protocol
+                                handler</ulink> (object <ulink url="http://java.sun.com/j2se/1.5.0/docs/api/java/net/URLStreamHandler.html">URLStreamHandler</ulink>) to the JVM. The alternative is to register the object by setting
                             the system property <code>java.protocol.handler.pkgs</code> but this fails as well.</para>
                         <para>As a result the validation features are only partly useable in tomcat. There are two
                             altenatives: (1) switch to a recent version of Jetty, or (2) use absolute URLs pointing the
@@ -421,7 +421,7 @@
                         <para>eXist relies heavily on features provided by the Xerces XML parser. Out of the box the
                             eXist izPack installer provides all required jar files. However, when eXist is installed in
                             e.g. Tomcat the required parser libraries need to be copied manually from the eXist
-                            lib/endorsed directory into the server '<a href="http://tomcat.apache.org/tomcat-5.5-doc/class-loader-howto.html">endorsed</a>'
+                            lib/endorsed directory into the server '<ulink url="http://tomcat.apache.org/tomcat-5.5-doc/class-loader-howto.html">endorsed</ulink>'
                             directory.</para>
                         <para>Required endorsed files: resolver-*.jar xalan-*.jar serializer-*.jar
                             xercesImpl-*.jar</para>
@@ -431,7 +431,7 @@
                             documents and grammar documents in separate collections.</para>
                     </listitem>
                     <listitem>
-                        <para>The explicit validation is performed by <a href="http://xerces.apache.org/xerces2-j/javadocs/api/javax/xml/validation/package-summary.html">Xerces</a> (XML schema, DTD) and by <a href="http://www.oxygenxml.com/onvdl.html">oNVDL</a> - oXygen XML NVDL implementation based on Jing (XSD, RelaxNG, Schematron and
+                        <para>The explicit validation is performed by <ulink url="http://xerces.apache.org/xerces2-j/javadocs/api/javax/xml/validation/package-summary.html">Xerces</ulink> (XML schema, DTD) and by <ulink url="http://www.oxygenxml.com/onvdl.html">oNVDL</ulink> - oXygen XML NVDL implementation based on Jing (XSD, RelaxNG, Schematron and
                             Namespace-based Validation Dispatching Language)</para>
                     </listitem>
                 </itemizedlist>
@@ -442,35 +442,35 @@
             <para>
                 <itemizedlist>
                     <listitem>
-                        <para>Apache <a href="http://xml.apache.org/commons/components/resolver/">xml-commons
-                                resolver</a>
+                        <para>Apache <ulink url="http://xml.apache.org/commons/components/resolver/">xml-commons
+                                resolver</ulink>
                         </para>
                     </listitem>
                     <listitem>
-                        <para>OASIS <a href="http://www.oasis-open.org/committees/entity/">XML Catalog Specification</a>
+                        <para>OASIS <ulink url="http://www.oasis-open.org/committees/entity/">XML Catalog Specification</ulink>
                             V1.1</para>
                     </listitem>
                     <listitem>
-                        <para>Xerces <a href="http://xerces.apache.org/xerces2-j/faq-grammars.html">caching
-                            grammars</a>.</para>
+                        <para>Xerces <ulink url="http://xerces.apache.org/xerces2-j/faq-grammars.html">caching
+                            grammars</ulink>.</para>
                     </listitem>
                     <listitem>
                         <para>
-                            <a href="http://code.google.com/p/jing-trang/">jing-trang</a> Schema validation and 
+                            <ulink url="http://code.google.com/p/jing-trang/">jing-trang</ulink> Schema validation and 
 												conversion based on RELAX NG</para>
                     </listitem>
                     <listitem>
                         <para>
-                            <a href="http://en.wikipedia.org/wiki/Namespace-based_Validation_Dispatching_Language">NVDL</a> (Namespace-based Validation Dispatching Language)</para>
+                            <ulink url="http://en.wikipedia.org/wiki/Namespace-based_Validation_Dispatching_Language">NVDL</ulink> (Namespace-based Validation Dispatching Language)</para>
                     </listitem>
                     <listitem>
                         <para>
-                            <a href="http://en.wikipedia.org/wiki/Schematron">Schematron</a>
+                            <ulink url="http://en.wikipedia.org/wiki/Schematron">Schematron</ulink>
                         </para>
                     </listitem>
                     <listitem>
                         <para>
-                            <a href="http://en.wikipedia.org/wiki/RELAX_NG">Relax NG</a>
+                            <ulink url="http://en.wikipedia.org/wiki/RELAX_NG">Relax NG</ulink>
                         </para>
                     </listitem>
                 </itemizedlist>
