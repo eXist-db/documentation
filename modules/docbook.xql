@@ -140,6 +140,11 @@ declare %private function docbook:to-html($nodes as node()*) {
                 let $class := if ($align) then "float-" || $align else ""
                 return
                     <img src="{$node/@fileref}"/>
+            case element(imagedata) return
+                let $align := $node/@align
+                let $class := if ($align) then "float-" || $align else ""
+                return
+                    <img src="{$node/@fileref}"/>
             case element(ulink) return
                 <a href="{$node/@url}">{docbook:process-children($node)}</a>
             case element(note) return
