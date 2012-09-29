@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: getting-help.xml 17201 2012-09-28 23:05:30Z joewiz $ -->
+<book>
+    <bookinfo>
+        <graphic fileref="logo.jpg"/>
+        <productname>eXist-db – Open Source Native XML Database</productname>
+        <title>Running Trunk</title>
+        <date>September 2012</date>
+    </bookinfo>
+    <chapter>
+        <title>Running Trunk</title>
+        <section id="what-is-trunk">
+            <title>What is Trunk?</title>
+            <para>"Trunk" refers to the latest, "bleeding-edge" development version of eXist-db. In
+                contrast to the latest "stable" release that has been thoroughly tested and
+                documented, trunk contains features in development. Running trunk is requires
+                advanced software development skills—most notably, the ability to use
+                Subversion.</para>
+        </section>
+        <section id="getting-trunk">
+            <title>Getting Trunk</title>
+            <para>Trunk resides in eXist-db's subversion repository, so downloading a local copy of
+                the source code, or "checking out" the source code, requires that you have a
+                subversion client.</para>
+            <para>The URL for the subversion repository is:</para>
+            <synopsis>http://svn.code.sf.net/p/exist/code/trunk/eXist</synopsis>
+            <para>The subversion command for checking out this repository is:</para>
+            <synopsis>svn checkout http://svn.code.sf.net/p/exist/code/trunk/eXist exist-code</synopsis>
+        </section>
+        <section id="building-trunk">
+            <title>Building Trunk</title>
+            <para>See our detailed article for <ulink url="building.xml">Building
+                eXist-db</ulink>.</para>
+        </section>
+    </chapter>
+</book>
