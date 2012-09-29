@@ -36,7 +36,7 @@
             </note>
         </section>
         <section id="installation">
-            <title>Installing eXist</title>
+            <title>Installing eXist-db</title>
             <para>Download the installer for the latest stable release of eXist-db from the <ulink
                     url="download.xml">Downloads</ulink> page. The installer is a single file called
                     <filename>eXist-setup-[version]-revXXXXX.jar</filename>. Here, [version] and
@@ -47,9 +47,12 @@
                 <para>eXist-db has advanced rapidly in recent years, and we recommend you use the
                     most recent version. These instructions do assume you are using the most recent
                     version for the best experience and performance, so if you are not using the
-                    most recent stable version of eXist, see our article on <ulink
+                    most recent stable version of eXist-db, see our article on <ulink
                         url="older-versions.xml">Older Versions</ulink>. </para>
             </note>
+	    <!-- NB: I think we need to rephrase no graphical installer for
+		 GNU/Linux since its only the launching of the installer we are 
+		 talking about. /ljo -->
             <para>Once the download has completed, launch the eXist-db installer. To launch the
                 installer on Mac or Windows, simply double-click the .jar you downloaded file. (On
                 Mac OS X 10.7 and higher, a security feature called <ulink
@@ -123,19 +126,19 @@
         <section id="launching">
             <title>Launching eXist-db</title>
             <para>On the Mac, double-click eXist-db's application icon where you installed eXist-db.
-                On Linux or Windows, select the <emphasis>eXist Database Startup</emphasis> desktop
+                On Linux or Windows, select the <emphasis>eXist-db Database Startup</emphasis> desktop
                 shortcut icon or Start Menu entry you created at the end of the installation.</para>
-            <para>Once eXist is started, you will see a new menu bar icon (Mac) or task bar icon
+            <para>Once eXist-db is started, you will see a new menu bar icon (Mac) or task bar icon
                 (Linux/Windows) for eXist-db. This icon gives you access eXist-db's tools and lets
                 you shutdown or restart the database.</para>
-            <para>You can also start eXist manually if you feel comfortable with the command
+            <para>You can also start eXist-db manually if you feel comfortable with the command
                 line:</para>
             <procedure>
                 <step>
                     <para>Open your terminal or command prompt.</para>
                 </step>
                 <step>
-                    <para>Change (cd) to the directory where you installed eXist (e.g.,
+                    <para>Change (cd) to the directory where you installed eXist-db (e.g.,
                             "<filename>/usr/local/lib/exist/</filename>" for Linux,
                             "<filename>/Applications/eXist/</filename>" for Mac, or
                             "<filename>C:\Program Files\eXist</filename>" for Windows).</para>
@@ -168,7 +171,7 @@
             <para>Assuming that you are seeing the image above, note that your URL is
                 http://localhost:8080/exist/index.xml, not http://exist-db.org. In other words, it
                 looks like the homepage of eXist-db.org, but is actually a local copy of the
-                eXist-db.org homepage included with the eXist installation.</para>
+                eXist-db.org homepage included with the eXist-db installation.</para>
             <para>Now that you have successfully installed eXist-db, you are ready to dive in. Your
                 local copy includes everything you need to do so: the eXist-db <ulink
                     url="/exist/apps/dashboard">Dashboard</ulink> app, which lets you add
