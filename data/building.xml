@@ -51,7 +51,7 @@
                 </step>
                 <step>
                     <title>Generate the WAR</title>
-                    <para>Open a command line prompt and change to the directory where you just installed eXist.
+                    <para>Open a command line prompt and change to the directory where you just installed eXist-db.
                         Call</para>
                     <synopsis>build.sh dist-war</synopsis>
                     <para>or</para>
@@ -61,7 +61,7 @@
                 </step>
             </procedure>
             <para>Note that generating a WAR archive does only repackage the files in the distribution, so if the
-                distribution worked properly for you, the WAR should as well. You don't need to recompile eXist or sign
+                distribution worked properly for you, the WAR should as well. You don't need to recompile eXist-db or sign
                 any jars.</para>
         </section>
         <section id="svn">
@@ -71,7 +71,7 @@
                 <step>
                     <title>Check out from SVN</title>
                     <para>The SVN URL for the development trunk is:</para>
-                    <synopsis>https://exist.svn.sourceforge.net/svnroot/exist/trunk/eXist</synopsis>
+                    <synopsis>http://svn.code.sf.net/p/exist/code/trunk/eXist</synopsis>
                     <para>You need an SVN client to check out the source code. Examples for SVN clients are Tortoise SVN
                         on the windows platform or the command line SVN tools on Unix (see <ulink url="#checkout">below</ulink>). The <ulink url="http://oxygenxml.com">oXygen XML editor</ulink> ships with
                         its own SVN client.</para>
@@ -137,7 +137,7 @@
                         </row>
                         <row>
                             <entry>benchmark</entry>
-                            <entry>Performs the benchmark tests for eXist.</entry>
+                            <entry>Performs the benchmark tests for eXist-db.</entry>
                         </row>
                         <row>
                             <entry>clean</entry>
@@ -198,7 +198,7 @@
                         </row>
                         <row>
                             <entry>installer</entry>
-              <entry>Creates a new installer package based on <ulink href="http://izpack.org/">IzPack</ulink></entry>
+              <entry>Creates a new installer package based on <ulink url="http://izpack.org/">IzPack</ulink></entry>
                         </row>
                         <row>
                             <entry>installer-exe</entry>
@@ -220,7 +220,7 @@
                                         <filename>webapp/api</filename></para>
                                 <note>
                                     <para>This build target takes a long time to run, because it is generating graphics
-                                        for every package in eXist.</para>
+                                        for every package in eXist-db.</para>
                                 </note>
                             </entry>
                         </row>
@@ -289,7 +289,7 @@
                         <row>
                             <entry>svn-download</entry>
                             <entry>This downloads a jar file that places the current revision number of the working copy
-                                of eXist into VERSION.txt. This allows for the tagging of the build with the revision
+                                of eXist-db into VERSION.txt. This allows for the tagging of the build with the revision
                                 number.</entry>
                         </row>
                         <row>
@@ -325,12 +325,12 @@
                 and run the test cases, though temporary failures are possible, especially while a larger update is in
                 progress.</para>
             <para>The repository root URL is:</para>
-            <synopsis>https://exist.svn.sourceforge.net/svnroot/exist</synopsis>
+            <synopsis>http://svn.code.sf.net/p/exist/code/</synopsis>
             <important>
-                <para>Please note you have to use https, not http.</para>
+                <para>Please note you should use https or svn+ssh, not http, if yo are a developer with commit rights.</para>
             </important>
             <para>The current development trunk is at:</para>
-            <synopsis>https://exist.svn.sourceforge.net/svnroot/exist/trunk/eXist</synopsis>
+            <synopsis>http://svn.code.sf.net/p/exist/code/trunk/eXist</synopsis>
       <para>This is the URL you will normally use for a checkout of the main eXist-db development tree.</para>
             <section id="checkout">
                 <title>Checking Out from the Repository</title>
@@ -339,7 +339,7 @@
                     below) and setup a project. Otherwise, you can use any other SVN client. On Linux, I prefer the
                     plain command line. For example, the following command checks out the main development trunk into a
                     directory called eXist-trunk:</para>
-                <synopsis>svn co https://exist.svn.sourceforge.net/svnroot/exist/trunk/eXist eXist-trunk</synopsis>
+                <synopsis>svn co http://svn.code.sf.net/p/exist/code/trunk/eXist eXist-trunk</synopsis>
                 <para>A good choice on the Windows platform is <ulink url="http://tortoisesvn.tigris.org/">Tortoise
                         SVN</ulink>. Tortoise is an extension to the windows shell. The following screenshot shows the
                     checkout dialog:</para>
@@ -354,7 +354,7 @@
                 <para>Once you installed subclipse, change to the perspective: "SVN Repository Exploring". In the "SVN
                     Repository" tab of the left view, right click into the empty space and select
                     <guimenu>New</guimenu>, then <guimenu>Repository Location</guimenu>. In the appearing dialog, enter
-                    the URL of the eXist development trunk: </para>
+                    the URL of the eXist-db development trunk: </para>
                 <screenshot>
                     <graphic fileref="resources/subclipse1.png"/>
                 </screenshot>
@@ -557,30 +557,30 @@ jnlp-sign-core:
                     <itemizedlist>
                         <listitem>
                             <para>
-                                <a href="http://en.wikipedia.org/wiki/Java_Web_Start">Java Web Start</a>
+                                <ulink url="http://en.wikipedia.org/wiki/Java_Web_Start">Java Web Start</ulink>
                                 (Wikipedia)</para>
                         </listitem>
                         <listitem>
-                            <para>Java Web Start: <a href="http://en.wikipedia.org/wiki/Java_Web_Start#Pack200_compression">Pack200
-                                    compression</a> (Wikipedia)</para>
+                            <para>Java Web Start: <ulink  url="http://en.wikipedia.org/wiki/Java_Web_Start#Pack200_compression">Pack200
+                                    compression</ulink> (Wikipedia)</para>
                         </listitem>
                         <listitem>
                             <para>
-                                <a href="http://en.wikipedia.org/wiki/Pack200">Pack200</a> (Wikipedia)</para>
+                                <ulink url="http://en.wikipedia.org/wiki/Pack200">Pack200</ulink> (Wikipedia)</para>
                         </listitem>
                         <listitem>
                             <para>
-                                <a href="http://wiki.eclipse.org/Pack200">Pack200</a> (Eclipse.org)</para>
+                                <ulink url="http://wiki.eclipse.org/Pack200">Pack200</ulink> (Eclipse.org)</para>
                         </listitem>
                         <listitem>
                             <para>
-                                <a href="http://java.sun.com/j2se/1.5.0/docs/guide/deployment/deployment-guide/pack200.html">Pack200 and Compression</a> for network deployment (Sun, bit out dated)</para>
+                                <ulink url="http://java.sun.com/j2se/1.5.0/docs/guide/deployment/deployment-guide/pack200.html">Pack200 and Compression</ulink> for network deployment (Sun, bit out dated)</para>
                         </listitem>
                         <listitem>
-                            <para>Introducing Java SE 6 update 10: <a href="http://java.sun.com/developer/technicalArticles/javase/java6u10/#usability">Deployment Usability</a> (Sun).</para>
+                            <para>Introducing Java SE 6 update 10: <ulink url="http://java.sun.com/developer/technicalArticles/javase/java6u10/#usability">Deployment Usability</ulink> (Sun).</para>
                         </listitem>
                         <listitem>
-                            <para>Ant tasks: <a href="http://code.google.com/p/existdb-contrib/wiki/ASOCAT">ASOCAT</a>.</para>
+                            <para>Ant tasks: <ulink url="http://code.google.com/p/existdb-contrib/wiki/ASOCAT">ASOCAT</ulink>.</para>
                         </listitem>
                     </itemizedlist>
                 </para>
