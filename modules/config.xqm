@@ -1,3 +1,5 @@
+xquery version "3.0";
+
 (:~
  : A set of helper functions to access the application context from
  : within a module.
@@ -95,4 +97,25 @@ declare function config:app-info($node as node(), $model as map(*)) {
                 <td>{ request:get-attribute("$exist:controller") }</td>
             </tr>
         </table>
+};
+
+(: ~
+ : If eXide is installed, we can load ace locally. If not, download ace
+ : from cloudfront.
+ :)
+declare function config:import-ace($node as node(), $model as map(*)) {
+    let $eXideInstalled := doc-available("/db/eXide/repo.xml")
+    let $path :=
+        if ($eXideInstalled) then
+            "../eXide/resources/scripts/ace/"
+        else
+            "//d1n0x3qji82z53.cloudfront.net/src-min-noconflict/"
+    for $script in $node/script
+    return
+        <script>
+        {
+            $script/@* except $script/@src,
+            attribute src { $path || $script/@src }
+        }
+        </script>
 };

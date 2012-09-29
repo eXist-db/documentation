@@ -223,9 +223,9 @@ declare %private function docbook:code($elem as element()) {
             ()
     return
         if ($lang) then
-            <pre class="brush: {$lang}; gutter: false; wrap-lines: false;">
+            <div class="code" data-language="{$lang}">
             { replace($elem/string(), "^\s+", "") }
-            </pre>
+            </div>
         else
             <pre>{ replace($elem/string(), "^\s+", "") }</pre>
 };
