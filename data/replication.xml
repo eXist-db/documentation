@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id$ -->
+<book>
+  <bookinfo>
+    <graphic fileref="logo.jpg"/>
+    <productname>eXist-db – Open Source Native XML Database</productname>
+    <title>Replication</title>
+    <date>October 2012</date>
+  </bookinfo>
+  <chapter>
+    <title>Replication</title>
+    <section id="replication-introduction">
+      <title>Introduction</title>
+      <para>This document provides a short introduction on the
+      document replication function of eXist-db. You can
+      configure two or more eXist-db instances to work together
+      to automatically synchronize collection-specific data
+      sets. This allows you to scale your eXist-db server
+      capacity. For example, with multiple eXist-db servers
+      configured to stay in sync as described below, you could
+      add a load-balancer to distribute the load of incoming
+      queries across the pool of servers and still maintain high
+      performance.</para>
+      <para>See also <ulink url="http://en.wikibooks.org/wiki/XQuery/eXist_Clustering">the eXist-db clustering wikibook</ulink>.</para>
+    </section>
+    <section id="replication-preparation">
+      <title>Preparation</title>
+      <procedure>
+	<step><para>You need to download a recent version of ActimeMQ from
+	<ulink url="http://activemq.apache.org/download.html">ActiveMQ
+	download page</ulink>.</para>
+	<note><para>Note that the
+	<filename>.tgz archive file</filename> has additional unix
+	(GNU/Linux, MacOSX) support.  The <filename>zip archive
+	file</filename> is for Windows. The contents of the archives
+	actually differ.</para></note></step>
+	<step><note><para>Please follow the instructions on verifying the
+	integrity of the download before you continue with the next
+	step in the preparations.</para></note></step>
+	<step><para>Extract content to disk, refered as
+	<parameter>$ACTIVEMQ_HOME</parameter> – Copy the <filename>activemq-all-X.Y.Z.jar</filename> file to
+	<filename>$EXIST_HOME/lib/user</filename></para></step>
+	<step><para>Build the replication extension (modify <filename>extensions/local.build.properties</filename>) or copy the
+	pre-built version of <filename>exist-replication.jar</filename> to <filename>lib/extensions</filename></para></step>
+      </procedure>
+    </section>
+    <section id="replication-get-started">
+      <title>Get started</title>
+      <para></para>
+      <section id="replication-get-started-master">
+	<title>Master (publisher)</title>
+	<procedure>
+	  <step><para>Create collection <filename>/db/mycollection/</filename> that shall be monitored for document changes</para></step>
+	  <step><para>Create collection <filename>/db/system/config/db/mycollection/</filename></para></step>
+	  <step><para>Create in there a document <filename>collection.xconf</filename> and add the following content to the document:</para>
+	  <synopsis language="xml">
+	    <collection xmlns="http://exist-db.org/collection-config/1.0">
+	      <triggers>
+		<trigger class="org.exist.replication.jms.publish.ReplicationTrigger">
+
+                  <parameter name="java.naming.factory.initial" value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/>
+                  <!-- Set value -->
+                  <parameter name="java.naming.provider.url" value="tcp://myserver.local:61616"/>
+
+                  <parameter name="connectionfactory" value="ConnectionFactory"/>
+                  <parameter name="topic" value="dynamicTopics/eXistdb"/>
+		  
+                  <!-- Set value -->
+                  <parameter name="client-id" value="SetPublisherId"/>  
+
+		</trigger>
+	      </triggers>
+	    </collection>
+	  </synopsis>
+	  </step>
+	  <step><para>Set the correct value for <parameter>java.naming.provider.url</parameter> that matches your message broker</para></step>
+	  <step><para>Set a unique value for the <parameter>client-id</parameter> parameter</para></step>
+	</procedure>
+      </section>
+      <section id="replication-get-started-slave">
+	<title>Slave (subscriber)</title>
+	<procedure>
+	  <step>
+	    <para> Add a job to conf.xml:</para>
+	    <synopsis language="xml">
+	      <job type="startup" name="replication" class="org.exist.replication.jms.subscribe.MessageReceiverJob">
+		
+		<parameter name="java.naming.factory.initial" value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/>
+		<parameter name="java.naming.provider.url" value="tcp://myserver.local:61616"/>
+		
+		<parameter name="connectionfactory" value="ConnectionFactory"/>
+		<parameter name="topic" value="dynamicTopics/eXistdb"/>
+		
+		<!-- set values -->
+		<parameter name="client-id" value="SetSubscriberId"/> 
+		<parameter name="subscriber-name" value="SetSubscriptionId"/> 
+		
+	      </job>
+	    </synopsis>
+	  </step>
+	  <step><para>Set the correct value for
+	  <parameter>java.naming.provider.url</parameter> that
+	  matches your message broker</para></step>
+	  <step><para>Set unique values for <parameter>client-id</parameter> and <parameter>subscriber-name</parameter></para></step>
+	  <step><para>Create the collection
+	  <filename>/db/mycollection/</filename>, this is the
+	  collection that receives the documents that are updated
+	  in the same collection on the
+	  <emphasis>Master</emphasis> server.</para></step>
+	</procedure>
+      </section>
+    </section>
+    <section id="replication-startup">
+      <title>Start-up</title>
+      <procedure>
+	<step>
+	  <para>Start ActiveMQ server:</para>
+	  <synopsis language="bash">
+	    cd $ACTIVEMQ_HOME
+	    ./bin/activemq start [for mac, use the bin/macosx wrapper directory]
+	  </synopsis>
+	</step>
+	
+	<step>
+	  <para>Start Slave</para>
+	  <synopsis language="bash">
+	    cd $EXISTSLAVE_HOME
+	    ./bin/startup.sh
+	  </synopsis>
+	</step>
+	<step>
+	  <para>Start Master</para>
+	  <synopsis language="bash">
+	    cd $EXISTMASTER_HOME
+	    ./bin/startup.sh
+	  </synopsis>
+	</step>
+      </procedure>
+    </section>
+    <section id="replication-distribute">
+      <title>Distribute</title>
+      <procedure>
+	<step><para>Create a document in the master server in
+	<filename>/db/mycollection/</filename> (e.g. using the
+	java client or eXide; login as admin); The document will
+	be automatically replicated to the slave
+	servers.</para></step>
+      </procedure>
+    </section>
+    <section id="replication-performance-test">
+      <title>Performance Test</title>
+      <procedure>
+	<step><para>With eXide upload a +/- 50k XML document store as <filename>/db/mydoc.xml</filename></para></step>
+	<step>
+	  <para>Execute the query, check the timing on the slave (see <filename>exist.log</filename>)</para>
+	  <synopsis language="xquery">
+	    let $doc := doc('/db/mydoc.xml')
+	    for $i in (1000 to 3000)
+	    return
+	      xmldb:store('/db/mycollection', concat('mydoc', $i , ".xml"), $doc)
+	  </synopsis>
+	</step>
+      </procedure>
+    </section>
+  </chapter>
+</book>
