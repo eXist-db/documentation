@@ -26,9 +26,11 @@
     <section id="replication-preparation">
       <title>Preparation</title>
       <procedure>
-	<step><para>You need to download a recent version of ActimeMQ from
-	<ulink url="http://activemq.apache.org/download.html">ActiveMQ
-	download page</ulink>.</para>
+	<step><para>You need to download a recent version of ActiveMQ
+	from <ulink
+	url="http://activemq.apache.org/download.html">ActiveMQ
+	download page</ulink> if you cannot install it directly from
+	your package manager.</para>
 	<note><para>Note that the
 	<filename>.tgz archive file</filename> has additional unix
 	(GNU/Linux, MacOSX) support.  The <filename>zip archive
@@ -73,8 +75,8 @@
 	    </collection>
 	  </synopsis>
 	  </step>
-	  <step><para>Set the correct value for <parameter>java.naming.provider.url</parameter> that matches your message broker</para></step>
-	  <step><para>Set a unique value for the <parameter>client-id</parameter> parameter</para></step>
+	  <step><para>Set the correct value for <parameter>java.naming.provider.url</parameter> that matches your message broker (ActiveMQ).</para></step>
+	  <step><para>Set a unique value for the <parameter>client-id</parameter> parameter.</para></step>
 	</procedure>
       </section>
       <section id="replication-get-started-slave">
@@ -86,12 +88,13 @@
 	      <job type="startup" name="replication" class="org.exist.replication.jms.subscribe.MessageReceiverJob">
 		
 		<parameter name="java.naming.factory.initial" value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/>
+		<!-- Set value -->
 		<parameter name="java.naming.provider.url" value="tcp://myserver.local:61616"/>
 		
 		<parameter name="connectionfactory" value="ConnectionFactory"/>
 		<parameter name="topic" value="dynamicTopics/eXistdb"/>
 		
-		<!-- set values -->
+		<!-- Set values -->
 		<parameter name="client-id" value="SetSubscriberId"/> 
 		<parameter name="subscriber-name" value="SetSubscriptionId"/> 
 		
@@ -100,8 +103,8 @@
 	  </step>
 	  <step><para>Set the correct value for
 	  <parameter>java.naming.provider.url</parameter> that
-	  matches your message broker</para></step>
-	  <step><para>Set unique values for <parameter>client-id</parameter> and <parameter>subscriber-name</parameter></para></step>
+	  matches your message broker (ActiveMQ).</para></step>
+	  <step><para>Set unique values for <parameter>client-id</parameter> and <parameter>subscriber-name</parameter>.</para></step>
 	  <step><para>Create the collection
 	  <filename>/db/mycollection/</filename>, this is the
 	  collection that receives the documents that are updated
@@ -117,10 +120,23 @@
 	  <para>Start ActiveMQ server:</para>
 	  <synopsis language="bash">
 	    cd $ACTIVEMQ_HOME
-	    ./bin/activemq start [for mac, use the bin/macosx wrapper directory]
+	    ./bin/activemq start
+	  </synopsis>
+	  <para>or use the java wrapper for running it as a service
+	  with MacOSX or GNU/Linux:</para>
+	  <para>that is for MacOSX:</para>
+	  <synopsis language="bash">
+	    $ACTIVEMQ_HOME/bin/macosx/activemq start
+ 	  </synopsis>
+	  <para>or for 32 bit GNU/Linux:</para>
+	  <synopsis language="bash">
+	    $ACTIVEMQ_HOME/bin/linux-x86-32/activemq start
+	  </synopsis>
+	  <para>or 64 bit GNU/Linux:</para>
+	  <synopsis language="bash">
+	    $ACTIVEMQ_HOME/bin/linux-x86-64/activemq start
 	  </synopsis>
 	</step>
-	
 	<step>
 	  <para>Start Slave</para>
 	  <synopsis language="bash">
