@@ -5,7 +5,7 @@
         <graphic fileref="logo.jpg"/>
     <productname>eXist-db – Open Source Native XML Database</productname>
     <title>eXist-db – Tuning</title>
-    <date>August 2012</date>
+    <date>September 2012</date>
         <author>
             <firstname>Wolfgang M.</firstname>
             <surname>Meier</surname>
@@ -18,6 +18,16 @@
     </bookinfo>
     <chapter>
         <title>Tuning the Database</title>
+        <section>
+            <title>Overview</title>
+            <para>This article describes strategies for improving the performance of eXist-db and
+                optimizing its efficiency. It covers the a range of areas that can constrain
+                performance, from memory and cache settings to the way a query is constructed. Many
+                users of eXist-db have little reason to read this document until they encounter a query
+                or operation that is performing poorly. However, whether you have reached that point
+                or you are just curious about learning strategies for keeping your database and
+                queries performing at peak efficiency, this is an essential document.</para>
+        </section>
         <section>
             <title>Memory settings</title>
       <para>Java always limits the maximum amount of memory available to a process. eXist-db will
