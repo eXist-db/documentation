@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: quickstart.xml 17205 2012-09-29 16:37:09Z joewiz $ -->
+<book>
+    <bookinfo>
+        <graphic fileref="logo.jpg"/>
+        <productname>eXist-db – Open Source Native XML Database</productname>
+        <title>Dashboard</title>
+        <date>September 2012</date>
+    </bookinfo>
+    <chapter>
+        <title>Dashboard</title>
+        <section>
+            <title>About the Dashboard</title>
+            <para>The eXist-db Dashboard is the central application launchpad and administration
+                facility for eXist-db. Much like a tablet or smartphone home screen, the Dashboard
+                displays a list of applications, or "apps". In the Dashboard</para>
+            <para>The default apps installed in eXist-db relate to administration and assist with
+                application development. The database administration apps include: Admin Web
+                Application, Collections, Shutdown, Backup, Package Manager, and User Manager. The
+                application development applications include: eXide XQuery IDE.</para>
+        </section>
+        <section>
+            <title>Using the Dashboard</title>
+            <para>To enter an app, select its icon.</para>
+            <para>To find new apps to install, select the Package Manager app and browse the list of
+                applications and code library packages available from eXist-db's public repository.
+                This repository is eXist-db's equivalent of an "app store". Detailed information
+                about each package can be viewed by selecting the <guibutton>Show
+                    Details</guibutton> checkbox in the upper-right corner. If you want to connect
+                to a different repository, select the <guibutton>gear</guibutton> button and enter
+                the repository's URL.</para>
+            <para>To install an app from the repository, select the app; this will reveal a
+                gear-shaped <guibutton>install</guibutton> button. You can also install packages
+                stored on your filesystem; just select the <guibutton>gear</guibutton> icon in the
+                top-left corner of the main Package Manage pane to bring up the Upload dialog, then
+                click on the "Click to select .xar package" to browse your filesystem to find the
+                .xar package, then select "Submit" to upload the package to eXist-db for
+                installation. Once installed, a new app will appear in the Dashboard landing
+                page.</para>
+            <para>Deleting an unwanted application is as simple as hovering the mouse over an app's
+                icon, which reveals a trashcan icon; click on the trashcan icon to delete the app.
+                Alternatively, from the Package Manager app, select an installed app and click on
+                the orange-tinted <guibutton>gear</guibutton> button.</para>
+        </section>
+        <section>
+            <title>On Apps vs. Plugins</title>
+            <para>The Dashboard supports both "apps", which are self-contained applications
+                providing their own web GUI, as well as "plugins": simple, single-screen dialogs
+                which run inside the dashboard. The eXist-db Documentation App, eXide, and eXist-db
+                Demo App are apps, while the Collection Browser, Shutdown, Backup, Package Manager,
+                and User Manager are plugins. Plugins are most suitable for administrative
+                functions.</para>
+            <para>Plugins are loaded and unloaded on demand via dojo's AMD loader. They are modular,
+                self-contained units. To add a new plugin, you need to provide an HTML and a
+                plugin.js file, which defines a subclass of the base plugin class.</para>
+            <para>Future plans for plugins include the addition of a template plugin to help others
+                understand how to set up a plugin, and XForms support, which would make plugin
+                authoring a lot easier but requires an update to betterform.</para>
+        </section>
+    </chapter>
+</book>
