@@ -107,7 +107,7 @@ declare function config:import-ace($node as node(), $model as map(*)) {
     let $eXideInstalled := doc-available("/db/eXide/repo.xml")
     let $path :=
         if ($eXideInstalled) then
-            "../eXide/resources/scripts/ace/"
+            request:get-context-path() || "/apps/eXide/resources/scripts/ace/"
         else
             "//d1n0x3qji82z53.cloudfront.net/src-min-noconflict/"
     for $script in $node/script
