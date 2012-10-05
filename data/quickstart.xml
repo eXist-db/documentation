@@ -24,14 +24,25 @@
             <note id="about-java">
                 <title>eXist-db and Java</title>
                 <para>eXist-db is built on Java, a free, cross-platform software development
-                    environment that comes in a number of versions. The version that eXist-db
-                    requires is Java 6, released by Oracle. Other versions, including Java 7 and
-                    OpenJDK have not been tested, so they are not yet supported. eXist-db can run
-                    with both the Java "JRE" (Java Runtime Environment) and the "JDK" (Java
-                    Development Kit), as long as you use version 6. For instructions about running
-                    Java on your operating system, see Oracle's <ulink
+                    environment. Java comes in a number of versions, so it is important that you
+                    install the version that eXist-db requires: Java 6, released by Oracle. Other
+                    versions, including Java 7 and OpenJDK have not been tested, so they are not yet
+                    supported. eXist-db can run with both the Java "JRE" (Java Runtime Environment)
+                    and the "JDK" (Java Development Kit)—as long as you use version 6. The JRE is
+                    adequate for running eXist-db; you do not need the JDK unless you intend to
+                    compile eXist-db from its source code. For instructions about running Java on
+                    your operating system, see Oracle's <ulink
                         url="http://www.java.com/en/download/help/index_installing.xml">Installing
-                        java</ulink> page.</para>
+                        Java</ulink> page.</para>
+                <para>Linux users: Installing the Oracle JDK is probably the most difficult part of
+                    installing eXist on Linux. Unfortunately, Oracle's own pages (such as the link
+                    above) focus on commercial Linux distributions. Users of other distributions are
+                    better served by distribution-specific instructions. Instructions that
+                    eXist-db users have found useful include: <ulink
+                        url="http://livingtao.blogspot.com/2012/01/few-easy-steps-to-install-sunoracle-jdk.html"
+                        >Amazon Linux</ulink> and <ulink
+                        url="http://www.gaggl.com/2012/04/installing-java6-jdk-on-ubuntu-12-04/"
+                        >Ubuntu 12.04</ulink>.</para>
             </note>
         </section>
         <section id="installation">
@@ -52,9 +63,10 @@
                     version of eXist-db, see <ulink url="running-trunk.xml">Running
                         Trunk</ulink>.</para>
             </note>
-	    <!-- NB: I think we need to rephrase no graphical installer for
+	    <!-- Awaiting clarification from ljo about his comment, 
+	        "I think we need to rephrase no graphical installer for
 		 GNU/Linux since its only the launching of the installer we are 
-		 talking about. /ljo -->
+		 talking about." -->
             <para>Once the download has completed, launch the eXist-db installer. To launch the
                 installer on Mac or Windows, simply double-click the .jar you downloaded file. (On
                 Mac OS X 10.7 and higher, a security feature called <ulink
@@ -62,7 +74,7 @@
                 installer from running since eXist-db is not registered with Apple; to circumvent
                 the warning dialog and allow the installer to run, right-click or control-click the
                 file and select Open.) On Linux distributions with a graphical desktop interface
-                (e.g., Ubuntu 12.04), you can run the graphical installer by making the .jar file
+                (e.g., Ubuntu), you can run the graphical installer by making the .jar file
                 executable, right-clicking on the .jar file, and selecting "Open With Sun Java 6
                 Runtime". For a non-graphical interface to the installer, you must use the command
                 line to enter the following command:
