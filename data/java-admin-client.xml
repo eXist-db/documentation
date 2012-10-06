@@ -1,64 +1,123 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
         <graphic fileref="logo.jpg"/>
-    <productname>eXist-db – Open Source Native XML Database</productname>
+        <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Java Admin Client</title>
-        <date>March 2010</date>
-        <author>
-            <firstname>Wolfgang M.</firstname>
-            <surname>Meier</surname>
-            <affiliation>
-                <address format="linespecific">
-                    <email>wolfgang at exist-db.org</email>
-                </address>
-            </affiliation>
-        </author>
+        <date>October 2012</date>
     </bookinfo>
     <chapter id="ch01">
-        <title>Using the Java Client on the Command Line</title>
-    <para>This document has been reviewed for eXist-db 1.2.</para>
-    <para>eXist-db offers an integrated command-line and gui client. The <ulink url="quickstart.xml">QuickStart</ulink>
-    shows a few screenshots of the graphical interface. However, it is also possible (and sometimes faster or 
-    more convenient) to use the client on the command line. The following sections provide a quick introduction
-    to the most common command line parameters and their use:</para>
-        <section>
+        <title>Java Admin Client</title>
+        <section id="introduction">
             <title>Introduction</title>
-            <para>You can launch the client by doing <emphasis>ONE</emphasis> of the following:</para>
-            <procedure>
-                <step>
-                    <para>For Windows and Mac users, double-click on the desktop shortcut icon (if
-            created) or by selecting the shortcut icon from the start menu</para>
-                </step>
-                <step>
-                    <para>OR launch using Java WebStart:</para>
+            <para>eXist-db ships with a Java-based Admin Client. This application enables users to
+                perform administrative tasks, such as user management, security settings, batch
+                import of whole directories, and backup/restore of the database. The Client can be
+                used either as a graphical interface or on the command line.</para>
+        </section>
+        <section id="launching">
+            <title>Launching the Client</title>
+            <para>You can launch the Java Admin Client using one of the following methods:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Windows and Linux users: Double-click on the <guibutton>Java Admin
+                            Client</guibutton> desktop shortcut icon (if the option to create
+                        desktop shortcuts was selected during installation) or select the shortcut
+                        icon from the Start Menu (if the option to select Start Menu entries was
+                        selected during installation)</para>
+                </listitem>
+                <listitem>
+                    <para>You can download a Java WebStart file (exist.jnlp) via your web browser;
+                        once the download has completed, double-click on the exist.jnlp file to
+                        launch the client: </para>
                     <para>
                         <ulink url="webstart/exist.jnlp">
-                            <graphic fileref="resources/webstart.small.jpg"/>
+                            <inlinemediaobject>
+                                <imageobject>
+                                    <imagedata fileref="resources/webstart.small.jpg"/>
+                                </imageobject>
+                            </inlinemediaobject>
                         </ulink>
                     </para>
-                    <para>You can also find the Java WebStart launch icon in the
-            <guimenuitem>Administration</guimenuitem> menu in the left sidebar of
-            all documentation pages. NOTE: Java WebStart needs to be found by the web
-            browser and the eXist jars need to be signed (if you compiled them yourself)!</para>
-                </step>
-                <step>
-                    <para>OR enter the following in a Unix shell or DOS/Windows command prompt:</para>
+                    <para>You can also find a Java WebStart <guibutton>Launch</guibutton> icon in the Administration menu
+                        in the left sidebar of all documentation pages.</para>
+                    <note>
+                        <para>If you built eXist-db from source rather than using the downloadable
+                            installer, the Java WebStart function will not work unless you sign the
+                            jars. To do so, enter the following on your command line from the eXist directory: 
+                            <synopsis format="linespecific">build.bat -f build/scripts/jarsigner.xml (DOS/Windows)</synopsis>
+                            <synopsis format="linespecific">build.sh -f build/scripts/jarsigner.xml  (Unix)</synopsis></para></note>
+                </listitem>
+                <listitem>
+                    <para>Enter the following on your command line from the eXist directory (with the JAVA_HOME
+                        environmental variable set correctly):</para>
                     <synopsis format="linespecific">bin\client.bat (DOS/Windows)</synopsis>
                     <synopsis format="linespecific">bin/client.sh (Unix)</synopsis>
-                </step>
-                <step>
-                    <para>OR if both of the above approaches fail to launch the client, you can
-            enter the following on the command-line:</para>
+                </listitem>
+                <listitem>
+                    <para>Enter the following on the command line:</para>
                     <synopsis>java -jar start.jar client</synopsis>
-                </step>
-            </procedure>
-            <para>The client offers three modes of operation:</para>
+                </listitem>
+            </itemizedlist>
+        </section>
+        <section id="gui">
+            <title>Using the Graphical Client</title>
+            <para>Once the Graphical Client is launched, you will see the "eXist Database Login" window.</para>
+            <screenshot>
+                <graphic fileref="resources/client1.png"/>
+            </screenshot>
+            <para>Enter your eXist-db username and password, select "Remote" from the "Type" dropdown menu, and in the URL field enter the URI for your database. By
+                default, the URI for your database is
+                xmldb:exist://localhost:8080/exist/xmlrpc.</para>
+            <note>
+                <para>The Java Admin Client can either connect to a "remote" server—as demonstrated
+                    here—or it can launch an "embedded database", that is, a database embedded in an
+                    application which runs in the same process as the client. This "embedded" option
+                    is useful for backup/restore or mass uploads of data; writing to an embedded
+                    instance avoids the network overhead.</para>
+            </note>
+            <para>After clicking "OK", the main client window will open.</para>
+            <screenshot>
+                <graphic fileref="resources/client2.png"/>
+            </screenshot>
+            <para>This window is split into two
+                panels, and has a top menu and a toolbar. The top panel lists the database
+                collections; the bottom panel is the "shell" and has a command prompt. This shell
+                allows you to manually enter database commands. Most commands, however, can be
+                accessed using the menu. All of the menu and toolbar items have tooltips that explain
+                their functions.</para>
+            <note><para>If eXist-db is online, you expose it to exploitation if you use an empty admin
+                password. If you did not specify an admin password during installation, you are
+                strongly advised to set an admin password as soon as possible. You can do this in
+                the Java Admin Client by following these steps:</para>
+            <orderedlist>
+                <listitem>
+                    <para>Open the "Edit Users" window by selecting the "Manage Users" icon (image
+                        of a pair of keys) in the toolbar</para>
+                </listitem>
+                <listitem>
+                    <para>At the top, select the "admin" user in the table of users</para>
+                </listitem>
+                <listitem>
+                    <para>Type in the new password into the password fields</para>
+                </listitem>
+                <listitem>
+                    <para>Click the "Modify User" button to apply the changes</para>
+                </listitem>
+            </orderedlist>
+            <screenshot>
+                <graphic fileref="resources/client3.png"/>
+            </screenshot></note>
+        </section>
+        <section id="command-line">
+            <title>Using the Command-line Client</title>
+            <para>It is sometimes faster or more convenient to use the Java Admin Client on the
+                command line. The following sections provide a quick introduction to the most common
+                command line parameters and their use. The client offers three modes of operation:</para>
             <orderedlist continuation="restarts" inheritnum="ignore">
                 <listitem>
                     <para>If an action is specified on the command-line, it will be processed in
-            non-interactive mode and the client will terminate after completition.</para>
+            non-interactive mode and the client will terminate after completion.</para>
                 </listitem>
                 <listitem>
                     <para>Without an action, the client switches to interactive mode and displays the
@@ -70,12 +129,11 @@
             interface is displayed.</para>
                 </listitem>
             </orderedlist>
-        </section>
         <section>
-            <title>Using the shell</title>
-            <para>We will not describe the interactive shell mode in detail here. Most commands work like
+            <title>Interactive Shell Mode</title>
+            <para>While this tutorial will not describe the interactive shell mode in detail, most commands work like
         their counterparts specified on the command line. On the shell, just type <command moreinfo="none">help</command> to get a list of supported commands.</para>
-            <para>The shell-mode may support full command line history and command completition, depending
+            <para>The shell mode may support full command line history and command completion, depending
         on your type of operating system. On Unix systems, the client will try to load the GNU
         readline library, which is part of most Unix installations. This gives you access to all the
         nice things you probably know from Linux shells. For example, pressing the tab-key will try
@@ -88,35 +146,35 @@
             <para>To explain the shell-mode, we just provide a short example, showing how to store the
         sample files into the database. Typing <command moreinfo="none">mkcol shakespeare</command>
         and pressing enter will create a shakespeare-collection into which we will put some of the
-        sample documents provided with eXist. To check if the new collection is present, enter
+        sample documents provided with eXist-db. To check if the new collection is present, enter
           <command moreinfo="none">ls</command> to get a listing of the current collection contents.
         The listing below shows an example session of how to add the sample documents:</para>
             <example>
                 <title>Adding the sample documents</title>
                 <screen format="linespecific"><![CDATA[
-        exist:/db>mkcol shakespeare
-        created collection.
-        exist:/db>cd shakespeare
-        exist:/db/shakespeare>mkcol plays
-        created collection.
-        exist:/db/shakespeare>cd plays
-        exist:/db/shakespeare/plays>put samples/shakespeare/
-        storing document hamlet.xml (1 of 4) ...done.
-        storing document much_ado.xml (2 of 4) ...done.
-        storing document r_and_j.xml (3 of 4) ...done.
-        storing document shakes.xsl (4 of 4) ...done.
-        exist:/db/shakespeare/plays> cd
-        exist:/db>mkcol library
-        created collection.
-        exist:/db>cd library
-        exist:/db/library>put samples/biblio.rdf
-        storing document biblio.rdf (1 of 1) ...done.
-        exist:/db/library>cd
-        exist:/db>mkcol xinclude
-        created collection.
-        exist:/db>cd xinclude
-        exist:/db/xinclude>put samples/xinclude
-        ]]></screen>
+exist:/db>mkcol shakespeare
+created collection.
+exist:/db>cd shakespeare
+exist:/db/shakespeare>mkcol plays
+created collection.
+exist:/db/shakespeare>cd plays
+exist:/db/shakespeare/plays>put samples/shakespeare/
+storing document hamlet.xml (1 of 4) ...done.
+storing document much_ado.xml (2 of 4) ...done.
+storing document r_and_j.xml (3 of 4) ...done.
+storing document shakes.xsl (4 of 4) ...done.
+exist:/db/shakespeare/plays> cd
+exist:/db>mkcol library
+created collection.
+exist:/db>cd library
+exist:/db/library>put samples/biblio.rdf
+storing document biblio.rdf (1 of 1) ...done.
+exist:/db/library>cd
+exist:/db>mkcol xinclude
+created collection.
+exist:/db>cd xinclude
+exist:/db/xinclude>put samples/xinclude
+]]></screen>
             </example>
             <para>Adding files to the database is done using put. Put expects either a single file, a
         file-pattern or a directory name as argument. If a directory is specified, all XML and XSL
@@ -132,8 +190,8 @@
             samples/**/*.xml</command> will parse any XML files found in the <filename moreinfo="none">samples</filename> directory and any of its sub-directories. </para>
             </note>
             <note>
-                <para>If you ever run into problems while experimenting with eXist and your database files
-          get corrupt: just remove the data files created by eXist and everything should work again.
+                <para>If you ever run into problems while experimenting with eXist-db and your database files
+          get corrupt: just remove the data files created by eXist-db and everything should work again.
           The data files all end with <filename moreinfo="none">.dbx</filename>. You will either
           find them in directory <filename moreinfo="none">webapp/WEB-INF/data</filename> or
             <filename moreinfo="none">WEB-INF/data</filename>, depending on your installation. It is
@@ -211,14 +269,14 @@
         below the <filename moreinfo="none">/db/movies</filename> root collection, i.e. you may use
         this option to recursively import an entire collection tree.</para>
             <note>
-                <para> eXist can also store binary resources in addition to XML files. The client thus tries
+                <para> eXist-db can also store binary resources in addition to XML files. The client thus tries
           to determine if the current file is XML or not. File <filename>mime-types.xml</filename>
-          allows to associate : <unorderedlist>
-                        <listitem> a MIME type </listitem>
-                        <listitem> an eXist type ("xml" or "binary") </listitem>
-                        <listitem> a file extension </listitem>
-                    </unorderedlist> This is also used by the eXist servers . For example to specify that
-          .xmap extension is used for XML files you can specify it like this in mime-types.xml : <programlisting>  
+          allows to associate : <itemizedlist>
+                        <listitem> <para>a MIME type</para> </listitem>
+                        <listitem> <para>an eXist-db type ("xml" or "binary")</para> </listitem>
+                        <listitem> <para>a file extension</para> </listitem></itemizedlist>
+                     This is also used by the eXist-db servers . For example to specify that
+          .xmap extension is used for XML files you can specify it like this in mime-types.xml: <programlisting>  
 			  <![CDATA[  
 <mime-type name="application/xml" type="xml">
  <description>XML document</description>  
@@ -286,7 +344,7 @@
         </section>
         <section>
             <title>Backup/Restore on the Command-Line</title>
-            <para>Release 0.9.1 contains a simple backup/restore client, launched through the <command moreinfo="none">bin/backup.sh</command> or <command moreinfo="none">bin\backup.bat</command> scripts. The client allows to backup any local or remote
+            <para>A simple backup/restore client can be launched through the <command moreinfo="none">bin/backup.sh</command> or <command moreinfo="none">bin\backup.bat</command> scripts. The client allows to backup any local or remote
         collection available through the XML:DB API. To backup a collection, use for example</para>
             <synopsis format="linespecific">bin/backup.sh -d backup -u admin -p somepass -b /db -ouri=xmldb:exist://</synopsis>
             <para>This will launch a database instance in local mode and backup the <filename moreinfo="none">/db</filename> root collection. A hierarchy of directories will be created
@@ -303,6 +361,6 @@
             <synopsis format="linespecific">bin/backup.sh -r backup/db/shakespeare/__contents__.xml -ouri=xmldb:exist://</synopsis>
             <para>restores only the <filename moreinfo="none">/db/shakespeare</filename> collection.</para>
             <para>Please note that users and groups are defined in the database collection <filename moreinfo="none">/db/system</filename>. This collection will thus be restored first.</para>
-        </section>
+        </section></section>
     </chapter>
 </book>

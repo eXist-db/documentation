@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book>
+    <bookinfo>
+        <graphic fileref="logo.jpg"/>
+        <productname>eXist-db – Open Source Native XML Database</productname>
+        <title>Advanced Installation Methods</title>
+        <date>October 2012</date>
+    </bookinfo>
+    <chapter>
+        <title>Advanced Installation Methods</title>
+        <section>
+            <title>Introduction</title>
+            <para>The eXist-db <ulink url="quick-start.xml">Quick Start</ulink> document contains
+                basic instructions for installing eXist. This article explains more advanced methods
+                of installing and running eXist. </para>
+        </section>
+        <section id="headless">
+            <title>Headless Installation</title>
+            <para>The eXist-db installer requires a graphical desktop in order to launch. However,
+                If you wish to install eXist-db on a headless system, use the <command>-p</command>
+                parameter when following <emphasis>Option Two</emphasis> above. This will
+                automatically start the installation. Option <command>-p</command> expects a single
+                parameter: the path to the directory where you would like to install eXist-db. For
+                example:</para>
+            <synopsis>java -jar eXist-{version}.jar -p /usr/local/exist</synopsis>
+        </section>
+        <section id="service">
+            <title>Running eXist-db as a Service</title>
+            <para>Instead of manually running the eXist-db server in a shell window, you may prefer
+                to run it as a background service which is automatically launched during system
+                startup. This can be convenient, because eXist-db can continue to run even after
+                users have logged off of the system.</para>
+            <para>eXist-db comes with pre-configured scripts that use Tanuki Software's <ulink
+                    url="http://wrapper.tanukisoftware.org">Java Service Wrapper</ulink> to handle
+                the setup procedure. The required scripts are contained in the directory
+                    <filename>tools/wrapper</filename>. On Windows, you can simply choose the option
+                to <emphasis>Install eXist-db as Service</emphasis> from the eXist-db menu created
+                in the start menu. You can also call
+                    <filename>tools/wrapper/bin/install.bat</filename> instead. This will install
+                eXist-db and Jetty as a Windows service.</para>
+            <note>
+                <para>Installing eXist-db as a service on Windows Vista requires full administrator
+                    rights. Right click on the start menu item and select "Run as administrator".
+                    You may need to do this even if you are already logged in as an
+                    administrator.</para>
+            </note>
+            <para>After executing the install.bat script, you should find eXist-db listed in the
+                list of services currently registered with Windows:</para>
+            <screenshot>
+                <graphic fileref="resources/services.png"/>
+            </screenshot>
+            <para>Once the service is registered, you can launch it via the service manager as shown
+                in the screenshot or from the command line:</para>
+            <synopsis>
+                cd tools\wrapper\bin
+                wrapper.exe [can't have 2 adjoining hyphens in comments! so take out this space: - -]start ..\conf\wrapper.conf
+            </synopsis>
+            <para>For Linux, all of the start/shutdown scripts can be found in
+                    <filename>tools/wrapper/bin/exist.sh</filename>. You can create a link to this
+                file from the <filename>init.d</filename> directory of your distribution (where all
+                of the start/shutdown scripts reside). Normally, the directory will be
+                    <filename>/etc/init.d</filename>. For example:</para>
+            <synopsis>ln -s $EXIST_HOME/tools/wrapper/bin/exist.sh /etc/init.d/exist</synopsis>
+            <para>You can then add the service to the correct system runlevel. Check with your Linux
+                distribution for instructions.</para>
+        </section>
+        <section id="bin-executables">
+            <title>About the Scripts in the bin Directory</title>
+            <para>Included in the distribution are a number of useful <filename>.sh</filename> (Unix
+                Shell) and <filename>.bat</filename> (DOS batch) programs located in the
+                <filename>bin</filename> directory. If you installed the source distribution or
+                used the installer, you can find this directory in the root directory of the
+                distribution.
+                <!-- If
+                you installed the <filename>exist.war</filename> file (Web Application Archive), you
+                will find the <filename>bin</filename> directory in the location the <filename
+                >.war</filename> file was unpacked. </para>
+            <para>These shell and batch scripts are simply wrappers (interfaces between the
+                executable Java programs) around the bootstrap loader contained in the jar file
+                <filename>start.jar</filename>.-->
+            </para>
+            <para>If you find the programs do not launch, you can also manually launch these files
+                on the command-line, and specify which application you would like to start.</para>
+            <para>To manually launch these scripts:</para>
+            <variablelist>
+                <varlistentry>
+                    <term>startup.sh (Unix) / startup.bat (Windows)</term>
+                    <listitem>
+                        <para>Enter on the command-line:</para>
+                        <synopsis>java -jar start.jar jetty</synopsis>
+                        <para>Description: Starts the included Jetty web server at port 8080. eXist
+                            <!--and Cocoon (a web development framework) are --> is installed as a
+                            web application, located at <ulink url="http://localhost:8080/exist/">http://localhost:8080/exist/</ulink>. </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>shutdown.sh (Unix) / shutdown.bat (Windows)</term>
+                    <listitem>
+                        <para>Enter on the command-line:</para>
+                        <synopsis>java -jar start.jar shutdown</synopsis>
+                        <para>Description: Closes the running instance of eXist. If eXist has been
+                            started with <filename>startup.sh</filename>, calling
+                            <filename>shutdown.sh</filename> will also stop the Jetty web
+                            server. Otherwise, only the database is stopped by this call, since
+                            eXist has no control over the environment in which it is running. You
+                            should <emphasis>always</emphasis> call <filename>shutdown</filename>
+                            before killing the server process.
+                            <!--This issue is discussed in detail in
+                            the succeeding section <emphasis>Shutting Down the
+                            Database</emphasis>.-->
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>server.sh (Unix) / server.bat (Windows)</term>
+                    <listitem>
+                        <para>Enter on the command-line:</para>
+                        <synopsis>java -jar start.jar server</synopsis>
+                        <para>Description: Launches eXist as a stand-alone server process. In this
+                            setup, eXist is only accessible through the XMLRPC and the simple,
+                            built-in HTTP interface.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>client.sh (Unix) / client.bat (Windows)</term>
+                    <listitem>
+                        <para>Enter on the command-line:</para>
+                        <synopsis>java -jar start.jar client</synopsis>
+                        <para>Description: Launches the Java Administration Client - a graphical
+                            database interface. By default, this application is also launched if no
+                            application is selected on the command-line:</para>
+                        <synopsis>java -jar start.jar</synopsis>
+                        <!-- <para>The Java Admin Client is discussed in detail the succeeding section
+                            <emphasis>Java Admin Client</emphasis></para> -->
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </section>
+    </chapter>
+</book>

@@ -108,7 +108,7 @@ declare %private function docbook:to-html($nodes as node()*) {
                         docbook:process-children($node)
                     }
             case element(para) return
-                if ($node/parent::listitem) then
+                if ($node/parent::listitem and not($node/preceding-sibling::para or $node/following-sibling::para)) then
                     docbook:process-children($node)
                 else
                     <p>{docbook:process-children($node)}</p>
