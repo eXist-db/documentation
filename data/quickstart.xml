@@ -4,15 +4,16 @@
         <graphic fileref="logo.jpg"/>
         <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Quick Start</title>
-        <date>September 2012</date>
+        <date>October 2012</date>
     </bookinfo>
     <chapter>
         <title>Quick Start</title>
         <section id="overview">
             <title>Overview</title>
-            <para>Installing eXist-db on your computer is quick and easy. Once you confirm that your
-                system meets the requirements, download the installer, follow the installation
-                instructions, and before long you'll be up and running with eXist-db.</para>
+            <para>Installing eXist-db on your computer is quick and easy. First, confirm that your
+                system meets the requirements. Next, download the installer and follow the
+                installation instructions here. Before you know it you'll be up and running with
+                eXist-db.</para>
         </section>
         <section id="system-requirements">
             <title>System Requirements</title>
@@ -75,10 +76,11 @@
                 to launch the installer from the command line, enter the following command:
                 <synopsis format="linespecific">java -jar eXist-setup-[version]-revXXXXX.jar</synopsis>
                 (Windows and Mac users can also use the command line procedure, but most users
-                prefer the graphical installer.)</para>
+                prefer the graphical installer. For installs on a headless system, see <ulink
+                    url="advanced-installation.xml#headless">Headless Installation</ulink>.)</para>
             <para>After the installer is launched, follow the prompts described below to complete
                 the installation. We recommend that you accept the default options, since these are
-                designed to make using eXist-db easy. The installer's dialog panes are as follows: <procedure>
+                designed to make using eXist-db easy. The installer's dialog panes are as follows:</para> <procedure>
                     <step>
                         <para>(Windows only) <emphasis>Select the Path to Java</emphasis>: You will
                             be asked to select where Java is located on your computer. Browse to
@@ -128,7 +130,6 @@
                             eXist-db.</para>
                     </step>
                 </procedure>
-            </para>
             <para>When the installer is finished installing eXist-db, click Quit to close it.</para>
         </section>
         <section id="launching">
@@ -136,7 +137,9 @@
             <para>On the Mac, double-click eXist-db's application icon where you installed eXist-db.
                 On Linux or Windows, select the <emphasis>eXist-db Database Startup</emphasis>
                 desktop shortcut icon or Start Menu entry you created at the end of the
-                installation.</para>
+                installation. (To run eXist as a background service, see <ulink
+                    url="advanced-installation.xml#service">Running eXist-db as a
+                Service</ulink>.)</para>
             <para>Once eXist is started, you will see a new menu bar icon (Mac) or task bar icon
                 (Linux/Windows) for eXist-db. This icon gives you access eXist-db's tools and lets
                 you shutdown or restart the database.</para>
@@ -159,10 +162,14 @@
                     <synopsis format="linespecific">bin\startup.bat</synopsis>
                 </step>
             </procedure>
+            <para>For more information about these startup scripts, see <ulink
+                    url="advanced-installation.xml#bin-executables">About the Scripts in the bin
+                    Directory</ulink>.</para>
             <note>
                 <title>Having trouble?</title>
                 <para>If you suspect you have had a problem launching eXist-db, see our article on
-                    <ulink url="troubleshooting.xml">Troubleshooting</ulink>.</para>
+                    <ulink url="troubleshooting.xml">Troubleshooting</ulink>. Also see <ulink
+                        url="advanced-installation.xml">Advanced Installation</ulink>.</para>
             </note>
         </section>
         <section id="diving-in">
@@ -194,8 +201,10 @@
         </section>
         <section id="shutting-down">
             <title>Shutting Down the Database</title>
-            <para>Improperly shutting down the database can corrupt your data files, so follow one
-                of these procedures to properly shut down eXist-db.</para>
+            <para>Just as you shouldn't pull the plug on your computer without safely shutting it
+                down, you should learn the methods for safely shutting eXist-db down. Improperly
+                shutting down the database can corrupt your data files, so follow one of these
+                procedures to properly shut down eXist-db.</para>
             <procedure>
                 <step>
                     <para>From the <ulink url="/exist/apps/dashboard">Dashboard App</ulink>: select
