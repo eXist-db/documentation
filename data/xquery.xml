@@ -4,26 +4,85 @@
     <bookinfo>
         <graphic fileref="logo.jpg"/>
     <productname>eXist-db – Open Source Native XML Database</productname>
-        <title>XQuery Documentation</title>
-    <date>August 2012</date>
+        <title>XQuery in eXist-db</title>
+    <date>October 2012</date>
     <orgname>The eXist-db Project</orgname>
     </bookinfo>
     <chapter>
-        <title>XQuery</title>
-        <section>
-            <title>Overview (Current Status of XQuery Support)</title>
-      <para>eXist-db implements core XQuery syntax (with the exception of XML Schema-related
-                features) as specified in the <ulink url="http://www.w3.org/TR/xquery/">W3C
+        <title>XQuery in eXist-db</title>
+        <section id="introduction">
+            <title>Introduction</title>
+            <para>eXist-db provides strong support for the W3C recommendation of the XQuery
+                language, implementing the XQuery and XPath functions and operators. eXist-db builds
+                on the recommendation, adding a rich family of extension functions and other
+                capabilities that allow XQuery developers to create powerful applications with
+                eXist-db.</para>
+            <note>
+                <para>This document is an important reference work intended to help advanced
+                    developers to understand eXist-db's implementation of XQuery, but for readers who
+                    are new to XQuery or programming in general, this document can be too complex. We
+                    recommend you start with the resources listed in <ulink
+                        url="learning-xquery.xml">Learning XQuery with eXist-db</ulink>.</para></note>
+            <para>To briefly summarize each section's contents: "Current Status of XQuery Support"
+                describes the precise nature of eXist-db's conformance to the recommendation. <itemizedlist>
+                    <listitem>
+                        <para>"Function Library" outlines where to find the library of documentation
+                            about the XQuery functions built into eXist-db.</para>
+                    </listitem>
+                    <listitem>
+                        <para>"The Module System" outlines the different kind of library modules
+                            that eXist-db supports, ranging from modules written in XQuery to those
+                            written in Java, and how to register modules as globally available, and
+                            how to import them by URI.</para>
+                    </listitem>
+                    <listitem>
+                        <para>"XQuery Caching" describes how eXist-db uses caching to improve
+                            performance when reusing modules.</para>
+                    </listitem>
+                    <listitem>
+                        <para>"eXist-db Extension Functions" describes some of the convenient
+                            functions available in eXist-db for addressing documents and
+                            collections.</para>
+                    </listitem>
+                    <listitem>
+                        <para>"Java Binding" describes how to call arbitrary Java methods directly
+                            from XQuery.</para>
+                    </listitem>
+                    <listitem>
+                        <para>"Creating XQuery Modules" describes how to create XQuery Modules in
+                            XQuery and Java.</para>
+                    </listitem>
+                    <listitem>
+                        <para>"Using Collations" describes how to specify language-specific string
+                            sorting and comparisons.</para>
+                    </listitem>
+                    <listitem>
+                        <para>"Serialization Options" explains how to control the output of a
+                            query.</para>
+                    </listitem>
+                    <listitem>
+                        <para>"Other Options" describes how to set timeouts and other limits and
+                            variables on a query.</para>
+                    </listitem>
+                    <listitem>
+                        <para>"Pragmas" describes the pragmas that eXist-db implements.</para>
+                    </listitem>
+                </itemizedlist></para>
+        </section>
+        <section id="current-status-of-xquery-support">
+            <title>Current Status of XQuery Support</title>
+      <para>eXist-db implements core XQuery syntax, with the exception of XML Schema-related
+                features, as specified in the <ulink url="http://www.w3.org/TR/xquery/">W3C
                     recommendation</ulink>. Functions in the standard function library should also
                 follow the <ulink url="http://www.w3.org/TR/xpath-functions/">"XQuery 1.0 and XPath
                     2.0 Functions and Operators" recommendation</ulink>. Please check the local
                 function library <ulink url="xquery/functions.xql">documentation</ulink>.</para>
             <para>The XQuery implementation is tested against the official XQuery Test Suite (XQTS
-                version 1.0.2). This suite contains more than 14,000 tests. As of November 2007,
-                eXist passes more than 99% of the test suite, but we are continuously trying to
+                version 1.0.2). This suite contains more than 14,000 tests. As of November 2007, 
+                eXist-db passes more than 99% of the test suite, but we are continuously trying to
                 improve these results. Current test results are reported on the <ulink url="http://xqts.exist-db.org/">web site</ulink>. A good part of the remaining
                 failures is caused by smaller problems in the XQuery parser, computed constructors
-                and the missing schema support in eXist.</para>
+                and the missing schema support in eXist-db.</para>
             <note>
         <para>eXist-db implements ALL features described in the XQuery specification with the
                     EXCEPTION of the following unsupported features:</para>
@@ -45,7 +104,7 @@
               <para>To avoid misunderstandings: eXist-db does nevertheless support strong
                                 typing whenever the expected type of an expression, a function
                                 argument or function return value is explicitely specified or can be
-                                known otherwise. Don't expect eXist to be laxist about type
+                                known otherwise. Don't expect eXist-db to be laxist about type
                                 checks!</para>
                         </important>
                     </listitem>
@@ -66,7 +125,7 @@
             <title>The Module System</title>
       <para>Using eXist-db, you can write entire web applications in XQuery. This may result in
                 rather complex XQuery scripts, consisting of several thousand lines of code. Being
-                able to package related functions into modules is thus an important feature. eXist
+                able to package related functions into modules is thus an important feature. eXist-db
                 allows modules to be imported from a variety of sources:</para>
             <itemizedlist>
                 <listitem>
@@ -150,7 +209,7 @@ at "java:org.exist.xquery.modules.xmldiff.XmlDiffModule";</synopsis>
                     </programlisting>
                 </example>
                 <para>You never need to specify a location when importing a preloaded module. The
-                    namespace of the module is already known and eXist knows how to load it. Also,
+                    namespace of the module is already known and eXist-db knows how to load it. Also,
                     auto-loaded modules don't need to be explicitely imported into the main XQuery,
                     though you still need to import them if you want to use them from within another
                     XQuery module. </para>
@@ -163,7 +222,7 @@ at "java:org.exist.xquery.modules.xmldiff.XmlDiffModule";</synopsis>
                 expression will be added to an internal pool of prepared queries. The next time a
                 query or module is loaded from the same location, it will not be compiled again.
                 Instead, the already compiled code is reused. The code will only be recompiled if
-                eXist decides that the source was modified or it wasn't used for a longer period of
+                eXist-db decides that the source was modified or it wasn't used for a longer period of
                 time.</para>
             <para>If a query is accessed by more than one thread concurrently, each new thread will
                 create a new copy of the compiled query. The copies will be added to the query pool
@@ -171,8 +230,8 @@ at "java:org.exist.xquery.modules.xmldiff.XmlDiffModule";</synopsis>
             <para>Modules are cached along with the main query that imported them.</para>
         </section>
         <section>
-            <title>eXist Extension Functions</title>
-            <para>eXist offers a number of additional functions and operators, which are discussed
+            <title>eXist-db Extension Functions</title>
+            <para>eXist-db offers a number of additional functions and operators, which are discussed
                 in some detail in the following subsections.</para>
             <section>
                 <title>Specifying the Input Document Set</title>
@@ -183,7 +242,7 @@ at "java:org.exist.xquery.modules.xmldiff.XmlDiffModule";</synopsis>
                         <command>collection()</command> and <command>doc()</command> functions are
                     standard XQuery/XPath functions; whereas, <command>xmldb:xcollection()</command>
                     and <command>xmldb:document()</command> are eXist-specific extensions.</para>
-                <para>Without an URI scheme, eXist interprets the arguments to <command>collection()</command> and <command>doc()</command> as absolute or relative
+                <para>Without an URI scheme, eXist-db interprets the arguments to <command>collection()</command> and <command>doc()</command> as absolute or relative
                     paths, leading to some collection or document within the database. For
                     example:</para>
                 <synopsis>doc("/db/collection1/collection2/resource.xml")</synopsis>
@@ -378,7 +437,7 @@ declare function local:do-query() as element()
             </section>
             <section>
                 <title>XSL Transformations</title>
-                <para>eXist has a function for directly applying an XSL stylesheet to an XML
+                <para>eXist-db has a function for directly applying an XSL stylesheet to an XML
                     fragment within the XQuery script. This can be very convenient, for example, if
                     your application requirements are basic, and you do not want to install Cocoon
                     to run the XSLT.</para>
@@ -446,10 +505,10 @@ declare function local:do-query() as element()
             </section>
             <section>
                 <title>HTTP-Related Functions</title>
-                <para>eXist offers functions for handling HTTP request parameters and session
+                <para>eXist-db offers functions for handling HTTP request parameters and session
                     variables that use the <uri>http://exist-db.org/xquery/request</uri> namespace.
                     Functions in this namespace are only usable if the query is executed through the
-                    XQueryGenerator or the XQueryServlet (for more information consult eXist's
+                    XQueryGenerator or the XQueryServlet (for more information consult eXist-db's
                         <ulink url="devguide.xml">Developer's Guide</ulink> ).</para>
                 <variablelist>
                     <varlistentry>
@@ -489,7 +548,7 @@ declare function local:do-query() as element()
         </section>
         <section id="javamods">
             <title>Java Binding</title>
-            <para>eXist supports calls to arbitrary Java methods from within XQuery. The binding
+            <para>eXist-db supports calls to arbitrary Java methods from within XQuery. The binding
                 mechanism follows the short-cut technique introduced by <ulink url="http://saxon.sf.net"> Saxon</ulink> (a collection of tools for processing
                 XML documents). The class where the external function will be found is identified by
                 the namespace URI of the function call. The namespace URI should start with the
@@ -509,7 +568,7 @@ math:sqrt(2)
                 naming convention), and so, <code>to-string()</code> will call the Java method
                     <code>toString()</code>.</para>
             <para>If more than one method in the class matches the given name and parameter count,
-                eXist tries to select the method that best fits the passed parameter types at
+                eXist-db tries to select the method that best fits the passed parameter types at
                 runtime. The result of the method call can be assigned to an XQuery variable. If
                 possible, it will be mapped to the corresponding XML schema type. Otherwise, it's
                 type is the built-in type <option>object</option>.</para>
@@ -559,8 +618,8 @@ declare namespace file="java:java.io.File";
         </section>
         <section id="extension-modules">
             <title>Creating XQuery Modules</title>
-            <para>eXist supports XQuery-based library modules. These modules are simply collections
-                of function definitions and global variable declarations, of which eXist knows two
+            <para>eXist-db supports XQuery-based library modules. These modules are simply collections
+                of function definitions and global variable declarations, of which eXist-db knows two
                 types: <emphasis>External Modules</emphasis>, which are themselves written in
                 XQuery, and <emphasis>Internal Modules</emphasis>, which are implemented in Java.
                 The standard XPath/XQuery functions and all extension functions described in the
@@ -571,7 +630,7 @@ declare namespace file="java:java.io.File";
                 XQuery context.</para>
             <para>Users can also provide additional Java modules. With the current release, it is
                 relatively simple to add these modules, although the current API may change in the
-                future. To register a module, eXist requires a namespace URI by which the module is
+                future. To register a module, eXist-db requires a namespace URI by which the module is
                 identified, and the list of functions it supplies. For this, you need only to pass a
                 driver class to the XQuery engine, and this class should implement the interface
                     <classname>org.exist.xpath.InternalModule</classname>.</para>
@@ -705,8 +764,8 @@ example:echo(("Hello", "World!"))
                 fashion. XQuery allows one to specify collations at several places by means of a
                 collation URI. For example, a collation can be specified in the <command>order
                     by</command> clause of a XQuery FLWOR expression, as well as any string-related
-                functions. However, the concrete form of the URI is defined by the eXist
-                implementation. Specifically, eXist recognizes the following URIs:</para>
+                functions. However, the concrete form of the URI is defined by the eXist-db
+                implementation. Specifically, eXist-db recognizes the following URIs:</para>
             <orderedlist>
                 <listitem>
                     <synopsis>http://www.w3.org/2005/xpath-functions/collation/codepoint</synopsis>
@@ -740,7 +799,7 @@ return $w</synopsis>
             <para>Which returns <option>true</option>. Note that if you use the default codepoint
                 collation instead, the comparison would evaluate to <option>false</option>.</para>
             <note>
-                <para>eXist's range index is currently only usable with the default codepoint
+                <para>eXist-db's range index is currently only usable with the default codepoint
                     collation. This means that comparisons using a different collation will not be
                     index-assisted and will thus be slow. We plan to support collation-aware indexes
                     in the 1.3 release.</para>
@@ -801,7 +860,7 @@ return $w</synopsis>
                     </term>
                     <listitem>
                         <para>if a document is serialized and it has an XSL processing instruction,
-                            eXist can try to load the referenced stylesheet and apply it to the
+                            eXist-db can try to load the referenced stylesheet and apply it to the
                             document.</para>
                     </listitem>
                 </varlistentry>
@@ -900,7 +959,7 @@ return $w</synopsis>
             <para>For example, to disable XInclude expansion, and indent the output, you can use the
                 following syntax:</para>
             <synopsis>declare option exist:serialize "expand-xincludes=no";</synopsis>
-            <para>For the output method parameter, eXist currently recognizes three methods:
+            <para>For the output method parameter, eXist-db currently recognizes three methods:
                     <option>xml</option>, <option>xhtml</option> and <option>text</option>. Note
                 that unlike the xml method, the xhtml setting uses only the short form for elements
                 that are declared empty in the xhtml DTD. For example, the <option>br</option> tag
@@ -911,7 +970,7 @@ return $w</synopsis>
         </section>
         <section id="xqopts">
             <title>Other Options</title>
-            <para>To avoid that the server is blocked by a badly formulated query, eXist watches all
+            <para>To avoid that the server is blocked by a badly formulated query, eXist-db watches all
                 query threads. A blocking query can be killed if it takes longer than a specified
                 amount of time or consumes too many memory resources on the server. There are two
                 options to control this behaviour:</para>
@@ -937,11 +996,11 @@ return $w</synopsis>
             <title>Pragmas</title>
             <para>XQuery pragmas are a way to pass implementation-specific information to the query
                 engine from within a XQuery. The syntax for pragmas has changed between the
-                different drafts of the XQuery specification. In earlier eXist releases, pragmas
+                different drafts of the XQuery specification. In earlier eXist-db releases, pragmas
                 were used similar to what is now the "declare option" prolog expression. The new
                 syntax is quite different: pragmas can now be wrapped around an arbitrary XQuery
                 expression (see the <ulink url="http://www.w3.org/TR/xquery/#id-extension-expressions">specification</ulink>). </para>
-            <para>Currently, eXist recognizes the following pragmas:</para>
+            <para>Currently, eXist-db recognizes the following pragmas:</para>
             <section>
                 <title>exist:timer</title>
                 <para>Provides a simple way to measure the time for executing a given expression.
