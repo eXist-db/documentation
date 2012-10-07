@@ -119,7 +119,7 @@
                 <para>To use the LDAP realm, enable LDAP in your local.build.properties file and
                     rebuild eXist-db. Then you need to update
                         <filename>/db/system/security/config.xml</filename> by adding LDAP realm,
-                    using the following model:</para>
+                    according to the following model:</para>
                 <example>
                     <title>Sample <filename>/db/system/security/config.xml</filename> for
                         LDAP</title>
@@ -163,6 +163,29 @@
 </realm>]]></markup>
                     </programlisting>
                 </example>
+                <para>Some explanation of these elements:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>The default-username and default-password elements are used to
+                            communicate with the LDAP server if a non-LDAP user requests information
+                            from LDAP server.</para>
+                    </listitem>
+                    <listitem>
+                        <para>The search-* elements are mapping for names.</para>
+                    </listitem>
+                    <listitem>
+                        <para>The metadata-search-attribute elements are used for mapping LDAP
+                            account metadata onto eXist-db account metadata.</para>
+                    </listitem>
+                    <listitem>
+                        <para>The whitelist element contains allowed groups for authentication. The
+                            blacklist element contains groups that are not allowed.</para>
+                    </listitem>
+                    <listitem>
+                        <para>The transformation element contains actions to be performed after
+                            first authentication.</para>
+                    </listitem>
+                </itemizedlist>
                 <para>If configured correctly you should be able to authenticate by LDAP.</para>
             </section>
             <section>
