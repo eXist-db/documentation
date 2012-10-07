@@ -10,6 +10,140 @@
     <chapter>
         <title>Learning XQuery and eXist-db</title>
         <para>This article provides tips and resources for newcomers to XQuery and eXist-db.</para>
-        <note><para>Draft to be added here</para></note>
+        <section>
+            <title>Key Points to Learning XQuery</title>
+            <para>This is a guide to help you learn XQuery.  It contains some brief background on XQuery and
+                then list resources you can learn to use XQuery.</para>
+            <para>XQuery is unique in the development stack in that it replaces both SQL and the traditional software layers that convert SQL into 
+                presentation formats such as HTML, PDF and ePub.  Learning how to select basic data from
+                a native XML can be learned in just a few hours if you are already familiar with SQL and other
+                functional programming lanaguges.  However learning how to create custom XQuery functions, how to design XQuery modules
+                and how to execute unit tests on XQuery takes considerablly longer.</para>
+            <section>
+                <title>Learning by Example</title>
+                <para>Many people learn a new language by reading small examples of code.
+                    One of the ideal locations for this is the 
+                    <ulink url="http://en.wikibooks.org/wiki/XQuery#Beginning_Examples">XQuery Wikibook Beginning Examples</ulink>
+                </para>
+                <para>These examples are all designed and tested to work with eXist.  Please let us know if
+                    there are specific examples you would like to see.</para>
+            </section>
+            <section>
+                <title>Learning Functional Programming</title>
+                <para>XQuery is a functional programming language so many things that you do in procedural programs are not
+                    recomended or not possible.  In XQuery all variables should be imuutable, meaning they should be set once
+                    but never changed.  This aspect of XQuery allows it to be stateless and side-effect free.</para>
+            </section>
+            <section>
+                <title>Learning FLOWR statements</title>
+                <para>Interation in XQuery uses parallel progamming statements called FLOWR statements.  Each loop of a FLOWR
+                    statement is performed in a seperate thread of execution.  As a result you can not use the output of any computation
+                    in a FLOWR loop as an input to the next loop.  This concept can be difficult to learn if you have never used parallel progamming
+                    systems.</para>
+            </section>
+            <section>
+                <title>Learning XPath</title>
+                <para>XQuery also includes the use of XPath to select various nodes from an XML document.  Note
+                    that with native XML databases the shortest XPath expression is often the fastest since
+                    short expressions use element indexes.  You may want to use a tool such as an XPath "builder" tool
+                    within an IDE such as oXygen to learn how to build XPath expressions.</para>
+            </section>
+            <section>
+                <title>Using eXide or the XQuery sandbox</title>
+                <para>eXist comes with a web-based tool for doing XQuery development.  Although this tool is not as advanced
+                    as a full IDE such as oXygen, it is ideal for small queries where and IDE is not accessible.</para>
+            </section>
+            <section>
+                <title>Learning how to update XML documents</title>
+                <para>eXist comes with a set of operations for updating on-disk XML documents.
+                    <ulink url="http://exist-db.org/update_ext.xml">eXist XQuery Update Operations</ulink>
+                </para>
+            </section>
+            
+            <section>
+                <title>Learning how to debug XQuery</title>
+                <para>eXist has some early support for step-by-step debugging of XQuery.  But the interface
+                    is not mature yet.  Many people choose to debug complex recursive functions directly within XML IDEs such as oXygen
+                    that support step-by-step debugging using the internal Saxon XQuery library.  The oXygen IDE allows you to set
+                    breakpoints and watch the output document get created one element at a time.  This process is strongly recomended
+                    if you are just learning topics like recursion.
+                    <ulink url="http://exist-db.org/exist/debugger.xml">eXist XQuery Debugger</ulink>
+                </para>
+            </section>
+            <section>
+                <title>Learning recursion in XQuery</title>
+                <para>XML is an inherently recursive data structure: trees contain sub-trees.  So many XQuery
+                    functions are best designed using recursion.  Transforming many documents are best done
+                    using recursive functions.  One good place to start learning recursion is the identity
+                    node filter functions in the XQuery wikibook.</para>
+            </section>
+            <section>
+                <title>Effective use of your IDE</title>
+                <para>Most developers that do XQuery more than a few hours a day eventually end up using a full commercial
+                    XQuery IDE with oXygen being the best integrated with eXist.  Setting up oXygen is a bit tricky the first time
+                    since you need to load five jar files into a "driver" for oXygen.  Yet once this is done and the default
+                    XQuery engine is set up to use oXygen there are many high-productivity features that are enabled.  Central
+                    to this is the XQuery auto-complete feature.  As you type within XQuery all eXist functions and their parameters are
+                    shown in the IDE.  For example if you type "xmldb:" all the functions of the XMLDB module will automatically appear
+                    in a drop-down list.  As you continue to type or select a function the parameters and types are also shown.
+                    This becomes a large time saver as you use more XQuery functions.</para>
+            </section>
+        </section>
+        <section>
+            <title>Learning XQuery Resources</title>
+            <para>The following is an annotated list of resources that may help you learn XQuery.</para>
+            <bibliography>
+                <biblioentry>
+                    <title>XQuery 1.0 W3C Specification</title>
+                    <biblioid>http://www.w3.org/TR/xquery/</biblioid>
+                    <bibliomisc>The official 1.0 specification.  You should use XQuery
+                        to keep your XQuery programs portable.</bibliomisc>
+                </biblioentry>
+                <biblioentry>
+                    <title>XQuery Wikibook</title>
+                    <biblioid>http://en.wikibooks.org/wiki/XQuery</biblioid>
+                    <bibliomisc>A collection of sample progams in XQuery using the eXist system.
+                        Note that some examples are not complete and some may not be updated to use
+                        the latest release of eXist.</bibliomisc>
+                </biblioentry>
+                <biblioentry>
+                    <title>XQuery Wikibook</title>
+                    <biblioid>http://en.wikibooks.org/wiki/XQuery</biblioid>
+                    <bibliomisc>A collection of sample progams in XQuery using the eXist system.
+                        Note that some examples are not complete and some may not be updated to use
+                        the latest release of eXist.</bibliomisc>
+                </biblioentry>
+                <biblioentry>
+                    <title>XQuery Wikibook Beginning_Examples</title>
+                    <biblioid>http://en.wikibooks.org/wiki/XQuery#Beginning_Examples</biblioid>
+                    <biblioid>Simple examples starting with basic sequences and FLOWR statemetns</biblioid>
+                </biblioentry>
+                <biblioentry>
+                    <title>XQuery Wikipedia Article</title>
+                    <biblioid>http://en.wikipedia.org/wiki/XQuery</biblioid>
+                    <bibliomisc>An excellent brief overview of what XQuery is and it main features.  </bibliomisc>
+                </biblioentry>
+                <biblioentry>
+                    <title>XQuery Wikibook - Beginning Examples</title>
+                    <biblioid>http://en.wikibooks.org/wiki/XQuery</biblioid>
+                    <bibliomisc>A collection of sample progams in XQuery using the eXist system.
+                        Note that some examples are not complete and some may not be updated to use
+                        the latest release of eXist.</bibliomisc>
+                </biblioentry>
+                <biblioentry>
+                    <title>XQuery Book by Priscilla Walmsley</title>
+                    <biblioid>http://www.datypic.com/books/xquery/</biblioid>
+                    <bibliomisc>A precise and thurough coverage of all the features of the XQuery language.  An excellent
+                        and well written reference book for all XQuery developers.  This book is frequently cited
+                        in other XQuery tutorials.</bibliomisc>
+                </biblioentry>
+                <biblioentry>
+                    <title>XQuery Tutorial at the commercial W3C schools site</title>
+                    <biblioid>http://www.w3schools.com/xquery</biblioid>
+                    <bibliomisc>Basic XQuery tutorial but not recommended for eXist specific items.  Disucssion
+                        of XLink and XPointer should not be used.</bibliomisc>
+                </biblioentry>
+            </bibliography>
+        </section>
     </chapter>
 </book>
