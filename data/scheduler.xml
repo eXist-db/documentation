@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?oxygen RNGSchema="http://www.oasis-open.org/docbook/xml/5.0/rng/docbook.rng" type="xml"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
         <graphic fileref="logo.jpg"/>
-    <productname>eXist-db – Open Source Native XML Database</productname>
+        <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Scheduler Module</title>
         <date>September 2009</date>
         <author>
@@ -28,8 +27,8 @@
                 clustering.</para>
             <section>
                 <title>Activating</title>
-        <para> There are two type of uses of the Quartz Scheduler within eXist-db. The first is
-                    always active and is invoked at system startup. The second is the XQuery
+                <para> There are two type of uses of the Quartz Scheduler within eXist-db. The first
+                    is always active and is invoked at system startup. The second is the XQuery
                     function module for initiating and managing scheduled jobs. This second use is
                     not activated <emphasis role="italic">out-of-the-box</emphasis>. It has to be
                     activated through the conf.xml file. </para>
@@ -45,8 +44,8 @@
                         following in conf.xml:</para>
                     <example>
                         <title>Scheduler XQuery Module in conf.xml</title>
-            <programlisting lang="xml"><![CDATA[<module class="org.exist.xquery.modules.scheduler.SchedulerModule"
-         uri="http://exist-db.org/xquery/scheduler" />]]></programlisting>
+                        <programlisting language="xml"><![CDATA[<module class="org.exist.xquery.modules.scheduler.SchedulerModule" 
+           uri="http://exist-db.org/xquery/scheduler" />]]></programlisting>
                     </example>
                     <para>Once the scheduler XQuery function module is active, then XQuery code can
                         be written to invoke and manage <emphasis role="bold">user</emphasis> type
@@ -108,7 +107,7 @@
                     job that is invoked from the conf.xml file implements <emphasis role="bold">org.exist.storage.SystemTask</emphasis>.</para>
                 <example>
                     <title>Sample Java Source File</title>
-          <programlisting format="linespecific" language="java"><![CDATA[
+                    <programlisting format="linespecific" language="java"><![CDATA[
 package org.exist.scheduler;
 
 import java.util.Map;
@@ -132,8 +131,7 @@ public class TestJob extends UserJavaJob {
     public void setName(String name) {
         this.jobName = name;
     }
-}
-                ]]></programlisting>
+}]]></programlisting>
                 </example>
             </section>
         </section>
@@ -148,7 +146,9 @@ public class TestJob extends UserJavaJob {
         </section>
         <section>
             <title>Cron</title>
-            <note>This section was copied from <a href="http://www.opensymphony.com/quartz/wikidocs/CronTriggers%20Tutorial.html">OpenSymphony CronTriggers Tutorial</a>.</note>
+            <note>
+                <para>This section was copied from <ulink url="http://www.opensymphony.com/quartz/wikidocs/CronTriggers%20Tutorial.html" condition="_blank">OpenSymphony CronTriggers Tutorial</ulink>.</para>
+            </note>
             <section>
                 <title>Introduction</title>
                 <para>cron is a UNIX tool that has been around for a long time, so its scheduling
@@ -168,56 +168,64 @@ public class TestJob extends UserJavaJob {
                     space. Fields can contain any of the allowed values, along with various
                     combinations of the allowed special characters for that field. The fields are as
                     follows: </para>
-                <table>
+                <table border="1">
                     <caption>Fields</caption>
-                    <tr>
-                        <th>Field Name</th>
-                        <th>Mandatory?</th>
-                        <th>Allowed Values</th>
-                        <th>Allowed Special Characters</th>
-                    </tr>
-                    <tr>
-                        <td>Seconds</td>
-                        <td>YES</td>
-                        <td>0-59</td>
-                        <td>, - * /</td>
-                    </tr>
-                    <tr>
-                        <td>Minutes</td>
-                        <td>YES</td>
-                        <td>0-59</td>
-                        <td>, - * /</td>
-                    </tr>
-                    <tr>
-                        <td>Hours</td>
-                        <td>YES</td>
-                        <td>0-23</td>
-                        <td>, - * /</td>
-                    </tr>
-                    <tr>
-                        <td>Day of month</td>
-                        <td>YES</td>
-                        <td>1-31</td>
-                        <td>, - * ? / L W</td>
-                    </tr>
-                    <tr>
-                        <td>Month</td>
-                        <td>YES</td>
-                        <td>1-12 or JAN-DEC</td>
-                        <td>, - * /</td>
-                    </tr>
-                    <tr>
-                        <td>Day of week</td>
-                        <td>YES</td>
-                        <td>1-7 or SUN-SAT</td>
-                        <td>, - * ? / L #</td>
-                    </tr>
-                    <tr>
-                        <td>Year</td>
-                        <td>NO</td>
-                        <td>empty, 1970-2099</td>
-                        <td>, - * /</td>
-                    </tr>
+                    <colgroup>
+                        <col width="25%"/>
+                        <col width="25%"/>
+                        <col width="30%"/>
+                        <col width="20%"/>
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th>Field Name</th>
+                            <th>Mandatory?</th>
+                            <th>Allowed Values</th>
+                            <th>Allowed Special Characters</th>
+                        </tr>
+                        <tr>
+                            <td>Seconds</td>
+                            <td>YES</td>
+                            <td>0-59</td>
+                            <td>, - * /</td>
+                        </tr>
+                        <tr>
+                            <td>Minutes</td>
+                            <td>YES</td>
+                            <td>0-59</td>
+                            <td>, - * /</td>
+                        </tr>
+                        <tr>
+                            <td>Hours</td>
+                            <td>YES</td>
+                            <td>0-23</td>
+                            <td>, - * /</td>
+                        </tr>
+                        <tr>
+                            <td>Day of month</td>
+                            <td>YES</td>
+                            <td>1-31</td>
+                            <td>, - * ? / L W</td>
+                        </tr>
+                        <tr>
+                            <td>Month</td>
+                            <td>YES</td>
+                            <td>1-12 or JAN-DEC</td>
+                            <td>, - * /</td>
+                        </tr>
+                        <tr>
+                            <td>Day of week</td>
+                            <td>YES</td>
+                            <td>1-7 or SUN-SAT</td>
+                            <td>, - * ? / L #</td>
+                        </tr>
+                        <tr>
+                            <td>Year</td>
+                            <td>NO</td>
+                            <td>empty, 1970-2099</td>
+                            <td>, - * /</td>
+                        </tr>
+                    </tbody>
                 </table>
                 <para>So cron expressions can be as simple as this: * * * * ? * </para>
                 <para>or more complex, like this: 0 0/5 14,18,3-39,52 ? JAN,MAR,SEP MON-FRI
@@ -296,89 +304,98 @@ public class TestJob extends UserJavaJob {
             <section>
                 <title>Examples</title>
                 <para>Here are some full examples:</para>
-                <table>
+                <table border="1">
                     <caption>Examples</caption>
-                    <tr>
-                        <th>Expression</th>
-                        <th>Meaning</th>
-                    </tr>
-                    <tr>
-                        <td>0 0 12 * * ? </td>
-                        <td> Fire at 12pm (noon) every day </td>
-                    </tr>
-                    <tr>
-                        <td>0 15 10 * * ?</td>
-                        <td>Fire at 10:15am every day</td>
-                    </tr>
-                    <tr>
-                        <td>0 15 10 * * ? *</td>
-                        <td>Fire at 10:15am every day</td>
-                    </tr>
-                    <tr>
-                        <td>0 15 10 * * ? 2005</td>
-                        <td>Fire at 10:15am every day during the year 2005</td>
-                    </tr>
-                    <tr>
-                        <td>0 * 14 * * ?</td>
-                        <td>Fire every minute starting at 2pm and ending at 2:59pm, every day</td>
-                    </tr>
-                    <tr>
-                        <td>0 0/5 14 * * ?</td>
-                        <td>Fire every 5 minutes starting at 2pm and ending at 2:55pm, every
-                            day</td>
-                    </tr>
-                    <tr>
-                        <td>0 0/5 14,18 * * ?</td>
-                        <td>Fire every 5 minutes starting at 2pm and ending at 2:55pm, AND fire
-                            every 5 minutes starting at 6pm and ending at 6:55pm, every day</td>
-                    </tr>
-                    <tr>
-                        <td>0 0-5 14 * * ?</td>
-                        <td>Fire every minute starting at 2pm and ending at 2:05pm, every day</td>
-                    </tr>
-                    <tr>
-                        <td>0 10,44 14 ? 3 WED</td>
-                        <td>Fire at 2:10pm and at 2:44pm every Wednesday in the month of March.</td>
-                    </tr>
-                    <tr>
-                        <td>0 15 10 ? * MON-FRI</td>
-                        <td>Fire at 10:15am every Monday, Tuesday, Wednesday, Thursday and
-                            Friday</td>
-                    </tr>
-                    <tr>
-                        <td>0 15 10 15 * ?</td>
-                        <td>Fire at 10:15am on the 15th day of every month</td>
-                    </tr>
-                    <tr>
-                        <td>0 15 10 L * ?</td>
-                        <td>Fire at 10:15am on the last day of every month</td>
-                    </tr>
-                    <tr>
-                        <td>0 15 10 ? * 6L</td>
-                        <td>Fire at 10:15am on the last Friday of every month</td>
-                    </tr>
-                    <tr>
-                        <td>0 15 10 ? * 6L</td>
-                        <td>Fire at 10:15am on the last Friday of every month</td>
-                    </tr>
-                    <tr>
-                        <td>0 15 10 ? * 6L 2002-2005</td>
-                        <td>Fire at 10:15am on every last friday of every month during the years
-                            2002, 2003, 2004 and 2005</td>
-                    </tr>
-                    <tr>
-                        <td>0 15 10 ? * 6#3</td>
-                        <td>Fire at 10:15am on the third Friday of every month</td>
-                    </tr>
-                    <tr>
-                        <td>0 0 12 1/5 * ?</td>
-                        <td>Fire at 12pm (noon) every 5 days every month, starting on the first day
-                            of the month.</td>
-                    </tr>
-                    <tr>
-                        <td>0 11 11 11 11 ?</td>
-                        <td>Fire every November 11th at 11:11am.</td>
-                    </tr>
+                    <colgroup>
+                        <col width="30%"/>
+                        <col width="70%"/>
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th>Expression</th>
+                            <th>Meaning</th>
+                        </tr>
+                        <tr>
+                            <td>0 0 12 * * ? </td>
+                            <td> Fire at 12pm (noon) every day </td>
+                        </tr>
+                        <tr>
+                            <td>0 15 10 * * ?</td>
+                            <td>Fire at 10:15am every day</td>
+                        </tr>
+                        <tr>
+                            <td>0 15 10 * * ? *</td>
+                            <td>Fire at 10:15am every day</td>
+                        </tr>
+                        <tr>
+                            <td>0 15 10 * * ? 2005</td>
+                            <td>Fire at 10:15am every day during the year 2005</td>
+                        </tr>
+                        <tr>
+                            <td>0 * 14 * * ?</td>
+                            <td>Fire every minute starting at 2pm and ending at 2:59pm, every
+                                day</td>
+                        </tr>
+                        <tr>
+                            <td>0 0/5 14 * * ?</td>
+                            <td>Fire every 5 minutes starting at 2pm and ending at 2:55pm, every
+                                day</td>
+                        </tr>
+                        <tr>
+                            <td>0 0/5 14,18 * * ?</td>
+                            <td>Fire every 5 minutes starting at 2pm and ending at 2:55pm, AND fire
+                                every 5 minutes starting at 6pm and ending at 6:55pm, every day</td>
+                        </tr>
+                        <tr>
+                            <td>0 0-5 14 * * ?</td>
+                            <td>Fire every minute starting at 2pm and ending at 2:05pm, every
+                                day</td>
+                        </tr>
+                        <tr>
+                            <td>0 10,44 14 ? 3 WED</td>
+                            <td>Fire at 2:10pm and at 2:44pm every Wednesday in the month of
+                                March.</td>
+                        </tr>
+                        <tr>
+                            <td>0 15 10 ? * MON-FRI</td>
+                            <td>Fire at 10:15am every Monday, Tuesday, Wednesday, Thursday and
+                                Friday</td>
+                        </tr>
+                        <tr>
+                            <td>0 15 10 15 * ?</td>
+                            <td>Fire at 10:15am on the 15th day of every month</td>
+                        </tr>
+                        <tr>
+                            <td>0 15 10 L * ?</td>
+                            <td>Fire at 10:15am on the last day of every month</td>
+                        </tr>
+                        <tr>
+                            <td>0 15 10 ? * 6L</td>
+                            <td>Fire at 10:15am on the last Friday of every month</td>
+                        </tr>
+                        <tr>
+                            <td>0 15 10 ? * 6L</td>
+                            <td>Fire at 10:15am on the last Friday of every month</td>
+                        </tr>
+                        <tr>
+                            <td>0 15 10 ? * 6L 2002-2005</td>
+                            <td>Fire at 10:15am on every last friday of every month during the years
+                                2002, 2003, 2004 and 2005</td>
+                        </tr>
+                        <tr>
+                            <td>0 15 10 ? * 6#3</td>
+                            <td>Fire at 10:15am on the third Friday of every month</td>
+                        </tr>
+                        <tr>
+                            <td>0 0 12 1/5 * ?</td>
+                            <td>Fire at 12pm (noon) every 5 days every month, starting on the first
+                                day of the month.</td>
+                        </tr>
+                        <tr>
+                            <td>0 11 11 11 11 ?</td>
+                            <td>Fire every November 11th at 11:11am.</td>
+                        </tr>
+                    </tbody>
                 </table>
                 <para>Pay attention to the effects of '?' and '*' in the day-of-week and
                     day-of-month fields!</para>

@@ -86,6 +86,10 @@ declare %private function docbook:to-html($nodes as node()*) {
                 <section>
                 {docbook:process-children($node)}
                 </section>
+            case element(col) return
+                <col width="{$node/@width}">{docbook:process-children($node)}</col>
+            case element(colgroup) return
+                <colgroup>{docbook:process-children($node)}</colgroup>
             case element(section) return
                 <section>
                     <a name="D{$node/@exist:id}"></a>
