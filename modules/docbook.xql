@@ -184,6 +184,23 @@ declare %private function docbook:to-html($nodes as node()*) {
                 <li>{docbook:process-children($node)}</li>
             case element(tocentry) return
                 docbook:process-children($node)
+            case element(informaltable) return
+                <table border="0" cellpadding="0" cellspacing="0">{$node/node()}</table>
+            case element(table) return
+                docbook:table($node)
+            case element(tgroup) return
+                docbook:process-children($node)
+            case element(thead) return
+                <thead>{docbook:process-children($node)}</thead>
+            case element(tbody) return
+                <tbody>{docbook:process-children($node)}</tbody>
+            case element(row) return
+                <tr>{docbook:process-children($node)}</tr>
+            case element(entry) return
+                if ($node/ancestor::thead) then 
+                    <th>{docbook:process-children($node)}</th>
+                else
+                    <td>{docbook:process-children($node)}</td>
             case element(exist:match) return
                 <span class="hi">{$node/text()}</span>
             case element() return
@@ -216,6 +233,18 @@ declare %private function docbook:figure($node as node()) {
                 ()
         }
     </figure>
+};
+
+declare %private function docbook:table($node as node()) {
+    <table>{if ($node/@border) then attribute border {$node/@border} else () }
+        {docbook:to-html($node/*[not(self::title)])}
+        {
+            if ($node/title) then
+                <caption>{docbook:process-children($node/title)}</caption>
+            else
+                ()
+        }
+    </table>
 };
 
 declare %private function docbook:code($elem as element()) {
