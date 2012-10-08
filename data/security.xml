@@ -44,22 +44,52 @@
                 and later also include support for Access Control Lists and authentication using
                 multiple realms through a central Security Manager.</para>
         </section>
-        <section>
+        <section id="security-manager">
             <title>Security Manager</title>
-            <para>eXist-db since version 2.0 has a central security manager which is configured by
-                the file <filename>/db/system/security/config.xml</filename>. This file controls
-                what authentication realms are available to the Security Manager.</para>
-            <programlisting language="xml">
-        <markup><![CDATA[
-<security-manager xmlns="http://exist-db.org/Configuration" last-account-id="11" last-group-id="10" version="2.0">
+            <para>eXist-db has a central Security Manager which is configured by the file
+                <filename>/db/system/security/config.xml</filename>. This file, which is
+                generated during database startup, defines what authentication realms are available
+                to the Security Manager.</para>
+            <para>This example Security Manager configuration file defines a URL to be used for
+                authentication:</para>
+            <example>
+                <title><filename>/db/system/security/config.xml</filename></title>
+                <programlisting language="xml">
+        <markup><![CDATA[<security-manager xmlns="http://exist-db.org/Configuration" last-account-id="11" last-group-id="10" version="2.0">
     <Authentication-Entry-Point>/authentication/login</Authentication-Entry-Point>
-</security-manager>
-]]></markup>
+</security-manager>]]></markup>
             </programlisting>
-            <para>This file is generated during database startup.</para>
-            <para>
-                <important>The eXist-db Realm is always enabled implicitly.</important>
-            </para>
+            </example>
+            <para>The Security Manager also features an authentication event listener that you can
+                configure to call a custom XQuery module on each authentication event. For example,
+                this configuration file would pass authentication events to a module,
+                <filename>/db/security-events.xq</filename>, which performs actions when an
+                authentication event occurs.</para>
+            <example>
+                <title>Excerpt of a sample <filename>/db/system/security/config.xml</filename>
+                    illustrating configuration of the authentication event listener</title>
+                <programlisting language="xml">
+        <markup><![CDATA[<security-manager ... version="2.0">
+    ...
+    <events script-uri="/db/security-events.xq"/>
+    ...
+</security-manager>]]></markup>
+            </programlisting></example>
+            <para>The XQuery module that receives the authentication events must be a library module
+                in the <uri>http://exist-db.org/security/events</uri> namespace and must have a
+                function called <command>authentication()</command>. This example sends a log
+                message to the console.</para>
+            <example>
+                <title>A sample module handler for authentication events, <filename>/db/security-events.xq</filename></title>
+                <programlisting language="xquery">
+        <markup><![CDATA[xquery version "3.0";
+ 
+module namespace sec-ev="http://exist-db.org/security/events";
+ 
+declare function sec-ev:authentication() {
+    util:log-system-out("An authentication event has occurred")
+};]]></markup>
+            </programlisting></example>
         </section>
         <section>
             <title>Realms</title>
