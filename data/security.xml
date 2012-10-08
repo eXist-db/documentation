@@ -5,7 +5,7 @@
         <graphic fileref="logo.jpg"/>
         <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Security</title>
-        <date>October 2012</date>
+        <date>$Date$</date>
     </bookinfo>
     <chapter>
         <title>Security</title>
@@ -61,7 +61,7 @@
 module namespace sec-ev="http://exist-db.org/security/events";
  
 declare function sec-ev:authentication() {
-    util:log-system-out("An authentication event has occurred")
+    util:log-system-out(concat("An authentication event has occurred for ", xmldb:get-current-user())))
 };]]></markup>
             </programlisting></example>
         </section>
