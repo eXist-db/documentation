@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book>
+    <bookinfo>
+        <graphic fileref="logo.jpg"/>
+        <productname>eXist-db – Open Source Native XML Database</productname>
+        <title>transform</title>
+        <orgname>The eXist-db Project</orgname>
+        <date>October 2012</date>
+    </bookinfo>
+    <chapter>
+        <title>XSL transformations with the transform module</title>
+        <section id="introduction">
+            <title>Introduction</title>
+            <para>The transform (in the <uri>http://exist-db.org/xquery/transform</uri> function
+                namespace) module provides functions for directly applying an XSL stylesheet to an
+                XML fragment within an XQuery script. The full list of functions and their
+                documentation is in the <ulink url="/exist/apps/xqfdocs">Function Documentation
+                    Library</ulink>. This article discusses some of the highlights and main uses for
+                this module.</para>
+        </section>
+        <section id="transform">
+            <title>transform:transform() and transform:stream-transform()</title>
+            <variablelist>
+                <varlistentry>
+                    <term>transform:transform()</term>
+                    <listitem>
+                        <para>This XSL transformation function has the following signature:</para>
+                        <synopsis>transform:transform($input as node()?, $stylesheet as
+                                item(), $parameters as node()?) as node()?</synopsis>
+                        <para>
+                            <command>transform:transform</command> expects the node to be
+                            transformed in the first argument <option>$input</option>. If
+                                <option>$input</option> is an empty sequence, the function returns
+                            immediately.</para>
+                        <para>The XSL stylesheet will be read from the location specified in
+                                <option>$stylesheet</option>, which should be either an URI or a
+                            node. If $stylesheet is of type xs:anyURI, the function will attempt to
+                            load the stylesheet from the specified location. A relative URI is
+                            interpreted as a file path. The function then tries to locate the
+                            stylesheet in the same way as imported XQuery modules, i.e. relative to
+                            the module load directory determined by the static XQuery
+                            context.</para>
+                        <para>Some examples for referencing the stylesheet:</para>
+                        <synopsis>transform:transform($root, doc("/db/styles/style.xsl"), ())</synopsis>
+                        <para>Creates the stylesheet from a document node.</para>
+                        <synopsis>transform:transform($root, xs:anyURI("style.xsl"), ())</synopsis>
+                        <para>Loads the stylesheet from the file <filename>style.xsl</filename>. The
+                            function usually expects the file to reside in the same directory as the
+                            main query.</para>
+                        <synopsis>transform:transform($root, xs:anyURI("http:exist-db.org/style.xsl"), ())</synopsis>
+                        <synopsis>transform:transform($root, xs:anyURI("xmldb:exist:///db/styles/style.xsl"), ())</synopsis>
+                        <para>The last two examples try to load the stylesheet from an URI. However,
+                            the "xmldb:" URI points to a resource stored in the database.</para>
+                        <para>The stylesheet will be compiled into a template using the standard
+                            Java APIs (<classname>javax.xml.transform</classname>). The template is
+                            shared between all instances of the function and will only be reloaded
+                            if modified since its last invocation.</para>
+                        <para>The <option>$options</option> parameter can be used to pass stylesheet
+                            parameters to the XSL processor as an XML fragment - for example:</para>
+                        <synopsis><![CDATA[<parameters>
+    <param name="param1" value="value1"/>
+    <param name="param2" value="value2"/>
+</parameters>]]></synopsis>
+                        <para>This will set the stylesheet parameter <option>param1</option> to the
+                            string value <option>value1</option>, and in the XSL stylesheet, the
+                            parameter can then be referenced as follows:</para>
+                        <synopsis><![CDATA[<xsl:param name="param1"/>]]></synopsis>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>transform:stream-transform()</term>
+                    <listitem>
+                        <para>Identical to the <command>transform:transform</command> function, but
+                            it directly streams the transformation result to the HTTP request output
+                            stream and doesn't return anything. The function is thus only usable in
+                            a web context. Note that the servlet output stream will be closed
+                            afterwards.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </section>
+    </chapter>
+</book>
