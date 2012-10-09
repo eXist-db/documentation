@@ -50,10 +50,10 @@ declare %public function review:editorial-view($node as node()*, $model as map(*
                             <td><a href="{$filename}">{$filename}</a></td>
                             <td>{$title}</td>
                             <td>{$on-landing-page}</td>
-                            <td>{for $x in $xreffed-by return <a href="{$x}">{$x}</a>}</td>
-                            <td>{$svn-user}</td>
+                            <td>{if (count($xreffed-by) > 0) then <table border="1"><tr>{for $x in $xreffed-by return <td><a href="{$x}">{$x}</a></td>}</tr></table> else ()}</td>
                             <td>{$svn-rev}</td>
                             <td>{format-dateTime($svn-dateTime, '[MNn] [D1] [Y0001], [H01]:[m01]')}</td>
+                            <td>{$svn-user}</td>
                         </tr>
                     }
                 </tbody>
