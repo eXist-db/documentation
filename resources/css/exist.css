@@ -140,7 +140,15 @@ blockquote p { padding: 0 0 10px; }
 }
 
 figure {
-    width: 100%;
+}
+
+figure img {
+    display: block;
+}
+
+figcaption {
+    font-size: .85em;
+    text-align: center;
 }
 
 /* ---------------------------------------- Local styles ----------------------------------- */
@@ -312,6 +320,7 @@ form { margin: 20px 0; }
 
 .content .img-float-right {
     float: right;
+    width: inherit;
     margin-left: 10px;
 }
 
@@ -320,9 +329,8 @@ form { margin: 20px 0; }
     margin-bottom: .85em;
 }
 
-#content .content pre.prettyprint li, #content code {
-    font-size: 105%;
-    line-height: 1.2em;
+.content .guimenuitem {
+    background: #FEF8C4;
 }
 
 .content .example {

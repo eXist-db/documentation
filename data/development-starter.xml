@@ -56,7 +56,7 @@
                 descriptors describe the application and control the installation process. As an
                 absolute minimum, an application package <emphasis>must</emphasis> contain two
                 descriptor files: <filename>expath-pkg.xml</filename> and
-                    <filename>repo.xml</filename>.  You can read more about those files in the
+                    <filename>repo.xml</filename>. You can read more about those files in the
                 package repository documentation, but this is not required for the following
                 sections since eXide will create the proper descriptors for us automatically.</para>
         </section>
@@ -119,7 +119,7 @@
                             <term>Abbreviation</term>
                             <listitem>
                                 <para>A short abbreviation for the application. Among other things,
-                                    it will be used as the file name for the final .xar package.  It
+                                    it will be used as the file name for the final .xar package. It
                                     is thus best to choose a simple abbreviation without spaces or
                                     punctuation characters.</para>
                             </listitem>
@@ -136,7 +136,7 @@
                 <step>
                     <para>Click on <guimenuitem>Done</guimenuitem> when you have completed the form.
                         eXide will now generate a collection hierarchy for the application based on
-                        the template you had selected. Once this has completed,  the
+                        the template you had selected. Once this has completed, the
                             <guimenuitem>Open Document</guimenuitem> dialog will pop up to indicate
                         that you can start editing files.</para>
                     <figure>
@@ -149,13 +149,7 @@
                     </figure>
                 </step>
                 <step>
-                    <para>To test if the application has been generated properly, select the
-                            <filename>index.html</filename> page of the new app in the open dialog
-                        and load it into eXide. With <filename>index.html</filename> open, select
-                            <guimenuitem>Application</guimenuitem>/<guimenuitem>Run App
-                            Source</guimenuitem> from the menu. A small dialog box will pop up,
-                        showing you a link to the application.</para>
-                    <figure>
+                    <figure float="1" floatstyle="">
                         <title>Run Dialog</title>
                         <mediaobject>
                             <imageobject>
@@ -163,6 +157,12 @@
                             </imageobject>
                         </mediaobject>
                     </figure>
+                    <para>To test if the application has been generated properly, select the
+                            <filename>index.html</filename> page of the new app in the open dialog
+                        and load it into eXide. With <filename>index.html</filename> open, select
+                            <guimenuitem>Application</guimenuitem>/<guimenuitem>Run App
+                            Source</guimenuitem> from the menu. A small dialog box will pop up,
+                        showing you a link to the application.</para>
                     <para>Click on the link to run the application in a separate browser tab.</para>
                     <figure>
                         <title>The Default Start Page of the Application</title>
@@ -187,8 +187,8 @@
                 <varlistentry>
                     <term>/modules/</term>
                     <listitem>
-                        <para>Contains XQuery modules. Most of the actual application code
-                                should go here.</para>
+                        <para>Contains XQuery modules. Most of the actual application code should go
+                            here.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -200,36 +200,34 @@
                 <varlistentry>
                     <term>/templates/</term>
                     <listitem>
-                        <para>Page templates containing all the repeating parts of the site's
-                                HTML layout, i.e. all the stuff which applies to every HTML view of
-                                the application.</para>
+                        <para>Page templates containing all the repeating parts of the site's HTML
+                            layout, i.e. all the stuff which applies to every HTML view of the
+                            application.</para>
                     </listitem>
                 </varlistentry>
-            </variablelist>
-            <variablelist>
                 <varlistentry>
                     <term>collection.xconf</term>
                     <listitem>
                         <para>A template file for the index configuration, which should apply to
-                                this application. Will be copied into the correct system collection
-                                when the application is installed.</para>
+                            this application. Will be copied into the correct system collection when
+                            the application is installed.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term>controller.xql</term>
                     <listitem>
                         <para>The URL rewriting controller, which handles the URL space of the
-                                application. You will rarely need to change this for simple
-                                applications.</para>
+                            application. You will rarely need to change this for simple
+                            applications.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term>expath-pkg.xml and repo.xml</term>
                     <listitem>
-                        <para>Those are the package descriptor files for the application
-                                containing the information you entered via the Deployment Editor.
-                                You don't need to edit those files directly. Instead, open the
-                                Deployment Editor to change any of the descriptor properties.</para>
+                        <para>Those are the package descriptor files for the application containing
+                            the information you entered via the Deployment Editor. You don't need to
+                            edit those files directly. Instead, open the Deployment Editor to change
+                            any of the descriptor properties.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -242,19 +240,138 @@
                     <term>pre-install.xql</term>
                     <listitem>
                         <para>An XQuery script which will be run by the package manager
-                                    <emphasis>before</emphasis> installing the app. By default, the
-                                script only ensures that any index configurations in
-                                collection.xconf are properly copied into the corresponding system
-                                collection before the app is installed.</para>
+                                <emphasis>before</emphasis> installing the app. By default, the
+                            script only ensures that any index configurations in collection.xconf
+                            are properly copied into the corresponding system collection before the
+                            app is installed.</para>
                         <para>In addition to <guimenuitem>pre-install.xql</guimenuitem>, you may
-                                also define a <guimenuitem>post-install.xql</guimenuitem> script via
-                                the Deployment Editor. As the name says, this script will run after
-                                the app has been deployed into the database and is most often used
-                                to copy resources or run initialization tasks required by the app.
-                            </para>
+                            also define a <guimenuitem>post-install.xql</guimenuitem> script via the
+                            Deployment Editor. As the name says, this script will run after the app
+                            has been deployed into the database and is most often used to copy
+                            resources or run initialization tasks required by the app. </para>
                     </listitem>
                 </varlistentry>
             </variablelist>
+            <para>You are not required to keep this structure. Feel free to restructure the app as
+                you like it and remove some of its parts. However, you have to preserve the two
+                descriptor files <filename>expath-pkg.xml</filename> and
+                    <filename>repo.xml</filename>.</para>
+        </section>
+        <section>
+            <title>The HTML Templating Framework </title>
+            <para>The generated application code uses the HTML Templating Framework to connect HTML
+                views with the application logic.  The goal of the HTML templating framework in
+                eXist-db is a clean separation of concerns. Generating web pages directly in XQuery
+                is quick and dirty, but makes maintenance difficult and is usually bad for code
+                sharing and team work. If you look at the <filename>index.html</filename> page,
+                you'll see it is just an HTML div defining the actual content body. The rest of the
+                page has been dragged in from the page template residing in
+                    <filename>templates/page.html</filename>.</para>
+            <para>The <filename>controller.xql</filename> is configured to call the HTML templating
+                for every URL ending with <option>.html</option>. The processing flow for an
+                arbitrary <filename>.html</filename> file is shown below:</para>
+            <figure>
+                <title>Processing Flow</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="resources/Templating.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>The input for the templating is always a plain HTML file.&#160;The module scans the HTML
+                view for elements with class attributes following a simple convention and tries to
+                translate them into XQuery function calls. By using class attributes,&#160; the HTML
+                remains sufficiently clean and does not get messed up with application code. A web
+                designer could take the HTML files and work on them without being bothered by the
+                extra class names. </para>
+            <para>If you look at <filename>index.html</filename>, the class attribute on the outer
+                div contains a call to a templating function:</para>
+            <synopsis language="html">&lt;div class="templates:surround?with=templates/page.html&amp;amp;at=content"&gt;</synopsis>
+            <para>
+                <code>templates:surround</code> is one of the default templating functions
+                provided by the module. It loads <filename>templates/page.html</filename> and
+                inserts the current div into the element with id "content".  A detailed description
+                of <code>templates:surround</code> can be found in the HTML templating module
+                documentation.</para>
+            <para>In the generated application template, you can add your own templating functions
+                to the XQuery module <filename>modules/app.xql</filename>, which is included by
+                default (you can also add your own modules though: just import them in
+                    <filename>modules/view.xql</filename>). For illustration, let's implement the
+                traditional "Hello World!" example: </para>
+            <procedure>
+                <step>
+                    <para>Create a new HTML view, <filename>hello.html</filename>, in eXide and add
+                        the following content:</para>
+                    <programlisting language="xml">&lt;div class="templates:surround?with=templates/page.html&amp;amp;at=content"&gt;
+    &lt;form action=""&gt;
+        &lt;label for="name"&gt;Enter your name:&lt;/label&gt;
+        &lt;input name="name"/&gt;
+    &lt;/form&gt;
+    &lt;p class="app:helloworld"&gt;&lt;/p&gt;
+&lt;/div&gt;</programlisting>
+                    <para>This creates a simple form and a paragraph which is connected to a
+                        template function, <filename>app:helloworld</filename>, through its class
+                        attribute.</para>
+                </step>
+                <step>
+                    <para>Open <filename>modules/app.xql</filename> and add an XQuery function
+                        matching the <code>app:helloworld</code> template
+                        call:<programlisting language="xquery">declare function app:helloworld($node as node(), $model as map(*), $name as xs:string?) {
+    if ($name) then
+        &lt;p&gt;Hello {$name}!&lt;/p&gt;
+    else
+        ()
+};</programlisting>
+                    </para>
+                    <para>A template function is a normal XQuery function known in the context of
+                        the main XQuery, which takes at least two required parameters: $node and
+                        $model, though additional parameters are allowed (see below). $node is the
+                        HTML element currently being processed - in this case a <sgmltag>p</sgmltag>
+                        element. $model is an XQuery map containing application data. We can ignore
+                        both parameters for this simple example. Please refer to the HTML templating
+                        documentation to read more about them.</para>
+                    <para>The third parameter, $name, is injected automatically by the templating
+                        framework. For now it is sufficient to know that the templating library will
+                        try to make a best guess about how to fill in any additional parameters. In
+                        this case, an HTTP request parameter with the name "name" will be passed in
+                        when the form is submitted and the function parameter will be set to the
+                        value of the request parameter.</para>
+                </step>
+                <step>
+                    <para>Open <filename>hello.html</filename> in the web browser using the base URL
+                        of your app, e.g.:</para>
+                    <synopsis>http://localhost:8080/exist/apps/tutorial/hello.html</synopsis>
+                </step>
+            </procedure>
+        </section>
+        <section>
+            <title>Exporting the App</title>
+            <para>Once you have created the first pages of an application, it is usually a good idea
+                to export it to a folder on disk. You could also just click on
+                    <guimenuitem>Application</guimenuitem>/<guimenuitem>Download app</guimenuitem>
+                to retrieve a <filename>.xar</filename> archive of the application, but exporting
+                the app to the file system has the advantage that you can continue working on the
+                app and eXide will keep track of the files which changed since the last export. You
+                may also want to add your app to a source control system like subversion or git,
+                which is easier if you have a copy on the file system.</para>
+            <para>To create an export to a directory on the file system, click
+                    <guimenuitem>Application</guimenuitem>/<guimenuitem>Synchronize</guimenuitem>.
+                In the popup dialog, fill in the path to the desired <emphasis>Target
+                    directory</emphasis>. This must point to a directory on the server running
+                eXist-db, not your local file system! The <emphasis>Start time</emphasis> can be
+                ignored for now. It may show the time of your last export if you call synchronize
+                again on the same application.</para>
+            <figure>
+                <title>Synchronize Dialog</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="resources/sync-dialog.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>Clicking on <guimenuitem>Synchronise</guimenuitem> will start the export and the
+                names of the written resources should show up in the table at the bottom of the
+                dialog.</para>
         </section>
     </chapter>
 </book>

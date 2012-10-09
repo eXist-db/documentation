@@ -141,17 +141,21 @@ declare %private function docbook:to-html($nodes as node()*) {
                 docbook:code($node)
             case element(graphic) return
                 let $align := $node/@align
-                let $class := if ($align) then "float-" || $align else ""
+                let $class := if ($align) then "img-float-" || $align else ""
                 return
                     <img src="{$node/@fileref}"/>
+            case element(mediaobject) return
+                docbook:process-children($node)
+            case element(imageobject) return
+                docbook:process-children($node)
             case element(imagedata) return
                 let $align := $node/@align
-                let $class := if ($align) then "float-" || $align else ""
+                let $class := if ($align) then "img-float-" || $align else ""
                 return
-                    <img src="{$node/@fileref}"/>
+                    <img src="{$node/@fileref}" class="{$class}"/>
             case element(videodata) return
                 let $align := $node/@align
-                let $class := if ($align) then "float-" || $align else ""
+                let $class := if ($align) then "img-float-" || $align else ""
                 return
                     <iframe width="{$node/@width}" height="{$node/@depth}" src="{$node/@fileref}" frameborder="0" allowfullscreen="yes"/>
             case element(ulink) return
@@ -183,7 +187,7 @@ declare %private function docbook:to-html($nodes as node()*) {
             case element(step) return
                 <li>{docbook:process-children($node)}</li>
             case element(filename) return
-                <code style="font-size:smaller; line-height:inherit">{docbook:process-children($node)}</code>
+                <code>{docbook:process-children($node)}</code>
             case element(toc) return
                 <ul class="toc">
                 {docbook:process-children($node)}
@@ -209,6 +213,8 @@ declare %private function docbook:to-html($nodes as node()*) {
                     <th>{docbook:process-children($node)}</th>
                 else
                     <td>{docbook:process-children($node)}</td>
+            case element(guimenuitem) return
+                <span class="guimenuitem">{docbook:process-children($node)}</span>
             case element(exist:match) return
                 <span class="hi">{$node/text()}</span>
             case element() return
@@ -232,15 +238,18 @@ declare %private function docbook:inline($node as node()) {
 };
 
 declare %private function docbook:figure($node as node()) {
-    <figure>
-        {docbook:to-html($node/*[not(self::title)])}
-        {
-            if ($node/title) then
-                <figcaption>{$node/title/text()}</figcaption>
-            else
-                ()
-        }
-    </figure>
+    let $float := $node/@float
+    let $class := if ($float = 1) then "img-float-right" else ""
+    return
+        <figure class="{$class}">
+            {docbook:to-html($node/*[not(self::title)])}
+            {
+                if ($node/title) then
+                    <figcaption>{$node/title/text()}</figcaption>
+                else
+                    ()
+            }
+        </figure>
 };
 
 declare %private function docbook:table($node as node()) {
