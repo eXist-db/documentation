@@ -20,7 +20,7 @@ declare %public function review:editorial-view($node as node()*, $model as map(*
     return
         <div>
             <p>{count($articles)} articles in {$articles-collection}</p>
-            <table>
+            <table class="table table-striped table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>Filename</th>
@@ -38,7 +38,7 @@ declare %public function review:editorial-view($node as node()*, $model as map(*
                     let $filename := util:document-name($article)
                     let $title := $article/book/bookinfo/title/string()
                     let $on-landing-page := $filename = $landing-page-links/@url
-                    let $xreffed-by := $articles[not(util:document-name(.) = 'documentation.xml')]//ulink[@url = $filename]!util:document-name(.)
+                    let $xreffed-by := distinct-values($articles[not(util:document-name(.) = 'documentation.xml')]//ulink[@url = $filename]!util:document-name(.))
                     let $svn-id := $article/comment()/string()[starts-with(., ' $Id')]
                     let $svn-id-groups := text:groups($svn-id, '^ \$Id: .*?\.xml (\d+) (\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2}Z) (.*?) \$ $')
                     let $svn-user := $svn-id-groups[5]
@@ -50,7 +50,16 @@ declare %public function review:editorial-view($node as node()*, $model as map(*
                             <td><a href="{$filename}">{$filename}</a></td>
                             <td>{$title}</td>
                             <td>{$on-landing-page}</td>
-                            <td>{if (count($xreffed-by) > 0) then <table border="1"><tr>{for $x in $xreffed-by return <td><a href="{$x}">{$x}</a></td>}</tr></table> else ()}</td>
+                            <td>{
+                                let $count := count($xreffed-by)
+                                for $x at $n in $xreffed-by
+                                order by $x
+                                return 
+                                    (
+                                    <a href="{$x}">{$x}</a>,
+                                    if ($n = $count) then () else ', '
+                                    )
+                            }</td>
                             <td>{$svn-rev}</td>
                             <td>{format-dateTime($svn-dateTime, '[MNn] [D1] [Y0001], [H01]:[m01]')}</td>
                             <td>{$svn-user}</td>
