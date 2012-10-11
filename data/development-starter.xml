@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
@@ -8,7 +7,7 @@
     </bookinfo>
     <chapter>
         <title>Getting Started with Web Application Development</title>
-        <para>Being much more than just an XML Database, eXist-db provides a complete platform for
+        <para>Being much more than just an XML database, eXist-db provides a complete platform for
             the development of rich web applications based on XML and related technologies (XQuery,
             XForms, XSLT, XHTML...).</para>
         <para>Key components of this platform are:</para>
@@ -34,36 +33,37 @@
             </listitem>
         </itemizedlist>
         <para>This tutorial will demonstrate how to quickly prototype an application based on above
-            components. Certainly there are many other wasy to integrate eXist-db into your own
+            components. Certainly there are many other ways to integrate eXist-db into your own
             application. This guide describes only one of the many possible approaches. However, we
             have found that taking the first steps is the most difficult part for new users, so we
-            tried to make is as simple as possible.</para>
+            tried to make it as simple as possible.</para>
         <section>
             <title>The Packaging</title>
-            <para>eXist-db 2.0 builds on the concept of self-contained, modular applications, which
+            <para>eXist-db 2.0 builds on the concept of self-contained, modular applications which
                 can be deployed into any database instance using a standardized packaging format.
                 Applications live inside the database, so application code, HTML views, associated
-                services and data reside in the same place - though maybe in different root
+                services and data all reside in the same place - though maybe in different root
                 collections. This makes it easy to e.g. backup an application into the file system,
                 pass it to someone else for installation in his own db, or even publish it to
-                eXist-db's public repository. The documentation, the dashboard, eXide or the Demo
-                are examples for application packages.</para>
-            <para>The packaging format is compliant with the expath packaging proposal, though it
+                eXist-db's public repository. The documentation, the dashboard, eXide and the eXist
+                XQuery Features Demo are examples of application packages.</para>
+            <para>The packaging format is compliant with the EXPath packaging proposal, though it
                 extends it considerably. For distribution, an application is packed into a .xar
-                archive, which is basically a ZIP archive containing all the application code (any
-                maybe data) required by the application along with a set of descriptors. The
-                descriptors describe the application and control the installation process. As an
-                absolute minimum, an application package <emphasis>must</emphasis> contain two
-                descriptor files: <filename>expath-pkg.xml</filename> and
-                    <filename>repo.xml</filename>. You can read more about those files in the
-                package repository documentation, but this is not required for the following
-                sections since eXide will create the proper descriptors for us automatically.</para>
+                archive, which is basically a ZIP archive. The .xar archive contains all the
+                application code required by the application, and optionally sample or full data,
+                along with a set of descriptors. The descriptors describe the application and
+                control the installation process. As an absolute minimum, an application package
+                    <emphasis>must</emphasis> contain two descriptor files:
+                    <filename>expath-pkg.xml</filename> and <filename>repo.xml</filename>. You can
+                read more about those files in the package repository documentation, but knowledge
+                about these is not required for the following sections, since eXide will create the
+                proper descriptors for you automatically.</para>
         </section>
         <section>
             <title>Starting a New Application</title>
-            <para>To start a new application, open <ulink url="../eXide/index.html">eXide</ulink>
-                (by clicking the link or via the dashboard or the system tray menu of
-                eXist-db).</para>
+            <para>To start a new application, open <ulink url="../eXide/index.html">eXide</ulink> by
+                clicking the link or by going via the dashboard or the system tray menu of
+                eXist-db.</para>
             <procedure>
                 <step>
                     <para>From the main menu, select
@@ -73,9 +73,9 @@
                         do so.</para>
                 </step>
                 <step>
-                    <para>Fill out the form by choosing a template, target collection, name,
-                        abbreviation and title for the application. All other form fields and pages
-                        are optional, so just ignore them for now.</para>
+                    <para>Fill out the form by choosing a template, a target collection, a name, an
+                        abbreviation and a title for the application. All other form fields and
+                        pages are optional, so you can ignore them for now.</para>
                     <figure>
                         <title>Deployment Editor Dialog</title>
                         <mediaobject>
@@ -91,11 +91,11 @@
                             <listitem>
                                 <para>The template used to generate the new application. Right now
                                     only two templates are available: the "eXist-db Design" template
-                                    will be based on the standard eXist-db page layout and design.
-                                    The "Plain" template creates a basic page layout without
-                                    eXist-db specific stuff. Both templates use the bootstrap CSS
-                                    library for styling and the HTML templating XQuery module for a
-                                    clean separation of concerns.</para>
+                                    is based on the standard eXist-db page layout and design. The
+                                    "Plain" template creates a basic page layout without eXist-db
+                                    specific stuff. Both templates use the Bootstrap CSS library for
+                                    styling and the HTML templating XQuery module to achieve a clean
+                                    separation of concerns.</para>
                             </listitem>
                         </varlistentry>
                         <varlistentry>
@@ -110,17 +110,19 @@
                         <varlistentry>
                             <term>Name</term>
                             <listitem>
-                                <para>A unique identifier for the application. The expath proposal
-                                    recommends to use a URI here to avoid name collisions.</para>
+                                <para>A unique identifier for the application. The EXPath proposal
+                                    recommends to use a URI here to avoid name collisions so we have
+                                    made this is requirement.</para>
                             </listitem>
                         </varlistentry>
                         <varlistentry>
                             <term>Abbreviation</term>
                             <listitem>
                                 <para>A short abbreviation for the application. Among other things,
-                                    it will be used as the file name for the final .xar package. It
-                                    is thus best to choose a simple abbreviation without spaces or
-                                    punctuation characters.</para>
+                                    it will be used as the file name for the final .xar package and
+                                    for the name of the collection into which the application
+                                    installs. It is thus best to choose a simple abbreviation
+                                    without spaces or punctuation characters.</para>
                             </listitem>
                         </varlistentry>
                         <varlistentry>
@@ -138,6 +140,8 @@
                         the template you had selected. Once this has completed, the
                             <guimenuitem>Open Document</guimenuitem> dialog will pop up to indicate
                         that you can start editing files.</para>
+                    <para>In the following, we assume that the app has been called "Tutorial" and
+                        its abbreviation is "tutorial".</para>
                     <figure>
                         <title>Open Document Dialog after generating application </title>
                         <mediaobject>
@@ -162,7 +166,7 @@
                             <guimenuitem>Application</guimenuitem>/<guimenuitem>Run App
                             Source</guimenuitem> from the menu. A small dialog box will pop up,
                         showing you a link to the application.</para>
-                    <para>Click on the link to run the application in a separate browser tab.</para>
+                    <para>Click on the link to run the application in a separate browser tab. </para>
                     <figure>
                         <title>The Default Start Page of the Application</title>
                         <mediaobject>
@@ -176,8 +180,8 @@
         </section>
         <section>
             <title>Understanding the Default Application Structure</title>
-            <para>As you could see, eXide created an application skeleton which worked out of the
-                box. All resources of the application reside below the target collection
+            <para>As you can see, eXide has created an application skeleton for you which works out
+                of the box. All resources of the application reside below the target collection
                     (<filename>/db/tutorial</filename>).</para>
             <para>The generated collection hierarchy follows a certain structure, which is usually
                 the same for all apps which ship with eXist-db. The most important collections and
@@ -193,7 +197,7 @@
                 <varlistentry>
                     <term>/resources/</term>
                     <listitem>
-                        <para>Secondary resources like CSS files, images or javascript.</para>
+                        <para>Secondary resources like CSS files, images or JavaScript.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -207,15 +211,16 @@
                 <varlistentry>
                     <term>collection.xconf</term>
                     <listitem>
-                        <para>A template file for the index configuration, which should apply to
-                            this application. Will be copied into the correct system collection when
-                            the application is installed.</para>
+                        <para>A template file for the index configuration that should apply to this
+                            application. This file will be copied into the correct system collection
+                            when the application is installed, thereby automatically indexing any
+                            data that is installed.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term>controller.xql</term>
                     <listitem>
-                        <para>The URL rewriting controller, which handles the URL space of the
+                        <para>The URL rewriting controller which handles the URL space of the
                             application. You will rarely need to change this for simple
                             applications.</para>
                     </listitem>
@@ -223,10 +228,10 @@
                 <varlistentry>
                     <term>expath-pkg.xml and repo.xml</term>
                     <listitem>
-                        <para>Those are the package descriptor files for the application containing
-                            the information you entered via the Deployment Editor. You don't need to
-                            edit those files directly. Instead, open the Deployment Editor to change
-                            any of the descriptor properties.</para>
+                        <para>These are the package descriptor files for the application that
+                            contain the information you entered via the Deployment Editor. You don't
+                            need to edit these files directly. Instead, open the Deployment Editor
+                            to change any of the descriptor properties.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -240,7 +245,7 @@
                     <listitem>
                         <para>An XQuery script which will be run by the package manager
                                 <emphasis>before</emphasis> installing the app. By default, the
-                            script only ensures that any index configurations in collection.xconf
+                            script only ensures that the index configurations in collection.xconf
                             are properly copied into the corresponding system collection before the
                             app is installed.</para>
                         <para>In addition to <guimenuitem>pre-install.xql</guimenuitem>, you may
@@ -259,12 +264,12 @@
         <section>
             <title>The HTML Templating Framework </title>
             <para>The generated application code uses the HTML Templating Framework to connect HTML
-                views with the application logic.  The goal of the HTML templating framework in
+                views with the application logic. The goal of the HTML templating framework in
                 eXist-db is a clean separation of concerns. Generating web pages directly in XQuery
-                is quick and dirty, but makes maintenance difficult and is usually bad for code
-                sharing and team work. If you look at the <filename>index.html</filename> page,
-                you'll see it is just an HTML div defining the actual content body. The rest of the
-                page has been dragged in from the page template residing in
+                is quick and dirty, but this makes maintenance difficult and it is usually bad for
+                code sharing and for team work. If you look at the <filename>index.html</filename>
+                page, you'll see it is just an HTML div defining the actual content body. The rest
+                of the page is dragged in from the page template residing in
                     <filename>templates/page.html</filename>.</para>
             <para>The <filename>controller.xql</filename> is configured to call the HTML templating
                 for every URL ending with <option>.html</option>. The processing flow for an
@@ -277,20 +282,21 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>The input for the templating is always a plain HTML file.&#160;The module scans the HTML
-                view for elements with class attributes following a simple convention and tries to
-                translate them into XQuery function calls. By using class attributes,&#160; the HTML
-                remains sufficiently clean and does not get messed up with application code. A web
-                designer could take the HTML files and work on them without being bothered by the
-                extra class names. </para>
+            <para>The input for the templating is always a plain HTML file.&#160;The module scans
+                the HTML view for elements with class attributes, following a simple convention. It
+                tries to translate the class attributes into XQuery function calls. By using class
+                attributes, the HTML remains sufficiently clean and does not get messed up with
+                application code. A web designer could take the HTML files and work on them without
+                being bothered by the extra class names. </para>
             <para>If you look at <filename>index.html</filename>, the class attribute on the outer
                 div contains a call to a templating function:</para>
             <synopsis language="html">&lt;div class="templates:surround?with=templates/page.html&amp;amp;at=content"&gt;</synopsis>
             <para>
-                <code>templates:surround</code> is one of the default templating functions
-                provided by the module. It loads <filename>templates/page.html</filename> and
-                inserts the current div into the element with id "content".  A detailed description
-                of <code>templates:surround</code> can be found in the HTML templating module
+                <code>templates:surround</code> is one of the default templating functions provided
+                by the module. It loads <filename>templates/page.html</filename> and inserts the
+                current div from  <filename>index.html</filename> into the element with the id
+                "content" in <filename>templates/page.html</filename>. A detailed description of
+                    <code>templates:surround</code> can be found in the HTML templating module
                 documentation.</para>
             <para>In the generated application template, you can add your own templating functions
                 to the XQuery module <filename>modules/app.xql</filename>, which is included by
@@ -299,8 +305,8 @@
                 traditional "Hello World!" example: </para>
             <procedure>
                 <step>
-                    <para>Create a new HTML view, <filename>hello.html</filename>, in eXide and add
-                        the following content:</para>
+                    <para>Create a new HTML view, <filename>hello.html</filename>, in eXide, save it
+                        in the root of your application, and add the following content:</para>
                     <programlisting language="xml">&lt;div class="templates:surround?with=templates/page.html&amp;amp;at=content"&gt;
     &lt;form action=""&gt;
         &lt;label for="name"&gt;Enter your name:&lt;/label&gt;
@@ -323,11 +329,11 @@
 };</programlisting>
                     </para>
                     <para>A template function is a normal XQuery function known in the context of
-                        the main XQuery, which takes at least two required parameters: $node and
+                        the main XQuery. It takes at least two required parameters: $node and
                         $model, though additional parameters are allowed (see below). $node is the
                         HTML element currently being processed - in this case a <sgmltag>p</sgmltag>
                         element. $model is an XQuery map containing application data. We can ignore
-                        both parameters for this simple example. Please refer to the HTML templating
+                        both parameters for this simple example: please refer to the HTML templating
                         documentation to read more about them.</para>
                     <para>The third parameter, $name, is injected automatically by the templating
                         framework. For now it is sufficient to know that the templating library will
@@ -340,26 +346,29 @@
                     <para>Open <filename>hello.html</filename> in the web browser using the base URL
                         of your app, e.g.:</para>
                     <synopsis>http://localhost:8080/exist/apps/tutorial/hello.html</synopsis>
+                    <para>Fill out the box with a name and press return.</para>
                 </step>
             </procedure>
         </section>
         <section>
             <title>Exporting the App</title>
             <para>Once you have created the first pages of an application, it is usually a good idea
-                to export it to a folder on disk. You could also just click on
+                to export it to a folder on disk. You could just click on
                     <guimenuitem>Application</guimenuitem>/<guimenuitem>Download app</guimenuitem>
                 to retrieve a <filename>.xar</filename> archive of the application, but exporting
                 the app to the file system has the advantage that you can continue working on the
-                app and eXide will keep track of the files which changed since the last export. You
+                app and have eXide keep track of which files have been modified since the last export. You
                 may also want to add your app to a source control system like subversion or git,
-                which is easier if you have a copy on the file system.</para>
+                and this is easier if you have a copy on the file system.</para>
             <para>To create an export to a directory on the file system, click
                     <guimenuitem>Application</guimenuitem>/<guimenuitem>Synchronize</guimenuitem>.
                 In the popup dialog, fill in the path to the desired <emphasis>Target
-                    directory</emphasis>. This must point to a directory on the server running
-                eXist-db, not your local file system! The <emphasis>Start time</emphasis> can be
-                ignored for now. It may show the time of your last export if you call synchronize
-                again on the same application.</para>
+                    directory</emphasis>. If you are accessing eXist-db on a server, not the machine
+                you are opening eXide in, this must point to a directory on the server running
+                eXist-db, not your local file system. If you are running eXist from your own
+                machine,  the two are the same. The <emphasis>Start time</emphasis> can be ignored
+                for now. It may show the time of your last export if you call synchronize again on
+                the same application.</para>
             <figure>
                 <title>Synchronize Dialog</title>
                 <mediaobject>
