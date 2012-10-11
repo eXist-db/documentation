@@ -18,56 +18,63 @@
                 eXist-db.</para>
             <note>
                 <para>This document is an important reference work intended to help advanced
-                    developers to understand eXist-db's implementation of XQuery, but for readers who
-                    are new to XQuery or programming in general, this document can be too complex. We
-                    recommend you start with the resources listed in <ulink
-                        url="learning-xquery.xml">Learning XQuery with eXist-db</ulink>.</para></note>
+                    developers to understand eXist-db's implementation of XQuery, but for readers
+                    who are new to XQuery or programming in general, this document may be too
+                    complex. We recommend you start with the resources listed in <ulink
+                        url="learning-xquery.xml">Learning XQuery with eXist-db</ulink> or <ulink
+                        url="development-starter.xml">Getting Started with Web Application
+                        Development</ulink>.</para></note>
             <para>To briefly summarize each section's contents: <itemizedlist>
                     <listitem>
-                        <para>"Current Status of XQuery Support" describes the precise nature of
-                            eXist-db's conformance to the recommendation.</para>
+                        <para><ulink url="#current-status-of-xquery-support">Current Status of
+                                XQuery Support</ulink> describes the precise nature of eXist-db's
+                            conformance to the XQuery specification.</para>
                     </listitem>
                     <listitem>
-                        <para>"Function Library" outlines where to find the library of documentation
-                            about the XQuery functions built into eXist-db.</para>
+                        <para><ulink url="#function-library">Function Library</ulink> outlines where
+                            to find the library of documentation about the XQuery functions built
+                            into eXist-db.</para>
                     </listitem>
                     <listitem>
-                        <para>"The Module System" outlines the different kind of library modules
-                            that eXist-db supports, ranging from modules written in XQuery to those
-                            written in Java, and how to register modules as globally available, and
-                            how to import them by URI.</para>
+                        <para><ulink url="#module-system">The Module System</ulink> outlines the
+                            different kind of library modules that eXist-db supports, ranging from
+                            modules written in XQuery to those written in Java, and how to register
+                            modules as globally available, and how to import them by URI.</para>
                     </listitem>
                     <listitem>
-                        <para>"XQuery Caching" describes how eXist-db uses caching to improve
-                            performance when reusing modules.</para>
+                        <para><ulink url="#xquery-caching">XQuery Caching</ulink> describes how
+                            eXist-db uses caching to improve performance when reusing
+                            modules.</para>
                     </listitem>
                     <listitem>
-                        <para>"eXist-db Extension Functions" describes some of the convenient
-                            functions available in eXist-db for addressing documents and
-                            collections.</para>
+                        <para><ulink url="#extension-functions">eXist-db Extension Functions</ulink>
+                            describes some of the convenient functions available in eXist-db for
+                            addressing documents and collections.</para>
                     </listitem>
                     <listitem>
-                        <para>"Java Binding" describes how to call arbitrary Java methods directly
-                            from XQuery.</para>
+                        <para><ulink url="#calling-java">Calling Java Methods from XQuery</ulink>
+                            describes how enable Java binding to call arbitrary Java methods
+                            directly from XQuery.</para>
                     </listitem>
                     <listitem>
-                        <para>"Creating XQuery Modules" describes how to create XQuery Modules in
-                            XQuery and Java.</para>
+                        <para><ulink url="#modules">Creating XQuery Modules</ulink> describes how to
+                            create XQuery Modules in XQuery and Java.</para>
                     </listitem>
                     <listitem>
-                        <para>"Using Collations" describes how to specify language-specific string
-                            sorting and comparisons.</para>
+                        <para><ulink url="#collations">Using Collations</ulink> describes how to
+                            specify language-specific string sorting and comparisons.</para>
                     </listitem>
                     <listitem>
-                        <para>"Serialization Options" explains how to control the output of a
-                            query.</para>
+                        <para><ulink url="#serialization">Serialization Options</ulink> explains how
+                            to control the output of a query.</para>
                     </listitem>
                     <listitem>
-                        <para>"Other Options" describes how to set timeouts and other limits and
-                            variables on a query.</para>
+                        <para><ulink url="#pragmas">Pragmas</ulink> describes the pragmas that
+                            eXist-db implements.</para>
                     </listitem>
                     <listitem>
-                        <para>"Pragmas" describes the pragmas that eXist-db implements.</para>
+                        <para><ulink url="#other-options">Other Options</ulink> describes how to set
+                            timeouts and other limits and variables on a query.</para>
                     </listitem>
                 </itemizedlist></para>
         </section>
@@ -110,7 +117,7 @@
             </section>
             <section id="unsupported-features">
                 <title>Unsupported features</title>
-                <para>eXist-db implements all features described in the XQuery specification, with
+                <para>eXist-db implements all features described in the XQuery 1.0 specification, with
                     the exception of the following:</para>
                 <itemizedlist>
                     <listitem>
@@ -229,11 +236,33 @@ declare option output:media-type "application/json";</synopsis>
                     </listitem>
                 </itemizedlist>
                 <para>To make use of these features of XQuery 3.0, use the proper version declaration in the prolog of your queries:</para>
-                <synopsis>xquery version "3.0";</synopsis> 
-                <para>eXist-db also includes preliminary support for the proposed maps item. See the
-                    article on the eXist-db blog, <ulink
-                        url="http://atomic.exist-db.org/blogs/eXist/XQueryMap">Adding a Map Datatype
-                        to XQuery</ulink>.</para>
+                <synopsis>xquery version "3.0";</synopsis>
+            </section>
+            <section id="related-specifications">
+                <title>Other Related Specifications</title>
+                <itemizedlist>
+                    <listitem>
+                        <para>Full Text Search: eXist-db has an implementation-specific <ulink
+                                url="lucene.xml">Full Text Search facility</ulink>, built on the
+                            Lucene library (among several methods of <ulink url="indexing.xml"
+                                >indexing</ulink>). It does not currently support the syntax in the
+                            W3C <ulink url="http://www.w3.org/TR/xpath-full-text-10/">XQuery and
+                                XPath Full Text 1.0</ulink> Recommendation.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Maps: eXist-db includes preliminary support for the proposed maps
+                            item. See the article on the eXist-db blog, <ulink
+                                url="http://atomic.exist-db.org/blogs/eXist/XQueryMap">Adding a Map
+                                Datatype to XQuery</ulink>.</para>
+                    </listitem>
+                    <listitem>
+                        <para>XQuery Update: eXist-db has an implementation-specific <ulink
+                                url="update_ext.xml">XQuery Update syntax</ulink>. It does not
+                            currently support the syntax in the W3C <ulink
+                                url="http://www.w3.org/TR/xquery-update-10/">XQuery Update Facility
+                                1.0</ulink> Recommendation.</para>
+                    </listitem>
+                </itemizedlist>
             </section>
         </section>
         <section id="function-library">
