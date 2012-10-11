@@ -46,7 +46,7 @@ declare %public function review:editorial-view($node as node()*, $model as map(*
             for $article in $articles
             let $filename := util:document-name($article)
             let $in-toc := $filename = $landing-page-links/@url
-            order by $in-toc
+            order by $in-toc, $filename
             return $article
         else if ($order = 'size') then
             for $article in $articles
