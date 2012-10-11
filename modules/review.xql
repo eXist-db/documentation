@@ -133,14 +133,16 @@ declare %public function review:editorial-view($node as node()*, $model as map(*
                             <td>{if (empty($dated) or $dated = '') then '-' else $dated}</td>
                             <td>{$in-toc-img}</td>
                             <td>{
-                                let $count := count($xreffed-by)
-                                let $ordered-xreffed-by := for $x in $xreffed-by order by $x return $x
-                                for $x at $n in $ordered-xreffed-by
-                                return
-                                    (
-                                    <a href="{$x}">{$x}</a>,
-                                    if ($n = $count) then () else <br/>
-                                    )
+                                if (exists($xreffed-by)) then
+                                    let $count := count($xreffed-by)
+                                    let $ordered-xreffed-by := for $x in $xreffed-by order by $x return $x
+                                    for $x at $n in $ordered-xreffed-by
+                                    return
+                                        (
+                                        <a href="{$x}">{$x}</a>,
+                                        if ($n = $count) then () else <br/>
+                                        )
+                                else '-'
                             }</td>
                             <td>{$size}</td>
                             <!--<td>{$element-profile}</td>-->
