@@ -119,10 +119,11 @@ declare function sec-ev:authentication() {
             </section>
             <section id="ldap-realm">
                 <title>LDAP Realm</title>
-                <para>To use the LDAP realm, enable LDAP in your local.build.properties file and
-                    rebuild eXist-db. Then you need to update
-                        <filename>/db/system/security/config.xml</filename> by adding LDAP realm,
-                    according to the following model:</para>
+                <para>The LDAP Realm is enabled by default (in
+                        <filename>extensions/build.properties</filename>,
+                        <option>include.feature.security.ldap</option> is set to
+                        <option>true</option>.) To use the LDAP realm, add an LDAP realm element to 
+                    <filename>/db/system/security/config.xml</filename>, as in this example:</para>
                 <example>
                     <title>Sample <filename>/db/system/security/config.xml</filename> for
                         LDAP</title>
@@ -166,7 +167,7 @@ declare function sec-ev:authentication() {
 </realm>]]></markup>
                     </programlisting>
                 </example>
-                <para>Some explanation of these elements:</para>
+                <para>Explanation of these elements:</para>
                 <itemizedlist>
                     <listitem>
                         <para>The default-username and default-password elements are used to
@@ -189,11 +190,45 @@ declare function sec-ev:authentication() {
                             first authentication.</para>
                     </listitem>
                 </itemizedlist>
-                <para>If configured correctly you should be able to authenticate by LDAP.</para>
+                <para>If the <filename>config.xml</filename> file is configured correctly, then you
+                    should be able to authenticate by LDAP.</para>
             </section>
             <section id="oauth-realm">
                 <title>OAuth Realm</title>
-                <para>TODO</para>
+                <para>Due to the variation in implementations across OAuth providers, eXist-db
+                    developers have to create provider-specific Java libraries. eXist-db currently
+                    supports only Facebook and Google for OAuth authentication (see <ulink
+                        url="http://developers.facebook.com/docs/authentication/">Facebook
+                        Authentication</ulink> and <ulink
+                        url="https://developers.google.com/accounts/docs/OAuth2">Google's OAuth
+                        documentation</ulink>.</para>
+                <para>The OAuth Realm is not enabled by default in eXist-db. To enable the OAuth
+                    realm, set the <option>include.feature.security.oauth</option> property to
+                        <option>true</option> in
+                        <filename>extensions/local.build.properties</filename>, and rebuild
+                    eXist-db. Then add a realm element for OAuth to
+                        <filename>/db/system/security/config.xml</filename>, as in this
+                    example:</para>
+                <example>
+                    <title>Sample <filename>/db/system/security/config.xml</filename> for
+                        OAuth</title>
+                    <programlisting>
+                        <markup><![CDATA[<realm id="OAuth" version="1.0">
+    <service name="nnn" key="kkk" secret="sss" provider="facebook"/>
+</realm>]]></markup>
+                    </programlisting>
+                </example>
+                <para>Explanation of these elements:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Valid values for the service element's @provider attribute are 'facebook' and 'google'. </para>
+                    </listitem>
+                    <listitem>
+                        <para>The service element's @name, @key, and @secret attributes correspond to
+                            __TODO__ in the OAuth specification.</para>
+                    </listitem>
+                </itemizedlist>
+                <para>If configured correctly you should be able to authenticate by OAuth.</para>
             </section>
             <section id="openid-realm">
                 <title>OpenID Realm</title>
