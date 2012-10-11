@@ -78,7 +78,7 @@ declare %public function review:editorial-view($node as node()*, $model as map(*
                         <th>Is xref'd by</th>
                         <th>{if ($order = 'size') then <span class="hi">Size</span> else <a href="?order=size">Size</a>}</th>
                         <!--<th>Profile</th>-->
-                        <th>{if ($order = 'svn-ref') then <span class="hi">SVN Rev.</span> else <a href="?order=svn-ref">SVN Rev.</a>}</th>
+                        <th>{if ($order = 'svn-rev') then <span class="hi">SVN Rev.</span> else <a href="?order=svn-rev">SVN Rev.</a>}</th>
                     </tr>
                 </thead>
                 <tbody>
