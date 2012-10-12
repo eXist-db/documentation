@@ -1,4 +1,4 @@
-<!-- $Id$ -->
+<?xml version="1.0" encoding="UTF-8"?>
 <book>
     <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
@@ -21,8 +21,8 @@
                     eXide</para>
             </listitem>
             <listitem>
-                <para>an HTML templating framework for a clean separation of HTML page content and
-                    application logic</para>
+                <para>an <ulink url="templating.xml">HTML templating framework</ulink> for a clean
+                    separation of HTML page content and application logic</para>
             </listitem>
             <listitem>
                 <para>a tight integration with XForms for fast form development</para>
@@ -263,14 +263,14 @@
         </section>
         <section>
             <title>The HTML Templating Framework </title>
-            <para>The generated application code uses the HTML Templating Framework to connect HTML
-                views with the application logic. The goal of the HTML templating framework in
-                eXist-db is a clean separation of concerns. Generating web pages directly in XQuery
-                is quick and dirty, but this makes maintenance difficult and it is usually bad for
-                code sharing and for team work. If you look at the <filename>index.html</filename>
-                page, you'll see it is just an HTML div defining the actual content body. The rest
-                of the page is dragged in from the page template residing in
-                    <filename>templates/page.html</filename>.</para>
+            <para>The generated application code uses the <ulink url="templating.xml">HTML
+                    Templating Framework</ulink> to connect HTML views with the application logic.
+                The goal of the HTML templating framework in eXist-db is a clean separation of
+                concerns. Generating web pages directly in XQuery is quick and dirty, but this makes
+                maintenance difficult and it is usually bad for code sharing and for team work. If
+                you look at the <filename>index.html</filename> page, you'll see it is just an HTML
+                div defining the actual content body. The rest of the page is dragged in from the
+                page template residing in <filename>templates/page.html</filename>.</para>
             <para>The <filename>controller.xql</filename> is configured to call the HTML templating
                 for every URL ending with <option>.html</option>. The processing flow for an
                 arbitrary <filename>.html</filename> file is shown below:</para>
@@ -282,8 +282,8 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>The input for the templating is always a plain HTML file.&#160;The module scans
-                the HTML view for elements with class attributes, following a simple convention. It
+            <para>The input for the templating is always a plain HTML file. The module scans the
+                HTML view for elements with class attributes, following a simple convention. It
                 tries to translate the class attributes into XQuery function calls. By using class
                 attributes, the HTML remains sufficiently clean and does not get messed up with
                 application code. A web designer could take the HTML files and work on them without
@@ -305,8 +305,9 @@
                 traditional "Hello World!" example: </para>
             <procedure>
                 <step>
-                    <para>Create a new HTML view, <filename>hello.html</filename>, in eXide, save it
-                        in the root of your application, and add the following content:</para>
+                    <para>Create a new HTML view, <filename>hello.html</filename>, in eXide and add
+                        the following content. Make sure you set the <option>file type</option> to
+                        HTML (see the drop down box at the top right in eXide).</para>
                     <programlisting language="xml">&lt;div class="templates:surround?with=templates/page.html&amp;amp;at=content"&gt;
     &lt;form action=""&gt;
         &lt;label for="name"&gt;Enter your name:&lt;/label&gt;
@@ -329,18 +330,21 @@
 };</programlisting>
                     </para>
                     <para>A template function is a normal XQuery function known in the context of
-                        the main XQuery. It takes at least two required parameters: $node and
-                        $model, though additional parameters are allowed (see below). $node is the
-                        HTML element currently being processed - in this case a <sgmltag>p</sgmltag>
-                        element. $model is an XQuery map containing application data. We can ignore
-                        both parameters for this simple example: please refer to the HTML templating
-                        documentation to read more about them.</para>
+                        the calling XQuery (<filename>modules/view.xql</filename>), which takes at
+                        least two required parameters: $node and $model, though additional
+                        parameters are allowed (see below). $node is the HTML element currently
+                        being processed - in this case a <sgmltag>p</sgmltag> element. $model is an
+                        XQuery map containing application data. We can ignore both parameters for
+                        this simple example, but they must be present or the function won't be
+                        recognized by the templating module. Please refer to the <ulink url="templating.xml">HTML templating documentation</ulink> to read more
+                        about those parameters.</para>
                     <para>The third parameter, $name, is injected automatically by the templating
                         framework. For now it is sufficient to know that the templating library will
                         try to make a best guess about how to fill in any additional parameters. In
                         this case, an HTTP request parameter with the name "name" will be passed in
-                        when the form is submitted and the function parameter will be set to the
-                        value of the request parameter.</para>
+                        when the form is submitted. The parameter name matches the name of the
+                        variable, so the templating framework will try to use it and the function
+                        parameter will be set to the value of the request parameter. </para>
                 </step>
                 <step>
                     <para>Open <filename>hello.html</filename> in the web browser using the base URL
@@ -349,6 +353,8 @@
                     <para>Fill out the box with a name and press return.</para>
                 </step>
             </procedure>
+            <para>The templating framework has many more features, so you may want to head over to
+                its <ulink url="templating.xml">documentation</ulink> to read more about it.</para>
         </section>
         <section>
             <title>Exporting the App</title>

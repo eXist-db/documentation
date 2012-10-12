@@ -2,78 +2,305 @@
 <!-- $Id$ -->
 <book>
     <bookinfo>
+        <graphic fileref="logo.jpg"/>
         <productname>eXist-db – Open Source Native XML Database</productname>
         <title>HTML Templating Module</title>
-        <date>June 2012</date>
-        <author>
-            <firstname>Wolfgang</firstname>
-            <surname>Meier</surname>
-            <affiliation>
-                <address format="linespecific">
-                    <email>wolfgang at exist-db.org</email>
-                </address>
-            </affiliation>
-        </author>
+        <date>October 2012</date>
     </bookinfo>
     <chapter>
         <title>HTML Templating Module</title>
         <section>
             <title>Introduction</title>
-            <para>The HTML templating module is used by many of the apps which currently ship with
-                eXist-db. It has been designed with one goal in mind: separation of concerns. Following
-                the Model-View-Controller (MVC) concept, the view should be cleanly separated from
-                the application logic which operates on the model (the data being processed). The
-                templating module implements this in a strict sense: the view is plain, valid HTML5
-                and does not include any application code. All the application logic should go into
-                separate XQuery modules and will be called automagically by the templating
-                framework.</para>
-            <para>The templating module scans the HTML view for elements with class attributes
-                following a simple convention and tries to translate them into XQuery function
-                calls. We'll see below how the templating framework tries to map template names into
-                functions. In the simplest case, a class attribute which triggers a function call
-                just contains the name of a function in an XQuery library known to the system. The templating
-                module splits the class attribute contents into whitespace-separated components, then
-                checks if any of them matches the namespace prefix and local name of a function in
-                a known module. For
-                example, in the <filename>.html</filename> file, there might be a div:</para>
-            <synopsis language="html">&lt;div class="demo:hello"&gt;&lt;/div&gt;</synopsis>
+            <para>The main goal of the HTML templating framework in eXist-db is a clean separation
+                of concerns. Generating entire pages in XQuery is quick and dirty, but makes
+                maintenance and code sharing difficult. Ideally people should be able to look at the
+                HTML view of an application and modify its looks and feel without knowing
+                XQuery.&#160;The application logic - written in XQuery - should be kept
+                separate.&#160;Likewise, the XQuery developer should only deal with the minimal
+                amount of HTML which is generated dynamically.</para>
+            <para>The module also handles most of the HTTP processing an application requires. It
+                does so using sophisticated features like automatic parameter injection and type
+                conversion. The goal was to remove repeating code like:</para>
+            <synopsis language="xquery">let $query := request:get-parameter("query", ())
+let $field := request:get-parameter("field", ())
+...</synopsis>
+            <para>In fact you should not see many calls to the HTTP request or session module inside
+                a templating function. It is all handled by parameter injection. </para>
+        </section>
+        <section>
+            <title>Writing the HTML</title>
+            <para>The templating module is mainly based on conventions. Wherever possible it tries
+                to make a best guess&#160; instead of requiring additional code or annotations to be
+                written. This works as long as the conventions used are sufficiently clear.</para>
+            <para>The input for the templating is always a plain HTML file.&#160;The module scans
+                the HTML view for elements with class attributes following a simple convention and
+                tries to translate them into XQuery function calls. By using class
+                attributes,&#160;the HTML remains sufficiently clean and does not get messed up with
+                application code. A web designer could take the HTML files and work on them without
+                being bothered by the extra class names.</para>
+            <para>In the simplest case, a template call inside a class attribute is just the name of
+                a function known in the XQuery context. To start with the usual "Hello world"
+                example:</para>
+            <synopsis language="xquery">&lt;div class="demo:hello grey-box"&gt;Greet the user&lt;/div&gt;</synopsis>
+            <para>When the module encounters demo:hello, it will try to find a function named
+                "demo:hello" in all the modules known to the XQuery. If the function's signature
+                follows a certain convention (see below), it will be called and the div will either
+                be replaced or enhanced by whatever the function returns.</para>
+            <para>Please note that the additional class "grey-box" does not interfere with the
+                template call and is just ignored. "grey-box" might be a class used for styling, so
+                we don't want to remove it. In general, the templating will only take a closer look
+                at class names which follow
+                the&#160;<code>prefix:local-name</code>&#160;pattern.</para>
+            <para>It is also possible to pass static parameters to a template call. Those are
+                encoded like URI parameters, e.g.:&#160;<code>demo:hello?language=de</code>. A
+                static parameter will be passed to the XQuery function as a fallback value if it
+                cannot be determined by looking at the HTTP context (see below).</para>
+        </section>
+        <section>
+            <title>Templating Functions</title>
+            <para>A templating function is an ordinary XQuery function in a module, which takes at
+                least two parameters (of a certain type), though additional parameters are allowed.
+                If a function does not follow this convention, it will simply be ignored by the
+                templating framework. For example, our "Hello world!" function could be defined as
+                follows:</para>
+            <programlisting language="xquery">
+declare function demo:hello($node as node(), $model as map(*), $language as xs:string, $user as xs:string) as element(div) {
+    &lt;div&gt;
+    {
+        switch($language)
+            case "de" return
+                "Hallo " || $user
+            case "it" return
+                "Ciao " || $user
+            default return
+                "Hello " || $user
+    }
+    &lt;/div&gt;
+};
+            </programlisting>
+            <para>The two required parameters here are <code>$node</code> and <code>$model</code>.
+                $node contains the HTML node currently being processed: in this case, the div
+                element. $model is an XQuery map with application data. It will be empty for now,
+                but we'll see later why it is important.</para>
+        </section>
+        <section>
+            <title>Parameter Injection and Type Conversion</title>
+            <para>The additional parameters, <code>$language</code> and <code>$user</code>, will be
+                injected automatically. Again, the templating tries to make a best guess about how
+                to fill those parameters with values. It checks the following 3 contexts for
+                parameters with the same name (in the order below):</para>
+            <orderedlist>
+                <listitem>
+                    <para>if the current <emphasis>HTTP request</emphasis> contains a (non-empty)
+                        parameter with the same name as the parameter variable, it is used to set
+                        the value of the variable</para>
+                </listitem>
+                <listitem>
+                    <para>if the <emphasis>HTTP session</emphasis> contains an attribute with the
+                        same name as the parameter variable, the variable's value will be set to
+                        it</para>
+                </listitem>
+                <listitem>
+                    <para>if the <emphasis>static parameters</emphasis> passed to the template call
+                        contain a parameter matching the variable name, it will be used</para>
+                </listitem>
+                <listitem>
+                    <para>if neither 1) nor 2) lead to a non-empty value, the function signature
+                        will be checked for an annotation <code>%templates:default("name", "value1",
+                            ..., "valueN")</code>. The first parameter of the annotation should
+                        match the name of the parameter variable. All other parameters of the
+                        annotation are taken as values for the variable.</para>
+                </listitem>
+            </orderedlist>
+            <para>So if "language" was passed as a parameter in the HTTP request, it will overwrite
+                the static parameter we provided. Please also note that the templating will attempt
+                automatic type conversion for all parameters. If the parameter has a declared type
+                of xs:integer, it will try to cast a parameter it found into an integer as well. If
+                the type is node(), the parameter value will be parsed into XML. For sure those
+                conversions may fail and you may get an error.</para>
+        </section>
+        <section>
+            <title>Additional Annotations</title>
+            <para>Unfortunately our "Hello world" example above isn't preserving the div from which
+                it was called, but replaces it with a new one, which lacks the "grey-box" class.
+                This is the default behavior. To change this and preserve the enclosing div, we can
+                add the XQuery annotation <code>%templating:wrap</code> to the function
+                signature.</para>
+            <para>A second annotation can be used to provide a default value for a parameter:
+                    <code>%templating:default("parameter", "value1", "value2", ...)</code>. For
+                example, we may want to set the $language parameter to "en" if the value cannot be
+                determined
+                otherwise:<programlisting language="xquery">declare 
+    %templating:wrap %templating:default("language", "en")
+function demo:hello($node as node(), $model as map(*), $language as xs:string, $user as xs:string) as xs:string {
+    switch($language)
+        case "de" return
+            "Hallo " || $user
+        case "it" return
+            "Ciao " || $user
+        default return
+            "Hello " || $user
+};</programlisting>
+            </para>
+            <para>As you can see, we could remove the wrapping div and just return a string now.
+            </para>
+        </section>
+        <section>
+            <title>Using the Model to Keep Application Data</title>
+            <para>In a more complex application, a view will have many templating functions, which
+                all access the same data. For example, take a typical search page: there might be
+                one HTML element to display the number of hits, one to show the query, and another
+                one for printing out the results. All those components need to access the search
+                result. How do you do this in a templating framework?</para>
+            <para>This is where the <code>$model</code> parameter becomes important. It is passed to
+                all template functions and they can add data to it, which will then be available to
+                nested template calls. A search page could thus contain HTML like this:</para>
+            <programlisting language="xml">&lt;div class="demo:search"&gt;
+    &lt;p&gt;Found &lt;span class="demo:hit-count"&gt;&lt;/span&gt; hits&lt;/p&gt;
+    &lt;ul class="demo:result-list"&gt;&lt;/ul&gt;
+&lt;/div&gt;</programlisting>
+            <para> The <code>demo:hit-count</code> and <code>demo:result-list</code> occur inside
+                the div calling <code>demo:search</code>. They are thus nested template calls.
+                    <code>demo:search</code> would probably perform the actual search operation
+                based on the parameters passed by the user. But instead of directly printing the
+                search result in HTML, it delegates this to the nested templates. demo:search might
+                be implemented as: </para>
+            <programlisting language="xquery">declare 
+    %templating:wrap
+function demo:search($node as node(), $model as map(*), $query as xs:string) as map(*) {
+    let $result :=
+        for $hit in collection($config:app-root)//SCENE[ft:query(., $query)]
+        order by ft:score($hit) descending
+        return $hit
+    return
+        map { "result" := $result }
+};</programlisting>
             <para>
-                <code>demo:hello</code> matches a function in module <filename>demo.xql</filename>
-                which is known to the system:</para>
-            <synopsis language="xquery"><![CDATA[
-declare function demo:hello($node as node()*, $model as map(*)) as element(span) {
-    <span>Hello World!</span>
-};]]></synopsis>
-            <para>Very often, you will also need to pass some (static) parameters to the template.
-                This is done by appending a query string to the template call:</para>
-            <synopsis language="html">&lt;div class="demo:multiply?n1=5&amp;n2=8"&gt;&lt;/div&gt;</synopsis>
+                <code>demo:search</code> differs from the functions we have seen so far in that it
+                returns an XQuery map and not HTML or another atomic type. If a templating function
+                returns a map, the templating framework will proceed as follows:</para>
+            <orderedlist>
+                <listitem>
+                    <para>add the returned map to the current <code>$model</code> map (thus adding
+                        to the entries produced by ancestor templates)</para>
+                </listitem>
+                <listitem>
+                    <para>resume processing the children of the current HTML node</para>
+                </listitem>
+            </orderedlist>
+            <para>The <code>demo:hit-count</code> and <code>demo:result-list</code> can thus access
+                the query results in the <code>$model</code> map passed to them:</para>
+            <programlisting language="xquery">declare function demo:hit-count($node as node(), $model as map(*)) as xs:integer {
+    count($model("result"))
+};</programlisting>
+        </section>
+        <section>
+            <title>Set Up</title>
+            <para>The templating module is entirely implemented in XQuery. It provides a single
+                public function, <code>templates:apply</code>. A complete main module which calls
+                the templating to process an HTML file passed in the HTTP request body could look as
+                follows:</para>
+            <programlisting language="xquery">(:~
+ : This is the main XQuery which will (by default) be called by controller.xql
+ : to process any URI ending with ".html". It receives the HTML from
+ : the controller and passes it to the templating system.
+ :)
+xquery version "3.0";
+
+import module namespace templates="http://exist-db.org/xquery/templates" at "templates.xql";
+
+(: 
+ : The following modules provide functions which will be called by the 
+ : templating.
+ :)
+import module namespace app="http://my.domain/myapp" at "app.xql";
+
+declare option exist:serialize "method=html5 media-type=text/html";
+
+(:
+ : We have to provide a lookup function to templates:apply to help it
+ : find functions in the imported application modules. The templates
+ : module cannot see the application modules, but the inline function
+ : below does see them.
+ :)
+let $lookup := function($functionName as xs:string, $arity as xs:int) {
+    try {
+        function-lookup(xs:QName($functionName), $arity)
+    } catch * {
+        ()
+    }
+}
+(:
+ : The HTML is passed in the request from the controller.
+ : Run it through the templating system and return the result.
+ :)
+let $content := request:get-data()
+return
+    templates:apply($content, $lookup, ())</programlisting>
+            <para>This module would be called from the URL rewriting controller. For example, we
+                could add a rule to <filename>controller.xql</filename> to pass any .html resource
+                to above main query (saved to <filename>modules/view.xql</filename>):</para>
+            <programlisting language="xquery">(: Pass all requests to HTML files through view.xql, which handles HTML templating :)
+if (ends-with($exist:resource, ".html")) then
+    &lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist"&gt;
+        &lt;view&gt;
+			&lt;forward url="{$exist:controller}/modules/view.xql"&gt;
+                &lt;set-attribute name="$exist:prefix" value="{$exist:prefix}"/&gt;
+                &lt;set-attribute name="$exist:controller" value="{$exist:controller}"/&gt;
+            &lt;/forward&gt;
+        &lt;/view&gt;
+        &lt;error-handler&gt;
+            &lt;forward url="{$exist:controller}/error-page.html" method="get"/&gt;
+            &lt;forward url="{$exist:controller}/modules/view.xql"/&gt;
+        &lt;/error-handler&gt;
+    &lt;/dispatch&gt;</programlisting>
+            <para>The only part of the main module code which might be a bit unusual is the inlined
+                lookup function: the templating module uses dynamic function calls to execute
+                template functions in application modules. But unfortunately, XQuery modules can
+                only "see" functions in their own context. There is thus no way for the templating
+                module to determine what functions are defined in application modules which are
+                outside its context. We thus need to "help" it by providing a callback function to
+                resolve function references. The lookup function is defined in the main context and
+                can thus access all the modules imported into the main module.</para>
+            <para>Normally you can just copy and paste the main module code as given above. To adopt
+                it to your own application, just import your application modules and you're
+                done.</para>
+        </section>
+        <section>
+            <title>Integration with eXide</title>
+            <para>The "New Application" templates in eXide already include the HTML templating
+                module and configure the URL rewriting to call it for any path ending in
+                    <filename>.html</filename>. Using eXide is thus the easiest way to get started
+                with the templating. Please consult the <ulink url="development-starter.xml">Getting
+                    Started with Web Application Development</ulink> guide to read more.</para>
         </section>
         <section>
             <title>Pre-defined Template Commands</title>
-            <para>The templating module already defines a number of general-purpose template
-                commands.</para>
+            <para>The templating module defines a number of general-purpose templating functions,
+                which are described below for reference. <code>templates:surround</code> is probably
+                the most powerful one and used by almost all HTML views.</para>
             <section>
                 <title>templates:include</title>
-                <synopsis>templates:include?path=path-to-xml-resource</synopsis>
+                <synopsis language="xquery">templates:include?path=path-to-xml-resource</synopsis>
                 <para>Includes the content of the resource given by path into the current element.
                     The path is always interpreted relative to the current application directory or
                     collection.</para>
             </section>
             <section>
                 <title>templates:if-parameter-set</title>
-                <synopsis>templates:if-parameter-set?param=request-parameter</synopsis>
+                <synopsis language="xquery">templates:if-parameter-set?param=request-parameter</synopsis>
                 <para>Conditionally includes its content only if the given request parameter is set
                     and is not empty.</para>
             </section>
             <section>
                 <title>templates:if-parameter-unset</title>
-                <synopsis>templates:if-parameter-unset?param=request-parameter</synopsis>
+                <synopsis language="xquery">templates:if-parameter-unset?param=request-parameter</synopsis>
                 <para>Conditionally includes its content only if the given request parameter is not
                     set or is empty.</para>
             </section>
             <section>
                 <title>templates:surround</title>
-                <synopsis>templates:surround?with=xml-resource&amp;at=id&amp;using=id</synopsis>
+                <synopsis language="xquery">templates:surround?with=xml-resource&amp;at=id&amp;using=id</synopsis>
                 <para>Surrounds its content with the contents of the XML resource specified in
                     "with". The "at" parameter determines where the content is inserted into the
                     surrounding XML. It should match an existing HTML id in the template.</para>
@@ -84,256 +311,29 @@ declare function demo:hello($node as node()*, $model as map(*)) as element(span)
                     application. The header, basic page structure and menus are the same for all
                     pages. Each page thus only contains a simple div with a template
                     instruction:</para>
-                <synopsis>templates:surround?with=templates/page.html&amp;at=content</synopsis>
+                <synopsis language="xquery">templates:surround?with=templates/page.html&amp;at=content</synopsis>
                 <para>The instruction takes the content of the current element and injects it into
                     the template page.</para>
-                <section>
-                    <title>templates:form-control</title>
-                    <synopsis>templates:form-control</synopsis>
-                    <para>Use on &lt;input&gt; and &lt;select&gt; elements: checks the HTTP request
-                        for a parameter matching the name of the form control and fills it into the
-                        value of an input or selects the corresponding option of a select.</para>
-                </section>
-                <section>
-                    <title>templates:display-source</title>
-                    <synopsis>templates:display-source?lang=language</synopsis>
-                    <para>Display the contents of the element as a code block with syntax
-                        highlighting. This also adds a button which copies the code into eXide if
-                        clicked.</para>
-                </section>
-                <section>
-                    <title>templates:load-source</title>
-                    <synopsis>templates:load-source</synopsis>
-                    <para>Normally used with an &lt;a&gt; element: opens the document referenced in
-                        the href attribute in eXide.</para>
-                </section>
-            </section>
-        </section>
-        <section>
-            <title>Writing Template Functions</title>
-            <para>The templating system is based on conventions: an XQuery function which should be
-                called via the templating system needs to accept at least two default
-                parameters:</para>
-            <synopsis language="xquery">demo:hello($node as node(), $model as map(*))</synopsis>
-            <variablelist>
-                <varlistentry>
-                    <term>$node</term>
-                    <listitem>
-                        <para>the node which contained the class attribute which triggered the
-                            templating call.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term>$model</term>
-                    <listitem>
-                        <para>is used to pass arbitrary information between template functions. See
-                            the section on "nesting templates" below. The model also contains
-                            general configuration for the templating contained in a map item called
-                            "configuration".</para>
-                    </listitem>
-                </varlistentry>
-            </variablelist>
-            <section>
-                <title id="inject">Parameter Injection </title>
-                <para>In addition to the default parameters, a templating function may take up to
-                    (currently) 8 additional parameters. The templating system tries to determine a
-                    value for each of the additional parameters as follows:</para>
-                <orderedlist>
-                    <listitem>
-                        <para>if the current HTTP request contains a (non-empty) parameter with the
-                            same name as the parameter variable, it is used to set the value of the
-                            variable</para>
-                    </listitem>
-                    <listitem>
-                        <para>if the static parameters passed to the template call contain a
-                            parameter matching the variable name, it will be used</para>
-                    </listitem>
-                    <listitem>
-                        <para>if neither 1) nor 2) lead to a non-empty value, the function signature
-                            will be checked for an annotation <code>%templates:default("name",
-                                "value1", ..., "valueN")</code>. The first parameter of the
-                            annotation should match the name of the parameter variable. All other
-                            parameters of the annotation are taken as values for the
-                            variable.</para>
-                    </listitem>
-                </orderedlist>
             </section>
             <section>
-                <title>Type conversion</title>
-                <para>When injecting parameters, the templating module tries to convert all values
-                    to the type specified for the parameter in the function signature. For example,
-                    the function:</para>
-                <synopsis language="xquery">declare function demo:multiply($node as node()*, $model as map(*), $n1 as xs:int, $n2 as xs:int)</synopsis>
-                <para>defines two optional parameters, $n1 and $n2 with type <code>xs:int</code>.
-                    Request and static parameters will always be strings, so the templating module
-                    needs to transform them into the desired target type. This works for all atomic
-                    types as well as XML elements and text nodes.</para>
-            </section>
-        </section>
-        <section>
-            <title>Return type</title>
-            <para>The return type of the templating function may either be a map or any other
-                type:</para>
-            <orderedlist>
-                <listitem>
-                    <para>If it is a map, it will be merged into the current $model. The templating
-                        framework then continues processing any descendants of the current node,
-                        passing the new model to nested template calls.</para>
-                </listitem>
-                <listitem>
-                    <para>Any other result will be inserted into the output document and replaces
-                        the current node. Nested templates will not be processed
-                        automatically.</para>
-                </listitem>
-            </orderedlist>
-        </section>
-        <section>
-            <title>Nesting Templates</title>
-            <para>Template calls can be nested, but the outer template function needs to make sure
-                all descendant XML nodes are passed through the templating system. To do this, just
-                call</para>
-            <synopsis language="xquery">templates:process($children, $model)</synopsis>
-            <para>from within the template function. $children would contain the descendant nodes
-                you want to include, $model is a map containing data you want to pass along to
-                nested template calls. The model is an important concept here: in a well designed
-                application, all the information which is processed by nested templates in a page
-                should be contained in the model. It should always extend the map you received as
-                parameter into the current function. Since maps are immutable, new items added to
-                the map will only be visible to nested templates.</para>
-            <para>Instead of calling <code>templates:process</code> directly, the templating
-                function may also just return a map (see previous section). This map will
-                automatically be merged into the map received in $model. In most cases, it will thus
-                be sufficient to just return a new map containing one item. For example, in the
-                Shakespeare example (see demo app), there's an outer template call to
-                    <code>shakespeare:query</code>, which runs a query on the data. The template
-                does not return the query result, but instead just puts it into the model.
-                Displaying the results to the user is done by the two nested templates:
-                    <code>shakespeare:hit-count</code> and
-                <code>shakespeare:show-hits</code>. </para>
-            <para>
-                Here's the code of <code>shakespeare:query</code>:</para>
-            <synopsis language="xquery"><![CDATA[
-declare 
-    %templates:wrap
-function shakes:query($node as node()*, $model as map(*), $query as xs:string?, $mode as xs:string) {
-    session:create(),
-    let $hits := shakes:do-query($query, $mode)
-    let $store := session:set-attribute($shakes:SESSION, $hits)
-    return
-        map:entry("hits", $hits)
-};
-    ]]></synopsis>
-            <para>As you can see, the function simply a new map with a single item, "hits", containing
-            the query results. The templating framework will pass this to any nested templates.</para>
-        </section>
-        <section>
-            <title>Annotations</title>
-            <para>By default, whatever is returned by the current templating function - or any nested
-            template call - will replace the currently processed HTML element. In many cases you want
-            to preserve the current element and its attributes and just replace its content. This
-            can be achieved by specifying the annotation <code>%templates:wrap</code>.</para>
-            <para>The annotation does not take any parameters.</para>
-            <section>
-                <title>%templates:wrap</title>
-                <para>By default, whatever is returned by the current templating function - or any nested
-                    template call - will replace the currently processed HTML element. In many cases you want
-                    to preserve the current element and its attributes and just replace its content. This
-                    can be achieved by specifying the annotation <code>%templates:wrap</code>.</para>
-                <para>The annotation does not take any parameters.</para>
+                <title>templates:form-control</title>
+                <synopsis language="xquery">templates:form-control</synopsis>
+                <para>Use on &lt;input&gt; and &lt;select&gt; elements: checks the HTTP request for
+                    a parameter matching the name of the form control and fills it into the value of
+                    an input or selects the corresponding option of a select.</para>
             </section>
             <section>
-                <title>%templates:default(name, value1, ..., valueN)</title>
-                <para>As already discussed in the section on parameter
-                        injection, this annotation is used to provide static defaults for any
-                    optional parameter whose value cannot be determined by looking at the HTTP
-                    request or static parameters.</para>
+                <title>templates:display-source</title>
+                <synopsis language="xquery">templates:display-source?lang=language</synopsis>
+                <para>Display the contents of the element as a code block with syntax highlighting.
+                    This also adds a button which copies the code into eXide if clicked.</para>
             </section>
-        </section>
-        <section>
-            <title>Calling the Templating Module</title>
-            <para>To trigger the templating, just call templates:apply from your main XQuery.
-                templates:apply takes 3 parameters:</para>
-            <synopsis>templates:apply($content as node()+, $resolver as function(xs:string) as item()?, $model as map(*))</synopsis>
-            <variablelist>
-                <varlistentry>
-                    <term>$content</term>
-                    <listitem>
-                        <para>The HTML content to be processed</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term>$resolver</term>
-                    <listitem>
-                        <para>A lookup function which will be called to find template
-                            functions.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term>$model</term>
-                    <listitem>
-                        <para>The initial model: will be passed on to all called template
-                            functions.</para>
-                    </listitem>
-                </varlistentry>
-            </variablelist>
-            <para>The $resolver function has to be provided by the calling code because the
-                templating module cannot access the context of the calling module and thus cannot
-                see any of the function modules imported by the main module. The function takes two
-                arguments: the name of a function to look up and its arity, i.e.: the number of
-                arguments it takes. Normally $resolver will just call function-lookup to resolve the
-                function name to a function item and return it (if found), but it is important that
-                it catches any errors, e.g. caused by an invalid xs:QName.</para>
-            <para>The main XQuery could thus look as simple as this:</para>
-            <synopsis language="xquery">
-xquery version "3.0";
-
-import module namespace templates="http://exist-db.org/xquery/templates" at "templates.xql";
-
-(: The following modules provide functions which will be called by the templating :)
-import module namespace shakespeare="http://exist-db.org/apps/demo/shakespeare" at "../examples/web/shakespeare.xql";
-import module namespace config="http://exist-db.org/xquery/apps/config" at "config.xqm";
-
-declare option exist:serialize "method=html5 media-type=text/html";
-
-let $lookup := function($functionName as xs:string, $arity as xs:int) {
-    try {
-        function-lookup(xs:QName($functionName), $arity)
-    } catch * {
-        ()
-    }
-}
-let $content := request:get-data()
-return
-    templates:apply($content, $lookup, ())
-</synopsis>
-            <para>This main XQuery will usually be called through the <code>controller.xql</code>.
-                All that is needed is one controller rule which redirects all requests for HTML
-                pages to our main query:</para>
-            <synopsis language="xquery"><![CDATA[
-else if (ends-with($exist:resource, ".html")) then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <view>
-            <forward url="{$exist:controller}/modules/view.xql">
-                <set-attribute name="$exist:prefix" value="{$exist:prefix}"/>
-                <set-attribute name="$exist:controller" value="{$exist:controller}"/>
-            </forward>
-        </view>
-        <error-handler>
-            <forward url="{$exist:controller}/error-page.html" method="get"/>
-            <forward url="{$exist:controller}/modules/view.xql"/>
-        </error-handler>
-    </dispatch>
-        ]]></synopsis>
-        </section>
-        <section>
-            <title>Integration with eXide</title>
-            <para>eXide automatically integrates the templating framework into a new application if
-                "HTML Templates" is selected in the "Application Properties":</para>
-            <screenshot>
-                <graphic fileref="resources/eXide-screenshot.png"/>
-            </screenshot>
-            <para>eXide generates a corresponding main XQuery and a controller. The templating will
-                work out of the box for all HTML views.</para>
+            <section>
+                <title>templates:load-source</title>
+                <synopsis language="xquery">templates:load-source</synopsis>
+                <para>Normally used with an &lt;a&gt; element: opens the document referenced in the
+                    href attribute in eXide.</para>
+            </section>
         </section>
     </chapter>
 </book>
