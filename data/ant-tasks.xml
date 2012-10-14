@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
-    <productname>eXist-db – Open Source Native XML Database</productname>
+        <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Ant Tasks</title>
         <date>August 2012</date>
         <author>
@@ -19,7 +18,7 @@
             <surname>Klotz</surname>
             <affiliation>
                 <address format="linespecific">
-          <email>peter.klotz at blue-elephant-systems.com</email>
+                    <email>peter.klotz at blue-elephant-systems.com</email>
                 </address>
             </affiliation>
         </author>
@@ -28,7 +27,7 @@
             <surname>Meier</surname>
             <affiliation>
                 <address format="linespecific">
-          <email>sabine at exist-db.org</email>
+                    <email>sabine at exist-db.org</email>
                 </address>
             </affiliation>
         </author>
@@ -37,7 +36,7 @@
             <surname>Olsson</surname>
             <affiliation>
                 <address format="linespecific">
-          <email>ljo at exist-db.org</email>
+                    <email>ljo at exist-db.org</email>
                 </address>
             </affiliation>
         </author>
@@ -46,7 +45,7 @@
             <surname>Fuller</surname>
             <affiliation>
                 <address format="linespecific">
-          <email>jim.fuller at webcomposite.com</email>
+                    <email>jim.fuller at webcomposite.com</email>
                 </address>
             </affiliation>
         </author>
@@ -55,20 +54,18 @@
             <surname>Cahlander</surname>
             <affiliation>
                 <address format="linespecific">
-          <email>loren.cahlander at gmail.com</email>
+                    <email>loren.cahlander at gmail.com</email>
                 </address>
             </affiliation>
         </author>
     </bookinfo>
     <chapter>
         <title>Ant Tasks</title>
-    <para>eXist-db provides a library for the
-        <ulink url="http://ant.apache.org">Ant</ulink> build tool to automate common
-        tasks like backup/restore or importing a bunch of files. To use this library
-        you need at least Ant 1.6. Ant 1.8.x is included in the eXist-db v2.0 distribution (if you
-        installed the eXist-db source code).
-      </para>
-    <para>In your build file, import the eXist-db tasks as follows:</para>
+        <para>eXist-db provides a library for the <ulink url="http://ant.apache.org">Ant</ulink>
+            build tool to automate common tasks like backup/restore or importing a bunch of files.
+            To use this library you need at least Ant 1.6. Ant 1.8.x is included in the eXist-db
+            v2.0 distribution (if you have installed the eXist-db source code). </para>
+        <para>In your build file, import the eXist-db tasks as follows:</para>
         <example>
             <title>Import the Tasks</title>
             <programlisting>
@@ -91,9 +88,9 @@
             </programlisting>
         </example>
         <note>
-            <para>For a working example have a look into the file
-            <filename>webapp/xqts/build.xml </filename>, 
-            which is used to prepare the database for running the xquery testsuite.</para>
+            <para>For a working example have a look into the file <filename>webapp/xqts/build.xml
+                </filename>, which is used to prepare the database for running the xquery test
+                suite.</para>
         </note>
         <para>All tasks share the following common attributes:</para>
         <variablelist>
@@ -140,7 +137,7 @@
                 <title>Storing Documents</title>
                 <programlisting>
                     <markup><![CDATA[<xdb:store xmlns:xdb="http://exist-db.org/ant"
-    uri="xmldb:exist://restrict:8080/exist/xmlrpc/db/shakespeare/plays"
+    uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/shakespeare/plays"
     createcollection="true">
     <fileset dir="samples/shakespeare"> 
         <include name="*.xml"/>
@@ -148,7 +145,7 @@
     </fileset>
 </xdb:store>
 <xdb:store xmlns:xdb="http://exist-db.org/ant"
-  uri="xmldb:exist://restrict:8080/exist/xmlrpc/db/shakespeare/plays"
+  uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/shakespeare/plays"
   createcollection="true" srcfile="samples/shakespeare/hamlet.xml"/>]]></markup>
                 </programlisting>
             </example>
@@ -156,8 +153,8 @@
                 <varlistentry>
                     <term>createcollection</term>
                     <listitem>
-                        <para>If set to "true", a non-existing base collections will
-                        be automatically created.</para>
+                        <para>If set to "true", non-existing base collections will be automatically
+                            created.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -170,16 +167,17 @@
                 <varlistentry>
                     <term>type</term>
                     <listitem>
-                        <para>The type of the resource: either "xml" or "binary". If
-                        "binary", documents will be stored as binary resources. If it
-			is unset, it will be guessed from identified MIME type</para>
+                        <para>The type of the resource: either "xml" or "binary". If "binary",
+                            documents will be stored as binary resources. If it is unset, the type
+                            will be guessed from identified MIME type</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term>defaultmimetype</term>
                     <listitem>
-                        <para>The default MIME type to use when the resource MIME type cannot be identified. If
-                      it is not set, binary one (application/octet-stream) is the default.</para>
+                        <para>The default MIME type to use when the resource MIME type cannot be
+                            identified. If it is not set, binary (application/octet-stream) is the
+                            default.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -192,16 +190,17 @@
                 <varlistentry>
                     <term>mimetypesfile</term>
                     <listitem>
-                        <para>The mime-types.xml file used by Ant eXist-db extension to identify the resource kind
-			("binary" or "xml") and MIME type of the documents to store. If it is not set,
-			it will used a default one which is either at eXist-db HOME installation or bundled
-			inside the Ant eXist-db extension</para>
+                        <para>The mime-types.xml file used by Ant eXist-db extension to identify the
+                            resource kind ("binary" or "xml") and MIME type of the documents to
+                            store. If it is not set, it will use a default one which is either at
+                            eXist-db HOME installation or bundled inside the Ant eXist-db
+                            extension</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term>srcfile</term>
                     <listitem>
-                        <para>a single source file to store, use instead of filesets</para>
+                        <para>a single source file to store; use instead of filesets</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -220,21 +219,21 @@
                 <title>Remove a Resource</title>
                 <programlisting>
                     <markup><![CDATA[<xdb:remove xmlns:xdb="http://exist-db.org/ant"
-  uri="xmldb:exist://restrict:8080/exist/xmlrpc/db/shakespeare/plays" resource="hamlet.xml"/>]]></markup>
+  uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/shakespeare/plays" resource="hamlet.xml"/>]]></markup>
                 </programlisting>
             </example>
             <example>
                 <title>Remove a Collection</title>
                 <programlisting>
                     <markup><![CDATA[<xdb:remove xmlns:xdb="http://exist-db.org/ant"
-  uri="xmldb:exist://restrict:8080/exist/xmlrpc/db/shakespeare" collection="plays"/>]]></markup>
+  uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/shakespeare" collection="plays"/>]]></markup>
                 </programlisting>
             </example>
             <variablelist>
                 <varlistentry>
                     <term>collection</term>
                     <listitem>
-                        <para>The name of the subcollection which should be removed.</para>
+                        <para>The name of the collection which should be removed.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -253,7 +252,7 @@
                 <title>Create a Collection</title>
                 <programlisting>
                     <markup><![CDATA[<xdb:create xmlns:xdb="http://exist-db.org/ant"
-    uri="xmldb:exist://restrict:8080/exist/xmlrpc/db/shakespeare" collection="plays"/>]]></markup>
+    uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/shakespeare" collection="plays"/>]]></markup>
                 </programlisting>
             </example>
             <variablelist>
@@ -273,17 +272,15 @@
         </section>
         <section>
             <title>Check Existence of Resource/Collection</title>
-            <para>The exist task is a condition that checks whether a resource or
-            collection as specified in the uri attribute.
-            A ant target can be executed conditionally depending on the property set or not
-            set by the condition.
-          </para>
+            <para>The exist task is a condition that checks whether a resource or collection as
+                specified in the uri attribute exists or not. An ant target can be executed
+                conditionally depending on the property set or not set by the condition. </para>
             <example>
                 <title>Check a Collection</title>
                 <programlisting language="xml">
 <![CDATA[<condition property="exists">
     <xdb:exist xmlns:xdb="http://exist-db.org/ant"
-        uri="xmldb:exist://restrict:8080/exist/xmlrpc/db/shakespeare/plays" resource="hamlet.xml"/>
+        uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/shakespeare/plays" resource="hamlet.xml"/>
  </condition>]]></programlisting>
             </example>
             <variablelist>
@@ -303,14 +300,14 @@
                 <title>List Resources</title>
                 <programlisting>
                     <markup><![CDATA[<xdb:list xmlns:xdb="http://exist-db.org/ant"
-    uri="xmldb:exist://restrict:8080/exist/xmlrpc/db/shakespeare/plays" resources="true" outputproperty="resources"/>]]></markup>
+    uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/shakespeare/plays" resources="true" outputproperty="resources"/>]]></markup>
                 </programlisting>
             </example>
             <example>
                 <title>List Collections</title>
                 <programlisting>
                     <markup><![CDATA[<xdb:list xmlns:xdb="http://exist-db.org/ant"
-    uri="xmldb:exist://restrict:8080/exist/xmlrpc/db/shakespeare" collections="true" outputproperty="collections"/>]]></markup>
+    uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/shakespeare" collections="true" outputproperty="collections"/>]]></markup>
                 </programlisting>
             </example>
             <variablelist>
@@ -347,14 +344,14 @@
                 <title>Copy a Resource</title>
                 <programlisting>
                     <markup><![CDATA[<xdb:copy  xmlns:xdb="http://exist-db.org/ant"
-    uri="xmldb:exist://restrict:8080/exist/xmlrpc/db/shakespeare/plays" resource="hamlet.xml" destination="sub"/>]]></markup>
+    uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/shakespeare/plays" resource="hamlet.xml" destination="sub"/>]]></markup>
                 </programlisting>
             </example>
             <example>
                 <title>Copy a Collection</title>
                 <programlisting>
                     <markup><![CDATA[<xdb:copy  xmlns:xdb="http://exist-db.org/ant"
-    uri="xmldb:exist://restrict:8080/exist/xmlrpc/db/shakespeare" collection="plays" destination="sub"/>]]></markup>
+    uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/shakespeare" collection="plays" destination="sub"/>]]></markup>
                 </programlisting>
             </example>
             <variablelist>
@@ -391,14 +388,14 @@
                 <title>Move a Resource</title>
                 <programlisting>
                     <markup><![CDATA[<xdb:move xmlns:xdb="http://exist-db.org/ant"
-    uri="xmldb:exist://restrict:8080/exist/xmlrpc/db/shakespeare/plays" resource="hamlet.xml" destination="sub"/>]]></markup>
+    uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/shakespeare/plays" resource="hamlet.xml" destination="sub"/>]]></markup>
                 </programlisting>
             </example>
             <example>
                 <title>Move a Collection</title>
                 <programlisting>
                     <markup><![CDATA[<xdb:move xmlns:xdb="http://exist-db.org/ant"
-    uri="xmldb:exist://restrict:8080/exist/xmlrpc/db/shakespeare" collection="plays" destination="sub"/>]]></markup>
+    uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/shakespeare" collection="plays" destination="sub"/>]]></markup>
                 </programlisting>
             </example>
             <variablelist>
@@ -442,7 +439,7 @@
                 <title>Process an XPath</title>
                 <programlisting>
                     <markup><![CDATA[<xdb:xpath xmlns:xdb="http://exist-db.org/ant"
-    uri="xmldb:exist://restrict:8080/exist/xmlrpc/db" query="/example-queries/query"/>]]></markup>
+    uri="xmldb:exist://localhost:8080/exist/xmlrpc/db" query="/example-queries/query"/>]]></markup>
                 </programlisting>
             </example>
             <para>The query task accepts the following attributes:</para>
@@ -507,7 +504,7 @@
                 <programlisting>
                     <markup><![CDATA[<loadfile property="xquery" srcFile="wzb.xq"/>
 <xdb:xquery  xmlns:xdb="http://exist-db.org/ant"
-    uri="xmldb:exist://restrict:8080/exist/xmlrpc/db" query="${xquery}"
+    uri="xmldb:exist://localhost:8080/exist/xmlrpc/db" query="${xquery}"
     user="guest" password="guest-passwd">
       <variable name="alpha" value="aaa-alep" />
 </xdb:xquery>
@@ -567,14 +564,14 @@
                 <title>Extract a Resource</title>
                 <programlisting>
                     <markup><![CDATA[<xdb:extract xmlns:xdb="http://exist-db.org/ant"
-    uri="xmldb:exist://restrict:8080/exist/xmlrpc/db/shakespeare/plays" resource="hamlet.xml" destfile="/tmp/hamlet.xml"/>]]></markup>
+    uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/shakespeare/plays" resource="hamlet.xml" destfile="/tmp/hamlet.xml"/>]]></markup>
                 </programlisting>
             </example>
             <example>
                 <title>Extract a Collection</title>
                 <programlisting>
                     <markup><![CDATA[<xdb:extract xmlns:xdb="http://exist-db.org/ant"
-    uri="xmldb:exist://restrict:8080/exist/xmlrpc/db/shakespeare/plays" destdir="/tmp" subcollections="true" createdirectories="true"/>]]></markup>
+    uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/shakespeare/plays" destdir="/tmp" subcollections="true" createdirectories="true"/>]]></markup>
                 </programlisting>
             </example>
             <variablelist>
@@ -690,7 +687,7 @@
                 <title>Restore a Collection</title>
                 <programlisting>
                     <markup><![CDATA[<xdb:restore xmlns:xdb="http://exist-db.org/ant"
-    uri="xmldb:exist://restrict:8080/exist/xmlrpc" user="admin" password=""
+    uri="xmldb:exist://localhost:8080/exist/xmlrpc" user="admin" password=""
     dir="${backup.dir}/db/home"/>]]></markup>
                 </programlisting>
             </example>
