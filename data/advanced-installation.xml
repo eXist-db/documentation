@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
@@ -10,7 +9,7 @@
         <title>Advanced Installation Methods</title>
         <section>
             <title>Introduction</title>
-            <para>The eXist-db <ulink url="quick-start.xml">Quick Start</ulink> document contains
+            <para>The eXist-db <ulink url="quickstart.xml">Quick Start</ulink> document contains
                 basic instructions for installing eXist. This article explains more advanced methods
                 of installing and running eXist. </para>
         </section>
@@ -18,7 +17,7 @@
             <title>Headless Installation</title>
             <para>The eXist-db installer requires a graphical desktop in order to launch. However,
                 If you wish to install eXist-db on a headless system, use the <command>-p</command>
-                parameter when following <emphasis>Option Two</emphasis> above. This will
+                parameter when launching the  installer from the command line. This will
                 automatically start the installation. Option <command>-p</command> expects a single
                 parameter: the path to the directory where you would like to install eXist-db. For
                 example:</para>
@@ -30,8 +29,7 @@
                 to run it as a background service which is automatically launched during system
                 startup. This can be convenient, because eXist-db can continue to run even after
                 users have logged off of the system.</para>
-            <para>eXist-db comes with pre-configured scripts that use Tanuki Software's <ulink
-                    url="http://wrapper.tanukisoftware.org">Java Service Wrapper</ulink> to handle
+            <para>eXist-db comes with pre-configured scripts that use Tanuki Software's <ulink url="http://wrapper.tanukisoftware.org">Java Service Wrapper</ulink> to handle
                 the setup procedure. The required scripts are contained in the directory
                     <filename>tools/wrapper</filename>. On Windows, you can simply choose the option
                 to <emphasis>Install eXist-db as Service</emphasis> from the eXist-db menu created
@@ -49,11 +47,10 @@
             <screenshot>
                 <graphic fileref="resources/services.png"/>
             </screenshot>
-            <para>Once the service is registered, you can launch it via the service manager as shown
-                in the screenshot or from the command line:</para>
+            <para>Once the service is registered, you can launch it via the service manager, as shown
+                in the screenshot, or from the command line:</para>
             <synopsis>
-                cd tools\wrapper\bin
-                wrapper.exe [can't have 2 adjoining hyphens in comments! so take out this space: - -]start ..\conf\wrapper.conf
+                cd tools\wrapper\bin\wrapper.exe --start ..\conf\wrapper.conf
             </synopsis>
             <para>For Linux, all of the start/shutdown scripts can be found in
                     <filename>tools/wrapper/bin/exist.sh</filename>. You can create a link to this
@@ -68,9 +65,9 @@
             <title>About the Scripts in the bin Directory</title>
             <para>Included in the distribution are a number of useful <filename>.sh</filename> (Unix
                 Shell) and <filename>.bat</filename> (DOS batch) programs located in the
-                <filename>bin</filename> directory. If you installed the source distribution or
+                <filename>bin</filename> directory. Whether you have installed the source distribution or
                 used the installer, you can find this directory in the root directory of the
-                distribution.
+                installation.
                 <!-- If
                 you installed the <filename>exist.war</filename> file (Web Application Archive), you
                 will find the <filename>bin</filename> directory in the location the <filename
@@ -79,7 +76,7 @@
                 executable Java programs) around the bootstrap loader contained in the jar file
                 <filename>start.jar</filename>.-->
             </para>
-            <para>If you find the programs do not launch, you can also manually launch these files
+            <para>If you find that the programs do not launch, you can also manually launch these files
                 on the command-line, and specify which application you would like to start.</para>
             <para>To manually launch these scripts:</para>
             <variablelist>
@@ -97,7 +94,7 @@
                     <term>shutdown.sh (Unix) / shutdown.bat (Windows)</term>
                     <listitem>
                         <para>Enter on the command-line:</para>
-                        <synopsis>java -jar start.jar shutdown</synopsis>
+                        <synopsis>java -jar start.jar shutdown -p youradminpassword</synopsis>
                         <para>Description: Closes the running instance of eXist. If eXist has been
                             started with <filename>startup.sh</filename>, calling
                             <filename>shutdown.sh</filename> will also stop the Jetty web
