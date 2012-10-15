@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+                      "http://www.docbook.org/xml/4.5/docbookx.dtd">
+<book>
+    <bookinfo>
+        <productname>Open Source Native XML Database</productname>
+        <title>XQSuite</title>
+        <orgname>The eXist Project</orgname>
+        <date>March 2010</date>
+        <author>
+            <firstname>James</firstname>
+            <surname>Fuller</surname>
+        </author>
+    </bookinfo>
+    <chapter>
+        <title>XQSuite - Annotation-based Test Framework for XQuery</title>
+        <para>XQSuite is a new test framework for XQuery modules based on
+        XQuery function annotations. It has a number of advantages over previous
+        approaches:</para>
+        <itemizedlist>
+            <listitem>
+                <para>tests can be defined within the actual application code (if you like), so a
+                    function can be tested right where it is implemented. Because annotations are
+                    ignored during normal execution, they do not interfere with the
+                    application.</para>
+            </listitem>
+            <listitem>
+                <para>more complex integration tests can be combined into separate modules using the
+                    full power of XQuery. Tests are written as ordinary XQuery functions with all
+                    the support provided by XQuery editors like eXide.</para>
+            </listitem>
+            <listitem>
+                <para>tests are easy to read by users.</para>
+            </listitem>
+            <listitem>
+                <para>XQSuite is itself implemented in 100% XQuery. It is thus easy to extend. To
+                    run a suite of tests, all you need is a small, main XQuery which imports the
+                    modules to be tested.</para>
+            </listitem>
+        </itemizedlist>
+        <para>eXist-db previously used a descriptive XML format to define XQuery tests. XQSuite
+            replaces this, though the old format and test runner is still supported and is used by
+            many of the tests in <filename>tests/src/xquery</filename>.</para>
+        <para>XQSuite has two components:</para>
+        <itemizedlist>
+            <listitem>
+                <para>A number of XQuery function annotations</para>
+            </listitem>
+            <listitem>
+                <para>A test runner which takes a sequence of function items and interprets the test
+                    annotations</para>
+            </listitem>
+        </itemizedlist>
+        <para>To use test annotations in a given XQuery module, the corresponding namespace has to
+            be declared:</para>
+        <synopsis language="xquery">declare namespace test="http://exist-db.org/xquery/xqsuite";</synopsis>
+        <para>A function in the module will be considered by the test runner if it has at least one
+                <code>test:assertXXX</code> annotation. Other functions will be simply ignored. A
+            minimal example may thus look like this:</para>
+        <programlisting>declare function %test:assertEquals("Hello world") local:hello() {
+    "Hello world"
+};</programlisting>
+        <para>When the test runner encounters this function, it will evaluate it once and compare
+            its return value to the assertion. The function does not expect any parameters. To test
+            a function which does take parameters, use the <code>%test:arg</code> annotation in
+            combination with one or more assertions:</para>
+        <programlisting>
+        declare
+            %test:arg("n", 1) %test:assertEquals(1)
+            %test:arg("n", 5) %test:assertEquals(120)
+        function m:factorial($n as xs:int) as xs:int {
+            if ($n = 1) then
+                1     
+            else
+                $n * m:factorial($n - 1)
+        };</programlisting>
+    </chapter>
+</book>
