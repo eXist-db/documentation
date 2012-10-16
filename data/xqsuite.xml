@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
-                      "http://www.docbook.org/xml/4.5/docbookx.dtd">
 <book>
     <bookinfo>
         <productname>Open Source Native XML Database</productname>
         <title>XQSuite</title>
         <orgname>The eXist Project</orgname>
-        <date>March 2010</date>
-        <author>
-            <firstname>James</firstname>
-            <surname>Fuller</surname>
-        </author>
+        <date>October 2012</date>
     </bookinfo>
     <chapter>
         <title>XQSuite - Annotation-based Test Framework for XQuery</title>
@@ -30,49 +24,261 @@
                     the support provided by XQuery editors like eXide.</para>
             </listitem>
             <listitem>
-                <para>tests are easy to read by users.</para>
+                <para>properly written tests are easy to read and understand.</para>
             </listitem>
             <listitem>
-                <para>XQSuite is itself implemented in 100% XQuery. It is thus easy to extend. To
+                <para>XQSuite is itself implemented in 100% XQuery and can be extended. To
                     run a suite of tests, all you need is a small, main XQuery which imports the
                     modules to be tested.</para>
             </listitem>
         </itemizedlist>
-        <para>eXist-db previously used a descriptive XML format to define XQuery tests. XQSuite
+        <section>
+            <title>Introduction</title>
+            <para>eXist-db previously used a descriptive XML format to define XQuery tests. XQSuite
             replaces this, though the old format and test runner is still supported and is used by
             many of the tests in <filename>tests/src/xquery</filename>.</para>
-        <para>XQSuite has two components:</para>
-        <itemizedlist>
-            <listitem>
-                <para>A number of XQuery function annotations</para>
-            </listitem>
-            <listitem>
-                <para>A test runner which takes a sequence of function items and interprets the test
+            <para>XQSuite has two components:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>A number of XQuery function annotations to be used within the code module to be tested</para>
+                </listitem>
+                <listitem>
+                    <para>A test runner which takes a sequence of function items and interprets the test
                     annotations</para>
-            </listitem>
-        </itemizedlist>
-        <para>To use test annotations in a given XQuery module, the corresponding namespace has to
+                </listitem>
+            </itemizedlist>
+            <para>To use test annotations in a given XQuery module, the corresponding namespace has to
             be declared:</para>
-        <synopsis language="xquery">declare namespace test="http://exist-db.org/xquery/xqsuite";</synopsis>
-        <para>A function in the module will be considered by the test runner if it has at least one
-                <code>test:assertXXX</code> annotation. Other functions will be simply ignored. A
-            minimal example may thus look like this:</para>
-        <programlisting>declare function %test:assertEquals("Hello world") local:hello() {
+            <synopsis language="xquery">declare namespace test="http://exist-db.org/xquery/xqsuite";</synopsis>
+            <para>A function in the module will be considered by the test runner if it has at least one
+                    <code>test:assertXXX</code> annotation, where "XXX" stands for the annotation
+                type ("assertEquals", "assertEmpty" ...). Other functions - including private ones -
+                will be simply ignored. A minimal example may thus look as follows:</para>
+            <programlisting language="xquery">declare function %test:assertEquals("Hello world") local:hello() {
     "Hello world"
 };</programlisting>
-        <para>When the test runner encounters this function, it will evaluate it once and compare
-            its return value to the assertion. The function does not expect any parameters. To test
+            <para>When the test runner encounters this function, it will evaluate it once and compare
+            its return value to the assertion.</para>
+        </section>
+        <section>
+            <title>Parameterized Tests</title>
+            <para>The simple example above does not expect any parameters. To test
             a function which does take parameters, use the <code>%test:arg</code> annotation in
             combination with one or more assertions:</para>
-        <programlisting>
-        declare
-            %test:arg("n", 1) %test:assertEquals(1)
-            %test:arg("n", 5) %test:assertEquals(120)
-        function m:factorial($n as xs:int) as xs:int {
-            if ($n = 1) then
-                1     
-            else
-                $n * m:factorial($n - 1)
-        };</programlisting>
+            <programlisting language="xquery">declare
+    %test:arg("n", 1) %test:assertEquals(1)
+    %test:arg("n", 5) %test:assertEquals(120)
+function m:factorial($n as xs:int) as xs:int {
+    if ($n = 1) then
+        1
+    else
+        $n * m:factorial($n - 1)
+};</programlisting>
+            <para>This example shows multiple tests on the same function using different parameter
+            values. The <code>%test:arg</code> annotation is used to set the parameters for the next
+            test run, which is triggered by the assertion. This means the tested function will be
+            called once for every sequence of <code>%test:arg</code> annotations followed by one or
+            more <code>%test:assertXXX</code>. The order of the annotations is thus
+            important!</para>
+            <para>The first annotation argument to <code>%test:arg</code> denotes the name of the
+            function parameter variable to set, the remaining arguments are used to create the
+            sequence of values passed. There have to be as many %test:arg annotations for every test
+            run as the function takes parameters.</para>
+            <para>The result returned by the function call is passed to each assertion in turn, which
+            may either pass or fail.&#160;In the example above, we assert that the function should return
+            1 if the input parameter is 1, and 120 if the input is 5.</para>
+            <para>To test a function which takes a sequence with more than one item for a parameter,
+            just append additional values to <code>%test:arg</code>. The test runner will convert
+            the values into a sequence.</para>
+            <para>If all function parameters expect exactly one value, you can also use a shorter form
+            of <code>%test:arg</code>: instead of specifying one <code>%test:arg</code> annotation
+            for every parameter, use a single <code>%test:args</code> annotation to define all
+            parameter values at once. <code>%test:args</code> simply takes a list of values. Each
+            value is mapped to exactly one function parameter. Example:</para>
+            <programlisting language="xquery">declare
+    %test:args("Hello", "world")
+    %test:assertEquals("Hello world")
+function local:hello($greet as xs:string, $user as xs:string) {
+    $greet || " " || $user
+};</programlisting>
+        </section>
+        <section>
+            <title>Automatic Type Conversion</title>
+            <para>XQuery annotation parameters need to be literal values, so only strings and
+                numbers are allowed. XQSuite thus applies type conversion to every argument as well
+                as to values used in assertions. For example, the following function expects a
+                parameter of type <code>xs:date</code>:</para>
+            <programlisting language="xquery">declare
+    %test:args("2012-06-26")
+    %test:assertEquals("26.6.2012")
+    %test:args("2012-06-01")
+    %test:assertEquals("1.6.2012")
+function fd:simple-date($date as xs:date) as xs:string {
+    format-date($date, "[D].[M].[Y]")
+};</programlisting>
+            <para>The string value passed to the <code>%test:args</code> annotation is automatically
+                converted to the sequence type declared for the function parameter:
+                    <code>xs:date</code>.  The same applies to the assertion values.</para>
+            <para>Type conversion works for all primitive types as well as XML nodes.</para>
+            <para>If automatic type conversion fails for some reason, the test case will fail as
+                well.</para>
+        </section>
+        <section>
+            <title>Supported Annotations</title>
+            <variablelist>
+                <varlistentry>
+                    <term>%test:arg($varName, $value1, $value2, ...)</term>
+                    <listitem>
+                        <para>Set the function parameter with variable name $varName to the sequence
+                            constructed by converting the remaining annotation parameters to the
+                            sequenceType declared by the function parameter.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>%test:args($arg1, $arg2, ...)</term>
+                    <listitem>
+                        <para>Run the function using the supplied literal arguments. There has to be
+                            one annotation argument for each parameter the function takes.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>%test:assertEmpty, %test:assertExists</term>
+                    <listitem>
+                        <para>Expects the function to return an empty sequence (assertEmpty) or a
+                            non-empty sequence (assertExists). </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>%test:assertTrue, %test:assertFalse</term>
+                    <listitem>
+                        <para>Checks if the effective boolean value of the returned result is true
+                            or false. </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>%test:assertEquals($value1, $value2, ...)</term>
+                    <listitem>
+                        <para>Tests if the return value equals the specified argument. If the
+                            function returns more than one item, each item is compared to the given
+                            annotation values in turn. The number of returned items has to
+                            correspond to the number of annotation values.&#160; If the function returns
+                            an atomic type, the assertion argument is cast into the same type and
+                            the two are compared using the eq operator.&#160; If the sequence returned by
+                            the function contains one or more XML elements, they will be normalized
+                            (i.e. ignorable whitespace is stripped). The assertion argument is then
+                            parsed into XML and the two node trees are compared using the
+                            deep-equals function. </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>%test:assertError($errString)</term>
+                    <listitem>
+                        <para>Evaluating the tested function should result in a dynamic error. If
+                            value is given, it should either be a string contained in the error
+                            description or correspond to the error code of the dynamic error.</para>
+                        <para>The annotation value is executed as an XPath expression. The assert
+                            passes if the XPath expression returns a non-empty sequence or a single
+                            atomic item whose effective boolean value is true. Within the XPath
+                            expression, the variable&#160;<emphasis role="bold">$result</emphasis>contains a reference to the result sequence returned
+                            by the tested function.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>%test:setUp, %test:tearDown</term>
+                    <listitem>
+                        <para>Special functions which will be called once before (or after) any
+                            other tests contained in the same XQuery module are run. Use those
+                            functions to upload data, create indexes, users or prepare anything else
+                            needed for tests to run. </para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </section>
+        <section>
+            <title>Running a Test Suite</title>
+            <para>To run a suite of tests, you need to create a main XQuery which</para>
+            <orderedlist>
+                <listitem>
+                    <para>imports the <filename>xqsuite.xql</filename> test framework</para>
+                </listitem>
+                <listitem>
+                    <para>calls <code>test:suite</code> with the sequence of function items to
+                        test</para>
+                </listitem>
+            </orderedlist>
+            <para>For a complete example, store the following XQuery module into the database
+            as <filename>math.xql</filename>:</para>
+            <programlisting language="xquery">xquery version "3.0";
+
+module namespace m="http://foo.org/xquery/math";
+
+declare namespace test="http://exist-db.org/xquery/xqsuite";
+
+declare
+    %test:arg("n", 1) %test:assertEquals(1)
+    %test:arg("n", 5) %test:assertEquals(120)
+function m:factorial($n as xs:int) as xs:int {
+    if ($n = 1) then
+        1
+    else
+        $n * m:factorial($n - 1)
+};</programlisting>
+            <para>To run the tests in this module, create a main XQuery called <filename>suite.xql</filename>
+            and store it into the same collection:</para>
+            <programlisting language="xquery">xquery version "3.0";
+
+import module namespace test="http://exist-db.org/xquery/xqsuite" 
+at "resource:org/exist/xquery/lib/xqsuite/xqsuite.xql";
+
+test:suite(
+    inspect:module-functions(xs:anyURI("math.xql"))
+)</programlisting>
+            <para>Executing the main XQuery within eXide will return the test results as an XML
+                fragment (see below).</para>
+            <para>In the main XQuery, the function: <code>inspect:module-functions</code> returns a function item for
+                every public function defined in the module loaded from the location URI given as
+                argument. The location URI is resolved in the same way as in a normal module import,
+                so a relative path will be interpreted relative to the location of the main
+                XQuery.</para>
+        </section>
+        <section>
+            <title>Test Suite Output</title>
+            <para>
+                <code>test:suite</code> returns the results of the tests as an XML fragment using
+                the schema defined by the xUnit test tool. The xUnit format is supported by many
+                systems, e.g. Jenkins, and is thus a good choice, even though it was designed for
+                Java and not XQuery. For every XQuery module tested, <code>test:suite</code> creates
+                one <sgmltag>testsuite</sgmltag> element. The result of each test run is output as a
+                    <sgmltag>testcase</sgmltag> element. It will be empty if the test has passed. If
+                the test failed, there will be a <sgmltag>failure</sgmltag> element containing the
+                expected result of the function, and an <sgmltag>output</sgmltag> element with the
+                actual result. An example is given below:</para>
+            <programlisting language="xml">&lt;testsuites&gt;
+    &lt;testsuite package="http://exist-db.org/xquery/test/bang" timestamp="2012-10-16T10:30:12.966+02:00" failures="1" tests="19" time="PT0.046S"&gt;
+        &lt;testcase name="constructor" class="bang:constructor"/&gt;
+        &lt;testcase name="functions1" class="bang:functions1"/&gt;
+        &lt;testcase name="functions2" class="bang:functions2"/&gt;
+        &lt;testcase name="functions3" class="bang:functions3"&gt;
+            &lt;failure message="assertEquals failed." type="failure-error-code-1"&gt;RED BLACK GREEN&lt;/failure&gt;
+            &lt;output&gt;RED BLUE GREEN&lt;/output&gt;
+        &lt;/testcase&gt;
+        &lt;testcase name="functions4" class="bang:functions4"/&gt;
+        &lt;testcase name="nodepath" class="bang:nodepath"/&gt;
+        &lt;testcase name="nodepath-reverse" class="bang:nodepath-reverse"/&gt;
+        &lt;testcase name="nodes1" class="bang:nodes1"/&gt;
+        &lt;testcase name="nodes2" class="bang:nodes2"/&gt;
+        &lt;testcase name="numbers1" class="bang:numbers1"/&gt;
+        &lt;testcase name="position1" class="bang:position1"/&gt;
+        &lt;testcase name="position2" class="bang:position2"/&gt;
+        &lt;testcase name="position3" class="bang:position3"/&gt;
+        &lt;testcase name="position4" class="bang:position4"/&gt;
+        &lt;testcase name="position5" class="bang:position5"/&gt;
+        &lt;testcase name="precedence1" class="bang:precedence1"/&gt;
+        &lt;testcase name="precedence2" class="bang:precedence2"/&gt;
+        &lt;testcase name="precedence3" class="bang:precedence3"/&gt;
+        &lt;testcase name="sequence" class="bang:sequence"/&gt;
+    &lt;/testsuite&gt;
+&lt;/testsuites&gt;</programlisting>
+        </section>
     </chapter>
 </book>
