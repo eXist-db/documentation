@@ -14,13 +14,13 @@
             <para>The main goal of the HTML templating framework in eXist-db is a clean separation
                 of concerns. Generating entire pages in XQuery is quick and dirty, but makes
                 maintenance and code sharing difficult. Ideally people should be able to look at the
-                HTML view of an application and modify its looks and feel without knowing
-                XQuery.&#160;The application logic - written in XQuery - should be kept
-                separate.&#160;Likewise, the XQuery developer should only deal with the minimal
+                HTML view of an application and modify its look and feel without knowing
+                XQuery. The application logic - written in XQuery - should be kept
+                separate. Likewise, the XQuery developer should only deal with the minimal
                 amount of HTML which is generated dynamically.</para>
-            <para>The module also handles most of the HTTP processing an application requires. It
-                does so using sophisticated features like automatic parameter injection and type
-                conversion. The goal was to remove repeating code like:</para>
+            <para>The templating module also handles most of the HTTP processing an application
+                requires. It does so using sophisticated features like automatic parameter injection
+                and type conversion. The goal was to remove repeating code like:</para>
             <synopsis language="xquery">let $query := request:get-parameter("query", ())
 let $field := request:get-parameter("field", ())
 ...</synopsis>
@@ -30,14 +30,14 @@ let $field := request:get-parameter("field", ())
         <section>
             <title>Writing the HTML</title>
             <para>The templating module is mainly based on conventions. Wherever possible it tries
-                to make a best guess&#160; instead of requiring additional code or annotations to be
+                to make a best guess instead of requiring additional code or annotations to be
                 written. This works as long as the conventions used are sufficiently clear.</para>
-            <para>The input for the templating is always a plain HTML file.&#160;The module scans
-                the HTML view for elements with class attributes following a simple convention and
-                tries to translate them into XQuery function calls. By using class
-                attributes,&#160;the HTML remains sufficiently clean and does not get messed up with
-                application code. A web designer could take the HTML files and work on them without
-                being bothered by the extra class names.</para>
+            <para>The input for the templating framework is always a plain HTML file. The module
+                scans the HTML view for elements with class attributes following a simple convention
+                and tries to translate them into XQuery function calls. By using class attributes,
+                the HTML remains sufficiently clean and does not get messed up with application
+                code. A web designer could take the HTML files and work on them without being
+                bothered by the extra class names.</para>
             <para>In the simplest case, a template call inside a class attribute is just the name of
                 a function known in the XQuery context. To start with the usual "Hello world"
                 example:</para>
@@ -48,17 +48,16 @@ let $field := request:get-parameter("field", ())
                 be replaced or enhanced by whatever the function returns.</para>
             <para>Please note that the additional class "grey-box" does not interfere with the
                 template call and is just ignored. "grey-box" might be a class used for styling, so
-                we don't want to remove it. In general, the templating will only take a closer look
-                at class names which follow
-                the&#160;<code>prefix:local-name</code>&#160;pattern.</para>
+                we don't want to remove it. the templating framework will only take a closer look at
+                class names which follow the <code>prefix:local-name</code> pattern.</para>
             <para>It is also possible to pass static parameters to a template call. Those are
-                encoded like URI parameters, e.g.:&#160;<code>demo:hello?language=de</code>. A
+                encoded like URI parameters, e.g.: <code>demo:hello?language=de</code>. A
                 static parameter will be passed to the XQuery function as a fallback value if it
                 cannot be determined by looking at the HTTP context (see below).</para>
         </section>
         <section>
             <title>Templating Functions</title>
-            <para>A templating function is an ordinary XQuery function in a module, which takes at
+            <para>A templating function is an ordinary XQuery function in a module which takes at
                 least two parameters (of a certain type), though additional parameters are allowed.
                 If a function does not follow this convention, it will simply be ignored by the
                 templating framework. For example, our "Hello world!" function could be defined as
@@ -86,7 +85,7 @@ declare function demo:hello($node as node(), $model as map(*), $language as xs:s
         <section>
             <title>Parameter Injection and Type Conversion</title>
             <para>The additional parameters, <code>$language</code> and <code>$user</code>, will be
-                injected automatically. Again, the templating tries to make a best guess about how
+                injected automatically. The templating framework tries to make a best guess about how
                 to fill those parameters with values. It checks the following 3 contexts for
                 parameters with the same name (in the order below):</para>
             <orderedlist>
@@ -104,26 +103,26 @@ declare function demo:hello($node as node(), $model as map(*), $language as xs:s
                     <para>if the <emphasis>static parameters</emphasis> passed to the template call
                         contain a parameter matching the variable name, it will be used</para>
                 </listitem>
-                <listitem>
-                    <para>if neither 1) nor 2) lead to a non-empty value, the function signature
-                        will be checked for an annotation <code>%templates:default("name", "value1",
-                            ..., "valueN")</code>. The first parameter of the annotation should
-                        match the name of the parameter variable. All other parameters of the
-                        annotation are taken as values for the variable.</para>
-                </listitem>
             </orderedlist>
-            <para>So if "language" was passed as a parameter in the HTTP request, it will overwrite
-                the static parameter we provided. Please also note that the templating will attempt
-                automatic type conversion for all parameters. If the parameter has a declared type
-                of xs:integer, it will try to cast a parameter it found into an integer as well. If
-                the type is node(), the parameter value will be parsed into XML. For sure those
-                conversions may fail and you may get an error.</para>
+            <para>If neither 1. nor 2. lead to a non-empty value, the function signature
+                will thus be checked for an annotation <code>%templates:default("name", "value1",
+                    ..., "valueN")</code>. The first parameter of the annotation should
+                match the name of the parameter variable. All other parameters of the
+                annotation are taken as values for the variable.</para>
+            <para>If "language" is passed as a parameter in the HTTP request, it will overwrite
+                the static parameter we provided because the HTTP request is checked first. 
+            </para>
+            <para>The templating framework will attempt automatic type conversion for all
+                parameters. If the parameter has a declared type of xs:integer, it will try to cast
+                a parameter it finds into an integer. If the type is node(), the parameter value
+                will be parsed into XML. These conversions may fail and you may get an error if you
+                are passing a parameter with the wrong type.</para>
         </section>
         <section>
             <title>Additional Annotations</title>
-            <para>Unfortunately our "Hello world" example above isn't preserving the div from which
-                it was called, but replaces it with a new one, which lacks the "grey-box" class.
-                This is the default behavior. To change this and preserve the enclosing div, we can
+            <para>Our "Hello world" example above does not preserve the div from which
+                it was called, but replaces it with a new one which lacks the "grey-box" class.
+                This is the default behavior. To preserve the enclosing div, we should
                 add the XQuery annotation <code>%templating:wrap</code> to the function
                 signature.</para>
             <para>A second annotation can be used to provide a default value for a parameter:
@@ -177,12 +176,12 @@ function demo:search($node as node(), $model as map(*), $query as xs:string) as 
 };</programlisting>
             <para>
                 <code>demo:search</code> differs from the functions we have seen so far in that it
-                returns an XQuery map and not HTML or another atomic type. If a templating function
+                returns an XQuery map and not HTML or an atomic type. If a templating function
                 returns a map, the templating framework will proceed as follows:</para>
             <orderedlist>
                 <listitem>
-                    <para>add the returned map to the current <code>$model</code> map (thus adding
-                        to the entries produced by ancestor templates)</para>
+                    <para>add the returned map to the current <code>$model</code> map (adding it
+                        to the map entries produced by any ancestor templates calling it)</para>
                 </listitem>
                 <listitem>
                     <para>resume processing the children of the current HTML node</para>
@@ -195,15 +194,15 @@ function demo:search($node as node(), $model as map(*), $query as xs:string) as 
 };</programlisting>
         </section>
         <section>
-            <title>Set Up</title>
+            <title>Set-Up</title>
             <para>The templating module is entirely implemented in XQuery. It provides a single
                 public function, <code>templates:apply</code>. A complete main module which calls
-                the templating to process an HTML file passed in the HTTP request body could look as
+                the templating framework to process an HTML file passed in the HTTP request body could look as
                 follows:</para>
             <programlisting language="xquery">(:~
  : This is the main XQuery which will (by default) be called by controller.xql
  : to process any URI ending with ".html". It receives the HTML from
- : the controller and passes it to the templating system.
+ : the controller and passes it to the templating framework.
  :)
 xquery version "3.0";
 
@@ -211,7 +210,7 @@ import module namespace templates="http://exist-db.org/xquery/templates" at "tem
 
 (: 
  : The following modules provide functions which will be called by the 
- : templating.
+ : templating framework.
  :)
 import module namespace app="http://my.domain/myapp" at "app.xql";
 
@@ -232,14 +231,14 @@ let $lookup := function($functionName as xs:string, $arity as xs:int) {
 }
 (:
  : The HTML is passed in the request from the controller.
- : Run it through the templating system and return the result.
+ : Run it through the templating framework and return the result.
  :)
 let $content := request:get-data()
 return
     templates:apply($content, $lookup, ())</programlisting>
             <para>This module would be called from the URL rewriting controller. For example, we
                 could add a rule to <filename>controller.xql</filename> to pass any .html resource
-                to above main query (saved to <filename>modules/view.xql</filename>):</para>
+                to the above main query (saved to <filename>modules/view.xql</filename>):</para>
             <programlisting language="xquery">(: Pass all requests to HTML files through view.xql, which handles HTML templating :)
 if (ends-with($exist:resource, ".html")) then
     &lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist"&gt;
@@ -254,7 +253,7 @@ if (ends-with($exist:resource, ".html")) then
             &lt;forward url="{$exist:controller}/modules/view.xql"/&gt;
         &lt;/error-handler&gt;
     &lt;/dispatch&gt;</programlisting>
-            <para>The only part of the main module code which might be a bit unusual is the inlined
+            <para>The only part of the main module code which might look a bit unusual is the inline
                 lookup function: the templating module uses dynamic function calls to execute
                 template functions in application modules. But unfortunately, XQuery modules can
                 only "see" functions in their own context. There is thus no way for the templating
@@ -271,8 +270,8 @@ if (ends-with($exist:resource, ".html")) then
             <para>The "New Application" templates in eXide already include the HTML templating
                 module and configure the URL rewriting to call it for any path ending in
                     <filename>.html</filename>. Using eXide is thus the easiest way to get started
-                with the templating. Please consult the <ulink url="development-starter.xml">Getting
-                    Started with Web Application Development</ulink> guide to read more.</para>
+                with the templating framework. Please consult the <ulink url="development-starter.xml">Getting Started with Web Application
+                    Development</ulink> guide to read more.</para>
         </section>
         <section>
             <title>Pre-defined Template Commands</title>
@@ -307,7 +306,7 @@ if (ends-with($exist:resource, ".html")) then
                 <para>The "using" parameter is optional and specifies the id of an element in the
                     "with" resource. The current content will be surrounded by this element. If the
                     parameter is missing, the entire document given in "with" will be used.</para>
-                <para>The surround template instruction is used by all pages of this demo
+                <para>The surround template instruction is used by all pages of the <ulink url="../demo/index.html">Demo</ulink>
                     application. The header, basic page structure and menus are the same for all
                     pages. Each page thus only contains a simple div with a template
                     instruction:</para>

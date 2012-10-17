@@ -120,6 +120,8 @@ declare %private function docbook:to-html($nodes as node()*) {
                 <em>{docbook:process-children($node)}</em>
             case element(itemizedlist) return
                 <ul>{docbook:to-html($node/listitem)}</ul>
+            case element(orderedlist) return
+                <ol>{docbook:to-html($node/listitem)}</ol>
             case element(listitem) return
                 if ($node/parent::varlistentry) then
                     docbook:process-children($node)
