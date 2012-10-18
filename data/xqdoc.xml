@@ -10,6 +10,10 @@
             <firstname>Darin</firstname>
             <surname>McBeath</surname>
         </author>
+        <author>
+            <firstname>Loren</firstname>
+            <surname>Cahlander</surname>
+        </author>
     </bookinfo>
     <chapter>
         <title>xqDoc</title>
@@ -24,6 +28,11 @@
                 produce useful output. Without any xqDoc documentation style comments, a very useful
                 cross reference (for modules, functions, and variables) and XQuery code browser (for
                 modules and functions) will be created by the xqDoc tools. </para>
+            <para>xqDoc comments are extracted when eXist parses an XQuery and keeps them with the
+                FunctionSignature. To not slow down the parsing, comments are stored as plain
+                strings. The comments can be parsed and merged into the function signature later, if
+                they are needed.  This would allow tools like eXide to display up to date
+                documentation while you are working on a module.</para>
         </section>
         <section>
             <title>Comment Style</title>
