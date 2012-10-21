@@ -135,7 +135,7 @@ declare function sec-ev:authentication() {
         <domain>domain.here</domain>
         <search>
             <base>ou=group,dc=ad,dc=organiation-or-what-ever,dc=domain</base>
-            <default-username>exist@domain.here</default-username>
+            <default-username>account@domain.here</default-username>
             <default-password>XXXXXXX</default-password>
             <account>
                 <search-filter-prefix>objectClass=user</search-filter-prefix>
@@ -206,7 +206,8 @@ declare function sec-ev:authentication() {
                     realm, set the <option>include.feature.security.oauth</option> property to
                         <option>true</option> in
                         <filename>extensions/local.build.properties</filename>, and rebuild
-                    eXist-db. Then add a realm element for OAuth to
+                    eXist-db. Then edit web.xml and controller-config.xml to enable OAuthServlet. 
+                    After start up eXist-db and add a realm element for OAuth to
                         <filename>/db/system/security/config.xml</filename>, as in this
                     example:</para>
                 <example>
@@ -224,8 +225,8 @@ declare function sec-ev:authentication() {
                         <para>Valid values for the service element's @provider attribute are 'facebook' and 'google'. </para>
                     </listitem>
                     <listitem>
-                        <para>The service element's @name, @key, and @secret attributes correspond to
-                            __TODO__ in the OAuth specification.</para>
+                        <para>@name uniqure (in database) name for application.</para>
+                        <para>@key and @secret should be given by OAuth provider.</para>
                     </listitem>
                 </itemizedlist>
                 <para>If configured correctly you should be able to authenticate by OAuth.</para>
