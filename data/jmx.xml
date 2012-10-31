@@ -2,16 +2,16 @@
 <!-- $Id$ -->
 <book>
     <bookinfo>
-    <productname>eXist-db – Open Source Native XML Database</productname>
+        <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Java Management Extensions (JMX)</title>
         <date>September 2009</date>
-    <orgname>The eXist-db Project</orgname>
+        <orgname>The eXist-db Project</orgname>
     </bookinfo>
     <chapter>
         <title>Java Management Extensions (JMX)</title>
         <section>
             <title>Intro</title>
-      <para>eXist-db now provides access to various management interfaces via Java Management
+            <para>eXist-db now provides access to various management interfaces via Java Management
                 Extensions (JMX). JMX is a standard mechanism available in Java 5 and 6 (though
                 there are some differences between the two versions). A agent in the Java virtual
                 machine exposes agent services (as so called MBeans) which belong to different
@@ -42,7 +42,7 @@
             </note>
             <para>The extension can be activated by passing a command-line parameter to the exist
                 start scripts (<filename>client.sh startup.sh</filename> etc.)</para>
-            <variablelist>
+            <variablelist spacing="normal">
                 <varlistentry>
                     <term>-j &lt;argument&gt;, --jmx &lt;argument&gt;</term>
                     <listitem>
@@ -78,7 +78,7 @@ bin\server.bat -jmx 1099
                     to some important server statistics. The application accepts the following
                     command-line parameters:</para>
                 <synopsis>java -jar start.jar org.exist.management.client.JMXClient &lt;params&gt;</synopsis>
-                <variablelist>
+                <variablelist spacing="normal">
                     <varlistentry>
                         <term>-a, --address &lt;argument&gt;</term>
                         <listitem>

@@ -75,12 +75,10 @@ declare %private function docbook:to-html($nodes as node()*) {
             case element(book) return
                 <article>
                     {docbook:process-children($node/chapter)}
-                    {docbook:print-authors($node)}
                 </article>
             case element(article) return
                 <article>
                     {docbook:process-children($node/section)}
-                    {docbook:print-authors($node)}
                 </article>
             case element(chapter) return
                 <section>
@@ -125,7 +123,9 @@ declare %private function docbook:to-html($nodes as node()*) {
                 else
                     <li>{docbook:process-children($node)}</li>
             case element(variablelist) return
-                <dl class="dl-horizontal">{docbook:process-children($node)}</dl>
+                let $spacing := $node/@spacing
+                return
+                    <dl class="dl-horizontal {if ($spacing = 'normal') then 'wide' else ''}">{docbook:process-children($node)}</dl>
             case element(varlistentry) return (
                 <dt>{docbook:process-children($node/term)}</dt>,
                 <dd>{docbook:to-html($node/listitem)}</dd>
