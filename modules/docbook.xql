@@ -112,10 +112,7 @@ declare %private function docbook:to-html($nodes as node()*) {
                         docbook:process-children($node)
                     }
             case element(para) return
-                if ($node/parent::listitem and not($node/preceding-sibling::para or $node/following-sibling::para)) then
-                    docbook:process-children($node)
-                else
-                    <p>{docbook:process-children($node)}</p>
+                <p>{docbook:process-children($node)}</p>
             case element(emphasis) return
                 <em>{docbook:process-children($node)}</em>
             case element(itemizedlist) return
@@ -130,7 +127,7 @@ declare %private function docbook:to-html($nodes as node()*) {
             case element(variablelist) return
                 <dl class="dl-horizontal">{docbook:process-children($node)}</dl>
             case element(varlistentry) return (
-                <dt><p>{docbook:process-children($node/term)}</p></dt>,
+                <dt>{docbook:process-children($node/term)}</dt>,
                 <dd>{docbook:to-html($node/listitem)}</dd>
             )
             case element(figure) return
@@ -217,6 +214,8 @@ declare %private function docbook:to-html($nodes as node()*) {
                     <td>{docbook:process-children($node)}</td>
             case element(guimenuitem) return
                 <span class="guimenuitem">{docbook:process-children($node)}</span>
+            case element(sgmltag) return
+                <span class="sgmltag">&lt;{docbook:process-children($node)}&gt;</span>
             case element(exist:match) return
                 <span class="hi">{$node/text()}</span>
             case element() return

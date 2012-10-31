@@ -105,8 +105,6 @@ body { color: #222; background: url(../images/body.gif) repeat 50% 100%; }
 
 /* ---------------------------------------- TYPE ---------------------------------------- */
 
-p { padding: 5px 0; }
-
 h1 { font-size: 1.5em; padding: 0px 0 5px; margin: 0; font-weight: bold; "QuicksandBook", "Arial", Helvetica, sans-serif; }
 h2 { font-size: 1.2em; padding: 10px 0; font-weight: bold; font-family: "QuicksandBook", "Arial", Helvetica, sans-serif; letter-spacing: 1px; }
 h3 { font-size: 1.2em; padding: 10px 0 5px; margin: 0 0 5px; font-weight: bold; }
@@ -137,6 +135,7 @@ blockquote p { padding: 0 0 10px; }
     background: #444444 url(../images/noise.png);
     padding: 8.5px;
     width: 100%;
+    margin: 18px 0 18px;
 }
 
 figure {
@@ -238,8 +237,8 @@ form { margin: 20px 0; }
     text-align: center;
 }
 
-#content .content, #content .content p, #content .content li {
-    font: 19px/28px Georgia, "Times New Roman", Times, serif;
+#content .content, #content .content p, #content .content li, #content .content dt {
+    font: 16px/24px Georgia, "Times New Roman", Times, serif;
     color: #555;
 }
 
@@ -295,7 +294,7 @@ form { margin: 20px 0; }
 }
 
 .content ul, .content ol {
-    margin: 0pt 1.5em 1.5em;
+    margin: 0 1.5em;
 }
 
 .content ul li {
@@ -306,6 +305,10 @@ form { margin: 20px 0; }
 .content ol li {
     list-style: decimal;
     margin-bottom: .4em;
+}
+
+#content .content dt {
+    font-weight: bold;
 }
 
 .content img {
@@ -374,7 +377,4 @@ form { margin: 20px 0; }
 .hidden {
     display: none;
 }
-
-.dl-horizontal dt{margin-top:10px;}
-.dl-horizontal dd{margin-top:10px; border:1px solid #999; padding:10px;}
 
