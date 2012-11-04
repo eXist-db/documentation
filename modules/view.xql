@@ -7,6 +7,7 @@ import module namespace dq="http://exist-db.org/xquery/documentation/search" at 
 import module namespace docbook="http://docbook.org/ns/docbook" at "docbook.xql";
 import module namespace config="http://exist-db.org/xquery/apps/config" at "config.xqm";
 import module namespace review="http://exist-db.org/xquery/documentation/review" at "review.xql";
+import module namespace site="http://exist-db.org/apps/site-utils";
 
 declare option exist:serialize "method=html5 media-type=text/html";
 
