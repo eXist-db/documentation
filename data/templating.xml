@@ -26,6 +26,10 @@ let $field := request:get-parameter("field", ())
 ...</synopsis>
             <para>In fact you should not see many calls to the HTTP request or session module inside
                 a templating function. It is all handled by parameter injection. </para>
+            <note>
+                <para>Working examples for the templating module can be found in the <ulink url="{demo}/examples/templating/templates.html">demo
+                    application</ulink>.</para>
+            </note>
         </section>
         <section>
             <title>Writing the HTML</title>
@@ -192,6 +196,29 @@ function demo:search($node as node(), $model as map(*), $query as xs:string) as 
             <programlisting language="xquery">declare function demo:hit-count($node as node(), $model as map(*)) as xs:integer {
     count($model("result"))
 };</programlisting>
+            <section>
+                <title>Manual Processing Control</title>
+                <para>Inside a templating function, you can also call <code>templates:process($nodes
+                        as node()*, $model as map(*))</code> to let the templating module process
+                    the given node sequence. You just need to make sure you are not running into an
+                    endless loop by calling <code>templates:process</code> on the currently
+                    processed node. A common pattern is to trigger <code>templates:process</code> on
+                    the children of the current node:</para>
+                <programlisting language="xquery">templates:process($node/node(), $model)</programlisting>
+                <para>This is comparable to calling <sgmltag>xsl:apply-templates</sgmltag> in XSLT
+                    and will have the same effect as returning a map (see the section above), but
+                    with your templating function having full control.</para>
+                <para>For example, it is sometimes necessary to first process all the descendant
+                    nodes of the current element, then apply some action to the processed tree. The
+                    documentation app has a function, <code>config:expand-links</code>, which scans
+                    the final document tree for links and expands them. The function is implemented
+                    as follows:</para>
+                <programlisting language="xquery">declare %templates:wrap function config:expand-links($node as node(), $model as map(*), $base as xs:string?) {
+    for $node in templates:process($node/node(), $model)
+    return
+        config:expand-links($node, $base)
+};</programlisting>
+            </section>
         </section>
         <section>
             <title>Set-Up</title>
@@ -274,6 +301,18 @@ if (ends-with($exist:resource, ".html")) then
                     Development</ulink> guide to read more.</para>
         </section>
         <section>
+            <title>Where to Find the Module?</title>
+            <para>If you generate your application with eXide, a copy of the HTML templating module
+                will be included, so you can customize it. If you rather want to make sure you have
+                the latest version of the templating module: the <ulink url="https://github.com/eXist-db/shared-resources">shared-resources</ulink>
+                application also exports the module.  This will always be the latest version. You
+                could thus define a dependency on the shared-resources app (see the <ulink url="repo.xml">packaging documentation</ulink>). In this case you can just
+                import the module by its namespace URI, but without specifying a location.</para>
+            <synopsis language="xquery">import module namespace templates="http://exist-db.org/xquery/templates";</synopsis>
+            <para>The documentation and demo applications all read the templating module from
+                shared-resources.</para>
+        </section>
+        <section>
             <title>Pre-defined Template Commands</title>
             <para>The templating module defines a number of general-purpose templating functions,
                 which are described below for reference. <code>templates:surround</code> is probably
@@ -284,6 +323,15 @@ if (ends-with($exist:resource, ".html")) then
                 <para>Includes the content of the resource given by path into the current element.
                     The path is always interpreted relative to the current application directory or
                     collection.</para>
+            </section>
+            <section>
+                <title>templates:each</title>
+                <synopsis language="xquery">templates:each?from=map-key&amp;amp;to=map-key</synopsis>
+                <para>Retrieve the sequence identified by the map key <option>from</option> from the
+                        <code>$model</code> map. If it exists, iterate over the items in the
+                    sequence and process any nested content once. During each iteration, the current
+                    item is added to the <code>$model</code> map using the key
+                    <option>to</option>.</para>
             </section>
             <section>
                 <title>templates:if-parameter-set</title>
@@ -306,7 +354,7 @@ if (ends-with($exist:resource, ".html")) then
                 <para>The "using" parameter is optional and specifies the id of an element in the
                     "with" resource. The current content will be surrounded by this element. If the
                     parameter is missing, the entire document given in "with" will be used.</para>
-                <para>The surround template instruction is used by all pages of the <ulink url="../demo/index.html">Demo</ulink>
+                <para>The surround template instruction is used by all pages of the <ulink url="{demo}/index.html">Demo</ulink>
                     application. The header, basic page structure and menus are the same for all
                     pages. Each page thus only contains a simple div with a template
                     instruction:</para>
@@ -320,12 +368,6 @@ if (ends-with($exist:resource, ".html")) then
                 <para>Use on &lt;input&gt; and &lt;select&gt; elements: checks the HTTP request for
                     a parameter matching the name of the form control and fills it into the value of
                     an input or selects the corresponding option of a select.</para>
-            </section>
-            <section>
-                <title>templates:display-source</title>
-                <synopsis language="xquery">templates:display-source?lang=language</synopsis>
-                <para>Display the contents of the element as a code block with syntax highlighting.
-                    This also adds a button which copies the code into eXide if clicked.</para>
             </section>
             <section>
                 <title>templates:load-source</title>

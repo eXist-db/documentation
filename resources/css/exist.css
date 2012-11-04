@@ -3,17 +3,7 @@
 
 @import url('bootstrap.min.css');
 @import url('dropdowns.css');
-
-@font-face {
-    font-family: 'QuicksandBook';
-    src: url('Quicksand_Book-webfont.eot');
-    src: url('Quicksand_Book-webfont.eot?#iefix') format('embedded-opentype'),
-         url('Quicksand_Book-webfont.woff') format('woff'),
-         url('Quicksand_Book-webfont.ttf') format('truetype'),
-         url('Quicksand_Book-webfont.svg#QuicksandBook') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
+@import url('$shared/resources/css/fonts.css');
 
 /* ---------------------------------------- LAYOUT ---------------------------------------- */
 
@@ -285,6 +275,11 @@ form { margin: 20px 0; }
     background-color: transparent;
     border: 0;
     color: inherit;
+}
+
+.content .option {
+    font-weight: bold;
+    font-style: italic;
 }
 
 .content blockquote {

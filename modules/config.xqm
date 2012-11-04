@@ -6,7 +6,7 @@ xquery version "3.0";
  :)
 module namespace config="http://exist-db.org/xquery/apps/config";
 
-import module namespace templates="http://exist-db.org/xquery/templates" at "templates.xql";
+import module namespace templates="http://exist-db.org/xquery/templates";
 
 declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace expath="http://expath.org/ns/pkg";
@@ -29,7 +29,7 @@ declare variable $config:app-root :=
         substring-before($modulePath, "/modules")
 ;
 
-declare variable $config:data-root := concat($config:app-root, "/data");
+declare variable $config:data-root := $config:app-root || "/data";
 
 declare variable $config:repo-descriptor := doc(concat($config:app-root, "/repo.xml"))/repo:meta;
 
@@ -65,10 +65,10 @@ declare %templates:wrap function config:app-title($node as node(), $model as map
 };
 
 declare function config:app-meta($node as node(), $model as map(*)) as element()* {
-    <meta name="description" content="{$config:repo-descriptor/repo:description/text()}"/>,
+    <meta xmlns="http://www.w3.org/1999/xhtml" name="description" content="{$config:repo-descriptor/repo:description/text()}"/>,
     for $author in $config:repo-descriptor/repo:author
     return
-        <meta name="creator" content="{$author/text()}"/>
+        <meta xmlns="http://www.w3.org/1999/xhtml" name="creator" content="{$author/text()}"/>
 };
 
 (:~
@@ -99,23 +99,56 @@ declare function config:app-info($node as node(), $model as map(*)) {
         </table>
 };
 
-(: ~
- : If eXide is installed, we can load ace locally. If not, download ace
- : from cloudfront.
- :)
-declare function config:import-ace($node as node(), $model as map(*)) {
-    let $eXideInstalled := doc-available("/db/eXide/repo.xml")
-    let $path :=
-        if ($eXideInstalled) then
-            request:get-context-path() || "/apps/eXide/resources/scripts/ace/"
-        else
-            "//d1n0x3qji82z53.cloudfront.net/src-min-noconflict/"
-    for $script in $node/script
+declare %templates:wrap function config:expand-links($node as node(), $model as map(*), $base as xs:string?) {
+    let $processed := templates:process($node/node(), $model)
+    for $node in $processed
     return
-        <script>
-        {
-            $script/@* except $script/@src,
-            attribute src { $path || $script/@src }
-        }
-        </script>
+        config:expand-links($node, $base)
+};
+
+declare %private function config:expand-links($node as node(), $base as xs:string?) {
+    if ($node instance of element()) then
+        let $href := $node/@href
+        return
+            if ($href) then
+                let $expanded :=
+                    if (starts-with($href, "/")) then
+                        concat(request:get-context-path(), $href)
+                    else
+                        config:expand-link($href, $base)
+                return
+                    element { node-name($node) } {
+                        attribute href { $expanded },
+                        $node/@* except $href, $node/node()
+                    }
+            else
+                element { node-name($node) } {
+                    $node/@*, for $child in $node/node() return config:expand-links($child, $base)
+                }
+    else
+        $node
+};
+
+declare %private function config:expand-link($href as xs:string, $base as xs:string?) {
+    string-join(
+        let $analyzed := analyze-string($href, "^\{([^\{\}]+)\}")
+        for $component in $analyzed/*/*
+        return
+            typeswitch($component)
+                case element(fn:match) return
+                    let $arg := $component/fn:group/string()
+                    let $name := if (contains($arg, "|")) then substring-before($arg, "|") else $arg
+                    let $fallback := substring-after($arg, "|")
+                    let $app := collection(concat("/db/", $name))
+                    return
+                        if ($app) then
+                            concat(request:get-context-path(), request:get-attribute("$exist:prefix"), "/", $name, "/")
+                        else if ($fallback) then
+                            $base || $fallback
+                        else
+                            concat(request:get-context-path(), "/404.html")
+                default return
+                    $component/text()
+        , ""
+    )
 };

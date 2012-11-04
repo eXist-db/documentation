@@ -2,13 +2,14 @@ xquery version "1.0";
 
 import module namespace request="http://exist-db.org/xquery/request";
 import module namespace xdb = "http://exist-db.org/xquery/xmldb";
+import module namespace apputil="http://exist-db.org/xquery/apps";
 
 declare variable $exist:path external;
 declare variable $exist:resource external;
 declare variable $exist:controller external;
 declare variable $exist:prefix external;
 declare variable $exist:root external;
-
+    
 let $query := request:get-parameter("q", ())
 return
 if ($exist:path eq '') then
@@ -68,8 +69,7 @@ else if (ends-with($exist:resource, ".html")) then
         </error-handler>
     </dispatch>
 
-(: Requests for javascript libraries are resolved to the file system :)
-else if (starts-with($exist:path, "/$shared/")) then
+else if (contains($exist:path, "/$shared/")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="/shared-resources/{substring-after($exist:path, '/$shared/')}"/>
     </dispatch>
