@@ -2,7 +2,7 @@ xquery version "3.0";
 
 module namespace docbook="http://docbook.org/ns/docbook";
 
-import module namespace config="http://exist-db.org/xquery/apps/config" at "xmldb:exist:///db/doc/modules/config.xqm";
+import module namespace config="http://exist-db.org/xquery/apps/config" at "config.xqm";
 import module namespace templates="http://exist-db.org/xquery/templates" at "templates.xql";
 import module namespace dq="http://exist-db.org/xquery/documentation/search" at "search.xql";
 

@@ -6,13 +6,13 @@ xquery version "3.0";
 module namespace dq="http://exist-db.org/xquery/documentation/search";
 
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
-import module namespace templates="http://exist-db.org/xquery/templates" at "templates.xql";
+import module namespace config="http://exist-db.org/xquery/apps/config" at "config.xqm";
 
 import module namespace kwic="http://exist-db.org/xquery/kwic";
 
-declare option exist:serialize "method=html media-type=text/html expand-xincludes=yes";
+declare namespace templates="http://exist-db.org/xquery/templates";
 
-declare variable $dq:COLLECTION := "doc/data";
+declare option exist:serialize "method=html media-type=text/html expand-xincludes=yes";
 
 declare variable $dq:FIELDS :=
 	<fields>
@@ -30,7 +30,7 @@ declare
     %public %templates:default("field", "all") %templates:default("view", "summary")
 function dq:query($node as node()*, $model as map(*), $q as xs:string?, $field as xs:string, $view as xs:string) {
 	if ($q) then
-		let $hits := dq:do-query(collection($dq:COLLECTION), $q, $field)
+		let $hits := dq:do-query(collection($config:data-root), $q, $field)
 		let $docXPath :=
             string-join(
                 map-pairs(function($k, $v) { $k || "=" || $v }, ("q", "field"), ($q, $field)),
