@@ -34,26 +34,40 @@
             implementations and is targeted at managing extension libraries (including XQuery, Java
             or XSLT code modules). eXist-db extends this core by adding a facility for the automatic
             deployment of entire applications into the database. </para>
-        <para>eXist-db packages may fall into any of the following categories:</para>
+        <para>eXist-db packages may fall into one of the following categories:</para>
         <itemizedlist>
             <listitem>
-                <para>Complete applications containing data, application code, HTML views,
-                    associated services and resources.</para>
+                <para>
+                    <emphasis role="bold">Applications</emphasis> containing application code,
+                    HTML views, associated services, resources and data. An application always has a
+                    web interface which can be displayed - for example - if the user clicks on the
+                    application icon in the dashboard.</para>
             </listitem>
             <listitem>
-                <para>Library packages providing a set of XQuery library modules to be registered
-                    with eXist-db and used by other packages.  A library package may also contain
-                    Java jar archives to be loaded into the eXist-db classpath.</para>
+                <para>
+                    <emphasis role="bold">Resource packages</emphasis> containing only data or
+                    resources used by other applications, e.g. javascript libraries shared by
+                    several application packages. A resource package has no web view, but needs to
+                    be deployed into the database.</para>
             </listitem>
             <listitem>
-                <para>Resource packages containing only data or resources used by other
-                    applications, e.g. javascript libraries shared by several application
-                    packages.</para>
+                <para>
+                    <emphasis role="bold">Library packages</emphasis> providing a set of XQuery
+                    library modules to be registered with eXist-db and used by other packages. A
+                    library package may also contain Java jar archives to be loaded into the
+                    eXist-db classpath. It has no web view and is not deployed into the
+                    database.</para>
             </listitem>
         </itemizedlist>
-        <para>Creating new packages is fairly easy if you use eXide. This is described in the <ulink url="development-starter.xml">web development starter</ulink> document. The
-            following sections will cover some details of the packaging format from a more technical
-            perspective.</para>
+        <para>Those categories are not exclusive: an application may also include resources and
+            XQuery libraries and is not required to move those into separate packages.</para>
+        <section>
+            <title>Creating Packages</title>
+            <para>Creating new packages is fairly easy if you use eXide. This is described in the
+                    <ulink url="development-starter.xml">web development starter</ulink> document.
+                The following sections will cover some details of the packaging format from a more
+                technical perspective.</para>
+        </section>
         <section>
             <title>EXPath Packaging Format</title>
             <para>An EXPath package is essentially an archive file in ZIP format. By convention, the
@@ -243,8 +257,44 @@ functx:capitalize-first('hello')</programlisting>
     &lt;permissions user="admin" password="" group="dba" mode="rw-rw-r--"/&gt;
     &lt;deployed&gt;2012-10-28T23:15:39.646+01:00&lt;/deployed&gt;
 &lt;/meta&gt;</programlisting>
+            <para>The two settings: <code>type</code> and <code>target</code> determine how a
+                package is handled by the installer:</para>
+            <informaltable frame="void" role="table">
+                <col width="33%"/>
+                <col width="33%"/>
+                <col width="33%"/>
+                <thead>
+                    <tr>
+                        <th>Type of package</th>
+                        <th>type</th>
+                        <th>target</th>
+                        <th/>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="">Application package</td>
+                        <td>application</td>
+                        <td>specified</td>
+                    </tr>
+                    <tr>
+                        <td>Resource package</td>
+                        <td>library</td>
+                        <td>specified</td>
+                    </tr>
+                    <tr>
+                        <td>Library package</td>
+                        <td>library</td>
+                        <td>not specified</td>
+                    </tr>
+                </tbody>
+            </informaltable>
+            <para>So an application package has <code>type</code> set to "application" and specifies
+                a <code>target</code> because it needs to be deployed into the database. Contrary to
+                this, a library package only registers XQuery or other modules, but no resources
+                need to be stored into the db, so <code>target</code> is empty.</para>
             <para>The general metadata fields should not need to be explained. The relevant elements
-                with respect to deployment are:</para>
+                are:</para>
             <variablelist>
                 <varlistentry>
                     <term>type</term>
@@ -263,6 +313,8 @@ functx:capitalize-first('hello')</programlisting>
                             Please note that the target collection can be changed by the package
                             manager during install. It is just a recommendation, not a
                             requirement.</para>
+                        <para>The collection path should always be relative to the repository root
+                            collection defined in the configuration.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -328,6 +380,41 @@ declare variable $target external;</synopsis>
                     </listitem>
                 </varlistentry>
             </variablelist>
+        </section>
+        <section>
+            <title>Configuring the repository root</title>
+            <para>The root collection for deployed packages can be configured in
+                    <filename>conf.xml</filename>:</para>
+            <programlisting language="xml">&lt;repository root="/db/apps"/&gt;</programlisting>
+            <para>The install location specified in the <option>target</option> element of
+                    <filename>repo.xml</filename> will always be relative to this root
+                collection.</para>
+            <para>eXist-db's URL rewriting is by default configured to map any path starting with
+                    <code>/apps</code> to the repository root collection. Check
+                    <filename>webapp/WEB-INF/controller-config.xml</filename> and the <ulink url="http://localhost:8080/exist/apps/doc/urlrewrite.xml">URL rewriting
+                    documentation</ulink>.</para>
+        </section>
+        <section>
+            <title>General considerations when writing a package</title>
+            <para>Packages should be portable and should thus not make any assumptions about the
+                collection path in which they will be installed. In general it is best to use
+                relative paths throughout XQuery modules, in particular for import statements. Just
+                as a reminder: a relative path in an "import module namespace..." expression is
+                always relative to the XQuery which contains the import.</para>
+            <para>If an XQuery needs to access data provided by another package, it should locate
+                the other package by its package name and not by using an absolute collection path
+                which may change in the future. For example, if an application requires access to
+                data stored in another package called "data-pkg", it could define a variable to
+                point to the correct collection as follows:</para>
+            <programlisting language="xquery">declare variable $local:data-pkg-collection :=
+    let $descriptor := 
+        collection(repo:get-root())//expath:package[@name = "http://foo.com/data-pkg"]
+    return
+        util:collection-name($descriptor)
+;
+
+(: Query data provided by data-pkg :)
+collection($local:data-pkg-collection)//foo</programlisting>
         </section>
     </chapter>
 </book>
