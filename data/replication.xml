@@ -79,22 +79,25 @@
                     </step>
                     <step>
                         <para>Create in there a document <filename>collection.xconf</filename> and add the following content to the document:</para>
-                        <synopsis language="xml">
-                            <collection xmlns="http://exist-db.org/collection-config/1.0">
-                                <triggers>
-                                    <trigger class="org.exist.replication.jms.publish.ReplicationTrigger">
-                                        <parameter name="java.naming.factory.initial" value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/>
-                  <!-- Set value -->
-                                        <parameter name="java.naming.provider.url" value="tcp://myserver.local:61616"/>
-                                        <parameter name="connectionfactory" value="ConnectionFactory"/>
-                                        <parameter name="topic" value="dynamicTopics/eXistdb"/>
-		  
-                  <!-- Set value -->
-                                        <parameter name="client-id" value="SetPublisherId"/>
-                                    </trigger>
-                                </triggers>
-                            </collection>
-                        </synopsis>
+                        <synopsis language="xml"><![CDATA[
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <triggers>
+        <trigger class="org.exist.replication.jms.publish.ReplicationTrigger">
+            <parameter name="java.naming.factory.initial" 
+                value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/>
+            
+            <!-- Set value -->
+            <parameter name="java.naming.provider.url" 
+                value="tcp://myserver.local:61616"/>
+                
+            <parameter name="connectionfactory" value="ConnectionFactory"/>
+            <parameter name="topic" value="dynamicTopics/eXistdb"/>
+
+            <!-- Set value -->
+            <parameter name="client-id" value="SetPublisherId"/>
+        </trigger>
+    </triggers>
+</collection>]]></synopsis>
                     </step>
                     <step>
                         <para>Set the correct value for <parameter>java.naming.provider.url</parameter> that matches your message broker (ActiveMQ).</para>
@@ -109,19 +112,24 @@
                 <procedure>
                     <step>
                         <para> Add a job to conf.xml:</para>
-                        <synopsis language="xml">
-                            <job type="startup" name="replication" class="org.exist.replication.jms.subscribe.MessageReceiverJob">
-                                <parameter name="java.naming.factory.initial" value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/>
-		<!-- Set value -->
-                                <parameter name="java.naming.provider.url" value="tcp://myserver.local:61616"/>
-                                <parameter name="connectionfactory" value="ConnectionFactory"/>
-                                <parameter name="topic" value="dynamicTopics/eXistdb"/>
-		
-		<!-- Set values -->
-                                <parameter name="client-id" value="SetSubscriberId"/>
-                                <parameter name="subscriber-name" value="SetSubscriptionId"/>
-                            </job>
-                        </synopsis>
+                        <synopsis language="xml"><![CDATA[
+<job type="startup" name="replication" 
+     class="org.exist.replication.jms.subscribe.MessageReceiverJob">
+     
+    <parameter name="java.naming.factory.initial" 
+        value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/>
+    
+    <!-- Set value -->
+    <parameter name="java.naming.provider.url" 
+        value="tcp://myserver.local:61616"/>
+        
+    <parameter name="connectionfactory" value="ConnectionFactory"/>
+    <parameter name="topic" value="dynamicTopics/eXistdb"/>
+    
+    <!-- Set values --> 
+    <parameter name="client-id" value="SetSubscriberId"/>
+    <parameter name="subscriber-name" value="SetSubscriptionId"/>
+</job>]]></synopsis>
                     </step>
                     <step>
                         <para>Set the correct value for
