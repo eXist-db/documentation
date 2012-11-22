@@ -90,12 +90,23 @@
                             <term>Template</term>
                             <listitem>
                                 <para>The template used to generate the new application. Right now
-                                    only two templates are available: the "eXist-db Design" template
-                                    is based on the standard eXist-db page layout and design. The
+                                    three templates are available: the "eXist-db Design" template is
+                                    based on the standard eXist-db page layout and design. The
                                     "Plain" template creates a basic page layout without eXist-db
                                     specific stuff. Both templates use the Bootstrap CSS library for
                                     styling and the HTML templating XQuery module to achieve a clean
-                                    separation of concerns.</para>
+                                    separation of concerns. The "Empty Package" creates an empty
+                                    package with just the descriptors in it.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>Type of the package</term>
+                            <listitem>
+                                <para>The main distinction between "library" and "application" is: a
+                                    "library" does not have an HTML view and will thus not appear
+                                    with a clickable icon in the dashboard. Selecting "library" here
+                                    does only make sense in combination with the "Empty Package"
+                                    template.</para>
                             </listitem>
                         </varlistentry>
                         <varlistentry>
@@ -164,8 +175,8 @@
                             <filename>index.html</filename> page of the new app in the open dialog
                         and load it into eXide. With <filename>index.html</filename> open, select
                             <guimenuitem>Application</guimenuitem>/<guimenuitem>Run App
-                            Source</guimenuitem> from the menu. A small dialog box will pop up,
-                        showing you a link to the application.</para>
+                        </guimenuitem> from the menu. A small dialog box will pop up, showing you a
+                        link to the application.</para>
                     <para>Click on the link to run the application in a separate browser tab. </para>
                     <figure>
                         <title>The Default Start Page of the Application</title>
@@ -175,6 +186,10 @@
                             </imageobject>
                         </mediaobject>
                     </figure>
+                    <para>All the items in the <guimenuitem>Application</guimenuitem> menu apply to
+                        the active app, which is the application to which the file currently open in
+                        the editor belongs. You can check which app is active by looking at the
+                        "Current app:" status label at the top right of the eXide window.</para>
                 </step>
             </procedure>
         </section>
@@ -306,8 +321,10 @@
             <procedure>
                 <step>
                     <para>Create a new HTML view, <filename>hello.html</filename>, in eXide and add
-                        the following content. Make sure you set the <option>file type</option> to
-                        HTML (see the drop down box at the top right in eXide).</para>
+                        the following content. To create the file, choose
+                            <guimenuitem>File</guimenuitem> / <guimenuitem>New</guimenuitem> from
+                        the menu. Make sure you set the <option>file type</option> to HTML (see the
+                        drop down box at the top right in eXide).</para>
                     <programlisting language="xml">&lt;div class="templates:surround?with=templates/page.html&amp;amp;at=content"&gt;
     &lt;form action=""&gt;
         &lt;label for="name"&gt;Enter your name:&lt;/label&gt;
@@ -318,6 +335,8 @@
                     <para>This creates a simple form and a paragraph which is connected to a
                         template function, <filename>app:helloworld</filename>, through its class
                         attribute.</para>
+                    <para>Save the HTML view to the root collection of your application, e.g.
+                            <filename>/db/apps/tutorial/hello.html</filename>.</para>
                 </step>
                 <step>
                     <para>Open <filename>modules/app.xql</filename> and add an XQuery function
