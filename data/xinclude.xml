@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book xmlns:xi="http://www.w3.org/2001/XInclude">
     <bookinfo>
@@ -50,14 +49,14 @@
                 attribute of an <sgmltag>xi:include</sgmltag> tag. 
                 For example, one can include a standard disclaimer, stored in the file short-disclaimer.xml, as follows:</para>
             <synopsis language="xml">
-                    <![CDATA[<xi:include href="/db/doc/data/disclaimer-short.xml"/>]]></synopsis>
+                    <![CDATA[<xi:include href="/db/apps/doc/data/disclaimer-short.xml"/>]]></synopsis>
             <para>The result is included below:</para>
             <synopsis language="xml">
-                <xi:include href="/db/doc/data/disclaimer-short.xml">
+                <xi:include href="/db/apps/doc/data/disclaimer-short.xml">
                     <xi:fallback>
                         <p>For this XInclude example to work, you need to install
 			the Documentation application. 
-			See the Package Reposistory in the Admin panel.</p>
+			See the Package Manager in the Dashboard.</p>
                     </xi:fallback>
                 </xi:include>
             </synopsis>
@@ -261,11 +260,15 @@
             <variablelist>
                 <varlistentry>
                     <term>$xinclude:current-doc</term>
-                    <listitem><para>the name of the document which xincludes the query (without the collection path)</para></listitem>
+                    <listitem>
+                        <para>the name of the document which xincludes the query (without the collection path)</para>
+                    </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term>$xinclude:current-collection</term>
-                    <listitem><para>the collection in which the current document resides</para></listitem>
+                    <listitem>
+                        <para>the collection in which the current document resides</para>
+                    </listitem>
                 </varlistentry>
             </variablelist>
             <para>The example above calls these functions. </para>
@@ -292,11 +295,11 @@ declare variable $var2 external;</synopsis>
             <para>If the URI in the href attribute specifies 
 			a known scheme (like http: or file:), eXist-db will try to load it as an external 
 			resource. For example:</para>
-            <synopsis language="xml">&lt;xi:include href="http://localhost:8080/exist/rest/db/doc/data/disclaimer-short.xml"/&gt;</synopsis>
+            <synopsis language="xml">&lt;xi:include href="http://localhost:8080/exist/rest/db/apps/doc/data/disclaimer-short.xml"/&gt;</synopsis>
             <para>Should load "disclaimer-short.xml" via HTTP (assuming that the URL is correct
 			and you are using the default eXist-db setup):</para>
             <synopsis language="xml">
-                <xi:include href="http://localhost:8080/exist/rest/db/doc/data/disclaimer-short.xml">
+                <xi:include href="http://localhost:8080/exist/rest/db/apps/doc/data/disclaimer-short.xml">
                     <xi:fallback>
                         <p>Included url not found! Example assumes eXist-db is running at
 					http://localhost:8080/exist/</p>
