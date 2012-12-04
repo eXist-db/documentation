@@ -52,7 +52,7 @@ let $field := request:get-parameter("field", ())
                 be replaced or enhanced by whatever the function returns.</para>
             <para>Please note that the additional class "grey-box" does not interfere with the
                 template call and is just ignored. "grey-box" might be a class used for styling, so
-                we don't want to remove it. the templating framework will only take a closer look at
+                we don't want to remove it. The templating framework will only take a closer look at
                 class names which follow the <code>prefix:local-name</code> pattern.</para>
             <para>It is also possible to pass static parameters to a template call. Those are
                 encoded like URI parameters, e.g.: <code>demo:hello?language=de</code>. A
