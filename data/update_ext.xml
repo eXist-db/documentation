@@ -3,44 +3,28 @@
 <book>
     <bookinfo>
     <productname>eXist-db – Open Source Native XML Database</productname>
-        <title>XQuery Update Extensions</title>
-        <date>September 2009</date>
-        <author>
-            <firstname>Wolfgang M.</firstname>
-            <surname>Meier</surname>
-            <affiliation>
-                <address format="linespecific">
-                    <email>wolfgang at exist-db.org</email>
-                </address>
-            </affiliation>
-        </author>
+        <title>XQuery Update Extension</title>
+        <date>December 2012</date>
     </bookinfo>
     <chapter>
-        <title>XQuery Update Extensions</title>
-    <para>Previous versions of eXist-db already offered some functions to
-            execute XUpdate queries from within XQuery. However, this approach
-            had its limitations, mainly due to the lack of integration
-            between the XUpdate language and XQuery. XUpdate operations are
-            specified in XML and the XUpdate processor uses its own instance of
-            the query engine. To forward information from the XQuery to the
-            XUpdate, one had to dynamically construct an XUpdate XML fragment,
-            passing the required XPath expressions as strings.</para>
-        <para>We thus provide an extension to XQuery, which maps each of the
-            XUpdate instructions to a corresponding XQuery expression. Until the
-            W3C working group starts its work on an official update 
-            specification, the basic syntax follows the proposal by Patrick Lehti.</para>
+        <title>XQuery Update Extension</title>
+        <para>eXist-db provides an extension to XQuery for updating nodes in the database. The
+            extension adds the following operations: insert, delete, replace, update value, and
+            rename. This extension was created well before the W3C working group created the <ulink
+                url="http://www.w3.org/TR/xquery-update-10/">XQuery Update Facility 1.0</ulink>
+            recommendation, and it still remains the primary method (besides <ulink
+                url="http://xmldb-org.sourceforge.net/xupdate/">XUpdate</ulink>) for
+            updating nodes.</para>
         <important>
-            <para>The XQuery update extension has been designed to simplify updates on 
-                <emphasis>persistent</emphasis> documents stored in the database. However, it is 
-                not suitable for updating temporary document fragments constructed within the XQuery, 
-                i.e. you can't use it to modify the results returned by a query. For example, the following
-                query has no visible effect because it operates on an in-memory fragment:
+            <para>The XQuery update extension has been designed around updating
+                <emphasis>persistent</emphasis> documents stored in the database. It is 
+                not suitable for updating temporary document fragments constructed within an query, 
+                i.e., you can't use it to modify the results returned by a query. For example, the following
+                query has no visible effect because it operates on an XML node constructed in-memory:
             </para>
             <synopsis language="xquery"><![CDATA[let $doc := <root><a/></root>
 return (update insert <b/> into $doc/a, $doc)]]></synopsis>
-            <para>The query just ignores the update and returns the constructed root element (it would 
-                probably be less confusing if the query would just throw an exception. We may have to change 
-                that ...)</para>
+            <para>The query just ignores the update and returns the constructed root element.</para>
         </important>
         <para>All update statements start with the keyword "update", followed by
             an update action. Available actions are: "insert", "delete", "replace", 
@@ -68,7 +52,7 @@ return
             <programlisting language="xquery"><![CDATA[
 for $address in //address
 return
-    (: Move lname and fname into a new name element :)
+    (: Move last name ("lname") and first name ("fname") into a new name element :)
     update replace $address with
         <address>
             <name>
