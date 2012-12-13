@@ -8,7 +8,7 @@
         <title>Package Repository</title>
         <para>The eXist-db package repository is a central component in eXist-db 2.0. It makes
                 it easy to manage and deploy external packages (.xar archives) which include
-                everything they need in order to run third party XQuery libraries, full applications or
+                everything they need to run third party XQuery libraries to full applications or
                 other XML technology functionality. This document provides technical details on the
                 packaging format.</para>
         <para>In previous versions of eXist-db, most applications were split into two parts:</para>
@@ -113,7 +113,7 @@
                     <varlistentry>
                         <term>name</term>
                         <listitem>
-                            <para>a URI used as a unique identifier for the package. The URI does
+                            <para>an URI used as a unique identifier for the package. The URI does
                                 not need to point to an existing web site. The package repository
                                 will use this URI to identify a package within the system.</para>
                         </listitem>
@@ -201,7 +201,7 @@
                     modules from anywhere within the database instance without knowing the exact
                     import path. Thus the following import statement will be sufficient to import
                     the functx module:</para>
-                <programlisting language="xquery">import module functx="http://www.functx.com";
+                <programlisting language="xquery">import module namespace functx="http://www.functx.com";
 
 functx:capitalize-first('hello')</programlisting>
             </section>
@@ -228,7 +228,7 @@ functx:capitalize-first('hello')</programlisting>
                     abbreviation of the package.</para>
                 <para>All jars will be dynamically added to eXist-db's class loader and become
                     immediately available after deploying a package. A restart of eXist-db is not
-                    required.</para>
+                    required!</para>
                 <para>The java element registers an XQuery extension module written in Java. This is
                     similar to the xquery element discussed above, except that the namespace is
                     mapped to a Java class instead of an XQuery file. The Java class should point to
@@ -250,7 +250,7 @@ functx:capitalize-first('hello')</programlisting>
     &lt;license&gt;GNU-LGPL&lt;/license&gt;
     &lt;copyright&gt;true&lt;/copyright&gt;
     &lt;type&gt;application&lt;/type&gt;
-    &lt;target&gt;doc&lt;/target&gt;
+    &lt;target&gt;/db/doc&lt;/target&gt;
     &lt;prepare&gt;pre-install.xql&lt;/prepare&gt;
     &lt;finish/&gt;
     &lt;permissions user="admin" password="" group="dba" mode="rw-rw-r--"/&gt;
