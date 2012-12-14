@@ -1,29 +1,28 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
-    <productname>eXist-db – Open Source Native XML Database</productname>
+        <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Lucene Index Module</title>
-    <date>August 2012</date>
-    <orgname>The eXist-db Project</orgname>
+        <date>August 2012</date>
+        <orgname>The eXist-db Project</orgname>
     </bookinfo>
     <chapter>
         <title>Lucene-based Full Text Index</title>
         <section>
             <title>Introduction</title>
-      <para>The 1.4 version of eXist-db features a new full text indexing module which replaces
-                eXist's built-in full text index. The new module is faster, better configurable and
-                more feature rich than eXist's old index. It will also be the basis for an
-                implementation of the W3C's fulltext extensions for XQuery.</para>
+            <para>The 1.4 version of eXist-db introduced a new full text indexing module which replaced
+                eXist's former built-in full text index. This new module is faster, more configurable and
+                more feature-rich than eXist's old index. It will also be the basis for eXist-db's
+                implementation of the W3C's full text extensions for XQuery.</para>
             <para>The new full text module is based on <ulink url="http://lucene.apache.org">Apache
                     Lucene</ulink>. It thus benefits from a stable, well-designed and widely-used
                 framework. The module is tightly integrated with eXist's <emphasis>modularized
                     indexing architecture</emphasis>: the index behaves like a plugin which adds
                 itself to the db's index pipelines. Once configured, the index will be notified of
                 all relevant events, like adding/removing a document, removing a collection or
-                updating single nodes. No manual reindex is required to keep the index up to date.
+                updating single nodes. No manual reindex is required to keep the index up-to-date.
                 The module also implements common interfaces which are shared with other indexes,
-                e.g. for highlighting matches. It is thus easy to switch between the lucene index
+                e.g. for highlighting matches. It is thus easy to switch between the Lucene index
                 and e.g. the ngram index without rewriting too much XQuery code.</para>
         </section>
         <section>
@@ -47,8 +46,8 @@ include.index.lucene = true
                 <step>
                     <para>Then <emphasis>(re-)build eXist</emphasis> using the provided <filename>build.sh</filename> or <filename>build.bat</filename>. The build
                         process downloads the required Lucene jars automatically. If everything
-                        builds ok, you should find a jar <filename>exist-lucene-module.jar</filename> in the <filename>lib/extensions</filename> directory. Next, edit the main configuration
-                        file, <filename>conf.xml</filename> and comment in the lucene-related
+                        builds OK, you should find a jar <filename>exist-lucene-module.jar</filename> in the <filename>lib/extensions</filename> directory. Next, edit the main configuration
+                        file, <filename>conf.xml</filename> and un-comment the Lucene-related
                         section:</para>
                     <example>
                         <title>conf.xml</title>
@@ -81,7 +80,7 @@ include.index.lucene = true
         </section>
         <section>
             <title>Configuring the Index</title>
-            <para>Like other indexes, you create a lucene index by configuring it in a <filename>collection.xconf</filename> document. If you have never done that before, read
+            <para>Like other indexes, you create a Lucene index by configuring it in a <filename>collection.xconf</filename> document. If you have never done that before, read
                 the corresponding <ulink url="http://www.exist-db.org/indexing.html#idxconf">documentation</ulink>. An example <filename>collection.xconf</filename> is
                 shown below:</para>
             <example>
@@ -91,7 +90,7 @@ include.index.lucene = true
     &lt;index xmlns:atom="http://www.w3.org/2005/Atom"
         xmlns:html="http://www.w3.org/1999/xhtml"
         xmlns:wiki="http://exist-db.org/xquery/wiki"&gt;
-	    &lt;!-- Disable the standard full text index --&gt;
+	    &lt;!-- Disable the old full text index --&gt;
         &lt;fulltext default="none" attributes="no"/&gt;
 	    &lt;!-- Lucene index is configured below --&gt;
         &lt;lucene&gt;
@@ -112,7 +111,7 @@ include.index.lucene = true
 </markup>
                 </programlisting>
             </example>
-            <para>You can either define a lucene index on a single element or attribute name
+            <para>You can either define a Lucene index on a single element or attribute name
                 (qname="...") or a node path with wildcards (match="...", see below). It is
                 important make sure to <emphasis>choose the right context</emphasis> for an index,
                 which has to be the same as in your query. To better understand this, let's have a
@@ -131,7 +130,7 @@ include.index.lucene = true
 &lt;/SPEECH&gt;</markup>
             </programlisting>
             <para>If you have an index on SPEECH, Lucene will create a "document" with the text
-                "Second Witch Fillet of a fenny snake, In the cauldron boil and bake;" and indexes
+                "Second Witch Fillet of a fenny snake, In the cauldron boil and bake;" and index
                 it. eXist internally links this Lucene document to the SPEECH node, but Lucene has
                 no knowledge of that (it doesn't know anything about XML nodes).</para>
             <para>The query:</para>
@@ -197,10 +196,10 @@ include.index.lucene = true
                 <para>As explained above, you have to figure out which parts of your document will
                     likely be interesting as context for a full text query. The full text index will
                     work best if the context isn't too narrow. For example, if you have a document
-                    structure with section divs, headings and paragraphs, I would probably want to
+                    structure with section divs, headings and paragraphs, you would probably want to
                     create an index on the divs and maybe on the headings, so the user can
-                    differentiate between the two. In some cases, I could decide to put the index on
-                    the paragraph level, but then I don't need the index on the section since I can
+                    differentiate between the two. In some cases, you could decide to put the index on
+                    the paragraph level, but then you don't need the index on the section since you can
                     always get from the paragraph back to the section.</para>
                 <para>If you query a larger context, you can use the <ulink url="kwic.xml">KWIC</ulink> module to show the user only a certain chunk of text
                         <emphasis>surrounding</emphasis> each match. Or you can ask eXist to <ulink url="kwic.xml#highlight">highlight each match</ulink> with an
@@ -301,18 +300,20 @@ include.index.lucene = true
         &lt;ignore qname="screen"/&gt;
         &lt;ignore qname="synopsis"/&gt;
     &lt;/text&gt;
+    &lt;text qname="para"/&gt;
     &lt;text qname="title" boost="2.0"/&gt;
+    &lt;ignore qname="title"/&gt;
 &lt;/lucene&gt;</markup>
                     </programlisting>
                 </example>
                 <para>The title index gets a boost of 2.0 to make sure that title matches get a
                     higher score. Since the <sgmltag>title</sgmltag> element does occur within
                         <sgmltag>section</sgmltag>, we add an ignore rule to the index definition on
-                    the section and create a separate index on title. Without this, title would be
+                    the section and create a separate index on title. We also ignore titles occurring inside paragraphs. Without this, title would be
                     matched two times.</para>
                 <para>Because the title is now indexed separately, we also need to query it
-                    explicitely. For example, to search the section and the title at the same time,
-                    the documentation search interface issues the following query:</para>
+                    explicitly. For example, to search the section and the title at the same time,
+                    one could issue the following query:</para>
                 <synopsis language="xquery">for $sect in /book//section[ft:query(., "ngram")] | /book//section[ft:query(title, "ngram")]
 order by ft:score($sect) descending return $sect</synopsis>
             </section>
@@ -321,7 +322,7 @@ order by ft:score($sect) descending return $sect</synopsis>
                 <para>One of the strengths of Lucene is that it allows the developer to determine
                     nearly every aspect of the text analysis. This is mostly done through analyzer
                     classes, which combine a tokenizer with a chain of filters to post-process the
-                    tokenized text. eXist's Lucene module does already allow different analyzers to
+                    tokenized text. eXist's Lucene module already allows different analyzers to
                     be used for different indexes.</para>
                 <example>
                     <title/>
@@ -344,7 +345,7 @@ order by ft:score($sect) descending return $sect</synopsis>
                     lower case and there's no stopword filter applied.</para>
                 <section>
                     <title>Configuring the Analyzer</title>
-                    <para>We provide the capability for you to send configuration parameters to the instantiation of the Analyzer. These parameters must match a Constructor signature on the underlying Java class of the Analyzer, as such we would first recommend that you review the Javadoc for the Analyzer that you wish to configure.</para>
+                    <para>We provide the capability to send configuration parameters to the instantiation of the Analyzer. These parameters must match a Constructor signature on the underlying Java class of the Analyzer, so we would first recommend that you review the Javadoc for the Analyzer that you wish to configure.</para>
                     <para>We currently support passing: String, File, Integer, Boolean and Set&lt;String&gt; value parameters to the Analyzer's constructor. If no type is specified in the parameter configuration, then String is assumed by default.</para>
                     <example>
                         <title>Providing a Stop Words file for the Standard Analyzer</title>
@@ -417,7 +418,7 @@ return $m</programlisting>
                 SPEECH.</para>
             <para>The Lucene module is fully supported by eXist's query-rewriting optimizer, which
                 means that the query engine can rewrite the XQuery expression to make best use of
-                the available indexes. All the rules and hints given in the <ulink url="tuning.xml">tuning</ulink> guide do fully apply to the Lucene index.</para>
+                the available indexes. All the rules and hints given in the <ulink url="tuning.xml">tuning</ulink> guide fully apply to the Lucene index.</para>
             <para>To present search results in a <emphasis>Keywords in Context</emphasis> format,
                 you may want to have a look at eXist's <ulink url="kwic.xml">KWIC</ulink>
                 module.</para>
@@ -497,7 +498,7 @@ return
                         </term>
                         <listitem>
                             <para>Constructs a boolean query from its children. Each child element
-                                may have an occurrance indicator, which could be either
+                                may have an occurrence indicator, which could be either
                                     <option>must</option>, <option>should</option> or
                                     <option>not</option>:</para>
                             <variablelist>
@@ -552,7 +553,7 @@ return //SPEECH[ft:query(., $query)]
     &lt;/query&gt;
 return //SPEECH[ft:query(., $query)]
 </synopsis>
-                            <para>Attribute <parameter>slop</parameter> can be used for a proximity
+                            <para>The attribute <parameter>slop</parameter> can be used for a proximity
                                 search: Lucene will try to find terms which are within the specified
                                 distance:</para>
                             <synopsis language="xquery">let $query :=
