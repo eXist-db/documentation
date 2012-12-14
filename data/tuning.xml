@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
-    <productname>eXist-db – Open Source Native XML Database</productname>
-    <title>eXist-db – Tuning</title>
-    <date>September 2012</date>
+        <productname>eXist-db – Open Source Native XML Database</productname>
+        <title>eXist-db – Tuning</title>
+        <date>September 2012</date>
         <author>
             <firstname>Wolfgang M.</firstname>
             <surname>Meier</surname>
@@ -29,9 +28,9 @@
         </section>
         <section>
             <title>Memory settings</title>
-      <para>Java always limits the maximum amount of memory available to a process. eXist-db will
+            <para>Java always limits the maximum amount of memory available to a process. eXist-db will
                 thus not automatically use all of the memory available on your machine. The default
-                setting is limited to 512MB.</para>
+                setting is 1024MB.</para>
             <para>The maximum amount of memory Java will allocate is determined by the
                     <option>-Xmx</option> parameter passed to Java on the command line. If you
                 launch eXist via one of the shell or batch scripts, you need to change
@@ -43,11 +42,11 @@
                 you may also override those variables globally in your own shell.</para>
             <para>On <emphasis>Windows</emphasis>, the <option>-Xmx</option> settings is done in the
                 main .bat files, .e.g. <filename>EXIST_HOME\bin\startup.bat</filename>.</para>
-      <para>If you launch <emphasis>eXist-db as a service</emphasis>, all Java settings will be
+            <para>If you launch <emphasis>eXist-db as a service</emphasis>, all Java settings will be
                 controlled by the service wrapper. In this case, the file to edit is <filename>EXIST_HOME/tools/wrapper/conf/wrapper.conf</filename>. Search for the following
                 lines:</para>
             <synopsis># Maximum Java Heap Size (in MB)
-wrapper.java.maxmemory=128</synopsis>
+wrapper.java.maxmemory=512<!--was 128 - should this not be 1024?--></synopsis>
         </section>
         <section>
             <title>Cache settings</title>
@@ -63,12 +62,12 @@ wrapper.java.maxmemory=128</synopsis>
                 caches.</para>
             <example>
                 <title>cacheSize parameter in conf.xml</title>
-        <programlisting language="xml">
+                <programlisting language="xml">
 &lt;db-connection cacheSize="48M" collectionCache="24M" database="native"
         files="webapp/WEB-INF/data" pageSize="4096" nodesBuffer="-1"&gt;</programlisting>
             </example>
             <para>The default <ulink url="http://www.exist-db.org/configuration.html#N101B8">setting</ulink> for <option>cacheSize</option> is very conservative (48M). It
-                will be ok for smaller databases, but you may soon experience a performance drop
+                will be OK for smaller databases, but you may soon experience a performance drop
                 when indexing more than several 100M of XML data. Consider increasing
                     <option>cacheSize</option> up to approx. 1/3 of the main memory available to
                 Java (determined by the <option>-Xmx</option> parameter passed to the Java command
@@ -143,7 +142,7 @@ wrapper.java.maxmemory=128</synopsis>
                             configuration by path.</para>
                     </listitem>
                     <listitem>
-                        <para>if you are using eXist-db 1.4, consider <emphasis>switching to the new
+                        <para>if you are using eXist-db 1.4 or above, consider <emphasis>switching to the new
                                     <ulink url="lucene.xml">Lucene-based index</ulink>
                             </emphasis>.
                             It provides better performance and stability.</para>
@@ -228,9 +227,9 @@ wrapper.java.maxmemory=128</synopsis>
                     a sequence of separate words or tokens in a longer text. It can sometimes even
                     be faster to post-process the returned node set and filter out wrong matches
                     than using a much slower regular expression.</para>
-                <para>eXist-db 1.4 offers a <ulink url="lucene.xml">new full text index</ulink> which
+                <para>From version 1.4, eXist-db offers a <ulink url="lucene.xml">full text index</ulink> which
                     is based on Apache Lucene. It provides better performance and overall stability
-                    than the builtin index.</para>
+                    than the built-in index.</para>
             </section>
         </section>
         <section>
@@ -277,8 +276,8 @@ wrapper.java.maxmemory=128</synopsis>
                     operation remains the same.</para>
                 <para>However, "bad" queries can force the query engine to partition the input
                     sequence and process it in an item-by-item mode. Several examples for bad uses
-                    of FLWOR expressions will be given below. Those should be easy to understand.
-                    Other cases are not so obvious. For example, most function calls will also force
+                    of FLWOR expressions will be given below. They should be easy to understand, but
+                    other cases are not so obvious. For example, most function calls will also force
                     the query engine into item-by-item mode:</para>
                 <synopsis language="xquery">//A/*[f:process(B) = 'C']</synopsis>
                 <para>The function has to be called once for every instance of B. Normally, eXist-db
@@ -291,16 +290,16 @@ wrapper.java.maxmemory=128</synopsis>
                         <code>matches</code>, <code>starts-with</code>, <code>ngram:contains</code>,
                     and the like. They are optimized so eXist-db only needs to call them once to
                     process the entire context set. For example, using <code>ngram:contains</code>
-                    as below is perfectly ok:</para>
+                    as below is perfectly OK:</para>
                 <synopsis language="xquery">//A/*[ngram:contains(B, 'C')]</synopsis>
                 <para>while</para>
                 <synopsis language="xquery">//A/*[ngram:contains(f:process(B), 'C')]</synopsis>
                 <para>will again force eXist-db into step-by-step evaluation.</para>
             </section>
             <section>
-                <title>Prefer XPath Predicates Over Where Expressions</title>
+                <title>Prefer XPath predicates over where expressions</title>
                 <para>This is a variation of the problems discussed above. Many users tend to
-                    formulate SQL-style queries using an explite "where" clause:</para>
+                    formulate SQL-style queries using an explicit "where" clause:</para>
                 <example>
                     <programlisting language="xquery">
 for $e in //entry 
@@ -308,7 +307,7 @@ where $e/@type = 'subject'
 return $e
 </programlisting>
                 </example>
-                <para>could be rewritten as:</para>
+                <para>This could be rewritten as:</para>
                 <example>
                     <title>Equivalent query using XPath predicate</title>
                     <programlisting language="xquery">
@@ -316,13 +315,13 @@ for $e in //entry[@type = 'subject']
 return $e
 </programlisting>
                 </example>
-                <para>The "for"..."where" expression forces the query engine into a step-by-step
+                <para>The "for … where" expression forces the query engine into a step-by-step
                     iteration over the input sequence, testing each instance of $e against the where
                     expression. Possible optimizations are lost.</para>
                 <para>Contrary to this, the XPath predicate expression can be processed in one
                     single step, making best use of any available indexes. Sure, there are use cases
                     which cannot be handled without using "where", e.g. joins between multiple
-                    documents. That's ok. However, you shouldn't use "where" if you can replace it
+                    documents, but you shouldn't use "where" if you can replace it
                     by a simple XPath.</para>
                 <para>Internally, the query engine will always try to process a "where" clause like
                     an equivalent XPath with predicate. However, it only detects the simple
@@ -340,10 +339,10 @@ return $e
                 <para>The comparison will be true if b's string value matches one of the strings in
                     the right hand sequence. If an index is defined on <sgmltag>b</sgmltag>, eXist-db
                     will need only one index lookup to find all b's matching the comparison. The
-                    equivalent "or" expression needs 2 separate index lookups.</para>
+                    equivalent "or" expression needs two separate index lookups.</para>
             </section>
             <section>
-                <title>Querying Multiple Collections</title>
+                <title>Querying multiple collections</title>
                 <para>If you need to query multiple collections which are on the same level of the
                     collection hierarchy, you could use a for loop to iterate over the collection
                     paths. However, this forces the query engine to process the remaining expression
@@ -429,7 +428,7 @@ return
                 <synopsis language="xquery">//section[@xml:id = 'sect1']/head</synopsis>
                 <para>will <emphasis>NOT</emphasis> use the id index (you will need to declare an
                     extra range index for that).</para>
-                <para>Please be also aware that larger xml:id values cost performance as has been
+                <para>Please be also aware that larger <!--having a large number of? having long?--> xml:id values cost performance as has been
                     reported by some users working with large databases.</para>
             </section>
             <section>
@@ -473,7 +472,7 @@ return
                     high.</para>
             </section>
         </section>
-        <section>
+        <!--<section>
             <title>Known Issues in the 1.2.x Series</title>
             <section>
                 <title>Queries on constructed XML fragments</title>
@@ -510,6 +509,6 @@ return
                     </listitem>
                 </orderedlist>
             </section>
-        </section>
+        </section>-->
     </chapter>
 </book>
