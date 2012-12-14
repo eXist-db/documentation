@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
@@ -12,8 +11,7 @@
             <title>Introduction</title>
             <para>This document contains hints and tips about troubleshooting problems. It also
                 tells you where to find information (such as version numbers, log information, etc.)
-                that is very helpful to know when you need to reach out to <ulink
-                    url="getting-help.xml">get help</ulink>.</para>
+                that is very helpful to know when you need to reach out to <ulink url="getting-help.xml">get help</ulink>.</para>
         </section>
         <section id="normal-start-up">
             <title>Normal Start Up</title>
@@ -51,7 +49,7 @@ Logging already initialized. Skipping...
             <para>When you see the "Server has started" message, and no further errors appear, you know that your eXist-db
                 installation is working normally.</para>
             <para>However, if you do not even see this message, you should follow these troubleshooting steps</para>
-            </section>
+        </section>
         <section id="environmental-variables">
             <title>JAVA_HOME and EXIST_HOME Environmental Variables</title>
             <para>eXist-db can fail to start up properly if either of the two key environmental
@@ -102,7 +100,7 @@ Logging already initialized. Skipping...
             <para>If these scripts do not launch eXist-db, you can launch it by changing to the
                 directory where you installed eXist-db and entering the following into the
                 console:</para>
-            <synopsis>java -Xmx512M -Djava.endorsed.dirs=lib/endorsed -jar start.jar jetty</synopsis>
+            <synopsis>java -Xmx1024M -Djava.endorsed.dirs=lib/endorsed -jar start.jar jetty</synopsis>
             <para>If you have problems running the shell/batch scripts, read <ulink url="#appendix">Running Executable Files</ulink> below.</para>
         </section>
         <section id="logs">
