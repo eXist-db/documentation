@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
-    <productname>eXist-db – Open Source Native XML Database</productname>
+        <productname>eXist-db – Open Source Native XML Database</productname>
         <title>KWIC: Keywords in Context</title>
         <date>September 2009</date>
         <orgname>The eXist Project</orgname>
@@ -10,22 +9,22 @@
     <chapter>
         <title>Generating KWIC (Keywords in Context) Output</title>
         <abstract>
-            <para>A KWIC display helps users to quickly scan through a number of search results by
-                only showing a chunk of text surrounding each match. eXist provides a
-                general-purpose KWIC module, which is not bound to a specific index or query
-                operation. It can be applied to query results from all indexes that support match
-                highlighting. This includes the new Lucene-based index, the old full text index, as
-                well as the ngram index.</para>
+            <para>A KWIC display helps users to quickly scan through search results by
+                listing hits surrounded by their context. eXist provides a
+                KWIC module that is not bound to a specific index or query
+                operation, but can be applied to query results from all indexes that support match
+                highlighting. This includes the Lucene-based index, the ngram index, as
+                well as the old full text index.</para>
             <para>The documentation search function on eXist's home page is a good example. It
-                queries documents written in the docbook format. However, the KWIC module has also
+                queries documents written in the DocBook format. However, the KWIC module has also
                 been successfully used and deployed with different schemas (e.g. TEI) and languages
                 (e.g. Chinese).</para>
         </abstract>
         <section>
             <title>Preparing your Query</title>
-      <para>The KWIC module is entirely written in XQuery. It requires eXist-db 1.3/1.4 and won't
-                work with eXist 1.2.x (the old KWIC functions in eXist 1.2.x are now deprecated). To
-                use the module, simple import its namespace into your query:</para>
+            <para>The KWIC module is entirely written in XQuery. <!--It requires eXist-db 1.3/1.4 or above and won't
+                work with eXist 1.2.x (the old KWIC functions in eXist 1.2.x are now deprecated).--> To
+                use the module, simply import its namespace into your query:</para>
             <synopsis language="xquery">import module namespace kwic="http://exist-db.org/xquery/kwic";</synopsis>
             <para>You don't need to specify a location since the module is already registered in
                     <filename>conf.xml</filename>. If you would still like to provide one, change
@@ -79,7 +78,7 @@ return
                     <term>link</term>
                     <listitem>
                         <para>If present, each match will be enclosed within a link, using the URI
-                            in the link attribute as target. </para>
+                            in the link attribute as target. <!--This feature should be documented--></para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -105,11 +104,11 @@ order by ft:score($hit) descending
 return
 kwic:summarize($hit, <config width="40"/>, util:function(xs:QName("local:filter"), 2))]]></programlisting>
             <para>The third parameter to <function>kwic:summarize</function> should be a reference
-                to a function (passing references to functions is a non-standard feature of eXist)
+                to a function <!--(passing references to functions is a non-standard feature of eXist)-->
                 accepting 2 arguments: 1) a single text node which should be appended or prepended
                 to the current text chunk, 2) a string indicating the current direction in which
                 text is appended, i.e. "before" or "after". The function may return the empty
-                sequence if the current node should be ignore (e.g. if it belongs to a "footnote"
+                sequence if the current node should be ignored (e.g. if it belongs to a "footnote"
                 which should not be displayed). Otherwise it should return a single string.</para>
             <para>The <function>local:filter</function> function above first checks if the passed
                 node has a SPEAKER or STAGEDIR parent and if yes, <emphasis>ignores</emphasis> that
@@ -118,7 +117,7 @@ kwic:summarize($hit, <config width="40"/>, util:function(xs:QName("local:filter"
         </section>
         <section>
             <title>Advanced Use</title>
-            <para>Using <function>kwic:summarize</function>, you will get one kwic-formatted item
+            <para>Using <function>kwic:summarize</function>, you will get one KWIC-formatted item
                 for every match, even if the matches are in the same paragraph. Also, the context
                 from which the text is taken is always the same: the element you queried.</para>
             <para>To get more control over the output, you can directly call
@@ -138,9 +137,9 @@ return
         util:function(xs:QName("local:filter"), 2))]]></programlisting>
             <para>In this example, we select the first <sgmltag>exist:match</sgmltag> only, thus
                 ignoring all other matches within <option>$expanded</option>.</para>
-            <para>Sometimes you may also want to change the context to restrict the kwic display to
+            <para>Sometimes you may also want to change the context to restrict the KWIC display to
                 certain elements within the larger query context, e.g. paragraphs within sections.
-                The following example still queries <sgmltag>SPEECH</sgmltag>, but displays a kwic
+                The following example still queries <sgmltag>SPEECH</sgmltag>, but displays a KWIC
                 entry for each <sgmltag>LINE</sgmltag> with a match, grouped by speech:</para>
             <programlisting language="xquery"><![CDATA[for $hit in doc("/db/shakespeare/plays/hamlet.xml")//SPEECH[ft:query(., "nature")]
 let $expanded := kwic:expand($hit)
@@ -160,9 +159,9 @@ return
                 score and the matches would end up in a completely different order.</para>
         </section>
         <section id="highlight">
-            <title>Locating Matches without KWIC</title>
-            <para>Sometimes you don't want to use the KWIC module, but you would still like to find
-                out where matches were found in the text. eXist's XML serializer can automatically highlight
+            <title>Marking up Matches without using KWIC</title>
+            <para>Sometimes you don't want to use the KWIC module, but you would still like to have indicated
+                where matches were found in the text. eXist's XML serializer can automatically highlight
                 matches when it writes out a piece of XML. All the matches will be surrounded by an
                 <sgmltag>exist:match</sgmltag> tag.</para>
             <para>You can achieve the same within an XQuery by calling the extension function
