@@ -233,7 +233,28 @@ declare function sec-ev:authentication() {
             </section>
             <section id="openid-realm">
                 <title>OpenID Realm</title>
-                <para>TODO</para>
+                <para>
+	                <ulink url="http://openid.net/">OpenID</ulink> is an authentication mechanism
+	                where the identity of the user is maintained by trusted external providers. This
+	                takes the burden in maintaining and securing passwords for users off of the eXist
+	                database and on to the Identity Provider (IdP).
+                </para>
+                <para>
+	                By default, the OpenID service is not built and thus is also not enabled.  To
+	                recompile the source with OpenID enabled, edit local.build.properties in the
+	                extensions directory and change the include.feature.security.openid property
+	                from false to true.  Then recompile.
+                </para>
+                <example>
+                    <title>extensions/local.build.properties</title>
+                    <programlisting><![CDATA[#Security OpenID extensions for eXist
+include.feature.security.openid = true
+]]></programlisting>
+                </example>
+		        <para>
+			        This extension compiles into <emphasis role="bold"><emphasis role="italic">lib/extensions/exist-security-openid.jar</emphasis></emphasis>.
+			        Run eXist with that jar should enable extension. To disable service remove the jar and restart eXist.
+				</para>
             </section>
             <section id="legacy-internal-realm">
                 <title>Legacy Internal Realm</title>
