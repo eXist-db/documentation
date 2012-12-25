@@ -19,22 +19,22 @@
             <firstname>Alex</firstname>
             <email>alexmilowski@users.sourceforge.net</email>
         </author>
-    <author>
-      <firstname>Leif-Jöran</firstname>
-      <surname>Olsson</surname>
-      <affiliation>
-        <address format="linespecific">
-          <email>ljo at exist-db.org</email>
-        </address>
-      </affiliation>
-    </author>
-                <author>
-                    <personname>
-                        <firstname>Loren</firstname>
-                        <surname>Cahlander</surname>
-                    </personname>
-      <email>loren at syntactica.com</email>
-                </author>
+	    <author>
+	      <firstname>Leif-Jöran</firstname>
+	      <surname>Olsson</surname>
+	      <affiliation>
+	        <address format="linespecific">
+	          <email>ljo at exist-db.org</email>
+	        </address>
+	      </affiliation>
+	    </author>
+	    <author>
+	      <personname>
+	          <firstname>Loren</firstname>
+	          <surname>Cahlander</surname>
+	      </personname>
+	      <email>loren at syntactica.com</email>
+	    </author>
     </bookinfo>
     <chapter>
         <title>Application Server Configuration</title>
@@ -127,10 +127,45 @@
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>
-                            <ulink url="config-openid.xml">OpenID</ulink>
+                            <ulink url="secutiry.xml#ldap-realm">LDAP</ulink>
+                        </td>
+                        <td>
+                            <para> LDAP is an authentication mechanism by binding.</para>
+                        </td>
+                        <td>
+                            <itemizedlist>
+                                <listitem>
+                                    <para>extensions/build.properties</para>
+                                </listitem>
+                            </itemizedlist>
+                        </td>
+                        <td/>
+                        <td align="center" bgcolor="#FF0000">Off</td>
+                    </tr>
+                    <tr bgcolor="#FFFFFF" valign="top">
+                        <td>
+                            <ulink url="secutiry.xml#openid-realm">OpenID</ulink>
                         </td>
                         <td>
                             <para> OpenID is an authentication mechanism where the identity of the
+                                user is maintained by trusted external providers.</para>
+                        </td>
+                        <td>
+                            <itemizedlist>
+                                <listitem>
+                                    <para>extensions/build.properties</para>
+                                </listitem>
+                            </itemizedlist>
+                        </td>
+                        <td/>
+                        <td align="center" bgcolor="#FF0000">Off</td>
+                    </tr>
+                    <tr bgcolor="#FFFFFF" valign="top">
+                        <td>
+                            <ulink url="secutiry.xml#oauth-realm">OAuth</ulink>
+                        </td>
+                        <td>
+                            <para> OAuth is an authentication mechanism where the identity of the
                                 user is maintained by trusted external providers.</para>
                         </td>
                         <td>
