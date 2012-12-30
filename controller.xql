@@ -2,7 +2,6 @@ xquery version "1.0";
 
 import module namespace request="http://exist-db.org/xquery/request";
 import module namespace xdb = "http://exist-db.org/xquery/xmldb";
-import module namespace apputil="http://exist-db.org/xquery/apps";
 
 declare variable $exist:path external;
 declare variable $exist:resource external;
