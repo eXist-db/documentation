@@ -82,7 +82,8 @@ declare %private function dq:print-headings($section as element()*, $docXPath as
 :)
 declare %private function dq:print-results($hits as element()*, $docXPath as xs:string, $mode as xs:string) {
 		<div id="f-results">
-			<p class="heading">Found: {count($hits)}.</p>
+			<p class="heading">Found {count($hits)} result{
+    		 if (count($hits) eq 1) then "" else "s"}.</p>
 			{
 				if ($mode eq 'summary') then
 					for $section in $hits
