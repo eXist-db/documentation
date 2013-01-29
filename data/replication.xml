@@ -85,26 +85,26 @@
                     </step>
                     <step>
                         <para>Create in there a document <filename>collection.xconf</filename> and add the following content to the document:</para>
-                        <synopsis language="xml"><![CDATA[
-<collection xmlns="http://exist-db.org/collection-config/1.0">
-    <triggers>
-        <trigger class="org.exist.replication.jms.publish.ReplicationTrigger">
-            <parameter name="java.naming.factory.initial" 
-                value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/>
+                        <synopsis language="xml">
+&lt;collection xmlns="http://exist-db.org/collection-config/1.0"&gt;
+    &lt;triggers&gt;
+        &lt;trigger class="org.exist.replication.jms.publish.ReplicationTrigger"&gt;
+            &lt;parameter name="java.naming.factory.initial" 
+                value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/&gt;
             
-            <!-- Set value -->
-            <parameter name="java.naming.provider.url" 
-                value="tcp://myserver.local:61616"/>
+            &lt;!-- Set value --&gt;
+            &lt;parameter name="java.naming.provider.url" 
+                value="tcp://myserver.local:61616"/&gt;
             
-            <parameter name="connectionfactory" value="ConnectionFactory"/>
-            <parameter name="topic" value="dynamicTopics/eXistdb"/>
+            &lt;parameter name="connectionfactory" value="ConnectionFactory"/&gt;
+            &lt;parameter name="topic" value="dynamicTopics/eXistdb"/&gt;
             
-            <!-- Set value -->
-            <parameter name="client-id" value="SetPublisherId"/>
-        </trigger>
-    </triggers>
-</collection>
-]]></synopsis>
+            &lt;!-- Set value --&gt;
+            &lt;parameter name="client-id" value="SetPublisherId"/&gt;
+        &lt;/trigger&gt;
+    &lt;/triggers&gt;
+&lt;/collection&gt;
+</synopsis>
                     </step>
                     <step>
                         <para>Set the correct value for <parameter>java.naming.provider.url</parameter> that matches your message broker (ActiveMQ).</para>
@@ -118,26 +118,26 @@
                 <title>Slave (subscriber)</title>
                 <procedure>
                     <step>
-                        <para> Add a job to conf.xml:</para>
-                        <synopsis language="xml"><![CDATA[
-<job type="startup" name="replication" 
-    class="org.exist.replication.jms.subscribe.MessageReceiverJob">
+                        <para> Add a (startup) trigger to conf.xml:</para>
+                        <synopsis language="xml">
+&lt;trigger name="replication" 
+    class="org.exist.replication.jms.subscribe.MessageReceiverStartupTrigger"&gt;
     
-    <parameter name="java.naming.factory.initial" 
-        value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/>
+    &lt;parameter name="java.naming.factory.initial" 
+        value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/&gt;
     
-    <!-- Set value -->
-    <parameter name="java.naming.provider.url" 
-        value="tcp://myserver.local:61616"/>
+    &lt;!-- Set value --&gt;
+    &lt;parameter name="java.naming.provider.url" 
+        value="tcp://myserver.local:61616"/&gt;
     
-    <parameter name="connectionfactory" value="ConnectionFactory"/>
-    <parameter name="topic" value="dynamicTopics/eXistdb"/>
+    &lt;parameter name="connectionfactory" value="ConnectionFactory"/&gt;
+    &lt;parameter name="topic" value="dynamicTopics/eXistdb"/&gt;
     
-    <!-- Set values --> 
-    <parameter name="client-id" value="SetSubscriberId"/>
-    <parameter name="subscriber-name" value="SetSubscriptionId"/>
-</job>
-    ]]></synopsis>
+    &lt;!-- Set values --&gt; 
+    &lt;parameter name="client-id" value="SetSubscriberId"/&gt;
+    &lt;parameter name="subscriber-name" value="SetSubscriptionId"/&gt;
+&lt;/trigger&gt;
+    </synopsis>
                     </step>
                     <step>
                         <para>Set the correct value for
@@ -250,61 +250,61 @@ return
             <section id="replication-conf-xml">
                 <title>conf.xml</title>
                 <para>
-                    <synopsis language="xml"><![CDATA[
-<!--
+                    <synopsis language="xml">
+&lt;!--
     Start JMS listener for listener of the clustering feature. 
--->
-<job type="startup" name="replication" 
-    class="org.exist.replication.jms.subscribe.MessageReceiverJob">
+--&gt;
+&lt;job type="startup" name="replication" 
+    class="org.exist.replication.jms.subscribe.MessageReceiverJob"&gt;
 
-    <!-- 
+    &lt;!-- 
         Class name of the initial context provider, default value for ActiveMQ
         see javax.naming.Context#INITIAL_CONTEXT_FACTORY
-    -->
-    <parameter name="java.naming.factory.initial" 
-        value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/>
+    --&gt;
+    &lt;parameter name="java.naming.factory.initial" 
+        value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/&gt;
 
-    <!-- 
+    &lt;!-- 
         URL of the message broker, default value for ActiveMQ
         see javax.naming.Context#PROVIDER_URL
-    -->
-    <parameter name="java.naming.provider.url" 
-        value="tcp://myserver.local:61616"/>
+    --&gt;
+    &lt;parameter name="java.naming.provider.url" 
+        value="tcp://myserver.local:61616"/&gt;
 
-    <!-- 
+    &lt;!-- 
         Lookup connection factory
         see javax.naming.InitialContext#lookup(String) 
-    -->
-    <parameter name="connectionfactory" value="ConnectionFactory"/>
+    --&gt;
+    &lt;parameter name="connectionfactory" value="ConnectionFactory"/&gt;
 
-    <!--
+    &lt;!--
         Lookup destination (topic)
         see javax.naming.InitialContext#lookup(String) 
-    -->
-    <parameter name="topic" value="dynamicTopics/eXistdb"/>
+    --&gt;
+    &lt;parameter name="topic" value="dynamicTopics/eXistdb"/&gt;
 
-    <!--
+    &lt;!--
         Set client identifier for this connection.
         see javax.jms.Connection#setClientID(string)
-    -->
-    <parameter name="client-id" value="SubscriberId"/>
+    --&gt;
+    &lt;parameter name="client-id" value="SubscriberId"/&gt;
 
-    <!-- 
+    &lt;!-- 
         Set the name used to identify this subscription
         see JMS javax.jms.TopicSession#createDurableSubscriber(Topic,String) 
-    -->
-    <parameter name="subscriber-name" value="SubscriptionId"/>
+    --&gt;
+    &lt;parameter name="subscriber-name" value="SubscriptionId"/&gt;
 
-    <!-- 
+    &lt;!-- 
         Set the subscription is durable. default = yes
         see JMS javax.jms.Session#createDurableSubscriber(Topic,String) 
         see JMS javax.jms.Session#createConsumer(Destination, String, boolean)
         
         [Optional]
-    -->
-    <!--<parameter name="durable" value="yes"/>-->
+    --&gt;
+    &lt;!--&lt;parameter name="durable" value="yes"/&gt;--&gt;
 
-    <!-- 
+    &lt;!-- 
         A JMS API message selector allows a message consumer to specify 
         the messages it is interested in. The syntax of the expression is based 
         on a subset of the SQL92 conditional expression syntax.
@@ -312,84 +312,84 @@ return
         see javax.jms.Message
         
         [Optional]
-    -->
-    <!--<parameter name="messageselector" 
-            value="property1 = 'a' OR property2 = 'b'"/>-->
+    --&gt;
+    &lt;!--&lt;parameter name="messageselector" 
+            value="property1 = 'a' OR property2 = 'b'"/&gt;--&gt;
 
-    <!-- 
+    &lt;!-- 
         If set, inhibits delivery of messages published by its own connection
         default = yes
         
         [Optional]
-    -->
-    <!--<parameter name="nolocal" value="yes"/>-->
-</job>
+    --&gt;
+    &lt;!--&lt;parameter name="nolocal" value="yes"/&gt;--&gt;
+&lt;/job&gt;
 
-]]></synopsis>
+</synopsis>
                 </para>
             </section>
             <section id="replication-collection-xconf">
                 <title>collection.xconf</title>
                 <para>
-                    <synopsis language="xml"><![CDATA[
-<collection xmlns="http://exist-db.org/collection-config/1.0">
-    <triggers>
-        <trigger class="org.exist.replication.jms.publish.ReplicationTrigger">
+                    <synopsis language="xml">
+&lt;collection xmlns="http://exist-db.org/collection-config/1.0"&gt;
+    &lt;triggers&gt;
+        &lt;trigger class="org.exist.replication.jms.publish.ReplicationTrigger"&gt;
 
-            <!-- 
+            &lt;!-- 
                 Class name of the initial context provider, default value for 
                 ActiveMQ
                 see javax.naming.Context#INITIAL_CONTEXT_FACTORY
-            -->
-            <parameter name="java.naming.factory.initial" 
-                value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/>
+            --&gt;
+            &lt;parameter name="java.naming.factory.initial" 
+                value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/&gt;
 
-            <!-- 
+            &lt;!-- 
                 URL of the message broker, default value for ActiveMQ 
                 see javax.naming.Context#PROVIDER_URL
-            -->
-            <parameter name="java.naming.provider.url" 
-                value="tcp://myserver.local:61616"/>
+            --&gt;
+            &lt;parameter name="java.naming.provider.url" 
+                value="tcp://myserver.local:61616"/&gt;
 
-            <!-- 
+            &lt;!-- 
                 Lookup connection factory
                 see javax.naming.InitialContext#lookup(String) 
-            -->
-            <parameter name="connectionfactory" value="ConnectionFactory"/>
+            --&gt;
+            &lt;parameter name="connectionfactory" value="ConnectionFactory"/&gt;
 
-            <!--
+            &lt;!--
                 Lookup destination (topic)
                 see javax.naming.InitialContext#lookup(String) 
-            -->
-            <parameter name="topic" value="dynamicTopics/eXistdb"/>
+            --&gt;
+            &lt;parameter name="topic" value="dynamicTopics/eXistdb"/&gt;
 
-            <!--
+            &lt;!--
                 Set client identifier for this connection.
                 see javax.jms.Connection#setClientID(string)
-            -->
-            <parameter name="client-id" value="PublisherId"/>
+            --&gt;
+            &lt;parameter name="client-id" value="PublisherId"/&gt;
 
-            <!-- 
+            &lt;!-- 
                 Set time-to-live in milliseconds, default value is 0 (unlimited) 
                 see javax.jms.MessageProducer#setTimeToLive(long)
                 
                 [Optional]
-            -->
-            <!--<parameter name="time-to-live" value="0"/>-->
+            --&gt;
+            &lt;!--&lt;parameter name="time-to-live" value="0"/&gt;--&gt;
 
-            <!--
+            &lt;!--
                 Sets the producer priority, value 0-9 ; default is 4.
                 see javax.jms.MessageProducer#setPriority(int)
                 
                 [Optional]
-            -->
-            <!-- <parameter name="priority" value="4"/>-->
+            --&gt;
+            &lt;!-- &lt;parameter name="priority" value="4"/&gt;--&gt;
 
-        </trigger>
-    </triggers>
-</collection>
+        &lt;/trigger&gt;
+    &lt;/triggers&gt;
+&lt;/collection&gt;
                
-]]></synopsis>
+</synopsis>
                 </para>
             </section>
         </section>
