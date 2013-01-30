@@ -441,6 +441,53 @@ declare variable $target external;</synopsis>
                     documentation</ulink>.</para>
         </section>
         <section>
+            <title>Programmatically installing packages</title>
+            <para>The <option>repo</option> XQuery module provides a number of functions to
+                programmatically install, remove or inspect packages. The dashboard package manager
+                relies on the same functions.</para>
+            <para>The module distinguishes between <emphasis>installation</emphasis> and
+                    <emphasis>deployment</emphasis> steps. The reason for this distinction is: while
+                the installation process is standardized by the expath packaging specification, the
+                deployment step is implementation defined and specific to eXist-db.
+                    <emphasis>installation</emphasis> will register a package with the expath
+                packaging system, but not copy anything into the database. <emphasis>Deployment
+                </emphasis> will deploy the application into the database as specified by the
+                    <filename>repo.xml</filename> descriptor.</para>
+            <para>The most convenient way to install a package are the
+                    <code>repo:install-and-deploy</code> and
+                    <code>repo:install-and-deploy-from-db</code> functions. repo:install-and-deploy
+                downloads the specified package from a public repository. For example, one can
+                install the eXist-db demo apps using the following call:</para>
+            <synopsis language="xquery">repo:install-and-deploy("http://exist-db.org/apps/demo", "0.2.2", "http://demo.exist-db.org/exist/apps/public-repo/modules/find.xql")</synopsis>
+            <para>The first parameter denotes the unique name of the package to install. The second
+                may contain a specific version or the empty sequence. The third parameter is the URI
+                for the public repository API. The function call will download, install and deploy
+                the package as well as any dependencies it defines. If the installation succeeded,
+                an element will be returned to indicate the target collection into which the package
+                was deployed.</para>
+            <para>The <code>repo:install-and-deploy-from-db</code> function works in a similar way,
+                but reads the package data to install from a resource stored in the database.</para>
+            <para>To uninstall a package, you should first call <code>repo:undeploy</code>, followed
+                by <code>repo:remove</code>, e.g.:</para>
+            <programlisting language="xquery">repo:undeploy("http://exist-db.org/apps/demo"), repo:remove("http://exist-db.org/apps/demo")</programlisting>
+            <para>To list all installed packages, call <code>repo:list</code>, which will return a
+                the unique name of every installed package. </para>
+        </section>
+        <section>
+            <title>Running your own repository</title>
+            <para>You can run your private repository and install packages from it, e.g. to
+                distribute applications to your customers. The eXist-db repository is implemented by
+                the application package <code>http://exist-db.org/apps/public-repo</code>. The code
+                can be downloaded from the <ulink url="https://sourceforge.net/p/exist/code/18144/tree/apps/public-repo/">eXist-db
+                    SVN</ulink>.</para>
+            <para>Once you have build and installed the app, you can upload the package xars to
+                distribute into the collection <filename>public-repo/public</filename>. To make the
+                uploaded xars available, run the query
+                    <filename>public-repo/modules/update.xql</filename> once as an admin user. This
+                will create a document <filename>apps.xml</filename> in
+                    <filename>public-repo/public</filename>.</para>
+        </section>
+        <section>
             <title>General considerations when writing a package</title>
             <para>Packages should be portable and should thus not make any assumptions about the
                 collection path in which they will be installed. In general it is best to use
