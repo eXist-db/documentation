@@ -37,11 +37,11 @@ let $field := request:get-parameter("field", ())
                 to make a best guess instead of requiring additional code or annotations to be
                 written. This works as long as the conventions used are sufficiently clear.</para>
             <para>The input for the templating framework is always a plain HTML file. The module
-                scans the HTML view for elements with class attributes following a simple convention
-                and tries to translate them into XQuery function calls. By using class attributes,
-                the HTML remains sufficiently clean and does not get messed up with application
-                code. A web designer could take the HTML files and work on them without being
-                bothered by the extra class names.</para>
+                scans the HTML view for elements with class (or data-template, see below) attributes
+                following a simple convention and tries to translate them into XQuery function
+                calls. By using class attributes, the HTML remains sufficiently clean and does not
+                get messed up with application code. A web designer could take the HTML files and
+                work on them without being bothered by the extra class names.</para>
             <para>In the simplest case, a template call inside a class attribute is just the name of
                 a function known in the XQuery context. To start with the usual "Hello world"
                 example:</para>
@@ -58,6 +58,24 @@ let $field := request:get-parameter("field", ())
                 encoded like URI parameters, e.g.: <code>demo:hello?language=de</code>. A
                 static parameter will be passed to the XQuery function as a fallback value if it
                 cannot be determined by looking at the HTTP context (see below).</para>
+            <section>
+                <title>HTML5 Method</title>
+                <para>Instead of "abusing" class attributes to encode template calls or other
+                    application-specific information, HTML5 provides a standard method for adding
+                    data to an element, using <option>data</option> attributes. This approach is
+                    supported in newer versions of the templating framework (beginning with version
+                    0.3.0 of the shared-resources package, which contains the source of the
+                    templating).</para>
+                <para>The <option>data</option> attributes must follow a certain naming pattern. The
+                    templating function to call has to be specified in an attribute:
+                        <option>data-template</option>, while optional parameters would go into one
+                    or more attributes of the form: <option>data-template-xxx</option>. For example,
+                    you could change the pre-HTML5 style template call:</para>
+                <synopsis language="xml">&lt;div class="demo:hello?language=de"&gt;&lt;/div&gt;</synopsis>
+                <para>into</para>
+                <synopsis language="xml">&lt;div data-template="demo:hello" data-template-language="de"&gt;&lt;/div&gt;</synopsis>
+                <para>The templating framework supports both alternatives.</para>
+            </section>
         </section>
         <section>
             <title>Templating Functions</title>
