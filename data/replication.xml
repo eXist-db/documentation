@@ -10,56 +10,48 @@
         <title>Replication</title>
         <section id="replication-introduction">
             <note>
-                <para>Please note that this extension has been added to eXist-db recently: It has not
-                    been tested (yet) for an high-volume context. Please contact the
-                    exist-open mailing list to share experiences with this feature.
-                </para>
+                <para>Please note that this extension has been added to eXist-db recently: It has not been tested (yet)
+                    for an high-volume context. Please contact the exist-open mailing list to share experiences with
+                    this feature. </para>
             </note>
             <title>Introduction</title>
-            <para>This document provides a short introduction on the
-      document replication function of eXist-db. You can
-      configure two or more eXist-db instances to work together
-      to automatically synchronize collection-specific data
-      sets. This allows you to scale your eXist-db server
-      capacity. For example, with multiple eXist-db servers
-      configured to stay in sync as described below, you could
-      add a load-balancer to distribute the load of incoming
-      queries across the pool of servers and still maintain high
-      performance.</para>
-            <para>See also <ulink url="http://en.wikibooks.org/wiki/XQuery/eXist_Clustering">the eXist-db clustering wikibook</ulink>.</para>
+            <para>This document provides a short introduction on the document replication function of eXist-db. You can
+                configure two or more eXist-db instances to work together to automatically synchronize
+                collection-specific data sets. This allows you to scale your eXist-db server capacity. For example, with
+                multiple eXist-db servers configured to stay in sync as described below, you could add a load-balancer
+                to distribute the load of incoming queries across the pool of servers and still maintain high
+                performance.</para>
+            <para>See also <ulink url="http://en.wikibooks.org/wiki/XQuery/eXist_Clustering">the eXist-db clustering
+                    wikibook</ulink>.</para>
         </section>
         <section id="replication-preparation">
             <title>Preparation</title>
             <procedure>
                 <step>
-                    <para>You need to download a recent version of ActiveMQ
-	from <ulink url="http://activemq.apache.org/download.html">ActiveMQ
-	download page</ulink> if you cannot install it directly from
-	your package manager.</para>
+                    <para>You need to download a recent version of ActiveMQ from <ulink url="http://activemq.apache.org/download.html">ActiveMQ download page</ulink> if you cannot
+                        install it directly from your package manager.</para>
                     <note>
-                        <para>Note that the
-	<filename>.tgz archive file</filename> has additional unix
-	(GNU/Linux, MacOSX) support.  The <filename>zip archive
-	file</filename> is for Windows. The contents of the archives
-	actually differ.</para>
+                        <para>Note that the <filename>.tgz archive file</filename> has additional unix (GNU/Linux,
+                            MacOSX) support. The <filename>zip archive file</filename> is for Windows. The contents of
+                            the archives actually differ.</para>
                     </note>
                 </step>
                 <step>
                     <note>
-                        <para>Please follow the instructions on verifying the
-	integrity of the download before you continue with the next
-	step in the preparations.</para>
+                        <para>Please follow the instructions on verifying the integrity of the download before you
+                            continue with the next step in the preparations.</para>
                     </note>
                 </step>
                 <step>
-                    <para>Extract content to disk, refered as
-	<parameter>$ACTIVEMQ_HOME</parameter> – Copy the <filename>activemq-all-X.Y.Z.jar</filename> file to
-	<filename>$EXIST_HOME/lib/user</filename>
+                    <para>Extract content to disk, refered as <parameter>$ACTIVEMQ_HOME</parameter> – Copy the
+                            <filename>activemq-all-X.Y.Z.jar</filename> file to
+                            <filename>$EXIST_HOME/lib/user</filename>
                     </para>
                 </step>
                 <step>
-                    <para>Build the replication extension (modify <filename>extensions/local.build.properties</filename>) or copy the
-	pre-built version of <filename>exist-replication.jar</filename> to <filename>lib/extensions</filename>
+                    <para>Build the replication extension (modify
+                        <filename>extensions/local.build.properties</filename>) or copy the pre-built version of
+                            <filename>exist-replication.jar</filename> to <filename>lib/extensions</filename>
                     </para>
                 </step>
             </procedure>
@@ -67,47 +59,48 @@
         <section id="replication-get-started">
             <title>Quick start configuration</title>
             <note>
-                <para>
-                    The XML fragments in this section are functional but do not describe all configuration items. Please consult the
-                    files <code>conf.xml</code> and <code>example.xconf</code> in the <code>extensions/replication/doc</code> directory
-                    for more details.
-                </para>
+                <para> The XML fragments in this section are functional but do not describe all configuration items.
+                    Please consult the files <code>conf.xml</code> and <code>example.xconf</code> in the
+                        <code>extensions/replication/doc</code> directory for more details. </para>
             </note>
             <section id="replication-get-started-master">
                 <title>Master (publisher)</title>
                 <procedure>
                     <step>
-                        <para>Create collection <filename>/db/mycollection/</filename> that shall be monitored for document changes</para>
+                        <para>Create collection <filename>/db/mycollection/</filename> that shall be monitored for
+                            document changes</para>
                     </step>
                     <step>
                         <para>Create collection <filename>/db/system/config/db/mycollection/</filename>
                         </para>
                     </step>
                     <step>
-                        <para>Create in there a document <filename>collection.xconf</filename> and add the following content to the document:</para>
-                        <synopsis language="xml">
-&lt;collection xmlns="http://exist-db.org/collection-config/1.0"&gt;
-    &lt;triggers&gt;
-        &lt;trigger class="org.exist.replication.jms.publish.ReplicationTrigger"&gt;
-            &lt;parameter name="java.naming.factory.initial" 
-                value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/&gt;
+                        <para>Create in there a document <filename>collection.xconf</filename> and add the following
+                            content to the document:</para>
+                        <synopsis language="xml"><![CDATA[
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <triggers>
+        <trigger class="org.exist.replication.jms.publish.ReplicationTrigger">
+            <parameter name="java.naming.factory.initial" 
+                value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/>
             
-            &lt;!-- Set value --&gt;
-            &lt;parameter name="java.naming.provider.url" 
-                value="tcp://myserver.local:61616"/&gt;
+            <!-- Set value -->
+            <parameter name="java.naming.provider.url" 
+                value="tcp://myserver.local:61616"/>
             
-            &lt;parameter name="connectionfactory" value="ConnectionFactory"/&gt;
-            &lt;parameter name="topic" value="dynamicTopics/eXistdb"/&gt;
+            <parameter name="connectionfactory" value="ConnectionFactory"/>
+            <parameter name="topic" value="dynamicTopics/eXistdb"/>
             
-            &lt;!-- Set value --&gt;
-            &lt;parameter name="client-id" value="SetPublisherId"/&gt;
-        &lt;/trigger&gt;
-    &lt;/triggers&gt;
-&lt;/collection&gt;
-</synopsis>
+            <!-- Set value -->
+            <parameter name="client-id" value="SetPublisherId"/>
+        </trigger>
+    </triggers>
+</collection>
+]]></synopsis>
                     </step>
                     <step>
-                        <para>Set the correct value for <parameter>java.naming.provider.url</parameter> that matches your message broker (ActiveMQ).</para>
+                        <para>Set the correct value for <parameter>java.naming.provider.url</parameter> that matches
+                            your message broker (ActiveMQ).</para>
                     </step>
                     <step>
                         <para>Set a unique value for the <parameter>client-id</parameter> parameter.</para>
@@ -118,41 +111,39 @@
                 <title>Slave (subscriber)</title>
                 <procedure>
                     <step>
-                        <para> Add a (startup) trigger to conf.xml:</para>
-                        <synopsis language="xml">
-&lt;trigger name="replication" 
-    class="org.exist.replication.jms.subscribe.MessageReceiverStartupTrigger"&gt;
+                        <para> Add a startup trigger to conf.xml:</para>
+                        <synopsis language="xml"><![CDATA[
+<trigger 
+    class="org.exist.replication.jms.subscribe.MessageReceiverStartupTrigger">
     
-    &lt;parameter name="java.naming.factory.initial" 
-        value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/&gt;
+    <parameter name="java.naming.factory.initial" 
+        value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/>
     
-    &lt;!-- Set value --&gt;
-    &lt;parameter name="java.naming.provider.url" 
-        value="tcp://myserver.local:61616"/&gt;
+    <!-- Set value -->
+    <parameter name="java.naming.provider.url" 
+        value="tcp://myserver.local:61616"/>
     
-    &lt;parameter name="connectionfactory" value="ConnectionFactory"/&gt;
-    &lt;parameter name="topic" value="dynamicTopics/eXistdb"/&gt;
+    <parameter name="connectionfactory" value="ConnectionFactory"/>
+    <parameter name="topic" value="dynamicTopics/eXistdb"/>
     
-    &lt;!-- Set values --&gt; 
-    &lt;parameter name="client-id" value="SetSubscriberId"/&gt;
-    &lt;parameter name="subscriber-name" value="SetSubscriptionId"/&gt;
-&lt;/trigger&gt;
-    </synopsis>
+    <!-- Set values --> 
+    <parameter name="client-id" value="SetSubscriberId"/>
+    <parameter name="subscriber-name" value="SetSubscriptionId"/>
+</trigger>
+    ]]></synopsis>
                     </step>
                     <step>
-                        <para>Set the correct value for
-	  <parameter>java.naming.provider.url</parameter> that
-	  matches your message broker (ActiveMQ).</para>
+                        <para>Set the correct value for <parameter>java.naming.provider.url</parameter> that matches
+                            your message broker (ActiveMQ).</para>
                     </step>
                     <step>
-                        <para>Set unique values for <parameter>client-id</parameter> and <parameter>subscriber-name</parameter>.</para>
+                        <para>Set unique values for <parameter>client-id</parameter> and
+                                <parameter>subscriber-name</parameter>.</para>
                     </step>
                     <step>
-                        <para>Create the collection
-	  <filename>/db/mycollection/</filename>, this is the
-	  collection that receives the documents that are updated
-	  in the same collection on the
-	  <emphasis>Master</emphasis> server.</para>
+                        <para>Create the collection <filename>/db/mycollection/</filename>, this is the collection that
+                            receives the documents that are updated in the same collection on the
+                                <emphasis>Master</emphasis> server.</para>
                     </step>
                 </procedure>
             </section>
@@ -166,8 +157,7 @@
 cd $ACTIVEMQ_HOME
 ./bin/activemq start
 	  </synopsis>
-                    <para>or use the java wrapper for running it as a service
-	  with MacOSX or GNU/Linux:</para>
+                    <para>or use the java wrapper for running it as a service with MacOSX or GNU/Linux:</para>
                     <para>that is for MacOSX:</para>
                     <synopsis language="bash">
 $ACTIVEMQ_HOME/bin/macosx/activemq start
@@ -199,11 +189,9 @@ cd $EXISTMASTER_HOME
         </section>
         <section id="replication-distribute">
             <title>Distribute documents</title>
-            <para>Create a document in the master server in
-	<filename>/db/mycollection/</filename> (e.g. using the
-	java client or eXide; login as admin); The document will
-	be automatically replicated to the slave
-	servers (using the previous configuration</para>
+            <para>Create a document in the master server in <filename>/db/mycollection/</filename> (e.g. using the java
+                client or eXide; login as admin); The document will be automatically replicated to the slave servers
+                (using the previous configuration</para>
             <section id="replication-performance-test">
                 <title>XQuery Example</title>
                 <procedure>
@@ -212,7 +200,8 @@ cd $EXISTMASTER_HOME
                         </para>
                     </step>
                     <step>
-                        <para>Execute the query, check the timing on the slave (see <filename>exist.log</filename>)</para>
+                        <para>Execute the query, check the timing on the slave (see
+                            <filename>exist.log</filename>)</para>
                         <synopsis language="xquery">
 let $doc := doc('/db/mydoc.xml')
 for $i in (1000 to 3000)
@@ -228,18 +217,18 @@ return
             <para>
                 <itemizedlist>
                     <listitem>
-                        <para>The replication feature is based on the trigger functions of eXist-db. After a document is created or updated
-                        the (complete) document is serialized to a compressed binary blob which is sent to the
-                        message broker.
-                    </para>
-                        <para>Please note that this trigger is also fired when a document is partially updated e.g. with XUpdate. The consequence is that when a
-                    large document is updated very often in a short period of time, many large documents with just small differences are sent to the message broker. As a result the performance will degrade on the publisher, subscriber and message broker.
-                    </para>
+                        <para>The replication feature is based on the trigger functions of eXist-db. After a document is
+                            created or updated the (complete) document is serialized to a compressed binary blob which
+                            is sent to the message broker. </para>
+                        <para>Please note that this trigger is also fired when a document is partially updated e.g. with
+                            XUpdate. The consequence is that when a large document is updated very often in a short
+                            period of time, many large documents with just small differences are sent to the message
+                            broker. As a result the performance will degrade on the publisher, subscriber and message
+                            broker. </para>
                     </listitem>
                     <listitem>
-                        <para>The default persistence cache size of ActiveMQ might be too small, 
-                        consult the <ulink url="http://activemq.apache.org/kahadb.html">ActiveMQ website</ulink> how to increase this cache size.
-                        </para>
+                        <para>The default persistence cache size of ActiveMQ might be too small, consult the <ulink url="http://activemq.apache.org/kahadb.html">ActiveMQ website</ulink> how to increase
+                            this cache size. </para>
                     </listitem>
                 </itemizedlist>
             </para>
@@ -250,61 +239,61 @@ return
             <section id="replication-conf-xml">
                 <title>conf.xml</title>
                 <para>
-                    <synopsis language="xml">
-&lt;!--
+                    <synopsis language="xml"><![CDATA[
+<!--
     Start JMS listener for listener of the clustering feature. 
---&gt;
-&lt;job type="startup" name="replication" 
-    class="org.exist.replication.jms.subscribe.MessageReceiverJob"&gt;
+-->
+<trigger 
+    class="org.exist.replication.jms.subscribe.MessageReceiverStartupTrigger">
 
-    &lt;!-- 
+    <!-- 
         Class name of the initial context provider, default value for ActiveMQ
         see javax.naming.Context#INITIAL_CONTEXT_FACTORY
-    --&gt;
-    &lt;parameter name="java.naming.factory.initial" 
-        value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/&gt;
+    -->
+    <parameter name="java.naming.factory.initial" 
+        value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/>
 
-    &lt;!-- 
+    <!-- 
         URL of the message broker, default value for ActiveMQ
         see javax.naming.Context#PROVIDER_URL
-    --&gt;
-    &lt;parameter name="java.naming.provider.url" 
-        value="tcp://myserver.local:61616"/&gt;
+    -->
+    <parameter name="java.naming.provider.url" 
+        value="tcp://myserver.local:61616"/>
 
-    &lt;!-- 
+    <!-- 
         Lookup connection factory
         see javax.naming.InitialContext#lookup(String) 
-    --&gt;
-    &lt;parameter name="connectionfactory" value="ConnectionFactory"/&gt;
+    -->
+    <parameter name="connectionfactory" value="ConnectionFactory"/>
 
-    &lt;!--
+    <!--
         Lookup destination (topic)
         see javax.naming.InitialContext#lookup(String) 
-    --&gt;
-    &lt;parameter name="topic" value="dynamicTopics/eXistdb"/&gt;
+    -->
+    <parameter name="topic" value="dynamicTopics/eXistdb"/>
 
-    &lt;!--
+    <!--
         Set client identifier for this connection.
         see javax.jms.Connection#setClientID(string)
-    --&gt;
-    &lt;parameter name="client-id" value="SubscriberId"/&gt;
+    -->
+    <parameter name="client-id" value="SubscriberId"/>
 
-    &lt;!-- 
+    <!-- 
         Set the name used to identify this subscription
         see JMS javax.jms.TopicSession#createDurableSubscriber(Topic,String) 
-    --&gt;
-    &lt;parameter name="subscriber-name" value="SubscriptionId"/&gt;
+    -->
+    <parameter name="subscriber-name" value="SubscriptionId"/>
 
-    &lt;!-- 
+    <!-- 
         Set the subscription is durable. default = yes
         see JMS javax.jms.Session#createDurableSubscriber(Topic,String) 
         see JMS javax.jms.Session#createConsumer(Destination, String, boolean)
         
         [Optional]
-    --&gt;
-    &lt;!--&lt;parameter name="durable" value="yes"/&gt;--&gt;
+    -->
+    <!--<parameter name="durable" value="yes"/>-->
 
-    &lt;!-- 
+    <!-- 
         A JMS API message selector allows a message consumer to specify 
         the messages it is interested in. The syntax of the expression is based 
         on a subset of the SQL92 conditional expression syntax.
@@ -312,84 +301,83 @@ return
         see javax.jms.Message
         
         [Optional]
-    --&gt;
-    &lt;!--&lt;parameter name="messageselector" 
-            value="property1 = 'a' OR property2 = 'b'"/&gt;--&gt;
+    -->
+    <!--<parameter name="messageselector" 
+            value="property1 = 'a' OR property2 = 'b'"/>-->
 
-    &lt;!-- 
+    <!-- 
         If set, inhibits delivery of messages published by its own connection
         default = yes
         
         [Optional]
-    --&gt;
-    &lt;!--&lt;parameter name="nolocal" value="yes"/&gt;--&gt;
-&lt;/job&gt;
+    -->
+    <!--<parameter name="nolocal" value="yes"/>-->
+</trigger>
 
-</synopsis>
+]]></synopsis>
                 </para>
             </section>
             <section id="replication-collection-xconf">
                 <title>collection.xconf</title>
                 <para>
-                    <synopsis language="xml">
-&lt;collection xmlns="http://exist-db.org/collection-config/1.0"&gt;
-    &lt;triggers&gt;
-        &lt;trigger class="org.exist.replication.jms.publish.ReplicationTrigger"&gt;
+                    <synopsis language="xml"><![CDATA[
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <triggers>
+        <trigger class="org.exist.replication.jms.publish.ReplicationTrigger">
 
-            &lt;!-- 
+            <!-- 
                 Class name of the initial context provider, default value for 
                 ActiveMQ
                 see javax.naming.Context#INITIAL_CONTEXT_FACTORY
-            --&gt;
-            &lt;parameter name="java.naming.factory.initial" 
-                value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/&gt;
+            -->
+            <parameter name="java.naming.factory.initial" 
+                value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/>
 
-            &lt;!-- 
+            <!-- 
                 URL of the message broker, default value for ActiveMQ 
                 see javax.naming.Context#PROVIDER_URL
-            --&gt;
-            &lt;parameter name="java.naming.provider.url" 
-                value="tcp://myserver.local:61616"/&gt;
+            -->
+            <parameter name="java.naming.provider.url" 
+                value="tcp://myserver.local:61616"/>
 
-            &lt;!-- 
+            <!-- 
                 Lookup connection factory
                 see javax.naming.InitialContext#lookup(String) 
-            --&gt;
-            &lt;parameter name="connectionfactory" value="ConnectionFactory"/&gt;
+            -->
+            <parameter name="connectionfactory" value="ConnectionFactory"/>
 
-            &lt;!--
+            <!--
                 Lookup destination (topic)
                 see javax.naming.InitialContext#lookup(String) 
-            --&gt;
-            &lt;parameter name="topic" value="dynamicTopics/eXistdb"/&gt;
+            -->
+            <parameter name="topic" value="dynamicTopics/eXistdb"/>
 
-            &lt;!--
+            <!--
                 Set client identifier for this connection.
                 see javax.jms.Connection#setClientID(string)
-            --&gt;
-            &lt;parameter name="client-id" value="PublisherId"/&gt;
+            -->
+            <parameter name="client-id" value="PublisherId"/>
 
-            &lt;!-- 
+            <!-- 
                 Set time-to-live in milliseconds, default value is 0 (unlimited) 
                 see javax.jms.MessageProducer#setTimeToLive(long)
                 
                 [Optional]
-            --&gt;
-            &lt;!--&lt;parameter name="time-to-live" value="0"/&gt;--&gt;
+            -->
+            <!--<parameter name="time-to-live" value="0"/>-->
 
-            &lt;!--
+            <!--
                 Sets the producer priority, value 0-9 ; default is 4.
                 see javax.jms.MessageProducer#setPriority(int)
                 
                 [Optional]
-            --&gt;
-            &lt;!-- &lt;parameter name="priority" value="4"/&gt;--&gt;
+            -->
+            <!-- <parameter name="priority" value="4"/>-->
 
-        &lt;/trigger&gt;
-    &lt;/triggers&gt;
-&lt;/collection&gt;
-               
-</synopsis>
+        </trigger>
+    </triggers>
+</collection>        
+]]></synopsis>
                 </para>
             </section>
         </section>
