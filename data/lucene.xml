@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
@@ -395,6 +396,13 @@ order by ft:score($sect) descending return $sect</synopsis>
                     always provide your own analyzer or use one of those supplied by Lucene or
                     compatible software.</para>
             </section>
+            <section>
+                <title>Defining Fields</title>
+                <para>Sometimes you may want to define different Lucene indexes on the same set of elements, e.g.
+                to use a different analyzer. eXist-db allows to name a certain index using the <option>field</option>
+                attribute:</para>
+                <synopsis language="xquery"><![CDATA[<text field="title" qname="title" analyzer="en"/>]]></synopsis>
+            </section>
         </section>
         <section>
             <title>Querying the Index</title>
@@ -422,6 +430,19 @@ return $m</programlisting>
             <para>To present search results in a <emphasis>Keywords in Context</emphasis> format,
                 you may want to have a look at eXist's <ulink url="kwic.xml">KWIC</ulink>
                 module.</para>
+            <section>
+                <title>Query a Named Index</title>
+                <para>To query a named index, use the <code>ft:query-field($fieldName, $query)</code> instead of
+                    <code>ft:query</code>:</para>
+                <synopsis language="xquery">ft:query-field("title", "xml")</synopsis>
+                <para>
+                    <code>ft:query-field</code> works exactly like <code>ft:query</code>, except that the set of nodes
+                    to search is determined by the nodes in the named index. The function returns the nodes selected by 
+                    the query, which would be <sgmltag>title</sgmltag> elements in the example above.</para>
+                <para>You can thus use <code>ft:query-field</code> with an XPath filter expression just as you would call
+                    <code>ft:query</code>:</para>
+                <synopsis language="xquery">//section[ft:query-field("title", "xml")]</synopsis>
+            </section>
             <section>
                 <title>Describing Queries in XML</title>
                 <para>Lucene's default query syntax does not provide access to all available
@@ -666,6 +687,32 @@ return
                     </varlistentry>
                 </variablelist>
             </section>
+        </section>
+        <section>
+            <title>Adding Constructed Fields to a Document</title>
+            <para>This feature allows to add arbitrary fields to a binary or XML document and have them indexed
+                with lucene. It was developed as part of the <ulink url="contentextraction.xml">content extraction 
+                framework</ulink> to attach metadata extracted from e.g. a PDF to the binary document. It works
+                equally well for XML documents though and is an efficient method, e.g. to attach computed fields to
+                a document, containing information which does not exist in the XML as such.</para>
+            <para>The field indexes are not configured via <filename>collection.xconf</filename>. Instead we add
+            fields programmatically from an XQuery (which could be run via a trigger):</para>
+            <programlisting language="xquery"><![CDATA[ft:index("/db/demo/test.xml", <doc>
+    <field name="title" store="yes">Indexing</field>
+    <field name="author" store="yes">Me</field>
+    <field name="date" store="yes">2013</field>
+</doc>)]]></programlisting>
+            <para>The <option>store</option> attribute indicates that the fields content should be stored as a string. 
+                Without this attribute, the content will be indexed for search, but you won't be able to retrieve the contents.
+            </para>
+            <para>To get the contents of a field, use the <code>ft:get-field</code> function:</para>
+            <synopsis language="xquery">ft:get-field("/db/demo/test.xml", "title")</synopsis>
+            <para>To query this index, use the <code>ft:search</code> function:</para>
+            <synopsis language="xquery">ft:search("/db/demo/test.xml", "title:indexing and author:me")</synopsis>
+            <para>Custom field indexes are automatically deleted when their parent document is removed. If you want to update
+                fields without removing the document, you need to delete the old fields first though. This can be done
+                using the <code>ft:remove-index</code> function:</para>
+            <synopsis language="xquery">ft:remove-index("/db/demo/test.xml")</synopsis>
         </section>
     </chapter>
 </book>
