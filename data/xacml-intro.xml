@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "docbookx.dtd">-->
-<!-- $Id$ -->
+<!--<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "docbookx.dtd">--><!-- $Id$ -->
 <book>
     <bookinfo>
-    <productname>eXist-db – Open Source Native XML Database</productname>
+        <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Access Control in eXist: Introduction to XACML</title>
         <date>September 2009</date>
         <author>
@@ -20,12 +19,13 @@
         <title>Access Control in eXist: Introduction to XACML</title>
         <section>
             <title>The XACML Standard</title>
-      <para><ulink href="http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=xacml">
+            <para>
+                <ulink url="http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=xacml">
 					eXtensible Access Control Markup Language (XACML) </ulink> is an OASIS standard
-				for restricting access to resources. eXist currently uses version <ulink href="http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=xacml#XACML11">
-					1.1 </ulink> / <ulink href="http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=xacml#XACML10">
-					1.0 </ulink> of the standard. The most recent version is <ulink href="http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=xacml#XACML20">
-					2.0 </ulink> (unsupported). Work on version 3.0 is currently <ulink href="http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=xacml#CURRENT">
+				for restricting access to resources. eXist currently uses version <ulink url="http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=xacml#XACML11">
+					1.1 </ulink> / <ulink url="http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=xacml#XACML10">
+					1.0 </ulink> of the standard. The most recent version is <ulink url="http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=xacml#XACML20">
+					2.0 </ulink> (unsupported). Work on version 3.0 is currently <ulink url="http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=xacml#CURRENT">
 					in progress. </ulink> The following background information on XACML is not
 				exhaustive. It is meant to be a relatively brief introduction to XACML in order to
 				get started using XACML in eXist. </para>
@@ -287,7 +287,7 @@
             <title>Sun's XACML Implementation</title>
             <para>As the section title suggests, Sun developed an implementation of XACML in Java
 				called Sun's XACML Implementation. It is open source and is hosted at SourceForge:
-					<ulink href="http://sunxacml.sourceforge.net/">http://sunxacml.sourceforge.net/</ulink>. eXist uses this implementation to
+					<ulink url="http://sunxacml.sourceforge.net/">http://sunxacml.sourceforge.net/</ulink>. eXist uses this implementation to
 				construct and evaluate access requests according to the policies provided by the
 				database administrator. In general, you don't need to know much about Sun's
 				implementation unless you want to use XACML outside of eXist. That is, if you will

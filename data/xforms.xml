@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
@@ -21,8 +22,8 @@
         <section>
             <title>XForms Support in eXist-db</title>
             <para>eXist-db has broad support for the W3C XForms standard. It offers both a
-                client-side (<ulink href="http://www.agencexml.com">XSLTForms</ulink>) and a
-                server-side (<ulink href="http://www.betterform.de">betterFORM</ulink>)
+                client-side (<ulink url="http://www.agencexml.com">XSLTForms</ulink>) and a
+                server-side (<ulink url="http://www.betterform.de">betterFORM</ulink>)
                 implementation and thus is ideally equipped to build complete applications that use
                 XML from front to back. </para>
             <para> However, eXist-db will also work with other XForms processors, such as Orbeon or
@@ -63,7 +64,7 @@
                 <example>
                     <title>Configure filtermapping in web.xml</title>
                     <programlisting>
-<markup><![CDATA[
+                        <markup><![CDATA[
 <filter-mapping>
     <filter-name>XFormsFilter</filter-name>
     <url-pattern>/apps/*</url-pattern>
@@ -85,12 +86,12 @@
                 <para>To ease the work with betterFORM it is highly recommended to install the betterFORM dashboard 
                     along with the FeatureExplorer and the demo application. Before the betterFORM add-ons can be 
                     used, the examples (eXist-db-shipped files) must be installed via the 
-                    <ulink href="admin/admin.xql?panel=setup">Admin panel</ulink>
+                    <ulink url="admin/admin.xql?panel=setup">Admin panel</ulink>
                 </para>
                 <itemizedlist>
                     <listitem>
                         <para>
-                            <ulink href="dashboard.html">
+                            <ulink url="dashboard.html">
                                 <emphasis role="bold">Dashboard</emphasis>
                             </ulink> 
                             is a simple browser to your database. It allows you to navigate the collections and shows all 
@@ -99,7 +100,7 @@
                     </listitem>
                     <listitem>
                         <para>
-                            <ulink href="rest/db/betterform/forms/reference/FeatureExplorer.xhtml">
+                            <ulink url="rest/db/betterform/forms/reference/FeatureExplorer.xhtml">
                                 <emphasis role="bold">FeatureExplorer</emphasis>
                             </ulink> is the live documentation of 
                             betterFORM. It is itself an XForms document that offers a navigation menu with links to
@@ -108,14 +109,14 @@
                     </listitem>
                     <listitem>
                         <para>
-                            <ulink href="rest/db/betterform/apps/timetracker/index.xql">
+                            <ulink url="rest/db/betterform/apps/timetracker/index.xql">
                                 <emphasis role="bold">Timetracker</emphasis>
                             </ulink> is a small but complete demo application. It
                             shows a basic <emphasis role="bold">XRX application</emphasis> and can give some 
                             hints for writing your own single-page applications with eXist and betterFORM.</para>
                     </listitem>
                 </itemizedlist>
-                <para>See the <ulink href="xforms/examples.xml">XForms examples</ulink> page for more betterFORM demo &amp;
+                <para>See the <ulink url="xforms/examples.xml">XForms examples</ulink> page for more betterFORM demo &amp;
                 reference forms.</para>
             </section>
         </section>
@@ -125,7 +126,7 @@
         <!-- XSLT FORMS SECTION -->
         <section>
             <title>Using XSLTForms inside of eXist</title>
-            <para>eXist directly supports XForms via Alain Couthures' <ulink href="http://www.agencexml.com">XSLTForms</ulink> processor. XSLTForms implements the XForms 
+            <para>eXist directly supports XForms via Alain Couthures' <ulink url="http://www.agencexml.com">XSLTForms</ulink> processor. XSLTForms implements the XForms 
                 standard within the browser and is thus easy to integrate. XSLTForms transforms the XForms XML 
                 into an XHTML page with JavaScript that can process XForms.</para>
             <section>
@@ -137,7 +138,8 @@
                             the XForms markup into HTML and JavaScript understood by the browser</para>
                     </listitem>
                     <listitem>
-                        <para>a JavaScript library, <filename>xsltforms.js</filename></para>
+                        <para>a JavaScript library, <filename>xsltforms.js</filename>
+                        </para>
                     </listitem>
                 </itemizedlist>
                 <para>The XSLT stylesheet can either be applied <emphasis role="bold">server-side</emphasis> or within the <emphasis role="bold">client</emphasis>,
@@ -146,7 +148,7 @@
                 <example>
                     <title>Activate XSLTForms by using XSL processing instruction</title>
                     <programlisting>
-                    <markup><![CDATA[
+                        <markup><![CDATA[
 <?xml-stylesheet href="xsltforms/xsltforms.xsl" type="text/xsl"?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms">
     ...
@@ -162,7 +164,7 @@
                 <example>
                     <title>Applying the stylesheet server-side via controller.xql</title>
                     <programlisting>
-                    <markup><![CDATA[
+                        <markup><![CDATA[
 <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
     <view>
         <forward servlet="XSLTServlet">
