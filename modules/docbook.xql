@@ -140,9 +140,12 @@ declare %private function docbook:to-html($nodes as node()*) {
                 docbook:code($node)
             case element(graphic) return
                 let $align := $node/@align
-                let $class := if ($align) then "img-float-" || $align else ""
+                let $class := if ($align) then "img-float-" || $align else ()
                 return
-                    <img src="{$node/@fileref}"/>
+                    <img src="{$node/@fileref}">
+                    { if ($class) then attribute class { $class } else () }
+                    { if ($node/@width) then attribute width { $node/@width } else () }
+                    </img>
             case element(mediaobject) return
                 docbook:process-children($node)
             case element(imageobject) return
@@ -165,8 +168,13 @@ declare %private function docbook:to-html($nodes as node()*) {
                     <a href="{$node/@url}">{docbook:process-children($node)}</a>
             case element(note) return
                 <div class="alert alert-success">
-                    <h2>Note</h2>
-                    { docbook:process-children($node) }
+                {
+                    if ($node/title) then
+                        <h2>Note: { docbook:to-html($node/title/node()) }</h2>
+                    else
+                        ()
+                }
+                { docbook:to-html($node/* except $node/title) }
                 </div>
             case element(important) return
                 <div class="alert alert-error">
@@ -214,6 +222,8 @@ declare %private function docbook:to-html($nodes as node()*) {
                     <td>{docbook:process-children($node)}</td>
             case element(guimenuitem) return
                 <span class="guimenuitem">{docbook:process-children($node)}</span>
+            case element(guibutton) return
+                <span class="label">{docbook:process-children($node)}</span>
             case element(sgmltag) return
                 <span class="sgmltag">&lt;{docbook:process-children($node)}&gt;</span>
             case element(exist:match) return
@@ -239,10 +249,10 @@ declare %private function docbook:inline($node as node()) {
 };
 
 declare %private function docbook:figure($node as node()) {
-    let $float := $node/@float
-    let $class := if ($float = 1) then "img-float-right" else ""
+    let $float := $node/@floatstyle
     return
-        <figure class="{$class}">
+        <figure>
+            { if ($float) then attribute class { "float-" || $float } else () }
             {docbook:to-html($node/*[not(self::title)])}
             {
                 if ($node/title) then

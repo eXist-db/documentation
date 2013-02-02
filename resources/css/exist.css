@@ -97,8 +97,8 @@ body { color: #222; background: url(../images/body.gif) repeat 50% 100%; }
 h1 { font-size: 1.5em; padding: 0px 0 5px; margin: 0; font-weight: bold; "QuicksandBook", "Arial", Helvetica, sans-serif; }
 h2 { font-size: 1.2em; padding: 10px 0; font-weight: bold; font-family: "QuicksandBook", "Arial", Helvetica, sans-serif; letter-spacing: 1px; }
 h3 { font-size: 1.2em; padding: 10px 0 5px; margin: 0 0 5px; font-weight: bold; }
-h4 { font-size: 1.1em; padding: 10px 0; font-weight: bold; }
-h5 { font-size: 1.0em; padding: 10px 0; font-weight: bold; }
+h4 { font-size: 1.0em; padding: 10px 0; font-style: italic; font-weight: normal; }
+h5 { font-size: 1.0em; padding: 10px 0; font-weight: normal; }
 
 a { color: #0083cb; text-decoration: none;  }
 a:hover { color: #ffcb05; }
@@ -231,6 +231,10 @@ form { margin: 20px 0; }
     color: #555;
 }
 
+.content section {
+    clear: both;
+}
+
 .content h1 {
     font-family: "QuicksandBook", "Arial", Helvetica, sans-serif;
     font-size: 1.75em;
@@ -302,20 +306,40 @@ form { margin: 20px 0; }
 }
 
 .content dl.wide dt {
-    width: 240px;
+    width: 260px;
+    word-wrap: break-word;
 }
 
 .content dl.wide dd {
-    margin-left: 255px;
+    margin-left: 270px;
 }
 
 #content .content dt {
     font-weight: bold;
+    word-wrap:break-word;
 }
 
 .content img {
     margin: 8px auto;
     max-width: 100%
+}
+
+.content figure {
+    margin: 0 1em 1em 1em;
+}
+
+.content figure.float-left {
+    float: left;
+    margin-right: 1em;
+    width: 50%;
+    display: inline-block;
+}
+
+.content figure.float-right {
+    float: right;
+    margin-left: 1em;
+    width: 50%;
+    display: inline-block;
 }
 
 .content .img-float-left {
@@ -381,11 +405,12 @@ form { margin: 20px 0; }
 }
 
 .dl-horizontal dd {
-    margin-left: 20.5em;
-    }
+    margin-left: 150px;
+}
  
 .dl-horizontal dt {
     text-align: left;
-    width: 20em;
-    }
+    width: 140px;
+    word-wrap:break-word;
+}
     
