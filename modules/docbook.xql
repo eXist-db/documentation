@@ -264,7 +264,7 @@ declare %private function docbook:figure($node as node()) {
 };
 
 declare %private function docbook:table($node as node()) {
-    <table>{if ($node/@border) then attribute border {$node/@border} else () }
+    <table class="table table-striped table-condensed">{if ($node/@border) then attribute border {$node/@border} else () }
         {docbook:to-html($node/*[not(self::title)])}
         {
             if ($node/title) then
