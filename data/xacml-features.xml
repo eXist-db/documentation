@@ -2,7 +2,7 @@
 <!-- $Id$ -->
 <book>
     <bookinfo>
-    <productname>eXist-db – Open Source Native XML Database</productname>
+        <productname>eXist-db – Open Source Native XML Database</productname>
         <title>XACML Access Control in eXist: Capabilities</title>
         <date>September 2009</date>
         <author>
@@ -24,6 +24,14 @@
 			the time of the access). This part of the documentation provides an overview of what
 			subjects, resources, and actions are available and what characteristics of those
 			entities may be use to control access. </para>
+        <note id="deprecated">
+            <title>Deprecation</title>
+            <para>The XACML functionality is marked as deprecated and should
+                not be used for new projects. Please use the new 
+                <ulink url="security.xml#ACLs">ACL</ulink> functionality that has been 
+                introduced in eXist-db v2.0.
+                </para>
+        </note>
         <section>
             <title>Subjects</title>
             <section>

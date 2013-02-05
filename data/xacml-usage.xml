@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "docbookx.dtd">-->
-<!-- $Id$ -->
+<!--<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "docbookx.dtd">--><!-- $Id$ -->
 <book>
     <bookinfo>
-    <productname>eXist-db – Open Source Native XML Database</productname>
+        <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Access Control in eXist: Using XACML in eXist</title>
         <date>September 2009</date>
         <author>
@@ -20,9 +19,17 @@
         <title>Access Control in eXist: Using XACML in eXist</title>
         <section>
             <title>Configuring XACML</title>
-      <para>eXist-db loads policies from the /db/system/policies collection. Policies may be
+            <para>eXist-db loads policies from the /db/system/policies collection. Policies may be
 				manually created and uploaded to the policies collection, however, the builtin
 				editor is recommended.</para>
+            <note id="deprecated">
+                <title>Deprecation</title>
+                <para>The XACML functionality is marked as deprecated and should
+                not be used for new projects. Please use the new 
+                <ulink url="security.xml#ACLs">ACL</ulink> functionality that has been 
+                introduced in eXist-db v2.0.
+                </para>
+            </note>
             <para>Policies currently have a range index defined on their ids for possible lookup for
 				policy references. There is a fulltext index only on Description elements. However,
 				in the future, more indices might be defined in order to more efficiently restrict

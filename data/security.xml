@@ -26,12 +26,14 @@
             <para>This example Security Manager configuration file defines a URL to be used for
                 authentication:</para>
             <example>
-                <title><filename>/db/system/security/config.xml</filename></title>
+                <title>
+                    <filename>/db/system/security/config.xml</filename>
+                </title>
                 <programlisting language="xml">
         <markup><![CDATA[<security-manager xmlns="http://exist-db.org/Configuration" last-account-id="11" last-group-id="10" version="2.0">
     <Authentication-Entry-Point>/authentication/login</Authentication-Entry-Point>
 </security-manager>]]></markup>
-            </programlisting>
+                </programlisting>
             </example>
             <para>The Security Manager also features an authentication event listener that you can
                 configure to call a custom XQuery module on each authentication event. For example,
@@ -53,7 +55,8 @@
                 function called <command>authentication()</command>. This example sends a log
                 message to the console.</para>
             <example>
-                <title>A sample module handler for authentication events, <filename>/db/security-events.xq</filename></title>
+                <title>A sample module handler for authentication events, <filename>/db/security-events.xq</filename>
+                </title>
                 <programlisting language="xquery">
         <markup><![CDATA[xquery version "3.0";
  
@@ -90,7 +93,8 @@ declare function sec-ev:authentication() {
                 <para>The following is a sample user account document for "aretter" in
                     the eXist-db realm:</para>
                 <example>
-                    <title>Account Document stored in <filename>/db/system/security/exist/accounts/aretter.xml</filename></title>
+                    <title>Account Document stored in <filename>/db/system/security/exist/accounts/aretter.xml</filename>
+                    </title>
                     <programlisting>
                         <markup><![CDATA[<account xmlns="http://exist-db.org/Configuration" id="11">
     <name>aretter</name>
@@ -197,10 +201,8 @@ declare function sec-ev:authentication() {
                 <title>OAuth Realm</title>
                 <para>Due to the variation in implementations across OAuth providers, eXist-db
                     developers have to create provider-specific Java libraries. eXist-db currently
-                    supports only Facebook and Google for OAuth authentication (see <ulink
-                        url="http://developers.facebook.com/docs/authentication/">Facebook
-                        Authentication</ulink> and <ulink
-                        url="https://developers.google.com/accounts/docs/OAuth2">Google's OAuth
+                    supports only Facebook and Google for OAuth authentication (see <ulink url="http://developers.facebook.com/docs/authentication/">Facebook
+                        Authentication</ulink> and <ulink url="https://developers.google.com/accounts/docs/OAuth2">Google's OAuth
                         documentation</ulink>.</para>
                 <para>The OAuth Realm is not enabled by default in eXist-db. To enable the OAuth
                     realm, set the <option>include.feature.security.oauth</option> property to
@@ -234,7 +236,7 @@ declare function sec-ev:authentication() {
             <section id="openid-realm">
                 <title>OpenID Realm</title>
                 <para>
-	                <ulink url="http://openid.net/">OpenID</ulink> is an authentication mechanism
+                    <ulink url="http://openid.net/">OpenID</ulink> is an authentication mechanism
 	                where the identity of the user is maintained by trusted external providers. This
 	                takes the burden in maintaining and securing passwords for users off of the eXist
 	                database and on to the Identity Provider (IdP).
@@ -251,8 +253,10 @@ declare function sec-ev:authentication() {
 include.feature.security.openid = true
 ]]></programlisting>
                 </example>
-		        <para>
-			        This extension compiles into <emphasis role="bold"><emphasis role="italic">lib/extensions/exist-security-openid.jar</emphasis></emphasis>.
+                <para>
+			        This extension compiles into <emphasis role="bold">
+                        <emphasis role="italic">lib/extensions/exist-security-openid.jar</emphasis>
+                    </emphasis>.
 			        Run eXist with that jar should enable extension. To disable service remove the jar and restart eXist.
 				</para>
             </section>
@@ -330,8 +334,7 @@ include.feature.security.openid = true
                 password is set to <option>null</option>, and so access to the database is
                     <emphasis>initially</emphasis> granted to everyone. To set restrictions on
                 database access, you must first set a password for the "admin" user. To do this, use
-                either the <emphasis>Admin Client</emphasis> or the <ulink url="admin/admin.xql"
-                    >administrative web interface</ulink>. If eXist is used for applications
+                either the <emphasis>Admin Client</emphasis> or the <ulink url="admin/admin.xql">administrative web interface</ulink>. If eXist is used for applications
                 intended for online web publications, or as an embedded library, it is exposed it to
                 potential exploitation. It is therefore strongly advised that you first change the
                 admin password.</para>
@@ -339,9 +342,9 @@ include.feature.security.openid = true
                 open this dialog box, enter <keysym>Ctrl-U</keysym> or select
                     <guimenuitem>Tools</guimenuitem> » <guimenuitem>Edit users</guimenuitem>. A
                 dialog box will appear, as shown here.</para>
-                <screenshot>
-                    <graphic fileref="resources/client-5.png"/>
-                </screenshot>
+            <screenshot>
+                <graphic fileref="resources/client-5.png"/>
+            </screenshot>
             <orderedlist>
                 <listitem>
                     <para>At the top, select the "admin" user in the table of users</para>
@@ -416,12 +419,8 @@ enter groups: users]]></screen>
             <section>
                 <title>Unix Model</title>
                 <para>The default that is based on the UNIX <emphasis role="bold">read</emphasis>,
-                        <emphasis role="bold">write</emphasis> and <emphasis role="bold"
-                        >execute</emphasis> flags for <emphasis role="bold">owner</emphasis>,
-                        <emphasis role="bold">group</emphasis> and <emphasis role="bold"
-                        >world</emphasis>. In versions prior to eXist-db 2.0, there was no <emphasis
-                        role="bold">execute</emphasis> flag, rather an <emphasis role="bold"
-                        >update</emphasis> flag was present.</para>
+                        <emphasis role="bold">write</emphasis> and <emphasis role="bold">execute</emphasis> flags for <emphasis role="bold">owner</emphasis>,
+                        <emphasis role="bold">group</emphasis> and <emphasis role="bold">world</emphasis>. In versions prior to eXist-db 2.0, there was no <emphasis role="bold">execute</emphasis> flag, rather an <emphasis role="bold">update</emphasis> flag was present.</para>
                 <screenshot>
                     <graphic fileref="resources/owner-group-world.png"/>
                 </screenshot>
@@ -581,9 +580,9 @@ enter groups: users]]></screen>
                     </example>
                 </section>
             </section>
-            <section>
-                <title>Access Control Lists</title>
-                <para>TODO</para>
+            <section id="ACLs">
+                <title>Access Control Lists (ACL)</title>
+                <para>To be written. More information about ACLs is available as a <ulink url="http://www.adamretter.org.uk/presentations/security-in-existdb_xml-prague_existdb_20120210.pdf">slides</ulink> (PDF) and a presentation on <ulink url="http://www.youtube.com/watch?v=Z_Dryy9DtVo">YouTube</ulink>.</para>
             </section>
         </section>
         <section id="permission-checks">
