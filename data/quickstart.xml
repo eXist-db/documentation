@@ -175,7 +175,10 @@
                         "<filename>C:\Program Files\eXist</filename>" for Windows).</para>
                 </step>
                 <step>
-                    <para>On Linux or Mac, enter the following:</para>
+                    <para>Just calling <filename>start.jar</filename> will start eXist-db via the desktop launcher:</para>
+                    <synopsis>java -jar start.jar</synopsis>
+                    <para>If you want to launch eXist-db without a GUI, use the shell scripts in <filename>bin/</filename>. 
+                        On Linux or Mac, enter the following:</para>
                     <synopsis format="linespecific">bin/startup.sh</synopsis>
                     <para>If you are a Windows user, enter the following:</para>
                     <synopsis format="linespecific">bin\startup.bat</synopsis>
