@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
@@ -46,7 +47,8 @@
                 controlled by the service wrapper. In this case, the file to edit is <filename>EXIST_HOME/tools/wrapper/conf/wrapper.conf</filename>. Search for the following
                 lines:</para>
             <synopsis># Maximum Java Heap Size (in MB)
-wrapper.java.maxmemory=512<!--was 128 - should this not be 1024?--></synopsis>
+wrapper.java.maxmemory=512<!--was 128 - should this not be 1024?-->
+            </synopsis>
         </section>
         <section>
             <title>Cache settings</title>
@@ -66,7 +68,7 @@ wrapper.java.maxmemory=512<!--was 128 - should this not be 1024?--></synopsis>
 &lt;db-connection cacheSize="48M" collectionCache="24M" database="native"
         files="webapp/WEB-INF/data" pageSize="4096" nodesBuffer="-1"&gt;</programlisting>
             </example>
-            <para>The default <ulink url="http://www.exist-db.org/configuration.html#N101B8">setting</ulink> for <option>cacheSize</option> is very conservative (48M). It
+            <para>The default setting for <option>cacheSize</option> is very conservative (48M). It
                 will be OK for smaller databases, but you may soon experience a performance drop
                 when indexing more than several 100M of XML data. Consider increasing
                     <option>cacheSize</option> up to approx. 1/3 of the main memory available to
@@ -480,7 +482,7 @@ return
                     in-memory XML fragments: before evaluating a path expression on an in-memory
                     node, the query engine stores the node into a persistent document created in a
                     temporary collection of the db. A very simple example is the query:</para>
-                <synopsis language="xquery">(&lt;root&gt;&lt;node/&gt;&lt;/root&gt;)//node</synopsis>
+                <synopsis language="xquery">(<root><node/></root>)//node</synopsis>
                 <para>Executing this expression should leave a log message similar to the following
                     in your server logs (if you didn't disable debug messages):</para>
                 <screen>06 Mar 2009 16:46:07,786 [main] DEBUG (XQueryContext.java 

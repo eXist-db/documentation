@@ -2,58 +2,75 @@
 <!-- $Id$ -->
 <book>
     <bookinfo>
-    <productname>eXist-db – Open Source Native XML Database</productname>
+        <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Configuring Database Indexes</title>
         <date>November 2009</date>
-    <orgname>The eXist-db Project</orgname>
+        <orgname>The eXist-db Project</orgname>
     </bookinfo>
     <chapter>
         <title>Configuring Database Indexes</title>
         <section>
             <title>Overview</title>
-      <para>In this section, we discuss the types of database indexes used by eXist-db, as well
+            <para>In this section, we discuss the types of database indexes used by eXist-db, as well
                 as how they are created, configured and maintained. It assumes readers have a basic
                 understanding of XML and XQuery.</para>
-      <para>Database indexes are used extensively by eXist-db to facilitate efficient querying of
+            <para>Database indexes are used extensively by eXist-db to facilitate efficient querying of
                 the database. This is accomplished both by system-generated and user-configured
                 database indexes. The current version of eXist-db by default includes the following
                 types of indexes:</para>
             <orderedlist>
                 <listitem>
-          <para><emphasis><ulink url="#structuralidx">Structural Indexes</ulink></emphasis>: This index keeps track of the elements, attributes, and the nodal structure
+                    <para>
+                        <emphasis>
+                            <ulink url="#structuralidx">Structural Indexes</ulink>
+                        </emphasis>: This index keeps track of the elements, attributes, and the nodal structure
 	  of all XML documents in a collection.</para>
                 </listitem>
                 <listitem>
-          <para><emphasis><ulink url="#rangeidx">Range Indexes</ulink></emphasis>: These map specific text nodes and attributes of the documents
+                    <para>
+                        <emphasis>
+                            <ulink url="#rangeidx">Range Indexes</ulink>
+                        </emphasis>: These map specific text nodes and attributes of the documents
                         in a collection to typed values.</para>
                 </listitem>
                 <listitem>
-          <para><emphasis><ulink url="ftlegacy.xml">Legacy Full Text Indexes</ulink></emphasis>These map specific text nodes and attributes of the documents in
+                    <para>
+                        <emphasis>
+                            <ulink url="ftlegacy.xml">Legacy Full Text Indexes</ulink>
+                        </emphasis>These map specific text nodes and attributes of the documents in
                         a collection to text tokens.</para>
                 </listitem>
                 <listitem>
-          <para><emphasis><ulink url="lucene.xml">Full Text Indexes</ulink></emphasis>This full text indexing module features faster and
+                    <para>
+                        <emphasis>
+                            <ulink url="lucene.xml">Full Text Indexes</ulink>
+                        </emphasis>This full text indexing module features faster and
                         customizable full text indexing by transparently integrating Lucene into the
                         XQuery engine. Prefer this index over the Legacy Full Text Index.
                     </para>
                 </listitem>
                 <listitem>
-		  <para><emphasis><ulink url="ngram.xml">NGram Indexes</ulink></emphasis>: These map specific text nodes and attributes of the documents
+                    <para>
+                        <emphasis>
+                            <ulink url="ngram.xml">NGram Indexes</ulink>
+                        </emphasis>: These map specific text nodes and attributes of the documents
                         in a collection to splitted tokens of n-characters (where n = 3 by default).
 			This is very efficient for exact substring searches and for queries on scripts
                         (mostly non-European ones) which can not be easily split into whitespace
                   separated tokens and are thus a bad match for the Lucene full text index. </para>
                 </listitem>
                 <listitem>
-          <para><emphasis><ulink url="devguide_indexes.xml#spatial">Spatial Indexes</ulink>
+                    <para>
+                        <emphasis>
+                            <ulink url="devguide_indexes.xml#spatial">Spatial Indexes</ulink>
                             (Experimental)</emphasis>: These map elements of the documents in a
                         collection containing georeferenced geometries to dedicated data structures
                         that allow efficient spatial queries. </para>
                 </listitem>
                 <listitem>
                     <para>
-		      <emphasis>
-                        <ulink url="devguide_indexes.xml#spatial">xml:id Index</ulink>
+                        <emphasis>
+                            <ulink url="devguide_indexes.xml#spatial">xml:id Index</ulink>
                         </emphasis>: An index of all xml:id attribute values is automatically created. 
                     These values can be queried by fn:id(). </para>
                 </listitem>
@@ -63,11 +80,10 @@
                     they should be or not, and how some processing instructions could "hint" the
                     indexing process is still being considered.</para>
       </note>-->
-      <para>Since version 1.2, eXist-db features a new modularized indexing architecture. Most
+            <para>Since version 1.2, eXist-db features a new modularized indexing architecture. Most
                 types of indexes have been moved out of the database core and are now maintained as
                 pluggable extensions. The full text, ngram and spatial indexes fall under this
-                category. Please refer to the blog <ulink url="http://atomic.exist-db.org/wiki/blogs/eXist/NewIndexing">article</ulink>
-                which introduced the new architecture.</para>
+                category. </para>
         </section>
         <section>
             <title>Built-in Indexes</title>
@@ -76,7 +92,7 @@
                 (see <ulink url="#moduleconf">below</ulink>). </para>
             <section id="structuralidx">
                 <title>Structural index</title>
-        <para>This index keeps track of the elements (tags), attributes, and nodal structure
+                <para>This index keeps track of the elements (tags), attributes, and nodal structure
                     for all XML documents in a collection. It is created and maintained
                     automatically in eXist-db, and can neither be reconfigured nor disabled by the
                     user. The structural index is required for nearly all XPath and XQuery
@@ -90,7 +106,7 @@
                     expression.</para>
                 <para>For example, given the following query:</para>
                 <synopsis>//book/section</synopsis>
-        <para>eXist-db uses two index lookups: the first for the <sgmltag>book</sgmltag> node,
+                <para>eXist-db uses two index lookups: the first for the <sgmltag>book</sgmltag> node,
                     and the second for the <sgmltag>section</sgmltag> node. It then computes the
                         <emphasis>structural join</emphasis> between these node sets to determine
                     which <sgmltag>section</sgmltag> elements are in fact children of
