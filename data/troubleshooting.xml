@@ -66,6 +66,23 @@ Logging already initialized. Skipping...
                 have a backup before continuing. If only one or two resources are affected, it might still be ok to restart, but it's
                 good to have a backup just in case.</para>
         </section>
+        <section id="clearing-db">
+            <title>Going Back to an Empty Database</title>
+            <para>During development and testing you may sometimes wish to go back to a completely empty, fresh database. Here's how to
+                really <emphasis>remove everything</emphasis> and reset the db to its initial state:</para>
+            <procedure>
+                <step>
+                    <para>Make sure eXist-db is no longer running</para>
+                </step>
+                <step>
+                    <para>If you installed the source code (and thus the development tools), call ant as follows:</para>
+                    <synopsis>./build.sh clean-default-data-dir</synopsis>
+                    <para>If you do not have build.sh (or build.bat), you may just manually remove the contents of
+                        your data directory. By default, the data directory is in <filename>EXIST_HOME/webapp/WEB-INF/data</filename>
+                    </para>
+                </step>
+            </procedure>
+        </section>
         <section id="environmental-variables">
             <title>JAVA_HOME and EXIST_HOME Environmental Variables</title>
             <para>When using one of the shell or batch scripts, eXist-db can fail to start up properly if either of the two key environmental
