@@ -2,7 +2,7 @@
 <!-- $Id$ -->
 <book>
     <bookinfo>
-    <productname>eXist-db – Open Source Native XML Database</productname>
+        <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Upgrade Guide</title>
         <date>November 2009</date>
         <author>
@@ -19,7 +19,7 @@
         <title>Upgrade Guide</title>
         <section>
             <title>General Information</title>
-      <para>Never install a new version of eXist-db into the same directory as an older
+            <para>Never install a new version of eXist-db into the same directory as an older
                 version:</para>
             <procedure>
                 <step>
@@ -40,6 +40,63 @@
             </procedure>
         </section>
         <section>
+            <title>Upgrading to 2.0</title>
+            <para>The 2.0 release is not binary compatible with the 1.4.x series. You need to
+                backup/restore.</para>
+            <section>
+                <title>Special Notes</title>
+                <variablelist>
+                    <varlistentry>
+                        <term>Permissions</term>
+                        <listitem>
+                            <para>eXist-db 2.0 closely follows the Unix security model (plus ACLs). Permissions have thus
+                                changed between 1.4.x and 2.0. In particular, there's now an execute permission, which is
+                                required to</para>
+                            <orderedlist>
+                                <listitem>
+                                    <para>execute an XQuery via any of eXist-db's interfaces</para>
+                                </listitem>
+                                <listitem>
+                                    <para>change into a collection to view or modify its contents</para>
+                                </listitem>
+                            </orderedlist>
+                            <para>eXist-db had an update permission instead of the execute permission. Support for the update permission
+                                has been dropped because it was not used widely.</para>
+                            <para>When restoring data from 1.4.x, you thus need to make sure that:</para>
+                            <orderedlist>
+                                <listitem>
+                                    <para>collections have the appropriate execute permission</para>
+                                </listitem>
+                                <listitem>
+                                    <para>XQueries are executable</para>
+                                </listitem>
+                            </orderedlist>
+                            <para>You can use an XQuery to automatically apply a default permission to every collection and XQuery, and
+                                then change them manually for some collections or resources.</para>
+                            <programlisting language="xquery"><![CDATA[xquery version "3.0";
+
+import module namespace dbutil="http://exist-db.org/xquery/dbutil";
+
+dbutil:find-by-mimetype(xs:anyURI("/db"), "application/xquery", function($resource) {
+    sm:chmod($resource, "rwxr-xr-x")
+}),
+dbutil:scan-collections(xs:anyURI("/db"), function($collection) {
+    sm:chmod($collection, "rwxr-xr-x")
+})]]></programlisting>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>Webapp Directory</term>
+                        <listitem>
+                            <para>Contrary to 1.4.x, eXist-db 2.0 stores most web applications into the database. The webapp
+                            directory is thus nearly empty. It is still possible to put your web application there and it should
+                            be accessible via the browser in the same way as before.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+            </section>
+        </section>
+        <section>
             <title>Upgrading to 1.4.0</title>
             <para>The 1.4 release is not binary compatible with the 1.2.x series. You need to
                 backup/restore.</para>
@@ -49,7 +106,7 @@
                     <varlistentry>
                         <term>Indexing</term>
                         <listitem>
-              <para>eXist-db 1.2.x used to create a default full text index on all
+                            <para>eXist-db 1.2.x used to create a default full text index on all
                                 elements in the db. This has been <emphasis>disabled</emphasis>. The
                                 main reasons for this are:</para>
                             <orderedlist>
@@ -96,7 +153,7 @@
                     <varlistentry>
                         <term>Cocoon</term>
                         <listitem>
-              <para>eXist-db does no longer require Cocoon for viewing documentation and
+                            <para>eXist-db does no longer require Cocoon for viewing documentation and
                                 samples. Cocoon has been largely replaced by eXist's own <ulink url="urlrewrite.xml">URL rewriting and MVC
                                 framework</ulink>.</para>
                             <para>Consequently, we now limit Cocoon to one directory of the web
