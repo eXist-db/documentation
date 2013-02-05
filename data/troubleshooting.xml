@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
@@ -15,9 +16,14 @@
         </section>
         <section id="normal-start-up">
             <title>Normal Start Up</title>
-            <para>While eXist-db starts up, log output appears in the console. If eXist-db launched
-                properly, you will find output similar to the following (this example output is
-                taken from Mac OS X):</para>
+            <para>While eXist-db starts up, log output appears in the console. If you started
+                eXist-db via the system tray launcher (default), the console output is captured and
+                can be viewed by selecting the <guibutton>Show Tool Window</guibutton> menu entry in
+                the system tray popup, then select <guibutton>Show console messages</guibutton>. If
+                you launched eXist-db via one of the shell scripts, the output should directly
+                appear in those.</para>
+            <para>If eXist-db launched properly, you will find output similar to the following (this
+                example output is taken from Mac OS X):</para>
             <example>
                 <title>Console Output</title>
                 <screen><![CDATA[
@@ -50,12 +56,22 @@ Logging already initialized. Skipping...
                 installation is working normally.</para>
             <para>However, if you do not even see this message, you should follow these troubleshooting steps</para>
         </section>
+        <section id="db-locked">
+            <title>Database Refuses to Start</title>
+            <para>If eXist-db was not shut down properly, it may start a recovery process to redo committed transactions and roll
+            back uncommitted ones. If an inconsistency is found during this process, eXist-db will automatically abort the startup
+            and print out a warning. This emergency stop is done to avoid potential damage and give an administrator a chance to check
+            the db and create a backup. It does not necessarily indicate a real problem. In most cases, the db should be ok and restarting it will be save.</para>
+            <para>However, we definitely recommend to run a <ulink url="backup.xml#consistency-check">consistency check</ulink> in those cases. If inconsistencies are found, make sure you
+                have a backup before continuing. If only one or two resources are affected, it might still be ok to restart, but it's
+                good to have a backup just in case.</para>
+        </section>
         <section id="environmental-variables">
             <title>JAVA_HOME and EXIST_HOME Environmental Variables</title>
-            <para>eXist-db can fail to start up properly if either of the two key environmental
+            <para>When using one of the shell or batch scripts, eXist-db can fail to start up properly if either of the two key environmental
                 variables, <envar>JAVA_HOME</envar> and <envar>EXIST_HOME</envar>, are not set
                 properly. Both variables are used in the <filename>startup.bat</filename> and
-                    <filename>startup.sh</filename> scripts and have to be set correctly before the
+                <filename>startup.sh</filename> scripts and have to be set correctly before the
                 scripts are run (you can also insert the lines required in the beginning of the
                 scripts themselves).</para>
             <itemizedlist>
@@ -72,7 +88,7 @@ Logging already initialized. Skipping...
                         the server uses the path <filename>EXIST_HOME/conf.xml</filename>. For
                         example, if the <envar>EXIST_HOME</envar> path is <filename>C:\Program
                             Files\eXist</filename>, the server will look for <filename>C:\Program
-                            Files\eXist\conf.xml</filename>. You can set EXIST_HOME in the same way
+                                Files\eXist\conf.xml</filename>. You can set EXIST_HOME in the same way
                         that you set JAVA_HOME; thus, on Mac OS X, you would enter "export
                         EXIST_HOME=/Applications/eXist" in the Terminal. </para>
                 </listitem>
@@ -111,7 +127,7 @@ Logging already initialized. Skipping...
                 files. By default, this output is written to the directory <filename moreinfo="none">webapp/WEB-INF/logs</filename>.
                 Or, if you are running eXist as a service, check the directory <filename>tools/wrapper/logs</filename>. The
                 main log files for eXist itself are <filename>exist.log</filename> and
-                    <filename>xmldb.log</filename>.
+                <filename>xmldb.log</filename>.
                 <!-- The other log files show output from Cocoon.  -->
             </para>
         </section>
