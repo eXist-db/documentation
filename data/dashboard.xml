@@ -12,49 +12,109 @@
             <title>About the Dashboard</title>
             <para>The eXist-db Dashboard is the central application launchpad and administration
                 facility for eXist-db. Much like a tablet or smartphone home screen, the Dashboard
-                displays a list of applications, or "apps". In the Dashboard</para>
-            <para>The default apps installed in eXist-db relate to administration and assist with
-                application development. The database administration apps include: Admin Web
-                Application, Collections, Shutdown, Backup, Package Manager, and User Manager. The
-                application development applications include: eXide XQuery IDE.</para>
+                displays a list of applications, or "apps".</para>
+            <para>The Dashboard supports both "apps" and "plugins". Apps are self-contained
+                applications providing their own web GUI, while "plugins" run inside the dashboard
+                as simple, single-screen dialogs. Examples for apps are the eXist-db documentation,
+                eXide, or the demo app. Examples for plugins are the package manager or the
+                collection browser. Plugins are most suitable for administrative functions.</para>
+            <para>In addition to applications and plugins, the package repository does also provide
+                library and resource packages. They do usually not provide a web GUI and are thus
+                not visible on the dashboard home screen. However, they will appear in the list of
+                installed packages within the package manager. You can read more about the different
+                types of packages in the <ulink url="repo.xml">package repository
+                    documentation</ulink>.</para>
         </section>
         <section>
-            <title>Using the Dashboard</title>
-            <para>To enter an app, select its icon.</para>
-            <para>To find new apps to install, select the Package Manager app and browse the list of
-                applications and code library packages available from eXist-db's public repository.
-                This repository is eXist-db's equivalent of an "app store". Detailed information
-                about each package can be viewed by selecting the <guibutton>Show
-                    Details</guibutton> checkbox in the upper-right corner. If you want to connect
-                to a different repository, select the <guibutton>gear</guibutton> button and enter
-                the repository's URL.</para>
-            <para>To install an app from the repository, select the app; this will reveal a
-                gear-shaped <guibutton>install</guibutton> button. You can also install packages
-                stored on your filesystem; just select the <guibutton>gear</guibutton> icon in the
-                top-left corner of the main Package Manage pane to bring up the Upload dialog, then
-                click on the "Click to select .xar package" to browse your filesystem to find the
-                .xar package, then select "Submit" to upload the package to eXist-db for
-                installation. Once installed, a new app will appear in the Dashboard landing
-                page.</para>
-            <para>Deleting an unwanted application is as simple as hovering the mouse over an app's
-                icon, which reveals a trashcan icon; click on the trashcan icon to delete the app.
-                Alternatively, from the Package Manager app, select an installed app and click on
-                the orange-tinted <guibutton>gear</guibutton> button.</para>
+            <title>Login</title>
+            <figure floatstyle="left">
+                <title>Login as User admin</title>
+                <graphic fileref="resources/dashboardLogin.png"/>
+            </figure>
+            <para>To fully use the administration plugins, you need to be logged in as a dba user.
+                You may access plugins as a non-dba user, but as soon as you want to apply changes,
+                you may get a permission error.</para>
+            <para>You can log in by clicking on the link in the left corner of the dashboard frame
+                next to the eXist-db icon. If you are logged in as another user, click on the user
+                name to log out.</para>
         </section>
         <section>
-            <title>On Apps vs. Plugins</title>
-            <para>The Dashboard supports both "apps", which are self-contained applications
-                providing their own web GUI, as well as "plugins": simple, single-screen dialogs
-                which run inside the dashboard. The eXist-db Documentation App, eXide, and eXist-db
-                Demo App are apps, while the Collection Browser, Shutdown, Backup, Package Manager,
-                and User Manager are plugins. Plugins are most suitable for administrative
-                functions.</para>
+            <title>Using the Package Manager</title>
+            <figure floatstyle="left">
+                <title>The Package Manager Icon</title>
+                <graphic fileref="resources/dashboardPMIcon.png"/>
+            </figure>
+            <para>The Package Manager lists all installed and available packages. Updates to
+                installed packages appear towards the bottom of the list.</para>
+            <para>To filter the package list, select the corresponding radio buttons to see either
+                    <guibutton>installed</guibutton> or <guibutton>available</guibutton> packages. Detailed information about each package can
+                be viewed by selecting the <guibutton>show details</guibutton> checkbox in the
+                upper-right corner.</para>
+            <section>
+                <title>Installing/Removing a Package</title>
+                <figure floatstyle="left">
+                    <title>Install an App</title>
+                    <graphic fileref="resources/dashboardInstallApp.png"/>
+                </figure>
+                <para>To install an app from the repository, move your mouse over the app. You
+                    should see an install button if the app is not currently installed, or a remove
+                    button if it is.</para>
+            </section>
+            <section>
+                <title>Updating a Package</title>
+                <figure floatstyle="left">
+                    <title>Available Updates to Installed Packages</title>
+                    <graphic fileref="resources/dashboardUp2dateApps.png"/>
+                </figure>
+                <para>Updates to already installed packages appear at the bottom of the packages
+                    list, with the currently installed and the available version number in red.
+                    Another note is displayed if a package requires a certain version of eXist-db.
+                    In this case please make sure you are on the correct version before you attempt
+                    to install it.</para>
+                <para>Clicking on the install button will update the package, removing the old
+                    one.</para>
+            </section>
+            <section>
+                <title>Browser Caching</title>
+                <figure floatstyle="left">
+                    <title>Clear your Cash Information </title>
+                    <graphic fileref="resources/dashboardUp2dateInfo.png"/>
+                </figure>
+                <para>Some apps like eXide or the Dashboard rely on Javascript libraries. After an
+                    update, your browser may still use the old libraries,  which may affect the
+                    functionality of the app. You should at least reload any open page belonging to
+                    those apps. A  corresponding warning will be shown during the update. </para>
+            </section>
+            <section>
+                <title>Installing an Older Version</title>
+                <figure floatstyle="left">
+                    <title>Older Versions in Detailed View</title>
+                    <graphic fileref="resources/dashboardSelectVersion.png"/>
+                </figure>
+                <para>Sometimes you may want to go back to an older version of a package. To see all
+                    available versions, you have to switch to the detail view first (just use the
+                        <guibutton>show details</guibutton> button). However, older versions will
+                    only be displayed for packages which are not already installed. You thus have to
+                    remove any old package first.</para>
+            </section>
+            <section>
+                <title>Uploading Your Own Packages</title>
+                <figure floatstyle="left">
+                    <title>Upload your own Application to eXist-db</title>
+                    <graphic fileref="resources/dashboardLoadOwnApps.png"/>
+                </figure>
+                <para>Instead of installing from the public repository, you can also upload a
+                    package to the server from your local disk. The package has to be in
+                        <filename>.xar</filename> format.</para>
+            </section>
+        </section>
+        <section>
+            <title>Further Information for Developers</title>
+            <para>[To be completed...]</para>
             <para>Plugins are loaded and unloaded on demand via dojo's AMD loader. They are modular,
                 self-contained units. To add a new plugin, you need to provide an HTML and a
-                plugin.js file, which defines a subclass of the base plugin class.</para>
-            <para>Future plans for plugins include the addition of a template plugin to help others
-                understand how to set up a plugin, and XForms support, which would make plugin
-                authoring a lot easier but requires an update to betterform.</para>
+                    <filename>.js</filename> file, which defines a subclass of the base plugin
+                class. The source code for the dashboard is available on <ulink url="http://github.com/eXist-db/dashboard">github</ulink>.</para>
         </section>
     </chapter>
 </book>
