@@ -202,6 +202,27 @@
             </section>
         </section>
         <section>
+            <title>Disabling betterFORM</title>
+            <para>Under certain conditions, e.g. when XSLTforms is used,
+            the betterFORM engine needs to be disabled. This can be done in two ways:
+            
+            <itemizedlist>
+                    <listitem>
+                        <para>Per request by setting a HTTP attribute: 
+                        <synopsis language="xquery">request:set-attribute("betterform.filter.ignoreResponseBody", "true")</synopsis>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>System global by editing <filename>$EXIST_HOME/webapp/WEB-INF/betterform-config.xml</filename>: 
+                        <synopsis language="xml">&lt;property name="filter.ignoreResponseBody" value="false"&gt;</synopsis>
+                    change the property <option>filter.ignoreResponseBody</option> to value <option>true</option> and restart
+                        eXist-db.
+                    </para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
             <title>Additional XForms Resources</title>
             <section>
                 <title>XForms examples running in eXist</title>
