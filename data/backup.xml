@@ -513,6 +513,23 @@ repair:clean-all(),
 repair:repair()]]></programlisting>
             </section>
         </section>
+        <section>
+            <title>Backing Up Single Apps</title>
+            <para>Creating a backup of a single expath application or library package is rather
+                straightforward within eXide. Either use:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>the <ulink url="development-starter.xml#synchronize">synchronize
+                            feature</ulink> to write the package contents to a directory on disk,
+                        or</para>
+                </listitem>
+                <listitem>
+                    <para>call <guimenuitem>Application</guimenuitem> / <guimenuitem>Download
+                            App</guimenuitem> to retrieve a <filename>.xar</filename> package which
+                        can be deployed into another eXist-db instance</para>
+                </listitem>
+            </itemizedlist>
+        </section>
         <section id="standalone">
             <title>Standalone Backup/Restore</title>
             <section>

@@ -27,13 +27,25 @@
                 or you are just curious about learning strategies for keeping your database and
                 queries performing at peak efficiency, this is an essential document.</para>
         </section>
-        <section>
+        <section id="memory">
             <title>Memory settings</title>
             <para>Java always limits the maximum amount of memory available to a process. eXist-db will
                 thus not automatically use all of the memory available on your machine. The default
                 setting is 1024MB.</para>
             <para>The maximum amount of memory Java will allocate is determined by the
-                    <option>-Xmx</option> parameter passed to Java on the command line. If you
+                    <option>-Xmx</option> parameter passed to Java on the command line. When eXist-db is started
+                    via the graphical launcher, parameters will be read from the file <filename>vm.properties</filename>.</para>
+            <programlisting><![CDATA[# This file contains a list of VM parameters to be passed to Java
+# when eXist is started by double clicking on start.jar (or calling
+# "java -jar start.jar" without parameters on the shell).
+
+# Minimum and maximum memory
+vmoptions=-Xms64m -Xmx4098m -Dexist.autodeploy=on
+
+# Mac specific properties
+vmoptions.mac=-Xdock:name="eXist-db" -Xdock:icon="icon.png" -Dapple.laf.useScreenMenuBar="true"
+]]></programlisting>
+            <para>If you
                 launch eXist via one of the shell or batch scripts, you need to change
                     <option>-Xmx</option> in there.</para>
             <para>On a <emphasis>Unix</emphasis> system, edit <filename>EXIST_HOME/bin/functions.d/eXist-settings.sh</filename>. Search for the
@@ -268,6 +280,24 @@ wrapper.java.maxmemory=512<!--was 128 - should this not be 1024?-->
                 <para>into a multi filter step as shown above.</para>
             </section>
             <section>
+                <title>Avoid unnecessary nested filters</title>
+                <para>Nesting filters in an XPath expression is often required and eXist-db will
+                    process them correctly. However, unnecessary nesting should be avoided and has a
+                    negative impact on the query optimizer. For example:</para>
+                <synopsis language="xquery">//A[B[C = "D"]]</synopsis>
+                <para>could also be written as</para>
+                <synopsis language="xquery">//A[B/C = "D"]</synopsis>
+                <para>without changing the result. The variant with only one filter is easier to
+                    optimize for eXist-db, whereas the nested filter implies a performance
+                    penalty.</para>
+                <para>Likewise, if you are calling one of the optimized functions (contains,
+                    matches, ft:query ...), make sure you do not nest them unless really
+                    required:</para>
+                <synopsis language="xquery">//A[B/C[contains(., "D")]]</synopsis>
+                <para>can be rewritten to</para>
+                <synopsis language="xquery">//A[contains(B/C, "D")]</synopsis>
+            </section>
+            <section>
                 <title>Allow eXist-db to process large node sets in one step</title>
                 <para>The query engine is optimized to process a path expression in one, single
                     operation. For instance, the XPath:</para>
@@ -342,6 +372,32 @@ return $e
                     the right hand sequence. If an index is defined on <sgmltag>b</sgmltag>, eXist-db
                     will need only one index lookup to find all b's matching the comparison. The
                     equivalent "or" expression needs two separate index lookups.</para>
+            </section>
+            <section>
+                <title>Use "group by"</title>
+                <para>The XQuery 3.0 group by feature is much more efficient than using e.g.
+                    distinct-values. For example, to order the results of a query by the value of
+                    the child element SPEAKER, you may have used:</para>
+                <programlisting language="xquery">xquery version "3.0";
+
+let $query := "king"
+let $speeches := //SPEECH[ft:query(., $query)]
+for $speaker in distinct-values($speeches/SPEAKER)
+let $speechBySpeaker := $speeches[SPEAKER = $speaker]
+order by $speaker
+return
+    &lt;speaker name="{$speaker}"&gt;
+    { $speechBySpeaker }
+    &lt;/speaker&gt;</programlisting>
+                <para>The XQuery 3.0 variant with group by is much more efficient:</para>
+                <programlisting language="xquery">let $query := "king"
+for $speechBySpeaker in //SPEECH[ft:query(., $query)]
+group by $speaker := $speechBySpeaker/SPEAKER
+order by $speaker
+return
+    &lt;speaker name="{$speaker}"&gt;
+    { $speechBySpeaker }
+    &lt;/speaker&gt;</programlisting>
             </section>
             <section>
                 <title>Querying multiple collections</title>

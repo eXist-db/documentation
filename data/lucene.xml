@@ -35,8 +35,8 @@
                 <step>
                     <para>Before building eXist, you need to enable the Lucene module by editing
                             <code>extensions/indexes/build.properties</code> (also see the
-                        documentation on <ulink url="http://www.exist-db.org/indexing.html#moduleconf">index
-                            modules</ulink>):</para>
+                        documentation on <ulink url="indexing.xml#moduleconf">index
+                        modules</ulink>):</para>
                     <example>
                         <title>build.properties</title>
                         <programlisting># Lucene integration
@@ -73,7 +73,7 @@ include.index.lucene = true
                         <listitem>
                             <para>Defines the amount of memory (in megabytes) Lucene will use for
                                 buffering index entries before they are written to disk. See the
-                                    <ulink url="http://lucene.apache.org/java/2_9_1/api/all/org/apache/lucene/index/IndexWriter.html#setRAMBufferSizeMB(double)">Lucene javadocs</ulink>.</para>
+                                    <ulink url="http://lucene.apache.org/core/3_6_2/api/all/org/apache/lucene/index/IndexWriterConfig.html#setRAMBufferSizeMB(double)">Lucene javadocs</ulink>.</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>
@@ -81,8 +81,9 @@ include.index.lucene = true
         </section>
         <section>
             <title>Configuring the Index</title>
-            <para>Like other indexes, you create a Lucene index by configuring it in a <filename>collection.xconf</filename> document. If you have never done that before, read
-                the corresponding <ulink url="http://www.exist-db.org/indexing.html#idxconf">documentation</ulink>. An example <filename>collection.xconf</filename> is
+            <para>Like other indexes, you create a Lucene index by configuring it in a
+                    <filename>collection.xconf</filename> document. If you have never done that
+                before, read the corresponding <ulink url="indexing.xml#idxconf">documentation</ulink>. An example <filename>collection.xconf</filename> is
                 shown below:</para>
             <example>
                 <title>collection.xconf</title>
@@ -336,11 +337,11 @@ order by ft:score($sect) descending return $sect</synopsis>
 &lt;/lucene&gt;</markup>
                     </programlisting>
                 </example>
-                <para>In the example above, we define that Lucene's <ulink url="http://lucene.apache.org/java/2_4_1/api/org/apache/lucene/analysis/standard/StandardAnalyzer.html">StandardAnalyzer</ulink> should be used by default (the
+                <para>In the example above, we define that Lucene's <ulink url="http://lucene.apache.org/core/3_6_2/api/all/org/apache/lucene/analysis/standard/StandardAnalyzer.html">StandardAnalyzer</ulink> should be used by default (the
                         <sgmltag>analyzer</sgmltag> element without <option>id</option> attribute).
                     We provide an additional analyzer and assign it the id <option>ws</option>, by
                     which the analyzer can be referenced in the actual index definitions.</para>
-                <para>The <ulink url="http://lucene.apache.org/java/2_4_1/api/org/apache/lucene/analysis/WhitespaceAnalyzer.html">whitespace analyzer</ulink> is the most basic one. As the name says, it
+                <para>The <ulink url="http://lucene.apache.org/core/3_6_2/api/all/org/apache/lucene/analysis/WhitespaceAnalyzer.html">whitespace analyzer</ulink> is the most basic one. As the name says, it
                     tokenizes the text at white space characters, but treats all other characters -
                     including punctuation - as part of the token. The tokens are not converted to
                     lower case and there's no stopword filter applied.</para>
