@@ -4,7 +4,7 @@
     <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Lucene Index Module</title>
-        <date>August 2012</date>
+        <date>February 2013</date>
         <orgname>The eXist-db Project</orgname>
     </bookinfo>
     <chapter>
@@ -12,12 +12,12 @@
         <section>
             <title>Introduction</title>
             <para>The 1.4 version of eXist-db introduced a new full text indexing module which replaced
-                eXist's former built-in full text index. This new module is faster, more configurable and
-                more feature-rich than eXist's old index. It will also be the basis for eXist-db's
+                eXist-db's former built-in full text index. This new module is faster, more configurable and
+                more feature-rich than eXist-db's old index. It will also be the basis for eXist-db's
                 implementation of the W3C's full text extensions for XQuery.</para>
             <para>The new full text module is based on <ulink url="http://lucene.apache.org">Apache
                     Lucene</ulink>. It thus benefits from a stable, well-designed and widely-used
-                framework. The module is tightly integrated with eXist's <emphasis>modularized
+                framework. The module is tightly integrated with eXist-db's <emphasis>modularized
                     indexing architecture</emphasis>: the index behaves like a plugin which adds
                 itself to the db's index pipelines. Once configured, the index will be notified of
                 all relevant events, like adding/removing a document, removing a collection or
@@ -28,24 +28,16 @@
         </section>
         <section>
             <title>Enabling the Lucene Module</title>
-            <para>The Lucene index is enabled by default in all newer releases of eXist. However, in
+            <para>The Lucene full text index is enabled by default since version 1.4 of eXist-db. However, in             
                 case it is not enabled in your installation, here's how to get it up and
                 running:</para>
             <procedure>
                 <step>
-                    <para>Before building eXist, you need to enable the Lucene module by editing
-                            <code>extensions/indexes/build.properties</code> (also see the
-                        documentation on <ulink url="indexing.xml#moduleconf">index
-                        modules</ulink>):</para>
-                    <example>
-                        <title>build.properties</title>
-                        <programlisting># Lucene integration
-include.index.lucene = true
-</programlisting>
-                    </example>
+                    <para>Before building eXist-db, enable the Lucene full text index by enabling it according to the instructions in the documentation on <ulink url="indexing.xml#moduleconf">index
+                        modules</ulink>.</para>
                 </step>
                 <step>
-                    <para>Then <emphasis>(re-)build eXist</emphasis> using the provided <filename>build.sh</filename> or <filename>build.bat</filename>. The build
+                    <para>Then <emphasis>(re-)build eXist-db</emphasis> using the provided <filename>build.sh</filename> or <filename>build.bat</filename>. The build
                         process downloads the required Lucene jars automatically. If everything
                         builds OK, you should find a jar <filename>exist-lucene-module.jar</filename> in the <filename>lib/extensions</filename> directory. Next, edit the main configuration
                         file, <filename>conf.xml</filename> and un-comment the Lucene-related
@@ -117,7 +109,7 @@ include.index.lucene = true
                 (qname="...") or a node path with wildcards (match="...", see below). It is
                 important make sure to <emphasis>choose the right context</emphasis> for an index,
                 which has to be the same as in your query. To better understand this, let's have a
-                look at how the index creation is handled by eXist and Lucene. The following
+                look at how the index creation is handled by eXist-db and Lucene. The following
                 configuration:</para>
             <synopsis language="xml">&lt;text qname="SPEECH"/&gt;</synopsis>
             <para>creates an index ONLY on SPEECH. What is passed to Lucene is the string value of
@@ -133,12 +125,12 @@ include.index.lucene = true
             </programlisting>
             <para>If you have an index on SPEECH, Lucene will create a "document" with the text
                 "Second Witch Fillet of a fenny snake, In the cauldron boil and bake;" and index
-                it. eXist internally links this Lucene document to the SPEECH node, but Lucene has
+                it. eXist-db internally links this Lucene document to the SPEECH node, but Lucene has
                 no knowledge of that (it doesn't know anything about XML nodes).</para>
             <para>The query:</para>
             <synopsis language="xquery">//SPEECH[ft:query(., 'cauldron')]</synopsis>
             <para>searches the index and finds the "document" containing the SPEECH text, which
-                eXist can trace back to the SPEECH node in the XML document. However, it is required
+                eXist-db can trace back to the SPEECH node in the XML document. However, it is required
                 that you use the same context (SPEECH) for creating and querying the index. The
                 query:</para>
             <synopsis language="xquery">//SPEECH[ft:query(LINE, 'cauldron')]</synopsis>
@@ -204,7 +196,7 @@ include.index.lucene = true
                     the paragraph level, but then you don't need the index on the section since you can
                     always get from the paragraph back to the section.</para>
                 <para>If you query a larger context, you can use the <ulink url="kwic.xml">KWIC</ulink> module to show the user only a certain chunk of text
-                        <emphasis>surrounding</emphasis> each match. Or you can ask eXist to <ulink url="kwic.xml#highlight">highlight each match</ulink> with an
+                        <emphasis>surrounding</emphasis> each match. Or you can ask eXist-db to <ulink url="kwic.xml#highlight">highlight each match</ulink> with an
                         <sgmltag>exist:match</sgmltag> tag, which you can later use to locate the
                     matches within the text.</para>
             </section>
@@ -212,7 +204,7 @@ include.index.lucene = true
                 <title>Whitespace Treatment and Ignored Content</title>
                 <section>
                     <title>Inlined elements</title>
-                    <para>By default, eXist's indexer assumes that element boundaries break a word
+                    <para>By default, eXist-db's indexer assumes that element boundaries break a word
                         or token. For example, if you have an element:</para>
                     <example>
                         <title>Not a Mixed Content Element</title>
@@ -221,7 +213,7 @@ include.index.lucene = true
                         </programlisting>
                     </example>
                     <para>You want "12" and "8" to be indexed as separate tokens, even though
-                        there's no whitespace between the elements. By default, eXist will indeed
+                        there's no whitespace between the elements. By default, eXist-db will indeed
                         pass the content of the two elements to Lucene as separate strings and
                         Lucene will thus see two tokens instead of just "128".</para>
                     <para>However, you usually don't want this behaviour for mixed content nodes.
@@ -233,7 +225,7 @@ include.index.lucene = true
                         </programlisting>
                     </example>
                     <para>In this case, you want "unclear" to be indexed as one word. This can be
-                        done by telling eXist which nodes are "inline" nodes. The example
+                        done by telling eXist-db which nodes are "inline" nodes. The example
                         configuration above defines:</para>
                     <synopsis>&lt;inline qname="b"/&gt;</synopsis>
                 </section>
@@ -255,7 +247,7 @@ include.index.lucene = true
                         </programlisting>
                     </example>
                     <para>Use an <sgmltag>ignore</sgmltag> element in the collection configuration
-                        to have eXist ignore the note:</para>
+                        to have eXist-db ignore the note:</para>
                     <synopsis language="xml">&lt;ignore qname="note"/&gt;</synopsis>
                     <para>Basically, <sgmltag>ignore</sgmltag> simply allows you to hide a chunk of
                         text before Lucene sees it.</para>
@@ -290,7 +282,7 @@ include.index.lucene = true
                 <para>A boost value can be assigned to an index to give it a higher score. The score
                     for each match will be multiplied by the boost factor (default is: 1.0). For
                     example, you may want to rank matches in titles higher than other matches.
-                    Here's how we configure the documentation search indexes in eXist:</para>
+                    Here's how we configure the documentation search indexes in eXist-db:</para>
                 <example>
                     <title>collection.xconf using boost</title>
                     <programlisting>
@@ -324,7 +316,7 @@ order by ft:score($sect) descending return $sect</synopsis>
                 <para>One of the strengths of Lucene is that it allows the developer to determine
                     nearly every aspect of the text analysis. This is mostly done through analyzer
                     classes, which combine a tokenizer with a chain of filters to post-process the
-                    tokenized text. eXist's Lucene module already allows different analyzers to
+                    tokenized text. eXist-db's Lucene module already allows different analyzers to
                     be used for different indexes.</para>
                 <example>
                     <title/>
@@ -417,7 +409,7 @@ return $m</programlisting>
             <para>The query function takes a query string in Lucene's default <ulink url="http://lucene.apache.org/core/3_6_0/queryparsersyntax.html">query
                     syntax</ulink>. It returns a set of nodes which are relevant with respect to the
                 query. Lucene assigns a relevance score or rank to each match. This score is
-                preserved by eXist and can be accessed through the score function, which returns a
+                preserved by eXist-db and can be accessed through the score function, which returns a
                 decimal value. The higher the score, the more relevant is the text. You can use
                 Lucene's features to "boost" a certain term in the query, i.e. give it a higher or
                 lower influence on the final rank.</para>
@@ -425,29 +417,29 @@ return $m</programlisting>
                 If you created an index on SPEECH, all scores will be computed on basis of the text
                 in the SPEECH nodes, even though your actual query may only return LINE children of
                 SPEECH.</para>
-            <para>The Lucene module is fully supported by eXist's query-rewriting optimizer, which
+            <para>The Lucene module is fully supported by eXist-db's query-rewriting optimizer, which
                 means that the query engine can rewrite the XQuery expression to make best use of
                 the available indexes. All the rules and hints given in the <ulink url="tuning.xml">tuning</ulink> guide fully apply to the Lucene index.</para>
             <para>To present search results in a <emphasis>Keywords in Context</emphasis> format,
-                you may want to have a look at eXist's <ulink url="kwic.xml">KWIC</ulink>
+                you may want to have a look at eXist-db's <ulink url="kwic.xml">KWIC</ulink>
                 module.</para>
             <section>
                 <title>Query a Named Index</title>
-                <para>To query a named index, use the <code>ft:query-field($fieldName, $query)</code> instead of
-                    <code>ft:query</code>:</para>
+                <para>To query a named index, use the <function>ft:query-field($fieldName, $query)</function> instead of
+                    <function>ft:query</function>:</para>
                 <synopsis language="xquery">ft:query-field("title", "xml")</synopsis>
                 <para>
-                    <code>ft:query-field</code> works exactly like <code>ft:query</code>, except that the set of nodes
+                    <function>ft:query-field</function> works exactly like <function>ft:query</function>, except that the set of nodes
                     to search is determined by the nodes in the named index. The function returns the nodes selected by 
                     the query, which would be <sgmltag>title</sgmltag> elements in the example above.</para>
-                <para>You can thus use <code>ft:query-field</code> with an XPath filter expression just as you would call
-                    <code>ft:query</code>:</para>
+                <para>You can thus use <function>ft:query-field</function> with an XPath filter expression just as you would call
+                    <function>ft:query</function>:</para>
                 <synopsis language="xquery">//section[ft:query-field("title", "xml")]</synopsis>
             </section>
             <section>
                 <title>Describing Queries in XML</title>
                 <para>Lucene's default query syntax does not provide access to all available
-                    features. However, eXist's <function>ft:query</function> function also accepts a
+                    features. However, eXist-db's <function>ft:query</function> function also accepts a
                     description of the query in XML as an alternative to passing a query string. The
                     XML description closely mirrors Lucene's query API. It is transformed into an
                     internal tree of query objects, which is directly passed to Lucene for
@@ -706,13 +698,13 @@ return
             <para>The <option>store</option> attribute indicates that the fields content should be stored as a string. 
                 Without this attribute, the content will be indexed for search, but you won't be able to retrieve the contents.
             </para>
-            <para>To get the contents of a field, use the <code>ft:get-field</code> function:</para>
+            <para>To get the contents of a field, use the <function>ft:get-field</function> function:</para>
             <synopsis language="xquery">ft:get-field("/db/demo/test.xml", "title")</synopsis>
-            <para>To query this index, use the <code>ft:search</code> function:</para>
+            <para>To query this index, use the <function>ft:search</function> function:</para>
             <synopsis language="xquery">ft:search("/db/demo/test.xml", "title:indexing and author:me")</synopsis>
             <para>Custom field indexes are automatically deleted when their parent document is removed. If you want to update
                 fields without removing the document, you need to delete the old fields first though. This can be done
-                using the <code>ft:remove-index</code> function:</para>
+                using the <function>ft:remove-index</function> function:</para>
             <synopsis language="xquery">ft:remove-index("/db/demo/test.xml")</synopsis>
         </section>
     </chapter>
