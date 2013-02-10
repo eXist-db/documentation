@@ -292,7 +292,7 @@ declare %private function docbook:code($elem as element()) {
             <pre>{ replace($elem/string(), "^\s+", "") }</pre>
 };
 
-declare %private function docbook:process-children($elem as element()) {
+declare %private function docbook:process-children($elem as element()+) {
     for $child in $elem/node()
     return
         docbook:to-html($child)
