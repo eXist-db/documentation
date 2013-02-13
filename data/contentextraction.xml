@@ -71,7 +71,7 @@ content:stream-content($binary as xs:base64Binary, $paths as xs:string*, $callba
                     </listitem>
                 </orderedlist></para>
             <para>For example, to associate an index with the document test.txt one may call index
-                as follows: <synopsis><![CDATA[ft:index("/db/demo/test.txt", <doc>
+                as follows: <synopsis><![CDATA[ft:index("/db/apps/demo/test.txt", <doc>
     <field name="title" store="yes">Indexing</field>
     <field name="para" store="yes">This is the first paragraph.</field>
     <field name="para" store="yes">And a second paragraph.</field>
@@ -84,11 +84,11 @@ content:stream-content($binary as xs:base64Binary, $paths as xs:string*, $callba
                 string, so you can retrieve it later. It is also possible to configure the analyzers
                 used by Lucene for indexing a given feed as well as other options in the collection
                 configuration. To query the created index, use the search function:
-                <synopsis>ft:search("/db/demo/test.txt", "para:paragraph and title:indexing")</synopsis>
+                <synopsis>ft:search("/db/apps/demo/test.txt", "para:paragraph and title:indexing")</synopsis>
                 The first parameter is the path to the resource or collection to query, the second
                 specifies a Lucene query string. Note how we prefix the query term by the name of
                 the field. Executing this query returns: <synopsis><![CDATA[<results>
-    <search uri="/db/demo/test.txt" score="6.3111067">
+    <search uri="/db/apps/demo/test.txt" score="6.3111067">
         <field name="para">This is the first
             <exist:match>paragraph</exist:match>.</field>
         <field name="para">And a second

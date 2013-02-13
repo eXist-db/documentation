@@ -114,11 +114,11 @@
                 <command>xpointer()</command> XPointer scheme. The results of the expression will be
                 included in place of the <sgmltag>xi:include</sgmltag> element. The following
                 expression includes the first stage direction in Shakespeare's Macbeth:</para>
-            <synopsis language="xml">&lt;xi:include href="/db/demo/data/macbeth.xml"
+            <synopsis language="xml">&lt;xi:include href="/db/apps/demo/data/macbeth.xml"
             xpointer="xpointer(//PLAY/ACT[1]/SCENE[1]/STAGEDIR[1])"/&gt;</synopsis>
             <para>As before, the results are included below:</para>
             <synopsis language="xml">
-                <xi:include href="/db/demo/data/macbeth.xml" xpointer="xpointer(//PLAY/ACT[1]/SCENE[1]/STAGEDIR[1])">
+                <xi:include href="/db/apps/demo/data/macbeth.xml" xpointer="xpointer(//PLAY/ACT[1]/SCENE[1]/STAGEDIR[1])">
                     <xi:fallback>
                         <p>For this XInclude example to work, you need to install
 			the Demo application.
@@ -130,11 +130,11 @@
         <section>
             <title>Selecting a Fragment by a Search Expression</title>
             <para>XIncludes can perform searches, e.g. using full-text search.</para>
-            <synopsis language="xml">&lt;xi:include href="/db/demo/data/hamlet.xml" 
+            <synopsis language="xml">&lt;xi:include href="/db/apps/demo/data/hamlet.xml" 
                 xpointer="xpointer(//SPEECH[ft:query(., '"slings and arrows"')/LINE[1])"/&gt;</synopsis>
             <para>As before, the results are included below:</para>
             <synopsis language="xml">
-                <xi:include href="/db/demo/data/hamlet.xml" xpointer="xpointer(//SPEECH[ft:query(., '&#34;slings and arrows&#34;')]/LINE[1])">
+                <xi:include href="/db/apps/demo/data/hamlet.xml" xpointer="xpointer(//SPEECH[ft:query(., '&#34;slings and arrows&#34;')]/LINE[1])">
                     <xi:fallback>
                         <p>For this XInclude example to work, you need to install
 			the Demo application.
@@ -146,10 +146,10 @@
                 of the word "love" in Romeo and Juliet.</para>
             <para>An XPath expression will be applied to the entire collection if the path in href
                 points to a collection and not a single document:</para>
-            <synopsis language="xml">&lt;xi:include href="/db/demo/data" 
+            <synopsis language="xml">&lt;xi:include href="/db/apps/demo/data" 
                 xpointer="xpointer(//SPEECH[ft:query(., '"cursed spite"')]/LINE[1])"/&gt;</synopsis>
             <synopsis language="xml">
-                <xi:include href="/db/demo/data" xpointer="xpointer(//SPEECH[ft:query(., '&#34;cursed spite&#34;')]/LINE[1])">
+                <xi:include href="/db/apps/demo/data" xpointer="xpointer(//SPEECH[ft:query(., '&#34;cursed spite&#34;')]/LINE[1])">
                     <xi:fallback>
                         <p>For this XInclude example to work, you need to install the
 						Demo application. See the Package Reposistory in the Admin panel.</p>
@@ -182,12 +182,12 @@
                 This can be done for presentation: if a sequence of elements are returned, 
                 one might want to render them on separate lines.
             </para>
-            <synopsis language="xml">&lt;xi:include href="/db/demo/data" 
+            <synopsis language="xml">&lt;xi:include href="/db/apps/demo/data" 
                 xpointer="xpointer(string-join(
                     //SPEECH[ft:query(., '"cursed spite"')]/LINE
                 , '&amp;#xA;'))"/&gt;</synopsis>
             <synopsis language="xml">
-                <xi:include href="/db/demo/data" xpointer="xpointer(string-join(//SPEECH[ft:query(., '&#34;cursed spite&#34;')]/LINE, '&#xA;'))">
+                <xi:include href="/db/apps/demo/data" xpointer="xpointer(string-join(//SPEECH[ft:query(., '&#34;cursed spite&#34;')]/LINE, '&#xA;'))">
                     <xi:fallback>
                         <p>For this XInclude example to work, you need to install
 			the Demo application.
@@ -203,14 +203,14 @@
                 However, a major use case for the XPointer specification is to allow pointing at 
                 a range of characters inside an element and this is possible using the XPath functions string-join() and substring().</para>
             <para>Here a range of characters in the text node of a LINE element are extracted which is 20 characters long and starts with the 22nd character.</para>
-            <synopsis language="xml">&lt;xi:include href="/db/demo/data" 
+            <synopsis language="xml">&lt;xi:include href="/db/apps/demo/data" 
                 xpointer="xpointer(
                 substring(string-join(
                 //PLAY/ACT[3]/SCENE[1]/SPEECH[19]/LINE[1]
                 ,''), 22, 20)
                 )"/&gt;</synopsis>
             <synopsis language="xml">
-                <xi:include href="/db/demo/data/hamlet.xml" xpointer="xpointer(substring(string-join(//PLAY/ACT[3]/SCENE[1]/SPEECH[19]/LINE[1],''), 22, 20))">
+                <xi:include href="/db/apps/demo/data/hamlet.xml" xpointer="xpointer(substring(string-join(//PLAY/ACT[3]/SCENE[1]/SPEECH[19]/LINE[1],''), 22, 20))">
                     <xi:fallback>
                         <p>For this XInclude example to work, you need to install
 			the Demo application.
@@ -221,14 +221,14 @@
             <para>Since only the string contents is involved, such ranges may also straddle text nodes belonging to different elements. 
                 In the following, the parts of succeeding lines are extracted from the SPEECH element. 
             </para>
-            <synopsis language="xml">&lt;xi:include href="/db/demo/data" 
+            <synopsis language="xml">&lt;xi:include href="/db/apps/demo/data" 
                 xpointer="xpointer(
                 substring(string-join(
                 //PLAY/ACT[3]/SCENE[1]/SPEECH[19]
                 ,''), 202, 24)
                 )"/&gt;</synopsis>
             <synopsis language="xml">
-                <xi:include href="/db/demo/data/hamlet.xml" xpointer="xpointer(substring(string-join(//PLAY/ACT[3]/SCENE[1]/SPEECH[19],''), 202, 24))">
+                <xi:include href="/db/apps/demo/data/hamlet.xml" xpointer="xpointer(substring(string-join(//PLAY/ACT[3]/SCENE[1]/SPEECH[19],''), 202, 24))">
                     <xi:fallback>
                         <p>For this XInclude example to work, you need to install
 			the Demo application.
