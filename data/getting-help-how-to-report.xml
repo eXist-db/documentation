@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id$ -->
+<book>
+    <bookinfo>
+        <productname>eXist-db – Open Source Native XML Database</productname>
+        <title>eXist-db support</title>
+        <date>January 2013</date>
+        <author>
+            <firstname>Dannes</firstname>
+            <surname>Wessels</surname>
+            <affiliation>
+                <address format="linespecific">
+                    <email>dannes at exist-db.org</email>
+                </address>
+            </affiliation>
+        </author>
+    </bookinfo>
+    <chapter>
+        <title>Getting Help: How to report issues</title>
+        <para>When a (potential) bug is reported, please include as much of the information as described below. When
+            more information is provided, it is more easy for the developers to understand and reproduce the issue,
+            which means that the issue can be picked-up and solved much faster.</para>
+        <chapter>
+            <title>General information</title>
+            <note>
+                <para>When reporting a (suspected) bug please make the report as complete as possible: <itemizedlist>
+                        <listitem>
+                            <para>Try to write a clear (and short) description how to reproduce the problem</para>
+                        </listitem>
+                        <listitem>
+                            <para>Include the exact version (and revision), e.g. "1.4.3" (rev1234) or "2.0". </para>
+                        </listitem>
+                        <listitem>
+                            <para>Always add the operating system (e.g. "Windows7 64bit"), the Java version (e.g.
+                                "Oracle Java 7u15, 64 bit") </para>
+                        </listitem>
+                        <listitem>
+                            <para>Include relevant <b>parts</b> of the logfile (e.g.
+                                    <filename>webapp/WEB-INF/logs/exist.log</filename>)</para>
+                        </listitem>
+                        <listitem>
+                            <para>Mention the changes that have been made in the configuration files, e.g.
+                                    <filename>conf.xml</filename>, <filename>vm.properties</filename>,
+                                    <filename>tools/wrapper/conf/wrapper.conf</filename> and
+                                    <filename>tools/jetty/etc/jetty.xml</filename>.</para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+            </note>
+        </chapter>
+        <chapter>
+            <title>XQuery specific</title>
+            <note>
+                <para>When reporting a potential <b>XQuery</b> bug please: <itemizedlist>
+                        <listitem>
+                            <para>Make the XQuery, if possible, 'self containing', meaning that the XQuery does not
+                                require any additional files to run.</para>
+                        </listitem>
+                        <listitem>
+                            <para>Describe the actual XQuery result and the expected result</para>
+                        </listitem>
+                        <listitem>
+                            <para>Check if the issue has been solved in the latest version of eXist-db; For this the web
+                                based tool <ulink url="http://exist-db.org/exist/apps/eXide/index.html">eXide</ulink>
+                                can be used.</para>
+                        </listitem>
+                        <listitem>
+                            <para>Run the XQuery with <ulink url="http://kernowforsaxon.sourceforge.net">Kernow for
+                                    Saxon</ulink> and check the similarities and differences. </para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+            </note>
+            <para>Bugs can also be reported on the <ulink url="http://sourceforge.net/p/exist/bugs/">Bug Tracker</ulink>
+                where data and log files can be attached.</para>
+        </chapter>
+    </chapter>
+</book>
