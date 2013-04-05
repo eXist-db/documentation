@@ -63,7 +63,7 @@
         <title>Ant Tasks</title>
         <para>eXist-db provides a library for the <ulink url="http://ant.apache.org">Ant</ulink>
             build tool to automate common tasks like backup/restore or importing a bunch of files.
-            To use this library you need at least Ant 1.6. Ant 1.8.x is included in the eXist-db
+            To use this library you need at least Ant 1.6. Ant 1.8.2 is included in the eXist-db
             v2.0 distribution (if you have installed the eXist-db source code). </para>
         <para>In your build file, import the eXist-db tasks as follows:</para>
         <example>
@@ -811,9 +811,6 @@ uri="${backup.uri}/db" name="guest" secret="ToPSecreT" primaryGroup="users" />]]
                     </listitem>
                 </varlistentry>
             </variablelist>
-            <note>
-                <para> This task does not seem to work currently!</para>
-            </note>
         </section>
         <section>
             <title>Remove User</title>
@@ -835,6 +832,36 @@ uri="${backup.uri}/db" name="guest" secret="ToPSecreT" primaryGroup="users" />]]
                     </listitem>
                 </varlistentry>
             </variablelist>
+        </section>
+        <section>
+            <title>Change password of an User</title>
+            <para>
+                This task changes the password of an user.
+            </para>
+            <example>
+                <title>Change Password</title>
+                <programlisting>
+                    <markup><![CDATA[<xdb:password xmlns:xdb="http://exist-db.org/ant"
+uri="${backup.uri}/db" user="dba-user" password="dba-user-SecreT" name="guest" secret="Guest-Changed-Secret" />]]></markup>
+                </programlisting>
+            </example>
+            <variablelist>
+                <varlistentry>
+                    <term>name</term>
+                    <listitem>
+                        <para>Name of the user to change the password for.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>secret</term>
+                    <listitem>
+                        <para>The new password of the user.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <note>
+                <para> You can of course also change your own password.</para>
+            </note>
         </section>
         <section>
             <title>Add Group</title>
