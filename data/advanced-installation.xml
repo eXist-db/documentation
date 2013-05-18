@@ -115,6 +115,28 @@ Setting admin user password...
             <synopsis>ln -s $EXIST_HOME/tools/wrapper/bin/exist.sh /etc/init.d/exist</synopsis>
             <para>You can then add the service to the correct system runlevel. Check with your Linux
                 distribution for instructions.</para>
+            <note>
+                <para>Out of the box the by eXist-db provided 'wrapper' supports the following mainstream platforms:
+                    <itemizedlist>
+                        <listitem>
+                            <para>Windows x86 (32bit/64bit)</para>
+                        </listitem>
+                        <listitem>
+                            <para>Linux x86 (32bit/64bit) &amp; IA (64bit) </para>
+                        </listitem>
+                        <listitem>
+                            <para>MacOsX x86 (32bit/64bit) </para>
+                        </listitem>
+                        <listitem>
+                            <para>Solaris x86 (32bit/64bit) &amp; SPARC (32bit/64bit)</para>
+                        </listitem>
+                    </itemizedlist>
+                    Support for additional platforms can be obtained by
+                    downloading the "Delta Pack" from the
+                    <ulink url="http://wrapper.tanukisoftware.org">Tanuki software</ulink> website. 
+                    Available platforms are: AIX (PPC), FreeBSD (x86), HPUX and Linux (PPC,ARM). 
+                </para>
+            </note>
         </section>
         <section id="bin-executables">
             <title>About the Scripts in the bin Directory</title>
