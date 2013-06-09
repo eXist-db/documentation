@@ -19,33 +19,33 @@
             <firstname>Alex</firstname>
             <email>alexmilowski@users.sourceforge.net</email>
         </author>
-	    <author>
-	      <firstname>Leif-Jöran</firstname>
-	      <surname>Olsson</surname>
-	      <affiliation>
-	        <address format="linespecific">
-	          <email>ljo at exist-db.org</email>
-	        </address>
-	      </affiliation>
-	    </author>
-	    <author>
-	      <personname>
-	          <firstname>Loren</firstname>
-	          <surname>Cahlander</surname>
-	      </personname>
-	      <email>loren at syntactica.com</email>
-	    </author>
+        <author>
+            <firstname>Leif-Jöran</firstname>
+            <surname>Olsson</surname>
+            <affiliation>
+                <address format="linespecific">
+                    <email>ljo at exist-db.org</email>
+                </address>
+            </affiliation>
+        </author>
+        <author>
+            <personname>
+                <firstname>Loren</firstname>
+                <surname>Cahlander</surname>
+            </personname>
+            <email>loren at syntactica.com</email>
+        </author>
     </bookinfo>
     <chapter>
         <title>Application Server Configuration</title>
         <section>
             <title>Overview</title>
-      <para>This section deals with the configuration of the eXist-db Application Server. The
+            <para>This section deals with the configuration of the eXist-db Application Server. The
                 main configuration file for <application>eXist-db</application> is called
                     <filename>conf.xml</filename>, which is loaded from different directories
                 depending on the server set-up (see <ulink url="deployment.xml">Server
                     Deployment</ulink> for more information).</para>
-      <para>Specifically, if you installed the standalone eXist-db distribution with the
+            <para>Specifically, if you installed the standalone eXist-db distribution with the
                 installer, the <filename>conf.xml</filename> file located in the root directory of
                 the distribution (as specified by the system property <option>exist.home</option>)
                 will be loaded by default. On the other hand, if eXist-db is installed as a web
@@ -98,7 +98,7 @@
                             <ulink url="config-fluent.xml">fluent</ulink>
                         </td>
                         <td>
-              <para>This is an API for embedded access to eXist-db which is tightly integrated with java.</para>
+                            <para>This is an API for embedded access to eXist-db which is tightly integrated with java.</para>
                         </td>
                         <td>
                             <itemizedlist>
@@ -127,7 +127,7 @@
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>
-                            <ulink url="secutiry.xml#ldap-realm">LDAP</ulink>
+                            <ulink url="security.xml#ldap-realm">LDAP</ulink>
                         </td>
                         <td>
                             <para> LDAP is an authentication mechanism by binding.</para>
@@ -144,7 +144,7 @@
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>
-                            <ulink url="secutiry.xml#openid-realm">OpenID</ulink>
+                            <ulink url="security.xml#openid-realm">OpenID</ulink>
                         </td>
                         <td>
                             <para> OpenID is an authentication mechanism where the identity of the
@@ -162,7 +162,7 @@
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>
-                            <ulink url="secutiry.xml#oauth-realm">OAuth</ulink>
+                            <ulink url="security.xml#oauth-realm">OAuth</ulink>
                         </td>
                         <td>
                             <para> OAuth is an authentication mechanism where the identity of the
@@ -632,7 +632,7 @@
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>DatabaseAdminServlet</td>
                         <td>
-              <para>This servlet can be used to ensure that eXist-db is running in the background. Just set the
+                            <para>This servlet can be used to ensure that eXist-db is running in the background. Just set the
                                 start-parameter to true and load-on-startup to 1 </para>
                         </td>
                         <td>
@@ -744,7 +744,7 @@
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>Security</td>
                         <td>
-              <para>This defines the security manager that is to be used by eXist-db. The
+                            <para>This defines the security manager that is to be used by eXist-db. The
                                 current options are native (where the usernames and hashed passwords
                                 are store in the database) or LDAP.</para>
                         </td>
@@ -856,7 +856,7 @@
             </informaltable>
         </section>
         <section id="conf.xml">
-      <title>eXist-db Configuration: Editing conf.xml</title>
+            <title>eXist-db Configuration: Editing conf.xml</title>
             <para>The configuration file <filename moreinfo="none">conf.xml</filename> can be
                 divided into four sections with the following elements:</para>
             <variablelist>
@@ -890,7 +890,7 @@
                 elements.</para>
             <section>
                 <title>&lt;db-connection&gt;</title>
-        <para>This element contains basic default storage settings for eXist-db, including
+                <para>This element contains basic default storage settings for eXist-db, including
                     memory and system limits. Only one <sgmltag>db-connection</sgmltag> should be
                     specified. An example configuration for the native back-end is shown
                     below:</para>
