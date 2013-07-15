@@ -2,7 +2,7 @@
 <!-- $Id$ -->
 <book>
     <bookinfo>
-    <productname>eXist-db – Open Source Native XML Database</productname>
+        <productname>eXist-db – Open Source Native XML Database</productname>
         <title>XML Validation</title>
         <date>September 2009</date>
         <author>
@@ -19,14 +19,22 @@
         <title>XML Validation</title>
         <section id="sect1">
             <title>Introduction</title>
-      <para>eXist-db supports implicit and explicit validation of XML documents. Implicit validation can be executed
+            <para>eXist-db supports implicit and explicit validation of XML documents. Implicit validation can be executed
                 automatically when documents are being inserted into the database, explicit validation can be performed
                 through the use of provided XQuery extension functions.</para>
         </section>
         <section id="sect2">
             <title>Implicit validation</title>
             <para>To enable implicit validation, the eXist-db configuration must be changed by editing the file
-                    <filename>conf.xml</filename>. The following items must be configured:<itemizedlist><listitem><para>Validation mode</para></listitem><listitem><para>Catalog Entity Resolver</para></listitem></itemizedlist></para>
+                    <filename>conf.xml</filename>. The following items must be configured:<itemizedlist>
+                    <listitem>
+                        <para>Validation mode</para>
+                    </listitem>
+                    <listitem>
+                        <para>Catalog Entity Resolver</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
             <section>
                 <title>Validation mode</title>
                 <example>
@@ -136,7 +144,7 @@
                     <listitem>
                         <para>Jing</para>
                     </listitem>
-                </itemizedlist>Each of these options are discussed in the following sections. Consult the <ulink url="xquery/functions.xql">XQuery Function Documentation</ulink> for detailed functions
+                </itemizedlist>Each of these options are discussed in the following sections. Consult the <ulink url="{fundocs}/view.html?uri=http://exist-db.org/xquery/validation">XQuery Function Documentation</ulink> for detailed functions
                 descriptions.</para>
             <section>
                 <title>JAXP</title>
@@ -344,7 +352,7 @@
         </section>
         <section id="sect4a">
             <title>Interactive Client</title>
-            <para>The interactive shell mode of the <ulink  url="java-admin-client.xml">Java Admin Client</ulink> provides a simple
+            <para>The interactive shell mode of the <ulink url="java-admin-client.xml">Java Admin Client</ulink> provides a simple
                     <emphasis>validate</emphasis> command that accepts the similar explicit validation arguments.</para>
         </section>
         <!--
