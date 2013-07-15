@@ -89,10 +89,13 @@ declare %private function docbook:to-html($nodes as node()*) {
             case element(colgroup) return
                 <colgroup>{docbook:process-children($node)}</colgroup>
             case element(section) return
-                <section>
-                    <a name="D{$node/@exist:id}"></a>
-                    {docbook:process-children($node)}
-                </section>
+                if ($node/@role = "media-object") then
+                    docbook:media($node)
+                else
+                    <section>
+                        <a name="D{$node/@exist:id}"></a>
+                        {docbook:process-children($node)}
+                    </section>
             case element(abstract) return
                 <blockquote>{docbook:process-children($node)}</blockquote>
             case element(title) return
@@ -131,7 +134,10 @@ declare %private function docbook:to-html($nodes as node()*) {
                 <dd>{docbook:to-html($node/listitem)}</dd>
             )
             case element(figure) return
-                docbook:figure($node)
+                if ($node/@role = "media-object") then
+                    docbook:media($node)
+                else
+                    docbook:figure($node)
             case element(screenshot) return
                 docbook:figure($node)
             case element(example) return
@@ -261,6 +267,22 @@ declare %private function docbook:figure($node as node()) {
                     ()
             }
         </figure>
+};
+
+declare %private function docbook:media($node as element()) {
+    <div class="media well">
+        <a class="pull-left" href="#">
+            <img class="media-object" src="{$node/graphic/@fileref}"/>
+        </a>
+        <div class="media-body">
+            <h4 class="media-heading">{$node/title/text()}</h4>
+            {
+                for $child in $node/* except $node/title except $node/graphic
+                return
+                    docbook:to-html($child)
+            }
+        </div>
+    </div>
 };
 
 declare %private function docbook:table($node as node()) {
