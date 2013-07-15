@@ -76,7 +76,7 @@ declare function diag:unreferenced($node as node(), $model as map(*)) {
     then
         ()
     else
-        <tr><td>{$doc}</td></tr>
+        <tr><td><a href="{$doc}">{$doc}</a></td></tr>
   }
   </table>
   
