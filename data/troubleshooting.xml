@@ -26,7 +26,7 @@
                 example output is taken from Mac OS X):</para>
             <example>
                 <title>Console Output</title>
-                <screen><![CDATA[
+                <screen>
 06 Oct 2012 16:56:32,797 [main] INFO  (JettyStart.java [run]:116) - Configuring eXist from /Applications/eXist/conf.xml 
 06 Oct 2012 16:56:32,798 [main] INFO  (JettyStart.java [run]:117) -  
 06 Oct 2012 16:56:32,798 [main] INFO  (JettyStart.java [run]:118) - Running with Java 1.6.0_35 [Apple Inc. (Java HotSpot(TM) 64-Bit Server VM) in /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home] 
@@ -50,7 +50,7 @@ Logging already initialized. Skipping...
 06 Oct 2012 16:56:34,691 [main] INFO  (JettyStart.java [run]:222) - Server has started on ports 8080 8443. Configured contexts: 
 06 Oct 2012 16:56:34,692 [main] INFO  (JettyStart.java [run]:229) - '/exist' 
 06 Oct 2012 16:56:34,692 [main] INFO  (JettyStart.java [run]:260) - ----------------------------------------------------- 
-]]></screen>
+</screen>
             </example>
             <para>When you see the "Server has started" message, and no further errors appear, you know that your eXist-db
                 installation is working normally.</para>
@@ -147,6 +147,74 @@ Logging already initialized. Skipping...
                 <filename>xmldb.log</filename>.
                 <!-- The other log files show output from Cocoon.  -->
             </para>
+        </section>
+        <section id="memory">
+            <title>Out of Memory</title>
+            <para>Running out of memory typically throws Java into an inconsistent state: some threads may still be alive and continue
+            to run while others have died. It is thus important to avoid memory errors up front by checking the memory consumption of
+            your queries before they go into production. Should you encounter an out of memory error, please make sure to restart
+            eXist and follow the emergency procedure.</para>
+            <section>
+                <title>Streaming Large Files</title>
+                <para>If you have to generate large binaries, e.g. a ZIP or PDF, from within an XQuery, please ensure the content
+                    does not need to be kept in memory. There are various XQuery functions which directly stream to the HTTP response.</para>
+                <para>There's also a known issue with the betterform XForms filter caching every HTTP response. To work around this,
+                your XQuery should be run via an URL which is not processed by the XForms filter: either disable the filter or use
+                /rest or /restxq.</para>
+            </section>
+        </section>
+        <section id="emergency">
+            <title>Killing the Database</title>
+            <para>If you ever feel you have to kill the database (e.g. because it does not respond - for whatever reason), the recommended 
+                procedure is as follows:</para>
+            <procedure>
+                <step>
+                    <para>Check if a query is running wild and try to kill it. This can be done either through the
+                    "Scheduler" plugin in the dashboard, or the "Running Jobs" section in the "Admin Web Client". Try to kill
+                    the query there and wait for a minute if the system returns to normal operations:</para>
+                    <graphic fileref="resources/schedulerplugin.png"/>
+                </step>
+                <step>
+                    <para>Attempt to trigger a proper shutdown either via the system tray icon or the dashboard. Wait for at least
+                    3 minutes. Even if eXist-db does not stop completely, it may still be able to complete the shutdown procedure
+                    for the core database.</para>
+                </step>
+                <step>
+                    <para>It may now be safe to kill the eXist-db process. Check the logs to see if the database has properly 
+                    shut down. The last message in the logs would indicate this.</para>
+                </step>
+                <step>
+                    <para>If the logs indicate a proper shutdown: before restarting, remove any <filename>.log</filename> and
+                    <filename>.lck</filename> files from the data directory. This will prevent a recovery run, which would certainly take
+                    time.</para>
+                </step>
+                <step>
+                    <para>Otherwise:</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>You are sure you have no valuable changes in this db instance, e.g. because it's a development system:
+                            follow the step above and remove the <filename>.log</filename> files before restart to reduce startup time.</para>
+                        </listitem>
+                        <listitem>
+                            <para>Before restart, archive the contents of the data directory: you may need them if anything goes wrong. Restart 
+                                the database but be prepared for a recovery run, which may take considerable time (depending on the size of
+                            your db).</para>
+                        </listitem>
+                        <listitem>
+                            <para>If inconsistencies are detected during the recovery, eXist will switch to read-only mode. In this case,
+                            stop it again and run a <ulink url="backup.xml#consistency-check">consistency check</ulink>, which can also create a low-level backup.</para>
+                            <para>If the consistency check reports a number of errors, eXist may still be able to run, but there might
+                            be errors in the data structures. So please prepare for a complete restore into a clean data directory
+                            as soon as you can take the database offline for maintenance.</para>
+                        </listitem>
+                    </itemizedlist>
+                </step>
+            </procedure>
+            <warning>
+                <para>Do not repeatedly kill the database. If it does not come up immediately, it may run recovery. This can take some
+                time. Killing eXist during recovery will most likely result in additional damages. Always check the logs and console output 
+                to see what eXist is doing before you kill it.</para>
+            </warning>
         </section>
     </chapter>
 </book>
