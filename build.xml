@@ -2,8 +2,8 @@
 <project xmlns:xdb="http://exist-db.org/ant" default="all" name="eXist-db Documentation">
     <property file="local.build.properties"/>
     <property file="build.properties"/>
-    <property name="app.name" value="doc"/>
-    <property name="app.version" value="0.3"/>
+    <property name="project.app" value="doc"/>
+    <property name="project.version" value="0.3"/>
     <property name="build" value="./build"/>
     <property name="data" value="./data"/>
     <property name="server.url" value="http://demo.exist-db.org/exist/apps/public-repo/public/"/>
@@ -26,7 +26,7 @@
                 <filter token="project.version" value="${project.version}"/>
             </filterset>
         </copy>
-        <zip basedir="." destfile="${build}/${app.name}-${app.version}${git.commit}.xar">
+        <zip basedir="." destfile="${build}/${project.app}-${project.version}${git.commit}.xar">
             <fileset dir=".">
                 <include name="*.*"/>
                 <include name="modules/**"/>
@@ -46,7 +46,7 @@
         <input message="Enter password:" addproperty="server.pass" defaultvalue="">
             <handler type="secure"/>
         </input>
-        <property name="xar" value="${app.name}-${app.version}${git.commit}.xar"/>
+        <property name="xar" value="${project.app}-${project.version}${git.commit}.xar"/>
         <exec executable="curl">
             <arg line="-T ${build}/${xar} -u admin:${server.pass} ${server.url}/${xar}"/>
         </exec>
