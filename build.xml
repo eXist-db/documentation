@@ -37,6 +37,8 @@
                 <exclude name=".git*"/>
                 <exclude name="*.tmpl"/>
                 <exclude name="*.properties"/>
+                <exclude name="*.diff"/>
+                <exclude name="*.orig"/>
             </fileset>
 	</zip>
     </target>
@@ -46,7 +48,7 @@
         </input>
         <property name="xar" value="${app.name}-${app.version}${git.commit}.xar"/>
         <exec executable="curl">
-            <arg line="-T ${build.dir}/${xar} -u admin:${server.pass} ${server.url}/${xar}"/>
+            <arg line="-T ${build}/${xar} -u admin:${server.pass} ${server.url}/${xar}"/>
         </exec>
     </target>
 </project>
