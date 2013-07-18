@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
@@ -145,14 +144,14 @@ declare function demo:hello($node as node(), $model as map(*), $language as xs:s
             <para>Our "Hello world" example above does not preserve the div from which
                 it was called, but replaces it with a new one which lacks the "grey-box" class.
                 This is the default behavior. To preserve the enclosing div, we should
-                add the XQuery annotation <code>%templating:wrap</code> to the function
+                add the XQuery annotation <code>%templates:wrap</code> to the function
                 signature.</para>
             <para>A second annotation can be used to provide a default value for a parameter:
-                    <code>%templating:default("parameter", "value1", "value2", ...)</code>. For
+                    <code>%templates:default("parameter", "value1", "value2", ...)</code>. For
                 example, we may want to set the $language parameter to "en" if the value cannot be
                 determined
                 otherwise:<programlisting language="xquery">declare 
-    %templating:wrap %templating:default("language", "en")
+    %templates:wrap %templates:default("language", "en")
 function demo:hello($node as node(), $model as map(*), $language as xs:string, $user as xs:string) as xs:string {
     switch($language)
         case "de" return
@@ -187,7 +186,7 @@ function demo:hello($node as node(), $model as map(*), $language as xs:string, $
                 search result in HTML, it delegates this to the nested templates. demo:search might
                 be implemented as: </para>
             <programlisting language="xquery">declare 
-    %templating:wrap
+    %templates:wrap
 function demo:search($node as node(), $model as map(*), $query as xs:string) as map(*) {
     let $result :=
         for $hit in collection($config:app-root)//SCENE[ft:query(., $query)]
