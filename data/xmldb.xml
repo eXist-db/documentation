@@ -46,16 +46,16 @@ let $split-record :=
     </rdf:RDF>
 let $filename := concat(util:md5($rec/@rdf:about), ".xml")
 return
-    xdb:store("/db/output", $filename, $split-record)]]></programlisting>
+    xmldb:store("/db/output", $filename, $split-record)]]></programlisting>
             </example>
             <para>Let's look at this script in some detail. First, since we are using functions
                 xmldb:create-collection() and xmldb:store(), which require the user to be logged in
                 as a member of the dba group, we must log in using xmldb:login(). Once logged in, we
                 can create a new sub-collection, called "output" using
-                    <command>xdb:create-collection</command>, for which we need to be logged in
+                    <command>xmldb:create-collection</command>, for which we need to be logged in
                 appropriately using <command>xmldb:login</command>.</para>
             <para>Next, the <command>for</command>-loop iterates through all child elements of the
-                top RDF element. In each iteration, we use <command>xdb:store</command> to write out
+                top RDF element. In each iteration, we use <command>xmldb:store</command> to write out
                 the current child node to a new document. Since a unique document name is required
                 for each new document, we need a way to generate unique names. In this case, the URI
                 contained in the <command>rdf:about</command> attribute is unique, so we simply
