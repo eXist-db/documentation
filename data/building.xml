@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
@@ -63,17 +62,15 @@
                 distribution worked properly for you, the WAR should as well. You don't need to recompile eXist-db or sign
                 any jars.</para>
         </section>
-        <section id="svn">
-            <title>Building eXist-db from SVN</title>
+        <section id="GitHub">
+            <title>Building eXist-db from GitHub</title>
             <para>Building eXist-db is quite easy and requires 3 simple steps:</para>
             <procedure>
                 <step>
-                    <title>Check out from SVN</title>
-                    <para>The SVN URL for the development trunk is:</para>
-                    <synopsis>http://svn.code.sf.net/p/exist/code/</synopsis>
-                    <para>You need an SVN client to check out the source code. Examples for SVN clients are Tortoise SVN
-                        on the windows platform or the command line SVN tools on Unix (see <ulink url="#checkout">below</ulink>). The <ulink url="http://oxygenxml.com">oXygen XML editor</ulink> ships with
-                        its own SVN client.</para>
+                    <title>Clone from Github</title>
+                    <para>The GitHub URL for the develop branche is:</para>
+                    <synopsis>git@github.com:eXist-db/exist.git</synopsis>
+                    <para>Please follow the instructions on <ulink url="https://github.com/eXist-db/exist">our GitHub page</ulink> page (<ulink url="https://github.com/eXist-db/exist/blob/develop/README.md">README.md</ulink> section)</para>
                 </step>
                 <step>
                     <title>Set JAVA_HOME</title>
@@ -96,7 +93,7 @@
         </section>
         <section id="build-system">
             <title>Using the Build System</title>
-            <para>You can rebuild all eXist-db packages from the standard distribution or the subversion repository. You
+            <para>You can rebuild all eXist-db packages from the standard distribution or the GitHub repository. You
                 can even create a new distribution from the one you installed. For example, assume you installed eXist
                 using the installer GUI, but you need to have an exist.war package for deployment within a different
                 servlet engine. Just call the main build script (<filename>build.sh</filename> or
@@ -310,20 +307,6 @@
                             <entry>Creates a snapshot installer.</entry>
                         </row>
                         <row>
-                            <entry>svn-diff</entry>
-                            <entry>Makes a patch file.</entry>
-                        </row>
-                        <row>
-                            <entry>svn-download</entry>
-                            <entry>This downloads a jar file that places the current revision number of the working copy
-                                of eXist-db into VERSION.txt. This allows for the tagging of the build with the revision
-                                number.</entry>
-                        </row>
-                        <row>
-                            <entry>svn-update</entry>
-                            <entry>Update project from SubVersion archive.</entry>
-                        </row>
-                        <row>
                             <entry>test</entry>
                             <entry>Runs all tests in the test suite and outputs the HTML result into
                                     <filename>test/junit/html</filename>. This may take several minutes.</entry>
@@ -345,59 +328,6 @@
                     are required) before running <filename>build.sh</filename> or <filename>build.bat</filename>. See
                         <filename>build.properties</filename>.</para>
             </note>
-        </section>
-        <section id="svn-repo">
-            <title>Using the Subversion Repository</title>
-            <para>Since spring 2006, the entire code base of eXist-db is managed by the <ulink url="http://sourceforge.net/svn/?group_id=17691">Subversion repository at Sourceforge</ulink>.
-                Before that we used CVS, which had a few issues, especially due to the separation into a developer's and
-                anonymous server. Using Subversion should be much simpler, faster and more reliable.</para>
-            <para>Fortunately, you don't need to be a hardcore Java developer to use the SVN version of eXist-db. In
-                general, we try to keep the development version in a consistent state. The code should always compile
-                and run the test cases, though temporary failures are possible, especially while a larger update is in
-                progress.</para>
-            <para>The repository root URL is:</para>
-            <synopsis>http://svn.code.sf.net/p/exist/code/</synopsis>
-            <important>
-                <para>Please note you should use https or svn+ssh, not http, if yo are a developer with commit rights.</para>
-            </important>
-            <para>The current development trunk is at:</para>
-            <synopsis>http://svn.code.sf.net/p/exist/code/trunk/eXist</synopsis>
-            <para>This is the URL you will normally use for a checkout of the main eXist-db development tree.</para>
-            <section id="checkout">
-                <title>Checking Out from the Repository</title>
-                <para>There are many Subversion clients to choose from. If you want to actively contribute to eXist-db or
-                    otherwise work on eXist's source code, we recommend to use eclipse to check out the sources (see
-                    below) and setup a project. Otherwise, you can use any other SVN client. On Linux, I prefer the
-                    plain command line. For example, the following command checks out the main development trunk into a
-                    directory called eXist-trunk:</para>
-                <synopsis>svn co http://svn.code.sf.net/p/exist/code/trunk/eXist eXist-trunk</synopsis>
-                <para>A good choice on the Windows platform is <ulink url="http://tortoisesvn.tigris.org/">Tortoise
-                        SVN</ulink>. Tortoise is an extension to the windows shell. The following screenshot shows the
-                    checkout dialog:</para>
-                <screenshot>
-                    <graphic fileref="resources/tortoise.png"/>
-                </screenshot>
-                <para>The repository already contains project configuration files for eclipse, so setting up the project
-                    should be pretty simple: you normally don't need to change much in order to dive into the source
-                    code (though you may need some customizations to build and run directly from within eclipse).</para>
-                <para>To access a Subversion repository from within eclipse, you need to install the <ulink url="http://subclipse.tigris.org/">subclipse</ulink> plugin first! Please follow the <ulink url="http://subclipse.tigris.org/install.html">install instructions</ulink> available
-                    there.</para>
-                <para>Once you installed subclipse, change to the perspective: "SVN Repository Exploring". In the "SVN
-                    Repository" tab of the left view, right click into the empty space and select
-                    <guimenu>New</guimenu>, then <guimenu>Repository Location</guimenu>. In the appearing dialog, enter
-                    the URL of the eXist-db development trunk: </para>
-                <screenshot>
-                    <graphic fileref="resources/subclipse1.png"/>
-                </screenshot>
-                <para>The URL will now be listed in the "SVN Repository" view. Right click the URL and select
-                        <guimenu>Checkout</guimenu>. A progress window appears, saying that eclipse is "getting remote
-                    info". Once it finished, you should see the following dialog:</para>
-                <screenshot>
-                    <graphic fileref="resources/subclipse2.png"/>
-                </screenshot>
-                <para>Just press <guimenu>Finish</guimenu> unless you want to specify a different directory or checkout
-                    a certain tag.</para>
-            </section>
         </section>
         <section id="webstart">
             <title>Signing jar files for webstart</title>
