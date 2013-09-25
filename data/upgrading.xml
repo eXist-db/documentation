@@ -26,7 +26,7 @@
                     <para>Create a <ulink url="backup.xml">backup</ulink> of your data. If the new
                         version is <emphasis>binary compatible</emphasis> with the old version, keep
                         the data directory (by default in <filename>webapp/WEB-INF/data</filename>)
-                        of the old version. Note: eXist needs to be stopped before copying files
+                        of the old version. Note: A running instance of eXist-db needs to be stopped before copying files
                         from the data dir.</para>
                 </step>
                 <step>
@@ -39,6 +39,32 @@
                 </step>
             </procedure>
         </section>
+        <section>
+            <title>Upgrading to 2.2</title>
+            <para>The 2.2 release is not binary compatible with the 1.4.x series. You need to
+                backup/restore.</para>
+		<para>The bundled Lucene has been upgraded from 3.6.1
+		to 4.4 with this release. Depending on what Lucene
+		analyzers you are using you need to change the
+		classnames in your
+		<filename>collection.xconf</filename>s. E.g. KeywordAnalyzer
+		and WhitespaceAnalyzer has moved into package
+		<filename>org.apache.lucene.analysis.core</filename>. Thus
+		change, any occurrence of
+		<filename>org.apache.lucene.analysis.WhitespaceAnalyzer</filename>
+		into
+		<filename>org.apache.lucene.analysis.core.WhitespaceAnalyzer</filename>
+		and all other moved classes in the collection
+		configurations and make sure you reindex your data
+		before use. You get an error notice in the
+		<filename>exist.log</filename> if you overlooked any
+		occurrences.</para>
+	</section>
+        <section>
+            <title>Upgrading to 2.1</title>
+            <para>The 2.1 release is not binary compatible with the 1.4.x series. You need to
+                backup/restore. 2.1 is binary compatible with 2.0 though.</para>
+	</section>
         <section>
             <title>Upgrading to 2.0</title>
             <para>The 2.0 release is not binary compatible with the 1.4.x series. You need to
@@ -143,7 +169,7 @@ dbutil:scan-collections(xs:anyURI("/db"), function($collection) {
                                     off by default</emphasis> in <filename>conf.xml</filename>:</para>
                             <synopsis language="xml"><![CDATA[<validation mode="no">]]></synopsis>
                             <para>The previous <option>auto</option> setting was apparently too
-                                confusing for new users who did not know what to do if eXist refused
+                                confusing for new users who did not know what to do if eXist-db refused
                                 to store a document due to failing validation. If you are familiar
                                 with <ulink url="validation.xml">validation</ulink>, the use of
                                 catalog files and the like, feel free to set the default back to
@@ -154,7 +180,7 @@ dbutil:scan-collections(xs:anyURI("/db"), function($collection) {
                         <term>Cocoon</term>
                         <listitem>
                             <para>eXist-db does no longer require Cocoon for viewing documentation and
-                                samples. Cocoon has been largely replaced by eXist's own <ulink url="urlrewrite.xml">URL rewriting and MVC
+                                samples. Cocoon has been largely replaced by eXist-db's own <ulink url="urlrewrite.xml">URL rewriting and MVC
                                 framework</ulink>.</para>
                             <para>Consequently, we now limit Cocoon to one directory of the web
                                 application (<filename>webapp/cocoon</filename>) and moved all the
