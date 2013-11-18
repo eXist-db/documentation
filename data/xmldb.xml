@@ -22,8 +22,8 @@
                 containing several RDF metadata records, but we do not want to store the metadata
                 records in a single file, since our application expects each record to have its own
                 document. In this case, we must divide the document into smaller units. Using an
-                XSLT stylesheet would be one way to accomplish this; however, it is also a
-                memory-intensive approach. A preferable option is to use XQuery to do the
+                XSLT stylesheet would be one way to accomplish this; however, this is quite
+                memory-intensive, and the preferable option is to use XQuery to do the
                 job.</para>
             <para>The XQuery script below shows how to split a large RDF file into a series of
                 smaller documents:</para>
@@ -67,7 +67,7 @@ return
                 Four functions are available to restrict the input document set to a user-defined set of
                 documents or collections: <command>doc()</command>, <command moreinfo="none">xmldb:document()</command>, <command moreinfo="none">collection()</command> and
                     <command>xmldb:xcollection()</command>. The <command>collection()</command> and
-                    <command>doc()</command> functions are standard XQuery/XPath functions, whereas,
+                    <command>doc()</command> functions are standard XQuery/XPath functions, whereas
                     <command>xmldb:xcollection()</command> and <command>xmldb:document()</command>
                 are eXist-db-specific extensions.</para>
             <para>Without an URI scheme, eXist-db interprets the arguments to
@@ -99,7 +99,7 @@ return
             <!-- really? are we still using temporary documents? or should this be changed to "stored in memory" -->
             <variablelist>
                 <varlistentry>
-                    <term>doc() / xmldb:document()</term>
+                    <term>doc() /<br/>xmldb:document()</term>
                     <listitem>
                         <para>While <command>doc()</command> is restricted to a single document-URI
                             argument, <command>xmldb:document()</command> accepts multiple document
@@ -107,12 +107,12 @@ return
                                 <command>xmldb:document()</command> without an argument includes
                                 <emphasis>EVERY</emphasis> document node in the current database
                             instance. Some examples:</para>
-                        <synopsis format="linespecific">doc("/db/shakespeare/plays/hamlet.xml")//SPEAKER</synopsis>
+                        <synopsis format="linespecific">doc("/db/apps/demo/data/hamlet.xml")//SPEAKER</synopsis>
                         <synopsis format="linespecific">xmldb:document('/db/test/abc.xml', '/db/test/def.xml')//title</synopsis>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term>collection() / xmldb:xcollection()</term>
+                    <term>collection() / <br/>xmldb:xcollection()</term>
                     <listitem>
                         <para>The <command moreinfo="none">collection()</command> function specifies
                             the collection of documents to be included in the query evaluation. By
