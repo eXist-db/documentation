@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
@@ -493,7 +492,7 @@ include.index.spatial = false
                 <section>
                     <title>Namespaces</title>
                     <para>If the document to be indexed uses namespaces, you should add an
-                            <option>xmlns</option> attribute for each of the required namespaces to
+                            <option>xmlns</option> declaration for each of the required namespaces to
                         the <sgmltag>index</sgmltag> element:</para>
                     <example>
                         <title>Using Namespaces</title>
@@ -514,7 +513,7 @@ include.index.spatial = false
                         atom documents. The two elements which should be indexed are both in the
                             <literal>atom</literal> namespace and we thus need to declare a mapping
                         for this namespace. Please note that the <option>xmlns</option> namespace
-                        attributes have to be specified on the <sgmltag>index</sgmltag> element, not
+                        declarations have to be specified on the <sgmltag>index</sgmltag> element, not
                         the <sgmltag>create</sgmltag> or <sgmltag>fulltext</sgmltag>
                         elements.</para>
                 </section>
