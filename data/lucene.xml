@@ -356,7 +356,7 @@ order by ft:score($sect) descending return $sect</synopsis>
                         <programlisting>
                             <markup>
 &lt;analyzer id="stdstops" class="org.apache.lucene.analysis.standard.StandardAnalyzer"&gt;
-    &lt;param name="stopwords" type="java.util.Set"&gt;
+    &lt;param name="stopwords" type="org.apache.lucene.analysis.util.CharArraySet"&gt;
         &lt;value&gt;the&lt;/value&gt;
         &lt;value&gt;this&lt;/value&gt;
         &lt;value&gt;and&lt;/value&gt;
@@ -373,7 +373,7 @@ order by ft:score($sect) descending return $sect</synopsis>
                             <markup>
 &lt;analyzer id="sbstops" class="org.apache.lucene.analysis.snowball.SnowballAnalyzer"&gt;
     &lt;param name="name" value="English"/&gt;
-    &lt;param name="stopwords" type="java.util.Set"&gt;
+    &lt;param name="stopwords" type="org.apache.lucene.analysis.util.CharArraySet"&gt;
         &lt;value&gt;the&lt;/value&gt;
         &lt;value&gt;this&lt;/value&gt;
         &lt;value&gt;and&lt;/value&gt;
