@@ -229,7 +229,7 @@ declare %private function docbook:to-html($nodes as node()*) {
             case element(guimenuitem) return
                 <span class="guimenuitem">{docbook:process-children($node)}</span>
             case element(guibutton) return
-                <span class="label">{docbook:process-children($node)}</span>
+                <span class="label label-primary">{docbook:process-children($node)}</span>
             case element(sgmltag) return
                 <span class="sgmltag">&lt;{docbook:process-children($node)}&gt;</span>
             case element(exist:match) return
