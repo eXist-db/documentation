@@ -8,6 +8,16 @@
         <orgname>The eXist Project</orgname>
     </bookinfo>
     <chapter>
+        <note>
+            <para>
+                <span class="glyphicon glyphicon-warning-sign"/>
+                <b>Important:</b>
+                <span class="glyphicon glyphicon-warning-sign"/>
+                <br/>The Legacy Full Text Index should not be used anymore. The functionaly
+                will be removed from eXist-db in a future release, because it causes instability
+                for the database. Please use the Lucene based fulltext index instead.
+            </para>
+        </note>
         <title>Legacy Full Text Index</title>
         <para>This index is used to query for a sequence of separate "words" or tokens in a longer
             stream of text. While building the index, the text is parsed into single tokens which
