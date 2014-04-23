@@ -111,7 +111,7 @@ declare function sec-ev:authentication() {
                     the <emphasis>RIPEMD-160</emphasis> cryptographic hashing algorithm. Whenever a
                     user supplies account credentials for authentication, the database applies
                     RIPEMD-160 hash to the supplied password and compares it to the hash stored in
-                    the user's acccount document. Storing hashes of passwords is a best practice in
+                    the user's account document. Storing hashes of passwords is a best practice in
                     security that provides a strong layer of security compared to storing passwords
                     in the clear; the notion is that even if the hashed password is exposed to an
                     attacker, it is difficult to derive the original password from the hash.</para>
@@ -209,7 +209,7 @@ declare function sec-ev:authentication() {
                         <option>true</option> in
                         <filename>extensions/local.build.properties</filename>, and rebuild
                     eXist-db. Then edit web.xml and controller-config.xml to enable OAuthServlet. 
-                    After start up eXist-db and add a realm element for OAuth to
+                    After startup eXist-db and add a realm element for OAuth to
                         <filename>/db/system/security/config.xml</filename>, as in this
                     example:</para>
                 <example>
@@ -227,18 +227,18 @@ declare function sec-ev:authentication() {
                         <para>Valid values for the service element's @provider attribute are 'facebook' and 'google'. </para>
                     </listitem>
                     <listitem>
-                        <para>@name uniqure (in database) name for application.</para>
+                        <para>@name unique (in database) name for application.</para>
                         <para>@key and @secret should be given by OAuth provider.</para>
                     </listitem>
                 </itemizedlist>
-                <para>If configured correctly you should be able to authenticate by OAuth.</para>
+                <para>If configured correctly, you should be able to authenticate by OAuth.</para>
             </section>
             <section id="openid-realm">
                 <title>OpenID Realm</title>
                 <para>
                     <ulink url="http://openid.net/">OpenID</ulink> is an authentication mechanism
 	                where the identity of the user is maintained by trusted external providers. This
-	                takes the burden in maintaining and securing passwords for users off of the eXist
+	                takes the burden in maintaining and securing passwords for users off of the eXist-db
 	                database and on to the Identity Provider (IdP).
                 </para>
                 <para>
@@ -257,7 +257,7 @@ include.feature.security.openid = true
 			        This extension compiles into <emphasis role="bold">
                         <emphasis role="italic">lib/extensions/exist-security-openid.jar</emphasis>
                     </emphasis>.
-			        Run eXist with that jar should enable extension. To disable service remove the jar and restart eXist.
+                    Run eXist-db with that jar should enable extension. To disable service remove the jar and restart eXist-db.
 				</para>
             </section>
             <section id="legacy-internal-realm">
@@ -265,11 +265,11 @@ include.feature.security.openid = true
                 <para>Before eXist-db 2.0, the internal security realm was maintained in a different
                     manner. The details are included here for the purpose of informing decisions on
                     migration.</para>
-                <para>Every eXist database user has an account with a username, password and other
+                <para>Every eXist-db database user has an account with a username, password and other
                     information that is stored in the database. Furthermore, every user belongs to
                     one or more groups - and respectively, every resource in the database is owned
                     by a user and by a group. By default, the owner is set to the user who created
-                    the resource, and his primary group, but eXist allows for different permissions
+                    the resource, and his primary group, but eXist-db allows for different permissions
                     for the owner, the owner's group and others. However, only the owner of the
                     resource (or <filename>dba</filename> users) can change these
                     permissions.</para>
@@ -308,7 +308,7 @@ include.feature.security.openid = true
                     "7f0261c14d7d1b8e51680a013daa623e"). Therefore, whenever a user enters his or
                     her password, the database generates an MD5 encryption and compares it to the
                     encryption stored in <filename>users.xml</filename>. Since it is very difficult
-                    for users to guess the original password from the MD5 string, passwords in eXist
+                    for users to guess the original password from the MD5 string, passwords in eXist-db
                     should be sufficiently secure.</para>
                 <para>Note that the <filename>/db/system</filename> collection is (by default) only
                     readable by <option>dba</option> users (although it is possible to make it
@@ -316,7 +316,7 @@ include.feature.security.openid = true
                     for database administrators, and only <option>dba</option> users are allowed to
                     create or remove users, or change permissions for other users.</para>
                 <important>
-                    <para>By default, access to an eXist database is disabled until a password is
+                    <para>By default, access to an eXist-db database is disabled until a password is
                         set for the administrator (see <emphasis>Changing the Administrator
                             Password</emphasis> below for instructions). Since
                             <option>write</option> permissions for files are granted to everyone, it
@@ -330,12 +330,12 @@ include.feature.security.openid = true
             <para>When the database is started for the first time, two default users are created:
                 "admin" and "guest". (The "admin" user is a member of the <option>dba</option>
                 group, and therefore has administrative privileges; the "guest" user is a member of
-                the group "guest" and is not an administrator). At this inital point, the "admin"
+                the group "guest" and is not an administrator). At this initial point, the "admin"
                 password is set to <option>null</option>, and so access to the database is
                     <emphasis>initially</emphasis> granted to everyone. To set restrictions on
                 database access, you must first set a password for the "admin" user. To do this, use
                 either the <emphasis>Admin Client</emphasis> or the <ulink url="{dashboard}">User Manager</ulink> 
-                in the <ulink url="{dashboard}">Dashboard</ulink>. If eXist is used for applications
+                in the <ulink url="{dashboard}">Dashboard</ulink>. If eXist-db is used for applications
                 intended for online web publications, or as an embedded library, it is exposed it to
                 potential exploitation. It is therefore strongly advised that you first change the
                 admin password.</para>
@@ -384,7 +384,7 @@ exist:/db>quit
                 </step>
             </procedure>
             <para>The other default user, "guest", also has the password "guest". The guest identity
-                is internally assigned to all clients which have not authenticated themselves. For
+                is internally assigned to all clients that have not authenticated themselves. For
                 example, the Xincon WebDAV interface does not support authentication, so "guest" is
                 assumed for its users by default. Note that this aspect of WebDAV is a potential
                 source of confusion, and you have to be careful about setting read/write permissions
@@ -469,11 +469,11 @@ enter groups: users]]></screen>
     exist:/db/shakespeare/plays>]]></screen>
                 </example>
                 <para>As shown on the left-hand side, the Java Admin Client displays resource permissions
-                    in a similar format to the output of the Unix <command>ls -l</command> command:
+                    in a format similar to the output of the Unix <command>ls -l</command> command:
                     a ten-character code. The first character represents the type of resource:
-                        <option>-</option> [hyphen] for documents (files) and <option>d</option> for
+                        <option>-</option> (hyphen) for documents (files) and <option>d</option> for
                     collections. The next three characters are the permissions for the user: a
-                        <option>-</option> [hyphen] is used for denied permissions,
+                        <option>-</option> (hyphen) is used for denied permissions,
                         <option>r</option> for read, <option>w</option> for write, and
                         <option>x</option> for execute. The next three characters (five through
                     seven) set the permissions for groups, and the last three for others (i.e.
@@ -484,7 +484,7 @@ enter groups: users]]></screen>
                         <filename>/db</filename> initially has permissions set to
                         <option>drwxr-xr-x</option>, i.e. full access is granted to everyone. Also
                     note that <option>-rw-r--r--</option> is the default setting for all newly
-                    created resources, i.e. the owner has read/write permissions but not execure,
+                    created resources, i.e. the owner has read/write permissions but not execute,
                     and the group and others (world) has read permissions.</para>
                 <section>
                     <title>Changing Resource Permissions</title>
@@ -494,7 +494,7 @@ enter groups: users]]></screen>
                             <emphasis>Edit Properties</emphasis> dialog box is opened by selecting
                             <guimenuitem>Files</guimenuitem> »<guimenuitem>Resource
                             Properties</guimenuitem> from the menu, OR by clicking on the
-                            <guiicon>Properties Icon</guiicon> (image of checkboxes) in the toolbar.
+                            <guiicon>Properties Icon</guiicon> (image with checkboxes) in the toolbar.
                         This dialog box shows permission settings for all database users and
                         groups.</para>
                     <screenshot>
@@ -583,7 +583,7 @@ enter groups: users]]></screen>
             </section>
             <section id="ACLs">
                 <title>Access Control Lists (ACL)</title>
-                <para>To be written. More information about ACLs is available as a <ulink url="http://www.adamretter.org.uk/presentations/security-in-existdb_xml-prague_existdb_20120210.pdf">slides</ulink> (PDF) and a presentation on <ulink url="http://www.youtube.com/watch?v=Z_Dryy9DtVo">YouTube</ulink>.</para>
+                <para>To be written. More information about ACLs is available as <ulink url="http://www.adamretter.org.uk/presentations/security-in-existdb_xml-prague_existdb_20120210.pdf">slides</ulink> (PDF) and a presentation on <ulink url="http://www.youtube.com/watch?v=Z_Dryy9DtVo">YouTube</ulink>.</para>
             </section>
         </section>
         <section id="permission-checks">
@@ -591,7 +591,7 @@ enter groups: users]]></screen>
             <para>Each operation in eXist-db enforces permission checks. The details of the
                 permissions required for an operation are laid out below. These permissions should
                 align with a strict Unix model, but if they are found to be incorrect or lacking, please
-                let the project known immediately.</para>
+                let the project know immediately.</para>
             <table border="1">
                 <title>Document Permissions Matrix</title>
                 <tgroup cols="3">
@@ -706,21 +706,21 @@ enter groups: users]]></screen>
                             <entry>-wx</entry>
                             <entry>-w-</entry>
                             <entry>---</entry>
-                            <entry>-wx (If replacing an existing collection, then the Permissions
+                            <entry>-wx (When replacing an existing collection, then the permissions
                                 for removing that collection must be met first).</entry>
                         </row>
                     </tbody>
                 </tgroup>
             </table>
-            <para>When copying a collection, permisions are checked for each sub-collection
+            <para>When copying a collection, permissions are checked for each sub-collection
                 and resource.</para>
             <para>Copying a sub-collection requires <emphasis>r-x</emphasis> on the sub-collection,
                 and <emphasis>rwx</emphasis> on the destination collection, and if the
-                sub-collection already exists in the destination then <emphasis>r-x</emphasis> on
+                sub-collection already exists in the destination then <emphasis>r-x</emphasis> is required on
                 that.</para>
             <para>Copying resources from a collection requires <emphasis>r--</emphasis> on the
                 resource, and <emphasis>-w-</emphasis> on the destination resource if it exists,
-                else <emphasis>-w-</emphasis> on the destination collection.</para>
+                otherwise <emphasis>-w-</emphasis> on the destination collection.</para>
         </section>
     </chapter>
 </book>
