@@ -262,7 +262,7 @@ declare %private function docbook:figure($node as node()) {
             {docbook:to-html($node/*[not(self::title)])}
             {
                 if ($node/title) then
-                    <figcaption>{$node/title/text()}</figcaption>
+                    <figcaption>{docbook:process-children($node/title)}</figcaption>
                 else
                     ()
             }
