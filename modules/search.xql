@@ -5,7 +5,6 @@ xquery version "3.0";
     ================================================ :)
 module namespace dq="http://exist-db.org/xquery/documentation/search";
 
-import module namespace xdb="http://exist-db.org/xquery/xmldb";
 import module namespace config="http://exist-db.org/xquery/apps/config" at "config.xqm";
 
 import module namespace kwic="http://exist-db.org/xquery/kwic";
@@ -14,14 +13,8 @@ declare namespace templates="http://exist-db.org/xquery/templates";
 
 declare option exist:serialize "method=html media-type=text/html expand-xincludes=yes";
 
-declare variable $dq:FIELDS :=
-	<fields>
-		<field name="title">section[ft:query(.//title, '$q')]</field>
-		<field>section[ft:query(., '$q')]</field>
-	</fields>;
-
-declare variable $dq:CHARS_SUMMARY := 120;
-declare variable $dq:CHARS_KWIC := 60;
+declare variable $dq:CHARS_SUMMARY := 140;
+declare variable $dq:CHARS_KWIC := 80;
 
 (:~
     Templating function: process the query.
