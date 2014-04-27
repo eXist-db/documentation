@@ -5,7 +5,7 @@ span.score {
     color: #B2B2B2;
 }
 
-div.headings {
+div.headings, td.headings {
     background: #DCDCDC;
 }
 
@@ -17,6 +17,7 @@ td.previous {
     margin:0 .5em 0 .5em;
 }
 
-.kwic .headings {
-    padding:.5em 0 0 0;
+table[class="kwic"] {
+    border-collapse: separate;
+    border-spacing: 0 .5em;
 }
