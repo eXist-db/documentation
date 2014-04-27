@@ -119,5 +119,5 @@ declare %public function dq:do-query($context as node()*, $query as xs:string, $
             case "title" return
                 $context[.//section[ft:query(.//title, $query)]]
             default return
-                $context[.//section[ft:query(.//title, $query)] or .//section[ft:query(., $query)]]
+                $context[.//section[ft:query(.//title, $query)] or .//section[ft:query(., $query)][not(section)]]
 };
