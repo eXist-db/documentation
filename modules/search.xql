@@ -13,7 +13,7 @@ declare namespace templates="http://exist-db.org/xquery/templates";
 
 declare option exist:serialize "method=html media-type=text/html expand-xincludes=yes";
 
-declare variable $dq:CHARS_SUMMARY := 140;
+declare variable $dq:CHARS_SUMMARY := 1000;
 declare variable $dq:CHARS_KWIC := 80;
 
 (:~
