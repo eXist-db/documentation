@@ -52,7 +52,7 @@ as element()* {
 			link="{$uri}"/>
     let $matches := kwic:get-matches($hit)
     for $ancestor in ($matches/ancestor::para | $matches/ancestor::title | $matches/ancestor::td |
-        $matches/ancestor::note)
+        $matches/ancestor::note[not(para)])
     return
         kwic:get-summary($ancestor, ($ancestor//exist:match)[1], $config) 
 };
