@@ -270,8 +270,7 @@ functx:capitalize-first('hello')</programlisting>
                 <para>The descriptor may contain one or more jar elements, each pointing to a Java
                         <filename>.jar</filename> archive to be installed. Arbitrary jars can be
                     listed here: they do not need to be XQuery extension modules.  Again, the jar
-                    files should be placed into a subdirectory of the .xar with the same name as the
-                    abbreviation of the package.</para>
+                    files should be placed into the "content" subdirectory of the .xar file.</para>
                 <para>All jars will be dynamically added to eXist-db's class loader and become
                     immediately available after deploying a package. A restart of eXist-db is not
                     required.</para>

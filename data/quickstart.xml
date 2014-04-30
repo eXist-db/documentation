@@ -24,7 +24,7 @@
                 <title>eXist-db and Java</title>
                 <para>eXist-db is built on Java, a free, cross-platform software development
                     environment. Java comes in a number of versions, so it is important that you
-                    install the version that eXist-db requires: Java 6 or 7. eXist-db can run with
+                    install the version that eXist-db requires: Java 7. eXist-db can run with
                     both the Java "JRE" (Java Runtime Environment) and the "JDK" (Java Development
                     Kit). The JRE is adequate for running eXist-db; you do not need the JDK unless
                     you intend to compile eXist-db from its source code. For instructions about
@@ -34,19 +34,15 @@
                     on commercial Linux distributions. Users of other distributions are better
                     served by distribution-specific instructions. Instructions that eXist-db users
                     have found useful include: <ulink url="http://livingtao.blogspot.com/2012/01/few-easy-steps-to-install-sunoracle-jdk.html">Amazon Linux</ulink>, <ulink url="http://www.webupd8.org/2012/01/install-oracle-java-jdk-7-in-ubuntu-via.html">Ubuntu</ulink> and <ulink url="http://www.webupd8.org/2012/06/how-to-install-oracle-java-7-in-debian.html">Debian</ulink>.</para>
-                <para>Special note: In general it recommended to use the Oracle Java VM, this is the safest choice. The OpenJDK 7 is a good open source alternative for the Oracle JVM. Due to reported compatibility issues it is NOT recommended to use "OpenJDK6" (IcedTea) and "GNU Compiler for Java" (GCJ) which are shipped by several Linux distributions.</para>
+                <para>Special note: In general it recommended to use the Oracle Java VM, this is the safest choice. The OpenJDK 7 is a good open source alternative for the Oracle JVM.</para>
                 <para>Details of the Java VM can be obtained via the following command (two results displayed):
                         <synopsis format="java">java -version
-                        
-java version "1.7.0_21"
-Java(TM) SE Runtime Environment (build 1.7.0_21-b12)
-Java HotSpot(TM) 64-Bit Server VM (build 23.21-b01, mixed mode
-    
-java version "1.6.0_27"
-OpenJDK Runtime Environment (IcedTea6 1.12.5) (6b27-1.12.5-0ubuntu0.12.04.1)
-OpenJDK 64-Bit Server VM (build 20.0-b12, mixed mode)    
+java version "1.7.0_55"
+Java(TM) SE Runtime Environment (build 1.7.0_55-b13)
+Java HotSpot(TM) 64-Bit Server VM (build 24.55-b03, mixed mode)   
 </synopsis>
                 </para>
+                <para>Note for For pre eXist-db v2.2 versions: Due to reported compatibility issues it is NOT recommended to use "OpenJDK6" (IcedTea) and "GNU Compiler for Java" (GCJ) which are shipped by several Linux distributions.</para>
             </note>
         </section>
         <section id="installation">
