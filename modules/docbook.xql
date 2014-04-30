@@ -70,8 +70,8 @@ declare %private function docbook:to-html($nodes as node()*) {
     for $node in $nodes
     return
         typeswitch ($node)
-            case document-node() return
-                docbook:to-html($node/*)
+            case text() return
+                $node
             case element(book) return
                 <article>
                     {docbook:process-children($node/chapter)}
@@ -244,8 +244,8 @@ declare %private function docbook:to-html($nodes as node()*) {
                             $node/@*,
                             docbook:process-children($node)
                         }
-            case text() return
-                $node
+            case document-node() return
+                docbook:to-html($node/*)
             default return
                 ()
 };
@@ -262,7 +262,7 @@ declare %private function docbook:figure($node as node()) {
             {docbook:to-html($node/*[not(self::title)])}
             {
                 if ($node/title) then
-                    <figcaption>{$node/title/text()}</figcaption>
+                    <figcaption>{docbook:process-children($node/title)}</figcaption>
                 else
                     ()
             }

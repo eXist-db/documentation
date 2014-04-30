@@ -5,7 +5,30 @@ span.score {
     color: #B2B2B2;
 }
 
-div.headings {
+div.headings, td.headings {
     background: #DCDCDC;
 }
-    
+
+td.previous {
+    text-align:right;
+}
+
+.kwic .hi {
+    margin:0 .5em 0 .5em;
+}
+
+table[class="kwic"] {
+    border-collapse: separate;
+    border-spacing: 0 .5em;
+}
+
+section dl.dl-horizontal dt {
+    overflow-x:inherit;
+    overflow-y:inherit;
+    clear:inherit;
+    float:inherit;
+}
+
+section dl.dl-horizontal dd {
+    margin-left:2em !important;
+    }
