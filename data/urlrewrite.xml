@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
-    <productname>eXist-db – Open Source Native XML Database</productname>
+        <productname>eXist-db – Open Source Native XML Database</productname>
         <title>URL Rewriting and MVC Framework</title>
-    <orgname>The eXist-db Project</orgname>
-    <date>August 2012</date>
+        <orgname>The eXist-db Project</orgname>
+        <date>August 2012</date>
         <author>
             <firstname>Wolfgang</firstname>
             <surname>Meier</surname>
@@ -13,14 +12,16 @@
     </bookinfo>
     <chapter>
         <title>URL Rewriting and MVC Framework</title>
-        <abstract>
-      <para>Since version 1.3/1.4, eXist-db provides a simple, yet powerful module for URL
+        <section>
+            <abstract>
+            <para>Since version 1.3/1.4, eXist-db provides a simple, yet powerful module for URL
                 rewriting and redirection: XQueryURLRewrite. It also incorporates a basic MVC (Model
                 View Controller) framework, offering servlet-based pipeline processing. The module
                 was in part inspired by the existing Open Source packages UrlRewriteFilter and
                 Spring MVC. The main difference is that we are not using any configuration files to
                 configure the URL rewriting. XQueryURLRewrite is based on XQuery instead.</para>
         </abstract>
+        </section>
         <section>
             <title>Basics</title>
             <para>XQueryURLRewrite is a standard Java servlet filter. Like any other servlet filter,
@@ -49,7 +50,7 @@
                 Above URL will actually be forwarded to an XQuery called <filename>index.xql</filename> as follows:</para>
             <synopsis>index.xql?feed=HowTo/OxygenXML/&amp;ref=eXistXmlRpcChanged</synopsis>
             <para>The XQuery code which does the rewrite magic is shown below:</para>
-      <programlisting language="xquery"><![CDATA[
+            <programlisting language="xquery"><![CDATA[
 let $params := subsequence(text:groups($exist:path, '^/?(.*)/([^/]+)$'), 2)
 return
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
@@ -71,7 +72,7 @@ return
             <para>If you want the user to see the rewritten URL, you can replace the
                     <sgmltag>forward</sgmltag> action with a <sgmltag>redirect</sgmltag>. A common
                 use for <sgmltag>redirect</sgmltag> is to send the user to a default page:</para>
-      <programlisting language="xquery"><![CDATA[if ($exist:path eq '/') then
+            <programlisting language="xquery"><![CDATA[if ($exist:path eq '/') then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
     	<redirect url="index.xml"/>
     </dispatch>]]></programlisting>
@@ -79,11 +80,11 @@ return
                 passed through the filter chain and will be handled the normal way. The same happens
                 if the action is an element <sgmltag>ignore</sgmltag>. For example, the simplest
                 controller script would consist of a single ignore:</para>
-      <programlisting language="xml"><![CDATA[
+            <programlisting language="xml"><![CDATA[
         <ignore xmlns="http://exist.sourceforge.net/NS/exist">
             <cache-control cache="yes"/>
         </ignore>]]></programlisting>
-      <para>Most scripts in eXist-db return this if no other rule applies to a request.</para>
+            <para>Most scripts in eXist-db return this if no other rule applies to a request.</para>
             <note>
                 <para>It is important to understand that only one (!) controller will ever be
                     applied to a given request. It is not possible to forward from one controller to

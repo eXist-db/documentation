@@ -16,7 +16,9 @@
     </bookinfo>
     <chapter>
         <title>XInclude Examples</title>
-        <para>eXist-db comes with partial support for the XInclude standard. As default, eXist-db's XML
+        <section id="introduction">
+            <title>Introduction</title>
+            <para>eXist-db comes with partial support for the XInclude standard. As default, eXist-db's XML
             serializer will scan all XML fragments for XInclude tags. The XInclude processor is
             implemented as a filter which sits between the serializer's output event stream and the
             receiver. If it finds an XInclude element, it will try to expand it. The current element
@@ -44,6 +46,7 @@
                 the <ulink url="{dashboard}">Package Manager</ulink> in the <ulink url="{dashboard}">Dashboard</ulink>. 
                 You are probably reading this through the Documentation app, but if you are not, you should install this as well.</para>
         </note>
+        </section>
         <section>
             <title>Including an Entire Document</title>
             <para>To include an entire document, just specify its path in the <option>href</option>

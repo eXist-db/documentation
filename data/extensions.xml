@@ -53,23 +53,25 @@
     </bookinfo>
     <chapter>
         <title>XQuery Extension Modules Documentation</title>
-        <para>eXist-db provides a pluggable module interface that allows extension modules to be easily
+        <section id="module_intro">
+            <para>eXist-db provides a pluggable module interface that allows extension modules to be easily
       developed in Java. These extension modules can provide additional XQuery functions through a
       custom namespace. The extension modules have full access to the eXist-db database, its internal API,
       the context of the executing XQuery and the HTTP Session (if appropriate).</para>
-        <para>The source code for extension modules should be placed in their own folder inside
+            <para>The source code for extension modules should be placed in their own folder inside
         <filename>$EXIST_HOME/extensions/modules/src/org/exist/xquery/modules</filename>. They may
       then be compiled in place using either <command>$EXIST_HOME/build.sh
         extension-modules</command> or <command>%EXIST_HOME%\build.bat extension-modules</command>
       depending on the platform.</para>
-        <para>Modules associated to modularized indexes should be placed in the
+            <para>Modules associated to modularized indexes should be placed in the
         <filename>$EXIST_HOME/extensions/indexes/*/xquery/modules/*</filename> hierarchy. They will
       be compiled automatically by the standard build targets or as indicated above.</para>
-        <para>eXist-db must also be told which modules to load, this is done in
+            <para>eXist-db must also be told which modules to load, this is done in
         <filename>conf.xml</filename> and the Class name and Namespace for each module is listed
       below. Note – eXist-db will require a restart to load any new modules added. Once a Module is configured
       and loaded eXist-db will display the module and its function definitions as part of the <ulink url="{fundocs}">function library</ulink> page or through
         <command>util:decribe-function()</command>.</para>
+        </section>
         <section id="module_example">
             <title>Example Module</title>
             <para>Demonstrates the simplest example of an Extension module with a single function. A good

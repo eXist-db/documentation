@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
-    <productname>eXist-db – Open Source Native XML Database</productname>
+        <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Versioning Module</title>
-    <orgname>The eXist-db Project</orgname>
+        <orgname>The eXist-db Project</orgname>
         <date>September 2009</date>
         <author>
             <firstname>Wolfgang</firstname>
@@ -13,12 +12,13 @@
     </bookinfo>
     <chapter>
         <title>Versioning Extensions</title>
-        <abstract>
-      <para>Since release 1.4, eXist-db provides a basic document versioning extension. The
+        <section>
+            <abstract>
+            <para>Since release 1.4, eXist-db provides a basic document versioning extension. The
                 extension will track all changes to a document by storing a diff between the
                 revisions. Older versions can be restored on the fly and even queried in memory.
                 There's also basic support to detect and intercept conflicting writes.</para>
-      <para>However, eXist-db has no control over the client. It does not know where a document
+            <para>However, eXist-db has no control over the client. It does not know where a document
                 update comes from and cannot directly communicate with the user. The versioning
                 extension should be seen more like a toolbox than a complete solution. Advanced
                 functionality (e.g. merging and conflict resolution) will require support from the
@@ -29,6 +29,7 @@
                 However, the versioning will not track machine-generated node-level edits using XUpdate or XQuery 
                 update extensions.</para>
         </abstract>
+        </section>
         <section>
             <title>Components</title>
             <para>The versioning extensions consist of the following components:</para>

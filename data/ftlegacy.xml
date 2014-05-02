@@ -7,7 +7,9 @@
         <orgname>The eXist Project</orgname>
     </bookinfo>
     <chapter>
-        <note>
+        <title>Legacy Full Text Index</title>
+        <section>
+            <note>
             <para>
                 <span class="glyphicon glyphicon-warning-sign"/>
                 <b>Important:</b>
@@ -17,7 +19,7 @@
                 for the database. Please use the Lucene based fulltext index instead.
             </para>
         </note>
-        <title>Legacy Full Text Index</title>
+        
         <para>This index is used to query for a sequence of separate "words" or tokens in a longer
             stream of text. While building the index, the text is parsed into single tokens which
             are then stored in the index.</para>
@@ -55,6 +57,7 @@
                 this is in direct contrast to the operation of range indexing, which does fallback
                 to full searching of the document if no range index applies (see below).</para>
         </note>
+        </section>
         <section id="ftidxconf">
             <title>Full text index configuration</title>
             <para>The <emphasis>fulltext index</emphasis> is defined by the
