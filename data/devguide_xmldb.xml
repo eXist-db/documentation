@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
-    <productname>eXist-db – Open Source Native XML Database</productname>
-        <title>Developer's Guide</title>
+        <productname>eXist-db – Open Source Native XML Database</productname>
+        <title>Developer's Guide - XML:DB API</title>
         <date>September 2009</date>
         <author>
             <firstname>Wolfgang M.</firstname>
@@ -19,7 +18,7 @@
         <title>Developer's Guide</title>
         <section>
             <title>Writing Java Applications with the XML:DB API</title>
-      <para>The preferred way to work with eXist-db when developing Java applications is to use
+            <para>The preferred way to work with eXist-db when developing Java applications is to use
                 the XML:DB API. This API provides a common interface to native or XML-enabled
                 databases and supports the development of portable, reusable applications. eXist's
                 implementation of the XML:DB standards follows the Xindice implementation, and
@@ -28,7 +27,8 @@
             <para>The basic components employed by the XML:DB API are <emphasis>drivers</emphasis>,
                     <emphasis>collections</emphasis>, <emphasis>resources</emphasis> and
                     <emphasis>services</emphasis>.</para>
-      <para><emphasis>Drivers</emphasis> are implementations of the database interface that
+            <para>
+                <emphasis>Drivers</emphasis> are implementations of the database interface that
                 encapsulate the database access logic for specific XML database products. They are
                 provided by the product vendor and must be registered with the database manager.</para>
             <para>A <emphasis>collection</emphasis> is a hierarchical container for

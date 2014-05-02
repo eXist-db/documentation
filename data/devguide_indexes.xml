@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
-    <productname>eXist-db – Open Source Native XML Database</productname>
-        <title>Developer's Guide</title>
+        <productname>eXist-db – Open Source Native XML Database</productname>
+        <title>Developer's Guide - Indexes</title>
         <date>June 2007</date>
         <author>
             <firstname>Pierrick</firstname>
@@ -22,12 +21,12 @@
     </bookinfo>
     <chapter id="ch01">
         <title>Developer's Guide to Modularized Indexes</title>
-    <para>This document has been reviewed for eXist-db 1.2.</para>
+        <para>This document has been reviewed for eXist-db 1.2.</para>
         <section>
             <title>The new modularized indexes</title>
             <section>
                 <title>Brief overview</title>
-        <para>Since around SVN revision 6000, spring 2007, i.e. <emphasis>after</emphasis> the 1.1 release, eXist-db 
+                <para>Since around SVN revision 6000, spring 2007, i.e. <emphasis>after</emphasis> the 1.1 release, eXist-db 
 	provides a new mechanism to index XML data. This mechanism is modular and should ease index development as 
 	well as the development of related (possibly not so) custom functions. As a proof of concept, eXist currently 
 	ships with two index types :</para>
@@ -36,7 +35,23 @@
                         <term>NGram index</term>
                         <para>An NGram index will store the N-grams contained in the data's characters, i.e. if the index is configured to
 		  index 3-grams, <markup><![CDATA[<data>abcde</data>]]></markup> will generate these index entries :
-		  <itemizedlist><listitem><para>abc</para></listitem><listitem><para>bcd</para></listitem><listitem><para>cde</para></listitem><listitem><para>de␣</para></listitem><listitem><para>e␣␣</para></listitem></itemizedlist>
+		  <itemizedlist>
+                                <listitem>
+                                    <para>abc</para>
+                                </listitem>
+                                <listitem>
+                                    <para>bcd</para>
+                                </listitem>
+                                <listitem>
+                                    <para>cde</para>
+                                </listitem>
+                                <listitem>
+                                    <para>de␣</para>
+                                </listitem>
+                                <listitem>
+                                    <para>e␣␣</para>
+                                </listitem>
+                            </itemizedlist>
                         </para>
                     </listitem>
                     <listitem>

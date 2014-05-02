@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
-        <title>Server-side debugging with eXist-db</title>
+        <title>Server-side Debugging with eXist-db</title>
         <date>September 2009</date>
         <author>
             <firstname>Dmitriy</firstname>
@@ -20,8 +19,19 @@
             extension.</para>
         <section>
             <title>Compile</title>
-      <para>The following steps are required to enable the debugger interface: <procedure><step><para>Enable the debugger in <filename>$EXIST_HOME/extensions/local.build.properties</filename>: by adding
-                                <emphasis>include.feature.debugger = true</emphasis>. Create the document if does not exist.</para></step><step><para>Download the required jar files.</para></step><step><para>Recompile eXist-db: <synopsis format="linespecific">build.sh</synopsis></para></step></procedure>
+            <para>The following steps are required to enable the debugger interface: <procedure>
+                    <step>
+                        <para>Enable the debugger in <filename>$EXIST_HOME/extensions/local.build.properties</filename>: by adding
+                                <emphasis>include.feature.debugger = true</emphasis>. Create the document if does not exist.</para>
+                    </step>
+                    <step>
+                        <para>Download the required jar files.</para>
+                    </step>
+                    <step>
+                        <para>Recompile eXist-db: <synopsis format="linespecific">build.sh</synopsis>
+                        </para>
+                    </step>
+                </procedure>
             </para>
         </section>
         <section>
@@ -36,7 +46,56 @@
                         <ulink url="https://addons.mozilla.org/en-US/firefox/addon/3960">Xdebug Helper</ulink> add-on
                     for Firefox. </para>
                 <para>If every thing was done correct you should see <filename>script.xql</filename>. Available commands
-                    are: <variablelist><varlistentry><term>spc</term><listitem><para>step into/step over</para></listitem></varlistentry><varlistentry><term>i</term><listitem><para>step into</para></listitem></varlistentry><varlistentry><term>o</term><listitem><para>step over</para></listitem></varlistentry><varlistentry><term>r</term><listitem><para>step out</para></listitem></varlistentry><varlistentry><term>b</term><listitem><para>set a breakpoint at a line</para></listitem></varlistentry><varlistentry><term>u</term><listitem><para>unset a breakpoint at a line</para></listitem></varlistentry><varlistentry><term>g</term><listitem><para>run</para></listitem></varlistentry><varlistentry><term>q</term><listitem><para>stop</para></listitem></varlistentry></variablelist>
+                    are: <variablelist>
+                        <varlistentry>
+                            <term>spc</term>
+                            <listitem>
+                                <para>step into/step over</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>i</term>
+                            <listitem>
+                                <para>step into</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>o</term>
+                            <listitem>
+                                <para>step over</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>r</term>
+                            <listitem>
+                                <para>step out</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>b</term>
+                            <listitem>
+                                <para>set a breakpoint at a line</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>u</term>
+                            <listitem>
+                                <para>unset a breakpoint at a line</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>g</term>
+                            <listitem>
+                                <para>run</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>q</term>
+                            <listitem>
+                                <para>stop</para>
+                            </listitem>
+                        </varlistentry>
+                    </variablelist>
                 </para>
             </section>
             <section>
