@@ -60,8 +60,12 @@ declare function config:expath-descriptor() as element(expath:package) {
     $config:expath-descriptor
 };
 
-declare %templates:wrap function config:app-title($node as node(), $model as map(*)) as text() {
-    $config:expath-descriptor/expath:title/text()
+declare %templates:wrap function config:app-title($node as node(), $model as map(*)) as xs:string {
+    let $doc-uri := request:get-uri()
+    let $doc-path := concat(replace(replace($doc-uri, '^/exist/', '/db/'), concat('^(.*)', '/','.*'), '$1'), '/data/', replace($doc-uri, concat('^.*','/'),''))
+    let $doc-title := doc($doc-path)/book/bookinfo/title
+    return
+        concat($config:expath-descriptor/expath:title, if ($doc-title) then ' - ' else '', $doc-title) 
 };
 
 declare function config:app-meta($node as node(), $model as map(*)) as element()* {
