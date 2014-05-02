@@ -13,39 +13,40 @@
     <chapter>
         <title>Production use - Proxying eXist-db behind a Web Server</title>
         <section>
+            <title>Abstract</title>
             <abstract>
-            <para>From a security perspective, it is recognised best practice to proxy Web Application Servers behind dedicated Web Servers, and eXist-db is no exception.</para>
-            <para>Some other nice side-effects of proxying eXist-db behind a Web Server include -</para>
-            <variablelist>
-                <varlistentry>
-                    <term>Unified web namespace</term>
-                    <listitem>
-                        <para>You can map eXist-db or an application build atop eXist-db into an existing web namespace. If your website is - http://www.mywebsite.com, then your eXist-db application could be mapped into http://www.mywebsite.com/myapplication/.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term>Virtual Hosting</term>
-                    <listitem>Providing your Web Server supports Virtual Hosting, then you should be able to proxy many URLs from different domains onto different eXist-db REST URLs which may belong to one or more eXist-db instances. This in effect allows a single eXist-db instance to perform virtual hosting.</listitem>
-                </varlistentry>
-            </variablelist>
-            <para>Examples are provided for -</para>
-            <variablelist>
-                <varlistentry>
-                    <term>
-                        <ulink url="http://wiki.nginx.org/Main">Nginx</ulink>
-                    </term>
-                    <listitem>
-                        <para>A very small but extremely poweful Web Server which is also very simple to configure. It powers some of the biggest sites on the Web.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term>
-                        <ulink url="http://httpd.apache.org/">Apache HTTPD</ulink>
-                    </term>
-                    <listitem>The most prolific Web Server used on the web.</listitem>
-                </varlistentry>
-            </variablelist>
-        </abstract>
+                <para>From a security perspective, it is recognised best practice to proxy Web Application Servers behind dedicated Web Servers, and eXist-db is no exception.</para>
+                <para>Some other nice side-effects of proxying eXist-db behind a Web Server include -</para>
+                <variablelist>
+                    <varlistentry>
+                        <term>Unified web namespace</term>
+                        <listitem>
+                            <para>You can map eXist-db or an application build atop eXist-db into an existing web namespace. If your website is - http://www.mywebsite.com, then your eXist-db application could be mapped into http://www.mywebsite.com/myapplication/.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>Virtual Hosting</term>
+                        <listitem>Providing your Web Server supports Virtual Hosting, then you should be able to proxy many URLs from different domains onto different eXist-db REST URLs which may belong to one or more eXist-db instances. This in effect allows a single eXist-db instance to perform virtual hosting.</listitem>
+                    </varlistentry>
+                </variablelist>
+                <para>Examples are provided for -</para>
+                <variablelist>
+                    <varlistentry>
+                        <term>
+                            <ulink url="http://wiki.nginx.org/Main">Nginx</ulink>
+                        </term>
+                        <listitem>
+                            <para>A very small but extremely poweful Web Server which is also very simple to configure. It powers some of the biggest sites on the Web.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>
+                            <ulink url="http://httpd.apache.org/">Apache HTTPD</ulink>
+                        </term>
+                        <listitem>The most prolific Web Server used on the web.</listitem>
+                    </varlistentry>
+                </variablelist>
+            </abstract>
         </section>
         <section>
             <title>Example 1 - Proxying a Web Domain Name to an eXist-db Collection</title>
