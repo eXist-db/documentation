@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <document xmlns:xi="http://www.w3.org/2001/XInclude">
     <body>
         <section title="Fact Sheet">
+            <title>Fact Sheet</title>
             <category name="System Requirements">
                 <topic name="Java Version">
                     <p>Java6 "Java SE 6"; development and testing is performed using Oracle's Java6 JVM, 32bit (x86) and 64bit (x64).</p>
@@ -42,7 +42,7 @@
                         automatically.</p>
                 </topic>
                 <topic name="Query Engine">
-          <p>eXist-db has its own, optimized <a href="xquery.xml">XQuery engine</a>,
+                    <p>eXist-db has its own, optimized <a href="xquery.xml">XQuery engine</a>,
                         featuring an efficient, index-based query processing.</p>
                     <p>Contrary to conventional implementations, eXist's query engine tries to avoid
                         top-down or bottom-up tree traversals. Instead, it relies on fast path join
@@ -72,12 +72,13 @@
                         APIs.</p>
                 </topic>
                 <topic name="Deployment">
-          <p>eXist-db may be <a href="deployment.xml">deployed</a> as a stand-alone database
+                    <p>eXist-db may be <a href="deployment.xml">deployed</a> as a stand-alone database
                         server, as an embedded Java library or as part of a web application (running
                         in the servlet engine).</p>
                 </topic>
                 <topic name="Backup/Restore">
-          <p><a href="backup.xml">Backup/restore</a> functionality is provided via Java
+                    <p>
+                        <a href="backup.xml">Backup/restore</a> functionality is provided via Java
                         admin client or Ant scripts. The backup contains resources as readable XML.
                         Allows full restore of a database including user/group permissions.</p>
                 </topic>
@@ -133,7 +134,7 @@
             </category>
             <category name="Network Protocols">
                 <topic name="HTTP/REST">
-          <p>eXist-db offers a REST-style web service API for simple access via HTTP. This is
+                    <p>eXist-db offers a REST-style web service API for simple access via HTTP. This is
                         in general the fastest way to access the database. Running in a servlet
                         context, the REST functionality is provided through the EXistServlet. In
                         stand-alone mode, the database has its own, built-in web server.</p>

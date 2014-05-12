@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "docbookx.dtd">--><!-- $Id$ -->
 <book>
     <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
-        <title>XACML Access Control in eXist</title>
+        <title>XACML Access Control in eXist-db</title>
         <date>September 2009</date>
         <author>
             <firstname>Mark</firstname>
@@ -17,7 +16,9 @@
     </bookinfo>
     <chapter>
         <title>Access Control in eXist</title>
-        <para>
+        <section>
+        	<title>XACML</title>
+            <para>
 			eXist uses the OASIS standard
 			<ulink url="http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=xacml">
 				eXtensible Access Control Markup Language (XACML)
@@ -32,15 +33,15 @@
 			</ulink>
 			are currently supported.
 		</para>
-        <note id="deprecated">
-            <title>Deprecation</title>
-            <para>The XACML functionality is marked as deprecated and should
+            <note id="deprecated">
+                <title>Deprecation</title>
+                <para>The XACML functionality is marked as deprecated and should
                 not be used for new projects. Please use the new 
                 <ulink url="security.xml#ACLs">ACL</ulink> functionality that has been 
                 introduced in eXist-db v2.0.
                 </para>
-        </note>
-        <para>
+            </note>
+            <para>
 			This documentation is divided into four parts. The first part of this
 			documentation, <ulink url="xacml-features.xml">Capabilities</ulink>,
 			is intended to be a thorough overview of what in eXist is
@@ -48,26 +49,26 @@
 			XACML and should provide the database administrator with enough information
 			to decide whether to enable and use eXist's XACML subsystem.
 		</para>
-        <para>
+            <para>
 			The second part, <ulink url="xacml-intro.xml">Introduction to XACML</ulink>, is a
 			brief introduction to XACML.  The targeted level of detail is the level
 			necessary to use eXist's policy editor to manage policies (policies
 			are how access is restricted in XACML).  It also provides some background
 			information on the XACML implementation library used by eXist.
 		</para>
-        <para>The third part, <ulink url="xacml-usage.xml">Using XACML in eXist</ulink>
+            <para>The third part, <ulink url="xacml-usage.xml">Using XACML in eXist</ulink>
 			includes a short description of how to configure the XACML subsystem in eXist.
 			This covers enabling XACML, the location of policies, and the default behavior
 			of the XACML subsystem.  This part then describes how to create, edit, and remove
 			policies in eXist using the graphical editor.
 		</para>
-        <para>
+            <para>
 			The last part of the documentation,
 			<ulink url="xacml-dev.xml">XACML Developer's Guide</ulink>,
 			is targeted towards eXist developers and describes how to implement a Policy
 			Enforcement Point (PEP) in eXist, among other topics.
 		</para>
-        <para>
+            <para>
 			A basic description of the operation of access control using XACML in eXist is
 			the that database administrator writes policies (either manually or with the
 			graphical editor) that determine who can access what resources and when and how
@@ -77,5 +78,6 @@
 			PermissionDeniedException is thrown.  If it is granted, program execution
 			continues normally.
 		</para>
+        </section>
     </chapter>
 </book>

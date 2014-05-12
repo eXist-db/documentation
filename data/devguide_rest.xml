@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
-    <productname>eXist-db – Open Source Native XML Database</productname>
-        <title>Developer's Guide</title>
+        <productname>eXist-db – Open Source Native XML Database</productname>
+        <title>Developer's Guide - REST</title>
         <date>September 2009</date>
         <author>
             <firstname>Wolfgang M.</firstname>
@@ -19,12 +18,12 @@
         <title>Developer's Guide</title>
         <section id="rest">
             <title>REST-Style Web API</title>
-      <para>eXist-db provides a REST-style (or <emphasis>RESTful</emphasis>) API through HTTP,
+            <para>eXist-db provides a REST-style (or <emphasis>RESTful</emphasis>) API through HTTP,
                 which provides the simplest and quickest way to access the database. To implement
                 this API, all one needs is an HTTP client, which is provided by nearly all
                 programming languages and environments. However, not all of the database features
                 are available using this approach.</para>
-      <para> When running eXist-db as a stand-alone server - i.e. when the database has been
+            <para> When running eXist-db as a stand-alone server - i.e. when the database has been
                 started using the shell-script <filename>bin/server.sh</filename> (Unix) or batch
                 file <filename>bin/server.bat</filename> (Windows/DOS) - HTTP access is supported
                 through a simple, built-in web server. This web server however has limited

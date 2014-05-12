@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
-    <productname>eXist-db – Open Source Native XML Database</productname>
+        <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Versioning Module</title>
-    <orgname>The eXist-db Project</orgname>
+        <orgname>The eXist-db Project</orgname>
         <date>September 2009</date>
         <author>
             <firstname>Wolfgang</firstname>
@@ -13,22 +12,25 @@
     </bookinfo>
     <chapter>
         <title>Versioning Extensions</title>
-        <abstract>
-      <para>Since release 1.4, eXist-db provides a basic document versioning extension. The
+        <section>
+            <title>Abstract</title>
+            <abstract>
+                <para>Since release 1.4, eXist-db provides a basic document versioning extension. The
                 extension will track all changes to a document by storing a diff between the
                 revisions. Older versions can be restored on the fly and even queried in memory.
                 There's also basic support to detect and intercept conflicting writes.</para>
-      <para>However, eXist-db has no control over the client. It does not know where a document
+                <para>However, eXist-db has no control over the client. It does not know where a document
                 update comes from and cannot directly communicate with the user. The versioning
                 extension should be seen more like a toolbox than a complete solution. Advanced
                 functionality (e.g. merging and conflict resolution) will require support from the
                 end-user applications, which is outside of eXist's reach.</para>
-            <para>The versioning extension has been created with human editors in mind, who will 
+                <para>The versioning extension has been created with human editors in mind, who will 
                 typically be changing a document through an editor or some form-based frontend.
                 It should work well with documents up to several megabytes in size. 
                 However, the versioning will not track machine-generated node-level edits using XUpdate or XQuery 
                 update extensions.</para>
-        </abstract>
+            </abstract>
+        </section>
         <section>
             <title>Components</title>
             <para>The versioning extensions consist of the following components:</para>

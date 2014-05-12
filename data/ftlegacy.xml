@@ -1,61 +1,63 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
-        <productname>Open Source Native XML Database</productname>
+        <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Legacy Full Text Index</title>
         <date>September 2009</date>
         <orgname>The eXist Project</orgname>
     </bookinfo>
     <chapter>
-        <note>
-            <para>
-                <span class="glyphicon glyphicon-warning-sign"/>
-                <b>Important:</b>
-                <span class="glyphicon glyphicon-warning-sign"/>
-                <br/>The Legacy Full Text Index should not be used anymore. The functionaly
+        <title>Legacy Full Text Index</title>
+        <section>
+            <title>Note</title>
+            <note>
+                <para>
+                    <span class="glyphicon glyphicon-warning-sign"/>
+                    <b>Important:</b>
+                    <span class="glyphicon glyphicon-warning-sign"/>
+                    <br/>The Legacy Full Text Index should not be used anymore. The functionaly
                 will be removed from eXist-db in a future release, because it causes instability
                 for the database. Please use the Lucene based fulltext index instead.
             </para>
-        </note>
-        <title>Legacy Full Text Index</title>
-        <para>This index is used to query for a sequence of separate "words" or tokens in a longer
+            </note>
+            <para>This index is used to query for a sequence of separate "words" or tokens in a longer
             stream of text. While building the index, the text is parsed into single tokens which
             are then stored in the index.</para>
-        <important>
-            <para>Historically, eXist has been creating a default full text index on all text nodes
+            <important>
+                <para>Historically, eXist has been creating a default full text index on all text nodes
                 and attribute values. This is no longer the case! Creating default indexes on data
                 which you may never use is too expensive, in particular, since eXist is now
                 providing a wider range of different indexes which can be much better optimized than
                 the default index and will offer superior performance.</para>
-        </important>
-        <para>Anyway, as for the other index types, you can configure the full text index in the
+            </important>
+            <para>Anyway, as for the other index types, you can configure the full text index in the
             collection configuration and we will try to keep the configuration of the new index
             backwards compatible. We thus recommend to create a collection configuration file,
             disable the default index-all behaviour and define some explicit full text indexes on
             your documents. The details of this process will be described below.</para>
-        <para>The full text index is only used in combination with eXist's fulltext search
+            <para>The full text index is only used in combination with eXist's fulltext search
             extensions. In particular, you can use the following eXist-specific operators and
             functions that apply a fulltext index:</para>
-        <itemizedlist>
-            <listitem>
-                <para>Operators: <command>&amp;=</command> and <command>|=</command>
-                </para>
-            </listitem>
-            <listitem>
-                <para>Main Functions: <function>text:match-all()</function>,
+            <itemizedlist>
+                <listitem>
+                    <para>Operators: <command>&amp;=</command> and <command>|=</command>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Main Functions: <function>text:match-all()</function>,
                         <function>text:match-any()</function> and <function>near()</function>
-                </para>
-            </listitem>
-        </itemizedlist>
-        <note>
-            <para>It is important to note that, if you have disabled full text indexing for certain
+                    </para>
+                </listitem>
+            </itemizedlist>
+            <note>
+                <para>It is important to note that, if you have disabled full text indexing for certain
                 elements, these operators and functions will also be effectively disabled, and will
                 not return matches. As a result, eXist will not return results for queries that
                 normally would have results provided fulltext indexing was enabled. Note also that
                 this is in direct contrast to the operation of range indexing, which does fallback
                 to full searching of the document if no range index applies (see below).</para>
-        </note>
+            </note>
+        </section>
         <section id="ftidxconf">
             <title>Full text index configuration</title>
             <para>The <emphasis>fulltext index</emphasis> is defined by the
@@ -138,7 +140,7 @@
                 be found - for example, "databases" might have been written with a capital
                 letter at the start of the sentence, and so would not be included in the
                 results.</para>
-      <para>To resolve this issue, eXist-db offers additional operators and extension
+            <para>To resolve this issue, eXist-db offers additional operators and extension
                 functions for efficient, index-based access to the full text content of nodes.
                 With eXist-db, you could alternatively formulate the above query as follows:</para>
             <synopsis format="linespecific">//chapter[near(., 'XML database?', 50)]</synopsis>
@@ -151,7 +153,7 @@
                 an order of magnitude faster than the standard XPath query above.</para>
             <section>
                 <title>Operators</title>
-        <para>In this section, we discuss each of eXist-db's text-search extensions. In
+                <para>In this section, we discuss each of eXist-db's text-search extensions. In
                     cases where the order and distance of search terms is not important, eXist-db
                     offers two additional operators for simple keyword queries: <command moreinfo="none">&amp;=</command> and <command moreinfo="none">|=</command>.</para>
                 <variablelist>
@@ -212,7 +214,7 @@
                 </note>
             </section>
             <section>
-        <title>Functions utilising the legacy full text index</title>
+                <title>Functions utilising the legacy full text index</title>
                 <variablelist>
                     <varlistentry>
                         <term>near()</term>
@@ -262,7 +264,8 @@
                             <synopsis>text:match-all(para, "li[vf]e.?", "frank.*")</synopsis>
                             <para>will match this paragraph because it contains two keywords
                                 matching the specified regular expression patterns.</para>
-              <para><command moreinfo="none">text:match-all()</command> corresponds
+                            <para>
+                                <command moreinfo="none">text:match-all()</command> corresponds
                                 to <command moreinfo="none">&amp;=</command> in that it will
                                 select context nodes with keywords matching
                                 <emphasis>ALL</emphasis> of the specified regular
@@ -280,7 +283,7 @@
                                     example, the expression</para>
                                 <synopsis format="linespecific">//SPEECH[text:match-all(LINE, 'li[vf]e')]</synopsis>
                                 <para>will match 'live', 'life', but not 'lives'.</para>
-                <para>eXist-db uses the <ulink url="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/package-summary.html">java.util.regex API</ulink> for regular expressions. A
+                                <para>eXist-db uses the <ulink url="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/package-summary.html">java.util.regex API</ulink> for regular expressions. A
                                     description of the supported regexp syntax can be found on
                                     the <ulink url="http://java.sun.com/docs/books/tutorial/extra/regex/">Sun Java Tutorial</ulink>.</para>
                             </note>

@@ -1,28 +1,29 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <book>
     <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
-        <title>Configuring Database Indexes</title>
+        <title>Legacy Range index</title>
         <date>November 2009</date>
         <orgname>The eXist-db Project</orgname>
     </bookinfo>
     <chapter>
         <title>Legacy Range index</title>
-        <note>
-            <para>This index has been replaced by a redesigned range index module in eXist 2.2. The old
+        <section>
+            <title>Note</title>
+            <note>
+                <para>This index has been replaced by a redesigned range index module in eXist 2.2. The old
                 index is still available and fully functional though.</para>
-        </note>
-        <para>Range indexes provide a shortcut for the database to directly select nodes
+            </note>
+            <para>Range indexes provide a shortcut for the database to directly select nodes
                 based on their typed values. They are used when matching or comparing nodes by
                 way of standard XPath operators and functions. Without a range index, comparison
                 operators like =, &gt; or &lt; will default to a "brute-force" inspection of the
                 DOM, which can be extremly slow if eXist-db has to search through maybe millions of
                 nodes: each node has to be loaded and cast to the target type.</para>
-        <para>To see how range indexes work, consider the following fragment:</para>
-        <example>
-            <title>Example: List Entry</title>
-            <programlisting>
-                <markup>&lt;items&gt;
+            <para>To see how range indexes work, consider the following fragment:</para>
+            <example>
+                <title>Example: List Entry</title>
+                <programlisting>
+                    <markup>&lt;items&gt;
     &lt;item n="1"&gt;
        &lt;name&gt;Tall Bookcase&lt;/name&gt;
        &lt;price&gt;299.99&lt;/price&gt;
@@ -32,9 +33,9 @@
        &lt;price&gt;199.99&lt;/price&gt;
     &lt;/item&gt;
 &lt;/items&gt;</markup>
-            </programlisting>
-        </example>
-        <para>With this short inventory, the text nodes of the <sgmltag>price</sgmltag>
+                </programlisting>
+            </example>
+            <para>With this short inventory, the text nodes of the <sgmltag>price</sgmltag>
                 elements have dollar values expressed as a floating-point number, (e.g.
                 "299.99"), which has an <ulink url="http://www.w3.org/TR/xmlschema-0/">XML
                     Schema Definition</ulink> (XSD) data type of <command>xs:double</command>.
@@ -46,8 +47,8 @@
                 appropriate values to the index. Values that cannot be cast as double floating
                 point numbers are therefore ignored. This range index will then be used by any
                 expression that compares <sgmltag>price</sgmltag> to an <command>xs:double</command> value - for instance:</para>
-        <synopsis>//item[price &gt; 100.0]</synopsis>
-        <para>For non-string data types, the range index provides the query engine with a more
+            <synopsis>//item[price &gt; 100.0]</synopsis>
+            <para>For non-string data types, the range index provides the query engine with a more
                 efficient method of data conversion. Instead of retrieving the value of each
                 selected element and casting it as a <command>xs:double</command> type, the
                 engine can evaluate the expression by using the range index as a form of lookup
@@ -58,80 +59,81 @@
                 just a single index lookup to evaluate <command>price = 100.0</command>. The
                 range expression <command>price &gt; 100.0</command> is processed with an index
                 scan starting at 100. </para>
-        <para>For string data, the index will also be used by the standard functions
+            <para>For string data, the index will also be used by the standard functions
                 <function>fn:contains()</function>, <function>fn:starts-with()</function>,
                 <function>fn:ends-with()</function> and <function>fn:matches()</function>.</para>
-        <para>To illustrate this functionality, let's return to the previous example. If you
+            <para>To illustrate this functionality, let's return to the previous example. If you
                 define a range index of type <command>xs:string</command> for element
                 <sgmltag>name</sgmltag>, a query on this element to select tall bookcases
                 using <function>fn:matches()</function> will be supported by the following
                 index:</para>
-        <synopsis>//item[fn:matches(name, '[Tt]all\s[Bb]')]</synopsis>
-        <para>Note that <function>fn:matches</function> will by default try to match the
+            <synopsis>//item[fn:matches(name, '[Tt]all\s[Bb]')]</synopsis>
+            <para>Note that <function>fn:matches</function> will by default try to match the
                 regular expression <emphasis>anywhere</emphasis> in the string. We can thus
                 speed up the query dramatically by using "^" to restrict the match to the start
                 of the string: </para>
-        <synopsis>//item[fn:matches(name, '^[Tt]all\s[Bb]')]</synopsis>
-        <para>Also, if you really need to search for an exact substring in a longer text
+            <synopsis>//item[fn:matches(name, '^[Tt]all\s[Bb]')]</synopsis>
+            <para>Also, if you really need to search for an exact substring in a longer text
                 sequence, it is often better to use the NGram index instead of the range index,
                 i.e. use <function>ngram:contains()</function> instead of <function>fn:contains()</function>. Unfortunately, there's no equivalent NGram
                 function for <function>fn:matches()</function> yet, but we may add one in the
                 future as it could help to increase performance dramatically.</para>
-        <para>In general, three conditions must be met in order to optimize a search using a
+            <para>In general, three conditions must be met in order to optimize a search using a
                 range index:</para>
-        <orderedlist>
-            <listitem>
-                <para>
-                    <emphasis>The range index must be defined on <emphasis>all</emphasis>
+            <orderedlist>
+                <listitem>
+                    <para>
+                        <emphasis>The range index must be defined on <emphasis>all</emphasis>
                             items in the input sequence.</emphasis>
-                </para>
-                <para>For example, suppose you have two collections in the database: C1 and
+                    </para>
+                    <para>For example, suppose you have two collections in the database: C1 and
                         C2. If you have a range index defined for collection C1, but your query
                         happens to operate on both C1 and C2, then the range index would
                         <emphasis>not</emphasis> be used. The query optimizer selects an
                         optimization strategy based on the entire input sequence of the query.
                         Since, in this example, since only nodes in C1 have a range index, no
                         range index optimization would be applied.</para>
-            </listitem>
-            <listitem>
-                <para>
-                    <emphasis>The index data type (first argument type) must match the test
+                </listitem>
+                <listitem>
+                    <para>
+                        <emphasis>The index data type (first argument type) must match the test
                             data type (second argument type).</emphasis>
-                </para>
-                <para>In other words, with range indexes, there is no promotion of data
+                    </para>
+                    <para>In other words, with range indexes, there is no promotion of data
                         types (i.e. no data type precedes or replaces another data type). For
                         example, if you defined an index of type <command>xs:double</command> on
                         <sgmltag>price</sgmltag>, a query that compares this element's value
                         with a string literal would not use a range index, for instance:</para>
-                <synopsis>//item[price = '1000.0']</synopsis>
-                <para>In order to apply the range index, you would need to cast the value as
+                    <synopsis>//item[price = '1000.0']</synopsis>
+                    <para>In order to apply the range index, you would need to cast the value as
                         a type <command>xs:double</command>, i.e.:</para>
-                <synopsis>//item[price = xs:double($price)] (where $price is any test value)</synopsis>
-                <para>Similarly, when we compare <command>xs:double</command> values with
+                    <synopsis>//item[price = xs:double($price)] (where $price is any test value)</synopsis>
+                    <para>Similarly, when we compare <command>xs:double</command> values with
                         <command>xs:integer</command> values, as in, for instance:</para>
-                <synopsis>//item[price = 1000]</synopsis>
-                <para>the range index would again not be used since the
+                    <synopsis>//item[price = 1000]</synopsis>
+                    <para>the range index would again not be used since the
                         <sgmltag>price</sgmltag> data type differs from the test value type,
                         although this conflict might not seem as obvious as it is with string
                         values.</para>
-            </listitem>
-            <listitem>
-                <para>
-                    <emphasis>The right-hand argument has no dependencies on the current
+                </listitem>
+                <listitem>
+                    <para>
+                        <emphasis>The right-hand argument has no dependencies on the current
                             context item.</emphasis>
-                </para>
-                <para>That is, the test or conditional value must not depend on the value
+                    </para>
+                    <para>That is, the test or conditional value must not depend on the value
                         against which it is being tested. For example, range indexes will not be
                         applied given the following expression:</para>
-                <synopsis>//item[price = self]</synopsis>
-            </listitem>
-        </orderedlist>
-        <para>Concerning range indexes on strings there's another restriction to be
+                    <synopsis>//item[price = self]</synopsis>
+                </listitem>
+            </orderedlist>
+            <para>Concerning range indexes on strings there's another restriction to be
                 considered: up to version 1.3, range indexes on strings can only be used with
                 the default Unicode collation. Also, string indexes will always be case
                 sensitive (while n-gram and full text indexes are not). It is not yet possible
                 to define a string index on a different collation (e.g. for German or French) or
                 to make it case insensitve. This is a limitation we plan to address in the future.</para>
+        </section>
         <section>
             <title>Range index configuration</title>
             <example>

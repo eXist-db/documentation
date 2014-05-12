@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "docbookx.dtd">--><!-- $Id$ -->
 <book>
     <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
-        <title>Access Control in eXist: XACML Developer's Guide</title>
+        <title>Access Control in eXist-db: XACML Developer's Guide</title>
         <date>September 2009</date>
         <author>
             <firstname>Mark</firstname>
@@ -17,19 +16,22 @@
     </bookinfo>
     <chapter>
         <title>Access Control in eXist: XACML Developer's Guide</title>
-        <para>
+        <section>
+            <title>Introduction</title>
+            <para>
 			This guide provides information to developers interested in adding access
 			control to eXist or potentially users writing applications that use eXist's
 			internal XACML-related classes (note that this is not supported, though).
 		</para>
-        <note id="deprecated">
-            <title>Deprecation</title>
-            <para>The XACML functionality is marked as deprecated and should
+            <note id="deprecated">
+                <title>Deprecation</title>
+                <para>The XACML functionality is marked as deprecated and should
                 not be used for new projects. Please use the new 
                 <ulink url="security.xml#ACLs">ACL</ulink> functionality that has been 
                 introduced in eXist-db v2.0.
                 </para>
-        </note>
+            </note>
+        </section>
         <section>
             <title>Selecting XACML for Access Control</title>
             <para>

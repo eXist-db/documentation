@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
-        <title>XACML Access Control in eXist: Capabilities</title>
+        <title>XACML Access Control in eXist-db: Capabilities</title>
         <date>September 2009</date>
         <author>
             <firstname>Mark</firstname>
@@ -17,21 +16,24 @@
     </bookinfo>
     <chapter>
         <title>Access Control in eXist: Capabilities</title>
-        <para> In XACML, access to resources (such as an XQuery or a Java method) can be controlled
+        <section>
+            <title>Introduction</title>
+            <para> In XACML, access to resources (such as an XQuery or a Java method) can be controlled
 			by characteristics of the subject(s) accessing the resource (a common subject is a user
 			executing a query), the resource being accessed, the action being taken on the resource
 			(such as 'execute query'), or the environment in which the access is being made (such as
 			the time of the access). This part of the documentation provides an overview of what
 			subjects, resources, and actions are available and what characteristics of those
 			entities may be use to control access. </para>
-        <note id="deprecated">
-            <title>Deprecation</title>
-            <para>The XACML functionality is marked as deprecated and should
+            <note id="deprecated">
+                <title>Deprecation</title>
+                <para>The XACML functionality is marked as deprecated and should
                 not be used for new projects. Please use the new 
                 <ulink url="security.xml#ACLs">ACL</ulink> functionality that has been 
                 introduced in eXist-db v2.0.
                 </para>
-        </note>
+            </note>
+        </section>
         <section>
             <title>Subjects</title>
             <section>
