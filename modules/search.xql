@@ -61,13 +61,17 @@ as element()* {
 	Print the hierarchical context of a hit.
 :)
 declare %private function dq:print-headings($section as element()*, $docXPath as xs:string) {
-	$section/ancestor-or-self::chapter/title//text(),
+	let $nodeId := util:node-id($section)
+	let $uri :=
+		util:document-name(root($section)) || "?" || $docXPath || "&amp;id=D" || $nodeId
+		return
+		  <a href="{$uri}">{$section/ancestor-or-self::chapter/title/text()}</a>,
 	for $s at $p in $section/ancestor-or-self::section
 	let $nodeId := util:node-id($s)
 	let $uri :=
 		util:document-name(root($s)) || "?" || $docXPath || "&amp;id=D" || $nodeId || "#D" || $nodeId
 	return
-		(" > ", <a href="{$uri}">{$s/title//text()}</a>)
+		(" > ", <a href="{$uri}">{$s/title/text()}</a>)
 };
 
 (:~
