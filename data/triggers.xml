@@ -22,13 +22,13 @@
           <para><emphasis>create</emphasis>: Fired when a collection or document is created</para>
                 </listitem>
                 <listitem>
-          <para><emphasis>update</emphasis>: Fired when a collection or document is updated</para>
+          <para><emphasis>update</emphasis>: Fired when a document is updated (note: there is no such thing as a collection update)</para>
                 </listitem>
                 <listitem>
           <para><emphasis>copy</emphasis>: Fired when a collection or document is copied</para>
                 </listitem>
                 <listitem>
-          <para><emphasis>move</emphasis>: Fired when a collection or document is moved (a "rename" operation is counted as a "move", not an "update")</para>
+          <para><emphasis>move</emphasis>: Fired when a collection or document is moved (note: a "rename" operation is counted as a "move", not an "update")</para>
                 </listitem>
                 <listitem>
           <para><emphasis>delete</emphasis>: Fired when a collection or document is deleted</para>
@@ -54,16 +54,6 @@
                     <listitem>
                         <para>
                             <emphasis>trigger:after-create-collection($uri as xs:anyURI)</emphasis>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <emphasis>trigger:before-update-collection($uri as xs:anyURI)</emphasis>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <emphasis>trigger:after-update-collection($uri as xs:anyURI)</emphasis>
                         </para>
                     </listitem>
                     <listitem>
@@ -303,14 +293,6 @@ declare function trigger:before-create-collection($uri as xs:anyURI) {
 
 declare function trigger:after-create-collection($uri as xs:anyURI) {
     local:log-event("after", "create", "collection", $uri)
-};
-
-declare function trigger:before-update-collection($uri as xs:anyURI) {
-    local:log-event("before", "update", "collection", $uri)
-};
-
-declare function trigger:after-update-collection($uri as xs:anyURI) {
-    local:log-event("after", "update", "collection", $uri)
 };
 
 declare function trigger:before-copy-collection($uri as xs:anyURI, $new-uri as xs:anyURI) {
