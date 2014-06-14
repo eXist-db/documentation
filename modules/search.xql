@@ -24,14 +24,14 @@ declare
 function dq:query($node as node()*, $model as map(*), $q as xs:string?, $field as xs:string, $view as xs:string) {
 	if ($q) then
 		let $hits := dq:do-query(collection($config:data-root), $q, $field)
-		let $docXPath :=
+		let $search-params :=
             string-join(
                 map-pairs(function($k, $v) { $k || "=" || $v }, ("q", "field"), ($q, $field)),
                 "&amp;"
             )
 		return
             <div id="f-search">
-			{dq:print-results($hits, $docXPath, $view)}
+			{dq:print-results($hits, $search-params, $view)}
             </div>
 	else
 		()
@@ -41,11 +41,11 @@ function dq:query($node as node()*, $model as map(*), $q as xs:string?, $field a
 	Display the hits: this function iterates through all hits and calls
 	kwic:summarize to print out a summary of each match.
 :)
-declare %private function dq:print($hit as element(), $docXPath as xs:string, $mode as xs:string)
+declare %private function dq:print($hit as element(), $search-params as xs:string, $mode as xs:string)
 as element()* {
     let $nodeId := util:node-id($hit)
 	let $uri := util:document-name(root($hit)) || "?" ||
-		$docXPath || "&amp;id=D" || $nodeId || "#D" || $nodeId
+		$search-params || "&amp;id=D" || $nodeId || "#D" || $nodeId
 	let $config :=
 		<config xmlns="" width="{if ($mode eq 'summary') then $dq:CHARS_SUMMARY else $dq:CHARS_KWIC}"
 			table="{if ($mode eq 'summary') then 'no' else 'yes'}"
@@ -60,16 +60,17 @@ as element()* {
 (:~
 	Print the hierarchical context of a hit.
 :)
-declare %private function dq:print-headings($section as element()*, $docXPath as xs:string) {
+declare %private function dq:print-headings($section as element()*, $search-params as xs:string) {
+	let $log := util:log("DEBUG", ("##$search-paramsxxx): ", $search-params))
 	let $nodeId := util:node-id($section)
 	let $uri :=
-		util:document-name(root($section)) || "?" || $docXPath || "&amp;id=D" || $nodeId
+		util:document-name(root($section)) || "?" || $search-params || "&amp;id=D" || $nodeId
 		return
 		  <a href="{$uri}">{$section/ancestor-or-self::chapter/title/text()}</a>,
 	for $s at $p in $section/ancestor-or-self::section
 	let $nodeId := util:node-id($s)
 	let $uri :=
-		util:document-name(root($s)) || "?" || $docXPath || "&amp;id=D" || $nodeId || "#D" || $nodeId
+		util:document-name(root($s)) || "?" || $search-params || "&amp;id=D" || $nodeId || "#D" || $nodeId
 	return
 		(" > ", <a href="{$uri}">{$s/title/text()}</a>)
 };
@@ -77,7 +78,7 @@ declare %private function dq:print-headings($section as element()*, $docXPath as
 (:~
 	Display the query results.
 :)
-declare %private function dq:print-results($hits as element()*, $docXPath as xs:string, $mode as xs:string) {
+declare %private function dq:print-results($hits as element()*, $search-params as xs:string, $mode as xs:string) {
 		<div id="f-results">
 			<p class="heading">Found {count($hits)} result{
     		 if (count($hits) eq 1) then "" else "s"}.</p>
@@ -89,8 +90,8 @@ declare %private function dq:print-results($hits as element()*, $docXPath as xs:
 					return
 					    <div class="section">
 					        <span class="score">Score: {round-half-to-even($score, 2)}</span>
-							<div class="headings">{ dq:print-headings($section, $docXPath) }</div>
-							{ dq:print($section, $docXPath, $mode) }
+							<div class="headings">{ dq:print-headings($section, $search-params) }</div>
+							{ dq:print($section, $search-params, $mode) }
 						</div>
 				else
 					<table class="kwic">
@@ -100,10 +101,10 @@ declare %private function dq:print-results($hits as element()*, $docXPath as xs:
 						return (
 							<tr>
 								<td class="headings" colspan="3">
-								{dq:print-headings($section, $docXPath)}
+								{dq:print-headings($section, $search-params)}
 								</td>
 							</tr>,
-							dq:print($section, $docXPath, $mode)
+							dq:print($section, $search-params, $mode)
 						)
 					}
 					</table>
