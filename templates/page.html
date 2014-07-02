@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <html>
     <head>
         <title data-template="config:app-title">App Title</title>
@@ -118,7 +119,7 @@
                                             <a href="/webstart/exist.jnlp">Webstart Client</a>
                                         </li>
                                         <li>
-                                            <a href="/admin/">Admin Web Client</a>
+                                            <a href="{monex}/">Monitoring and Profiling</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -133,25 +134,27 @@
             </div>
         </div>
         <div id="footer">
-            <ul>
-                <li>
-                    <a href="http://exist-db.org">eXist-db.org</a>
-                </li>
-                <li>
-                    <a href="{doc}/documentation.xml">Documentation</a>
-                </li>
-                <li>
-                    <a href="{demo}/index.html">Demo</a>
-                </li>
-                <li>
-                    <a href="/status">Status</a>
-                </li>
-                <li>
-                    <a href="{doc}/legal.xml">Legal</a>
-                </li>
-            </ul>
-            <div id="copyright">
-                <p>Copyright eXist-db Project 2013</p>
+            <div class="container">
+                <ul>
+                    <li>
+                        <a href="http://exist-db.org">eXist-db.org</a>
+                    </li>
+                    <li>
+                        <a href="{doc}/documentation.xml">Documentation</a>
+                    </li>
+                    <li>
+                        <a href="{demo}/index.html">Demo</a>
+                    </li>
+                    <li class="hidden-xs-inline">
+                        <a href="/status">Status</a>
+                    </li>
+                    <li>
+                        <a href="{doc}/legal.xml">Legal</a>
+                    </li>
+                </ul>
+                <div id="copyright" class="hidden-xs">
+                    <p>Copyright eXist-db Project 2014</p>
+                </div>
             </div>
         </div>
         <script type="text/javascript" src="$shared/resources/scripts/jquery/jquery-1.7.1.min.js"/>
