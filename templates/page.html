@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <html>
     <head>
         <title data-template="config:app-title">App Title</title>
@@ -16,130 +15,145 @@
                         <a href="/" id="logo">eXistDB</a>
                     </div>
                 </div>
-                <div class="row">
-                    <nav class="navbar navbar-default" role="navigation">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"/>
-                            <span class="icon-bar"/>
-                            <span class="icon-bar"/>
-                        </button>
-                        <div class="navbar-collapse collapse" id="navbar-collapse-1">
-                            <ul class="nav navbar-nav">
-                                <li class="dropdown" id="about">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Home</a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a href="{dashboard}/index.html">Dashboard</a>
-                                        </li>
-                                        <li>
-                                            <a href="http://exist-db.org">eXist-db.org</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown" id="demo">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Demo</a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a href="{demo}/index.html">Overview</a>
-                                        </li>
-                                        <li>
-                                            <a href="{demo}/examples/basic/basics.html">Basic XQuery Examples</a>
-                                        </li>
-                                        <li>
-                                            <a href="{demo}/examples/basic/xquery3.html">XQuery 3.0 Examples</a>
-                                        </li>
-                                        <li>
-                                            <a href="{demo}/examples/web/index.html">Web Examples</a>
-                                        </li>
-                                        <li>
-                                            <a href="{demo}/examples/urlrewriting/index.html">URL Rewriting</a>
-                                        </li>
-                                        <li>
-                                            <a href="{demo}/examples/special/index.html">Special Features</a>
-                                        </li>
-                                        <li>
-                                            <a href="{demo}/examples/templating/templates.html">Templating</a>
-                                        </li>
-                                        <li>
-                                            <a href="{demo}/cex-demo.html">Content Extraction</a>
-                                        </li>
-                                        <li>
-                                            <a href="{demo}/examples/tests/test.html">Unit Testing</a>
-                                        </li>
-                                        <li>
-                                            <a href="{demo}/examples/contacts/html/home.html?browseContacts">RestXQ and AngularJS</a>
-                                        </li>
-                                        <li>
-                                            <a href="{demo}/examples/contacts/html/home.html">Contacts RestXQ Demo</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown" id="documentation">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation</a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a href="{doc}/documentation.xml">Documentation</a>
-                                        </li>
-                                        <li>
-                                            <a href="{fundocs}/index.html">XQuery Functions</a>
-                                        </li>
-                                        <li>
-                                            <a href="{doc}/getting-help.xml">Get Support</a>
-                                        </li>
-                                        <li>
-                                            <a href="http://exist-db.org/exist/apps/wiki/">News / Wiki</a>
-                                        </li>
-                                        <li>
-                                            <a href="http://en.wikibooks.org/wiki/XQuery">XQuery Wikibook</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown" id="development">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Development</a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a href="{eXide}/index.html">eXide</a>
-                                        </li>
-                                        <li>
-                                            <a href="http://exist-db.org/api/index.html">Javadocs</a>
-                                        </li>
-                                        <li>
-                                            <a href="https://github.com/eXist-db/exist/issues">Bug Tracker</a>
-                                        </li>
-                                        <li>
-                                            <a href="https://github.com/eXist-db/exist">Source code</a>
-                                        </li>
-                                        <li>
-                                            <a href="https://github.com/eXist-db/exist#contributing-to-exist">Submit Patches</a>
-                                        </li>                                    
-                                    </ul>
-                                </li>
-                                <li class="dropdown" id="administration">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration</a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a href="{dashboard}/index.html">Dashboard</a>
-                                        </li>
-                                        <li>
-                                            <a href="/webstart/exist.jnlp">Webstart Client</a>
-                                        </li>
-                                        <li>
-                                            <a href="{monex}/">Monitoring and Profiling</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                            <form class="navbar-form navbar-right" role="search" action="search.html" method="GET">
-                                <input type="text" name="q" class="search-query form-control" placeholder="Search Documentation"/>
-                            </form>
-                        </div>
-                    </nav>
+            </div>
+
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="container">
+
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"/>
+                        <span class="icon-bar"/>
+                        <span class="icon-bar"/>
+                    </button>
+                    <div class="navbar-collapse collapse" id="navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown" id="about">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Home</a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{dashboard}/index.html">Dashboard</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://exist-db.org">eXist-db.org</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown" id="demo">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Demo</a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{demo}/index.html">Overview</a>
+                                    </li>
+                                    <li>
+                                        <a href="{demo}/examples/basic/basics.html">Basic XQuery Examples</a>
+                                    </li>
+                                    <li>
+                                        <a href="{demo}/examples/basic/xquery3.html">XQuery 3.0 Examples</a>
+                                    </li>
+                                    <li>
+                                        <a href="{demo}/examples/web/index.html">Web Examples</a>
+                                    </li>
+                                    <li>
+                                        <a href="{demo}/examples/urlrewriting/index.html">URL Rewriting</a>
+                                    </li>
+                                    <li>
+                                        <a href="{demo}/examples/special/index.html">Special Features</a>
+                                    </li>
+                                    <li>
+                                        <a href="{demo}/examples/templating/templates.html">Templating</a>
+                                    </li>
+                                    <li>
+                                        <a href="{demo}/cex-demo.html">Content Extraction</a>
+                                    </li>
+                                    <li>
+                                        <a href="{demo}/examples/tests/test.html">Unit Testing</a>
+                                    </li>
+                                    <li>
+                                        <a href="{demo}/examples/contacts/html/home.html?browseContacts">RestXQ and
+                                            AngularJS</a>
+                                    </li>
+                                    <li>
+                                        <a href="{demo}/examples/contacts/html/home.html">Contacts RestXQ Demo</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown" id="documentation">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation</a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{doc}/documentation.xml">Documentation</a>
+                                    </li>
+                                    <li>
+                                        <a href="{fundocs}/index.html">XQuery Functions</a>
+                                    </li>
+                                    <li>
+                                        <a href="{doc}/getting-help.xml">Get Support</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://exist-db.org/exist/apps/wiki/">News / Wiki</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://en.wikibooks.org/wiki/XQuery">XQuery Wikibook</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown" id="development">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Development</a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{eXide}/index.html">eXide</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://exist-db.org/api/index.html">Javadocs</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/eXist-db/exist/issues">Bug Tracker</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/eXist-db/exist">Source code</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/eXist-db/exist#contributing-to-exist">Submit
+                                            Patches</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown" id="administration">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration</a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{dashboard}/index.html">Dashboard</a>
+                                    </li>
+                                    <li>
+                                        <a href="/webstart/exist.jnlp">Webstart Client</a>
+                                    </li>
+                                    <li>
+                                        <a href="{monex}/">Monitoring and Profiling</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <form class="navbar-form navbar-right form-group" role="search" action="search.html" method="GET">
+                            <input type="text" name="q" class="search-query form-control"
+                                   placeholder="Search Documentation"/>
+
+                        </form>
+                    </div>
                 </div>
+
+            </nav>
+            <div class="container">
                 <div id="main" class="row"/>
             </div>
         </div>
-        <a id="poweredby" href="http://exist-db.org"/>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <a id="poweredby" href="http://exist-db.org"/>
+                </div>
+            </div>
+        </div>
         <div id="footer">
             <div class="container">
                 <ul>
@@ -176,7 +190,7 @@
         <script type="text/javascript" src="$shared/resources/scripts/ace/theme-tomorrow_night.js"/>
         <script type="text/javascript" src="$shared/resources/scripts/highlight.js"/>
         <script type="text/javascript">
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $(".code").highlight();
             });
         </script>
