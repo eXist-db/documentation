@@ -56,7 +56,7 @@
                     <code>test:assertXXX</code> annotation, where "XXX" stands for the annotation
                 type ("assertEquals", "assertEmpty" ...). Other functions - including private ones -
                 will be simply ignored. A minimal example may thus look as follows:</para>
-            <programlisting language="xquery">declare function %test:assertEquals("Hello world") local:hello() {
+            <programlisting language="xquery">declare %test:assertEquals("Hello world") function local:hello() {
     "Hello world"
 };</programlisting>
             <para>When the test runner encounters this function, it will evaluate it once and compare
