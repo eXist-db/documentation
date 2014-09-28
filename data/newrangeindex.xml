@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/css" href="file:/Applications/oxygen/frameworks/docbook/css/docbook.css"?>
 <book>
     <bookinfo>
@@ -238,6 +239,47 @@
                 presumably returns more hits than the name lookup. For maximum performance it may
                 thus still be faster to split the expression into two parts and do the name check
                 first.</section>
+        </section>
+        <section>
+            <title>Using Index Functions</title>
+            <para>Internally the query optimizer will rewrite range lookup expressions into
+                optimized function calls into the <code>range</code> module (namespace
+                    <code>http://exist-db.org/xquery/range</code>). This happens transparently and
+                you'll never see the function calls. However, for debugging and testing it is
+                sometimes useful to be able to use the corresponding functions directly. There are
+                two sets of functions: one for simple range index lookups, and one for indexes on
+                fields.</para>
+            <para>Given the following index configuration:</para>
+            <example>
+                <title>Some Indexes on Shakespeare</title>
+                <programlisting language="xml">&lt;range&gt;
+    &lt;create qname="SPEAKER" type="xs:string"/&gt;
+    &lt;create qname="SPEECH"&gt;
+        &lt;field name="stagedir" type="xs:string" match="//STAGEDIR"/&gt;
+        &lt;field name="line" type="xs:string" match="LINE" case="no"/&gt;
+    &lt;/create&gt;
+&lt;/range&gt;</programlisting>
+            </example>
+            <para>A query:</para>
+            <synopsis language="xquery">//SPEECH[SPEAKER="HAMLET"]</synopsis>
+            <para>translates into:</para>
+            <synopsis language="xquery">//SPEECH[range:eq(SPEAKER, "HAMLET")]</synopsis>
+            <para>If the index is defined on an element with fields, the entire sub-expression, i.e. the context path and all its filters,
+                is rewritten into a single function call. For example, take:</para>
+            <synopsis language="xquery">collection("/db/apps/demo/data")//SPEECH[.//STAGEDIR = "Aside"]</synopsis>
+            <para>is replaced with</para>
+            <synopsis language="xquery">collection("/db/apps/demo/data")/range:field-eq("stagedir", "Aside")</synopsis>
+            <para>Because the index root is defined on <sgmltag>SPEECH</sgmltag>, the function will always return
+            <sgmltag>SPEECH</sgmltag> elements.</para>
+            <para>If multiple filters are used and each of them has a corresponding field definition, they are combined into one call:</para>
+            <synopsis language="xquery">collection("/db/apps/demo/data")/range:field-eq(("stagedir", "line"), "Aside", "what do you read, my lord?")</synopsis>
+            <para>Note that while the field names are specified in a sequence, we add one parameter for every value to look up. This way it is possible
+                to specify more than one value for each parameter by passing in a sequence.</para>
+            <para>Because different operators might be used inside the filters, the query engine will actually rewrite the expression to the
+                following:</para>
+            <synopsis language="xquery">collection("/db/apps/demo/data")/range:field(("stagedir", "line"), ("eq", "eq"), "Aside", "what do you read, my lord?")</synopsis>
+            <para>This is not easy to read, but efficient, and users will normally not see this function call anyway. However, it sometimes helps to know what the
+                optimizer is supposed to do and try it out explicitely.</para>
         </section>
     </chapter>
 </book>
