@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
@@ -39,9 +40,17 @@
             </procedure>
         </section>
         <section>
-            <title>Upgrading to 2.2</title>
+            <title>Upgrading to 2.2 final</title>
             <para>The 2.2 release is not binary compatible with the 1.4.x series. You need to
                 backup/restore.</para>
+            <para>2.2 introduces a <emphasis>new range index module</emphasis>. Old index definitions will still work though as we made sure to keep backwards
+                compatible. If you would like to upgrade to the new index, check its <ulink url="newrangeindex.xml">documentation</ulink>.</para>
+            <para>The XQuery engine has been updated to support the changed syntax for <emphasis>maps in XQuery 3.1</emphasis>. The query parser will still accept the
+                old syntax for map constructors though (<code>map { x:= "y"}</code> instead of <code>map { x: "y" }</code> in XQuery 3.1), so old
+                code should run without modifications. All map module functions from XQuery 3.1 are 
+                <ulink url="{fundocs}/view.html?uri=http://www.w3.org/2005/xpath-functions/map&amp;location=java:org.exist.xquery.functions.map.MapModule">available</ulink>.</para>
+            <para>The signatures for some <emphasis>higher-order utility functions</emphasis> like fn:filter, fn:fold-left and fn:fold-right have changed as well. Please review your
+                use of those functions. Also, fn:map is now called fn:for-each, though the old name is still accepted.</para>
             <para>The bundled Lucene has been upgraded from 3.6.1
 		to 4.4 with this release. Depending on what Lucene
 		analyzers you are using you need to change the
@@ -98,7 +107,7 @@
                             </orderedlist>
                             <para>You can use an XQuery to automatically apply a default permission to every collection and XQuery, and
                                 then change them manually for some collections or resources.</para>
-                            <programlisting language="xquery"><![CDATA[xquery version "3.0";
+                            <programlisting language="xquery">xquery version "3.0";
 
 import module namespace dbutil="http://exist-db.org/xquery/dbutil";
 
@@ -107,7 +116,7 @@ dbutil:find-by-mimetype(xs:anyURI("/db"), "application/xquery", function($resour
 }),
 dbutil:scan-collections(xs:anyURI("/db"), function($collection) {
     sm:chmod($collection, "rwxr-xr-x")
-})]]></programlisting>
+})</programlisting>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
@@ -153,11 +162,11 @@ dbutil:scan-collections(xs:anyURI("/db"), function($collection) {
                                 backwards compatibility, just edit the system-wide defaults in
                                 conf.xml:</para>
                             <programlisting>
-                                <markup><![CDATA[<index>
-    <fulltext attributes="false" default="none">
-        <exclude path="/auth"/>
-    </fulltext>
-</index>]]></markup>
+                                <markup>&lt;index&gt;
+    &lt;fulltext attributes="false" default="none"&gt;
+        &lt;exclude path="/auth"/&gt;
+    &lt;/fulltext&gt;
+&lt;/index&gt;</markup>
                             </programlisting>
                         </listitem>
                     </varlistentry>
@@ -166,7 +175,7 @@ dbutil:scan-collections(xs:anyURI("/db"), function($collection) {
                         <listitem>
                             <para>Validation of XML documents during storage is now <emphasis>turned
                                     off by default</emphasis> in <filename>conf.xml</filename>:</para>
-                            <synopsis language="xml"><![CDATA[<validation mode="no">]]></synopsis>
+                            <synopsis language="xml">&lt;validation mode="no"&gt;</synopsis>
                             <para>The previous <option>auto</option> setting was apparently too
                                 confusing for new users who did not know what to do if eXist-db refused
                                 to store a document due to failing validation. If you are familiar
