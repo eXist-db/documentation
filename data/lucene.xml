@@ -473,11 +473,11 @@ return
                         </term>
                         <listitem>
                             <para>Defines a single term to be searched in the index. If the root
-                                query element contains a sequence of term elements, they will be
+                                query element contains a sequence of term elements, wrap them in &lt;bool&gt;&lt;/bool&gt; and they will be
                                 combined as in a boolean "or" query. For example: </para>
                             <synopsis language="xquery">let $query :=
     &lt;query&gt;
-        &lt;term&gt;nation&lt;/term&gt;&lt;term&gt;miserable&lt;/term&gt;
+        &lt;bool&gt;&lt;term&gt;nation&lt;/term&gt;&lt;term&gt;miserable&lt;/term&gt;&lt;/bool&gt;
     &lt;/query&gt;
 return
 //SPEECH[ft:query(., $query)]</synopsis>
@@ -495,7 +495,7 @@ return
                                     <sgmltag>term</sgmltag> element. For example:</para>
                             <synopsis language="xquery">let $query :=
     &lt;query&gt;
-        &lt;term&gt;nation&lt;/term&gt;&lt;wildcard&gt;miser*&lt;/wildcard&gt;
+        &lt;bool&gt;&lt;term&gt;nation&lt;/term&gt;&lt;wildcard&gt;miser*&lt;/wildcard&gt;&lt;/bool&gt;
     &lt;/query&gt;
 return
 //SPEECH[ft:query(., $query)]</synopsis>
@@ -511,7 +511,7 @@ return
                                 For example:</para>
                             <synopsis language="xquery">let $query :=
     &lt;query&gt;
-        &lt;term&gt;nation&lt;/term&gt;&lt;regex&gt;miser.*&lt;/regex&gt;
+        &lt;bool&gt;&lt;term&gt;nation&lt;/term&gt;&lt;regex&gt;miser.*&lt;/regex&gt;&lt;/bool&gt;
     &lt;/query&gt;
 return
 //SPEECH[ft:query(., $query)]</synopsis>
@@ -606,7 +606,7 @@ return //SPEECH[ft:query(., $query)]
                                 terms which are within a specific distance. For example:</para>
                             <synopsis language="xquery">let $query :=
     &lt;query&gt;
-        &lt;near slop="20"&gt;&lt;term&gt;snake&lt;/term&gt;&lt;near&gt;tongue dog&lt;/near&gt;&lt;/near&gt;
+        &lt;near slop="20"&gt;&lt;term&gt;snake&lt;/term&gt;&lt;near slop="1"&gt;tongue dog&lt;/near&gt;&lt;/near&gt;
     &lt;/query&gt;
 return //SPEECH[ft:query(., $query)]</synopsis>
                             <para>Element <sgmltag>first</sgmltag> matches a span against the start
@@ -615,7 +615,8 @@ return //SPEECH[ft:query(., $query)]</synopsis>
                                 the start of the text. For example:</para>
                             <synopsis language="xquery">let $query :=
     &lt;query&gt;
-        &lt;near slop="50"&gt;&lt;first end="2"&gt;&lt;near&gt;second witch&lt;/near&gt;&lt;/first&gt;&lt;near&gt;tongue dog&lt;/near&gt;&lt;/near&gt;
+        &lt;near slop="50"&gt;&lt;first end="2"&gt;&lt;near&gt;second witch&lt;/near&gt;&lt;/first&gt;&lt;near
+slop="1"&gt;tongue dog&lt;/near&gt;&lt;/near&gt;
     &lt;/query&gt;
     return //SPEECH[ft:query(., $query)]</synopsis>
                             <para>As shown above, the content of <sgmltag>first</sgmltag> can again
@@ -627,7 +628,7 @@ return //SPEECH[ft:query(., $query)]</synopsis>
                                 behaviour. For example:</para>
                             <synopsis language="xquery">let $query :=
     &lt;query&gt;
-        &lt;near slop="100" ordered="no"&gt;&lt;term&gt;snake&lt;/term&gt;&lt;term&gt;bake&lt;/term&gt;&lt;/near&gt;
+        &lt;near slop="100" ordered="no"&gt;&lt;term&gt;bubble&lt;/term&gt;&lt;term&gt;fillet&lt;/term&gt;&lt;/near&gt;
     &lt;/query&gt;
 return //SPEECH[ft:query(., $query)]</synopsis>
                         </listitem>
