@@ -176,7 +176,7 @@ return
                     <listitem>
                         <para>Try/Catch: The try/catch expression provides error handling for
                             dynamic errors and type errors. For example,
-                            <synopsis language="xquery">try { 'a' + 7 } catch * { concat($err:code, ": ", $err:description }</synopsis>
+                            <synopsis language="xquery">try { 'a' + 7 } catch * { concat($err:code, ": ", $err:description) }</synopsis>
                             returns the full error (excerpted here):
                             <synopsis>err:XPTY0004: It is a type error if...</synopsis>
                             For more information, see the article on the eXist-db blog, <ulink url="http://atomic.exist-db.org/HowTo/XQuery3/Try-CatchExpression">Higher-Order Functions in XQuery 3.0</ulink> and the <ulink url="http://www.w3.org/TR/xquery-30/#id-try-catch">specification</ulink>.</para>
