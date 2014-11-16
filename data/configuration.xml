@@ -740,23 +740,6 @@
                         <td/>
                         <td align="center" bgcolor="#00FF00">On</td>
                     </tr>
-                    <tr bgcolor="#FFFFFF" valign="top">
-                        <td>Security</td>
-                        <td>
-                            <para>This defines the security manager that is to be used by eXist-db. The
-                                current options are native (where the usernames and hashed passwords
-                                are store in the database) or LDAP.</para>
-                        </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td/>
-                    </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
                         <td>Indexing</td>
                         <td>
@@ -902,7 +885,6 @@
       <!--default-permissions collection="0775" resource="0775" /-->
       <recovery enabled="yes" sync-on-commit="no" group-commit="no" size="100M" 
             journal-dir="webapp/WEB-INF/data"/>
-      <!-- security class="org.exist.security.LDAPSecurityManager" /-->
       <watchdog query-timeout="-1" output-size-limit="10000"/>
       <default-permissions collection="0775" resource="0775"/>
 </db-connection>]]></markup>
@@ -1182,84 +1164,6 @@
                             <option>collections</option> attributes. A different default value may
                         be set for a database instance, and local overrides are also
                         possible.</para>
-                </section>
-                <section>
-                    <title>&lt;security&gt;</title>
-                    <para>The <sgmltag>security</sgmltag> element in the
-                            <sgmltag>db-connection</sgmltag> node is used to select the security
-                        manager Class and control the database of users and groups.</para>
-                    <variablelist>
-                        <title>&lt;security&gt; Attributes</title>
-                        <varlistentry>
-                            <term>class</term>
-                            <listitem>
-                                <para>This attribute is <emphasis>required</emphasis>, and specifies
-                                    a Java class name used to implement the
-                                        <code>org.exist.security.SecurityManager</code> interface,
-                                    as in the following example:</para>
-                                <example>
-                                    <title>&lt;security&gt; <emphasis>class</emphasis> Attribute
-                                        (LDAP)</title>
-                                    <programlisting>
-                                        <markup>&lt;security class="org.exist.security.LDAPSecurityManager" /&gt;</markup>
-                                    </programlisting>
-                                </example>
-                                <para>eXist is distributed with the following built-in security
-                                    manager implementations:</para>
-                                <variablelist>
-                                    <varlistentry>
-                                        <term>org.exist.security.XMLSecurityManager</term>
-                                        <listitem>
-                                            <para>Stores the user information in the database. This
-                                                is the default manager if the
-                                                  <sgmltag>security</sgmltag> element is not
-                                                included in <sgmltag>db-connection</sgmltag>.</para>
-                                        </listitem>
-                                    </varlistentry>
-                                    <varlistentry>
-                                        <term>org.exist.security.LDAPSecurityManager</term>
-                                        <listitem>
-                                            <para>Retrieves the user and groups from the LDAP
-                                                database. This requires addition configuration
-                                                parameters which are described in the <ulink url="ldap-security.xml">LDAP Security
-                                                  Manager</ulink> documentation.</para>
-                                        </listitem>
-                                    </varlistentry>
-                                </variablelist>
-                            </listitem>
-                        </varlistentry>
-                        <varlistentry>
-                            <term>password-encoding</term>
-                            <listitem>
-                                <para>Password encoding can be set to one of the following
-                                    types:</para>
-                                <orderedlist>
-                                    <listitem>
-                                        <para>
-                                            <option>plain</option> - Applies plain
-                                            encryption.</para>
-                                    </listitem>
-                                    <listitem>
-                                        <para>
-                                            <option>md5</option> (default) - Applies the MD5
-                                            algorithm to encrypt passwords.</para>
-                                    </listitem>
-                                    <listitem>
-                                        <para>
-                                            <option>simple-md5</option> - Applies a simplified MD5
-                                            algorithm to encrypt passwords.</para>
-                                    </listitem>
-                                </orderedlist>
-                            </listitem>
-                        </varlistentry>
-                        <varlistentry>
-                            <term>password-realm</term>
-                            <listitem>
-                                <para>The realm to use for basic auth or http-digest password
-                                    challenges.</para>
-                            </listitem>
-                        </varlistentry>
-                    </variablelist>
                 </section>
             </section>
             <section>
