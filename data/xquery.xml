@@ -97,7 +97,8 @@
                     and Operators" recommendation</ulink>; see the eXist-db <ulink url="/exist/apps/fundocs">XQuery Function Documentation</ulink>.</para>
             <para>eXist-db also implements most features of the current <ulink url="http://www.w3.org/TR/xquery-30/">"XQuery 3.0"</ulink> Working Draft, as
                 detailed in the section on <ulink url="#xquery-30">XQuery 3 support</ulink>
-                below.</para>
+                below. From <ulink url="#xquery-31">XQuery 3.1</ulink>, the map data type is fully supported. An implementation of
+                arrays is in the works.</para>
             <section id="xqts">
                 <title>XQuery Test Suite compliance</title>
                 <para>The eXist-db XQuery implementation is tested against the official <ulink url="http://dev.w3.org/2006/xquery-test-suite/">XML Query Test Suite
@@ -166,14 +167,14 @@
                         <para>Group by clause in FLWOR expressions: "group by" provides an efficient
                             way to group the sequences generated in a FLWOR expression. For
                             example,</para>
-                        <programlisting language="xquery"><![CDATA[xquery version "3.0";
+                        <programlisting language="xquery">xquery version "3.0";
 for $speechBySpeaker in //SPEECH[ft:query(., "king")]
 group by $speaker := $speechBySpeaker/SPEAKER
 order by $speaker
 return
-    <speaker name="{$speaker}">
+    &lt;speaker name="{$speaker}"&gt;
     { $speechBySpeaker }
-    </speaker>]]></programlisting>
+    &lt;/speaker&gt;</programlisting>
                         <para>queries the Shakespeare plays and groups the result by speaker.</para>
                     </listitem>
                     <listitem>
@@ -266,11 +267,6 @@ declare option output:media-type "application/json";</synopsis>
                         </thead>
                         <tbody>
                             <row>
-                                <entry>parse-xml/parse-xml-fragment</entry>
-                                <entry>util:parse/util:parse-html</entry>
-                                <entry/>
-                            </row>
-                            <row>
                                 <entry>unparsed-text</entry>
                                 <entry>util:binary-to-string(util:binary-doc($doc))</entry>
                                 <entry/>
@@ -298,6 +294,24 @@ declare option output:media-type "application/json";</synopsis>
                     </tgroup>
                 </table>
             </section>
+            <section id="xquery-31">
+                <title>XQuery 3.1</title>
+                <para>The specification for XQuery 3.1 is still subject to change. The main additions are maps and arrays.</para>
+                <section>
+                    <title>Maps</title>
+                    <para>Maps are fundamental for the templating module and other libraries in eXist 2.2, and are thus very well supported. 
+                    Over time, the specification changed slightly and so did the
+                    implementation in eXist. For example, to keep backwards compatibility, eXist allows the older notation in map constructors: <code>key:=value</code>
+                    in addition to the new one, <code>key: value</code>. Also, some functions in eXist support collations, which are no longer
+                    in the specification.</para>
+                    <para>Please refer to the <ulink url="{demo}/examples/basic/maps.html">demo app</ulink> for basic examples.</para>
+                </section>
+                <section>
+                    <title>Arrays</title>
+                    <para>Support for arrays has been implemented, but it is not in the official codebase yet. We're waiting for the
+                        specification to stabilize before we'll merge the code into develop.</para>
+                </section>
+            </section>
             <section id="related-specifications">
                 <title>Other Related Specifications</title>
                 <itemizedlist>
@@ -306,11 +320,6 @@ declare option output:media-type "application/json";</synopsis>
                             Lucene library (among several methods of <ulink url="indexing.xml">indexing</ulink>). It does not currently support the syntax in the
                             W3C <ulink url="http://www.w3.org/TR/xpath-full-text-10/">XQuery and
                                 XPath Full Text 1.0</ulink> Recommendation.</para>
-                    </listitem>
-                    <listitem>
-                        <para>Maps: eXist-db includes preliminary support for the proposed maps
-                            item. See the article on the eXist-db blog, <ulink url="http://atomic.exist-db.org/blogs/eXist/XQueryMap">Adding a Map
-                                Datatype to XQuery</ulink>.</para>
                     </listitem>
                     <listitem>
                         <para>XQuery Update: eXist-db has an implementation-specific <ulink url="update_ext.xml">XQuery Update syntax</ulink>. It does not
@@ -408,14 +417,14 @@ at "xmldb:exist:///db/modules/test.xqm";</synopsis>
                 <example>
                     <title>Auto-loaded Modules</title>
                     <programlisting>
-                        <markup><![CDATA[<xquery enable-java-binding="no">
-    <builtin-modules>
-        <module uri="http://exist-db.org/xquery/util"
-            class="org.exist.xquery.functions.util.UtilModule"/>
-        <module uri="http://exist-db.org/xquery/transform"
-            class="org.exist.xquery.functions.transform.TransformModule"/>
-    </builtin-modules>
-</xquery>]]></markup>
+                        <markup>&lt;xquery enable-java-binding="no"&gt;
+    &lt;builtin-modules&gt;
+        &lt;module uri="http://exist-db.org/xquery/util"
+            class="org.exist.xquery.functions.util.UtilModule"/&gt;
+        &lt;module uri="http://exist-db.org/xquery/transform"
+            class="org.exist.xquery.functions.transform.TransformModule"/&gt;
+    &lt;/builtin-modules&gt;
+&lt;/xquery&gt;</markup>
                     </programlisting>
                 </example>
             </section>
@@ -473,9 +482,9 @@ at "xmldb:exist:///db/modules/test.xqm";</synopsis>
                 <classname>java.lang.Math</classname>:</para>
             <example>
                 <title>Calling a Static Method</title>
-                <programlisting language="xquery"><![CDATA[
+                <programlisting language="xquery">
 declare namespace math="java:java.lang.Math";
-math:sqrt(2)]]></programlisting>
+math:sqrt(2)</programlisting>
             </example>
             <para>Note that if the function name contains a hyphen, the letter following the hyphen
                 is converted to upper-case and the hyphen is removed (i.e. it applies the CamelCase
@@ -499,22 +508,22 @@ math:sqrt(2)]]></programlisting>
             <example>
                 <title>List Contents of the Current Directory</title>
                 <programlisting language="xquery">
-<![CDATA[
+
 declare namespace file="java:java.io.File";
 
-<files>
+&lt;files&gt;
     {
         for $f in file:list-files( file:new(".") )
         let $n := file:get-name($f)
         order by $n
         return
             if (file:is-directory($f)) then
-                <directory name="{ $n }"/>
+                &lt;directory name="{ $n }"/&gt;
             else
-                <file name="{ $n }" size="{ file:length($f) }"/>
+                &lt;file name="{ $n }" size="{ file:length($f) }"/&gt;
     }
-</files>
-]]></programlisting>
+&lt;/files&gt;
+</programlisting>
             </example>
             <note>
                 <para>For security reasons, the Java binding is disabled by default. To enable it,
@@ -570,7 +579,7 @@ declare namespace file="java:java.io.File";
                 <example>
                     <title>A Basic Java Function</title>
                     <programlisting language="java">
-<![CDATA[
+
 public class EchoFunction extends BasicFunction {
 
 public final static FunctionSignature signature =
@@ -599,7 +608,7 @@ throws XPathException {
 	}
 	return result;
 }
-}]]></programlisting>
+}</programlisting>
                 </example>
                 <para>In looking at this sample, first note that every function class has to provide a
                 function <emphasis>signature</emphasis>. The function signature defines the
@@ -636,7 +645,7 @@ throws XPathException {
                 driver class definition:</para>
                 <example>
                     <title>Creating a Driver Class</title>
-                    <programlisting language="java"><![CDATA[
+                    <programlisting language="java">
 public class ExampleModule extends AbstractInternalModule {
 
 public final static String NAMESPACE_URI = 
@@ -660,20 +669,20 @@ public String getDefaultPrefix() {
 	return PREFIX;
 }
 
-}]]></programlisting>
+}</programlisting>
                 </example>
                 <para>Finally, we are able to use this newly created module in an XQuery script:</para>
                 <example>
                     <title>Importing a Module</title>
                     <programlisting language="xquery">
-<![CDATA[
+
 xquery version "1.0";
 
 import module namespace example="http://exist-db.org/xquery/examples"
 at "java:org.exist.examples.xquery.ExampleModule";
 
 example:echo(("Hello", "World!"))
-]]></programlisting>
+</programlisting>
                 </example>
                 <para>The query engine recognizes the <option>java:</option> prefix in the location URI,
                 and treats the remaining part (in this case,
@@ -934,10 +943,10 @@ declare option output:media-type "application/json";</synopsis>
                 <example>
                     <title>Configure log4j to Display Trace Output</title>
                     <programlisting>
-                        <markup><![CDATA[<root>
-    <priority value="trace"/>
-    <appender-ref ref="console"/>
-</root>]]></markup>
+                        <markup>&lt;root&gt;
+    &lt;priority value="trace"/&gt;
+    &lt;appender-ref ref="console"/&gt;
+&lt;/root&gt;</markup>
                     </programlisting>
                 </example>
             </section>
