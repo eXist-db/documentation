@@ -186,6 +186,16 @@ function fd:simple-date($date as xs:date) as xs:string {
                     </listitem>
                 </varlistentry>
                 <varlistentry>
+                    <term>%test:pending</term>
+                    <listitem>
+                        <para>Marks a test as <emphasis>pending</emphasis>, which means that it will not be executed as part
+                        of the test suite. This can be useful when you want to write a test for a problem
+                        or new feature but you have not had time to fix the problem of implement the feature.
+                        The count of <emphasis>pending</emphasis> tests is shown in the test suite report to remind you
+                        of tests that are present but not yet executed.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
                     <term>%test:setUp, %test:tearDown</term>
                     <listitem>
                         <para>Special functions which will be called once before (or after) any
