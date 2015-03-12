@@ -400,12 +400,14 @@ order by ft:score($sect) descending return $sect</synopsis>
                     always provide your own analyzer or use one of those supplied by Lucene or
                     compatible software.</para>
             </section>
-            <section>
+            <section id="named-indexes">
                 <title>Defining Fields</title>
                 <para>Sometimes you may want to define different Lucene indexes on the same set of elements, e.g.
                 to use a different analyzer. eXist-db allows to name a certain index using the <option>field</option>
                 attribute:</para>
                 <synopsis language="xquery"><![CDATA[<text field="title" qname="title" analyzer="en"/>]]></synopsis>
+                <para>Such an index is called <option>named index</option>. See <ulink url="#query-a-named-index">Query a Named Index</ulink> on how to query the
+                <option>named indexes</option>.</para>                
             </section>
         </section>
         <section>
@@ -434,9 +436,9 @@ return $m</programlisting>
             <para>To present search results in a <emphasis>Keywords in Context</emphasis> format,
                 you may want to have a look at eXist-db's <ulink url="kwic.xml">KWIC</ulink>
                 module.</para>
-            <section>
+            <section id="query-a-named-index">
                 <title>Query a Named Index</title>
-                <para>To query a named index, use the <function>ft:query-field($fieldName, $query)</function> instead of
+                <para>To query a named index (see <ulink url="#named-indexes">Defining Fields</ulink>), use the <function>ft:query-field($fieldName, $query)</function> instead of
                     <function>ft:query</function>:</para>
                 <synopsis language="xquery">ft:query-field("title", "xml")</synopsis>
                 <para>
