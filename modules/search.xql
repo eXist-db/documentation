@@ -53,8 +53,9 @@ as element()* {
     let $matches := kwic:get-matches($hit)
     for $ancestor in ($matches/ancestor::para | $matches/ancestor::title | $matches/ancestor::td |
         $matches/ancestor::note[not(para)])
+    for $match in $ancestor//exist:match
     return
-        kwic:get-summary($ancestor, ($ancestor//exist:match)[1], $config) 
+        kwic:get-summary($ancestor, $match, $config) 
 };
 
 (:~
