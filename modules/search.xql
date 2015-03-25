@@ -20,7 +20,7 @@ declare variable $dq:CHARS_KWIC := 80;
     Templating function: process the query.
 :)
 declare 
-    %public %templates:default("field", "all") %templates:default("view", "summary")
+    %public %templates:default("field", "all") %templates:default("view", "kwic")
 function dq:query($node as node()*, $model as map(*), $q as xs:string?, $field as xs:string, $view as xs:string) {
 	if ($q) then
 		let $hits := dq:do-query(collection($config:data-root), $q, $field)
