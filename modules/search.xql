@@ -20,7 +20,7 @@ declare variable $dq:CHARS_KWIC := 80;
     Templating function: process the query.
 :)
 declare 
-    %public %templates:default("field", "all") %templates:default("view", "kwic")
+    %public %templates:default("field", "all") %templates:default("view", "summary")
 function dq:query($node as node()*, $model as map(*), $q as xs:string?, $field as xs:string, $view as xs:string) {
 	if ($q) then
 		let $hits := dq:do-query(collection($config:data-root), $q, $field)
@@ -41,22 +41,47 @@ function dq:query($node as node()*, $model as map(*), $q as xs:string?, $field a
 	Display the hits: this function iterates through all hits and calls
 	kwic:summarize to print out a summary of each match.
 :)
-declare %private function dq:print($hit as element(), $search-params as xs:string, $mode as xs:string)
+declare %private function dq:print($hit as element(), $search-params as xs:string, $view as xs:string)
 as element()* {
     let $nodeId := util:node-id($hit)
-	let $uri := util:document-name(root($hit)) || "?" ||
-		$search-params || "&amp;id=D" || $nodeId || "#D" || $nodeId
+	let $uri := util:document-name(root($hit)) || "?" || $search-params || "&amp;id=D" || $nodeId || "#D" || $nodeId
 	let $config :=
-		<config xmlns="" width="{if ($mode eq 'summary') then $dq:CHARS_SUMMARY else $dq:CHARS_KWIC}"
-			table="{if ($mode eq 'summary') then 'no' else 'yes'}"
+		<config xmlns="" width="{if ($view eq 'summary') then $dq:CHARS_SUMMARY else $dq:CHARS_KWIC}"
+			table="{if ($view eq 'summary') then 'no' else 'yes'}"
 			link="{$uri}"/>
     let $matches := kwic:get-matches($hit)
-    for $ancestor in ($matches/ancestor::para | $matches/ancestor::title | $matches/ancestor::td |
-        $matches/ancestor::note[not(para)])
-    for $match in $ancestor//exist:match
     return
-        kwic:get-summary($ancestor, $match, $config) 
+        if ($view eq "kwic") then
+            for $ancestor in ($matches/ancestor::para | $matches/ancestor::title | $matches/ancestor::td | $matches/ancestor::note[not(para)])
+            for $match in $ancestor//exist:match
+            return
+                kwic:get-summary($ancestor, $match, $config) 
+        else
+            let $ancestors := ($matches/ancestor::para | $matches/ancestor::title | $matches/ancestor::td | $matches/ancestor::note[not(para)])
+            return
+                for $ancestor in $ancestors
+            return
+                dq:match-to-copy($ancestor)
 };
+
+declare function dq:match-to-copy($element as element())
+as element()
+{
+    element { node-name($element) } {
+        $element/@*,
+        for $child in $element/node()
+        return
+            if ($child instance of element()) then
+                if ($child instance of element(exist:match)) then
+                      <mark>{ $child/string() }</mark>
+                else
+                    dq:match-to-copy($child)
+            else
+                $child
+    }
+};
+
+
 
 (:~
 	Print the hierarchical context of a hit.
@@ -79,12 +104,12 @@ declare %private function dq:print-headings($section as element()*, $search-para
 (:~
 	Display the query results.
 :)
-declare %private function dq:print-results($hits as element()*, $search-params as xs:string, $mode as xs:string) {
+declare %private function dq:print-results($hits as element()*, $search-params as xs:string, $view as xs:string) {
 		<div id="f-results">
 			<p class="heading">Found {count($hits)} result{
     		 if (count($hits) eq 1) then "" else "s"}.</p>
 			{
-				if ($mode eq 'summary') then
+				if ($view eq 'summary') then
 					for $section in $hits
 					let $score := ft:score($section)
 					order by $score descending
@@ -92,7 +117,7 @@ declare %private function dq:print-results($hits as element()*, $search-params a
 					    <div class="section">
 					        <span class="score">Score: {round-half-to-even($score, 2)}</span>
 							<div class="headings">{ dq:print-headings($section, $search-params) }</div>
-							{ dq:print($section, $search-params, $mode) }
+							{ dq:print($section, $search-params, $view) }
 						</div>
 				else
 					<table class="kwic">
@@ -105,7 +130,7 @@ declare %private function dq:print-results($hits as element()*, $search-params a
 								{dq:print-headings($section, $search-params)}
 								</td>
 							</tr>,
-							dq:print($section, $search-params, $mode)
+							dq:print($section, $search-params, $view)
 						)
 					}
 					</table>
