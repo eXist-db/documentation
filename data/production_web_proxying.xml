@@ -54,15 +54,13 @@
             <orderedlist>
                 <listitem>http://www.mywebsite.com is our website domain name address</listitem>
                 <listitem>eXist-db is running in standalone mode (i.e. http://localhost:8088/) on the same host as the Web Server (i.e. http://localhost:80/)</listitem>
-                <listitem>/db/mywebsite.com is the eXist-db collection we want to proxy</listitem>
+                <listitem>/db/apps/mywebsite.com is the eXist-db collection we want to proxy</listitem>
                 <listitem>Web Server access logging will be written to /srv/www/vhosts/mywebsite.com/logs/access.log</listitem>
             </orderedlist>
             <section>
                 <title>Nginx</title>
                 <para>This needs to be added to the http section of the nginx.conf file -</para>
                 <programlisting language="nginx">
-
-
 # header helpers for reverse proxied servers
 proxy_set_header        Host                    $host;                          # Ensures the actual hostname is sent to eXist-db and not 'localhost' (needed in eXist-db for server-name in controller-config.xml)
 proxy_set_header        X-Real-IP               $remote_addr;                   # The Real IP of the client and not the IP of nginx proxy
@@ -77,7 +75,7 @@ server {
     access_log /srv/www/vhosts/mywebsite.com/logs/access.log;
 
     location / {
-        proxy_pass http://localhost:8088/db/mywebsite.com/;
+        proxy_pass http://localhost:8088/exist/apps/mywebsite.com/;
     }
 }
                 </programlisting>
@@ -86,18 +84,18 @@ server {
                 <title>Apache HTTPD</title>
                 <para>This needs to be added to your httpd.conf -</para>
                 <programlisting language="xml">
-		  &lt;VirtualHost *:80&gt;
-		    ProxyRequests	    off
-		    ServerName	    www.mywebsite.com
-		    ServerAlias     *.mywebsite.com
-		    ProxyPass	    /	http://localhost:8088/db/mywebsite.com/
-		    ProxyPassReverse	/	http://localhost:8088/db/mywebsite.com
-	        ProxyPassReverseCookieDomain localhost mywebsite.com
-		    ProxyPassReverseCookiePath / /exist
+&lt;VirtualHost *:80&gt;
+    ProxyRequests	    off
+    ServerName	    www.mywebsite.com
+    ServerAlias     *.mywebsite.com
+    ProxyPass	    /	http://localhost:8088/exist/apps/mywebsite.com
+    ProxyPassReverse	/	http://localhost:8088/exist/apps/mywebsite.com
+    ProxyPassReverseCookieDomain localhost mywebsite.com
+    ProxyPassReverseCookiePath /exist /
 
-		    RewriteEngine       on
-		    RewriteRule         ^/(.*)$     /$1   [PT]
-		  &lt;/VirtualHost&gt;
+    RewriteEngine       on
+    RewriteRule         ^/(.*)$     /$1   [PT]
+&lt;/VirtualHost&gt;
 		  </programlisting>
             </section>
         </section>
