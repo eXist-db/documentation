@@ -54,7 +54,7 @@
             <orderedlist>
                 <listitem>http://www.mywebsite.com is our website domain name address</listitem>
                 <listitem>eXist-db is running in standalone mode (i.e. http://localhost:8088/) on the same host as the Web Server (i.e. http://localhost:80/)</listitem>
-                <listitem>/db/mywebsite.com is the eXist-db collection we want to proxy</listitem>
+                <listitem>/db/apps/mywebsite.com is the eXist-db collection we want to proxy</listitem>
                 <listitem>Web Server access logging will be written to /srv/www/vhosts/mywebsite.com/logs/access.log</listitem>
             </orderedlist>
             <section>
@@ -77,7 +77,7 @@ server {
     access_log /srv/www/vhosts/mywebsite.com/logs/access.log;
 
     location / {
-        proxy_pass http://localhost:8088/db/mywebsite.com/;
+        proxy_pass http://localhost:8088/exist/apps/mywebsite.com/;
     }
 }
                 </programlisting>
@@ -90,8 +90,8 @@ server {
 		    ProxyRequests	    off
 		    ServerName	    www.mywebsite.com
 		    ServerAlias     *.mywebsite.com
-		    ProxyPass	    /	http://localhost:8088/db/mywebsite.com/
-		    ProxyPassReverse	/	http://localhost:8088/db/mywebsite.com
+		    ProxyPass	    /	http://localhost:8088/exist/apps/mywebsite.com
+		    ProxyPassReverse	/	http://localhost:8088/exist/apps/mywebsite.com
 	        ProxyPassReverseCookieDomain localhost mywebsite.com
 		    ProxyPassReverseCookiePath /exist /
 
