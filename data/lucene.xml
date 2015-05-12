@@ -88,7 +88,7 @@
 	    &lt;!-- Lucene index is configured below --&gt;
         &lt;lucene&gt;
 	        &lt;analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/&gt;
-            &lt;analyzer id="ws" class="org.apache.lucene.analysis.WhitespaceAnalyzer"/&gt;
+            &lt;analyzer id="ws" class="org.apache.lucene.analysis.core.WhitespaceAnalyzer"/&gt;
 	        &lt;text qname="TITLE" analyzer="ws"/&gt;
 	        &lt;text qname="p"&gt;
 	            &lt;inline qname="em"/&gt;
@@ -322,7 +322,7 @@ order by ft:score($sect) descending return $sect</synopsis>
                     <programlisting>
                         <markup>&lt;lucene&gt;
     &lt;analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/&gt;
-    &lt;analyzer id="ws" class="org.apache.lucene.analysis.WhitespaceAnalyzer"/&gt;
+    &lt;analyzer id="ws" class="org.apache.lucene.analysis.core.WhitespaceAnalyzer"/&gt;
     &lt;text match="//SPEECH//*"/&gt;
     &lt;text qname="TITLE" analyzer="ws"/&gt;
 &lt;/lucene&gt;</markup>
