@@ -119,7 +119,7 @@ declare %public function review:editorial-view($node as node()*, $model as map(*
                         )
                     :)
                     let $svn-id := $article/comment()/string()[starts-with(., ' $Id')]
-                    let $svn-id-groups := text:groups($svn-id, '^ \$Id: .*?\.xml (\d+) (\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2}Z) (.*?) \$ $')
+                    let $svn-id-groups := analyze-string($svn-id, '^ \$Id: .*?\.xml (\d+) (\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2}Z) (.*?) \$ $')
                     let $svn-user := $svn-id-groups[5]
                     let $svn-rev := $svn-id-groups[2]
                     let $svn-dateTime := concat($svn-id-groups[3], 'T', $svn-id-groups[4])
