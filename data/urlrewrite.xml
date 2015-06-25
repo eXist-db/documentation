@@ -52,7 +52,7 @@
             <synopsis>index.xql?feed=HowTo/OxygenXML/&amp;ref=eXistXmlRpcChanged</synopsis>
             <para>The XQuery code which does the rewrite magic is shown below:</para>
             <programlisting language="xquery"><![CDATA[
-let $params := subsequence(text:groups($exist:path, '^/?(.*)/([^/]+)$'), 2)
+let $params := analyze-string($exist:path, $'^/?(.*)/([^/]+)$')//fn:group/string()
 return
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="/index.xql">
