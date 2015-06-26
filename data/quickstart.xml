@@ -21,11 +21,15 @@
                 space. Administrative privileges are not required to install or run eXist-db, but
                 certain installation procedures are not possible without administrative privileges.
                 The critical requirement is that Java be installed.</para>
+            <note id="since-3.0">
+                 <title>Java requirements</title>
+                <para>Since eXistdb 3.0 Java 8 is required.</para>
+            </note>
             <note id="about-java">
                 <title>eXist-db and Java</title>
                 <para>eXist-db is built on Java, a free, cross-platform software development
                     environment. Java comes in a number of versions, so it is important that you
-                    install the version that eXist-db requires: Java 7 or 8. eXist-db can run with
+                    install the version that eXist-db requires: Java 8 (since eXistdb 3.0). eXist-db can run with
                     both the Java "JRE" (Java Runtime Environment) and the "JDK" (Java Development
                     Kit). The JRE is adequate for running eXist-db; you do not need the JDK unless
                     you intend to compile eXist-db from its source code. For instructions about
@@ -38,9 +42,9 @@
                 <para>Special note: In general it recommended to use the Oracle Java VM, this is the safest choice. The OpenJDK 7 is a good open source alternative for the Oracle JVM.</para>
                 <para>Details of the Java VM can be obtained via the following command (two results displayed):
                         <synopsis format="java">java -version
-java version "1.7.0_55"
-Java(TM) SE Runtime Environment (build 1.7.0_55-b13)
-Java HotSpot(TM) 64-Bit Server VM (build 24.55-b03, mixed mode)   
+java version ""1.8.0_60-ea""
+Java(TM) SE Runtime Environment (build 1.8.0_60-ea-b19)
+Java HotSpot(TM) 64-Bit Server VM (build 25.60-b19, mixed mode)
 </synopsis>
                 </para>
                 <para>Note for For pre eXist-db v2.2 versions: Due to reported compatibility issues it is NOT recommended to use "OpenJDK6" (IcedTea) and "GNU Compiler for Java" (GCJ) which are shipped by several Linux distributions.</para>
