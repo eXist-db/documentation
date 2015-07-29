@@ -1,9 +1,8 @@
-<!-- $Id$ -->
 <book>
     <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Lucene Index Module</title>
-        <date>February 2013</date>
+        <date>July 2015</date>
         <orgname>The eXist-db Project</orgname>
     </bookinfo>
     <chapter>
@@ -75,17 +74,45 @@
             <para>Like other indexes, you create a Lucene index by configuring it in a
                     <filename>collection.xconf</filename> document. If you have never done that
                 before, read the corresponding <ulink url="indexing.xml#idxconf">documentation</ulink>. An example <filename>collection.xconf</filename> is
-                shown below:</para>
-            <example>
-                <title>collection.xconf</title>
+            shown below:</para>
+	    <example>
+                <title>collection.xconf for versions between 1.4 and 2.1</title>
                 <programlisting>
                     <markup>&lt;collection xmlns="http://exist-db.org/collection-config/1.0"&gt;
     &lt;index xmlns:atom="http://www.w3.org/2005/Atom"
         xmlns:html="http://www.w3.org/1999/xhtml"
         xmlns:wiki="http://exist-db.org/xquery/wiki"&gt;
-	    &lt;!-- Disable the old full text index --&gt;
+        &lt;!-- Disable the old full text index --&gt;
         &lt;fulltext default="none" attributes="false"/&gt;
-	    &lt;!-- Lucene index is configured below --&gt;
+	&lt;!-- Lucene index is configured below --&gt;
+        &lt;lucene&gt;
+	        &lt;analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/&gt;
+            &lt;analyzer id="ws" class="org.apache.lucene.analysis.WhitespaceAnalyzer"/&gt;
+	        &lt;text qname="TITLE" analyzer="ws"/&gt;
+	        &lt;text qname="p"&gt;
+	            &lt;inline qname="em"/&gt;
+            &lt;/text&gt;
+            &lt;text match="//foo/*"/&gt;
+            &lt;!-- "inline" and "ignore" can be specified globally or per-index as
+                 shown above --&gt;
+	        &lt;inline qname="b"/&gt;
+	        &lt;ignore qname="note"/&gt;
+        &lt;/lucene&gt;
+    &lt;/index&gt;
+&lt;/collection&gt;
+		    </markup>
+                </programlisting>
+            </example>
+            <example>
+                <title>collection.xconf for version 2.2</title>
+                <programlisting>
+                    <markup>&lt;collection xmlns="http://exist-db.org/collection-config/1.0"&gt;
+    &lt;index xmlns:atom="http://www.w3.org/2005/Atom"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns:wiki="http://exist-db.org/xquery/wiki"&gt;
+        &lt;!-- Disable the old full text index --&gt;
+        &lt;fulltext default="none" attributes="false"/&gt;
+	&lt;!-- Lucene index is configured below --&gt;
         &lt;lucene&gt;
 	        &lt;analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/&gt;
             &lt;analyzer id="ws" class="org.apache.lucene.analysis.core.WhitespaceAnalyzer"/&gt;
@@ -101,7 +128,33 @@
         &lt;/lucene&gt;
     &lt;/index&gt;
 &lt;/collection&gt;
-</markup>
+		    </markup>
+                </programlisting>
+            </example>
+	    <example>
+                <title>collection.xconf for version 3.0 and above.</title>
+                <programlisting>
+                    <markup>&lt;collection xmlns="http://exist-db.org/collection-config/1.0"&gt;
+    &lt;index xmlns:atom="http://www.w3.org/2005/Atom"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns:wiki="http://exist-db.org/xquery/wiki"&gt;
+        &lt;!-- Lucene index is configured below --&gt;
+        &lt;lucene&gt;
+	        &lt;analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/&gt;
+            &lt;analyzer id="ws" class="org.apache.lucene.analysis.core.WhitespaceAnalyzer"/&gt;
+	        &lt;text qname="TITLE" analyzer="ws"/&gt;
+	        &lt;text qname="p"&gt;
+	            &lt;inline qname="em"/&gt;
+            &lt;/text&gt;
+            &lt;text match="//foo/*"/&gt;
+            &lt;!-- "inline" and "ignore" can be specified globally or per-index as
+                 shown above --&gt;
+	        &lt;inline qname="b"/&gt;
+	        &lt;ignore qname="note"/&gt;
+        &lt;/lucene&gt;
+    &lt;/index&gt;
+&lt;/collection&gt;
+		    </markup>
                 </programlisting>
             </example>
             <para>You can either define a Lucene index on a single element or attribute name
@@ -308,7 +361,68 @@
                     explicitly. For example, to search the section and the title at the same time,
                     one could issue the following query:</para>
                 <synopsis language="xquery">for $sect in /book//section[ft:query(., "ngram")] | /book//section[ft:query(title, "ngram")]
-order by ft:score($sect) descending return $sect</synopsis>
+		order by ft:score($sect) descending return $sect</synopsis>
+		 <section>
+                <title>Attribute Boost</title>
+                <para>Starting with eXist-db 3.0 a boost value can
+                also be assigned to an index by attribute. This could
+                be used to weight your search results even if you have
+                flat data structures with the same attribute value
+                pairs in attributes throughout your documents. Two
+                flavours of dynamic weighting are available through
+                the new pairs
+                <sgmltag>match-sibling-attribute</sgmltag>,
+                <sgmltag>has-sibling-attribute</sgmltag> and
+                <sgmltag>match-attribute</sgmltag>,
+                <sgmltag>has-attribute</sgmltag> child elements in the
+                full-text index configuration. If you have data in
+                Lexical metadata framework (LMF) format you will
+                recognize these repeated structures of
+                <sgmltag>feat</sgmltag> elements with 'att' attributes
+                and 'val' attributes within
+                <sgmltag>LexicalEntry</sgmltag> elements, e g
+                <sgmltag>feat att='writtenForm' val='LMF feature
+                value'</sgmltag>. The attribute boosting allows you to
+                weight the results based on the value of the 'att'
+                attribute so that eg hits in definitions come before
+                hits in comments and examples.  This behaviour is
+                enabled by adding a child
+                <sgmltag>match-sibling-attr</sgmltag> to a Lucene
+                configuration <sgmltag>text</sgmltag> element. An
+                example index configuration for it looks like
+                this:</para>
+                <programlisting>
+                  <markup>
+		  &lt;text qname='@val'&gt;
+		       &lt;match-sibling-attr qname='att'
+                       value='writtenForm' boost='25'/&gt;
+		  &lt;/text&gt;
+		</markup>
+		</programlisting>
+		<para>This means that the ft:score#1 function will
+		boost hits in 'val' attributes with a factor of 25
+		times for 'writtenForm' value of the 'att'
+		attribute.</para>
+		<para>In the same way <sgmltag>match-attr</sgmltag> would be used for element qnames in the <sgmltag>text</sgmltag> element.</para>
+		<para>If you do not care about any value of the
+		sibling attribute then use the
+		<sgmltag>has-attribute</sgmltag> index configuration
+		variant.  An example index configuration with
+		<sgmltag>has-attr</sgmltag> looks like this:</para>
+		<programlisting>
+                  <markup>
+		    &lt;text qname='feat'&gt;
+		       &lt;has-attr qname='xml:lang' boost='0'/&gt;
+		       &lt;/text&gt;
+		  </markup>
+		</programlisting>
+		<para>This means that if your feat elements have an
+		attribute <sgmltag>xml:lang</sgmltag> it will score
+		them nil and push them last of the pack, which might
+		be useful to demote hits in features in other
+		languages than the main entry language.</para>
+		<para>In the same way <sgmltag>has-sibling-attr</sgmltag> would be used for attribute qnames in the <sgmltag>text</sgmltag> element.</para>
+            </section>
             </section>
             <section>
                 <title>Analyzers</title>
