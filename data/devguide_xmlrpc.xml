@@ -93,11 +93,11 @@ public static void main( String args[] ) throws Exception {
 use RPC::XML;
 use RPC::XML::Client;
 
-$query = <<END;
-for \$speech in //SPEECH[LINE &= 'tear*']
-order by \$speech/SPEAKER[1]
+$query = <<'END';
+for $speech in //SPEECH[LINE &= 'tear*']
+order by $speech/SPEAKER[1]
 return
-    \$speech
+    $speech
 END
 
 $URL = "http://guest:guest\@localhost:8080/exist/xmlrpc";
@@ -138,11 +138,11 @@ use RPC::XML::Client;
 # the created result set. The handle can then be used to
 # retrieve results.
 
-$query = <<END;
-for \$speech in //SPEECH[LINE &= 'corrupt*']
-order by \$speech/SPEAKER[1]
+$query = <<'END';
+for $speech in //SPEECH[LINE &= 'corrupt*']
+order by $speech/SPEAKER[1]
 return
-    \$speech
+    $speech
 END
 
 $URL = "http://guest:guest\@localhost:8080/exist/xmlrpc";
@@ -153,7 +153,7 @@ $client = new RPC::XML::Client $URL;
 # to the created result set.
 $req = RPC::XML::request->new("executeQuery", 
     RPC::XML::base64->new($query), 
-	"UTF-8");
+	"UTF-8", {});
 $resp = process($req);
 $result_id = $resp->value;
 
