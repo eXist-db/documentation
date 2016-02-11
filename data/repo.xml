@@ -501,7 +501,9 @@ declare variable $target external;</synopsis>
                 which may change in the future. For example, if an application requires access to
                 data stored in another package called "data-pkg", it could define a variable to
                 point to the correct collection as follows:</para>
-            <programlisting language="xquery">declare variable $local:data-pkg-collection :=
+            <programlisting language="xquery">declare namespace expath = "http://expath.org/ns/pkg";
+
+declare variable $local:data-pkg-collection :=
     let $descriptor := 
         collection(repo:get-root())//expath:package[@name = "http://foo.com/data-pkg"]
     return
