@@ -110,9 +110,7 @@
                             <term>/db permissions</term>
                             <listitem>
                                 <para>The default permissions for /db are 0755, which should be sufficient in most cases. In the case you needed to change this, you could do that with (here for 0775):</para>
-                                <programlisting language="xquery">declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
-                                
-                                sm:chmod(xs:anyURI("/db"), "rwxrwxr-x")</programlisting>
+                                <programlisting language="xquery">sm:chmod(xs:anyURI("/db"), "rwxrwxr-x")</programlisting>
                             </listitem>
                         </varlistentry>
                     </variablelist>
