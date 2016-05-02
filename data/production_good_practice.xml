@@ -112,8 +112,7 @@
                                 <para>The default permissions for /db are 0755, which should be sufficient in most cases. In the case you needed to change this, you could do that with (here for 0775):</para>
                                 <programlisting language="xquery">declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
                                 
-                                xmldb:set-collection-permissions("/db", "admin", "dba", 509)</programlisting>
-                                <para>Please, remember the 0775 number in octal is 509, not 775. You can use util:base-to-integer(0775, 8) as argument for convenience.</para>
+                                sm:chmod(xs:anyURI("/db"), "rwxrwxr-x")</programlisting>
                             </listitem>
                         </varlistentry>
                     </variablelist>
