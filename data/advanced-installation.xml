@@ -4,7 +4,7 @@
     <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Advanced Installation Methods</title>
-        <date>October 2012</date>
+        <date>October 2016</date>
     </bookinfo>
     <chapter>
         <title>Advanced Installation Methods</title>
@@ -84,9 +84,9 @@ Setting admin user password...
                 to run it as a background service which is automatically launched during system
                 startup. This can be convenient, because eXist-db can continue to run even after
                 users have logged off of the system.</para>
-            <para>eXist-db comes with pre-configured scripts that use Tanuki Software's <ulink url="http://wrapper.tanukisoftware.org">Java Service Wrapper</ulink> to handle
+            <para>eXist-db comes with pre-configured scripts that use <ulink url="http://yajsw.sorceforge.net/">YAJSW (Yet Another Java Service Wrapper)</ulink> to handle
                 the setup procedure. The required scripts are contained in the directory
-                    <filename>tools/wrapper</filename>. 
+                    <filename>tools/yajsw</filename>. 
                     </para>
             <section id="windows">
                 <title>Windows</title>
@@ -94,7 +94,7 @@ Setting admin user password...
                     On Windows, you can simply choose the option
                 to <emphasis>Install eXist-db as Service</emphasis> from the eXist-db menu created
                 in the start menu. You can also call
-                    <filename>tools/wrapper/bin/install.bat</filename> instead. This will install
+                    <filename>tools/yajsw/bin/installService.bat</filename> instead. This will install
                 eXist-db and Jetty as a Windows service.</para>
                 <note>
                     <para>Installing eXist-db as a service on Windows Vista requires full administrator
@@ -102,52 +102,36 @@ Setting admin user password...
                     You may need to do this even if you are already logged in as an
                     administrator.</para>
                 </note>
-                <para>After executing the install.bat script, you should find eXist-db listed in the
+                <para>After executing the installService.bat script, you should find eXist-db listed in the
                 list of services currently registered with Windows:</para>
                 <screenshot>
                     <graphic fileref="resources/services.png"/>
                 </screenshot>
                 <para>Once the service is registered, you can launch it via the service manager, as shown
                 in the screenshot, or from the command line:</para>
-                <synopsis>tools\wrapper\bin\wrapper.exe --start ..\conf\wrapper.conf</synopsis>
+                <synopsis>tools\yaysw\bin\startService.bat</synopsis>
             </section>
             <section id="linux">
                 <title>Unix</title>
                 <para>For Unix based systems (Linux, Mac OS X) the start/shutdown scripts can be found in
-                    <filename>tools/wrapper/bin/</filename>.</para>
+                    <filename>tools/yajsw/bin/</filename>.</para>
                 <para>The easiest way to get eXist-db started during 
                     initialization of the system is to run the following command: 
-                    <synopsis>sudo tools/wrapper/bin/exist.sh install</synopsis> 
+                    <synopsis>tools/yajsw/bin/installDaemon.sh</synopsis> 
                     This works for Mac OS X and many Linux distributions.</para>
                 <para>
-                    Please note it might be required to set some variables for the specific system, e.g. "RUN_AS_USER" (to have eXist-db started as a specific user) and "USE_UPSTART" (when using the <ulink url="http://en.wikipedia.org/wiki/Upstart">Upstart</ulink> feature which is available in many Linux variants).
-                    Details can be found on the Tankuni website:</para>
+                    Please note it might be required to set some variables for the specific system, e.g. "wrapper.app.account" (to have eXist-db started as a specific user) and "wrapper.plist.template" for launchd.
+                    Details can be found on the YAJSW website: <ulink url="http://yajsw.sourceforge.net/YAJSW%20Configuration%20Parameters.html">YAJSW Configuration Options</ulink>.</para>
                 <para>
-                    <itemizedlist>
-                        <listitem>
-                            <para>
-                                <ulink url="http://wrapper.tanukisoftware.com/doc/english/launch-nix.html#boot">Installing The Application To Start on Reboot</ulink>
-                            </para>
-                        </listitem>
-                        <listitem>
-                            <para>
-                                <ulink url="http://wrapper.tanukisoftware.com/doc/english/launch-nix-boot-debian.html">Installing The Application To Start on Reboot (Debian Linux)</ulink>
-                            </para>
-                        </listitem>
-                        <listitem>
-                            <para>
-                                <ulink url="http://wrapper.tanukisoftware.com/doc/english/launch-nix-boot-solaris.html">Installing The Application To Start on Reboot (Solaris)</ulink>
-                            </para>
-                        </listitem>
-                    </itemizedlist>
+		  If your system supports systemd you can run the
+		  service wrapper as a non-privileged user. You will
+		  be notified on choosing systemd non-privileged when
+		  running the service installer:
+		  <synopsis>tools/yajsw/bin/installDaemon.sh</synopsis>
+		  You will also also be notified to removed it if you
+		  run:
+		  <synopsis>tools/yajsw/bin/uninstallDaemon.sh</synopsis>
                 </para>
-                <para>As an advanced alternative it is possible to create a link to this
-                file from the <filename>init.d</filename> directory of your distribution (where all
-                of the start/shutdown scripts reside). Normally, the directory will be
-                    <filename>/etc/init.d</filename>. For example:</para>
-                <synopsis>ln -s $EXIST_HOME/tools/wrapper/bin/exist.sh /etc/init.d/exist</synopsis>
-                <para>You can then add the service to the correct system runlevel. Check with your Linux
-                distribution for instructions.</para>
             </section>
             <section id="other">
                 <title>Other platforms</title>
@@ -166,10 +150,8 @@ Setting admin user password...
                             <para>Solaris x86 (32bit/64bit) &amp; SPARC (32bit/64bit)</para>
                         </listitem>
                     </itemizedlist>
-                    Support for additional platforms can be obtained by
-                    downloading the "Delta Pack" from the
-                    <ulink url="http://wrapper.tanukisoftware.org">Tanuki software</ulink> website. 
-                    Available platforms are: AIX (PPC), FreeBSD (x86), HPUX and Linux (PPC,ARM). 
+                    Support for additional platforms can be bootstrapped by looking at templates in:
+		    <synopsis>tools/yajsw/templates/</synopsis>
                 </para>
             </section>
         </section>
