@@ -46,7 +46,7 @@ vmoptions.mac=-Xdock:name="eXist-db" -Xdock:icon="icon.png" -Dapple.laf.useScree
             <para>On <emphasis>Windows</emphasis>, the <option>-Xmx</option> settings is done in the
                 main .bat files, .e.g. <filename>EXIST_HOME\bin\startup.bat</filename>.</para>
             <para>If you launch <emphasis>eXist-db as a service</emphasis>, all Java settings will be
-                controlled by the service wrapper. In this case, the file to edit is <filename>EXIST_HOME/tools/yajsw/conf/wrapper.conf</filename>. The installer sets the memory you chose at install time (NNNN), but if you want to change it afterwards search for the line:</para>
+                controlled by the service wrapper. In this case, the file to edit is <filename>EXIST_HOME/tools/yajsw/conf/wrapper.conf</filename>. The installer sets the memory you chose at install time (NNNN), but if you want to change it afterwards search for one of the following lines:</para>
             <synopsis># Maximum Java Heap Size (in MB)
 # alternative for wrapper.java.additional.&lt;n&gt;=-Xmx
 wrapper.java.maxmemory=NNNN
