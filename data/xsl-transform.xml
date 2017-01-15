@@ -23,9 +23,12 @@
                 <varlistentry>
                     <term>transform:transform()</term>
                     <listitem>
-                        <para>This XSL transformation function has the following signature:</para>
-                        <synopsis>transform:transform($input as node()?, $stylesheet as
-                                item(), $parameters as node()?) as node()?</synopsis>
+                        <para>This XSL transformation functions have the following signatures:</para>
+                          <programlisting language="xquery">transform:transform($input as node()?, $stylesheet as item(), 
+                    $parameters as node()?) as node()?</programlisting>
+                        <programlisting language="xquery">transform:transform($node-tree as node()*, $stylesheet as item(), 
+                    $parameters as node()?, $attributes as node()?, 
+                    $serialization-options as xs:string?) as node()?</programlisting>
                         <para>
                             <command>transform:transform</command> expects the node to be
                             transformed in the first argument <option>$input</option>. If
@@ -64,6 +67,22 @@
                             string value <option>value1</option>, and in the XSL stylesheet, the
                             parameter can then be referenced as follows:</para>
                         <synopsis><![CDATA[<xsl:param name="param1"/>]]></synopsis>
+                        <para>Optionally a set of two arguments can be specified. With the <option>$attributes</option> argument it is possible to pass attributes to the 
+                            transformation factory; Verify the <ulink url="http://docs.oracle.com/javase/8/docs/api/javax/xml/transform/TransformerFactory.html#setAttribute-java.lang.String-java.lang.Object-">Java</ulink>
+                            or  <ulink url="http://www.saxonica.com/html/documentation/javadoc/net/sf/saxon/lib/FeatureKeys.html">Saxon</ulink> documentation for more details:
+                            <programlisting language="xml">
+                                <![CDATA[<attributes>
+    <attr name="param1" value="value1"/>
+    <attr name="param2" value="value2"/>
+</attributes>]]></programlisting>
+                            
+                        </para>
+                        <para>
+                            The <option>serialization-options</option> argument specifies serialization options in the same way as if they 
+                            were passed to <option>declare option exist:serialize</option> expression. An additional serialization option, <option>xinclude-path</option>, 
+                            is supported, which specifies a base path against which xincludes will be expanded (if there are xincludes in the document). 
+                            A relative path will be relative to the current module load path.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
