@@ -65,8 +65,11 @@
 </parameters>]]></synopsis>
                         <para>This will set the stylesheet parameter <option>param1</option> to the
                             string value <option>value1</option>, and in the XSL stylesheet, the
-                            parameter can then be referenced as follows:</para>
+                            parameter can then be referenced as follows:
                         <synopsis><![CDATA[<xsl:param name="param1"/>]]></synopsis>
+                            There are two special parameters named "exist:stop-on-warn" and "exist:stop-on-error". If set to value "yes", 
+                            eXist will generate an XQuery error if the XSL processor reports a warning or error.
+                        </para>
                         <para>Optionally a set of two arguments can be specified. With the <option>$attributes</option> argument it is possible to pass attributes to the 
                             transformation factory; Verify the <ulink url="http://docs.oracle.com/javase/8/docs/api/javax/xml/transform/TransformerFactory.html#setAttribute-java.lang.String-java.lang.Object-">Java</ulink>
                             or  <ulink url="http://www.saxonica.com/html/documentation/javadoc/net/sf/saxon/lib/FeatureKeys.html">Saxon</ulink> documentation for more details:
@@ -79,7 +82,7 @@
                         </para>
                         <para>
                             The <option>serialization-options</option> argument specifies serialization options in the same way as if they 
-                            were passed to <option>declare option exist:serialize</option> expression. An additional serialization option, <option>xinclude-path</option>, 
+                            were passed to the "declare option exist:serialize" expression. An additional serialization option, "xinclude-path", 
                             is supported, which specifies a base path against which xincludes will be expanded (if there are xincludes in the document). 
                             A relative path will be relative to the current module load path.
                         </para>
