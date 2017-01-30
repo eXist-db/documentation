@@ -69,307 +69,136 @@
                     <tr bgcolor="#0990EE" valign="top">
                         <th width="20%">Service</th>
                         <th width="30%">Description</th>
-                        <th>Resources</th>
-                        <th>Initial Compilation</th>
-                        <th width="7%">Initial State</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr bgcolor="#F6F6F6" valign="top">
-                        <td>
-                            <ulink url="debugger.xml">debugger</ulink>
-                        </td>
+                        <td>debugger</td>
                         <td>
                             <para> This is an XQuery debugger.</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#FF0000">Off</td>
+                        
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
-                        <td>
-                            <ulink url="config-fluent.xml">fluent</ulink>
-                        </td>
+                        <td>fluent</td>
                         <td>
                             <para>This is an API for embedded access to eXist-db which is tightly integrated with java.</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
+                        
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
                         <td>Desktop Application Support</td>
                         <td>
                             <para> </para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#FF0000">Off</td>
+                        
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
-                        <td>
-                            <ulink url="security.xml#ldap-realm">LDAP</ulink>
-                        </td>
+                        <td>LDAP</td>
                         <td>
                             <para> LDAP is an authentication mechanism by binding.</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#FF0000">Off</td>
+                        
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
-                        <td>
-                            <ulink url="security.xml#openid-realm">OpenID</ulink>
+                        <td>OpenID
                         </td>
                         <td>
                             <para> OpenID is an authentication mechanism where the identity of the
                                 user is maintained by trusted external providers.</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#FF0000">Off</td>
+                     
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
-                        <td>
-                            <ulink url="security.xml#oauth-realm">OAuth</ulink>
+                        <td>OAuth
                         </td>
                         <td>
                             <para> OAuth is an authentication mechanism where the identity of the
                                 user is maintained by trusted external providers.</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#FF0000">Off</td>
+                      
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
-                        <td>
-                            <ulink url="config-versioning.xml">Versioning</ulink>
+                        <td>Versioning
                         </td>
                         <td>
                             <para> Versioning extension</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
+                      
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
-                        <td>
-                            <ulink url="config-xqdoc.xml">XQDoc</ulink>
+                        <td>XQDoc
                         </td>
                         <td>
                             <para> xqDoc provides a simple vendor neutral solution for documenting
                                 XQuery library and main modules that is similar to JavaDoc.</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
-                    </tr>
+                   </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
-                        <td>
-                            <ulink url="config-xslt.xml">XSLT</ulink>
+                        <td>XSLT
                         </td>
                         <td>
                             <para>XSLT extension</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                                <listitem>
-                                    <para>webapp/WEB-INF/web.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
+                   
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
-                        <td>
-                            <ulink url="config-cache.xml">Cache</ulink>
+                        <td>Cache
                         </td>
                         <td>
                             <para> Cache module</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#FF0000">Off</td>
+                      
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
-                        <td>
-                            <ulink url="config-compression.xml">Compression</ulink>
+                        <td>Compression
                         </td>
                         <td>
                             <para>Provides functions to manipulate archives, tar/zip/gzip</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
+                        
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
-                        <td>
-                            <ulink url="config-context.xml">Context</ulink>
+                        <td>Context
                         </td>
                         <td>
                             <para> Context module</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#FF0000">Off</td>
+
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
-                        <td>
-                            <ulink url="config-counter.xml">Counter</ulink>
+                        <td>Counter
                         </td>
                         <td>
                             <para> Persistent counter module</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
+                        
+
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
-                        <td>
-                            <ulink url="config-datetime.xml">Datetime</ulink>
+                        <td>Datetime
                         </td>
                         <td>
                             <para> Date/DateTime/Time utility functions module</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
-                    </tr>
+</tr>
                     <tr bgcolor="#F6F6F6" valign="top">
-                        <td>
-                            <ulink url="config-example.xml">Example</ulink>
+                        <td>Example
                         </td>
                         <td>
                             <para> This is an example Java based function module.  It is a template
                                 for creating other Java based function modules.</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
+                     
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
-                        <td>
-                            <ulink url="config-file.xml">File</ulink>
+                        <td>File
                         </td>
                         <td>
                             <para> Provides functions to manipulate files in the local file
                                 system.</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
+                        
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
                         <td>Http Client</td>
@@ -377,135 +206,50 @@
                             <para> This provides functions to call other web servers as if eXist
                                 were a web browser.</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
+
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>Image</td>
                         <td>
                             <para> Generate thumbnails of images.</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
+                        
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
                         <td>JFreechart</td>
                         <td>
                             <para> Provides functions to generate graphs using JFreechart</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#FF0000">Off</td>
+                        
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>JNDI</td>
                         <td>
                             <para> Provides functions to query a JNDI Directory</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#FF0000">Off</td>
+                        
                     </tr>
-                    <tr bgcolor="#F6F6F6" valign="top">
-                        <td/>
-                        <td>
-                            <para> </para>
-                        </td>
-                        <td/>
-                        <td/>
-                        <td align="center"/>
-                    </tr>
+
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>Mail</td>
                         <td>
                             <para> Send emails from XQuery</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
+                        
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
                         <td>Math</td>
                         <td>
                             <para> Math function module</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#FF0000">Off</td>
+                        
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>Scheduler</td>
                         <td>
                             <para> The Quartz scheduler</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#FF0000">Off</td>
+                        
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
                         <td>SimpleQL</td>
@@ -513,120 +257,49 @@
                             <para> Implements a simple query language which is translated into
                                 XQuery</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#FF0000">Off</td>
+                        
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>SQL</td>
                         <td>
                             <para> A set of functions to query a SQL database.</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#FF0000">Off</td>
+                       
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
                         <td>Subversion</td>
                         <td>
                             <para> Provides functions to query a subversion repository</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#FF0000">Off</td>
+                       
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>XMLDiff</td>
                         <td>
                             <para> Utility module to compare XML fragments</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
+                      
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
                         <td>XMPP</td>
                         <td>
                             <para> XMPP client; based on smack</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#FF0000">Off</td>
+                        
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>XSL FO</td>
                         <td>
                             <para> XSL FO transformations (Uses Apache FOP)</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#FF0000">Off</td>
+                      
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
                         <td>XML RPC</td>
                         <td>
                             <para> RpcServlet provides XML-RPC access to eXist</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>webapp/WEB-INF/web.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
+                        
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>DatabaseAdminServlet</td>
@@ -634,156 +307,70 @@
                             <para>This servlet can be used to ensure that eXist-db is running in the background. Just set the
                                 start-parameter to true and load-on-startup to 1 </para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>webapp/WEB-INF/web.xml</para>
-                                </listitem>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td/>
+                       
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
                         <td>webDAV</td>
                         <td>
                             <para> Servlet that enables webDAV</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>webapp/WEB-INF/web.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
+                      
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>XQueryServlet</td>
                         <td>
                             <para>This generates HTML from an XQuery file</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>webapp/WEB-INF/web.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
+                        
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
                         <td>XQueryURLRewrite</td>
                         <td>
                             <para> </para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>webapp/WEB-INF/web.xml</para>
-                                </listitem>
-                                <listitem>
-                                    <para>webapp/WEB-INF/controller-config.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
+                       
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>Axis/SOAP</td>
                         <td>
                             <para>Axis provides eXist's web-services via SOAP</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>webapp/WEB-INF/web.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
+                       
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
                         <td>Atom</td>
                         <td>
                             <para>Atom Publishing Protocol</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>webapp/WEB-INF/web.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
+                       
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>Webstart (jnlp)</td>
                         <td>
                             <para> </para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>webapp/WEB-INF/web.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
+                       
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
                         <td>Indexing</td>
                         <td>
                             <para> </para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td/>
+                    
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>Scheduler</td>
                         <td>
                             <para>This module executes scheduled system tasks.</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
+                     
                     </tr>
                     <tr bgcolor="#F6F6F6" valign="top">
                         <td>Serializer</td>
                         <td>
                             <para> </para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
+                       
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>XSLT Transformer</td>
@@ -791,48 +378,21 @@
                             <para>Default settings for the XSLT Transformer. Allow's for a choice of
                                 implementation.</para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
-                    </tr>
+                      
                     <tr bgcolor="#F6F6F6" valign="top">
                         <td>XML Validation</td>
                         <td>
                             <para> </para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>conf.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#FF0000">Off</td>
+                       
                     </tr>
                     <tr bgcolor="#FFFFFF" valign="top">
                         <td>XProc</td>
                         <td>
                             <para> </para>
                         </td>
-                        <td>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>extensions/build.properties</para>
-                                </listitem>
-                                <listitem>
-                                    <para>webapp/WEB-INF/web.xml</para>
-                                </listitem>
-                            </itemizedlist>
-                        </td>
-                        <td/>
-                        <td align="center" bgcolor="#00FF00">On</td>
+                      
+                    </tr>
                     </tr>
                 </tbody>
             </informaltable>
@@ -879,15 +439,15 @@
                 <example>
                     <title>Basic &lt;db-connection&gt; Entry</title>
                     <programlisting format="linespecific">
-                        <markup><![CDATA[<db-connection cacheSize="48M" collectionCache="24M" database="native"
-        files="webapp/WEB-INF/data" pageSize="4096" nodesBuffer="-1">
-      <pool min="1" max="15" sync-period="240000" wait-before-shutdown="60000"/>
-      <!--default-permissions collection="0775" resource="0775" /-->
-      <recovery enabled="yes" sync-on-commit="no" group-commit="no" size="100M" 
-            journal-dir="webapp/WEB-INF/data"/>
-      <watchdog query-timeout="-1" output-size-limit="10000"/>
-      <default-permissions collection="0775" resource="0775"/>
-</db-connection>]]></markup>
+                        <markup>&lt;db-connection cacheSize="48M" collectionCache="24M" database="native"
+        files="webapp/WEB-INF/data" pageSize="4096" nodesBuffer="-1"&gt;
+      &lt;pool min="1" max="15" sync-period="240000" wait-before-shutdown="60000"/&gt;
+      &lt;!--default-permissions collection="0775" resource="0775" /--&gt;
+      &lt;recovery enabled="yes" sync-on-commit="no" group-commit="no" size="100M" 
+            journal-dir="webapp/WEB-INF/data"/&gt;
+      &lt;watchdog query-timeout="-1" output-size-limit="10000"/&gt;
+      &lt;default-permissions collection="0775" resource="0775"/&gt;
+&lt;/db-connection&gt;</markup>
                     </programlisting>
                 </example>
                 <section>
@@ -1173,38 +733,38 @@
                 <example>
                     <title>Specifying Indexer-Options in conf.xml</title>
                     <programlisting format="linespecific">
-                        <markup><![CDATA[<indexer caseSensitive="no"
+                        <markup>&lt;indexer caseSensitive="no"
 	suppress-whitespace="both" index-depth="1"
 	tokenizer="org.exist.storage.analysis.SimpleTokenizer"
-	validation="no">
+	validation="no"&gt;
 	
-	<modules>
-        <module id="ngram-index" class="org.exist.indexing.ngram.NGramIndex"
-            file="ngram.dbx" n="3"/>
-        <!--
-        <module id="spatial-index" class="org.exist.indexing.spatial.GMLHSQLIndex"
-            connectionTimeout="10000" flushAfter="300" />            
-        -->
-		<!-- The full text index is always required and should
+	&lt;modules&gt;
+        &lt;module id="ngram-index" class="org.exist.indexing.ngram.NGramIndex"
+            file="ngram.dbx" n="3"/&gt;
+        &lt;!--
+        &lt;module id="spatial-index" class="org.exist.indexing.spatial.GMLHSQLIndex"
+            connectionTimeout="10000" flushAfter="300" /&gt;            
+        --&gt;
+		&lt;!-- The full text index is always required and should
 			 not be disabled. We still have some dependencies on
              this index in the database core. These will be removed
-             once the redesign has been completed. -->
-		<module id="ft-legacy-index" class="org.exist.fulltext.FTIndex"/>
-    </modules>
+             once the redesign has been completed. --&gt;
+		&lt;module id="ft-legacy-index" class="org.exist.fulltext.FTIndex"/&gt;
+    &lt;/modules&gt;
         
-    <stopwords file="stopword"/>
+    &lt;stopwords file="stopword"/&gt;
     
-	<!-- Default index configuration -->
-    <index>
-        <fulltext default="all" attributes="false">
-            <exclude path="/auth"/>
-        </fulltext>
-    </index>
+	&lt;!-- Default index configuration --&gt;
+    &lt;index&gt;
+        &lt;fulltext default="all" attributes="false"&gt;
+            &lt;exclude path="/auth"/&gt;
+        &lt;/fulltext&gt;
+    &lt;/index&gt;
 
-    <entity-resolver>
-	    <catalog file="samples/xcatalog.xml"/>
-    </entity-resolver>
-</indexer>]]></markup>
+    &lt;entity-resolver&gt;
+	    &lt;catalog file="samples/xcatalog.xml"/&gt;
+    &lt;/entity-resolver&gt;
+&lt;/indexer&gt;</markup>
                     </programlisting>
                 </example>
                 <section>
@@ -1343,19 +903,19 @@
                     <example>
                         <title>Configuring Index Modules</title>
                         <programlisting>
-                            <markup><![CDATA[<modules>
-    <module id="ngram-index" class="org.exist.indexing.ngram.NGramIndex"
-        file="ngram.dbx" n="3"/>
-    <!--
-    <module id="spatial-index" class="org.exist.indexing.spatial.GMLHSQLIndex"
-        connectionTimeout="10000" flushAfter="300" />            
-    -->
-	<!-- The full text index is always required and should
+                            <markup>&lt;modules&gt;
+    &lt;module id="ngram-index" class="org.exist.indexing.ngram.NGramIndex"
+        file="ngram.dbx" n="3"/&gt;
+    &lt;!--
+    &lt;module id="spatial-index" class="org.exist.indexing.spatial.GMLHSQLIndex"
+        connectionTimeout="10000" flushAfter="300" /&gt;            
+    --&gt;
+	&lt;!-- The full text index is always required and should
 		 not be disabled. We still have some dependencies on
          this index in the database core. These will be removed
-         once the redesign has been completed. -->
-	<module id="ft-legacy-index" class="org.exist.fulltext.FTIndex"/>
-</modules>]]></markup>
+         once the redesign has been completed. --&gt;
+	&lt;module id="ft-legacy-index" class="org.exist.fulltext.FTIndex"/&gt;
+&lt;/modules&gt;</markup>
                         </programlisting>
                     </example>
                     <para>The only common attributes for each <sgmltag>module</sgmltag> element are
@@ -1425,17 +985,17 @@
                 <example>
                     <title>Configuring a BackupSystemTask</title>
                     <programlisting>
-                        <markup><![CDATA[<scheduler>
-    <job type="system" class="org.exist.storage.BackupSystemTask" cron-trigger="0 0 */6 * * ?">
-        <parameter name="dir" value="backup"/>
-        <parameter name="suffix" value=".zip"/>
-        <parameter name="prefix" value="backup-"/>
-        <parameter name="collection" value="/db"/>
-        <parameter name="user" value="admin"/>
-        <parameter name="password" value=""/>
-        <parameter name="zip-files-max" value="28"/>
-    </job>
-</scheduler>]]></markup>
+                        <markup>&lt;scheduler&gt;
+    &lt;job type="system" class="org.exist.storage.BackupSystemTask" cron-trigger="0 0 */6 * * ?"&gt;
+        &lt;parameter name="dir" value="backup"/&gt;
+        &lt;parameter name="suffix" value=".zip"/&gt;
+        &lt;parameter name="prefix" value="backup-"/&gt;
+        &lt;parameter name="collection" value="/db"/&gt;
+        &lt;parameter name="user" value="admin"/&gt;
+        &lt;parameter name="password" value=""/&gt;
+        &lt;parameter name="zip-files-max" value="28"/&gt;
+    &lt;/job&gt;
+&lt;/scheduler&gt;</markup>
                     </programlisting>
                 </example>
                 <para>Each job is configured in a <sgmltag>job</sgmltag> element which accepts a
@@ -1629,7 +1189,7 @@
                 <example>
                     <title>XUpdate-Options in conf.xml</title>
                     <programlisting format="linespecific">
-                        <markup><![CDATA[<xupdate allowed-fragmentation="20" enable-consistency-checks="no" />]]></markup>
+                        <markup>&lt;xupdate allowed-fragmentation="20" enable-consistency-checks="no" /&gt;</markup>
                     </programlisting>
                 </example>
                 <section>
@@ -1665,14 +1225,14 @@
                 <example>
                     <title>XQuery Engine Configuration</title>
                     <programlisting>
-                        <markup><![CDATA[<xquery enable-java-binding="no" enable-query-rewriting="no" enforce-index-use="always" disable-deprecated-functions="no" raise-error-on-failed-retrieval="no" backwardCompatible="no">
-    <builtin-modules>
-        <!-- Default Modules -->
-        <module class="org.exist.xquery.functions.util.UtilModule"
-            uri="http://exist-db.org/xquery/util" />
-        <!-- ... more modules ... -->
-    </builtin-modules>
-</xquery>]]></markup>
+                        <markup>&lt;xquery enable-java-binding="no" enable-query-rewriting="no" enforce-index-use="always" disable-deprecated-functions="no" raise-error-on-failed-retrieval="no" backwardCompatible="no"&gt;
+    &lt;builtin-modules&gt;
+        &lt;!-- Default Modules --&gt;
+        &lt;module class="org.exist.xquery.functions.util.UtilModule"
+            uri="http://exist-db.org/xquery/util" /&gt;
+        &lt;!-- ... more modules ... --&gt;
+    &lt;/builtin-modules&gt;
+&lt;/xquery&gt;</markup>
                     </programlisting>
                 </example>
                 <para>The <sgmltag>xquery</sgmltag> section is used to enable/disable certain core
@@ -1781,8 +1341,8 @@
                     <para>This section lists the XQuery modules which will be known to the query
                         engine. The modules in this list can be imported into a query without
                         specifying a location. For example, the following entry:</para>
-                    <synopsis language="xml"><![CDATA[<module class="org.exist.xquery.modules.file.FileModule"
-uri="http://exist-db.org/xquery/file" />]]></synopsis>
+                    <synopsis language="xml">&lt;module class="org.exist.xquery.modules.file.FileModule"
+uri="http://exist-db.org/xquery/file" /&gt;</synopsis>
                     <para>establishes a static mapping between the module URI for the file module
                         and the Java class which implements it. When using that module, it is
                         sufficient to provide the correct URI in the import. Specifying a location
@@ -1790,8 +1350,8 @@ uri="http://exist-db.org/xquery/file" />]]></synopsis>
                     <synopsis language="xquery">import module namespace file="http://exist-db.org/xquery/file";</synopsis>
                     <para>Instead of providing a Java class, one can also specify a src URI which
                         must point to the XQuery source code of the module, e.g.:</para>
-                    <synopsis language="xml"><![CDATA[<module src="resource:org/exist/xquery/lib/json.xq" 
-uri="http://www.json.org"/>]]></synopsis>
+                    <synopsis language="xml">&lt;module src="resource:org/exist/xquery/lib/json.xq" 
+uri="http://www.json.org"/&gt;</synopsis>
                     <para>For the src attribute, eXist understands the <ulink url="http://localhost:8080/exist/xquery.xml#N10195">same types of
                             URIs</ulink> as in an ordinary XQuery import statement.</para>
                 </section>
