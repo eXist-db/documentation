@@ -47,7 +47,7 @@ declare function diag:deadlinks($node as node(), $model as map(*)) {
   let $ulinks := $model("ulinks")
   let $filtered := diag:filterlocallinks($ulinks)
   return
-  <table>
+  <table class="table">
   <tr><th>In document</th><th>Linked document</th></tr>
   {
      for $row in $filtered
@@ -67,7 +67,7 @@ declare function diag:unreferenced($node as node(), $model as map(*)) {
   
   let $alldocs := xmldb:get-child-resources($config:data-root)
   return
-  <table>
+  <table class="table">
   <tr><th>Document</th></tr>
   {
   for $doc in $alldocs
