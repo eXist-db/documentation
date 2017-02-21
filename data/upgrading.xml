@@ -40,6 +40,26 @@
             </procedure>
         </section>
         <section>
+            <title>Upgrading to 3.0 stable</title>
+            <para>eXist-db v3.0 is not binary compatible with previous versions of eXist-db; the on-disk database file format has been updated, users should perform a full backup and restore to migrate their data.</para>
+            <para>eXist.db v3.0 and subsequent versions now require <emphasis>Java 8</emphasis>; Users must update to Java 8!</para>
+            <para>3.0 removes the the legacy Full Text Index and the  text (http://exist-db.org/xquery/text) XQuery module. Users should now look toward <code>fn:analyze-string</code>, e.g.
+                <orderedlist>
+                    <listitem>
+                        <para>instead of using <code>text:groups()</code> use <code>analyze-string()//fn:group</code>,</para>
+                    </listitem>
+                    <listitem>
+                        <para>instead of <code>text:filter("apparat", "([pr])")</code> use <code>analyze-string("apparat", "([pr])")//fn:match/string())</code>.</para>
+                    </listitem>
+                </orderedlist>                
+            </para>
+            <para>Furthermore, the SOAP APi, SOAP server, and XACML Security features were removed.</para>
+            <para>The versioning extension is now available as a separate <ulink url="https://github.com/eXist-db/xquery-versioning-module">EXPATH package</ulink></para>
+            <para>XQueryService has been moved from <code>DBBroker</code> to <code>BrokerPool</code>.</para>
+            <para>EXPath packages that incorporate Java libraries may no longer work with eXist-db v3.0 and may need to be recompiled for our API changes; packages should now explicitly specify the eXist-db versions that they are compatible with.</para>
+            <para>eXist-db v3.0 is the culmination of almost 1,500 changes. For more information on new features head to the <ulink url="http://exist-db.org/exist/apps/wiki/blogs/eXist//eXist-db-v3">blog</ulink>.</para>
+            </section>
+        <section>
             <title>Upgrading to 2.2 final</title>
             <para>The 2.2 release is not binary compatible with the 1.4.x series. You need to
                 backup/restore. If you experience problems with user logins after the restore, please restart eXist-db.</para>
