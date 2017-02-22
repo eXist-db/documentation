@@ -9,7 +9,7 @@
         <title>Quick Start</title>
         <section id="overview">
             <title>Overview</title>
-            <para>Installing eXist-db on your computer is quick and easy. First, confirm that your
+            <para>Installing eXist-db on your computer should be quick and easy. First, confirm that your
                 system meets the requirements. Next, download the installer and follow the
                 installation instructions here. Before you know it you'll be up and running with
                 eXist-db.</para>
@@ -22,7 +22,7 @@
                 certain installation procedures are not possible without administrative privileges.
                 The critical requirement is that Java be installed.</para>
             <note id="since-3.0">
-                 <title>Java requirements</title>
+                <title>Java requirements</title>
                 <para>Since eXistdb 3.0 Java 8 is required.</para>
             </note>
             <note id="about-java">
@@ -39,9 +39,11 @@
                     on commercial Linux distributions. Users of other distributions are better
                     served by distribution-specific instructions. Instructions that eXist-db users
                     have found useful include: <ulink url="http://livingtao.blogspot.com/2012/01/few-easy-steps-to-install-sunoracle-jdk.html">Amazon Linux</ulink>, <ulink url="http://www.webupd8.org/2012/01/install-oracle-java-jdk-7-in-ubuntu-via.html">Ubuntu</ulink> and <ulink url="http://www.webupd8.org/2012/06/how-to-install-oracle-java-7-in-debian.html">Debian</ulink>.</para>
+                <para>macOS users: If you have installed Saxon as a JRE extension (via the extensions folder), this can cause a critical error during installation. To avoid this error user need to either
+                    remove the JRE extension, or install a second JRE which you use just for eXist-db and set the JAVA_HOME to that when running eXist-db.</para>
                 <para>Special note: In general it recommended to use the Oracle Java VM, this is the safest choice. The OpenJDK 7 is a good open source alternative for the Oracle JVM.</para>
                 <para>Details of the Java VM can be obtained via the following command (two results displayed):
-                        <synopsis format="java">java -version
+                    <synopsis format="java">java -version
 java version ""1.8.0_60-ea""
 Java(TM) SE Runtime Environment (build 1.8.0_60-ea-b19)
 Java HotSpot(TM) 64-Bit Server VM (build 25.60-b19, mixed mode)
@@ -76,9 +78,9 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.60-b19, mixed mode)
                 <step>
                     <para>
                         <emphasis>Choose the Installation Directory</emphasis>: You will be
-                            asked where to install eXist-db on your hard disk. The installer will
-                            suggest an appropriate directory, but if you want, you can install
-                            eXist-db anywhere on your system.</para>
+                        asked where to install eXist-db on your hard disk. The installer will
+                        suggest an appropriate directory, but if you want, you can install
+                        eXist-db anywhere on your system.</para>
                 </step>
                 <step>
                     <para>
@@ -86,20 +88,26 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.60-b19, mixed mode)
                         eXist-db keeps its data files. The installer will suggest keeping the data
                         files inside the application directory, but you can select a different
                         location if you want.</para>
+                    <para>For macOS users installing via the diskImage the default data directory will be:
+                        <code>/Users/$username$/Library/Application Support/org.exist</code>
+                    </para>
                 </step>
                 <step>
                     <para>
                         <emphasis>Choose the Admin Password</emphasis>: The Admin Password is a
-                            password for the eXist-db administrator account, or more commonly, the
-                            "admin" account. This admin account belongs to you, and certain key
-                            functions in eXist-db can only be performed by the admin. While you can
-                            leave the admin password blank, we strongly recommend setting the
-                            password in order to secure access your installation of eXist-db. Why?
-                            Keep in mind that while eXist-db is running, it can be accessed by other
-                            users on your local network (be it in your home or office, or at a cafe
-                            or on a train). So, securing your administrator's account on eXist-db is
-                            a good way to protect your data and prevent others from abusing the
-                            account. Best to choose a unique password.</para>
+                        password for the eXist-db administrator account, or more commonly, the
+                        "admin" account. This admin account belongs to you, and certain key
+                        functions in eXist-db can only be performed by the admin. While you can
+                        leave the admin password blank, we strongly recommend setting the
+                        password in order to secure access your installation of eXist-db. Why?
+                        Keep in mind that while eXist-db is running, it can be accessed by other
+                        users on your local network (be it in your home or office, or at a cafe
+                        or on a train). So, securing your administrator's account on eXist-db is
+                        a good way to protect your data and prevent others from abusing the
+                        account. Best to choose a unique password.</para>
+                    <para>macOS users installing via diskImage can change the default (empty) password via the "open dashboard" option from the menubar icon once installation has finished.
+                        <emphasis>special note:</emphasis> during the intial run of exist-db the dock-icon might stay active after exist-db has been shut down. Simply right click and force quit. On subsequent runs the dock icon should behave as expected. 
+                    </para>
                     <para>
                         <emphasis>Memory Settings</emphasis>: Configure the maximum amount of
                         memory which will be available to Java (and eXist-db) and the portion of it
@@ -131,9 +139,9 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.60-b19, mixed mode)
                 </step>
                 <step>
                     <para>(Windows and Linux only) <emphasis>Start Menu and/or Desktop Shortcut
-                            Options</emphasis>: The installer can create convenient desktop
-                            shortcuts and Start Menu entries for starting and accessing
-                            eXist-db.</para>
+                        Options</emphasis>: The installer can create convenient desktop
+                        shortcuts and Start Menu entries for starting and accessing
+                        eXist-db.</para>
                 </step>
             </procedure>
             <para>When the installer is finished installing eXist-db, click Quit to close it.</para>
@@ -144,7 +152,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.60-b19, mixed mode)
                 On Linux or Windows, select the <emphasis>eXist-db Database Startup</emphasis>
                 desktop shortcut icon or Start Menu entry you created at the end of the
                 installation. (To run eXist as a background service, see <ulink url="advanced-installation.xml#service">Running eXist-db as a
-                Service</ulink>.)</para>
+                    Service</ulink>.)</para>
             <para>You'll see a splash screen appear showing the eXist-db logo. Upon first startup,
                 eXist-db will upload the applications you selected in the installer into the
                 database. This may take a while and is only done the first time.</para>
@@ -167,7 +175,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.60-b19, mixed mode)
                 <para>Also, the desktop integration does not work properly on all versions of Linux. When using the desktop
                     launcher, your mileage may vary. However, you may always use the provided shell scripts (<filename>bin/startup.sh</filename>)
                     to launch eXist-db in the normal way without desktop integration.
-                    </para>
+                </para>
             </note>
             <para>You can also start eXist-db manually if you feel comfortable with the command
                 line:</para>
@@ -192,7 +200,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.60-b19, mixed mode)
                 </step>
             </procedure>
             <para>For more information about these startup scripts, see <ulink url="advanced-installation.xml#bin-executables">About the Scripts in the bin
-                    Directory</ulink>.</para>
+                Directory</ulink>.</para>
             <note>
                 <title>Having trouble?</title>
                 <para>If you suspect you have had a problem launching eXist-db, see our article on
@@ -236,8 +244,8 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.60-b19, mixed mode)
             <procedure>
                 <step>
                     <para>The system tray popup menu has an option <guimenuitem>Stop server</guimenuitem>.
-                    You may also choose <guimenuitem>Quit (and stop server)</guimenuitem> to shut down
-                    eXist-db and the system tray launcher at the same time.</para>
+                        You may also choose <guimenuitem>Quit (and stop server)</guimenuitem> to shut down
+                        eXist-db and the system tray launcher at the same time.</para>
                 </step>
                 <step>
                     <para>From the <ulink url="{dashboard}">Dashboard App</ulink>: select
