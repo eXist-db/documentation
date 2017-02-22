@@ -35,12 +35,12 @@
                     you intend to compile eXist-db from its source code. For instructions about
                     running Java on your operating system, see Oracle's <ulink url="http://www.java.com/en/download/help/index_installing.xml">Installing
                         Java</ulink> page.</para>
+                <para><emph>Warning:</emph> If you have installed Saxon as a JRE extension (via the extensions folder), this can cause a critical error during installation. To avoid this error user need to either
+                    remove the JRE extension, or install a second JRE which you use just for eXist-db and set the JAVA_HOME to that when running eXist-db.</para>
                 <para>Linux users: Unfortunately, Oracle's own pages (such as the link above) focus
                     on commercial Linux distributions. Users of other distributions are better
                     served by distribution-specific instructions. Instructions that eXist-db users
-                    have found useful include: <ulink url="http://livingtao.blogspot.com/2012/01/few-easy-steps-to-install-sunoracle-jdk.html">Amazon Linux</ulink>, <ulink url="http://www.webupd8.org/2012/01/install-oracle-java-jdk-7-in-ubuntu-via.html">Ubuntu</ulink> and <ulink url="http://www.webupd8.org/2012/06/how-to-install-oracle-java-7-in-debian.html">Debian</ulink>.</para>
-                <para>macOS users: If you have installed Saxon as a JRE extension (via the extensions folder), this can cause a critical error during installation. To avoid this error user need to either
-                    remove the JRE extension, or install a second JRE which you use just for eXist-db and set the JAVA_HOME to that when running eXist-db.</para>
+                    have found useful include: <ulink url="http://livingtao.blogspot.com/2012/01/few-easy-steps-to-install-sunoracle-jdk.html">Amazon Linux</ulink>, <ulink url="http://www.webupd8.org/2012/01/install-oracle-java-jdk-7-in-ubuntu-via.html">Ubuntu</ulink> and <ulink url="http://www.webupd8.org/2012/06/how-to-install-oracle-java-7-in-debian.html">Debian</ulink>.</para>                
                 <para>Special note: In general it recommended to use the Oracle Java VM, this is the safest choice. The OpenJDK 7 is a good open source alternative for the Oracle JVM.</para>
                 <para>Details of the Java VM can be obtained via the following command (two results displayed):
                     <synopsis format="java">java -version
