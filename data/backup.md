@@ -66,7 +66,7 @@ The backup task uses the information provided by the consistency check to work a
 
 ### Scheduling Backups and Consistency Checks
 
-The core class for the server-side backup as well as consistency checks is called `ConsistencyCheckTask`. It can be registered as a system task with eXist-db's [scheduler](configuration.xml#N104CF). To do this, add the following definition to the scheduler section in `conf.xml`:
+The core class for the server-side backup as well as consistency checks is called `ConsistencyCheckTask`. It can be registered as a system task with eXist-db's [scheduler](configuration.md#N104CF). To do this, add the following definition to the scheduler section in `conf.xml`:
 
     <job type="system" class="org.exist.storage.ConsistencyCheckTask"
         cron-trigger="0 0 0/12 * * ?">
@@ -277,7 +277,7 @@ repair:repair()
 
 Creating a backup of a single expath application or library package is rather straightforward within eXide. Either use:
 
--   the [synchronize feature](development-starter.xml#synchronize) to write the package contents to a directory on disk, or
+-   the [synchronize feature](development-starter.md#synchronize) to write the package contents to a directory on disk, or
 
 -   call Application / Download App to retrieve a `.xar` package which can be deployed into another eXist-db instance
 

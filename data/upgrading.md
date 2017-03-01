@@ -10,7 +10,7 @@ Install the new version into a different location.
 
 If the new version is *binary compatible*, replace the data directory of the new install with the one from the old one.
 
-Otherwise you need to do a full [restore](backup.xml#restore) of the data.
+Otherwise you need to do a full [restore](backup.md#restore) of the data.
 
 ## Upgrading to 3.0 stable
 

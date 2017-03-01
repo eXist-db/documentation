@@ -42,7 +42,7 @@ However, if you do not even see this message, you should follow these troublesho
 
 If eXist-db was not shut down properly, it may start a recovery process to redo committed transactions and roll back uncommitted ones. If an inconsistency is found during this process, eXist-db will automatically abort the startup and print out a warning. This emergency stop is done to avoid potential damage and give an administrator a chance to check the db and create a backup. It does not necessarily indicate a real problem. In most cases, the db should be ok and restarting it will be save.
 
-However, we definitely recommend to run a [consistency check](backup.xml#consistency-check) in those cases. If inconsistencies are found, make sure you have a backup before continuing. If only one or two resources are affected, it might still be ok to restart, but it's good to have a backup just in case.
+However, we definitely recommend to run a [consistency check](backup.md#consistency-check) in those cases. If inconsistencies are found, make sure you have a backup before continuing. If only one or two resources are affected, it might still be ok to restart, but it's good to have a backup just in case.
 
 ## Going Back to an Empty Database
 
@@ -86,7 +86,7 @@ to a port that is not used, e.g. "8444".
 If these scripts do not launch eXist-db, you can launch it by changing to the directory where you installed eXist-db and entering the following into the console:
 
 java -Xmx1024M -Djava.endorsed.dirs=lib/endorsed -jar start.jar jetty
-If you have problems running the shell/batch scripts, read the section [Running Executable Files](advanced-installation.xml#bin-executables).
+If you have problems running the shell/batch scripts, read the section [Running Executable Files](advanced-installation.md#bin-executables).
 
 ## Using the Logs
 
@@ -120,7 +120,7 @@ Otherwise:
 
 -   Before restart, archive the contents of the data directory: you may need them if anything goes wrong. Restart the database but be prepared for a recovery run, which may take considerable time (depending on the size of your db).
 
--   If inconsistencies are detected during the recovery, eXist will switch to read-only mode. In this case, stop it again and run a [consistency check](backup.xml#consistency-check), which can also create a low-level backup.
+-   If inconsistencies are detected during the recovery, eXist will switch to read-only mode. In this case, stop it again and run a [consistency check](backup.md#consistency-check), which can also create a low-level backup.
 
     If the consistency check reports a number of errors, eXist may still be able to run, but there might be errors in the data structures. So please prepare for a complete restore into a clean data directory as soon as you can take the database offline for maintenance.
 

@@ -10,7 +10,7 @@ The new full text module is based on [Apache Lucene](http://lucene.apache.org). 
 
 The Lucene full text index is enabled by default since version 1.4 of eXist-db. However, in case it is not enabled in your installation, here's how to get it up and running:
 
-Before building eXist-db, enable the Lucene full text index by enabling it according to the instructions in the documentation on [index modules](indexing.xml#moduleconf).
+Before building eXist-db, enable the Lucene full text index by enabling it according to the instructions in the documentation on [index modules](indexing.md#moduleconf).
 
 Then *(re-)build eXist-db* using the provided `build.sh` or `build.bat`. The build process downloads the required Lucene jars automatically. If everything builds OK, you should find a jar `exist-lucene-module.jar` in the `lib/extensions` directory. Next, edit the main configuration file, `conf.xml` and un-comment the Lucene-related section:
 
@@ -30,7 +30,7 @@ Defines the amount of memory (in megabytes) Lucene will use for buffering index 
 
 ## Configuring the Index
 
-Like other indexes, you create a Lucene index by configuring it in a `collection.xconf` document. If you have never done that before, read the corresponding [documentation](indexing.xml#idxconf). An example `collection.xconf` is shown below:
+Like other indexes, you create a Lucene index by configuring it in a `collection.xconf` document. If you have never done that before, read the corresponding [documentation](indexing.md#idxconf). An example `collection.xconf` is shown below:
 
                         <collection xmlns="http://exist-db.org/collection-config/1.0">
         <index xmlns:atom="http://www.w3.org/2005/Atom"
@@ -169,7 +169,7 @@ which will create a separate index on each child element of SPEECH it encounters
 
 As explained above, you have to figure out which parts of your document will likely be interesting as context for a full text query. The full text index will work best if the context isn't too narrow. For example, if you have a document structure with section divs, headings and paragraphs, you would probably want to create an index on the divs and maybe on the headings, so the user can differentiate between the two. In some cases, you could decide to put the index on the paragraph level, but then you don't need the index on the section since you can always get from the paragraph back to the section.
 
-If you query a larger context, you can use the [KWIC](kwic.md) module to show the user only a certain chunk of text *surrounding* each match. Or you can ask eXist-db to [highlight each match](kwic.xml#highlight) with an exist:match tag, which you can later use to locate the matches within the text.
+If you query a larger context, you can use the [KWIC](kwic.md) module to show the user only a certain chunk of text *surrounding* each match. Or you can ask eXist-db to [highlight each match](kwic.md#highlight) with an exist:match tag, which you can later use to locate the matches within the text.
 
 ### Whitespace Treatment and Ignored Content
 

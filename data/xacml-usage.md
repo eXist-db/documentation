@@ -6,7 +6,7 @@ eXist-db loads policies from the /db/system/policies collection. Policies may be
 
 > **Note**
 >
-> The XACML functionality is marked as deprecated and should not be used for new projects. Please use the new [ACL](security.xml#ACLs) functionality that has been introduced in eXist-db v2.0.
+> The XACML functionality is marked as deprecated and should not be used for new projects. Please use the new [ACL](security.md#ACLs) functionality that has been introduced in eXist-db v2.0.
 
 Policies currently have a range index defined on their ids for possible lookup for policy references. There is a fulltext index only on Description elements. However, in the future, more indices might be defined in order to more efficiently restrict the possible policies applicable to a request. This information may be important if an administrator executes a query on the root or system collection that includes all subcollections.
 

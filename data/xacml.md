@@ -6,7 +6,7 @@ eXist uses the OASIS standard [eXtensible Access Control Markup Language (XACML)
 
 > **Note**
 >
-> The XACML functionality is marked as deprecated and should not be used for new projects. Please use the new [ACL](security.xml#ACLs) functionality that has been introduced in eXist-db v2.0.
+> The XACML functionality is marked as deprecated and should not be used for new projects. Please use the new [ACL](security.md#ACLs) functionality that has been introduced in eXist-db v2.0.
 
 This documentation is divided into four parts. The first part of this documentation, [Capabilities](xacml-features.md), is intended to be a thorough overview of what in eXist is controlled using XACML. This part does not require prior knowledge of XACML and should provide the database administrator with enough information to decide whether to enable and use eXist's XACML subsystem.
 

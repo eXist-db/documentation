@@ -6,7 +6,7 @@ In XACML, access to resources (such as an XQuery or a Java method) can be contro
 
 > **Note**
 >
-> The XACML functionality is marked as deprecated and should not be used for new projects. Please use the new [ACL](security.xml#ACLs) functionality that has been introduced in eXist-db v2.0.
+> The XACML functionality is marked as deprecated and should not be used for new projects. Please use the new [ACL](security.md#ACLs) functionality that has been introduced in eXist-db v2.0.
 
 ## Subjects
 

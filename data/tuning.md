@@ -67,7 +67,7 @@ If no other index [index configuration](indexing.md) is found for a database col
 
 If you experience memory issues or observe a constantly decreasing performance while loading documents, tuning your indexes should be one of the first steps:
 
--   disable the default full text index in your index [definitions](indexing.xml#N10422):
+-   disable the default full text index in your index [definitions](indexing.md#N10422):
 
     ``` xquery
     <collection xmlns="http://exist-db.org/collection-config/1.0">
@@ -85,7 +85,7 @@ If you experience memory issues or observe a constantly decreasing performance w
 
 ### Prefer simple index definitions
 
-Keeping your [index definitions](indexing.xml#N10422) simple makes it easier for the query optimizer to resolve dependencies. In particular, avoid context-dependant index definitions unless you really have a reason to use them. A context-dependant index is defined on a path like `/book/chapter/title`, while general indexes are defined on a simple element or attribute qname:
+Keeping your [index definitions](indexing.md#N10422) simple makes it easier for the query optimizer to resolve dependencies. In particular, avoid context-dependant index definitions unless you really have a reason to use them. A context-dependant index is defined on a path like `/book/chapter/title`, while general indexes are defined on a simple element or attribute qname:
 
 ``` xquery
 <collection xmlns="http://exist-db.org/collection-config/1.0">

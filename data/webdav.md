@@ -16,7 +16,7 @@ The [Milton](http://milton.io) project maintains a detailed WebDAV client [compa
 
 -   eXist's Milton based WebDAV interface does not currently support HTTP Digest Authentication.
 
--   The size of an XML document is presented as a multiple of 4096 bytes, which is eXist's internal pagesize (see [conf.xml](configuration.xml#conf.xml)). The actual size on an XML document stored in the database can not be determined because the size depends on many factors, e.g. the applied serialization parameters.
+-   The size of an XML document is presented as a multiple of 4096 bytes, which is eXist's internal pagesize (see [conf.xml](configuration.md#conf.xml)). The actual size on an XML document stored in the database can not be determined because the size depends on many factors, e.g. the applied serialization parameters.
 
 The Milton-based WebDAV interface has been successfully tested with: Windows Web Folders (Windows XP/7), [AnyClient](http://www.jscape.com/products/file-transfer-clients/anyclient/) (cross-platform), Mac OS X Finder, [Transmit](http://www.panic.com/transmit/) (Mac OS X), [Cyberduck](http://cyberduck.ch/), davfs2 version 1.4.5 (Linux), OxygenXML and LibreOffice.
 

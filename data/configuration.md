@@ -178,7 +178,7 @@ This attribute sets the maximum amount of time (expressed in milliseconds) that 
 
 declare option exist:timeout "time-in-ms";
 
-Please check the documentation on [XQuery options](xquery.xml#xqopts).
+Please check the documentation on [XQuery options](xquery.md#xqopts).
 
 output-size-limit  
 This attribute limits the size of XML fragments constructed using XQuery, and thus sets the maximum amount of main memory a query is allowed to use. This limit is expressed as the maximum number of nodes allowed for an in-memory DOM tree. The purpose of this option is to avoid memory shortages on the server in cases where users are allowed to run queries that produce very large output fragments. The setting can be overwritten in an XQuery by specifying the option `exist:output-size-limit`:
@@ -232,7 +232,7 @@ This element sets parameters on how XML files are to be indexed by eXist. An exa
 caseSensitive  
 Specifies whether string comparisons are to be case-sensitive. This option applies to XPath equality tests (i.e. "`=`" operator), as well as functions such as `contains()`, `starts-with()` and `ends-with()`. This setting does not apply to operators or functions of the fulltext index (e.g. "`&=`", "`|=`", "`near()`") or the n-gram index, which are *never* case-sensitive
 
-Setting `caseSensitive="yes"` violates the XQuery specs! The option should be regarded as a dirty workaround, which will be removed in the future. Please use the n-gram or full-text indexes for case-insensitive queries or - if that is impossible - specify a [collation](xquery.xml#collations).
+Setting `caseSensitive="yes"` violates the XQuery specs! The option should be regarded as a dirty workaround, which will be removed in the future. Please use the n-gram or full-text indexes for case-insensitive queries or - if that is impossible - specify a [collation](xquery.md#collations).
 
 suppress-whitespace  
 Specifies how the &lt;indexer&gt; is to treat whitespace at the start or end of a character sequence. This option *ONLY* applies to newly stored files, and therefore changing it has no effect on previously stored documents. Possible values for this attribute are:
@@ -282,7 +282,7 @@ This section configures optional indexing modules. Beginning with version 1.2, e
     </modules>
                             
 
-The only common attributes for each module element are `class` and `id`. The other attributes as well as any nested elements are specific to the index implementation. Detailed information is available in the document on [Configuring Database Indexes](indexing.xml#moduleconf).
+The only common attributes for each module element are `class` and `id`. The other attributes as well as any nested elements are specific to the index implementation. Detailed information is available in the document on [Configuring Database Indexes](indexing.md#moduleconf).
 
 #### stopwords
 
@@ -305,7 +305,7 @@ System jobs require the database to be in a consistent state. The scheduler will
 user jobs  
 User jobs may be scheduled at any time and may be mutually exclusive or non-exclusive
 
-Below is an example which configures a [BackupSystemTask](backup.xml#backuptask):
+Below is an example which configures a [BackupSystemTask](backup.md#backuptask):
 
                             <scheduler>
         <job type="system" class="org.exist.storage.BackupSystemTask" cron-trigger="0 0 */6 * * ?">
@@ -358,7 +358,7 @@ Every job can take additional parameters, which are passed as name/value pairs (
 
 ### &lt;serializer&gt;
 
-The serializer is responsible for serializing XML documents or document fragments back into XML. This configuration element defines default settings for various parameters, which can also be specified programmatically. All settings can be overwritten by XQuery [serialization options](xquery.xml#serialization).
+The serializer is responsible for serializing XML documents or document fragments back into XML. This configuration element defines default settings for various parameters, which can also be specified programmatically. All settings can be overwritten by XQuery [serialization options](xquery.md#serialization).
 
 #### &lt;serializer&gt; Attributes
 
@@ -425,7 +425,7 @@ The xquery section is used to enable/disable certain core features of the XQuery
 #### xquery attributes
 
 enable-java-binding=yes|no  
-enables or disables the [java binding](xquery.xml#javamods). Giving users full access to all Java classes should be considered a security risk and the feature is thus disabled by default. If you enable it, you should think about configuring [XACML](xacml.md) to restrict Java access from XQuery.
+enables or disables the [java binding](xquery.md#javamods). Giving users full access to all Java classes should be considered a security risk and the feature is thus disabled by default. If you enable it, you should think about configuring [XACML](xacml.md) to restrict Java access from XQuery.
 
 disable-deprecated-functions=yes|no  
 enables or disables XQuery functions marked as deprecated.
@@ -445,7 +445,7 @@ set to `"yes"` if a call to `doc()`, `xmldb:document()`, `collection()` or `xmld
 set to `"no"` if a call to `doc()`, `xmldb:document()`, `collection()` or `xmldb:xcollection()` should return an empty sequence when an XML resource can not be retrieved.
 
 enable-query-rewriting=yes|no  
-the query engine can often achieve considerable performance improvements by rewriting an XQuery expression into a more efficient form (see the documentation about [indexing](indexing.xml#pathvsqname)). However, these features are relatively new. If you have doubts about the correctness of a query result, you may temporarily set `enable-query-rewriting` to `"no"` and see if the result changes in any way. If it does, you have hit a bug which should be reported.
+the query engine can often achieve considerable performance improvements by rewriting an XQuery expression into a more efficient form (see the documentation about [indexing](indexing.md#pathvsqname)). However, these features are relatively new. If you have doubts about the correctness of a query result, you may temporarily set `enable-query-rewriting` to `"no"` and see if the result changes in any way. If it does, you have hit a bug which should be reported.
 
 backwardCompatible=yes|no  
 enables or disables XPath 1.0 backwards compatibility. The setting mainly effects automatic type conversions, which were less strict in XPath 1.0 than in XQuery/XPath 2.0.

@@ -20,7 +20,7 @@ Database indexes are used extensively by eXist-db to facilitate efficient queryi
 
 5.  *[NGram Indexes](ngram.md)*: These map specific text nodes and attributes of the documents in a collection to splitted tokens of n-characters (where n = 3 by default). This is very efficient for exact substring searches and for queries on scripts (mostly non-European ones) which can not be easily split into whitespace separated tokens and are thus a bad match for the Lucene full text index.
 
-6.  *[Spatial Indexes](devguide_indexes.xml#spatial) (Experimental)*: A working proof-of-concept index, which listens for spatial geometries described through the Geography Markup Language (GML). A detailed description of the implementation can be found in the [Developer's Guide to Modularized Indexes](devguide_indexes.xml#spatial).
+6.  *[Spatial Indexes](devguide_indexes.md#spatial) (Experimental)*: A working proof-of-concept index, which listens for spatial geometries described through the Geography Markup Language (GML). A detailed description of the implementation can be found in the [Developer's Guide to Modularized Indexes](devguide_indexes.md#spatial).
 
 7.  *xml:id Index*: An index of all xml:id attribute values is automatically created. These values can be queried by fn:id().
 

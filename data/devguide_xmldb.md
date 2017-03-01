@@ -323,7 +323,7 @@ eXist provides several services in addition to those defined by the XML:DB speci
 The [UserManagementService](api/org/exist/xmldb/UserManagementService.html) service contains methods to manage users and handle permissions. These methods resemble common Unix commands such as chown or chmod. As with other services, `UserManagementService` can be retrieved from a collection object, as in:
 
 UserManagementService service = (UserManagementService)collection.getService("UserManagementService", "1.0");
-Another service called [DatabaseInstanceManager](api/org/exist/xmldb/DatabaseInstanceManager.html), provides a single method to shut down the database instance accessed by the driver. You have to be a member of the `dba` user group to use this method or an exception will be thrown. See the [Deployment Guide](deployment.xml#embedded) for an example.
+Another service called [DatabaseInstanceManager](api/org/exist/xmldb/DatabaseInstanceManager.html), provides a single method to shut down the database instance accessed by the driver. You have to be a member of the `dba` user group to use this method or an exception will be thrown. See the [Deployment Guide](deployment.md#embedded) for an example.
 
 Finally, interface [IndexQueryService](api/org/exist/xmldb/IndexQueryService.html) supports access to the terms and elements contained in eXist's internal index. Method getIndexedElements() returns a list of element occurrences for the current collection. For each occurring element, the element's name and a frequency count is returned.
 

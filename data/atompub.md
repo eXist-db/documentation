@@ -121,7 +121,7 @@ Each 'collection' element represents a feed that can be modified. The colleciton
 When creating a feed or entry, you can specify which permissions should be applied to the newly created resource within eXist. For this, the entry or feed document should contain an empty element, exist:permissions, in the "exist" namespace.
 
 &lt;exist:permissions xmlns:exist="http://exist.sourceforge.net/NS/exist" owner="myuser" group="mygroup" mode="755"/&gt;
-where `owner` and `group` should be valid database users/groups and `mode` is an octal number defining the permissions to be set. Please refer to the [Security Guide](security.xml#octal) for further information.
+where `owner` and `group` should be valid database users/groups and `mode` is an octal number defining the permissions to be set. Please refer to the [Security Guide](security.md#octal) for further information.
 
 # Atom Services
 

@@ -30,7 +30,7 @@ eXist-db is compatible with all recent versions of Linux, Mac OS X, and Windows.
 
 Download the installer for the latest stable release of eXist-db from the [Downloads](http://exist-db.org/exist/apps/homepage/index.html#subscriptions) page. The installer is a single file called `eXist-setup-[version]-revXXXXX.jar`. Here, \[version\] and XXXXX reflect the version and revision numbers of eXist-db, and .jar is a Java Archive file. We recommend that you download the *latest stable release*.
 
-Once the download has completed, launch the eXist-db installer. To launch the installer on Mac or Windows, simply double-click the .jar you downloaded. (On Mac OS X 10.7 and higher, a security feature called [Gatekeeper](http://support.apple.com/kb/HT5290) may prevent the installer from running since eXist-db is not registered with Apple; to circumvent the warning dialog and allow the installer to run, right-click or control-click the file and select Open.) On Linux distributions with a graphical desktop interface (e.g., Ubuntu), you can launch the installer by making the .jar file executable, right-clicking on the .jar file, and selecting the "Open With ... Java" option. Or, to launch the installer from the command line, enter the following command: java -jar eXist-setup-\[version\]-revXXXXX.jar (Windows and Mac users can also use the command line procedure, but most users prefer the graphical installer. For installs on a headless system, see [Headless Installation](advanced-installation.xml#headless).)
+Once the download has completed, launch the eXist-db installer. To launch the installer on Mac or Windows, simply double-click the .jar you downloaded. (On Mac OS X 10.7 and higher, a security feature called [Gatekeeper](http://support.apple.com/kb/HT5290) may prevent the installer from running since eXist-db is not registered with Apple; to circumvent the warning dialog and allow the installer to run, right-click or control-click the file and select Open.) On Linux distributions with a graphical desktop interface (e.g., Ubuntu), you can launch the installer by making the .jar file executable, right-clicking on the .jar file, and selecting the "Open With ... Java" option. Or, to launch the installer from the command line, enter the following command: java -jar eXist-setup-\[version\]-revXXXXX.jar (Windows and Mac users can also use the command line procedure, but most users prefer the graphical installer. For installs on a headless system, see [Headless Installation](advanced-installation.md#headless).)
 
 After the installer is launched, follow the prompts described below to complete the installation. We recommend that you accept the default options, since these are designed to make using eXist-db easy. The installer's dialog panes are as follows:
 
@@ -58,7 +58,7 @@ When the installer is finished installing eXist-db, click Quit to close it.
 
 ## Launching eXist-db
 
-On the Mac, double-click eXist-db's application icon where you installed eXist-db. On Linux or Windows, select the *eXist-db Database Startup* desktop shortcut icon or Start Menu entry you created at the end of the installation. (To run eXist as a background service, see [Running eXist-db as a Service](advanced-installation.xml#service).)
+On the Mac, double-click eXist-db's application icon where you installed eXist-db. On Linux or Windows, select the *eXist-db Database Startup* desktop shortcut icon or Start Menu entry you created at the end of the installation. (To run eXist as a background service, see [Running eXist-db as a Service](advanced-installation.md#service).)
 
 You'll see a splash screen appear showing the eXist-db logo. Upon first startup, eXist-db will upload the applications you selected in the installer into the database. This may take a while and is only done the first time.
 
@@ -85,7 +85,7 @@ bin/startup.sh
 If you are a Windows user, enter the following:
 
 bin\\startup.bat
-For more information about these startup scripts, see [About the Scripts in the bin Directory](advanced-installation.xml#bin-executables).
+For more information about these startup scripts, see [About the Scripts in the bin Directory](advanced-installation.md#bin-executables).
 
 > **Note**
 >
