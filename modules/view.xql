@@ -9,6 +9,7 @@ import module namespace config="http://exist-db.org/xquery/apps/config" at "conf
 import module namespace review="http://exist-db.org/xquery/documentation/review" at "review.xql";
 import module namespace site="http://exist-db.org/apps/site-utils";
 import module namespace diag="http://exist-db.org/xquery/diagnostics" at "diagnostics.xql";
+import module namespace md="http://exist-db.org/xquery/apps/markdown-docs" at "md.xql";
 
 declare option exist:serialize "method=html5 media-type=text/html";
 

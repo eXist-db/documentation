@@ -61,9 +61,7 @@ declare function config:expath-descriptor() as element(expath:package) {
 };
 
 declare %templates:wrap function config:app-title($node as node(), $model as map(*)) as xs:string {
-    let $doc-uri := request:get-uri()
-    let $doc-path := concat(replace(replace($doc-uri, '^/exist/', '/db/'), concat('^(.*)', '/','.*'), '$1'), '/data/', replace($doc-uri, concat('^.*','/'),''))
-    let $doc-title := doc($doc-path)/book/bookinfo/title
+    let $doc-title := $model("doc-title")
     return
         concat($config:expath-descriptor/expath:title, if ($doc-title) then ' - ' else '', $doc-title) 
 };
