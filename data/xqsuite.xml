@@ -186,6 +186,13 @@ function fd:simple-date($date as xs:date) as xs:string {
                     </listitem>
                 </varlistentry>
                 <varlistentry>
+                    <term>%test:assertXPath($path-as-string)</term>
+                    <listitem>
+                        <para>Tests if the return value of the tested function contains the given XPath <code>$path-as-string</code>.
+                            </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
                     <term>%test:pending</term>
                     <listitem>
                         <para>Marks a test as <emphasis>pending</emphasis>, which means that it will not be executed as part
