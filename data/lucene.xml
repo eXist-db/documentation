@@ -519,9 +519,9 @@
                 <para>Sometimes you may want to define different Lucene indexes on the same set of elements, e.g.
                 to use a different analyzer. eXist-db allows to name a certain index using the <option>field</option>
                 attribute:</para>
-                <synopsis language="xquery"><![CDATA[<text field="title" qname="title" analyzer="en"/>]]></synopsis>
-                <para>Such an index is called <option>named index</option>. See <ulink url="#query-a-named-index">Query a Named Index</ulink> on how to query the
-                <option>named indexes</option>.</para>                
+                <synopsis language="xquery">&lt;text field="title" qname="title" analyzer="en"/&gt;</synopsis>
+                <para>Such an index is called <option>named index</option>. See <xref linkend="query-a-named-index"/> on how to query the
+                <option>named indexes</option>.</para>
             </section>
         </section>
         <section>
@@ -552,7 +552,7 @@ return $m</programlisting>
                 module.</para>
             <section id="query-a-named-index">
                 <title>Query a Named Index</title>
-                <para>To query a named index (see <ulink url="#named-indexes">Defining Fields</ulink>), use the <function>ft:query-field($fieldName, $query)</function> instead of
+                <para>To query a named index (see <xref linkend="named-indexes"/>), use the <function>ft:query-field($fieldName, $query)</function> instead of
                     <function>ft:query</function>:</para>
                 <synopsis language="xquery">ft:query-field("title", "xml")</synopsis>
                 <para>
@@ -818,11 +818,11 @@ return
                 a document, containing information which does not exist in the XML as such.</para>
             <para>The field indexes are not configured via <filename>collection.xconf</filename>. Instead we add
             fields programmatically from an XQuery (which could be run via a trigger):</para>
-            <programlisting language="xquery"><![CDATA[ft:index("/db/demo/test.xml", <doc>
-    <field name="title" store="yes">Indexing</field>
-    <field name="author" store="yes">Me</field>
-    <field name="date" store="yes">2013</field>
-</doc>)]]></programlisting>
+            <programlisting language="xquery">ft:index("/db/demo/test.xml", &lt;doc&gt;
+    &lt;field name="title" store="yes"&gt;Indexing&lt;/field&gt;
+    &lt;field name="author" store="yes"&gt;Me&lt;/field&gt;
+    &lt;field name="date" store="yes"&gt;2013&lt;/field&gt;
+&lt;/doc&gt;)</programlisting>
             <para>The <option>store</option> attribute indicates that the fields content should be stored as a string. 
                 Without this attribute, the content will be indexed for search, but you won't be able to retrieve the contents.
             </para>
