@@ -186,6 +186,13 @@ function fd:simple-date($date as xs:date) as xs:string {
                     </listitem>
                 </varlistentry>
                 <varlistentry>
+                    <term>%test:assertXPath($path-as-string)</term>
+                    <listitem>
+                        <para>Tests if the return value of the tested function contains the given XPath <code>$path-as-string</code>.
+                            </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
                     <term>%test:pending</term>
                     <listitem>
                         <para>Marks a test as <emphasis>pending</emphasis>, which means that it will not be executed as part
@@ -193,6 +200,13 @@ function fd:simple-date($date as xs:date) as xs:string {
                         or new feature but you have not had time to fix the problem of implement the feature.
                         The count of <emphasis>pending</emphasis> tests is shown in the test suite report to remind you
                         of tests that are present but not yet executed.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>%test:stats</term>
+                    <listitem>
+                        <para>Collects statistics using <code>system:trace()</code> and prepends them as an element (<code>&lt;stats:calls xmlns:stats="http://exist-db.org/xquery/profiling"&gt;</code>) to the returned sequence
+                        of the test function.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
