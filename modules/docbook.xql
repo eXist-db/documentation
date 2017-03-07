@@ -172,6 +172,8 @@ declare %private function docbook:to-html($nodes as node()*) {
                     <a href="{$node/@url}" target="_blank">{docbook:process-children($node)}</a>
                 else
                     <a href="{$node/@url}">{docbook:process-children($node)}</a>
+            case element(xref) return
+                <a href="#{$node/@linkend}">{root($node)/*//*[@id = $node/@linkend]/title/text()}</a>
             case element(note) return
                 <div class="alert alert-success">
                 {

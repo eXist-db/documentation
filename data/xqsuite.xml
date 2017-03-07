@@ -203,6 +203,13 @@ function fd:simple-date($date as xs:date) as xs:string {
                     </listitem>
                 </varlistentry>
                 <varlistentry>
+                    <term>%test:stats</term>
+                    <listitem>
+                        <para>Collects statistics using <code>system:trace()</code> and prepends them as an element (<code>&lt;stats:calls xmlns:stats="http://exist-db.org/xquery/profiling"&gt;</code>) to the returned sequence
+                        of the test function.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
                     <term>%test:setUp, %test:tearDown</term>
                     <listitem>
                         <para>Special functions which will be called once before (or after) any
