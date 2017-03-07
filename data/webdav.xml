@@ -22,7 +22,7 @@
             <para>eXist-db ships with a <ulink url="http://en.wikipedia.org/wiki/WebDAV">WebDAV</ulink> interface.  WebDAV makes it possible to manage database
                 collections and documents just like directories and files in a file system.  You can copy,
                 move, delete, view or edit files with any application supporting the WebDAV protocol, including Windows
-                Explorer, Mac OS X Finder, <ulink url="http://www.webdav.org/cadaver">cadaver</ulink>, <ulink url="http://www.konqueror.org/">KDE Konqueror</ulink>, <ulink url="http://www.oxygenxml.com/">oXygen XML Editor</ulink>, <ulink url="http://www.altova.com/">XML Spy</ulink>, <ulink url="http://www.libreoffice.org/">LibreOffice</ulink> and many others (see "Compatibility" below).</para>
+                Explorer, macOS Finder, <ulink url="http://www.webdav.org/cadaver">cadaver</ulink>, <ulink url="http://www.konqueror.org/">KDE Konqueror</ulink>, <ulink url="http://www.oxygenxml.com/">oXygen XML Editor</ulink>, <ulink url="http://www.altova.com/">XML Spy</ulink>, <ulink url="http://www.libreoffice.org/">LibreOffice</ulink> and many others (see "Compatibility" below).</para>
             <para>While eXist-db has had WebDAV support since version 1.0b2, the new WebDAV implementation since 
                 version 1.4.1 brings improved WebDAV compatibility, thanks to its use of the excellent open-source <ulink url="http://milton.io/">Milton</ulink> WebDAV API for Java. </para>
             <para>In the default configuration
@@ -50,8 +50,8 @@
                         serialization parameters.</para>
                 </listitem>
             </itemizedlist>
-            <para>The Milton-based WebDAV interface has been successfully tested with: Windows Web Folders (Windows XP/7), <ulink url="http://www.jscape.com/products/file-transfer-clients/anyclient/">AnyClient</ulink> (cross-platform), Mac OS X
-                Finder, <ulink url="http://www.panic.com/transmit/">Transmit</ulink> (Mac OS X), 
+            <para>The Milton-based WebDAV interface has been successfully tested with: Windows Web Folders (Windows XP/7), <ulink url="http://www.jscape.com/products/file-transfer-clients/anyclient/">AnyClient</ulink> (cross-platform), macOS
+                Finder, <ulink url="http://www.panic.com/transmit/">Transmit</ulink> (macOS), 
                 <ulink url="http://cyberduck.ch/">Cyberduck</ulink>, davfs2 version 1.4.5 (Linux),
                 OxygenXML and LibreOffice.</para>
             <para>The following clients are reported to have issues: <ulink url="http://en.wikipedia.org/wiki/GVFS">GVFS</ulink> (Nautilus) and <ulink url="http://www.netdrive.net/">NetDrive</ulink>. (Compatibility can change over time)</para>
@@ -95,8 +95,8 @@
                 </para>
             </section>
             <section id="macosx">
-                <title>Mac OS X Finder</title>
-                <para>The eXist-db database can be accessed easily with the Mac OS X Finder. First select in the Finder "Go"
+                <title>macOS Finder</title>
+                <para>The eXist-db database can be accessed easily with the macOS Finder. First select in the Finder "Go"
                     and "Connect to Server..." <screenshot>
                         <graphic fileref="resources/webdav_macosx_1.png"/>
                     </screenshot>
@@ -124,7 +124,7 @@
                         time consuming operation for large documents and for collections with many documents.</para>
                     <para>Instead it is recommended to use <ulink url="http://www.panic.com/transmit/">Transmit</ulink> or 
                         <ulink url="http://cyberduck.ch/">Cyberduck</ulink> instead.</para>
-                    <para>Note that for Mac OS X 10.8 the WebDAV client has become functional (again) in 10.8.2, but still
+                    <para>Note that for macOS 10.8 the WebDAV client has become functional (again) in 10.8.2, but still
                     the client does not work perfect, e.g. at bulk operations.</para>
                 </note>
             </section>
