@@ -87,7 +87,7 @@
 	&lt;!-- Lucene index is configured below --&gt;
         &lt;lucene&gt;
 	        &lt;analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/&gt;
-            &lt;analyzer id="ws" class="org.apache.lucene.analysis.WhitespaceAnalyzer"/&gt;
+            &lt;analyzer id="ws" class="org.apache.lucene.analysis.core.WhitespaceAnalyzer"/&gt;
 	        &lt;text qname="TITLE" analyzer="ws"/&gt;
 	        &lt;text qname="p"&gt;
 	            &lt;inline qname="em"/&gt;
@@ -442,11 +442,11 @@
 &lt;/lucene&gt;</markup>
                     </programlisting>
                 </example>
-                <para>In the example above, we define that Lucene's <ulink url="http://lucene.apache.org/core/4_4_0/analyzers-common/org/apache/lucene/analysis/standard/StandardAnalyzer.html">StandardAnalyzer</ulink> should be used by default (the
+                <para>In the example above, we define that Lucene's <ulink url="http://lucene.apache.org/core/4_10_4/analyzers-common/org/apache/lucene/analysis/standard/StandardAnalyzer.html">StandardAnalyzer</ulink> should be used by default (the
                         <sgmltag>analyzer</sgmltag> element without <option>id</option> attribute).
                     We provide an additional analyzer and assign it the id <option>ws</option>, by
                     which the analyzer can be referenced in the actual index definitions.</para>
-                <para>The <ulink url="http://lucene.apache.org/core/4_4_0/analyzers-common/org/apache/lucene/analysis/core/WhitespaceAnalyzer.html">whitespace analyzer</ulink> is the most basic one. As the name says, it
+                <para>The <ulink url="http://lucene.apache.org/core/4_10_4/analyzers-common/org/apache/lucene/analysis/core/WhitespaceAnalyzer.html">whitespace analyzer</ulink> is the most basic one. As the name says, it
                     tokenizes the text at white space characters, but treats all other characters -
                     including punctuation - as part of the token. The tokens are not converted to
                     lower case and there's no stopword filter applied.</para>
@@ -463,7 +463,7 @@
                             <li>"org.apache.lucene.analysis.util.CharArraySet" or "set"</li>
                             <li>"java.lang.reflect.Field" </li>
                         </ul>
-                    The value <ulink url="http://lucene.apache.org/core/4_4_0/core/org/apache/lucene/util/Version.html#LUCENE_CURRENT">Version#LUCENE_CURRENT</ulink> is always added
+                    The value <ulink url="http://lucene.apache.org/core/4_10_4/core/org/apache/lucene/util/Version.html#LUCENE_CURRENT">Version#LUCENE_CURRENT</ulink> is always added
                     as first parameter for the analyzer constructor, but a fall back mechanism is present for older analyzers. 
                     The previously valid values "java.io.File" and "java.util.Set" can not be used since Lucene 4.</para>
                     <example>
