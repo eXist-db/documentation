@@ -12,7 +12,7 @@ You can launch the Java Admin Client using one of the following methods:
 
 -   You can download a Java WebStart file (exist.jnlp) via your web browser; once the download has completed, double-click on the exist.jnlp file to launch the client:
 
-    [![](resources/webstart.small.jpg)](/webstart/exist.jnlp)
+    [![](../resources/webstart.small.jpg)](/webstart/exist.jnlp)
 
     You can also find a Java WebStart Launch icon in the Administration menu in the left sidebar of all documentation pages.
 

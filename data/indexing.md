@@ -121,7 +121,7 @@ Run the query you would like to profile. The profiler will collect statistics ab
 
 Click Refresh and switch to the Indexes tab.
 
-![Query Profiling](resources/IndexProfiling.png)
+![Query Profiling](../resources/IndexProfiling.png)
 
 The table provides the following information:
 

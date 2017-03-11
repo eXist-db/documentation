@@ -116,7 +116,7 @@ Our first task will be to create a simple XQuery program that will list all the 
 
 This produces the following output:
 
-![](resources/list-items-no-links.png)
+![](../resources/list-items-no-links.png)
 
 There are few items to note. First, note that we use the collection function to specify what data is being listed. We also return only items in the data collection that have term as their root element. This allows us to put other data types within the data collection without disrupting this report.
 
@@ -126,7 +126,7 @@ Our next step is to change each of the items listed into HTML links so that we c
 
 This produces the following output:
 
-![](resources/list-items-links.png)
+![](../resources/list-items-links.png)
 
 This has the effect of taking each term's ID and using it as a RESTful parameter, so that when a user selects this link, the link to the view-item.xq query will include the ID, and the query will know which term to display. We will use the same technique many times. Note that this uses a relative path to the view-item.xq program. So it is important to keep both the list items and the view items in the same collection for this to work correctly.
 
@@ -167,7 +167,7 @@ Our next step is to get the parameter from the URL to select the correct item. T
 
 This produces the following output:
 
-![](resources/view-item.png)
+![](../resources/view-item.png)
 
 ## Searching Items
 
@@ -252,7 +252,7 @@ If you are not familiar with the eXist-db Sandbox you can also run the following
         </body>
     </html>
 
-![](resources/reindex-result.png)
+![](../resources/reindex-result.png)
 
 ### The Search Form
 
@@ -276,7 +276,7 @@ The search form is a simple HTML form with one text field input and one submit b
 
 The following image shows a blank search screen form. To perform a search, the user simply enters one or more keywords into the search form and clicks the search button (or presses the enter key).
 
-![](resources/search.png)
+![](../resources/search.png)
 
 If you put a keyword in the input field the following URL will get generated:
 
@@ -327,7 +327,7 @@ The search service is an XQuery script that calls the fulltext search function.
 
 The form will then pass the search keyword(s) to the search service. The search service will return a series of search results, with one result per hit. Each result is also a link to the item-viewer service.
 
-![](resources/search-results.png)
+![](../resources/search-results.png)
 
 ## Editing
 
@@ -341,7 +341,7 @@ The Edit query is the most complex file in this application. It must perform sav
 
 To understand how the edit.xq script works it is first important to understand how the XForms standard uses Model-View-Binding to associate a user interface control with an XML instance inside the model. This is illustrated in the figure below.
 
-![](resources/model-view-bindings.png)
+![](../resources/model-view-bindings.png)
 
 In the form, the XML data that the form allows the user to modify is loaded into an **&lt;xs:instance&gt;** element within the **&lt;xf:model&gt;**. This is specified using the **src** attribute. Inside the body of the form, each of the user interface controls (an output, input, textarea and select1 control) have a **ref** attribute. This attribute contains the XPath expression of the element it corresponds to within the model.
 
@@ -689,7 +689,7 @@ A simple application home page can be a description of the application and a sta
         </body>
     </html>
 
-![](resources/index.png)
+![](../resources/index.png)
 
 ## Next Steps
 

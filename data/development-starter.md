@@ -32,7 +32,7 @@ From the main menu, select Application/New Application. The Deployment Editor di
 
 Fill out the form by choosing a template, a target collection, a name, an abbreviation and a title for the application. All other form fields and pages are optional, so you can ignore them for now.
 
-![Deployment Editor Dialog](resources/new-application-screen.png)
+![Deployment Editor Dialog](../resources/new-application-screen.png)
 
 The important fields are:
 
@@ -58,15 +58,15 @@ Click on Done when you have completed the form. eXide will now generate a collec
 
 In the following, we assume that the app has been called "Tutorial" and its abbreviation is "tutorial".
 
-![Open Document Dialog after generating application](resources/new-application-completed.png)
+![Open Document Dialog after generating application](../resources/new-application-completed.png)
 
-![Run Dialog](resources/new-application-run.png)
+![Run Dialog](../resources/new-application-run.png)
 
 To test if the application has been generated properly, select the `index.html` page of the new app in the open dialog and load it into eXide. With `index.html` open, select Application/Run App from the menu. A small dialog box will pop up, showing you a link to the application.
 
 Click on the link to run the application in a separate browser tab.
 
-![The Default Start Page of the Application](resources/new-application-home.png)
+![The Default Start Page of the Application](../resources/new-application-home.png)
 
 All the items in the Application menu apply to the active app, which is the application to which the file currently open in the editor belongs. You can check which app is active by looking at the "Current app:" status label at the top right of the eXide window.
 
@@ -110,7 +110,7 @@ The generated application code uses the [HTML Templating Framework](templating.m
 
 The `controller.xql` is configured to call the HTML templating for every URL ending with `.html`. The processing flow for an arbitrary `.html` file is shown below:
 
-![Processing Flow](resources/Templating.png)
+![Processing Flow](../resources/Templating.png)
 
 The input for the templating is always a plain HTML file. The module scans the HTML view for elements with class attributes, following a simple convention. It tries to translate the class attributes into XQuery function calls. By using class attributes, the HTML remains sufficiently clean and does not get messed up with application code. A web designer could take the HTML files and work on them without being bothered by the extra class names.
 
@@ -169,7 +169,7 @@ Once you have created the first pages of an application, it is usually a good id
 
 To create an export to a directory on the file system, click Application/Synchronize. In the popup dialog, fill in the path to the desired *Target directory*. If you are accessing eXist-db on a server, not the machine you are opening eXide in, this must point to a directory on the server running eXist-db, not your local file system. If you are running eXist from your own machine, the two are the same. The *Start time* can be ignored for now. It may show the time of your last export if you call synchronize again on the same application.
 
-![Synchronize Dialog](resources/sync-dialog.png)
+![Synchronize Dialog](../resources/sync-dialog.png)
 
 Clicking on Synchronize will start the export and the names of the written resources should show up in the table at the bottom of the dialog.
 
