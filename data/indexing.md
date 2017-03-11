@@ -44,15 +44,12 @@ To configure a given collection - e.g. `/db/foo` - create a file `collection.xco
 
 ### Maintaining Indexes and Re-indexing
 
-|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |     |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----|
-| The eXist-db index system automatically maintains and updates indexes defined by the user. You therefore do not need to update an index when you update a database document or collection. eXist-db will even update indexes following partial document updates via *XUpdate* or *XQuery Update* expressions.                                                                                                                                                                                                                                                         
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
- The only exception to eXist-db's automatic update occurs when you *add a new index definition to an existing database collection*. In this case, the new index settings will *only* apply to new data added to this collection, or any of its sub-collections, and *not* to previously existing data. To apply the new settings to the entire collection, you need to trigger a "manual reindex" of the collection being updated. You can re-index collections using the Java Admin Client (shown on the right). From the Admin menu, select File»Reindex Collection.  
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
- You can also index by passing an XQuery to eXist-db:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
- xmldb:reindex('/db/foo')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |     |
+The eXist-db index system automatically maintains and updates indexes defined by the user. You therefore do not need to update an index when you update a database document or collection. eXist-db will even update indexes following partial document updates via *XUpdate* or *XQuery Update* expressions.
+
+The only exception to eXist-db's automatic update occurs when you *add a new index definition to an existing database collection*. In this case, the new index settings will *only* apply to new data added to this collection, or any of its sub-collections, and *not* to previously existing data. To apply the new settings to the entire collection, you need to trigger a "manual reindex" of the collection being updated. You can re-index collections using the Java Admin Client (shown on the right). From the Admin menu, select File » Reindex Collection.
+
+You can also index by passing an XQuery to eXist-db:                                                                                                                                                                                                            ```xquery
+xmldb:reindex('/db/foo')                                                                                                        ```
 
 ### General Configuration Structure and Syntax
 
@@ -125,26 +122,12 @@ Click Refresh and switch to the Indexes tab.
 
 The table provides the following information:
 
-Source  
-The query containing the expression. The line/column of the expression is given in brackets. For queries stored in the database, the file name will be shown. Dynamically executed queries are displayed with the name "String".
-
-Index  
-Type of the index used: "range" for the old range index, "new-range" for the new range index, "lucene" for the full text index.
-
-Optimization  
-Either "Full", "Basic", or "No index". The meaning of those labels is as follows:
-
--   "Full": the expression was rewritten by the optimizer to make full use of the index. This is the best you can achieve.
-
--   "Basic": the index was used, but the expression was not rewritten by the optimizer. This is better than "No index" but still several times slower than "Full". Most probably the context of the expression was too complex to rewrite it.
-
--   "No index": no index defined. Expression is evaluated in "brute force" mode.
-
-Calls  
-The number of calls to the expression.
-
-Elapsed time  
-The time elapsed for all calls together. The time is measured for the index lookup only. The absolute numbers are not reliable (due to measurement errors), but they show a tendency: if a lookup takes relatively longer than other expressions, it might be worth to optimize it with an index.
+| --- | --- |
+| Source | The query containing the expression. The line/column of the expression is given in brackets. For queries stored in the database, the file name will be shown. Dynamically executed queries are displayed with the name "String".
+| Index | Type of the index used: "range" for the old range index, "new-range" for the new range index, "lucene" for the full text index. |
+| Optimization | Either "Full", "Basic", or "No index". The meaning of those labels is as follows:- "Full": the expression was rewritten by the optimizer to make full use of the index. This is the best you can achieve.<br>- "Basic": the index was used, but the expression was not rewritten by the optimizer. This is better than "No index" but still several times slower than "Full". Most probably the context of the expression was too complex to rewrite it.<br>- "No index": no index defined.  Expression is evaluated in "brute force" mode. |
+| Calls | The number of calls to the expression. |
+| Elapsed time | The time elapsed for all calls together. The time is measured for the index lookup only. The absolute numbers are not reliable (due to measurement errors), but they show a tendency: if a lookup takes relatively longer than other expressions, it might be worth to optimize it with an index. |
 
 ## Enabling Index Modules
 
