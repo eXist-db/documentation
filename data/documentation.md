@@ -4,6 +4,8 @@
 
 ### Screencasts
 
+![](https://img.youtube.com/vi/xvMau2aHRDo/1.jpg)
+
 For the first steps with your freshly installed eXist-db, we suggest to watch the screencasts available on the [eXist-db homepage](http://exist-db.org).
 
 If you are new to eXist-db, we recommend that you read these articles first:
