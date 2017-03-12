@@ -55,34 +55,34 @@ xmldb:reindex('/db/foo')                                                        
 
 Index configuration files are standard XML documents that have their elements and attributes defined by the eXist-db namespace:
 
-http://exist-db.org/collection-config/1.0
+    http://exist-db.org/collection-config/1.0
+
 The following example shows a configuration example:
 
-                            
-    <collection xmlns="http://exist-db.org/collection-config/1.0">
-        <index>
-            <!-- Full text index based on Lucene -->
-            <lucene>
-                <text qname="SPEECH">
-                    <ignore qname="SPEAKER"/>
-                </text>
-                <text qname="TITLE"/>
-            </lucene>
-            
-            <!-- Range indexes -->
-            <range>
-                <create qname="title" type="xs:string"/>
-                <create qname="author" type="xs:string"/>
-                <create qname="year" type="xs:integer"/>
-            </range>
+```xml
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <index>
+        <!-- Full text index based on Lucene -->
+        <lucene>
+            <text qname="SPEECH">
+                <ignore qname="SPEAKER"/>
+            </text>
+            <text qname="TITLE"/>
+        </lucene>
 
-            <!-- N-gram indexes -->
-            <ngram qname="author"/>
-            <ngram qname="title"/>
-        </index>
-    </collection>
+        <!-- Range indexes -->
+        <range>
+            <create qname="title" type="xs:string"/>
+            <create qname="author" type="xs:string"/>
+            <create qname="year" type="xs:integer"/>
+        </range>
 
-                        
+        <!-- N-gram indexes -->
+        <ngram qname="author"/>
+        <ngram qname="title"/>
+    </index>
+</collection>
+```
 
 All configuration documents documents have an index element directly below the root element, which encloses the index configuration. Only *one* index element is permitted in a document. Apart from the index configuration, the document may also contain settings not related to indexing, e.g. for triggers; these will not be covered here.
 
@@ -92,19 +92,18 @@ In the index element are elements that define the various index types. Each inde
 
 If the document to be indexed uses namespaces, you should add a `xmlns` declaration for each of the required namespaces to the index element:
 
-                                
-    <collection xmlns="http://exist-db.org/collection-config/1.0">
-        <index xmlns:atom="http://www.w3.org/2005/Atom">
-            <fulltext default="none" attributes="no">
-                <create qname="atom:title"/>
-            </fulltext>
-            <range>
-                <create qname="atom:id" type="xs:string"/>
-            </range>
-        </index>
-    </collection>
-
-                            
+```xml
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <index xmlns:atom="http://www.w3.org/2005/Atom">
+        <fulltext default="none" attributes="no">
+            <create qname="atom:title"/>
+        </fulltext>
+        <range>
+            <create qname="atom:id" type="xs:string"/>
+        </range>
+    </index>
+</collection>
+```
 
 The example configuration above creates two indexes on a collection of atom documents. The two elements which should be indexed are both in the `atom` namespace and we thus need to declare a mapping for this namespace. Please note that the `xmlns` namespace declarations have to be specified on the index element, not the create or fulltext elements.
 
@@ -142,30 +141,32 @@ Edit `extensions/indexes/local.build.properties`:
 
     # Spatial module
     include.index.spatial = false
-                            
 
-To include an index, change the corresponding property to "true".
+To include an index, change the corresponding property to `true`.
 
 Call the Ant build system once to regenerate the eXist-db libraries:
 
-build.sh
+    build.sh
+
 or
 
-build.bat
+    build.bat
+
 The build process should create a jar file for every index implementation in directory `lib/extensions`. For example, the spatial index is packaged into the jar `exist-spatial-module.jar`.
 
 Once the index module has been built, it can be announced to eXist-db. To activate an index plugin, it needs to be added to the modules section within the global configuration file `conf.xml`:
 
-                        <modules>
-        <module id="ngram-index" class="org.exist.indexing.ngram.NGramIndex"
-            file="ngram.dbx" n="3"/>
-        <!-- The full text index is always required and should
-             not be disabled. We still have some dependencies on
-             this index in the database core. These will be removed
-             once the redesign has been completed. -->
-        <module id="ft-legacy-index" class="org.exist.fulltext.FTIndex"/>
-    </modules>
-                    
+```xml
+<modules>
+    <module id="ngram-index" class="org.exist.indexing.ngram.NGramIndex"
+        file="ngram.dbx" n="3"/>
+    <!-- The full text index is always required and should
+         not be disabled. We still have some dependencies on
+         this index in the database core. These will be removed
+         once the redesign has been completed. -->
+    <module id="ft-legacy-index" class="org.exist.fulltext.FTIndex"/>
+</modules>
+```
 
 Every module element needs at least an `id` and `class` attribute. The class attribute contains the name of the plugin class, which has to be an implementation of `org.exist.indexing.Index`.
 
@@ -183,5 +184,8 @@ Technically, the structural index maps every element and attribute *qname* (or *
 
 For example, given the following query:
 
+```xquery
 //book/section
+```
+
 eXist-db uses two index lookups: the first for the book node, and the second for the section node. It then computes the *structural join* between these node sets to determine which section elements are in fact children of book elements.
