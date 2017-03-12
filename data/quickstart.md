@@ -78,13 +78,16 @@ Change (cd) to the directory where you installed eXist-db (e.g., "`/usr/local/li
 
 Just calling `start.jar` will start eXist-db via the desktop launcher:
 
-java -jar start.jar
+    java -jar start.jar
+
 If you want to launch eXist-db without a GUI, use the shell scripts in `bin/`. On Linux or Mac, enter the following:
 
-bin/startup.sh
+    bin/startup.sh
+
 If you are a Windows user, enter the following:
 
-bin\\startup.bat
+    bin\startup.bat
+
 For more information about these startup scripts, see [About the Scripts in the bin Directory](advanced-installation.md#bin-executables).
 
 > **Note**
@@ -117,8 +120,9 @@ From the [Dashboard App]({dashboard}): select the Shutdown button
 
 From the command line, run the `bin/shutdown.sh` (Linux/Mac) or `shutdown.bat` (DOS/Windows) shutdown scripts, using your admin account's username and password.
 
-bin/shutdown.sh -u admin -p youradminpassword
-bin/shutdown.bat -u admin -p youradminpassword
+    bin/shutdown.sh -u admin -p youradminpassword
+    bin/shutdown.bat -u admin -p youradminpassword
+
 From the command line, run the java command, using your admin account's password:
 
 java -jar start.jar shutdown -u admin -p youradminpassword
