@@ -246,11 +246,35 @@
                     <programlisting language="xml">&lt;range>
     &lt;create qname="tei:term">
         &lt;condition attribute="type" value="main"/>
-        &lt;field name="mainTerm" type="xs:string/>
+        &lt;field name="mainTerm" type="xs:string"/>
     &lt;/create>
 &lt;/range></programlisting>
                 </example></para>
                 <para>This will only index the value of the <code>tei:term</code> element if it has an attribute named <code>type</code> with the value <code>"main"</code>.  Multiple conditions can be specified in an index definition, in which case all conditions need to match in order for the value to be indexed. <para>In order to take advantage of query optimization for conditionally indexed fields, queries should be formulated like this:<synopsis>//tei:term[@type = "main"][. = "xyz"]</synopsis><para>which then gets rewritten to a call to <synopsis>range:field(("mainTerm"), "eq", "xyz")</synopsis></para></para></para>
+                <para>By default, condition matching is string-based and case sensitive. The following optional attributes can be specified on a <code>condition</code>: </para>
+                <variablelist>
+                    <varlistentry>
+                        <term>operator="eq|ne|lt|gt|le|ge|starts-with|ends-with|contains|matches"</term>
+                        <listitem>
+                            <para>Specifies the operator for the comparison. <code>matches</code> supports Java regular expressions.</para>
+                            <para>Default is <code>"eq"</code>.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>case="yes|no"</term>
+                        <listitem>
+                            <para>Turns case sensitivity on or off for string comparisons. </para>
+                            <para>Default is <code>"yes"</code>.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>numeric="yes|no"</term>
+                        <listitem>
+                            <para>Turns numeric comparison on or off for equality and ordinal comparisons (<code>eq, ne, lt, gt, le, ge</code>). When enabled, 01.0 will equal 1 and 2 will be less than 110 for example. The rewriter will respect the type of the value (string, numeric) when matching a condition to a predicate. </para>
+                            <para>Default is <code>"off"</code>.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
             </section>
         </section>
         <section>
