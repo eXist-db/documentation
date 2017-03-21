@@ -1,25 +1,20 @@
-eXist-db / documentation
-=============
+eXist-db Documentation
+======================
 
-This is the (official) documentation project for the eXist-db Natice XML database.
+This repository contains the official documentation for the eXist-db Native XML database and the application for browsing it.
 
-The documentation is deployed as an XAR file. The XAR file is built with "ant":
+## Resources
 
-```
-ant
-Buildfile: /Users/myhome/GitHub/documentation/build.xml
+- Browse the latest release of the documentation at http://exist-db.org/exist/apps/doc/. 
+- The documentation app is included by default in the eXist-db installer. Just go to your eXist server's Dashboard and select Documentation.
+- Update to the latest release via the eXist-db package manager or via the eXist-db.org public app repository at <http://exist-db.org/exist/apps/public-repo/>.
 
-xar:
-     [copy] Copying 1 file to /Users/myhome/GitHub/documentation
-      [zip] Building zip: /Users/myhome/GitHub/documentation/build/doc-0.3.3.xar
+## Building from source
 
-all:
+- Dependencies: Apache Ant, eXist 2.2+
+- Clone the repository to your system
+- From the command line, call `ant`
+- An EXPath Application Package (.xar file) is deposited in the `build` directory
+- Install this file via the Dashboard > Package Manager.
 
-BUILD SUCCESSFUL
-Total time: 1 second
-```
-
-Contributions are very welcome using the GitHub Pull Request mechanism.
-
-The documentation is accessible via http://exist-db.org/exist/apps/doc/ ; A pre-built version can be obtained via the eXist-db package manager or via the public App Repository http://exist-db.org/exist/apps/public-repo/  
-
+Find an area of the documentation that needs to be improved? Please raise an issue and submit a pull request!
