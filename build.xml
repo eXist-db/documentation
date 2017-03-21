@@ -2,8 +2,6 @@
 <project default="all" name="eXist-db Documentation">
     <property file="local.build.properties"/>
     <property file="build.properties"/>
-    <property name="project.app" value="doc"/>
-    <property name="project.version" value="0.4.7"/>
     <property name="build" value="build"/>
     <property name="data" value="data"/>
     <property name="server.url" value="http://demo.exist-db.org/exist/apps/public-repo/public/"/>
@@ -23,10 +21,11 @@
         <mkdir dir="${build}"/>
         <copy file="expath-pkg.xml.tmpl" tofile="expath-pkg.xml" filtering="true" overwrite="true">
             <filterset>
+                <filter token="project.name" value="${project.name}"/>
                 <filter token="project.version" value="${project.version}"/>
             </filterset>
         </copy>
-        <zip basedir="." destfile="${build}/${project.app}-${project.version}${git.commit}.xar">
+        <zip basedir="." destfile="${build}/${project.name}-${project.version}${git.commit}.xar">
             <exclude name="${build}/*"/>
             <exclude name=".git*"/>
             <exclude name="*.tmpl"/>
@@ -37,7 +36,7 @@
         <input message="Enter password:" addproperty="server.pass" defaultvalue="">
             <handler type="secure"/>
         </input>
-        <property name="xar" value="${project.app}-${project.version}${git.commit}.xar"/>
+        <property name="xar" value="${project.name}-${project.version}${git.commit}.xar"/>
         <exec executable="curl">
             <arg line="-T ${build}/${xar} -u admin:${server.pass} ${server.url}/${xar}"/>
         </exec>
