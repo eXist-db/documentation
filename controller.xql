@@ -34,11 +34,10 @@ else if ($exist:path eq "/") then
         </error-handler>
     </dispatch>
 
-(: Pass all requests to XML files through to view.xql, which handles HTML templating :)
+(: Pass all requests to md files through to view.xql, which handles HTML templating :)
 else if (ends-with($exist:resource, ".md")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{$exist:controller}/templates/content.html">
-        </forward>
+        <forward url="{$exist:controller}/templates/content.html"/>
         <view>
             <!-- pass the results through view.xql -->
 			<forward url="{$exist:controller}/modules/view.xql">

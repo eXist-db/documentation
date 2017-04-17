@@ -13,11 +13,10 @@ import module namespace templates="http://exist-db.org/xquery/templates" at "tem
 declare 
     %public %templates:default("field", "all")
 function md:load($node as node(), $model as map(*), $q as xs:string?, $doc as xs:string?, $field as xs:string) {
-    let $path := $config:data-root || "/" || $doc
+    let $path := $config:data-root || "/" || replace($doc, '\.md$', '.xml')
     return
-        if (exists($doc) and util:binary-doc-available($path)) then
-            let $markdown := util:binary-to-string(util:binary-doc($path))
-            let $html := markdown:parse($markdown)
+        if (exists($doc) and doc-available($path)) then
+            let $html := doc($path)
             return
                 map { "doc": $html, "doc-title": $html//h1[1]/string() }
         else
@@ -36,8 +35,25 @@ declare %public function md:to-html($node as node(), $model as map(*)) {
 declare %public function md:toc($node as node(), $model as map(*)) {
     <div>
         <h3>Contents</h3>
-        <ul>{
-            $model("doc")//(h1|h2|h3) ! <li>{./string()}</li>
-        }</ul>
+        {
+        md:print-sections($model("doc")/body/section/section)
+        }
     </div>
+};
+
+declare %private function md:print-sections($sections as element()*) {
+    if ($sections) then
+        <ul class="toc">
+        {
+            for $section in $sections
+            let $id := head($section/*)/@id
+            return
+                <li>
+                    <a href="#{$id}">{ head($section/*)/text() }</a>
+                    { md:print-sections($section/section) }
+                </li>
+        }
+        </ul>
+    else
+        ()
 };

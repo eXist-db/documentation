@@ -187,9 +187,12 @@
         <script type="text/javascript" src="$shared/resources/scripts/ace/mode-xml.js"/>
         <script type="text/javascript" src="$shared/resources/scripts/ace/theme-tomorrow_night.js"/>
         <script type="text/javascript" src="$shared/resources/scripts/highlight.js"/>
+        <script src="resources/scripts/anchor.min.js"/>
         <script type="text/javascript">
             $(document).ready(function () {
                 $(".code").highlight();
+                anchors.options.placement = 'left';
+                anchors.add();
             });
         </script>
     </body>
