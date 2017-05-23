@@ -109,11 +109,13 @@ Logging already initialized. Skipping...
                             Files\eXist</filename>, the server will look for <filename>C:\Program
                                 Files\eXist\conf.xml</filename>. You can set EXIST_HOME in the same way
                         that you set JAVA_HOME. On macOS depending on how you installed eXist, you would open terminal and enter either:
-                        <synopsis>export EXIST_HOME=/Applications/eXist</synopsis> for JAR based installs, or
-                        <synopsis>export EXIST_HOME=/Applications/eXist-db.app/Contents/Resources/eXist-db</synopsis> for DMG and homebrew installs.</para>
+                        <synopsis format="linespecific">export EXIST_HOME=/Applications/eXist</synopsis> for JAR based installs, or
+                        <synopsis format="linespecific">export EXIST_HOME=/Applications/eXist-db.app/Contents/Resources/eXist-db</synopsis> for DMG and homebrew installs.</para>
                 </listitem>
             </itemizedlist>
-            <para>You should also ensure that you have "write" permissions set for the <filename moreinfo="none">data</filename> directory located in <filename moreinfo="none">webapp/WEB-INF/</filename>.</para>
+            <para>You should also ensure that you have "write" permissions set for the <filename moreinfo="none">data</filename> directory located in <filename moreinfo="none">webapp/WEB-INF/</filename>.
+                for instructions on how to change a folder's permissions on Windows see this <ulink url="http://www.howto-connect.com/windows-10-configure-user-permissions-for-files-folders/">guide</ulink>; 
+                on macOS (and Linux) see this <unlink url="http://www.macinstruct.com/node/415">guide</unlink>.</para>
         </section>
         <section id="port-conflicts">
             <title>Port Conflicts</title>
