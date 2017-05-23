@@ -59,9 +59,9 @@ Logging already initialized. Skipping...
         <section id="db-locked">
             <title>Database Refuses to Start</title>
             <para>If eXist-db was not shut down properly, it may start a recovery process to redo committed transactions and roll
-            back uncommitted ones. If an inconsistency is found during this process, eXist-db will automatically abort the startup
-            and print out a warning. This emergency stop is done to avoid potential damage and give an administrator a chance to check
-            the db and create a backup. It does not necessarily indicate a real problem. In most cases, the db should be ok and restarting it will be save.</para>
+                back uncommitted ones. If an inconsistency is found during this process, eXist-db will automatically abort the startup
+                and print out a warning. This emergency stop is done to avoid potential damage and give an administrator a chance to check
+                the db and create a backup. It does not necessarily indicate a real problem. In most cases, the db should be ok and restarting it will be save.</para>
             <para>However, we definitely recommend to run a <ulink url="backup.xml#consistency-check">consistency check</ulink> in those cases. If inconsistencies are found, make sure you
                 have a backup before continuing. If only one or two resources are affected, it might still be ok to restart, but it's
                 good to have a backup just in case.</para>
@@ -96,7 +96,9 @@ Logging already initialized. Skipping...
                     <para>
                         <envar>JAVA_HOME</envar> should point to the directory where Java—the JRE or JDK—is
                         installed. For instructions about how to set JAVA_HOME on
-                        Windows, follow the instructions in this <ulink url="http://confluence.atlassian.com/display/DOC/Setting+the+JAVA_HOME+Variable+in+Windows">guide</ulink>; on Linux, follow this <ulink url="http://www.cyberciti.biz/faq/linux-unix-set-java_home-path-variable/">guide</ulink>, and on macOS, follow this <ulink url="http://www.mehtanirav.com/2008/09/02/setting-java_home-on-mac-os-x-105">guide</ulink>. </para>
+                        Windows, follow the instructions in this <ulink url="http://confluence.atlassian.com/display/DOC/Setting+the+JAVA_HOME+Variable+in+Windows">guide</ulink>; 
+                        on Linux, follow this <ulink url="http://www.cyberciti.biz/faq/linux-unix-set-java_home-path-variable/">guide</ulink>, 
+                        and on macOS, follow this <ulink url="http://osxdaily.com/2015/07/28/set-enviornment-variables-mac-os-x/">guide</ulink>.</para>
                 </listitem>
                 <listitem>
                     <para>
@@ -106,8 +108,9 @@ Logging already initialized. Skipping...
                         example, if the <envar>EXIST_HOME</envar> path is <filename>C:\Program
                             Files\eXist</filename>, the server will look for <filename>C:\Program
                                 Files\eXist\conf.xml</filename>. You can set EXIST_HOME in the same way
-                        that you set JAVA_HOME; thus, on macOS, you would enter "export
-                        EXIST_HOME=/Applications/eXist" in the Terminal. </para>
+                        that you set JAVA_HOME. On macOS depending on how you installed eXist, you would open terminal and enter either:
+                        <synopsis>export EXIST_HOME=/Applications/eXist</synopsis> for JAR based installs, or
+                        <synopsis>export EXIST_HOME=/Applications/eXist-db.app/Contents/Resources/eXist-db</synopsis> for DMG and homebrew installs.</para>
                 </listitem>
             </itemizedlist>
             <para>You should also ensure that you have "write" permissions set for the <filename moreinfo="none">data</filename> directory located in <filename moreinfo="none">webapp/WEB-INF/</filename>.</para>
@@ -151,16 +154,16 @@ Logging already initialized. Skipping...
         <section id="memory">
             <title>Out of Memory</title>
             <para>Running out of memory typically throws Java into an inconsistent state: some threads may still be alive and continue
-            to run while others have died. It is thus important to avoid memory errors up front by checking the memory consumption of
-            your queries before they go into production. Should you encounter an out of memory error, please make sure to restart
-            eXist and follow the emergency procedure.</para>
+                to run while others have died. It is thus important to avoid memory errors up front by checking the memory consumption of
+                your queries before they go into production. Should you encounter an out of memory error, please make sure to restart
+                eXist and follow the emergency procedure.</para>
             <section>
                 <title>Streaming Large Files</title>
                 <para>If you have to generate large binaries, e.g. a ZIP or PDF, from within an XQuery, please ensure the content
                     does not need to be kept in memory. There are various XQuery functions which directly stream to the HTTP response.</para>
                 <para>There's also a known issue with the betterform XForms filter caching every HTTP response. To work around this,
-                your XQuery should be run via an URL which is not processed by the XForms filter: either disable the filter or use
-                /rest or /restxq.</para>
+                    your XQuery should be run via an URL which is not processed by the XForms filter: either disable the filter or use
+                    /rest or /restxq.</para>
             </section>
         </section>
         <section id="emergency">
@@ -170,50 +173,50 @@ Logging already initialized. Skipping...
             <procedure>
                 <step>
                     <para>Check if a query is running wild and try to kill it. This can be done either through the
-                    "Scheduler" plugin in the dashboard, or the "Running Jobs" section in the "Admin Web Client". Try to kill
-                    the query there and wait for a minute if the system returns to normal operations:</para>
+                        "Scheduler" plugin in the dashboard, or the "Running Jobs" section in the "Admin Web Client". Try to kill
+                        the query there and wait for a minute if the system returns to normal operations:</para>
                     <graphic fileref="resources/schedulerplugin.png"/>
                 </step>
                 <step>
                     <para>Attempt to trigger a proper shutdown either via the system tray icon or the dashboard. Wait for at least
-                    3 minutes. Even if eXist-db does not stop completely, it may still be able to complete the shutdown procedure
-                    for the core database.</para>
+                        3 minutes. Even if eXist-db does not stop completely, it may still be able to complete the shutdown procedure
+                        for the core database.</para>
                 </step>
                 <step>
                     <para>It may now be safe to kill the eXist-db process. Check the logs to see if the database has properly 
-                    shut down. The last message in the logs would indicate this.</para>
+                        shut down. The last message in the logs would indicate this.</para>
                 </step>
                 <step>
                     <para>If the logs indicate a proper shutdown: before restarting, remove any <filename>.log</filename> and
-                    <filename>.lck</filename> files from the data directory. This will prevent a recovery run, which would certainly take
-                    time.</para>
+                        <filename>.lck</filename> files from the data directory. This will prevent a recovery run, which would certainly take
+                        time.</para>
                 </step>
                 <step>
                     <para>Otherwise:</para>
                     <itemizedlist>
                         <listitem>
                             <para>You are sure you have no valuable changes in this db instance, e.g. because it's a development system:
-                            follow the step above and remove the <filename>.log</filename> files before restart to reduce startup time.</para>
+                                follow the step above and remove the <filename>.log</filename> files before restart to reduce startup time.</para>
                         </listitem>
                         <listitem>
                             <para>Before restart, archive the contents of the data directory: you may need them if anything goes wrong. Restart 
                                 the database but be prepared for a recovery run, which may take considerable time (depending on the size of
-                            your db).</para>
+                                your db).</para>
                         </listitem>
                         <listitem>
                             <para>If inconsistencies are detected during the recovery, eXist will switch to read-only mode. In this case,
-                            stop it again and run a <ulink url="backup.xml#consistency-check">consistency check</ulink>, which can also create a low-level backup.</para>
+                                stop it again and run a <ulink url="backup.xml#consistency-check">consistency check</ulink>, which can also create a low-level backup.</para>
                             <para>If the consistency check reports a number of errors, eXist may still be able to run, but there might
-                            be errors in the data structures. So please prepare for a complete restore into a clean data directory
-                            as soon as you can take the database offline for maintenance.</para>
+                                be errors in the data structures. So please prepare for a complete restore into a clean data directory
+                                as soon as you can take the database offline for maintenance.</para>
                         </listitem>
                     </itemizedlist>
                 </step>
             </procedure>
             <warning>
                 <para>Do not repeatedly kill the database. If it does not come up immediately, it may run recovery. This can take some
-                time. Killing eXist during recovery will most likely result in additional damages. Always check the logs and console output 
-                to see what eXist is doing before you kill it.</para>
+                    time. Killing eXist during recovery will most likely result in additional damages. Always check the logs and console output 
+                    to see what eXist is doing before you kill it.</para>
             </warning>
         </section>
     </chapter>
