@@ -464,7 +464,7 @@ return
                             cache-control element is used to tell XQueryURLRewrite if the current
                             URL rewrite should be cached. Internally, XQueryURLRewrite keeps a map
                             of input URIs to dispatch rules. With the cache enabled, the controller
-                            XQuery does only need to be executed once for every input URI.
+                            XQuery only needs to be executed once for every input URI.
                             Subsequent requests will use the cache.</para>
                         <para>However, only the URL rewrite rule is cached, not the HTTP response.
                             The cache-control setting has nothing to do with the corresponding HTTP
