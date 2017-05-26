@@ -63,7 +63,7 @@
                     </listitem>
                     <listitem>
                         <para>
-                            <emphasis>trigger:after-copy-collection($new-uri as xs:anyURI, $uri as xs:anyURI)</emphasis>
+                            <emphasis>trigger:after-copy-collection($uri as xs:anyURI, $new-uri as xs:anyURI)</emphasis>
                         </para>
                     </listitem>
                     <listitem>
@@ -73,7 +73,7 @@
                     </listitem>
                     <listitem>
                         <para>
-                            <emphasis>trigger:after-move-collection($new-uri as xs:anyURI, $uri as xs:anyURI)</emphasis>
+                            <emphasis>trigger:after-move-collection($uri as xs:anyURI, $new-uri as xs:anyURI)</emphasis>
                         </para>
                     </listitem>
                     <listitem>
@@ -113,7 +113,7 @@
                     </listitem>
                     <listitem>
                         <para>
-                            <emphasis>trigger:after-copy-document($new-uri as xs:anyURI, $uri as xs:anyURI)</emphasis>
+                            <emphasis>trigger:after-copy-document($uri as xs:anyURI, $new-uri as xs:anyURI)</emphasis>
                         </para>
                     </listitem>
                     <listitem>
@@ -123,7 +123,7 @@
                     </listitem>
                     <listitem>
                         <para>
-                            <emphasis>trigger:after-move-document($new-uri as xs:anyURI, $uri as xs:anyURI)</emphasis>
+                            <emphasis>trigger:after-move-document($uri as xs:anyURI, $new-uri as xs:anyURI)</emphasis>
                         </para>
                     </listitem>
                     <listitem>
@@ -299,7 +299,7 @@ declare function trigger:before-copy-collection($uri as xs:anyURI, $new-uri as x
     local:log-event("before", "copy", "collection", concat("from: ", $uri, " to: ", $new-uri))
 };
 
-declare function trigger:after-copy-collection($new-uri as xs:anyURI, $uri as xs:anyURI) {
+declare function trigger:after-copy-collection($uri as xs:anyURI, $new-uri as xs:anyURI) {
     local:log-event("after", "copy", "collection", concat("from: ", $uri, " to: ", $new-uri))
 };
 
@@ -307,7 +307,7 @@ declare function trigger:before-move-collection($uri as xs:anyURI, $new-uri as x
     local:log-event("before", "move", "collection", concat("from: ", $uri, " to: ", $new-uri))
 };
 
-declare function trigger:after-move-collection($new-uri as xs:anyURI, $uri as xs:anyURI) {
+declare function trigger:after-move-collection($uri as xs:anyURI, $new-uri as xs:anyURI) {
     local:log-event("after", "move", "collection", concat("from: ", $uri, " to: ", $new-uri))
 };
 
@@ -339,7 +339,7 @@ declare function trigger:before-copy-document($uri as xs:anyURI, $new-uri as xs:
     local:log-event("before", "copy", "document", concat("from: ", $uri, " to: ", $new-uri))
 };
 
-declare function trigger:after-copy-document($new-uri as xs:anyURI, $uri as xs:anyURI) {
+declare function trigger:after-copy-document($uri as xs:anyURI, $new-uri as xs:anyURI) {
     local:log-event("after", "copy", "document", concat("from: ", $uri, " to: ", $new-uri))
 };
 
@@ -347,7 +347,7 @@ declare function trigger:before-move-document($uri as xs:anyURI, $new-uri as xs:
     local:log-event("before", "move", "document", concat("from: ", $uri, " to: ", $new-uri))
 };
 
-declare function trigger:after-move-document($new-uri as xs:anyURI, $uri as xs:anyURI) {
+declare function trigger:after-move-document($uri as xs:anyURI,　$new-uri as xs:anyURI) {
     local:log-event("after", "move", "document", concat("from: ", $uri, " to: ", $new-uri))
 };
 
