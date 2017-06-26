@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
@@ -196,6 +195,41 @@
                     </screenshot>
                 </para>
             </section>
+        </section>
+        <section id="serialization">
+            <title>Serialization</title>
+            <para>
+                When retrieving an XML document via the WebDAV interface, the default serialization settings as defined
+                in <ulink url="configuration.xml#conf.xml">conf.xml</ulink> are effective. It is possible to define 
+                specific for the WebDAV interface custom serialization settings.  
+            </para>
+            <para>
+                Copy the file <filename>extensions/webdav/webdav.properties</filename> into the <filename>$EXIST_HOME</filename> directory and uncomment/modify the
+                parameters. Changes in this file requires a restart of eXist-db.
+            </para>
+            <para>
+                <example>
+                    <title>webdav.properties</title>
+                    <programlisting>
+                        <markup>## XML Serialization options for the WevDAV
+## The file is read from EXIST_HOME
+## Be carefull changing the default values !
+indent=no
+expand-xincludes=no
+process-xsl-pi=no
+encoding=UTF-8
+omit-xml-declaration=no</markup>
+                    </programlisting>
+                </example>
+            </para>
+           
+        </section>
+        <section id="notes">
+            <title>Notes</title>
+            <para>
+                From the <ulink url="https://github.com/eXist-db/exist/issues/1442">community</ulink> we have received feedback that the WebDAV interface
+                 is not (fully) function when it is accessed via a reverse proxy. 
+            </para>         
         </section>
     </chapter>
 </book>
