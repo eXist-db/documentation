@@ -125,13 +125,29 @@ Logging already initialized. Skipping...
                 down the service in question or make eXist-db use another port. To make eXist-db use
                 another port, open the file <filename moreinfo="none">/tools/jetty/etc/jetty-http.xml</filename> inside your eXist-db installation in a
                 text or XML editor and change the value "8080" in</para>
-            <synopsis format="linespecific">&lt;Set name="port"&gt;&lt;SystemProperty name="jetty.port" default="8080"/&gt;&lt;/Set&gt;</synopsis>
+            <synopsis format="linespecific">
+                &lt;Set name="port"&gt;
+                    &lt;Property name="jetty.http.port" deprecated="jetty.port"&gt;
+                        &lt;Default&gt;
+                            &lt;SystemProperty name="jetty.port" default="8080"/&gt;
+                        &lt;/Default&gt;
+                    &lt;/Property&gt;
+                &lt;/Set&gt;
+            </synopsis>
             <para>to a port that is not used, e.g. "8899":</para>
             <synopsis format="linespecific">&lt;Set name="port"&gt;&lt;SystemProperty name="jetty.port" default="8899"/&gt;&lt;/Set&gt;</synopsis>
             <para>eXist-db uses port 8443 for confidential communication. Another service may also
-                be using this port. To make eXist-db use another port, open the file <filename moreinfo="none">/tools/jetty/etc/jetty-https.xml</filename> and change the value
+                be using this port. To make eXist-db use another port, open the file <filename moreinfo="none">/tools/jetty/etc/jetty-ssl.xml</filename> and change the value
                 "8443" in</para>
-            <synopsis format="linespecific">&lt;Set name="confidentialPort"&gt;8443&lt;/Set&gt;</synopsis>
+            <synopsis format="linespecific">
+                &lt;Set name="port"&gt;
+                    &lt;Property name="jetty.ssl.port deprecated="ssl.port"&gt;
+                        &lt;Default&gt;
+                            &lt;SystemProperty name="jetty.ssl.port" deprecated="ssl.port" default="8443"/&gt;
+                        &lt;/Default&gt;
+                    &lt;/Property&gt;
+                &lt;/Set&gt;
+            </synopsis>
             <para>and</para>
             <synopsis format="linespecific">&lt;Set name="Port"&gt;8443&lt;/Set&gt;</synopsis>
             <para>to a port that is not used, e.g. "8444".</para>
