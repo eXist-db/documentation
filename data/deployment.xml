@@ -123,9 +123,10 @@
             <para>The standard distribution does by default launch eXist-db as a web application
                 deployed in a servlet container (if you start eXist via <filename>bin/startup.sh</filename> or <filename>bin\startup.bat</filename>). The
                 container used is <ulink url="http://jetty.mortbay.org/">Jetty</ulink>.</para>
-            <para>The Jetty configuration can be found in <filename>tools/jetty/etc/jetty.xml</filename>.
-                It defines a single web application context <command>/exist</command>, mapped to the
-                    <filename>webapp</filename> directory.</para>
+            <para>The Jetty configuration can be found in <filename>tools/jetty/webapps/exist-webapp-context.xml</filename>.
+                It defines a single web application context value <command>&lt;Set name="contextPath"&gt;/exist&lt;/Set&gt;</command>, mapped to the
+                    <filename>webapp</filename> directory. This value can be set to either <command>/exist</command> or 
+		    <command>/</command>.</para>
             <para>We think that Jetty is small, efficient and stable, so there's no need to switch
                 to a different servlet engine unless your server setup requires this. However, it is
                 not difficult to deploy eXist in a different servlet container, e.g. Apache's
