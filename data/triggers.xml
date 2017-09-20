@@ -43,7 +43,7 @@
             <section>
                 <title>XQuery Triggers</title>
                 <para>Triggers written in XQuery may be configured by using the org.exist.collections.triggers. XQueryTrigger to fire the XQuery.
-                The XQuery to be executed when the trigger is fired may either be placed in the collection.xconf itself or indicated by a URL.</para>
+                The XQuery to be executed when the trigger is fired may either be placed in the collectionconfiguration file and store it in the system collection itself or indicated by a URL.</para>
                 <para>The XQuery functions mapped to trigger event:</para>
                 <itemizedlist>
                     <listitem>
@@ -162,19 +162,10 @@
                 parent). It is furthermore possible for each collection in the hierarchy to have its
                 own <emphasis>trigger creation policy</emphasis> defined by a configuration file.</para>
             <para>To configure triggers for a given collection - for example:
-                <filename>/db/foo</filename> - create a new <filename>.xconf</filename>
-                configuration file and store it in the system collection (e.g.
-                    <filename>/db/system/config/db/foo/collection.xconf</filename>). You may choose any name for this
-                document so long as it has the <filename>.xconf</filename> extension, although
-                <filename>collection.xconf</filename> is recommended. Note that
+                <filename>/db/foo</filename> - create a new collection configuration file and store it in the system collection (i.e.:
+                    <filename>/db/system/config/db/foo/collection.xconf</filename>). Note that
                 since subcollections will inherit the configuration policy of their parent
                 collections, you are not required to specify a configuration for every collection.</para>
-            <note>
-                <para>You can store only ONE <filename>.xconf</filename> configuration document per
-                    collection in the system collection <filename>/db/system/config</filename>. For
-                    example, the collection <filename>/db/system/config/foo</filename> would contain
-                    one configuration file and/or other subcollections.</para>
-            </note>
             <section>
                 <title>Configuration Structure and Syntax</title>
                 <para>Trigger configuration files are standard XML documents that have their elements
