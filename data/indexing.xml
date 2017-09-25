@@ -106,7 +106,7 @@
                 documents in the system collection: <filename>/db/system/config</filename>, which
                 can be accessed like any other document (e.g. using the Admin interface or Java
                 Client). In addition to defining settings for indexing collections, the
-                configuration document specifies collection-specific other settings such as triggers
+                configuration document specifies other collection-specific settings such as triggers
                 or default permissions.</para>
             <para>The contents of the system collection (<filename>/db/system/config</filename>)
                 should mirror the hierarchical structure of the main collection. Configurations are shared
@@ -121,19 +121,13 @@
                 the <filename>/db/foo</filename> hierarchy inside <filename>/db/system/config/</filename>. Sub-collections which do not have a <filename>collection.xconf</filename> file of their own will be governed by the
                 configuration policy specified for the closest ancestor collection which does have
                 such a file, so you are not required to specify a configuration for every
-                collection. Note, however, that configuration settings do not cascade. If you choose
+                collection. Note, however, that configuration settings do not cascade, that is to say that a sub-collection
+                with a <filename>collection.xconf</filename>, will not inherit any settings from any ancestor collection
+                that has a <filename>collection.xconf</filename>; If you choose
                 to deploy a <filename>collection.xconf</filename> file in a sub-collection, you must
                 specify in that file <emphasis>all</emphasis> the configuration options you wish to
                 have applied to that sub-collection (and any lower-level sub-collections without
                     <filename>collection.xconf</filename> files of their own). </para>
-            <note>
-                <para>Due to backward compatibility concerns, the file does not have to be called
-                        <filename>collection.xconf</filename>, which is now the preferred file name,
-                    but it <emphasis>must</emphasis> have the <filename>.xconf</filename>
-                    extension.</para>
-                <para>You can only have <emphasis>one</emphasis>
-                    <filename>.xconf</filename> file at each level.</para>
-            </note>
             <section>
                 <title>Maintaining Indexes and Re-indexing</title>
                 <table>
