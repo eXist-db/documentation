@@ -167,7 +167,7 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term>createsubcollections</term>
+                    <term>createsub-collections</term>
                     <listitem>
                         <para>If set to "true", any non-existing sub-collections will
                       be automatically created.</para>
@@ -268,7 +268,7 @@
                 <varlistentry>
                     <term>collection</term>
                     <listitem>
-                        <para>The name of the subcollection which should be created.</para>
+                        <para>The name of the sub-collection which should be created.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -580,7 +580,7 @@
                 <title>Extract a Collection</title>
                 <programlisting>
                     <markup><![CDATA[<xdb:extract xmlns:xdb="http://exist-db.org/ant"
-    uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/shakespeare/plays" destdir="/tmp" subcollections="true" createdirectories="true"/>]]></markup>
+    uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/shakespeare/plays" destdir="/tmp" sub-collections="true" createdirectories="true"/>]]></markup>
                 </programlisting>
             </example>
             <variablelist>
@@ -591,7 +591,7 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term>subcollections</term>
+                    <term>sub-collections</term>
                     <listitem>
                         <para>If "true" all sub-collections of the specified collection
                       are extracted as well
@@ -1059,7 +1059,7 @@ target eXist-db instance">
 user="${p.target.user}"
 password="${p.target.pass}"
 createcollection="true"
-createsubcollections="true">
+createsub-collections="true">
 
 <fileset dir="${p.export.dir}"/>
 </xdb:store>
