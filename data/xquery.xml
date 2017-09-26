@@ -4,7 +4,7 @@
     <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
         <title>XQuery in eXist-db</title>
-        <date>October 2012</date>
+        <date>September 2017</date>
         <orgname>The eXist-db Project</orgname>
     </bookinfo>
     <chapter>
@@ -730,6 +730,11 @@ return $w</synopsis>
 "Bäuerin" &lt; "Bier"</synopsis>
             <para>Which returns <option>true</option>. Note that if you use the default codepoint
                 collation instead, the comparison would evaluate to <option>false</option>.</para>
+	<para>You can also use java class specified collators. They should be subclassing <option>java.text.RuleBasedCollator</option>. It will be used like this:</para>
+        <synopsis language="xquery">for $w in ("das", "daß", "Buch", "Bücher", "Bauer", "Bäuerin", "Jagen", "Jäger") 
+order by $w collation "java:f.c.d.n.MyRuleBasedGermanCollator" 
+return $w</synopsis>
+        <para>The jar with the .class file(s) of the collator needs to be in <filename>${EXIST_HOME}/lib/user</filename></para>
             <note>
                 <para>eXist-db's range index is currently only usable with the default codepoint
                     collation. This means that comparisons using a different collation will not be
