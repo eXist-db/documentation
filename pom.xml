@@ -90,6 +90,8 @@
                     <mapping>
                         <xq>xquery_style</xq>
                         <xqm>xquery_style</xqm>
+                        <xql>xquery_style</xql>
+                        <xconf>xml_style</xconf>
                     </mapping>
                     <excludes>
                         <exclude>pom.xml</exclude>
@@ -97,7 +99,34 @@
                         <exclude>LICENSE</exclude>
                         <exclude>xquery-license-style.xml</exclude>
                         <exclude>xar-assembly.xml</exclude>
+                        <exclude>**/*.ent</exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>xml-maven-plugin</artifactId>
+                <version>1.0.1</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>validate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <validationSets>
+                        <validationSet>
+                            <dir>src/main/xar-resources/data</dir>
+                            <excludes>
+                                <exclude>*.xq</exclude>
+                                <exclude>xinclude.xml</exclude>
+                            </excludes>
+                            <publicId>-//OASIS//DTD DocBook XML V4.5//EN</publicId>
+                            <systemId>${project.baseUri}/src/main/xsd/docbook.xsd</systemId>
+                        </validationSet>
+                    </validationSets>
                 </configuration>
             </plugin>
             <plugin>
