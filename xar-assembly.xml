@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://expath.org/ns/pkg" name="${package-name}" abbrev="${package-abbrev}" version="${project.version}"
+    spec="1.0">
+    <title>${package-title}</title>
+    <author id="exist-db">eXist-db</author>
+    <website>${project.url}</website>
+    <license>GNU Lesser General Public License, version 2.1</license>
+    <copyright>true</copyright>
+    <type>application</type>
+    <target>doc</target>
+    <status>stable</status>
+    <tag>${project.artifactId}</tag>
+    <tag>application</tag>
+    <tag>documentation</tag>
+    <category id="apps">Applications</category>
+    <category id="doc">Documentation</category>
+    <dependency package="http://exist-db.org/apps/shared" semver-min="0.4.0" />
+    <prepare>pre-install.xql</prepare>
+    <permissions user="admin" password="" group="dba" mode="rw-rw-r--"/>
+    <note>Note for users of eXist 2.x: When upgrading, please make sure you also updated the shared-resources package to > 0.4.0.</note>
+    <changelog>
+        <change version="0.4.7">
+            <ul xmlns="http://www.w3.org/1999/xhtml">
+                <li>No release notes prepared for this or any earlier versions.</li>
+            </ul>
+        </change>
+        <change version="0.4.8">
+            <ul xmlns="http://www.w3.org/1999/xhtml">
+                <li>[New Range Index]: Added full documentation for "conditional indexes," a new
+                    feature for limiting indexed values to elements meeting certain child attribute
+                    criteria.</li>
+                <li>[Quick Start]: Added a workaround for those with Saxon installed as a JRE
+                    extension; improved description of macOS first run &amp; default data directory
+                    location.</li>
+                <li>[Upgrading]: Added new section on how to upgrade to eXist 3.0 and important
+                    changes in this release.</li>
+                <li>[XQSuite]: Added descriptions of %test:stats and %test:assertXPath
+                    annotations.</li>
+                <li>[Lucene]: Fixed WhitespaceAnalyzer classname and the version of Lucene.</li>
+                <li>Across the board: Fixed name of macOS (was Mac OS X); reviewed mentions of v2.0
+                    and updated where appropriate to match current release</li>
+            </ul>
+        </change>
+    </changelog>
+
+    <fileSets>
+        <fileSet>
+            <directory>${basedir}</directory>
+            <includes>
+                <include>README.md</include>
+                <include>LICENSE</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${basedir}/src/main/xar-resources</directory>
+        </fileSet>
+    </fileSets>
+
+</package>
