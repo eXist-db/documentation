@@ -280,12 +280,12 @@
                         done by telling eXist-db which nodes are "inline" nodes. The example
                         configuration above defines:</para>
                     <synopsis>&lt;inline qname="b"/&gt;</synopsis>
-                </section>
-                <para>The <sgmltag>inline</sgmltag> option can be specified globally, which means it
-                    will be applied to all <sgmltag>b</sgmltag> elements, or per-index:</para>
-                <synopsis language="xml">&lt;text qname="p"&gt;
+                    <para>The <sgmltag>inline</sgmltag> option can be specified globally, which means it
+                        will be applied to all <sgmltag>b</sgmltag> elements, or per-index:</para>
+                    <synopsis language="xml">&lt;text qname="p"&gt;
     &lt;inline qname="em"/&gt;
 &lt;/text&gt;</synopsis>
+                </section>
                 <section>
                     <title>Ignored elements</title>
                     <para>Also, it is sometimes necessary to skip the content of an inlined element,
@@ -455,14 +455,14 @@
                     <para>We provide the capability to send configuration parameters to the instantiation of the Analyzer. These parameters must match a Constructor signature on the underlying Java class of the Analyzer, so we would first recommend that you review the Javadoc for the Analyzer that you wish to configure.</para>
                     <para>We currently support passing the following types: 
                     
-                    <ul>
-                            <li>"String" (default if no type is specified)</li>
-                            <li>"java.io.FileReader" (since Lucene 4) or "file"</li>
-                            <li>"java.lang.Boolean" or "boolean"</li>
-                            <li>"java.lang.Integer" or "int"</li>
-                            <li>"org.apache.lucene.analysis.util.CharArraySet" or "set"</li>
-                            <li>"java.lang.reflect.Field" </li>
-                        </ul>
+                    <itemizedlist>
+                        <listitem><para>"String" (default if no type is specified)</para></listitem>
+                        <listitem><para>"java.io.FileReader" (since Lucene 4) or "file"</para></listitem>
+                        <listitem><para>"java.lang.Boolean" or "boolean"</para></listitem>
+                        <listitem><para>"java.lang.Integer" or "int"</para></listitem>
+                        <listitem><para>"org.apache.lucene.analysis.util.CharArraySet" or "set"</para></listitem>
+                        <listitem><para>"java.lang.reflect.Field"</para></listitem>
+                        </itemizedlist>
                     The value <ulink url="http://lucene.apache.org/core/4_10_4/core/org/apache/lucene/util/Version.html#LUCENE_CURRENT">Version#LUCENE_CURRENT</ulink> is always added
                     as first parameter for the analyzer constructor, but a fall back mechanism is present for older analyzers. 
                     The previously valid values "java.io.File" and "java.util.Set" can not be used since Lucene 4.</para>
@@ -508,11 +508,11 @@
                             </markup>
                         </programlisting>
                     </example>
+                    <para>We will certainly add more features in the future, e.g. a possibility to
+                        construct a new analyzer from a set of filters. For the time being, you can
+                        always provide your own analyzer or use one of those supplied by Lucene or
+                        compatible software.</para>
                 </section>
-                <para>We will certainly add more features in the future, e.g. a possibility to
-                    construct a new analyzer from a set of filters. For the time being, you can
-                    always provide your own analyzer or use one of those supplied by Lucene or
-                    compatible software.</para>
             </section>
             <section id="named-indexes">
                 <title>Defining Fields</title>

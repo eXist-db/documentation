@@ -1,5 +1,5 @@
 <!-- $Id$ -->
-<book xmlns:dc="http://purl.org/dc/elements/1.1/">
+<book>
     <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
         <title>XQuery Extension Modules</title>
@@ -78,7 +78,7 @@
             <para>Demonstrates the simplest example of an Extension module with a single function. A good
         place to start if you wish to develop your own Extension Module.</para>
             <para>
-                <command>Creator:</command>&#160;<dc:creator>Wolfgang Meier</dc:creator>
+                <command>Creator:</command>&#160;<author><firstname>Wolfgang</firstname> <surname>Meier</surname></author>
                 <command>Licence:</command>&#160;LGPL <command>Status:</command>&#160;production </para>
             <para>
                 <command>Class:</command>&#160;org.exist.xquery.modules.example.ExampleModule
@@ -88,7 +88,7 @@
             <title>Cache Module</title>
             <para>Provides a global key/value cache</para>
             <para>
-                <command>Creator:</command>&#160;<dc:creator>Evgeny Gazdovsky</dc:creator>
+                <command>Creator:</command>&#160;<author><firstname>Evgeny</firstname> <surname>Gazdovsky</surname></author>
                 <command>Licence:</command>&#160;LGPL <command>Status:</command>&#160;production </para>
             <para>
                 <command>Class:</command>&#160;org.exist.xquery.modules.cache.CacheModule
@@ -98,7 +98,7 @@
             <title>Compression Module</title>
             <para>Provides additional operations for compression</para>
             <para>
-                <command>Creator:</command>&#160;<dc:creator>Adam Retter</dc:creator>
+                <command>Creator:</command>&#160;<author><firstname>Adam</firstname> <surname>Retter</surname></author>
                 <command>Licence:</command>&#160;LGPL <command>Status:</command>&#160;production </para>
             <para>
                 <command>Class:</command>&#160;org.exist.xquery.modules.compression.CompressionModule
@@ -110,7 +110,7 @@
         inter-XQuery communication. This extension is experimental at this time and has side effects
         (eg. not purely functional in nature). Use at own risk! </para>
             <para>
-                <command>Creator:</command>&#160;<dc:creator>Andrzej Taramina</dc:creator>
+                <command>Creator:</command>&#160;<author><firstname>Andrzej</firstname> <surname>Taramina</surname></author>
                 <command>Licence:</command>&#160;LGPL <command>Status:</command>&#160;experimental </para>
             <para>
                 <command>Class:</command>&#160;org.exist.xquery.modules.context.ContextModule
@@ -120,7 +120,7 @@
             <title>Date Time Module</title>
             <para>Provides additional operations on date and time types</para>
             <para>
-                <command>Creator:</command>&#160;<dc:creator>Adam Retter</dc:creator>
+                <command>Creator:</command>&#160;<author><firstname>Adam</firstname> <surname>Retter</surname></author>
                 <command>Licence:</command>&#160;LGPL <command>Status:</command>&#160;production </para>
             <para>
                 <command>Class:</command>&#160;org.exist.xquery.modules.datetime.DateTimeModule
@@ -130,7 +130,7 @@
             <title>EXI Module</title>
             <para>Provides additional operations to encode and decode Efficient XML Interchange format (EXI)</para>
             <para>
-                <command>Creator:</command>&#160;<dc:creator>Robert Walpole</dc:creator>
+                <command>Creator:</command>&#160;<author><firstname>Robert</firstname> <surname>Walpole</surname></author>
                 <command>Licence:</command>&#160;LGPL <command>Status:</command>&#160;production </para>
             <para>
                 <command>Class:</command>&#160;org.exist.xquery.modules.exi.EXIModule
@@ -142,8 +142,7 @@
         extension module could result in possible security issues, since it allows writing to the
         filesystem by xqueries!</para>
             <para>
-                <command>Creator:</command>&#160;<dc:creator>Andrzej Taramina, Chaeron
-          Corporation</dc:creator>
+                <command>Creator:</command>&#160;<author><firstname>Andrzej</firstname> <surname>Taramina</surname></author>
                 <command>Licence:</command>&#160;LGPL <command>Status:</command>&#160;production </para>
             <para>
                 <command>Class:</command>&#160;org.exist.xquery.modules.file.FileModule
@@ -153,7 +152,7 @@
             <title>HTTP Client Module</title>
             <para>Functions for performing HTTP requests</para>
             <para>
-                <command>Creator:</command>&#160;<dc:creator>Adam Retter and Andrzej Taramina</dc:creator>
+                <command>Creator:</command>&#160;<author><firstname>Adam</firstname> <surname>Retter</surname></author> and <author><firstname>Andrzej</firstname> <surname>Taramina</surname></author>
                 <command>Licence:</command>&#160;LGPL <command>Features Used:</command>&#160;NekoHTML
           <command>Status:</command>&#160;production </para>
             <para>
@@ -165,9 +164,8 @@
             <para>This modules provides operations on images stored in the db, including: Retreiving Image
         Dimensions, Creating Thumbnails and Resizing Images.</para>
             <para>
-                <command>Creator:</command>&#160;<dc:creator>Adam Retter</dc:creator>
-                <command>Contributors:</command>&#160;<dc:contributor>Wolfgang
-          Meier</dc:contributor>,&#160;<dc:contributor>Rafael Troilo</dc:contributor>
+                <command>Creator:</command>&#160;<author><firstname>Adam</firstname> <surname>Retter</surname></author>
+                <command>Contributors:</command>&#160;<author><firstname>Wolfgang</firstname> <surname>Meier</surname></author>,&#160;<author><firstname>Rafael</firstname> <surname>Troilo</surname></author>
                 <command>Licence:</command>&#160;LGPL <command>Status:</command>&#160;production </para>
             <para>
                 <command>Class:</command>&#160;org.exist.xquery.modules.image.ImageModule
@@ -182,8 +180,7 @@
         $EXIST_HOME/extensions/local.build.properties file (create it if missing).</para>
             <para>Then, to enable it, edit the appropriate module entry in conf.xml</para>
             <para>
-                <command>Creator:</command>&#160;<dc:creator>Andrzej Taramina, Chaeron
-          Corporation</dc:creator>
+                <command>Creator:</command>&#160;<author><firstname>Andrzej</firstname> <surname>Taramina</surname></author>
                 <command>Licence:</command>&#160;LGPL <command>Status:</command>&#160;production </para>
             <para>
                 <command>Class:</command>&#160;org.exist.xquery.modules.jndi.JNDIModule
@@ -194,8 +191,8 @@
             <para>This modules provides facilities for sending text and/or HTML emails from XQuery using
         either SMTP or a local Sendmail binary.</para>
             <para>
-                <command>Creator:</command>&#160;<dc:creator>Adam Retter</dc:creator>
-                <command>Contributors:</command>&#160;<dc:contributor>Robert Walpole</dc:contributor>
+                <command>Creator:</command>&#160;<author><firstname>Adam</firstname> <surname>Retter</surname></author>
+                <command>Contributors:</command>&#160;<author><firstname>Robert</firstname> <surname>Walpole</surname></author>
                 <command>Licence:</command>&#160;LGPL <command>Status:</command>&#160;production </para>
             <para>
                 <command>Class:</command>&#160;org.exist.xquery.modules.mail.MailModule
@@ -205,7 +202,7 @@
             <title>Math Module</title>
             <para>This module provides mathematical functions from the java Math class.</para>
             <para>
-                <command>Creator:</command>&#160;<dc:creator>Dannes Wessels</dc:creator>
+                <command>Creator:</command>&#160;<author><firstname>Dannes</firstname> <surname>Wessels</surname></author>
                 <command>Licence:</command>&#160;LGPL <command>Status:</command>&#160;production </para>
             <para>
                 <command>Class:</command>&#160;org.exist.xquery.modules.math.MathModule
@@ -218,7 +215,7 @@
         database returns results in an Oracle REF_CURSOR and can only be used in conjunction with
         the SQL extension module.</para>
             <para>
-                <command>Creator:</command>&#160;<dc:creator>Rob Walpole</dc:creator>
+                <command>Creator:</command>&#160;<author><firstname>Rob</firstname> <surname>Walpole</surname></author>
                 <command>Licence:</command>&#160;LGPL <command>Status:</command>&#160;production </para>
             <para>
                 <command>Class:</command>&#160;org.exist.xquery.modules.oracle.OracleModule
@@ -229,7 +226,7 @@
             <para>Provides access to eXist-db's Scheduler for the purposes of scheduling job's and
         manipulating existing job's.</para>
             <para>
-                <command>Creator:</command>&#160;<dc:creator>Adam Retter</dc:creator>
+                <command>Creator:</command>&#160;<author><firstname>Adam</firstname> <surname>Retter</surname></author>
                 <command>Licence:</command>&#160;LGPL <command>Status:</command>&#160;production </para>
             <para>
                 <command>Class:</command>&#160;org.exist.xquery.modules.scheduler.SchedulerModule
@@ -240,7 +237,7 @@
             <para>This modules implements a Simple custom Query Language which is then converted to XPath
         and executed against the db.</para>
             <para>
-                <command>Creator:</command>&#160;<dc:creator>Wolfgang Meier</dc:creator>
+                <command>Creator:</command>&#160;<author><firstname>Wolfgang</firstname> <surname>Meier</surname></author>
                 <command>Licence:</command>&#160;LGPL <command>Status:</command>&#160;production </para>
             <para>
                 <command>Class:</command>&#160;org.exist.xquery.modules.simpleql.SimpleQLModule
@@ -251,7 +248,7 @@
             <para>Various functions for <ulink url="http://www.opengeospatial.org/standards/gml">GML</ulink> geometries, whether indexed or not. More information about the design is
         available <ulink url="devguide_indexes.xml">here</ulink>.</para>
             <para>
-                <command>Creator:</command>&#160;<dc:creator>Pierrick Brihaye</dc:creator>
+                <command>Creator:</command>&#160;<author><firstname>Pierrick</firstname> <surname>Brihaye</surname></author>
                 <command>Licence:</command>&#160;LGPL <command>Status:</command>&#160;experimental </para>
             <para>
                 <command>Class:</command>&#160;org.exist.xquery.modules.spatial.SpatialModule
@@ -262,7 +259,7 @@
             <para>This module provides facilities for performing SQL operations against traditional
         databases from XQuery and returning the results as XML nodes.</para>
             <para>
-                <command>Creator:</command>&#160;<dc:creator>Adam Retter</dc:creator>
+                <command>Creator:</command>&#160;<author><firstname>Adam</firstname> <surname>Retter</surname></author>
                 <command>Licence:</command>&#160;LGPL <command>Features Used:</command>&#160;JDBC
           <command>Status:</command>&#160;production </para>
             <para>
@@ -274,8 +271,8 @@
             <para>This module provides facilities for determining the differences between XML
         nodes.</para>
             <para>
-                <command>Creator:</command>&#160;<dc:creator>Dannes Wessels</dc:creator>
-                <command>Contributors:</command>&#160;<dc:contributor>Pierrick Brihaye</dc:contributor>
+                <command>Creator:</command>&#160;<author><firstname>Dannes</firstname> <surname>Wessels</surname></author>
+                <command>Contributors:</command>&#160;<author><firstname>Pierrick</firstname> <surname>Brihaye</surname></author>
                 <command>Licence:</command>&#160;LGPL <command>Status:</command>&#160;production </para>
             <para>
                 <command>Class:</command>&#160;org.exist.xquery.modules.xmldiff.XmlDiffModule
@@ -285,9 +282,7 @@
             <title>XSL-FO Module</title>
             <para>This module provides XSL-FO rendering facilities.</para>
             <para>
-                <command>Creator:</command>&#160;<dc:creator>
-                    <ulink url="http://www.uwe.ac.uk">University of the West of England</ulink>
-                </dc:creator>
+                <command>Creator:</command>&#160;<ulink url="http://www.uwe.ac.uk">University of the West of England</ulink>
                 <command>Licence:</command>&#160;LGPL <command>Features Used:</command>&#160;<ulink url="http://xmlgraphics.apache.org/fop/">Apache FOP</ulink>
                 <command>Status:</command>&#160;production </para>
             <para>
@@ -298,9 +293,7 @@
             <title>XProcxq Module</title>
             <para>This module provides XProc functionality to eXist-db.</para>
             <para>
-                <command>Creator:</command>&#160;<dc:creator>
-                    <ulink url="http://www.webcomposite.com">James R. Fuller</ulink>
-                </dc:creator>
+                <command>Creator:</command>&#160;<ulink url="http://www.webcomposite.com"><author><firstname>James</firstname> <surname>Fuller</surname></author></ulink>
                 <command>Licence:</command>&#160;MPL v1.1 <command>Features Used:</command>&#160;<ulink url="http://www.expath.org">expath http library</ulink>
                 <command>Status:</command>&#160;in development for v2.0 release </para>
             <para>
@@ -311,9 +304,7 @@
             <title>XML Calabash Module</title>
             <para>This module provides simple integration with XML Calabash XProc engine.</para>
             <para>
-                <command>Creator:</command>&#160;<dc:creator>
-                    <ulink url="http://www.webcomposite.com">James R. Fuller</ulink>
-                </dc:creator>
+                <command>Creator:</command>&#160;<ulink url="http://www.webcomposite.com"><author><firstname>James</firstname> <surname>Fuller</surname></author></ulink>
                 <command>Licence:</command>&#160;MPL v1.1 </para>
             <para>
                 <command>Class:</command>&#160;org.exist.xquery.modules.xmlcalabash

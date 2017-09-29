@@ -17,45 +17,49 @@
             <abstract>
                 <para>From a security perspective, it is recognised best practice to proxy Web Application Servers behind dedicated Web Servers, and eXist-db is no exception.</para>
                 <para>Some other nice side-effects of proxying eXist-db behind a Web Server include -</para>
-                <variablelist>
-                    <varlistentry>
-                        <term>Unified web namespace</term>
-                        <listitem>
-                            <para>You can map eXist-db or an application build atop eXist-db into an existing web namespace. If your website is - http://www.mywebsite.com, then your eXist-db application could be mapped into http://www.mywebsite.com/myapplication/. However, if you are tempted to shorten the URL of WebDAV resources with such mapping, you will not succeed due to the specifications of WebDAV that are not designed to handle such cases.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term>Virtual Hosting</term>
-                        <listitem>Providing your Web Server supports Virtual Hosting, then you should be able to proxy many URLs from different domains onto different eXist-db REST URLs which may belong to one or more eXist-db instances. This in effect allows a single eXist-db instance to perform virtual hosting.</listitem>
-                    </varlistentry>
-                </variablelist>
+                <para>
+                    <variablelist>
+                        <varlistentry>
+                            <term>Unified web namespace</term>
+                            <listitem>
+                                <para>You can map eXist-db or an application build atop eXist-db into an existing web namespace. If your website is - http://www.mywebsite.com, then your eXist-db application could be mapped into http://www.mywebsite.com/myapplication/. However, if you are tempted to shorten the URL of WebDAV resources with such mapping, you will not succeed due to the specifications of WebDAV that are not designed to handle such cases.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>Virtual Hosting</term>
+                            <listitem><para>Providing your Web Server supports Virtual Hosting, then you should be able to proxy many URLs from different domains onto different eXist-db REST URLs which may belong to one or more eXist-db instances. This in effect allows a single eXist-db instance to perform virtual hosting.</para></listitem>
+                        </varlistentry>
+                    </variablelist>
+                </para>
                 <para>Examples are provided for -</para>
-                <variablelist>
-                    <varlistentry>
-                        <term>
-                            <ulink url="http://wiki.nginx.org/Main">Nginx</ulink>
-                        </term>
-                        <listitem>
-                            <para>A very small but extremely poweful Web Server which is also very simple to configure. It powers some of the biggest sites on the Web.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term>
-                            <ulink url="http://httpd.apache.org/">Apache HTTPD</ulink>
-                        </term>
-                        <listitem>The most prolific Web Server used on the web.</listitem>
-                    </varlistentry>
-                </variablelist>
+                <para>
+                    <variablelist>
+                        <varlistentry>
+                            <term>
+                                <ulink url="http://wiki.nginx.org/Main">Nginx</ulink>
+                            </term>
+                            <listitem>
+                                <para>A very small but extremely poweful Web Server which is also very simple to configure. It powers some of the biggest sites on the Web.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>
+                                <ulink url="http://httpd.apache.org/">Apache HTTPD</ulink>
+                            </term>
+                            <listitem><para>Likely the most prolific Web Server used on the web.</para></listitem>
+                        </varlistentry>
+                    </variablelist>
+                </para>
             </abstract>
         </section>
         <section>
             <title>Example 1 - Proxying a Web Domain Name to an eXist-db Collection</title>
             <para>In this example we look at how to proxy a web domain name onto an eXist-db Collection. We make the following assumptions -</para>
             <orderedlist>
-                <listitem>http://www.mywebsite.com is our website domain name address</listitem>
-                <listitem>eXist-db is running in standalone mode (i.e. http://localhost:8088/) on the same host as the Web Server (i.e. http://localhost:80/)</listitem>
-                <listitem>/db/apps/mywebsite.com is the eXist-db collection we want to proxy</listitem>
-                <listitem>Web Server access logging will be written to /srv/www/vhosts/mywebsite.com/logs/access.log</listitem>
+                <listitem><para>http://www.mywebsite.com is our website domain name address</para></listitem>
+                <listitem><para>eXist-db is running in standalone mode (i.e. http://localhost:8088/) on the same host as the Web Server (i.e. http://localhost:80/)</para></listitem>
+                <listitem><para>/db/apps/mywebsite.com is the eXist-db collection we want to proxy</para></listitem>
+                <listitem><para>Web Server access logging will be written to /srv/www/vhosts/mywebsite.com/logs/access.log</para></listitem>
             </orderedlist>
             <section>
                 <title>Nginx</title>

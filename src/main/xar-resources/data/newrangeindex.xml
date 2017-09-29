@@ -235,22 +235,27 @@
                     <programlisting language="xquery">//mods:mods[mods:name[@type = "personal"]
            [mods:namePart = "Dennis Ritchie"]] 
            [mods:originInfo/mods:dateIssued = "1979"]</programlisting>
-                </example>In this case, the mods:dateIssued lookup will be done first, which
+                </example>
+                <para>In this case, the mods:dateIssued lookup will be done first, which
                 presumably returns more hits than the name lookup. For maximum performance it may
                 thus still be faster to split the expression into two parts and do the name check
-                first.</section>
+                first.</para></section>
             <section>
                 <title>Conditional combined indexes</title>
-                <para>For combined indexes, you can specify conditions to restrict the values being indexed to those contained in elements that have an attribute meeting certain criteria:<example>
-                    <title>Conditional indexes</title>
-                    <programlisting language="xml">&lt;range>
-    &lt;create qname="tei:term">
-        &lt;condition attribute="type" value="main"/>
-        &lt;field name="mainTerm" type="xs:string"/>
-    &lt;/create>
-&lt;/range></programlisting>
-                </example></para>
-                <para>This will only index the value of the <code>tei:term</code> element if it has an attribute named <code>type</code> with the value <code>"main"</code>.  Multiple conditions can be specified in an index definition, in which case all conditions need to match in order for the value to be indexed. <para>In order to take advantage of query optimization for conditionally indexed fields, queries should be formulated like this:<synopsis>//tei:term[@type = "main"][. = "xyz"]</synopsis><para>which then gets rewritten to a call to <synopsis>range:field(("mainTerm"), "eq", "xyz")</synopsis></para></para></para>
+                <para>For combined indexes, you can specify conditions to restrict the values being indexed to those contained in elements that have an attribute meeting certain criteria:
+                    <example>
+                        <title>Conditional indexes</title>
+                        <programlisting language="xml">&lt;range>
+            &lt;create qname="tei:term">
+                &lt;condition attribute="type" value="main"/>
+                &lt;field name="mainTerm" type="xs:string"/>
+            &lt;/create>
+        &lt;/range></programlisting>
+                    </example>
+                </para>
+                <para>This will only index the value of the <code>tei:term</code> element if it has an attribute named <code>type</code> with the value <code>"main"</code>.  Multiple conditions can be specified in an index definition, in which case all conditions need to match in order for the value to be indexed.</para>
+                <para>In order to take advantage of query optimization for conditionally indexed fields, queries should be formulated like this:<synopsis>//tei:term[@type = "main"][. = "xyz"]</synopsis></para>
+                <para>which then gets rewritten to a call to <synopsis>range:field(("mainTerm"), "eq", "xyz")</synopsis></para>
                 <para>By default, condition matching is string-based and case sensitive. The following optional attributes can be specified on a <code>condition</code>: </para>
                 <variablelist>
                     <varlistentry>

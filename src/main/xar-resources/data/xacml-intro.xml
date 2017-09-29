@@ -1,4 +1,3 @@
-<!--<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "docbookx.dtd">--><!-- $Id$ -->
 <book>
     <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
@@ -207,9 +206,9 @@
 							"xmldb" user would be allowed access through Cocoon although this was
 							not intended. </para>
                     </example>
+                    <para> If the target section of a policy applies to the request, the PDP then
+                        evaluates that policy's rules. </para>
                 </section>
-                <para> If the target section of a policy applies to the request, the PDP then
-					evaluates that policy's rules. </para>
             </section>
             <section>
                 <title>Rules</title>
@@ -232,49 +231,51 @@
 					descriptions are listed below. For the official definitions, see the XACML
 					specifications. </para>
                 <para> In all cases, if none of the rules apply, the policy does not apply. </para>
-                <varlistentry>
-                    <term>First Applicable</term>
-                    <listitem>
-                        <para> The effect of the first rule that applies is the decision of the
-							policy. The rules must be evaluated in the order that they are listed in
-							the policy. </para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term>Only One Applicable</term>
-                    <listitem>
-                        <para> Only one rule will be applicable (an error occurs otherwise). The
-							effect of the applicable rule is the decision of the policy. </para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term>Deny Overrides</term>
-                    <listitem>
-                        <para> If any rule denies access, the policy denies access. </para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term>Ordered Deny Overrides</term>
-                    <listitem>
-                        <para> This algorithm is identical to Deny Overrides except that it requires
-							that the rules in a policy be evalutated in the order that they are
-							listed in the policy. </para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term>Permit Overrides</term>
-                    <listitem>
-                        <para> If any rule permits access, the policy permits access. </para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term>Ordered Permit Overrides</term>
-                    <listitem>
-                        <para> This algorithm is identical to Permit Overrides except that it
-							requires that the rules in a policy be evalutated in the order that they
-							are listed in the policy. </para>
-                    </listitem>
-                </varlistentry>
+                <variablelist>
+                    <varlistentry>
+                        <term>First Applicable</term>
+                        <listitem>
+                            <para> The effect of the first rule that applies is the decision of the
+    							policy. The rules must be evaluated in the order that they are listed in
+    							the policy. </para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>Only One Applicable</term>
+                        <listitem>
+                            <para> Only one rule will be applicable (an error occurs otherwise). The
+    							effect of the applicable rule is the decision of the policy. </para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>Deny Overrides</term>
+                        <listitem>
+                            <para> If any rule denies access, the policy denies access. </para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>Ordered Deny Overrides</term>
+                        <listitem>
+                            <para> This algorithm is identical to Deny Overrides except that it requires
+    							that the rules in a policy be evalutated in the order that they are
+    							listed in the policy. </para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>Permit Overrides</term>
+                        <listitem>
+                            <para> If any rule permits access, the policy permits access. </para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>Ordered Permit Overrides</term>
+                        <listitem>
+                            <para> This algorithm is identical to Permit Overrides except that it
+    							requires that the rules in a policy be evalutated in the order that they
+    							are listed in the policy. </para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
                 <note>
                     <para> Sun's XACML Implementation (the XACML implementation used in eXist)
 						currently treats the ordered and unordered variants identically. </para>

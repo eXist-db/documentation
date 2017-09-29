@@ -2,7 +2,6 @@
 <book xmlns:xi="http://www.w3.org/2001/XInclude">
     <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
-        <style href="styles/default-style.css"/>
         <title>XInclude</title>
         <author>
             <firstname>Wolfgang M.</firstname>
@@ -58,9 +57,9 @@
             <synopsis language="xml">
                 <xi:include href="/db/apps/doc/data/disclaimer-short.xml">
                     <xi:fallback>
-                        <p>For this XInclude example to work, you need to install
+                        <para>For this XInclude example to work, you need to install
 			the Documentation application. 
-			See the Package Manager in the Dashboard.</p>
+			See the Package Manager in the Dashboard.</para>
                     </xi:fallback>
                 </xi:include>
             </synopsis>
@@ -81,7 +80,7 @@
             <synopsis language="xml">
                 <xi:include href="I-do-not exist.xml">
                     <xi:fallback>
-                        <p>The included document was not found!</p>
+                        <para>The included document was not found!</para>
                     </xi:fallback>
                 </xi:include>
             </synopsis>
@@ -101,9 +100,9 @@
             <synopsis language="xml">
                 <xi:include href="disclaimer.xml" xpointer="statement">
                     <xi:fallback>
-                        <p>For this XInclude example to work, you need to install
+                        <para>For this XInclude example to work, you need to install
 			the Documentation application.
-			See the Package Reposistory in the Admin panel.</p>
+			See the Package Reposistory in the Admin panel.</para>
                     </xi:fallback>
                 </xi:include>
             </synopsis>

@@ -1,9 +1,13 @@
 <?oxygen RNGSchema="http://www.oasis-open.org/docbook/xml/5.0/rng/docbook.rng" type="xml"?><!-- $Id$ -->
 <book>
-    <bookinfo subject="">
+    <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Developer's Guide - Code Review</title>
-        <subject>Code Review Guide</subject>
+        <subjectset>
+            <subject>
+                <subjectterm>Code Review Guide</subjectterm>
+            </subject>
+        </subjectset>
         <date>September 2009</date>
         <author>
             <firstname>Loren</firstname>
@@ -18,34 +22,38 @@
     <chapter>
         <title>Code Review Guide</title>
         <section>
-            <title>Introduction</title>Several aspects of the design and deployment of the
-            custom solution will be analyzed and appropriate recommendations be provided as well.
-            These criteria are to be followed when conducting code review. <orderedlist>
-                <listitem>
-                    <para>Does the solution provide custom class libraries for reusable classes
-                        &amp; methods</para>
-                </listitem>
-                <listitem>
-                    <para>What classes have been extended or implemented and whether they are
-                        supported. </para>
-                </listitem>
-                <listitem>
-                    <para>Look for deprecated classes &amp; methods. Look for alternate methods if
-                        deprecated methods used. </para>
-                </listitem>
-                <listitem>
-                    <para>Have proper classes been extended to provide functionality based on
-                        functional requirements? Need to check whether too heavy of objects been
-                        extended where a lighter weight object would suffice. </para>
-                </listitem>
-                <listitem>
-                    <para>Has proper abstract classes &amp; interfaces been used to provide a
-                        flexible, yet cohesive design model? </para>
-                </listitem>
-                <listitem>
-                    <para>Has code been properly documented: JavaDoc, etc.?</para>
-                </listitem>
-            </orderedlist>
+            <title>Introduction</title>
+            <para>
+                Several aspects of the design and deployment of the
+                custom solution will be analyzed and appropriate recommendations be provided as well.
+                These criteria are to be followed when conducting code review.
+                <orderedlist>
+                     <listitem>
+                         <para>Does the solution provide custom class libraries for reusable classes
+                             &amp; methods</para>
+                     </listitem>
+                     <listitem>
+                         <para>What classes have been extended or implemented and whether they are
+                             supported. </para>
+                     </listitem>
+                     <listitem>
+                         <para>Look for deprecated classes &amp; methods. Look for alternate methods if
+                             deprecated methods used. </para>
+                     </listitem>
+                     <listitem>
+                         <para>Have proper classes been extended to provide functionality based on
+                             functional requirements? Need to check whether too heavy of objects been
+                             extended where a lighter weight object would suffice. </para>
+                     </listitem>
+                     <listitem>
+                         <para>Has proper abstract classes &amp; interfaces been used to provide a
+                             flexible, yet cohesive design model? </para>
+                     </listitem>
+                     <listitem>
+                         <para>Has code been properly documented: JavaDoc, etc.?</para>
+                     </listitem>
+                </orderedlist>
+            </para>
             <para>And in general, we will look for the 7 Deadly Sins of Software
                 Design and make recommendation accordingly:</para>
             <itemizedlist>
@@ -234,9 +242,9 @@ return prop;
             </itemizedlist>
             <para>Sun coding standards is the standards eXist follows for coding. In
                 addition to that, there is some addendum.</para>
-            <emphasis role="underline">
-                <para> Comments </para>
-            </emphasis>
+            <para>
+                <emphasis role="underline">Comments</emphasis>
+            </para>
             <para>Further details on JavaDoc comments over and above the Sun standard,
                 can be found in the Sun Doc Comments how to guide. </para>
             <para>Have JavaDoc comment
@@ -265,9 +273,11 @@ return prop;
                 non-trivial field should have a comment describing the role and purpose of the
                 field, as well as any other appropriate information such as the range.
                 </para>
-            <emphasis role="underline">
-                <para>Exceptions</para>
-            </emphasis>
+            <para>
+                <emphasis role="underline">
+                    Exceptions
+                </emphasis>
+            </para>
             <para>All exceptions should be handled, it is never acceptable to simply
                 print the exception message and stack trace. Exceptions should be dealt and
                 corrective or informative action taken to highlight the issue.</para>
@@ -275,9 +285,7 @@ return prop;
                 debugging purposes the stack trace should be logged at the final destination of the
                 exception or at whenever the exception is modified, for example throwing a
                 XXException instead of a java.io.IOException.</para>
-            <emphasis role="underline">
-                <para>Logging</para>
-            </emphasis>
+            <para><emphasis role="underline">Logging</emphasis></para>
             <para>If no logging system is in use in the package already or the logging is
                 unconditional, then log4j should be used for all logging. Please see the <emphasis role="bold">
                     <emphasis role="italic">Log4J Logging
@@ -294,7 +302,9 @@ return prop;
                 <listitem>
                     <para>Log entry</para>
                 </listitem>
-                <listitem>Log arguments</listitem>
+                <listitem>
+                    <para>Log arguments</para>
+                </listitem>
                 <listitem>
                     <para>Log exit</para>
                 </listitem>
@@ -314,9 +324,9 @@ return prop;
     getLogger().debug("Arg2 :"+ theArgValue2);
   }
 ]]></programlisting>
-            <emphasis role="underline">
-                <para>Assertions </para>
-            </emphasis>
+            <para>
+                <emphasis role="underline">Assertions</emphasis>
+            </para>
             <para>Assertions should be used in the code to verify that the expected
                 results have occurred. Assertions should be used as liberally as possible.
                 </para>

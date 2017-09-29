@@ -22,19 +22,22 @@
         </section>
         <section>
             <title>Compile</title>
-            <para>The following steps are required to enable the debugger interface: <procedure>
-                    <step>
-                        <para>Enable the debugger in <filename>$EXIST_HOME/extensions/local.build.properties</filename>: by adding
-                                <emphasis>include.feature.debugger = true</emphasis>. Create the document if does not exist.</para>
-                    </step>
-                    <step>
-                        <para>Download the required jar files.</para>
-                    </step>
-                    <step>
-                        <para>Recompile eXist-db: <synopsis format="linespecific">build.sh</synopsis>
-                        </para>
-                    </step>
-                </procedure>
+            <para>The following steps are required to enable the debugger interface: 
+                <blockquote>
+                    <procedure>
+                        <step>
+                            <para>Enable the debugger in <filename>$EXIST_HOME/extensions/local.build.properties</filename>: by adding
+                                    <emphasis>include.feature.debugger = true</emphasis>. Create the document if does not exist.</para>
+                        </step>
+                        <step>
+                            <para>Download the required jar files.</para>
+                        </step>
+                        <step>
+                            <para>Recompile eXist-db: <synopsis format="linespecific">build.sh</synopsis>
+                            </para>
+                        </step>
+                    </procedure>
+                </blockquote>
             </para>
         </section>
         <section>

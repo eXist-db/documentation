@@ -1,9 +1,12 @@
-<?oxygen RNGSchema="http://www.oasis-open.org/docbook/xml/5.0/rng/docbook.rng" type="xml"?><!-- $Id$ -->
 <book>
-    <bookinfo subject="">
+    <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Developer's Guide - Log4J</title>
-        <subject>Log4J Logging Guide</subject>
+        <subjectset>
+            <subject>
+                <subjectterm>Log4J Logging Guide</subjectterm>
+            </subject>
+        </subjectset>
         <date>October 2016</date>
         <author>
             <firstname>Loren</firstname>
@@ -26,21 +29,33 @@
                 reality, however, logging is an important part of any substantial body of software
                 and is absolutely critical in enterprise software. </para>
             <itemizedlist>
-                <listitem>R&amp;D often needs some debug or trace output mode to help give greater
-                    insights into how mechanisms are operating in various situations. </listitem>
-                <listitem>Occurrences of problems or potential problems need to be recorded for
-                    examination by site administrators. </listitem>
-                <listitem>Given that R&amp;D cannot watch the software from a debugger constantly
+                <listitem>
+                    <para>R&amp;D often needs some debug or trace output mode to help give greater
+                        insights into how mechanisms are operating in various situations.</para>
+                </listitem>
+                <listitem>
+                    <para>Occurrences of problems or potential problems need to be recorded for
+                    examination by site administrators.</para>
+                </listitem>
+                <listitem>
+                    <para>Given that R&amp;D cannot watch the software from a debugger constantly
                     while it is running in a customer environment, we need a means of capturing what
                     is going on at various levels in the software to facilitate troubleshooting.
                     Lack of appropriate log data can make attempts to identify and address customer
-                    problems ineffective or even completely infeasible. </listitem>
-                <listitem>Customers want to be able to record and monitor trends in the operation of
-                    their software. </listitem>
-                <listitem>Appropriate transaction logs are an important tool in performance tuning.
-                    Also, customers often want some general idea as to what the software is up to. </listitem>
-                <listitem>Customers need to record various data for security reasons, e.g. to
-                    produce an access log of who accessed the system. </listitem>
+                    problems ineffective or even completely infeasible.</para>
+                </listitem>
+                <listitem>
+                    <para>Customers want to be able to record and monitor trends in the operation of
+                    their software.</para>
+                </listitem>
+                <listitem>
+                    <para>Appropriate transaction logs are an important tool in performance tuning.
+                        Also, customers often want some general idea as to what the software is up to.</para>
+                </listitem>
+                <listitem>
+                    <para>Customers need to record various data for security reasons, e.g. to
+                        produce an access log of who accessed the system.</para>
+                </listitem>
             </itemizedlist>
         </section>
         <section>
@@ -83,19 +98,19 @@
             <title>What does log4j give us?</title>
             <para>Log4j is based on several core concepts:</para>
             <itemizedlist>
-                <listitem>Each log event is issued by a hierarchically named “logger”, e.g.
-                    “xx.method.server.httpgw”.</listitem>
-                <listitem depth="2">These hierarchical names may or may not correspond to Java class
-                    names.</listitem>
-                <listitem depth="2">All log events have an associated severity level (trace, debug,
-                    info, warn, error, or fatal). </listitem>
-                <listitem depth="2">To issue a log event programmers just acquire a logger by name
+                <listitem><para>Each log event is issued by a hierarchically named “logger”, e.g.
+                    “xx.method.server.httpgw”.</para></listitem>
+                <listitem><para>These hierarchical names may or may not correspond to Java class
+                    names.</para></listitem>
+                <listitem><para>All log events have an associated severity level (trace, debug,
+                    info, warn, error, or fatal).</para></listitem>
+                <listitem><para>To issue a log event programmers just acquire a logger by name
                     and specify a log message and its severity level (and optionally a Throwable
-                    where applicable). </listitem>
-                <listitem depth="2">Decisions as to whether a given log event is output, how and
+                    where applicable).</para></listitem>
+                <listitem><para>Decisions as to whether a given log event is output, how and
                     where it is output, what additional data (e.g. timestamps) are included beyond
                     the log message, etc, are generally not made by the programmer – instead they
-                    are controlled by an administrator via a log4j configuration file. </listitem>
+                    are controlled by an administrator via a log4j configuration file.</para></listitem>
             </itemizedlist>
             <para>Based on these core concepts, log4j provides a powerful set of
                 functionalities.</para>
@@ -175,9 +190,9 @@
                         <para>Acquire a logger. import org.apache.log4j.Logger; … private Logger
                             logger = Logger.getLogger("xx.method.server.httpgw");</para>
                         <itemizedlist>
-                            <listitem>This is a somewhat time-consuming operation and should be done
+                            <listitem><para>This is a somewhat time-consuming operation and should be done
                                 in constructors of relatively long-lived objects or in static
-                                initializers . </listitem>
+                                initializers.</para></listitem>
                             <listitem>
                                 <para>Many classes can separately acquire a logger using the same
                                     logger name. They will all end up with their own reference to
@@ -189,30 +204,32 @@
                         <para>Use the logger: logger.info( "Something I really wanted to say"
                             );</para>
                         <itemizedlist>
-                            <listitem>info() is just one of Logger’s methods for issuing log4j log
-                                events. It implicitly assigns the event a severity level of “info”
-                                and does not specify a Throwable. Logger methods for issuing log
-                                events include:</listitem>
-                            <programlisting format="linespecific" language="java"><![CDATA[
-public void trace(Object message); 
-public void trace(Object message, Throwable t); 
-public void debug(Object message); 
-public void debug (Object message, Throwable t); 
-public void info(Object message); 
-public void info(Object message, Throwable t); 
-public void warn(Object message); 
-public void warn(Object message, Throwable t); 
-public void error(Object message); 
-public void error(Object message, Throwable t); 
-public void fatal(Object message); 
-public void fatal(Object message, Throwable t); ]]></programlisting>
-                            <listitem>
-                                <para>Note that in each case the “message” is an Object, not a
-                                    String. If (and only if) log4j decides to output the given log
-                                    event (based on the configuration), it will render this object
-                                    as a String. By default this is essentially via
-                                    toString().</para>
-                            </listitem>
+                                <listitem><para>info() is just one of Logger’s methods for issuing log4j log
+                                    events. It implicitly assigns the event a severity level of “info”
+                                    and does not specify a Throwable. Logger methods for issuing log
+                                    events include:</para>
+                                <programlisting format="linespecific" language="java"><![CDATA[
+    public void trace(Object message); 
+    public void trace(Object message, Throwable t); 
+    public void debug(Object message); 
+    public void debug (Object message, Throwable t); 
+    public void info(Object message); 
+    public void info(Object message, Throwable t); 
+    public void warn(Object message); 
+    public void warn(Object message, Throwable t); 
+    public void error(Object message); 
+    public void error(Object message, Throwable t); 
+    public void fatal(Object message); 
+    public void fatal(Object message, Throwable t); ]]></programlisting>
+                                </listitem>
+                                <listitem>
+                                    <para>Note that in each case the “message” is an Object, not a
+                                        String. If (and only if) log4j decides to output the given log
+                                        event (based on the configuration), it will render this object
+                                        as a String. By default this is essentially via
+                                        toString().</para>
+                                </listitem>
+                            
                         </itemizedlist>
                     </listitem>
                 </orderedlist>
@@ -513,7 +530,6 @@ public void fatal(Object message, Throwable t); ]]></programlisting>
                         <td>Fatal error conditions, i.e. where the product is going to have to shut
                             down, is likely to crash, or something equally severe</td>
                     </tr>
-                    <tr/>
                 </tbody>
             </informaltable>
             <para>Don’t go overboard with the log4j configuration files </para>

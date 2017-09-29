@@ -38,23 +38,33 @@
                 </varlistentry>
                 <varlistentry>
                     <term>Directly from GitHub</term>
-                    <listitem>In this case you don't use a local machine for building an eXist-db distribution, but you checkout the code from a release branch (or the develop branch) directly from our GitHub repository on your server and build it in-situ.</listitem>
+                    <listitem>
+                        <para>In this case you don't use a local machine for building an eXist-db distribution, but you checkout the code from a release branch (or the develop branch) directly from our GitHub repository on your server and build it in-situ.</para>
+                    </listitem>
                 </varlistentry>
             </variablelist>
             <para>If you install eXist-db from source code, some advantages might be -</para>
             <variablelist>
                 <varlistentry>
                     <term>patches</term>
-                    <listitem>If patches or fixes are developed that are relevant to your specific needs, you can update your code and re-build eXist.</listitem>
+                    <listitem>
+                        <para>If patches or fixes are developed that are relevant to your specific needs, you can update your code and re-build eXist.</para>
+                    </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term>features</term>
-                    <listitem>If you are following trunk and new features are developed which you are interested in, you can update your code and re-build to take advantage of these.</listitem>
+                    <listitem>
+                        <para>If you are following trunk and new features are developed which you are interested in, you can update your code and re-build to take advantage of these.
+                    </para>
+                    </listitem>
                 </varlistentry>
             </variablelist>
             <para>
                 <caution>
-                    <emphasis>NOTE</emphasis> - eXist's code trunk is generally not recommended for production use, whilst it should always compile and be relatively stable, it may also contain as yet unrecognised regressions or result in unexpected behaviour.</caution>
+                    <para>
+                        <emphasis>NOTE</emphasis> - eXist's code trunk is generally not recommended for production use, whilst it should always compile and be relatively stable, it may also contain as yet unrecognised regressions or result in unexpected behaviour.
+                    </para>
+                </caution>
             </para>
             <section>
                 <title>Upgrading</title>
@@ -100,11 +110,11 @@
                     <variablelist>
                         <varlistentry>
                             <term>admin account</term>
-                            <listitem>The password of the admin account is blank by default! Ensure that you set a decent password.</listitem>
+                            <listitem><para>The password of the admin account is blank by default! Ensure that you set a decent password.</para></listitem>
                         </varlistentry>
                         <varlistentry>
                             <term>default-permissions</term>
-                            <listitem>The default permissions for creating resources and collections in eXist-db are set in conf.xml. The current settings are fairly sane, but you may like to improve on them for your own application security.</listitem>
+                            <listitem><para>The default permissions for creating resources and collections in eXist-db are set in conf.xml. The current settings are fairly sane, but you may like to improve on them for your own application security.</para></listitem>
                         </varlistentry>
                         <varlistentry>
                             <term>/db permissions</term>
@@ -130,22 +140,22 @@ $ pfexec chown -R exist:exist /opt/eXist
                 <title>Attack Surface</title>
                 <para>For any live application it is recognised best practice to keep the attack surface of the application as small as possible. There are two aspects to this -</para>
                 <orderedlist>
-                    <listitem>Reducing the application itself to the absolute essentials.</listitem>
-                    <listitem>Limiting access routes to the application.</listitem>
+                    <listitem><para>Reducing the application itself to the absolute essentials.</para></listitem>
+                    <listitem><para>Limiting access routes to the application.</para></listitem>
                 </orderedlist>
                 <para>eXist-db is no exception and should be configured for your production systems so that it provides only what you need and no more. For example, the majority of applications will be unlikely to require the WebDAV or SOAP Admin features for operation in a live environment, and as such these and other services can be disabled easily. Things to consider for a live environment -</para>
                 <variablelist>
                     <varlistentry>
                         <term>Standalone mode</term>
-                        <listitem>eXist-db can be operated in a cut-down standalone mode (see server.(sh|bat)). This provides just the core services from the database, no webapp file system access, and no documentation. The entire application has to be stored in the database and is served from there. This is an ideal starting place for a production system.</listitem>
+                        <listitem><para>eXist-db can be operated in a cut-down standalone mode (see server.(sh|bat)). This provides just the core services from the database, no webapp file system access, and no documentation. The entire application has to be stored in the database and is served from there. This is an ideal starting place for a production system.</para></listitem>
                     </varlistentry>
                     <varlistentry>
                         <term>Services</term>
-                        <listitem>eXist-db provides several services for accessing the database. You should reduce these to the absolute minimum that you need for your production application. If you are operating in standalone mode, this is done via server.xml, else see webapp/WEB-INF/web.xml. You should look at each configured service, servlet or filter and ask yourself - do we use this? Most production environments are unlikely to need WebDAV or SOAP Admin (Axis). </listitem>
+                        <listitem><para>eXist-db provides several services for accessing the database. You should reduce these to the absolute minimum that you need for your production application. If you are operating in standalone mode, this is done via server.xml, else see webapp/WEB-INF/web.xml. You should look at each configured service, servlet or filter and ask yourself - do we use this? Most production environments are unlikely to need WebDAV or SOAP Admin (Axis).</para></listitem>
                     </varlistentry>
                     <varlistentry>
                         <term>Extension Modules</term>
-                        <listitem>eXist-db loads several XQuery and Index extension modules by default. You should modify the builtin-modules section of conf.xml, to <emphasis>ONLY</emphasis> load what you need for your application.</listitem>
+                        <listitem><para>eXist-db loads several XQuery and Index extension modules by default. You should modify the builtin-modules section of conf.xml, to <emphasis>ONLY</emphasis> load what you need for your application.</para></listitem>
                     </varlistentry>
                 </variablelist>
             </section>
@@ -155,15 +165,15 @@ $ pfexec chown -R exist:exist /opt/eXist
                 <variablelist>
                     <varlistentry>
                         <term>-Xmx</term>
-                        <listitem>However you decide to deploy and start eXist, please ensure that you allocate enough maximum memory to eXist-db via. the Java -Xmx setting. See backup.sh and startup.sh.</listitem>
+                        <listitem><para>However you decide to deploy and start eXist, please ensure that you allocate enough maximum memory to eXist-db via. the Java -Xmx setting. See backup.sh and startup.sh.</para></listitem>
                     </varlistentry>
                     <varlistentry>
                         <term>cacheSize and collectionCache</term>
-                        <listitem>These two settings in the db-connection of conf.xml should be adjusted appropriately based on your -Xmx setting (above). See the <ulink url="tuning.xml">tuning guide</ulink> for advice on sensible values.</listitem>
+                        <listitem><para>These two settings in the db-connection of conf.xml should be adjusted appropriately based on your -Xmx setting (above). See the <ulink url="tuning.xml">tuning guide</ulink> for advice on sensible values.</para></listitem>
                     </varlistentry>
                     <varlistentry>
                         <term>disk space</term>
-                        <listitem>Please ensure that you have plenty of space for your database to grow. Unsurprisingly running out of disk space can result in database corruptions or having to rollback the database to a known state.</listitem>
+                        <listitem><para>Please ensure that you have plenty of space for your database to grow. Unsurprisingly running out of disk space can result in database corruptions or having to rollback the database to a known state.</para></listitem>
                     </varlistentry>
                 </variablelist>
             </section>
@@ -178,9 +188,9 @@ $ pfexec chown -R exist:exist /opt/eXist
                 <emphasis>This is fundamental</emphasis> - Make sure you have them, they are up-to-date and that they work!</para>
             <para>eXist-db provides 3 different mechanisms for performing backups - </para>
             <orderedlist>
-                <listitem>Full database backup.</listitem>
-                <listitem>Differential database backup.</listitem>
-                <listitem>Snapshot of the database data files.</listitem>
+                <listitem><para>Full database backup.</para></listitem>
+                <listitem><para>Differential database backup.</para></listitem>
+                <listitem><para>Snapshot of the database data files.</para></listitem>
             </orderedlist>
             <para>Each of these backup mechanisms is schedulable either with eXist-db or with your operating system scheduler. See the <ulink url="backup.xml">backup</ulink> page and conf.xml for further details.</para>
         </section>

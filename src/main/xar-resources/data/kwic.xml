@@ -169,7 +169,7 @@ return
                 matches when it writes out a piece of XML. All the matches will be surrounded by an
                 <sgmltag>exist:match</sgmltag> tag.</para>
             <para>You can achieve the same within an XQuery by calling the extension function
-                <funcsynopsis>util:expand</funcsynopsis>:</para>
+                <function>util:expand</function>:</para>
             <example>
                 <title>Using util:expand</title>
                 <programlisting language="xquery"><![CDATA[let $expanded := util:expand($hit, "expand-xincludes=no")

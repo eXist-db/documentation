@@ -768,11 +768,9 @@ return $w</synopsis>
                 <para>Note that these same options can be passed using the
                         <methodname>XPathQueryService.setProperty()</methodname> and
                         <methodname>XQueryService.setProperty()</methodname> methods in Java. These
-                    methods are defined in <classname>
-                        <ulink url="http://download.oracle.com/javase/6/docs/api/javax/xml/transform/OutputKeys.html">javax.xml.transform.OutputKeys</ulink>
-                    </classname> and <classname>
-                        <ulink url="http://exist-db.org/api/org/exist/storage/serializers/EXistOutputKeys.html">EXistOutputKeys</ulink>
-                    </classname>. The latter eXist-specific options include the following:</para>
+                    methods are defined in
+                    <ulink url="http://download.oracle.com/javase/6/docs/api/javax/xml/transform/OutputKeys.html"><classname>javax.xml.transform.OutputKeys</classname></ulink>
+                    and <ulink url="http://exist-db.org/api/org/exist/storage/serializers/EXistOutputKeys.html"><classname>EXistOutputKeys</classname></ulink>. The latter eXist-specific options include the following:</para>
                 <variablelist>
                     <varlistentry>
                         <term>
@@ -970,8 +968,8 @@ declare option output:media-type "application/json";</synopsis>
                     method for batching updates on the database into a single Transaction, allowing
                     a set of updates to be atomically guaranteed. Also for each affected document or
                     collection, any configured Triggers will only be called once, the
-                        <method>prepare()</method> method will be fired before the first update to
-                    the configured resource and the <method>finish()</method> method fired after the
+                        <methodname>prepare()</methodname> method will be fired before the first update to
+                    the configured resource and the <methodname>finish()</methodname> method fired after the
                     last update to the configured resource.</para>
                 <synopsis>(# exist:batch-transaction #) {
 	            	update value //some/path/expressionA width "valueA",
@@ -1011,10 +1009,10 @@ declare option output:media-type "application/json";</synopsis>
                     rewriter (if enabled) to optimize an expression that implements the
                         <classname>org.exist.xquery.Optimizable</classname> interface.</para>
                 <synopsis>//((#exist:optimize#) { item[stock = 10] })</synopsis>
+                <para>We will certainly add more pragma expressions in the near future. Among other
+                    things, pragmas are a good way to pass optimization hints to the query
+                    engine.</para>
             </section>
-            <para>We will certainly add more pragma expressions in the near future. Among other
-                things, pragmas are a good way to pass optimization hints to the query
-                engine.</para>
         </section>
         <section id="other-options">
             <title>Other Options</title>
