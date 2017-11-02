@@ -183,7 +183,7 @@ return
                             <synopsis language="xquery">try { 'a' + 7 } catch * { concat($err:code, ": ", $err:description) }</synopsis>
                             returns the full error (excerpted here):
                             <synopsis>err:XPTY0004: It is a type error if...</synopsis>
-                            For more information, see the article on the eXist-db blog, <ulink url="http://atomic.exist-db.org/HowTo/XQuery3/Try-CatchExpression">Higher-Order Functions in XQuery 3.0</ulink> and the <ulink url="http://www.w3.org/TR/xquery-30/#id-try-catch">specification</ulink>.</para>
+                            For more information, see the article on the eXist-db blog, <ulink url="http://atomic.exist-db.org/HowTo/XQuery3/Try-CatchExpression">Try-Catch Expression</ulink> and the <ulink url="http://www.w3.org/TR/xquery-30/#id-try-catch">specification</ulink>.</para>
                     </listitem>
                     <listitem>
                         <para>The new String Concatenation expression: A convenient alternative to
@@ -817,6 +817,14 @@ return $w</synopsis>
                                 top-level element, "all" will show the ids of all elements.</para>
                         </listitem>
                     </varlistentry>
+					<varlistentry>
+                        <term>
+                            <option>json-ignore-whitespace-text-nodes= yes | no</option>
+                        </term>
+                        <listitem>
+                            <para>to discard white-space text nodes when serializing XML/XDM to JSON.</para>
+                        </listitem>
+                    </varlistentry>
                 </variablelist>
                 <para>The general options include the following:</para>
                 <variablelist>
@@ -902,7 +910,7 @@ return $w</synopsis>
                 </variablelist>
                 <para>For example, to disable XInclude expansion, and indent the output, you can use
                     the following syntax:</para>
-                <synopsis>declare option exist:serialize "expand-xincludes=no";</synopsis>
+                <synopsis>declare option exist:serialize "expand-xincludes=no indent=yes";</synopsis>
                 <para>For the output method parameter, eXist-db currently recognizes three methods:
                         <option>xml</option>, <option>xhtml</option> and <option>text</option>. Note
                     that unlike the xml method, the xhtml setting uses only the short form for
