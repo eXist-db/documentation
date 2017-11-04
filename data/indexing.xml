@@ -20,7 +20,7 @@
                 types of indexes:</para>
             <note>
                 <para>Properly configured indexes have a huge impact on database performance! Some
-                    expressions might run a hundred times faster with an index. This is particular
+                    expressions might run a hundred times faster with an index. This particulary
                     applies to the range index: without a range index, eXist has to do a full scan
                     over the context nodes to look up an element value, which severly limits 
                     performance and scalability.</para>
@@ -202,7 +202,7 @@
 </markup>
                     </programlisting>
                 </example>
-                <para>All configuration documents documents have an <sgmltag>index</sgmltag>
+                <para>All configuration documents have an <sgmltag>index</sgmltag>
                     element directly below the root element, which encloses the index configuration.
                     Only <emphasis>one</emphasis>
                     <sgmltag>index</sgmltag> element is permitted in a document. Apart from the
@@ -257,7 +257,7 @@
                     any query running on the database instance, no matter how the query is called.</para>
                 </step>
                 <step>
-                    <para>Click <guimenuitem>Refresh</guimenuitem> and switch to the <guimenuitem>Indexes</guimenuitem>
+                    <para>Click <guimenuitem>Refresh</guimenuitem> and switch to the <guimenuitem>Index Usage</guimenuitem>
                     tab.</para>
                 </step>
             </procedure>
