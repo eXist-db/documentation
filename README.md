@@ -1,5 +1,6 @@
 eXist-db Documentation
 ======================
+[![Build Status](https://travis-ci.org/eXist-db/documentation.svg?branch=master)](https://travis-ci.org/eXist-db/documentation)
 
 This repository contains the official documentation for the eXist-db Native XML database and the application for browsing it.
 
