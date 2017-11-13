@@ -1,0 +1,133 @@
+<!-- $Id$ -->
+<book>
+    <bookinfo>
+        <productname>eXist-db – Open Source Native XML Database</productname>
+        <title>The xmldb Module</title>
+        <orgname>The eXist-db Project</orgname>
+        <date>October 2012</date>
+    </bookinfo>
+    <chapter>
+        <title>The xmldb module</title>
+        <section>
+            <title>Introduction</title>
+            <para>The xmldb module (in the <uri>http://exist-db.org/xquery/xmldb</uri> function
+                namespace) contains functions for manipulating database contents. The full list of
+                functions and their documentation is in the <ulink url="/exist/apps/fundocs/view.html?uri=http://exist-db.org/xquery/xmldb&amp;location=java:org.exist.xquery.functions.xmldb.XMLDBModule">Function Documentation Library</ulink>. This article discusses some of the
+                highlights and main uses for this module.</para>
+        </section>
+        <section id="manipulating-database-contents">
+            <title>Manipulating Database Contents</title>
+            <para>The xmldb functions can be used to create new database collections, or to store
+                query output into the database. To illustrate, suppose we have a large file
+                containing several RDF metadata records, but we do not want to store the metadata
+                records in a single file, since our application expects each record to have its own
+                document. In this case, we must divide the document into smaller units. Using an
+                XSLT stylesheet would be one way to accomplish this; however, this is quite
+                memory-intensive, and the preferable option is to use XQuery to do the
+                job.</para>
+            <para>The XQuery script below shows how to split a large RDF file into a series of
+                smaller documents:</para>
+            <example>
+                <title>Splitting a Document</title>
+                <programlisting language="xquery"><![CDATA[xquery version "3.0";
+
+declare namespace rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+
+import module namespace xmldb="http://exist-db.org/xquery/xmldb";
+
+let $log-in := xmldb:login("/db", "admin", "")
+let $create-collection := xmldb:create-collection("/db", "output")
+for $record in doc('/db/records.rdf')/rdf:RDF/*
+let $split-record := 
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+        {$record}
+    </rdf:RDF>
+let $about := $record/@rdf:about
+let $filename := util:hash($record/@rdf:about/string(), "md5") || ".xml"
+return
+    xmldb:store("/db/output", $filename, $split-record)]]></programlisting>
+            </example>
+            <para>Let's look at this script in some detail. First, since we are using functions
+                xmldb:create-collection() and xmldb:store(), which require the user to be logged in
+                as a member of the dba group, we must log in using xmldb:login(). Once logged in, we
+                can create a new sub-collection, called "output" using
+                    <command>xmldb:create-collection</command>, for which we need to be logged in
+                appropriately using <command>xmldb:login</command>.</para>
+            <para>Next, the <command>for</command>-loop iterates through all child elements of the
+                top RDF element. In each iteration, we use <command>xmldb:store</command> to write out
+                the current child node to a new document. Since a unique document name is required
+                for each new document, we need a way to generate unique names. In this case, the URI
+                contained in the <command>rdf:about</command> attribute is unique, so we simply
+                compute an MD5 key from it, append the ".xml" extension, and use it as the
+                document's name.</para>
+        </section>
+        <section id="specifying-document-sets">
+            <title>Specifying the Input Document Set</title>
+            <para>A database can contain a virtually unlimited set of collections and documents.
+                Four functions are available to restrict the input document set to a user-defined set of
+                documents or collections: <command>doc()</command>, <command moreinfo="none">xmldb:document()</command>, <command moreinfo="none">collection()</command> and
+                    <command>xmldb:xcollection()</command>. The <command>collection()</command> and
+                    <command>doc()</command> functions are standard XQuery/XPath functions, whereas
+                    <command>xmldb:xcollection()</command> and <command>xmldb:document()</command>
+                are eXist-db-specific extensions.</para>
+            <para>Without an URI scheme, eXist-db interprets the arguments to
+                    <command>collection()</command> and <command>doc()</command> as absolute or
+                relative paths, leading to some collection or document within the database. For
+                example:</para>
+            <synopsis>doc("/db/collection1/collection2/resource.xml")</synopsis>
+            <para>refers to a resource stored in
+                <filename>/db/collection1/collection2</filename>.</para>
+            <synopsis>doc("resource.xml")</synopsis>
+            <para>references a resource relative to the base URI property defined in the static
+                XQuery context. The base URI contains an XML:DB URI pointing to the base collection
+                for the current query context, e.g. <filename>xmldb:exist:///db</filename>.</para>
+            <para>The base collection depends on how the query context was initialized. If you call
+                a query via the XML:DB API, the base collection is the collection from which the
+                query service was obtained. All relative URLs will be resolved relative to that
+                collection. If a stored query is executed via REST, the base collection is the
+                collection in which the XQuery source resides. In most other cases, the base
+                collection will point to the database root /db. </para>
+            <note>
+                <para>As it might not always be clear what the base collection is, we recommend to
+                    use an explicit path to access a document. This makes it easier to use a query
+                    via different interfaces.</para>
+            </note>
+            <para>You can also pass a full URI to the <command>doc()</command> function:</para>
+            <synopsis>doc("http://localhost:8080/exist/servlet/db/test.xml")</synopsis>
+            <para>in this case, the URI will be retrieved and the data stored into a temporary
+                document in the database.</para>
+            <!-- really? are we still using temporary documents? or should this be changed to "stored in memory" -->
+            <variablelist>
+                <varlistentry>
+                    <term>doc() / xmldb:document()</term>
+                    <listitem>
+                        <para>While <command>doc()</command> is restricted to a single document-URI
+                            argument, <command>xmldb:document()</command> accepts multiple document
+                            paths to be included into the input node set. Second, calling
+                                <command>xmldb:document()</command> without an argument includes
+                                <emphasis>EVERY</emphasis> document node in the current database
+                            instance. Some examples:</para>
+                        <synopsis format="linespecific">doc("/db/apps/demo/data/hamlet.xml")//SPEAKER</synopsis>
+                        <synopsis format="linespecific">xmldb:document('/db/test/abc.xml', '/db/test/def.xml')//title</synopsis>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>collection() / xmldb:xcollection()</term>
+                    <listitem>
+                        <para>The <command moreinfo="none">collection()</command> function specifies
+                            the collection of documents to be included in the query evaluation. By
+                            default, documents found in sub-collections of the specified collection
+                            are also included. For example, suppose we have a collection <filename moreinfo="none">/db/test</filename> that includes two sub-collections
+                                <filename moreinfo="none">/db/test/abc</filename> and <filename moreinfo="none">/db/test/def</filename>. In this case, the function
+                            call <command moreinfo="none">collection('/db/test')</command> will
+                            include all of the resources found in <filename moreinfo="none">/db/test</filename>, <filename moreinfo="none">/db/test/abc</filename> and <filename moreinfo="none">/db/test/def</filename>.</para>
+                        <para>The function <command moreinfo="none">xmldb:xcollection()</command>
+                            can be used to change the behavior of <command moreinfo="none">collection()</command>. For instance, the function call </para>
+                        <synopsis format="linespecific">xmldb:xcollection('/db/test')//title</synopsis>
+                        <para>will ONLY include resources found in <filename moreinfo="none">/db/test</filename>, but NOT in <filename moreinfo="none">/db/test/abc</filename> or <filename moreinfo="none">/db/test/def</filename>.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </section>
+    </chapter>
+</book>

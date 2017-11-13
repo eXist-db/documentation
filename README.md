@@ -1,5 +1,6 @@
 eXist-db Documentation
 ======================
+[![Build Status](https://travis-ci.org/eXist-db/documentation.svg?branch=master)](https://travis-ci.org/eXist-db/documentation)
 
 This repository contains the official documentation for the eXist-db Native XML database and the application for browsing it.
 
@@ -11,10 +12,38 @@ This repository contains the official documentation for the eXist-db Native XML 
 
 ## Building from source
 
-- Dependencies: Apache Ant, eXist 2.2+
-- Clone the repository to your system
-- From the command line, call `ant`
-- An EXPath Application Package (.xar file) is deposited in the `build` directory
-- Install this file via the Dashboard > Package Manager.
+1. Dependencies: Maven 3.x
+
+2. Clone the repository to your system:
+
+```bash
+$ git clone https://github.com/exist-db/documentation.git exist-documentation
+```
+
+3. Build the documentation application:
+```bash
+$ cd exist-documentation
+$ mvn clean package
+```
+
+4. An EXPath Application Package (.xar file) is deposited in the `target` directory
+
+5. Install this file via the Dashboard > Package Manager.
 
 Find an area of the documentation that needs to be improved? Please raise an issue and submit a pull request!
+
+
+## Building a Release from source
+
+1. Follow the instructions from [Building from source](#building-from-source)
+
+2. Create a Release:
+
+```bash
+$ mvn release:prepare
+$ mvn release:perform
+```
+
+3. An EXPath Application Package (.xar file) is deposited in the `target` directory
+
+4. If you are a core contributor, you should then commit and push.
