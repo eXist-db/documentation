@@ -116,9 +116,12 @@
             <para>Should you need to perform non-incremental upgrade across mutiple non-compatible releases, e.g. from 1.4 to 3.6, we strongly recommend to first check past release notes to understand how breaking changes might affect you.</para>
             <para>After making the necessary changes to your old instance, we recommend to attempt a longjump upgrade, ie. restoring into the latest desired version.  YMMV.</para>
             <table id="old-news">
+                <title>Notes on previous releases</title>
+                <tgroup cols="2">
+                    <tbody>
                 <tr>
                     <td>3.6</td>
-                    <td><ulink ref="http://exist-db.org/exist/apps/wiki/blogs/eXist/">release notes</ulink></td> <!--needs update with next breaking release DP-->
+                    <td><ulink url="http://exist-db.org/exist/apps/wiki/blogs/eXist/">release notes</ulink></td> <!--needs update with next breaking release DP-->
                 </tr>
                 <tr>
                     <td>3.0</td>
@@ -135,6 +138,8 @@
                 <tr><td>1.4.0</td>
                     <td><ulink url="incompatibilities.xml#v1.4">special notes</ulink></td>
                 </tr>
+                    </tbody>
+                </tgroup>
             </table>
         </section>
     </chapter>
