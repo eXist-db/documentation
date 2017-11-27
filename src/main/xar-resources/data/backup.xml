@@ -3,7 +3,7 @@
     <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Database Backup and Restore</title>
-        <date>August 2012</date>
+        <date>27-11-2017</date>
         <author>
             <firstname>Wolfgang M.</firstname>
             <surname>Meier</surname>
@@ -28,7 +28,10 @@
             <title>Backup Format</title>
             <para>During backup, eXist-db exports the contents of its database (as standard XML files)
                 to a hierarchy of directories on the hard drive. This hierarchy is organized
-                according to the organization of collections in the database.</para>
+                according to the organization of collections in the database.</para> 
+            <para>The location of the backup files depends on backup method (s.b.). Backups via the dashboard, 
+                or via XQuery write backups into the <code>export</code> directory inside the data directory of the eXist instance. 
+                The Emergency Backup Tool writes into <code>$EXIST_HOME/export</code> unless configured otherwise.</para>
             <para>Other files stored during backup include index configuration files and user
                 settings. Resource and collection metadata is exported to a special XML file, called
                 <filename>__contents__.xml</filename>, which lists information including the
@@ -47,12 +50,19 @@
                 all your users, you can simply edit the file <filename>users.xml</filename> by
                 removing the <option>password</option> attribute, or set it to a default value and
                 restore the document.</para>
+            <para>During backups eXist first runs a consistency check on the database, 
+                trying to identify potential issues in the internal storage structure. 
+                Based on the result of the check, the backup task attempts to rescue as much data as possible, working around any detected issues.</para>
             <note>
                 <para> When migrating to a new eXist-db version, take care to use a version of the
                     client corresponding to your server version. Usually, the backup process is
                     backwards compatible. However, using a newer client version to create the backup
                     from a server running an older version may sometimes lead to unexpected
                     problems.</para>
+                <para>The backup files include a report. Normally this just contains the list of collections which were backed up.If you notice any warnings or errors, 
+                    it is especially important that you perform a “full restore” of your backed-up data onto the new installation of eXist, 
+                    as described in the <ulink url="backup.xml#restore">following steps.</ulink>
+                </para>
             </note>
             <important>
                 <para>Due to limitations of the ZIP format, please make sure the size of your zipped backup does
@@ -393,7 +403,7 @@
                     </step>
                     <step>
                         <para>Change into directory <filename>EXIST_HOME/webapp/WEB-INF/data</filename> or another directory you
-                            specified as data directory in the configuration (conf.xml). </para>
+                            specified as data directory in the configuration (conf.xml).</para> <!--new users don't know what or where (conf.xml) DP-->
                     </step>
                     <step>
                         <para>Remove all <filename>.dbx</filename>, <filename>.lck</filename> and

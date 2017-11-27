@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
 <book>
     <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
-        <title>Upgrading Guide</title>
-        <date>November 2009</date>
+        <title>Upgrade Guide</title>
+        <date>27-11-2017</date>
         <author>
             <firstname>Wolfgang M.</firstname>
             <surname>Meier</surname>
@@ -17,207 +16,131 @@
     </bookinfo>
     <chapter>
         <title>Upgrade Guide</title>
-        <section>
-            <title>General Information</title>
-            <para>Never install a new version of eXist-db into the same directory as an older
-                version:</para>
+        <section id="overview">
+            <title>Overview</title>
+            <para>This article explains the best practices for upgrading eXist-db. It introduces key concepts and provides instructions for different types of upgrades. Following these instructions will ensure your data is properly backed up and preserved during the upgrade process.</para>
+        </section>
+        <section id="key-concepts">
+            <title>Key concepts</title>
+            <para>The primary goal of an eXist upgrade is to migrate your eXist application to a new version while preserving the contents of your database.</para>
+            <para>Before embarking on an upgrade, you should first review the new version's release notes (see the <ulink url="http://exist-db.org/exist/apps/wiki/blogs/eXist/">eXist Developer's Blog</ulink> for an archive of all past release notes). The release notes introduce the new version's new features, improvements, and bug fixes, but they also outline any new requirements (e.g., the required version of Java). For the purpose of this guide, the most important item in the release notes is whether the new version is <emphasis>binary-compatible</emphasis> with the previous version or not. Pay close attention to these notes, as they will tell you which upgrade route to follow here.</para>
+            <para>If a new version is binary-compatible with the previous version, it means that the format eXist uses to store the contents of the database has not changed, so the data can be used by new version without modification. However, if a new version is not binary-compatible, then it means that the new version of eXist has changed the way it reads data from or stores data into the database. As a result, some additional steps are required to migrate your data to the new version of eXist.</para>
+            <para>You should always back up your data before upgrading to any new version of eXist; the directions below indicate when and how to perform a backup. Why is backing up data important before an upgrade? Of course, upgrade procedures are tested with each release, but as with any software upgrade, unexpected events can occur, so these procedures give you a backup of your data that you can revert to with your previous version of eXist and resume work.</para>
+            <para>For the same reason, you should not install the new version of eXist over the previous version. Instead, these instructions have you install the new version into a fresh new directory.</para>
+        </section>
+        <section id="binary-compatible-upgrades">
+            <title>Binary Compatible Upgrades</title>
+            <para>Follow these steps if the new version of eXist is binary-compatible with the your old version. Check the new version's release notes to find out whether it is binary compatibility with your old version.</para>
             <procedure>
                 <step>
-                    <para>Create a <ulink url="backup.xml">backup</ulink> of your data. If the new
-                        version is <emphasis>binary compatible</emphasis> with the old version, keep
-                        the data directory (by default in <filename>webapp/WEB-INF/data</filename>)
-                        of the old version. Note: A running instance of eXist-db needs to be stopped before copying files
-                        from the data dir.</para>
+                    <para>Stop the old installation of eXist, if it is running.</para>
                 </step>
                 <step>
-                    <para>Install the new version into a different location.</para>
+                    <para>Create a <ulink url="backup.xml">backup</ulink> of the data from your old installation of eXist.</para>
                 </step>
                 <step>
-                    <para>If the new version is <emphasis>binary compatible</emphasis>, replace the
-                        data directory of the new install with the one from the old one.</para>
-                    <para>Otherwise you need to do a full <ulink url="backup.xml#restore">restore</ulink> of the data.</para>
+                    <para>Install the new version of eXist. Do not install one eXist version over another one. 
+                        Always install the new version into a fresh new directory.</para>
+                </step>
+                <step>
+                    <para>Remove the <emphasis>empty</emphasis> <code>data</code> directory from the new installation. 
+                        Typically the data directory is located in <code>webapp/WEB-INF/data</code>. 
+                        If you are not sure where the data directory is located, 
+                        you can check the <ulink url="troubleshooting.xml#logs"><code>exist.log</code></ulink>, 
+                        searching for entires after startup pertaining to <code>DATA_DIR</code>.
+                    </para>
+                </step>
+                <step>
+                    <para>Copy the entire old data directory, and paste it to the location of the directory you just deleted in the previous step.</para>
+                </step>
+                <step>
+                    <para>Start the new eXist instance.</para>
+                </step>
+                <step>
+                    <para>Check the <ulink url="troubleshooting.xml#logs"><code>exist.log</code></ulink> for any errors during startup.</para>
                 </step>
             </procedure>
         </section>
-        <section>
-            <title>Upgrading to 3.0 stable</title>
-            <para>eXist-db v3.0 is not binary compatible with previous versions of eXist-db; the on-disk database file format has been updated, users should perform a full backup and restore to migrate their data.</para>
-            <para>eXist.db v3.0 and subsequent versions now require <emphasis>Java 8</emphasis>; Users must update to Java 8!</para>
-            <para>3.0 removes the the legacy Full Text Index and the  text (http://exist-db.org/xquery/text) XQuery module. Users should now look toward <code>fn:analyze-string</code>, e.g.
-                <orderedlist>
-                    <listitem>
-                        <para>instead of using <code>text:groups()</code> use <code>analyze-string()//fn:group</code>,</para>
-                    </listitem>
-                    <listitem>
-                        <para>instead of <code>text:filter("apparat", "([pr])")</code> use <code>analyze-string("apparat", "([pr])")//fn:match/string())</code>.</para>
-                    </listitem>
-                </orderedlist>                
-            </para>
-            <para>Furthermore, the SOAP APi, SOAP server, and XACML Security features were removed.</para>
-            <para>The versioning extension is now available as a separate <ulink url="https://github.com/eXist-db/xquery-versioning-module">EXPATH package</ulink></para>
-            <para>XQueryService has been moved from <code>DBBroker</code> to <code>BrokerPool</code>.</para>
-            <para>EXPath packages that incorporate Java libraries may no longer work with eXist-db v3.0 and may need to be recompiled for our API changes; packages should now explicitly specify the eXist-db versions that they are compatible with.</para>
-            <para>eXist-db v3.0 is the culmination of almost 1,500 changes. For more information on new features head to the <ulink url="http://exist-db.org/exist/apps/wiki/blogs/eXist//eXist-db-v3">blog</ulink>.</para>
-            </section>
-        <section>
-            <title>Upgrading to 2.2 final</title>
-            <para>The 2.2 release is not binary compatible with the 1.4.x series. You need to
-                backup/restore. If you experience problems with user logins after the restore, please restart eXist-db.</para>
-            <para>2.2 introduces a <emphasis>new range index module</emphasis>. Old index definitions will still work though as we made sure to keep backwards
-                compatible. If you would like to upgrade to the new index, check its <ulink url="newrangeindex.xml">documentation</ulink>.</para>
-            <para>The XQuery engine has been updated to support the changed syntax for <emphasis>maps in XQuery 3.1</emphasis>. The query parser will still accept the
-                old syntax for map constructors though (<code>map { x:= "y"}</code> instead of <code>map { x: "y" }</code> in XQuery 3.1), so old
-                code should run without modifications. All map module functions from XQuery 3.1 are 
-                <ulink url="{fundocs}/view.html?uri=http://www.w3.org/2005/xpath-functions/map&amp;location=java:org.exist.xquery.functions.map.MapModule">available</ulink>.</para>
-            <para>The signatures for some <emphasis>higher-order utility functions</emphasis> like fn:filter, fn:fold-left and fn:fold-right have changed as well. Please review your
-                use of those functions. Also, fn:map is now called fn:for-each, though the old name is still accepted.</para>
-            <para>The bundled Lucene has been upgraded from 3.6.1
-		to 4.4 with this release. Depending on what Lucene
-		analyzers you are using you need to change the
-		classnames in your
-		<filename>collection.xconf</filename>s. E.g. KeywordAnalyzer
-		and WhitespaceAnalyzer has moved into package
-		<filename>org.apache.lucene.analysis.core</filename>. Thus
-		change, any occurrence of
-		<filename>org.apache.lucene.analysis.WhitespaceAnalyzer</filename>
-		into
-		<filename>org.apache.lucene.analysis.core.WhitespaceAnalyzer</filename>
-		and all other moved classes in the collection
-		configurations and make sure you reindex your data
-		before use. You get an error notice in the
-		<filename>exist.log</filename> if you overlooked any
-		occurrences.</para>
+        <section id="non-binary-compatible-upgrades">
+            <title>Binary Non-compatible Upgrades</title>
+            <para>Follow these steps if the new version of eXist is not binary-compatible with the your old version. 
+                (Check the new version's release notes to find out whether it is binary compatibility with your old version.) 
+                Additional steps are required when upgrading to a new version of eXist whose database format is not binary-compatible with your old installation. 
+                The key difference is that you must perform a <emphasis>full restore</emphasis> of your backed up data onto the new installation of eXist, 
+                rather than simply copying the data directory to the new installation.</para>
+            <procedure>
+                <step>
+                    <para>Create a <ulink url="backup.xml#D2.4.10">server-side backup</ulink>. This can be done in a number of ways:
+                        <orderedlist>
+                        <listitem>
+                            <para>Use Backup Central from the Dashboard (with "Zip" option for databases with less then 4GB)</para>
+                        </listitem>
+                        <listitem>
+                            <para>The Emergency Backup Tool (GUI) for installer based systems:</para> 
+                            <programlisting language="shell">java -jar start.jar -Xmx2048m org.exist.backup.ExportGUI</programlisting> <!--listing in backup.xml has no -Xmx parameter DP-->
+                        </listitem>
+                        <listitem>
+                            <para>The Emergency Backup Tool (CLI) for headless sytems:</para>
+                            <programlisting language="shell">java -jar start.jar org.exist.backup.ExportMain -x -z</programlisting> <!--listing in backup.xml has no -x -z parameters DP-->
+                        </listitem>
+                        <listitem>
+                            <para>Via XQuery:</para>
+                            <programlisting language="xquery">system:trigger-system-task("org.exist.storage.ConsistencyCheckTask",
+    &lt;parameters&gt;
+        &lt;param name="backup" value="yes"/&gt;
+        &lt;param name="output" value="export"/&gt;
+    &lt;/parameters&gt;)</programlisting>
+                        </listitem>
+                    </orderedlist>
+                    </para>
+                    <para>Once the backup is complete, you should check the backup report in the <code>export</code> directory 
+                        within either the data directory (for backups created via the Dashboard, or Xquery) or 
+                        <code>$EXIST-HOME</code> (for Backups created by the Emergency Backup Tool).</para>
+                    <para>Normally this just contains the list of collections which were backed up. If you see any warnings or errors, 
+                        it is especially important that you perform a “full restore” of your backed-up data onto the new installation of eXist.</para>
+                </step>
+                <step>
+                    <para>Stop the old installation of eXist.</para>
+                </step>
+                <step>
+                    <para>Install the new version of eXist. (Again, do not install one eXist version over another one. Always install the new version into a fresh new directory.)</para>
+                </step>
+                <step>
+                    <para>Perform a full <ulink url="backup.xml#restore">restore</ulink> of the backup onto the new version of eXist.</para>
+                </step>
+            </procedure>
         </section>
-        <section>
-            <title>Upgrading to 2.1</title>
-            <para>The 2.1 release is not binary compatible with the 1.4.x series. You need to
-                backup/restore. 2.1 is binary compatible with 2.0 though.</para>
-        </section>
-        <section>
-            <title>Upgrading to 2.0</title>
-            <para>The 2.0 release is not binary compatible with the 1.4.x series. You need to
-                backup/restore.</para>
-            <section>
-                <title>Special Notes</title>
-                <variablelist>
-                    <varlistentry>
-                        <term>Permissions</term>
-                        <listitem>
-                            <para>eXist-db 2.0 closely follows the Unix security model (plus ACLs). Permissions have thus
-                                changed between 1.4.x and 2.0. In particular, there's now an execute permission, which is
-                                required to</para>
-                            <orderedlist>
-                                <listitem>
-                                    <para>execute an XQuery via any of eXist-db's interfaces</para>
-                                </listitem>
-                                <listitem>
-                                    <para>change into a collection to view or modify its contents</para>
-                                </listitem>
-                            </orderedlist>
-                            <para>eXist-db had an update permission instead of the execute permission. Support for the update permission
-                                has been dropped because it was not used widely.</para>
-                            <para>When restoring data from 1.4.x, you thus need to make sure that:</para>
-                            <orderedlist>
-                                <listitem>
-                                    <para>collections have the appropriate execute permission</para>
-                                </listitem>
-                                <listitem>
-                                    <para>XQueries are executable</para>
-                                </listitem>
-                            </orderedlist>
-                            <para>You can use an XQuery to automatically apply a default permission to every collection and XQuery, and
-                                then change them manually for some collections or resources.</para>
-                            <programlisting language="xquery">xquery version "3.0";
-
-import module namespace dbutil="http://exist-db.org/xquery/dbutil";
-
-dbutil:find-by-mimetype(xs:anyURI("/db"), "application/xquery", function($resource) {
-    sm:chmod($resource, "rwxr-xr-x")
-}),
-dbutil:scan-collections(xs:anyURI("/db"), function($collection) {
-    sm:chmod($collection, "rwxr-xr-x")
-})</programlisting>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term>Webapp Directory</term>
-                        <listitem>
-                            <para>Contrary to 1.4.x, eXist-db 2.0 stores most web applications into the database. The webapp
-                            directory is thus nearly empty. It is still possible to put your web application there and it should
-                            be accessible via the browser in the same way as before.</para>
-                        </listitem>
-                    </varlistentry>
-                </variablelist>
-            </section>
-        </section>
-        <section>
-            <title>Upgrading to 1.4.0</title>
-            <para>The 1.4 release is not binary compatible with the 1.2.x series. You need to
-                backup/restore.</para>
-            <section>
-                <title>Special Notes</title>
-                <variablelist>
-                    <varlistentry>
-                        <term>Indexing</term>
-                        <listitem>
-                            <para>eXist-db 1.2.x used to create a default full text index on all
-                                elements in the db. This has been <emphasis>disabled</emphasis>. The
-                                main reasons for this are:</para>
-                            <orderedlist>
-                                <listitem>
-                                    <para>maintaining the default index costs performance and
-                                        memory, which could be better used for other indexes. The
-                                        index may grow very fast, which can be a destabilizing
-                                        factor.</para>
-                                </listitem>
-                                <listitem>
-                                    <para>the index is unspecific. The query engine cannot use it as
-                                        efficiently as a dedicated index on a set of named elements
-                                        or attributes. Carefully creating your indexes by hand will
-                                        result in much better performance.</para>
-                                </listitem>
-                            </orderedlist>
-                            <para>Please consider using the new Lucene-based full text index.
-                                However, if you need to switch back to the old behaviour to ensure
-                                backwards compatibility, just edit the system-wide defaults in
-                                conf.xml:</para>
-                            <programlisting>
-                                <markup>&lt;index&gt;
-    &lt;fulltext attributes="false" default="none"&gt;
-        &lt;exclude path="/auth"/&gt;
-    &lt;/fulltext&gt;
-&lt;/index&gt;</markup>
-                            </programlisting>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term>Document Validation</term>
-                        <listitem>
-                            <para>Validation of XML documents during storage is now <emphasis>turned
-                                    off by default</emphasis> in <filename>conf.xml</filename>:</para>
-                            <synopsis language="xml">&lt;validation mode="no"&gt;</synopsis>
-                            <para>The previous <option>auto</option> setting was apparently too
-                                confusing for new users who did not know what to do if eXist-db refused
-                                to store a document due to failing validation. If you are familiar
-                                with <ulink url="validation.xml">validation</ulink>, the use of
-                                catalog files and the like, feel free to set the default back to
-                                    <option>auto</option> or <option>yes</option>.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term>Cocoon</term>
-                        <listitem>
-                            <para>eXist-db does no longer require Cocoon for viewing documentation and
-                                samples. Cocoon has been largely replaced by eXist-db's own <ulink url="urlrewrite.xml">URL rewriting and MVC
-                                framework</ulink>.</para>
-                            <para>Consequently, we now limit Cocoon to one directory of the web
-                                application (<filename>webapp/cocoon</filename>) and moved all the
-                                Cocoon samples in there. For the 1.5 version we completely
-                                removed Cocoon support.</para>
-                        </listitem>
-                    </varlistentry>
-                </variablelist>
-            </section>
+        <section id="compatibility-history">
+            <title>History of Non-compatible Upgrades</title>
+            <para>This is a list of binary non-compatible releases for quick reference.</para>
+            <para>Should you need to perform non-incremental upgrade across mutiple non-compatible releases, e.g. from 1.4 to 3.6, we strongly recommend to first check past release notes to understand how breaking changes might affect you.</para>
+            <para>After making the necessary changes to your old instance, we recommend to attempt a longjump upgrade, ie. restoring into the latest desired version.  YMMV.</para>
+            <table id="old-news">
+                <title>Notes on previous releases</title>
+                <tgroup cols="2">
+                    <tbody>
+                <tr>
+                    <td>3.6</td>
+                    <td><ulink url="http://exist-db.org/exist/apps/wiki/blogs/eXist/">release notes</ulink></td> <!--needs update with next breaking release DP-->
+                </tr>
+                <tr>
+                    <td>3.0</td>
+                    <td><ulink url="incompatibilities.xml#v3.0">special notes</ulink></td>
+                </tr>
+                <tr> 
+                    <td>2.2</td>
+                    <td><ulink url="incompatibilities.xml#v2.2">special notes</ulink></td>
+                </tr>
+                <tr>
+                    <td>2.0</td>
+                    <td><ulink url="incompatibilities.xml#v2.0">special notes</ulink></td> <!--can't locate 2.0 release notes on dev blog DP-->
+                </tr>
+                <tr><td>1.4.0</td>
+                    <td><ulink url="incompatibilities.xml#v1.4">special notes</ulink></td>
+                </tr>
+                    </tbody>
+                </tgroup>
+            </table>
         </section>
     </chapter>
 </book>
