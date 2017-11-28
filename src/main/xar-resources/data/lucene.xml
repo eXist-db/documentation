@@ -63,7 +63,7 @@
                         <listitem>
                             <para>Defines the amount of memory (in megabytes) Lucene will use for
                                 buffering index entries before they are written to disk. See the
-                                <ulink url="http://lucene.apache.org/core/4_4_0/core/org/apache/lucene/index/IndexWriterConfig.html#setRAMBufferSizeMB(double)">Lucene javadocs</ulink>.</para>
+                                <ulink url="http://lucene.apache.org/core/4_10_4/core/org/apache/lucene/index/IndexWriterConfig.html#setRAMBufferSizeMB(double)">Lucene javadocs</ulink>.</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>
@@ -533,7 +533,7 @@
 order by ft:score($m) descending
 return $m</programlisting>
             </example>
-            <para>The query function takes a query string in Lucene's default <ulink url="http://lucene.apache.org/core/3_6_0/queryparsersyntax.html">query
+            <para>The query function takes a query string in Lucene's default <ulink url="https://lucene.apache.org/core/4_10_4/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description">query
                     syntax</ulink>. It returns a set of nodes which are relevant with respect to the
                 query. Lucene assigns a relevance score or rank to each match. This score is
                 preserved by eXist-db and can be accessed through the score function, which returns a
