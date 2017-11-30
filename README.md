@@ -5,13 +5,11 @@
 This repository contains the official documentation for the eXist-db Native XML database and the application for browsing it.
 
 ## Resources
-
 -   Browse the latest release of the documentation at [http://exist-db.org/exist/apps/doc/](http://exist-db.org/exist/apps/doc/).
 -   The documentation app is included by default in the eXist-db installer. Just go to your eXist server's Dashboard and select Documentation.
 -   Update to the latest release via the eXist-db package manager or via the eXist-db.org public app repository at <http://exist-db.org/exist/apps/public-repo/>.
 
 ## Building from source
-
 1.  Dependencies: Maven 3.x
 
 2.  Clone the repository to your system:
@@ -29,36 +27,35 @@ $ mvn clean package
 
 5.  Install this file via the Dashboard > Package Manager.
 
-Find an area of the documentation that needs to be improved? Please raise an [issue](https://github.com/eXist-db/documentation/issues) or better yet submit a [pull request](https://github.com/eXist-db/documentation/pulls)!
+
+## Contributions
+Found an area of the documentation that needs to be improved? Please raise an [issue](https://github.com/eXist-db/documentation/issues) or better yet submit a [pull request](https://github.com/eXist-db/documentation/pulls)!
 
 Our test-suite performs a validation check on all articles when you open a pull request. You can speed up the review process by using `mvn validate` locally before submitting a pull request.
 
-
 ## Building a Release from source
-
 1.  Merge outstanding and reviewed PRs.
 
-2.  Set version numbers in `pom.xml`.
-    -  The major version of the documentation app mirrors the [major version](https://github.com/eXist-db/exist/blob/develop/exist-versioning-release.md#versioning-scheme) of the current eXist-db release. So for exist-db version `3.x.x` the documentation's version should be `3.y.y`. Minor and Patch numbers can vary between the two.
-    -   You should also check and set the appropriate `exist.version` to prevent users of older exist releases, from installing the wrong documentation locally.
+2.  Set the `exist.version` in  `pom.xml` to prevent users of older exist releases, from installing the wrong documentation locally.
 
 3.  Edit the release notes in `xar-assembly.xml` describing which article changed and how.
 
-2.  Follow the instructions from [Building from source](#building-from-source)
+4.  Follow the instructions from [Building from source](#building-from-source)
 
-3.  Create a Release:
+5.  Create a Release:
 ```bash
 $ mvn release:prepare
 $ mvn release:perform
 ```
-This will create an EXPath Application Package (.xar file) in the `/target` directory
 
-5.  If you are a core contributor, you should then commit and push.
+When prompted to pick a version number for the release, remember to mirror the [major version](https://github.com/eXist-db/exist/blob/develop/exist-versioning-release.md#versioning-scheme) of the current eXist-db release. So for exist-db version 3.x.x the documentation's version should be 3.y.y. The minor and patch numbers remain independent of each other. 
 
-    This  automatically increments the version number in the  master branch to the next `-SNAPSHOT`.
+You can find the EXPath Application Package (.xar file) for the release in the `/target` directory
 
-6.  Check [GitHub releases](https://github.com/eXist-db/documentation/releases)
-    -   The compiled .xar file of the stable release should have been uploaded for archiving.
-    -   Copy the release notes from `xar-assembly.xml` to the GitHub release.  
+6.  If you are a core contributor, you should then commit and push.
+
+7.  Check [GitHub releases](https://github.com/eXist-db/documentation/releases)
+    -   to see if the  compiled .xar file of the stable release was uploaded for archiving.
+    -   to copy the release notes from `xar-assembly.xml` to the GitHub release.  
 
 8.  Inform the exist-db.org admins that the documentation app should be released in the application repository and deployed on the server.
