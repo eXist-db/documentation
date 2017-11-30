@@ -39,8 +39,8 @@ Our test-suite performs a validation check on all articles when you open a pull 
 1.  Merge outstanding and reviewed PRs.
 
 2.  Set version numbers in `pom.xml`.
-    2.  The major version of the documentation app mirrors the [major version](https://github.com/eXist-db/exist/blob/develop/exist-versioning-release.md#versioning-scheme) of the current eXist-db release. So for exist-db version `3.x.x` the documentation's version should be `3.y.y`. Minor and Patch numbers can vary between the two.
-    3.  You should also check and set the appropriate `exist.version` to prevent users of older exist releases, from installing the wrong documentation locally.
+    -  The major version of the documentation app mirrors the [major version](https://github.com/eXist-db/exist/blob/develop/exist-versioning-release.md#versioning-scheme) of the current eXist-db release. So for exist-db version `3.x.x` the documentation's version should be `3.y.y`. Minor and Patch numbers can vary between the two.
+    -   You should also check and set the appropriate `exist.version` to prevent users of older exist releases, from installing the wrong documentation locally.
 
 3.  Edit the release notes in `xar-assembly.xml` describing which article changed and how.
 
@@ -58,8 +58,7 @@ This will create an EXPath Application Package (.xar file) in the `/target` dire
     This  automatically increments the version number in the  master branch to the next `-SNAPSHOT`.
 
 6.  Check [GitHub releases](https://github.com/eXist-db/documentation/releases)
-    1.  The compiled .xar file of the stable release should have been  uploaded for archiving.
-
-    2.  Copy the release notes from `xar-assembly.xml` to the GitHub release.  
+    -   The compiled .xar file of the stable release should have been uploaded for archiving.
+    -   Copy the release notes from `xar-assembly.xml` to the GitHub release.  
 
 8.  Inform the exist-db.org admins that the documentation app should be released in the application repository and deployed on the server.
