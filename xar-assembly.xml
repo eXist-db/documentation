@@ -14,9 +14,9 @@
     <tag>documentation</tag>
     <category id="apps">Applications</category>
     <category id="doc">Documentation</category>
+    <dependency processor="http://exist-db.org" semver-min="${exist.version}"/>
     <dependency package="http://exist-db.org/apps/shared" semver-min="0.4.0" />
     <prepare>pre-install.xql</prepare>
-    <permissions user="admin" password="" group="dba" mode="rw-rw-r--"/>
     <note>Note for users of eXist 2.x: When upgrading, please make sure you also updated the shared-resources package to > 0.4.0.</note>
     <changelog>
         <change version="0.6.0">
