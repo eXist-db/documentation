@@ -41,7 +41,7 @@
                     on commercial Linux distributions. Users of other distributions are better
                     served by distribution-specific instructions. Instructions that eXist-db users
                     have found useful include: <ulink url="http://livingtao.blogspot.com/2012/01/few-easy-steps-to-install-sunoracle-jdk.html">Amazon Linux</ulink>, <ulink url="http://www.webupd8.org/2012/01/install-oracle-java-jdk-7-in-ubuntu-via.html">Ubuntu</ulink> and <ulink url="http://www.webupd8.org/2012/06/how-to-install-oracle-java-7-in-debian.html">Debian</ulink>.</para>                
-                <para>Special note: In general it recommended to use the Oracle Java VM, this is the safest choice. The OpenJDK 7 is a good open source alternative for the Oracle JVM.</para>
+                <para>Special note: In general it is recommended to use the Oracle Java VM; this is the safest choice. The OpenJDK 7 is a good open source alternative for the Oracle JVM.</para>
                 <para>Details of the Java VM can be obtained via the following command (two results displayed):
                     <synopsis format="linespecific">java -version
 java version ""1.8.0_60-ea""
@@ -55,8 +55,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.60-b19, mixed mode)
         <section id="installation">
             <title>Installing eXist-db</title>
             <para>Download the installer for the latest stable release of eXist-db from the <ulink url="http://exist-db.org/exist/apps/homepage/index.html#subscriptions">Downloads</ulink> page. The installer is a single file called
-                <filename>eXist-setup-[version]-revXXXXX.jar</filename>. Here, [version] and
-                XXXXX reflect the version and revision numbers of eXist-db, and .jar is a Java
+                <filename>eXist-db-setup-[version].jar</filename>. Here, [version] reflects the version number of eXist-db, and .jar is a Java
                 Archive file. We recommend that you download the <emphasis>latest stable
                     release</emphasis>.</para>
             <para>Once the download has completed, launch the eXist-db installer. To launch the
@@ -68,7 +67,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.60-b19, mixed mode)
                 (e.g., Ubuntu), you can launch the installer by making the .jar file executable,
                 right-clicking on the .jar file, and selecting the "Open With ... Java" option. Or,
                 to launch the installer from the command line, enter the following command:
-                <synopsis format="linespecific">java -jar eXist-setup-[version]-revXXXXX.jar</synopsis>
+                <synopsis format="linespecific">java -jar eXist-db-setup-[version].jar</synopsis>
                 (Windows and Mac users can also use the command line procedure, but most users
                 prefer the graphical installer. For installs on a headless system, see <ulink url="advanced-installation.xml#headless">Headless Installation</ulink>.)</para>
             <para>After the installer is launched, follow the prompts described below to complete
