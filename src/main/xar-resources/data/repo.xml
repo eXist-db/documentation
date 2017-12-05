@@ -106,9 +106,11 @@
                 <para>As an example, the EXPath descriptor for the documentation app is shown
                     below:</para>
                 <programlisting language="xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;package xmlns="http://expath.org/ns/pkg" name="http://exist-db.org/apps/doc" abbrev="doc" version="0.3.2" spec="1.0"&gt;
-    &lt;title&gt;eXist-db Documentation App&lt;/title&gt;
-    &lt;dependency package="http://exist-db.org/apps/shared" semver-min="0.3.5"/&gt;
+&lt;package xmlns="http://expath.org/ns/pkg" name="http://exist-db.org/apps/doc" abbrev="exist-documentation" version="0.6.1" spec="1.0"&gt;
+    &lt;title&gt;eXist-db Documentation&lt;/title&gt;
+    &lt;home&gt;https://www.github.com/exist-db/documentation&lt;/home&gt;
+    &lt;dependency processor="http://exist-db.org" semver-min="3.5.0"/&gt;
+    &lt;dependency package="http://exist-db.org/apps/shared" semver-min="0.4.0"/&gt;
 &lt;/package&gt;</programlisting>
                 <para>The schema of this file is documented in the specification. In short, the
                     attributes are as follows:</para>
@@ -203,13 +205,8 @@
                 </variablelist>
                 <para>We definitely recommend to prefer semver, semver-min and semver-max where
                     possible.</para>
-                <para>In addition to dependencies on other packages, it is also possible to require
-                    a certain eXist-db version for a package. However, this is currently not
-                    enforced because it is difficult to determine versions reliably.  The Dashboard
-                    will display a hint to the user though, informing about the
-                    requirement.</para>
-                <para>To require a specific eXist-db version, include a processor dependency in your
-                    descriptor:</para>
+                <para>It is also possible to require a certain eXist-db version for versions greater than 2.2. The Dashboard will prevent installation of packages into unsupported instances and display a warning to the user.</para>
+                <para>To require a specific eXist-db version, include a processor dependency in your descriptor:</para>
                 <synopsis language="xml">&lt;dependency processor="eXist-db" version="trunk &amp;gt; rev 18070"/&gt;</synopsis>
             </section>
             <section>
@@ -217,21 +214,18 @@
                 <para>A package may list one or more library modules to register with eXist-db. The
                     registered modules will become globally available within the eXist-db instance
                     and may be used by other packages without knowing where the module code is
-                    stored. For example, the following descriptor registers the module functx.xql
-                    using the given namespace: </para>
-                <programlisting language="xml">&lt;package xmlns="http://expath.org/ns/pkg"
+                    stored. For example, the following descriptor registers the module <filename>functx.xql</filename> using the given namespace: </para>
+                <programlisting language="xml">
+&lt;package xmlns="http://expath.org/ns/pkg"
          name="http://www.functx.com"
          abbrev="functx"
          version="1.0"
          spec="1.0"&gt;
-
    &lt;title&gt;FunctX library&lt;/title&gt;
-
    &lt;xquery&gt;
       &lt;namespace&gt;http://www.functx.com&lt;/namespace&gt;
       &lt;file&gt;functx.xql&lt;/file&gt;
    &lt;/xquery&gt;
-
 &lt;/package&gt;</programlisting>
                 <para>The namespace has to correspond to the namespace defined in the module
                     declaration of the XQuery module. The file should be placed into a subdirectory
@@ -290,19 +284,15 @@ functx:capitalize-first('hello')</programlisting>
                 below:</para>
             <programlisting language="xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;meta xmlns="http://exist-db.org/xquery/repo"&gt;
-    &lt;description&gt;eXist documentation application.&lt;/description&gt;
-    &lt;author&gt;Joe Wicentowski&lt;/author&gt;
-    &lt;author&gt;Wolfgang Meier&lt;/author&gt;
-    &lt;website&gt;http://exist-db.org&lt;/website&gt;
-    &lt;status&gt;alpha&lt;/status&gt;
-    &lt;license&gt;GNU-LGPL&lt;/license&gt;
+    &lt;description&gt;eXist-db Documentation&lt;/description&gt;
+    &lt;author&gt;eXist-db&lt;/author&gt;
+    &lt;website&gt;https://www.github.com/exist-db/documentation&lt;/website&gt;
+    &lt;status&gt;stable&lt;/status&gt;
+    &lt;license&gt;GNU Lesser General Public License, version 2.1&lt;/license&gt;
     &lt;copyright&gt;true&lt;/copyright&gt;
     &lt;type&gt;application&lt;/type&gt;
     &lt;target&gt;doc&lt;/target&gt;
     &lt;prepare&gt;pre-install.xql&lt;/prepare&gt;
-    &lt;finish/&gt;
-    &lt;permissions user="admin" password="" group="dba" mode="rw-rw-r--"/&gt;
-    &lt;note&gt;When upgrading, please make sure you also updated the shared-resources package to &gt; 0.3.5.&lt;/note&gt;
     &lt;deployed/&gt;
 &lt;/meta&gt;</programlisting>
             <para>The two settings: <code>type</code> and <code>target</code> determine how a
@@ -337,94 +327,56 @@ functx:capitalize-first('hello')</programlisting>
                     </tr>
                 </tbody>
             </informaltable>
-            <para>So an application package has <code>type</code> set to "application" and specifies
-                a <code>target</code> because it needs to be deployed into the database. Contrary to
-                this, a library package only registers XQuery or other modules, but no resources
-                need to be stored into the db, so <code>target</code> is empty.</para>
-            <para>The general metadata fields should not need to be explained. The relevant elements
-                are:</para>
+            <para>An application package has <code>type</code> set to "application" and specifies a <code>target</code> because it needs to be deployed into the database. Contrary to this, a library package only registers XQuery or other modules, but no resources need to be stored into the db, so <code>target</code> is empty.</para>
+            <para>The general metadata fields should not need to be explained. The relevant elements are:</para>
             <variablelist>
                 <varlistentry>
                     <term>type</term>
                     <listitem>
-                        <para>Should be set to either "application" or "library". We assume a
-                            library has no GUI (i.e. no HTML view). A library will thus not be shown
-                            on the main Dashboard page, which only lists applications.</para>
+                        <para>Should be set to either "application" or "library". We assume a library has no GUI (i.e. no HTML view). A library will thus not be shown on the main Dashboard page, which only lists applications.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term>target</term>
                     <listitem>
-                        <para>Specifies the collection where the contents of the package will be
-                            stored. Top-level files in the package will end up in this
-                            collection, resources in sub-directories will go into sub-collections.
-                            Please note that the target collection can be changed by the package
-                            manager during install. It is just a recommendation, not a
-                            requirement.</para>
-                        <para>The collection path should always be relative to the repository root
-                            collection defined in the configuration.</para>
+                        <para>Specifies the collection where the contents of the package will be stored. Top-level files in the package will end up in this collection, resources in sub-directories will go into sub-collections. Please note that the target collection can be changed by the package manager during install. It is just a recommendation, not a requirement.</para>
+                        <para>The collection path should always be relative to the repository root collection defined in the configuration.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term>permissions</term>
                     <listitem>
-                        <para>The permissions to use when uploading package contents. All resources and collections will be owned by the specified
-                            user and permissions will be changed to those given in <option>mode</option>. If the user does not exist, the deploy function 
-                            will try to create it, using the password specified in attribute <option>password</option>.</para>
-                        <para>Concerning permissions, the execute ("x") flag will be set
-                            automatically on all XQuery files in addition to the default permissions
-                            defined in the descriptor. For more control over permissions, use a
-                            post-install XQuery script (see element "finish" below).</para>
+                        <para>You can define package specific permissions in the <filename>repo.xml</filename> to use when uploading package contents like this:
+                        <programlisting language="xml">&lt;permissions user="app-user" password="123" group="app-group" mode="rw-rw-r--"/&gt;</programlisting> All resources and collections will be owned by the specified user and permissions will be changed to those given in <option>mode</option>. If the user does not exist, the deploy function will try to create it, using the password specified in attribute <option>password</option>.</para>
+                        <para>Concerning permissions, the execute ("x") flag will be set automatically on all XQuery files in addition to the default permissions defined in the descriptor. For more control over permissions, use a post-install XQuery script (see element "finish" below). It is generally recommended to specify users in this manner when a package requires write privileges to the database, and to use a custom user-group (i.e. not "dba"). To avoid conflicts with locally defined user-names and groupnames, packages that do not require write access can ommit permissions in their <filename>repo.xml</filename>, such packages will be assigned to the guest usergroup by default.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term>prepare</term>
                     <listitem>
-                        <para>Points to an XQuery script inside the root of the package archive,
-                            which will be executed before any package data is uploaded to the
-                            database. By convention the XQuery script should be called
-                                <filename>pre-install.xql</filename>, though this is not a
-                            requirement.</para>
-                        <para>If you create a package via eXide, it will generate a default
-                                <filename>pre-install.xql</filename> which uploads the default
-                            collection configuration to the system collection. This needs to be done
-                            before deployment to guarantee that index definitions are applied when
-                            data is uploaded to the db.</para>
-                        <para>The target collection, the file system path to the current package
-                            directory and eXist-db's home directory are passed to the script as
-                            external variables:</para>
+                        <para>Points to an XQuery script inside the root of the package archive, which will be executed before any package data is uploaded to the database. By convention the XQuery script should be called <filename>pre-install.xql</filename>, though this is not a requirement.</para>
+                        <para>If you create a package via eXide, it will generate a default <filename>pre-install.xql</filename> which uploads the default collection configuration to the system collection. This needs to be done before deployment to guarantee that index definitions are applied when data is uploaded to the db.</para>
+                        <para>The target collection, the file system path to the current package directory and eXist-db's home directory are passed to the script as external variables:</para>
                         <synopsis language="xquery">(: file path pointing to the eXist-db installation directory :)
 declare variable $home external;
 (: path to the directory containing the unpacked .xar package :)
 declare variable $dir external;
 (: the target collection into which the app is deployed :)
 declare variable $target external;</synopsis>
-                        <para>The script may use those variables to read files contained in the
-                            package.</para>
+                        <para>The script may use those variables to read files contained in the package.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term>finish</term>
                     <listitem>
-                        <para>Like <sgmltag>prepare</sgmltag>, this element should point to an
-                            XQuery script, which will be executed <emphasis>after</emphasis> all
-                            data has been uploaded to the database. It receives the same external
-                            variables as the prepare script. The convention is to name the script
-                                <filename>post-install.xql</filename>.</para>
-                        <para>Use the finish trigger to run additional tasks or move data into
-                            different collections. For example, the XQuery function documentation
-                            app runs an indexing task from the finish trigger to extract
-                            documentation from all XQuery modules known to the db at the
-                            time.</para>
+                        <para>Like <sgmltag>prepare</sgmltag>, this element should point to an XQuery script, which will be executed <emphasis>after</emphasis> all data has been uploaded to the database. It receives the same external variables as the prepare script. The convention is to name the script <filename>post-install.xql</filename>.</para>
+                        <para>Use the finish trigger to run additional tasks or move data into different collections. For example, the XQuery function documentation app runs an indexing task from the finish trigger to extract documentation from all XQuery modules known to the db at the time.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term>deployed</term>
                     <listitem>
-                        <para>This element will be set automatically when the package is deployed
-                            into a database instance. It is used by eXide to track changes and
-                            does not need to be specified in the original repo.xml
-                            descriptor.</para>
+                        <para>This element will be set automatically when the package is deployed into a database instance. It is used by eXide to track changes and does not need to be specified in the original <filename>repo.xml</filename> descriptor.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -504,7 +456,7 @@ declare variable $target external;</synopsis>
             <programlisting language="xquery">declare namespace expath = "http://expath.org/ns/pkg";
 
 declare variable $local:data-pkg-collection :=
-    let $descriptor := 
+    let $descriptor :=
         collection(repo:get-root())//expath:package[@name = "http://foo.com/data-pkg"]
     return
         util:collection-name($descriptor)
