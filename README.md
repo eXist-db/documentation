@@ -1,7 +1,7 @@
 # eXist-db Documentation
 [![Build Status](https://travis-ci.org/eXist-db/documentation.svg?branch=master)](https://travis-ci.org/eXist-db/documentation)
 [![docbook version](https://img.shields.io/badge/docbook-4.5-19a5a4.svg)](http://docbook.org/xml/4.5/)
-[![docbook version](https://img.shields.io/badge/eXist_db-3.5.0-blue.svg)](http://www.exist-db.org/exist/apps/homepage/index.html)
+[![eXist-db version](https://img.shields.io/badge/eXist_db-3.5.0-blue.svg)](http://www.exist-db.org/exist/apps/homepage/index.html)
 
 <img src="src/main/xar-resources/icon.png" align="left" width="15%"/>
 
@@ -21,6 +21,8 @@ This repository contains the official documentation for the [eXist-db native XML
 Found an area of the documentation that needs to be improved? Please raise an [issue](https://github.com/eXist-db/documentation/issues) or better yet submit a [pull request](https://github.com/eXist-db/documentation/pulls)!
 
 Our test-suite performs a validation check on all articles when you open a pull request. You can speed up the review process by running `mvn validate` locally before submitting a pull request.
+
+Should you encounter documentation for features that are deprecated in the minimum eXist-db version mentioned [above](#dependencies), you can simply delete them. If you are unsure about this, please open an [issue](https://github.com/eXist-db/documentation/issues). 
 
 ## Building from source
 1.  Clone the repository to your system:
