@@ -23,33 +23,49 @@
                 you launched eXist-db via one of the shell scripts, the output should directly
                 appear in those.</para>
             <para>If eXist-db launched properly, you will find output similar to the following (this
-                example output is taken from macOS):</para>
+                example output is taken from linux):</para>
             <example>
                 <title>Console Output</title>
                 <screen>
-06 Oct 2012 16:56:32,797 [main] INFO  (JettyStart.java [run]:116) - Configuring eXist from /Applications/eXist/conf.xml
-06 Oct 2012 16:56:32,798 [main] INFO  (JettyStart.java [run]:117) -
-06 Oct 2012 16:56:32,798 [main] INFO  (JettyStart.java [run]:118) - Running with Java 1.6.0_35 [Apple Inc. (Java HotSpot(TM) 64-Bit Server VM) in /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home]
-06 Oct 2012 16:56:32,798 [main] INFO  (JettyStart.java [run]:123) -
-06 Oct 2012 16:56:32,824 [main] INFO  (JettyStart.java [run]:127) - [eXist Version : 2.1-dev]
-06 Oct 2012 16:56:32,824 [main] INFO  (JettyStart.java [run]:129) - [eXist Build : 20121006]
-06 Oct 2012 16:56:32,825 [main] INFO  (JettyStart.java [run]:131) - [eXist Home : unknown]
-06 Oct 2012 16:56:32,825 [main] INFO  (JettyStart.java [run]:133) - [SVN Revision : 17031]
-06 Oct 2012 16:56:32,825 [main] INFO  (JettyStart.java [run]:141) - [Operating System : Mac OS X 10.8.2 x86_64]
-06 Oct 2012 16:56:32,825 [main] INFO  (JettyStart.java [run]:144) - [jetty.home : /Applications/eXist/tools/jetty]
-06 Oct 2012 16:56:32,825 [main] INFO  (JettyStart.java [run]:146) - [log4j.configuration : file:/Applications/eXist/log4j.xml]
-06 Oct 2012 16:56:33,698 [main] INFO  (JettyStart.java [lifeCycleStarting]:387) - Jetty server starting...
-06 Oct 2012 16:56:33,699 [main] INFO  (Server.java [doStart]:253) - jetty-8.1.3.v20120416
-Logging already initialized. Skipping...
-06 Oct 2012 16:56:34,572 [main] INFO  (NCSARequestLog.java [doStart]:644) - Opened /Applications/eXist/tools/jetty/logs/2012_10_06.request.log
-06 Oct 2012 16:56:34,589 [main] INFO  (AbstractConnector.java [doStart]:333) - Started SelectChannelConnector@0.0.0.0:8080
-06 Oct 2012 16:56:34,690 [main] INFO  (SslContextFactory.java [doStart]:298) - Enabled Protocols [SSLv2Hello, SSLv3, TLSv1] of [SSLv2Hello, SSLv3, TLSv1]
-06 Oct 2012 16:56:34,691 [main] INFO  (AbstractConnector.java [doStart]:333) - Started SslSelectChannelConnector@0.0.0.0:8443
-06 Oct 2012 16:56:34,691 [main] INFO  (JettyStart.java [lifeCycleStarted]:393) - Jetty server started.
-06 Oct 2012 16:56:34,691 [main] INFO  (JettyStart.java [run]:221) - -----------------------------------------------------
-06 Oct 2012 16:56:34,691 [main] INFO  (JettyStart.java [run]:222) - Server has started on ports 8080 8443. Configured contexts:
-06 Oct 2012 16:56:34,692 [main] INFO  (JettyStart.java [run]:229) - '/exist'
-06 Oct 2012 16:56:34,692 [main] INFO  (JettyStart.java [run]:260) - -----------------------------------------------------
+05 Dec 2017 13:53:19,795 [main] INFO  (JettyStart.java [run]:137) - Running with Java 1.8.0_131 [Oracle Corporation (OpenJDK 64-Bit Server VM) in /usr/lib/jvm/java-8-openjdk-amd64/jre] 
+05 Dec 2017 13:53:19,795 [main] INFO  (JettyStart.java [run]:144) - Running as user 'root'
+05 Dec 2017 13:53:19,795 [main] INFO  (JettyStart.java [run]:145) - [eXist Home : /exist]
+05 Dec 2017 13:53:19,797 [main] INFO  (JettyStart.java [run]:146) - [eXist Version : 3.6.0]
+05 Dec 2017 13:53:19,797 [main] INFO  (JettyStart.java [run]:147) - [eXist Build : 201712051111]
+05 Dec 2017 13:53:19,797 [main] INFO  (JettyStart.java [run]:148) - [Git commit : ceaab01]
+05 Dec 2017 13:53:19,798 [main] INFO  (JettyStart.java [run]:150) - [Operating System : Linux 4.9.49-moby amd64]
+05 Dec 2017 13:53:19,798 [main] INFO  (JettyStart.java [run]:151) - [log4j.configurationFile : file:///exist/log4j2.xml]
+05 Dec 2017 13:53:19,803 [main] INFO  (JettyStart.java [run]:152) - [jetty Version: 9.4.7.v20170914]
+05 Dec 2017 13:53:19,803 [main] INFO  (JettyStart.java [run]:153) - [jetty.home : /exist/tools/jetty]
+05 Dec 2017 13:53:19,804 [main] INFO  (JettyStart.java [run]:154) - [jetty.base : /exist/tools/jetty]
+05 Dec 2017 13:53:19,804 [main] INFO  (JettyStart.java [run]:155) - [jetty configuration : /exist/tools/jetty/etc/standard.enabled-jetty-configs]
+05 Dec 2017 13:53:20,143 [main] INFO  (JettyStart.java [run]:164) - Configuring eXist from /exist/conf.xml
+05 Dec 2017 13:53:21,433 [main] INFO  (JettyStart.java [run]:188) - [loading jetty configuration : /exist/tools/jetty/etc/jetty.xml]
+05 Dec 2017 13:53:21,518 [main] INFO  (JettyStart.java [run]:188) - [loading jetty configuration : /exist/tools/jetty/etc/jetty-gzip.xml]
+05 Dec 2017 13:53:21,547 [main] INFO  (JettyStart.java [run]:188) - [loading jetty configuration : /exist/tools/jetty/etc/jetty-http.xml]
+05 Dec 2017 13:53:21,573 [main] INFO  (JettyStart.java [run]:188) - [loading jetty configuration : /exist/tools/jetty/etc/jetty-jaas.xml]
+05 Dec 2017 13:53:21,578 [main] INFO  (JettyStart.java [run]:188) - [loading jetty configuration : /exist/tools/jetty/etc/jetty-jmx.xml]
+05 Dec 2017 13:53:21,606 [main] INFO  (JettyStart.java [run]:188) - [loading jetty configuration : /exist/tools/jetty/etc/jetty-requestlog.xml]
+05 Dec 2017 13:53:21,616 [main] INFO  (JettyStart.java [run]:188) - [loading jetty configuration : /exist/tools/jetty/etc/jetty-ssl.xml]
+05 Dec 2017 13:53:21,636 [main] INFO  (JettyStart.java [run]:188) - [loading jetty configuration : /exist/tools/jetty/etc/jetty-ssl-context.xml]
+05 Dec 2017 13:53:21,652 [main] INFO  (JettyStart.java [run]:188) - [loading jetty configuration : /exist/tools/jetty/etc/jetty-https.xml]
+05 Dec 2017 13:53:21,657 [main] INFO  (JettyStart.java [run]:188) - [loading jetty configuration : /exist/tools/jetty/etc/jetty-deploy.xml]
+05 Dec 2017 13:53:21,677 [main] INFO  (JettyStart.java [run]:188) - [loading jetty configuration : /exist/tools/jetty/etc/jetty-plus.xml]
+05 Dec 2017 13:53:21,697 [main] INFO  (JettyStart.java [run]:188) - [loading jetty configuration : /exist/tools/jetty/etc/jetty-annotations.xml]
+05 Dec 2017 13:53:21,701 [main] INFO  (JettyStart.java [startJetty]:501) - [Starting jetty component : org.eclipse.jetty.server.Server]
+05 Dec 2017 13:53:21,701 [main] INFO  (JettyStart.java [lifeCycleStarting]:649) - Jetty server starting...
+05 Dec 2017 13:53:23,197 [main] INFO  (JettyStart.java [lifeCycleStarted]:658) - Jetty server started.
+05 Dec 2017 13:53:23,198 [main] WARN  (JettyStart.java [run]:239) - Could not find OpenID extension. OpenID will be disabled!
+05 Dec 2017 13:53:23,199 [main] WARN  (JettyStart.java [run]:246) - Could not find OAuthServlet extension. OAuth will be disabled!
+05 Dec 2017 13:53:23,199 [main] WARN  (JettyStart.java [run]:253) - Could not find IPRangeServlet extension. IPRange will be disabled!
+05 Dec 2017 13:53:23,205 [main] WARN  (JettyStart.java [getURI]:468) - java.net.UnknownHostException: 5773b75f8e8d: 5773b75f8e8d: Name or service not known
+05 Dec 2017 13:53:23,208 [main] WARN  (JettyStart.java [getURI]:468) - java.net.UnknownHostException: 5773b75f8e8d: 5773b75f8e8d: Name or service not known
+05 Dec 2017 13:53:23,209 [main] INFO  (JettyStart.java [run]:262) - -----------------------------------------------------
+05 Dec 2017 13:53:23,209 [main] INFO  (JettyStart.java [run]:263) - Server has started, listening on:
+05 Dec 2017 13:53:23,209 [main] INFO  (JettyStart.java [run]:268) - Configured contexts:
+05 Dec 2017 13:53:23,211 [main] INFO  (JettyStart.java [run]:274) - 	/exist
+05 Dec 2017 13:53:23,211 [main] INFO  (JettyStart.java [run]:274) - 	/
+05 Dec 2017 13:53:23,211 [main] INFO  (JettyStart.java [run]:328) - -----------------------------------------------------
 </screen>
             </example>
             <para>When you see the "Server has started" message, and no further errors appear, you know that your eXist-db
@@ -126,45 +142,45 @@ Logging already initialized. Skipping...
                 another port, open the file <filename moreinfo="none">/tools/jetty/etc/jetty-http.xml</filename> inside your eXist-db installation in a
                 text or XML editor and change the value "8080" in</para>
             <synopsis format="linespecific">
-&lt;Set name="port"&gt;
-  &lt;Property name="jetty.http.port" deprecated="jetty.port"&gt;
-    &lt;Default&gt;
-      &lt;SystemProperty name="jetty.port" default="8080"/&gt;
-    &lt;/Default&gt;
-  &lt;/Property&gt;
-&lt;/Set&gt;
+                &lt;Set name="port"&gt;
+                    &lt;Property name="jetty.http.port" deprecated="jetty.port"&gt;
+                        &lt;Default&gt;
+                            &lt;SystemProperty name="jetty.port" default="8080"/&gt;
+                        &lt;/Default&gt;
+                    &lt;/Property&gt;
+                &lt;/Set&gt;
             </synopsis>
             <para>to a port that is not used, e.g. "8899":</para>
             <synopsis format="linespecific">
-&lt;Set name="port"&gt;
-  &lt;Property name="jetty.http.port" deprecated="jetty.port"&gt;
-    &lt;Default&gt;
-      &lt;SystemProperty name="jetty.port" default="8899"/&gt;
-    &lt;/Default&gt;
-  &lt;/Property&gt;
-&lt;/Set&gt;
+                &lt;Set name="port"&gt;
+                    &lt;Property name="jetty.http.port" deprecated="jetty.port"&gt;
+                        &lt;Default&gt;
+                            &lt;SystemProperty name="jetty.port" default="8899"/&gt;
+                        &lt;/Default&gt;
+                    &lt;/Property&gt;
+                &lt;/Set&gt;
             </synopsis>
             <para>eXist-db uses port 8443 for confidential communication. Another service may also
                 be using this port. To make eXist-db use another port, open the file <filename moreinfo="none">/tools/jetty/etc/jetty-ssl.xml</filename> and change the value
                 "8443" in</para>
             <synopsis format="linespecific">
-&lt;Set name="port"&gt;
-  &lt;Property name="jetty.ssl.port" deprecated="ssl.port"&gt;
-    &lt;Default&gt;
-      &lt;SystemProperty name="jetty.ssl.port" deprecated="ssl.port" default="8443"/&gt;
-    &lt;/Default&gt;
-  &lt;/Property&gt;
-&lt;/Set&gt;
+                &lt;Set name="port"&gt;
+                    &lt;Property name="jetty.ssl.port" deprecated="ssl.port"&gt;
+                        &lt;Default&gt;
+                            &lt;SystemProperty name="jetty.ssl.port" deprecated="ssl.port" default="8443"/&gt;
+                        &lt;/Default&gt;
+                    &lt;/Property&gt;
+                &lt;/Set&gt;
             </synopsis>
             <para>to a port that is not used, e.g. "8444".</para>
             <synopsis format="linespecific">
-&lt;Set name="port"&gt;
-  &lt;Property name="jetty.ssl.port" deprecated="ssl.port"&gt;
-    &lt;Default&gt;
-      &lt;SystemProperty name="jetty.ssl.port" deprecated="ssl.port" default="8444"/&gt;
-    &lt;/Default&gt;
-  &lt;/Property&gt;
-&lt;/Set&gt;
+                 &lt;Set name="port"&gt;
+                    &lt;Property name="jetty.ssl.port" deprecated="ssl.port"&gt;
+                        &lt;Default&gt;
+                            &lt;SystemProperty name="jetty.ssl.port" deprecated="ssl.port" default="8444"/&gt;
+                        &lt;/Default&gt;
+                    &lt;/Property&gt;
+                &lt;/Set&gt;
             </synopsis>
             <para>If these scripts do not launch eXist-db, you can launch it by changing to the
                 directory where you installed eXist-db and entering the following into the
