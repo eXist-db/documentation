@@ -118,7 +118,7 @@
                 released.</para>
             <para>You can trigger the backup via the Dashboard:</para>
             <screenshot>
-                <graphic fileref="resources/Backup.png"/>
+                <graphic fileref="resources/images/Backup.png"/>
             </screenshot>
             <para>Clicking the <guibutton>Trigger</guibutton> button will schedule a single backup
                 task. The server will wait for all running transactions to return before it executes
@@ -263,7 +263,7 @@
             <section id="consistency-check">
                 <title>Emergency Export Tool</title>
                 <screenshot>
-                    <graphic align="right" fileref="resources/exportgui.png"/>
+                    <graphic align="right" fileref="resources/images/exportgui.png"/>
                 </screenshot>
                 <para>eXist provides a graphical interface to the consistency check and backup
                     utilities which can be used in case of an emergency, in particular if the
@@ -291,7 +291,7 @@
                     eXist, you can use a JMX client to see the latest consistency check reports. The
                     screenshot shows jconsole, which is included with the Java 5 and 6 JDKs.</para>
                 <screenshot>
-                    <graphic fileref="resources/jconsole.png"/>
+                    <graphic fileref="resources/images/jconsole.png"/>
                 </screenshot>
                 <para>eXist also includes a command-line JMX client. Call it with parameter
                     <parameter>-s</parameter> to see the latest consistency report:</para>
@@ -328,7 +328,7 @@
                         stored. Note, however, that user data and permissions will only be exported
                         if you backup the entire database.</para>
                     <screenshot>
-                        <graphic fileref="resources/backup1.png"/>
+                        <graphic fileref="resources/images/backup1.png"/>
                     </screenshot>
                 </step>
                 <step>
@@ -440,7 +440,7 @@
                             directory you want restored. To restore the entire database, select the
                             <filename>__contents__.xml</filename> from the <filename>db/</filename> directory.</para>
                         <screenshot>
-                            <graphic fileref="resources/backup2.png"/>
+                            <graphic fileref="resources/images/backup2.png"/>
                         </screenshot>
                         <para>eXist 1.3 allows to directly select the ZIP archive of a
                             backup.</para>
@@ -458,7 +458,7 @@
                         <para>If the restore was accepted, a progress dialog box will display the
                             restored files:</para>
                         <screenshot>
-                            <graphic fileref="resources/backup3.png"/>
+                            <graphic fileref="resources/images/backup3.png"/>
                         </screenshot>
                     </step>
                 </procedure>
