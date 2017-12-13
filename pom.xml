@@ -54,6 +54,13 @@
         <package-name>http://exist-db.org/apps/doc</package-name>
         <package-abbrev>${project.artifactId}</package-abbrev>
         <package-final-name>${project.artifactId}-${project.version}</package-final-name>
+
+        <!-- other packages that the documentation links to; their `abbrev` must match their expath-pkg.xml -->
+        <dashboard-package-abbrev>dashboard</dashboard-package-abbrev>
+        <demo-package-abbrev>demo</demo-package-abbrev>
+        <fundocs-package-abbrev>fundocs</fundocs-package-abbrev>
+        <exide-package-abbrev>eXide</exide-package-abbrev>
+        <monex-package-abbrev>monex</monex-package-abbrev>
     </properties>
 
     <dependencies>
@@ -95,6 +102,23 @@
     </reporting>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/xar-resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>templates/**</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/xar-resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>templates/**</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>com.mycila</groupId>
