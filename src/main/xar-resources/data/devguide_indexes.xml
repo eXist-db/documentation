@@ -3080,7 +3080,7 @@
       some default fulltext indexing. Let's close the upload window and quit the interactive client.</para>
                 <para>Let's look our our GML file looks like on GML Viewer, a free viewer provided by <ulink url="http://www.snowflakesoftware.co.uk/products/gmlviewer/index.htm">Snowflake software</ulink> :</para>
                 <screenshot>
-                    <graphic fileref="resources/port-talbot.jpg"/>
+                    <graphic fileref="resources/images/port-talbot.jpg"/>
                 </screenshot>
                 <para>If you want to have a look at the spatial index HSQLDB, which, if you are using the default data-dir, is in <filename>${EXIST_HOME}/webapp/WEB-INF/data/spatial_index.*</filename> there is a dedicated script file in <filename>${EXIST_HOME}/extensions/indexes/spatial/</filename>.
       to launch HSQL's GUI client: Use either <filename>hsql.bat</filename> or <filename>hsql.sh [data-dir]</filename> (you only need to supply data-dir if it is not the default one).</para>
@@ -3138,7 +3138,7 @@
                 <para>So, 3 degrees West, 51 deegrees North... we must be indeed northern of Brittany, i.e. in south-western Great-Britain.</para>
                 <para>Let's see what our polygon looks like:</para>
                 <screenshot>
-                    <graphic fileref="resources/rectangle.jpg"/>
+                    <graphic fileref="resources/images/rectangle.jpg"/>
                 </screenshot>
                 <para>Now, we continue doing something more practical:</para>
                 <programlisting format="linespecific"><![CDATA[				
@@ -3174,7 +3174,7 @@
                 <para>... retuns 755 <sgmltag>gml:Polygon</sgmltag> (one less) in just about 470 ms.</para>
                 <para>The result of our first intersection query looks like this:</para>
                 <screenshot>
-                    <graphic fileref="resources/intersection.jpg"/>
+                    <graphic fileref="resources/images/intersection.jpg"/>
                 </screenshot>
                 <para>Let's try another type of spatial query:</para>
                 <programlisting format="linespecific"><![CDATA[
@@ -3193,7 +3193,7 @@
       ]]></programlisting>
                 <para>It returns 598 <sgmltag>gml:Polygon</sgmltag>s in just a little bit more than 400 ms. Here is what they look like:</para>
                 <screenshot>
-                    <graphic fileref="resources/within.jpg"/>
+                    <graphic fileref="resources/images/within.jpg"/>
                 </screenshot>
                 <para>The last query of this session is just to demonstrate some interesting capabilities of the spatial functions:</para>
                 <programlisting format="linespecific"><![CDATA[
@@ -3213,7 +3213,7 @@
       ]]></programlisting>
                 <para>See the (not so) rounded corners of our 500 metres buffer over Port-Talbot :</para>
                 <screenshot>
-                    <graphic fileref="resources/buffer.jpg"/>
+                    <graphic fileref="resources/images/buffer.jpg"/>
                 </screenshot>
             </section>
             <section>
