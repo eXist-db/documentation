@@ -448,7 +448,7 @@
                 <varlistentry>
                     <term>&lt;xquery&gt;</term>
                     <listitem>
-                        <para>Define modules that contain xQuery functions.</para>
+                        <para>Define (built-in) modules that contain xQuery functions.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -462,7 +462,7 @@
             <section>
                 <title>&lt;db-connection&gt;</title>
                 <para>This element contains basic default storage settings for eXist-db, including
-                    memory and system limits. Only one <sgmltag>db-connection</sgmltag> should be
+                    memory and system limits. Only one &lt;db-connection&gt; should be
                     specified. An example configuration for the native back-end is shown
                     below:</para>
                 <example>
@@ -647,7 +647,7 @@
                         shutdown due to, for example, power failures, OS reboots, and hanging
                         processes. For this to work correctly, all database operations must be
                         logged to a journal file. The location, size and other parameters for this
-                        file can be set using the <sgmltag>recovery</sgmltag> element.</para>
+                        file can be set using the &lt;recovery&gt; element.</para>
                     <variablelist>
                         <title>&lt;recovery&gt; Attributes</title>
                         <varlistentry>
@@ -951,12 +951,12 @@
                 </section>
                 <section>
                     <title>
-                        <sgmltag>modules</sgmltag>
+                        &lt;modules&gt;
                     </title>
                     <para>This section configures optional indexing modules. Beginning with version
                         1.2, eXist features a modularized indexing architecture, which allows new
                         indexes to be plugged into the indexing pipeline. The
-                            <sgmltag>modules</sgmltag> section lists and configures the indexes that
+                            &lt;modules&gt; section lists and configures the indexes that
                         will be available to the database: </para>
                     <example>
                         <title>Configuring Index Modules</title>
@@ -976,7 +976,7 @@
 &lt;/modules&gt;</markup>
                         </programlisting>
                     </example>
-                    <para>The only common attributes for each <sgmltag>module</sgmltag> element are
+                    <para>The only common attributes for each &lt;module&gt; element are
                             <option>class</option> and <option>id</option>. The other attributes as
                         well as any nested elements are specific to the index implementation.
                         Detailed information is available in the document on <ulink url="indexing.xml#moduleconf">Configuring Database
@@ -984,7 +984,7 @@
                 </section>
                 <section>
                     <title>
-                        <sgmltag>stopwords</sgmltag>
+                        &lt;stopwords&gt;
                     </title>
                     <para>The <option>file</option> for this element points to a file containing a
                         list of <emphasis>stopwords</emphasis>. Note that stopwords are
@@ -992,7 +992,7 @@
                 </section>
                 <section>
                     <title>
-                        <sgmltag>index</sgmltag>
+                        &lt;index&gt;
                     </title>
                     <para>This configuration element specifies the default index settings. These
                         settings are applied if neither the collection nor any of its ancestors
@@ -1005,7 +1005,7 @@
             </section>
             <section>
                 <title>
-                    <sgmltag>scheduler</sgmltag>
+                    &lt;scheduler&gt;
                 </title>
                 <para>This section is used to configure asynchronous jobs with eXist's internal
                     scheduler. Three types of jobs are supported:</para>
@@ -1056,11 +1056,11 @@
 &lt;/scheduler&gt;</markup>
                     </programlisting>
                 </example>
-                <para>Each job is configured in a <sgmltag>job</sgmltag> element which accepts a
+                <para>Each job is configured in a &lt;job&gt; element which accepts a
                     number of standard attributes:</para>
                 <section>
                     <title>
-                        <sgmltag>job</sgmltag> attributes</title>
+                        &lt;job&gt; attributes</title>
                     <variablelist>
                         <varlistentry>
                             <term>type</term>
@@ -1156,10 +1156,10 @@
                         <varlistentry>
                             <term>enable-xinclude</term>
                             <listitem>
-                                <para>This attribute determines whether <sgmltag>xinclude</sgmltag>
+                                <para>This attribute determines whether &lt;xinclude&gt;
                                     tags are to be expanded during serialization. Setting the value
                                     to "<option>false</option>" will leave
-                                        <sgmltag>xinclude</sgmltag> tags unexpanded.</para>
+                                        &lt;xinclude&gt; tags unexpanded.</para>
                             </listitem>
                         </varlistentry>
                         <varlistentry>
@@ -1210,7 +1210,7 @@
                             <listitem>
                                 <para>The database can highlight matches in the text content of a
                                     node by tagging the matching text string with
-                                        <sgmltag>exist:match</sgmltag>. Clearly, this only works for
+                                        &lt;exist:match&gt;. Clearly, this only works for
                                     XPath expressions using the fulltext index. Set the parameter to
                                         "<option>yes</option>" to <emphasis>disable</emphasis> this
                                     feature.</para>
@@ -1221,7 +1221,7 @@
             </section>
             <section>
                 <title>
-                    <sgmltag>transformer</sgmltag>
+                    &lt;transformer&gt;
                 </title>
                 <para>This section determines which XSLT processor will be used by eXist. By
                     default, eXist relies on Xalan, which is an XSLT 1.0 engine. Please refer to
@@ -1230,7 +1230,7 @@
             </section>
             <section>
                 <title>
-                    <sgmltag>validation</sgmltag>
+                    &lt;validation&gt;
                 </title>
                 <para>Defines the default validation settings that will be active when parsing XML
                     and links to catalog files. Catalog files are used to locate DTDs, schemas and
@@ -1242,7 +1242,7 @@
                 <para>Inserting new nodes into a document can lead to fragmentation in the DOM
                     storage file. eXist will thus trigger a defragmentation run if the fragmentation
                     exceeds a certain limit. The frequency of such defragmentation runs can be
-                    configured in the <sgmltag>xupdate</sgmltag> section. The main parameter is
+                    configured in the &lt;xupdate&gt; section. The main parameter is
                     called <option>allowed-fragmentation</option>:</para>
                 <example>
                     <title>XUpdate-Options in conf.xml</title>
@@ -1278,7 +1278,7 @@
             </section>
             <section>
                 <title>
-                    <sgmltag>xquery</sgmltag>
+                    &lt;xquery&gt;
                 </title>
                 <example>
                     <title>XQuery Engine Configuration</title>
@@ -1293,12 +1293,12 @@
 &lt;/xquery&gt;</markup>
                     </programlisting>
                 </example>
-                <para>The <sgmltag>xquery</sgmltag> section is used to enable/disable certain core
+                <para>The &lt;xquery&gt; section is used to enable/disable certain core
                     features of the XQuery engine. It also lists the XQuery modules that will be
                     known to the query engine by default.</para>
                 <section>
                     <title>
-                        <sgmltag>xquery</sgmltag> attributes</title>
+                        &lt;xquery&gt; attributes</title>
                     <variablelist>
                         <varlistentry>
                             <term>enable-java-binding=yes|no</term>
@@ -1327,10 +1327,10 @@
                                     the entire collection set.</para>
                                 <para>For example, if you have two collections: /db/one and /db/two,
                                     and you define a range index on a certain element
-                                        <sgmltag>node</sgmltag> in /db/one, but not in /db/two, the
+                                        &lt;node&gt; in /db/one, but not in /db/two, the
                                     query engine would not use the index with setting "strict" if
                                     you query both collections. At compile time, eXist doesn't know
-                                    if <sgmltag>node</sgmltag> exists in both collections and will
+                                    if &lt;node&gt; exists in both collections and will
                                     not use the index if it determines that an index definition does
                                     only apply to a part of the collection set being queried. To use
                                     the index, you would need to start your XPath expression with a
@@ -1391,8 +1391,7 @@
                     </variablelist>
                 </section>
                 <section>
-                    <title>
-                        <sgmltag>builtin-modules</sgmltag>
+                    <title>&lt;builtin-modules&gt;
                     </title>
                     <para>This section lists the XQuery modules which will be known to the query
                         engine. The modules in this list can be imported into a query without
