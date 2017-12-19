@@ -389,7 +389,7 @@
         <section id="conf.xml">
             <title>eXist-db Configuration: Editing conf.xml</title>
             <para>The configuration file <filename moreinfo="none">conf.xml</filename> can be
-                divided into four sections with the following elements:</para>
+                divided into eleven sections with the following elements:</para>
             <variablelist>
                 <varlistentry>
                     <term>&lt;db-connection&gt;</term>
@@ -398,10 +398,15 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term>&lt;serializer&gt;</term>
+                    <term>&lt;repository&gt;</term>
                     <listitem>
-                        <para>Default settings for the serializer (external data
-                            representation).</para>
+                        <para>Settings for the package repository.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>&lt;binary-manager&gt;</term>
+                    <listitem>
+                        <para>Settings for the Binary Manager.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -411,14 +416,49 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
+                    <term>&lt;scheduler&gt;</term>
+                    <listitem>
+                        <para>Job scheduler for system or user jobs. </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>&lt;parser&gt;</term>
+                    <listitem>
+                        <para>Default settings for parsing structured documents.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>&lt;serializer&gt;</term>
+                    <listitem>
+                        <para>Default settings for the serializer (external data representation).</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>&lt;transformer&gt;</term>
+                    <listitem>
+                        <para>Default settings for the XSLT Transformer.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>&lt;validation&gt;</term>
+                    <listitem>
+                        <para>Settings for XML validation.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>&lt;xquery&gt;</term>
+                    <listitem>
+                        <para>Define modules that contain xQuery functions.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
                     <term>&lt;xupdate&gt;</term>
                     <listitem>
                         <para>Configuration options related to XUpdate processing.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
-            <para>The following sections describe the attributes and child elements of the above
-                elements.</para>
+            <para>The following sections describe the most commonly modified attributes and child elements of the above elements.</para>
             <section>
                 <title>&lt;db-connection&gt;</title>
                 <para>This element contains basic default storage settings for eXist-db, including
