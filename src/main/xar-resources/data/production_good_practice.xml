@@ -163,15 +163,23 @@ $ pfexec chown -R exist:exist /opt/eXist
                         <term>REST server</term>
                         <listitem><para>We recommend to prevent  eXist's REST server from directly recieving web requests, and use URL Rewriting to control code execution via URL instead. This feature is enabled by default in <filename>$EXIST_HOME/webapp/WEB-INF/web.xml</filename>. Changing the param-value to true, allows you to filter request via your own XQuery controller.</para>
                          <programlisting language="xml">&lt;init-param&gt;
-  &lt;param-name>hidden&lt;/param-name&gt;
-  &lt;param-value>true&lt;/param-value&gt;
+  &lt;param-name&gt;hidden&lt;/param-name&gt;
+  &lt;param-value&gt;true&lt;/param-value&gt;
+&lt;/init-param&gt;</programlisting>
+                    <para>The following options allow a more fine-grained control over aspects of remote code execution:</para>
+                    </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term>XQuery submissions</term>  <listitem><para>We recommend to restrict the REST servers ability to execute XQuery code to authenticated users, by modifying:<filename>$EXIST_HOME/webapp/WEB-INF/web.xml</filename>.</para>
+                        <programlisting language="xml">&lt;init-param&gt;
+  &lt;param-name&gt;xquery-submission&lt;/param-name&gt; &lt;param-value&gt;authenticated&lt;/param-value&gt;
 &lt;/init-param&gt;</programlisting></listitem>
                     </varlistentry>
                     <varlistentry>
                         <term>XUpdate statements</term>
-                        <listitem><para>In addtion, we recommend to retrict the REST servers ability to execute XUpdate statements, because of the sensitive nature of update operation. Simply modify   <filename>$EXIST_HOME/webapp/WEB-INF/web.xml</filename>by changing the para-value from enabled to disabled.</para>
+                        <listitem><para>In addtion, we recommend to restrict the REST servers ability to execute XUpdate statements, because of the sensitive nature of update operation. Simply modify   <filename>$EXIST_HOME/webapp/WEB-INF/web.xml</filename>by changing the param-value from enabled to disabled.</para>
                         <programlisting language="xml">&lt;init-param&gt;
-  &lt;param-name>xupdate-submission&lt;/param-name&gt; &lt;param-value>disabled&lt;/param-value&gt;
+  &lt;param-name&gt;xupdate-submission&lt;/param-name&gt; &lt;param-value&gt;disabled&lt;/param-value&gt;
 &lt;/init-param&gt;</programlisting></listitem>
                     </varlistentry>
                 </variablelist>
