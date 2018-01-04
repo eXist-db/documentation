@@ -23,7 +23,7 @@ $ mvn release:rollback
 
 3.  To generate the release notes run:
 ```bash
-$ mvn changes:github-report
+$ mvn site
 ```
 
 this will generate a `github-report.html` in `target/site` you can copy the list of changes into `xar-assembly.xml` describing which articles changed and how.
