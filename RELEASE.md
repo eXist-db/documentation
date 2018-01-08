@@ -6,6 +6,27 @@ Core-contributors should follow these steps when publishing a new release of the
 ```bash
 gpg --list-keys
 ```
+
+-  maven also requires a nexus account. You can create one at [oss.sonatype.org](https://oss.sonatype.org/#welcome) and include your credentials in your maven's `settings.xml` (replacing username and password):
+
+```xml
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <servers>
+    <server>
+      <id>sonatype-nexus-snapshots</id>
+      <username>USERNAME</username>
+      <password>PASSWORD</password>
+    </server>
+    <server>
+      <id>sonatype-nexus-staging</id>
+      <username>USERNAME</username>
+      <password>PASSWORD</password>
+    </server>
+  </servers>
+</settings>
+```
+
+
 -   You can perform a dry-run of the release procedure by executing
 ```bash
 $ mvn -DdryRun=true release:prepare
