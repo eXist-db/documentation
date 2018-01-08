@@ -27,7 +27,7 @@ Should you encounter documentation for features that are deprecated in the minim
 ## Building from source
 1.  Clone the repository to your system:
     ```bash
-    $ git clone https://github.com/exist-db/documentation.git documentation
+    $ git clone https://github.com/exist-db/documentation.git
     ```
 
 2.  Build the documentation application:
