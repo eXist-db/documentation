@@ -1,0 +1,71 @@
+<!-- $Id$ -->
+<book>
+    <bookinfo>
+        <productname>eXist-db – Open Source Native XML Database</productname>
+        <title>eXist-db Support - Reporting Issues</title>
+        <date>October 2016</date>
+    </bookinfo>
+    <chapter>
+        <title>Getting Help: How to report issues</title>
+        <section>
+            <title>Introduction</title>
+            <para>When a (potential) bug is reported, please include as much of the information as described below. When
+            more information is provided, it is more easy for the developers to understand and reproduce the issue,
+            which means that the issue can be picked-up and solved much faster.</para>
+        </section>
+        <section>
+            <title>General information</title>
+            <note>
+                <para>When reporting a (suspected) bug please make the report as complete as possible: <itemizedlist>
+                        <listitem>
+                            <para>Try to write a clear (and short) description how to reproduce the problem</para>
+                        </listitem>
+                        <listitem>
+                            <para>Include the exact version (and revision), e.g. "1.4.3" (rev1234) or "2.1". </para>
+                        </listitem>
+                        <listitem>
+                            <para>Always add the operating system (e.g. "Windows7 64bit"), the exact Java version as is outputted by
+                            the command 'java -version' on the console.</para>
+                        </listitem>
+                        <listitem>
+                            <para>Include relevant <emphasis role="bold">parts</emphasis> of the logfile (e.g.
+                                    <filename>webapp/WEB-INF/logs/exist.log</filename> and <filename>tools/yajsw/logs/wrapper.log</filename>)</para>
+                        </listitem>
+                        <listitem>
+                            <para>Mention the changes that have been made in the configuration files, e.g.
+                                    <filename>conf.xml</filename>, <filename>vm.properties</filename>,
+                                    <filename>tools/yajsw/conf/wrapper.conf</filename> and
+                                    <filename>tools/jetty/etc/jetty.xml</filename>.</para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+            </note>
+        </section>
+        <section>
+            <title>XQuery specific</title>
+            <note>
+                <para>When reporting a potential <emphasis role="bold">XQuery</emphasis> bug please: <itemizedlist>
+                        <listitem>
+                            <para>Make the XQuery, if possible, 'self containing', meaning that the XQuery does not
+                                require any additional files to run.</para>
+                        </listitem>
+                        <listitem>
+                            <para>Describe the actual XQuery result and the expected result</para>
+                        </listitem>
+                        <listitem>
+                            <para>Check if the issue has been solved in the latest version of eXist-db; For this the web
+                                based tool <ulink url="http://exist-db.org/exist/apps/eXide/index.html">eXide</ulink>
+                                can be used.</para>
+                        </listitem>
+                        <listitem>
+                            <para>Run the XQuery with <ulink url="http://kernowforsaxon.sourceforge.net">Kernow for
+                                    Saxon</ulink> and check the similarities and differences. </para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+            </note>
+            <para>Bugs can also be reported on the <ulink url="https://github.com/eXist-db/exist/issues/">Bug Tracker</ulink>
+                where data and log files can be attached.</para>
+        </section>
+    </chapter>
+</book>

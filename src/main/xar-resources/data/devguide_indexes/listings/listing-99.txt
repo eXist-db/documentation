@@ -1,0 +1,10 @@
+package org.exist.indexing.spatial;
+
+      public class GMLHSQLIndexWorker extends AbstractGMLJDBCIndexWorker {
+
+        private static final Logger LOG = Logger.getLogger(GMLHSQLIndexWorker.class);
+      
+	public GMLHSQLIndexWorker(GMLHSQLIndex index, DBBroker broker) {
+	  super(index, broker);
+	}
+      }

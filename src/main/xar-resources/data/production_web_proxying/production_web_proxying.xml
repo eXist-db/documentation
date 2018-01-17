@@ -1,0 +1,94 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article xmlns="http://docbook.org/ns/docbook" version="5.0">
+   <info>
+      <title>Production use - Proxying eXist-db behind a Web Server</title>
+      <date>September 2009</date>
+      <keywordset>
+         <keyword>TBD</keyword>
+      </keywordset>
+   </info>
+
+   <!-- ================================================================== -->
+
+   <sect1>
+      <title>Abstract</title>
+
+      <para>From a security perspective, it is recognised best practice to proxy Web Application Servers behind dedicated Web Servers, and eXist-db is no exception.</para>
+      <para>Some other nice side-effects of proxying eXist-db behind a Web Server include -</para>
+      <variablelist spacing="compact">
+         <varlistentry>
+            <term>Unified web namespace</term>
+            <listitem>
+               <para>You can map eXist-db or an application build atop eXist-db into an existing web namespace. If your website is - http://www.mywebsite.com, then your eXist-db application could be mapped into http://www.mywebsite.com/myapplication/. However, if you are tempted to shorten the URL of WebDAV resources with such mapping, you will not succeed due to the specifications of WebDAV that are not designed to handle such cases.</para>
+            </listitem>
+         </varlistentry>
+         <varlistentry>
+            <term>Virtual Hosting</term>
+            <listitem>
+               <para>Providing your Web Server supports Virtual Hosting, then you should be able to proxy many URLs from different domains onto different eXist-db REST URLs which may belong to one or more eXist-db instances. This in effect allows a single eXist-db instance to perform virtual hosting.</para>
+            </listitem>
+         </varlistentry>
+      </variablelist>
+      <para>Examples are provided for -</para>
+      <variablelist spacing="compact">
+         <varlistentry>
+            <term>
+                                <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://wiki.nginx.org/Main">Nginx</link>
+                            </term>
+            <listitem>
+               <para>A very small but extremely poweful Web Server which is also very simple to configure. It powers some of the biggest sites on the Web.</para>
+            </listitem>
+         </varlistentry>
+         <varlistentry>
+            <term>
+                                <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://httpd.apache.org/">Apache HTTPD</link>
+                            </term>
+            <listitem>
+               <para>Likely the most prolific Web Server used on the web.</para>
+            </listitem>
+         </varlistentry>
+      </variablelist>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1>
+      <title>Example 1 - Proxying a Web Domain Name to an eXist-db Collection</title>
+
+      <para>In this example we look at how to proxy a web domain name onto an eXist-db Collection. We make the following assumptions -</para>
+      <orderedlist>
+         <listitem>
+            <para>http://www.mywebsite.com is our website domain name address</para>
+         </listitem>
+         <listitem>
+            <para>eXist-db is running in standalone mode (i.e. http://localhost:8088/) on the same host as the Web Server (i.e. http://localhost:80/)</para>
+         </listitem>
+         <listitem>
+            <para>/db/apps/mywebsite.com is the eXist-db collection we want to proxy</para>
+         </listitem>
+         <listitem>
+            <para>Web Server access logging will be written to /srv/www/vhosts/mywebsite.com/logs/access.log</para>
+         </listitem>
+      </orderedlist>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Nginx</title>
+
+         <para>This needs to be added to the http section of the nginx.conf file -</para>
+         <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="nginx" xlink:href="listings/listing-1.txt"/>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Apache HTTPD</title>
+
+         <para>This needs to be added to your httpd.conf -</para>
+         <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-2.txt"/>
+      </sect2>
+   </sect1>
+</article>

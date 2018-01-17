@@ -1,0 +1,6 @@
+declare
+    %test:args("Hello", "world")
+    %test:assertEquals("Hello world")
+function local:hello($greet as xs:string, $user as xs:string) {
+    $greet || " " || $user
+};

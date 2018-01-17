@@ -1,0 +1,36 @@
+protected abstract boolean saveGeometryNode(Geometry geometry, String srsName, DocumentImpl doc, NodeId nodeId, Connection conn)
+        throws SQLException;
+
+      protected abstract boolean removeDocumentNode(DocumentImpl doc, NodeId nodeID, Connection conn)
+        throws SQLException;
+
+      protected abstract int removeDocument(DocumentImpl doc, Connection conn)
+        throws SQLException;
+
+      protected abstract int removeCollection(Collection collection, Connection conn)
+        throws SQLException;
+      
+      protected abstract Connection acquireConnection() throws SQLException;
+
+      protected abstract void releaseConnection(Connection conn) throws SQLException;	 
+      
+      protected abstract NodeSet search(DBBroker broker, NodeSet contextSet, Geometry EPSG4326_geometry, int spatialOp, Connection conn)
+        throws SQLException;		 
+
+      protected abstract Map getGeometriesForDocument(DocumentImpl doc, Connection conn)
+        throws SQLException;
+
+      protected abstract AtomicValue getGeometricPropertyForNode(DBBroker broker, NodeProxy p, Connection conn, 
+      String propertyName) throws SQLException, XPathException;
+
+      protected abstract ValueSequence getGeometricPropertyForNodes(DBBroker broker, NodeSet contextSet, Connection conn, String propertyName)
+        throws SQLException, XPathException;
+
+      protected abstract Geometry getGeometryForNode(DBBroker broker, NodeProxy p, boolean getEPSG4326, Connection conn)
+        throws SQLException;
+
+      protected abstract Geometry[] getGeometriesForNodes(DBBroker broker, NodeSet contextSet, boolean getEPSG4326, Connection conn)
+        throws SQLException;
+
+      protected abstract boolean checkIndex(DBBroker broker, Connection conn)
+        throws SQLException, SpatialIndexException;

@@ -1,0 +1,237 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article xmlns="http://docbook.org/ns/docbook" version="5.0">
+   <info>
+      <title>XInclude Examples</title>
+      <date>1Q18</date>
+      <keywordset>
+         <keyword>TBD</keyword>
+      </keywordset>
+   </info>
+
+   <!-- ================================================================== -->
+
+   <sect1 xml:id="introduction">
+      <title>Introduction</title>
+
+      <para>eXist-db comes with partial support for the XInclude standard. As default, eXist-db's XML
+            serializer will scan all XML fragments for XInclude tags. The XInclude processor is
+            implemented as a filter which sits between the serializer's output event stream and the
+            receiver. If it finds an XInclude element, it will try to expand it. The current element
+            in the stream is replaced by the result of the XInclude operation. XInclude processing
+            is thus applied whenever eXist-db serializes an XML fragment, be it a document, the result
+            of an XQuery or an XSLT stylesheet.</para>
+      <para>eXist-db's support for XInclude is not complete. You cannot directly include raw text, only XML.
+            XPointers are restricted to XPath; the additional features defined in the XPointer spec
+            (points and locations) are not supported by eXist-db (in fact, no applications support these at the present time), 
+            though with eXist-db one can use XPath functions to partly substitute for XPointer's important string-range() function.
+        </para>
+      <para>eXist-db expands XIncludes at serialization time, which means that the query engine will
+            see the XInclude tags <emphasis>before</emphasis> they are expanded. You therefore
+            cannot query across XIncludes - unless you create your own code (e.g. an XQuery
+            function) for it. We would certainly like to support queries over xincluded content in
+            the future though.</para>
+      <para>DTD entity declarations can be used for some of the things that XInclude can be used for; 
+            in general, however, XInclude is more powerful (except that entity declarations are able include raw text).
+        </para>
+      <para>
+            The following sections present some examples of how XInclude can be used in eXist-db.</para>
+      <note>
+         <para>In order to see the live effect of most of the
+                examples below, install the Demo app via 
+                the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{dashboard}">Package Manager</link> in the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{dashboard}">Dashboard</link>. 
+                You are probably reading this through the Documentation app, but if you are not, you should install this as well.</para>
+      </note>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1>
+      <title>Including an Entire Document</title>
+
+      <para>To include an entire document, just specify its path in the <literal>href</literal>
+                attribute of an <tag>xi:include</tag> tag. 
+                For example, one can include a standard disclaimer, stored in the file short-disclaimer.xml, as follows:</para>
+      <programlisting language="xml">&lt;xi:include href="/db/apps/doc/data/disclaimer-short.xml"/&gt;</programlisting>
+      <para>The result is included below:</para>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-2.txt"/>
+      <para>Please note that you have to provide the correct namespace for
+                XInclude, e.g. in the root element of the document. The official namespace is: </para>
+      <programlisting>http://www.w3.org/2001/XInclude</programlisting>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1>
+      <title>Error Handling</title>
+
+      <para>An error will be generated if you try to xinclude a resource which does not
+                exist. You can specify a fallback to avoid the error. The result of the XInclude
+                will be the content of the <tag>xi:fallback</tag> element:</para>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-4.txt"/>
+      <para>See the result below:</para>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-5.txt"/>
+      <para>Note that a fallback element cannot contain an XInclude.</para>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1>
+      <title>Selection by ID</title>
+
+      <para>The <literal>xpointer</literal> attribute is used to identify a portion of the
+                resource to include. If the xpointer contains the value of an
+                attribute of type ID, it will select the element of the target document that has a matching
+                attribute of type ID. For example, the following XInclude selects
+                the p element from file <literal>disclaimer.xml</literal>, which has an ID
+                attribute with value "statement".</para>
+      <programlisting language="xml">&lt;xi:include href="disclaimer.xml" xpointer="p"/&gt;</programlisting>
+      <para>The result of the XInclude is displayed below:</para>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-7.txt"/>
+      <para>Note that in case there are several instances of the same ID attribute,
+                only the first instance will be selcted.</para>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1>
+      <title>Selecting a Fragment by an XPath Expression</title>
+
+      <para>We may also use an XPath expression to select fragments. The
+                <literal>xpointer</literal> attribute contains an XPointer, which consists of so
+                called "schemes". An XPath expression can be passed to the
+                <literal>xpointer()</literal> XPointer scheme. The results of the expression will be
+                included in place of the <tag>xi:include</tag> element. The following
+                expression includes the first stage direction in Shakespeare's Macbeth:</para>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-8.txt"/>
+      <para>As before, the results are included below:</para>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-9.txt"/>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1>
+      <title>Selecting a Fragment by a Search Expression</title>
+
+      <para>XIncludes can perform searches, e.g. using full-text search.</para>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-10.txt"/>
+      <para>As before, the results are included below:</para>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-11.txt"/>
+      <para>Note that only the first hit is retrieved – one cannot in this way list all the instances 
+                of the word "love" in Romeo and Juliet.</para>
+      <para>An XPath expression will be applied to the entire collection if the path in href
+                points to a collection and not a single document:</para>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-12.txt"/>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-13.txt"/>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1>
+      <title>Namespaces</title>
+
+      <para>All namespace/prefix mappings declared in the source
+                document are passed to the query context. Alternatively, you may declare mappings
+                with xmlns().</para>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-14.txt"/>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-15.txt"/>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1>
+      <title>Transforming XInclude Results</title>
+
+      <para>
+                XPath functions can be used to transform the result of an XInclude.
+                This can be done for presentation: if a sequence of elements are returned, 
+                one might want to render them on separate lines.
+            </para>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-16.txt"/>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-17.txt"/>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1>
+      <title>Implementing XPointer string-range()</title>
+
+      <para>One reason why the XPointer spec has hardly seen any implementation is that 
+                it operates with "points" and "locations" which can have no meaning in the XQuery/XPath Data Model.
+                However, a major use case for the XPointer specification is to allow pointing at 
+                a range of characters inside an element and this is possible using the XPath functions string-join() and substring().</para>
+      <para>Here a range of characters in the text node of a LINE element are extracted which is 20 characters long and starts with the 22nd character.</para>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-18.txt"/>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-19.txt"/>
+      <para>Since only the string contents is involved, such ranges may also straddle text nodes belonging to different elements. 
+                In the following, the parts of succeeding lines are extracted from the SPEECH element. 
+            </para>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-20.txt"/>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-21.txt"/>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1>
+      <title>Including the Results of a Stored XQuery</title>
+
+      <para>Another powerful feature is to include the result of a stored XQuery. 
+                If the target of an XInclude reference points to an
+                XQuery resource stored in the database (i.e. a binary resource with mime-type
+                "application/xquery"), the XInclude processor will attempt to compile and execute this
+                query. The root element included will be the root element returned by the XQuery
+                script. For example:</para>
+      <programlisting language="xml">&lt;xi:include href="display-collection.xq"/&gt;</programlisting>
+      <para>Calls a query without parameters. The result is shown below:</para>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-23.txt"/>
+      <para>The XInclude processor declares two variables in the XQuery's static context:</para>
+      <variablelist spacing="compact">
+         <varlistentry>
+            <term>$xinclude:current-doc</term>
+            <listitem>
+               <para>the name of the document which xincludes the query (without the collection path)</para>
+            </listitem>
+         </varlistentry>
+         <varlistentry>
+            <term>$xinclude:current-collection</term>
+            <listitem>
+               <para>the collection in which the current document resides</para>
+            </listitem>
+         </varlistentry>
+      </variablelist>
+      <para>The example above calls these functions. </para>
+      <para>However, we can also pass explicit parameters to the XQuery:</para>
+      <programlisting language="xml">&lt;xi:include href="testvars.xq?var1=Hello&amp;var2=World"/&gt;</programlisting>
+      <para>The parameters <literal>var1</literal> and <literal>var2</literal> will be
+                available to the XQuery as an external global variable. However, the XQuery needs to
+                declare them or an error will be thrown:</para>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-25.txt"/>
+      <para>The result of the call is included below:</para>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-26.txt"/>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1>
+      <title>Including resources from external URIs or the file system</title>
+
+      <para>If the URI in the href attribute specifies 
+			a known scheme (like http: or file:), eXist-db will try to load it as an external 
+			resource. For example:</para>
+      <programlisting language="xml">&lt;xi:include href="http://localhost:8080/exist/rest/db/apps/doc/data/disclaimer-short.xml"/&gt;</programlisting>
+      <para>Should load "disclaimer-short.xml" via HTTP (assuming that the URL is correct
+			and you are using the default eXist-db setup):</para>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-28.txt"/>
+      <para>If no scheme is specified, the XInclude processor will first try to load
+			the referenced document from the database (relative to the current collection),
+			and if that fails, from the file system.</para>
+      <para>If the document that contains the XInclude has been constructed in an XQuery,
+			relative file system paths will be resolved relative to the main XQuery module 
+			source file.</para>
+      <para>You can also use XPointers on external resources:</para>
+      <programlisting language="xml">&lt;xi:include href="http://exist-db.org/exist/index.xml" xpointer="xpointer(//blockquote)"/&gt;</programlisting>
+      <para>The output of this is shown below:</para>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-30.txt"/>
+   </sect1>
+</article>

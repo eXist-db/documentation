@@ -1,0 +1,10 @@
+private class GeometryHandler extends XMLFilterImpl implements GMLHandlerJTS {
+        public void geometry(Geometry geometry) {
+	  streamedGeometry = geometry;      	
+	  //TODO : null geometries can be returned for many reasons, including a (too) strict
+	  //topology check done by the Geotools SAX parser.
+	  //It would be nice to have static classes extending Geometry to report such geometries
+	  if (geometry == null)
+	    LOG.error("Collected null geometry for node: " + currentNodeId + ". Indexing will be skipped");
+	}
+      }

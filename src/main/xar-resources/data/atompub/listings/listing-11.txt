@@ -1,0 +1,15 @@
+POST /atom/edit/users/johndoe/blog HTTP/1.1
+Host: example.org
+User- Agent: Thingio/1.0
+Content- Type: application/atom+xml
+Content- Length: nnn
+
+<?xml version="1.0" ?>
+<entry xmlns="http://www.w3.org/2005/Atom">
+   <title>My First Entry</title>
+   <content type='xhtml'>
+      <div xmlns='http://www.w3.org/1999/xhtml'>
+         <p>Isn't life grand!?!</p>
+      </div>
+   </content>
+</entry>

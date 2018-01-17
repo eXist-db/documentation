@@ -1,0 +1,37 @@
+private void processDeferredElement() {  
+        //We need to collect the deferred element's attributes in order to feed the SAX handler
+	AttributesImpl attList = new AttributesImpl();
+	NamedNodeMap attrs = deferredElement.getAttributes();
+      
+	String whatToPush = null;
+	
+	for (int i = 0; i < attrs.getLength() ; i++) {
+	  AttrImpl attrib = (AttrImpl)attrs.item(i);
+	  
+	  //Store the srs
+	  if (GML_NS.equals(deferredElement.getNamespaceURI())) {
+	    //Maybe we could assume a configurable default value here
+	    if (attrib.getName().equals("srsName")) {        		
+	      whatToPush = attrib.getValue();
+	    }
+	    srsNamesStack.push(whatToPush);
+	  } 
+      
+	  attList.addAttribute(attrib.getNamespaceURI(), 
+	  attrib.getLocalName(), 
+	  attrib.getQName().getStringValue(), 
+	  Integer.toString(attrib.getType()), 
+	  attrib.getValue());            		
+        } 
+      
+	srsNamesStack.push(whatToPush);
+
+	try {
+	  geometryDocument.startElement(deferredElement.getNamespaceURI(), deferredElement.getLocalName(), deferredElement.getQName().getStringValue(), attList);
+	} catch (Exception e) {
+	  e.printStackTrace();
+	  LOG.error(e);
+	} finally {
+	  deferredElement = null;       	       	
+	}
+      }

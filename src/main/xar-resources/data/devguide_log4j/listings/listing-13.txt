@@ -1,0 +1,7 @@
+static boolean  LOG_ENABLED = logger.isInfoEnabled ();
+…
+public void someMethod()
+{
+  if ( LOG_ENABLED )
+    logger.info( … );
+}

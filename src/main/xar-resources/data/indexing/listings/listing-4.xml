@@ -1,0 +1,10 @@
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <index xmlns:atom="http://www.w3.org/2005/Atom">
+        <fulltext default="none" attributes="no">
+            <create qname="atom:title"/>
+        </fulltext>
+        <range>
+            <create qname="atom:id" type="xs:string"/>
+        </range>
+    </index>
+</collection>

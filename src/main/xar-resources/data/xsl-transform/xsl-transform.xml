@@ -1,0 +1,103 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article xmlns="http://docbook.org/ns/docbook" version="5.0">
+   <info>
+      <title>XSL transformations with the transform module</title>
+      <date>October 2012</date>
+      <keywordset>
+         <keyword>TBD</keyword>
+      </keywordset>
+   </info>
+
+   <!-- ================================================================== -->
+
+   <sect1 xml:id="introduction">
+      <title>Introduction</title>
+
+      <para>The transform (in the <literal>http://exist-db.org/xquery/transform</literal> function
+                namespace) module provides functions for directly applying an XSL stylesheet to an
+                XML fragment within an XQuery script. The full list of functions and their
+                documentation is in the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/exist/apps/fundocs">Function Documentation
+                    Library</link>. This article discusses some of the highlights and main uses for
+                this module.</para>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1 xml:id="transform">
+      <title>transform:transform() and transform:stream-transform()</title>
+
+      <variablelist spacing="compact">
+         <varlistentry>
+            <term>transform:transform()</term>
+            <listitem>
+               <para>This XSL transformation functions have the following signatures:</para>
+               <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-1.txt"/>
+               <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-2.txt"/>
+               <para>
+                            <literal>transform:transform</literal> expects the node to be
+                            transformed in the first argument <literal>$input</literal>. If
+                                <literal>$input</literal> is an empty sequence, the function returns
+                            immediately.</para>
+               <para>The XSL stylesheet will be read from the location specified in
+                                <literal>$stylesheet</literal>, which should be either an URI or a
+                            node. If $stylesheet is of type xs:anyURI, the function will attempt to
+                            load the stylesheet from the specified location. A relative URI is
+                            interpreted as a file path. The function then tries to locate the
+                            stylesheet in the same way as imported XQuery modules, i.e. relative to
+                            the module load directory determined by the static XQuery
+                            context.</para>
+               <para>Some examples for referencing the stylesheet:</para>
+               <programlisting>transform:transform($root, doc("/db/styles/style.xsl"), ())</programlisting>
+               <para>Creates the stylesheet from a document node.</para>
+               <programlisting>transform:transform($root, xs:anyURI("style.xsl"), ())</programlisting>
+               <para>Loads the stylesheet from the file <literal>style.xsl</literal>. The
+                            function usually expects the file to reside in the same directory as the
+                            main query.</para>
+               <programlisting>transform:transform($root, xs:anyURI("http:exist-db.org/style.xsl"), ())</programlisting>
+               <programlisting>transform:transform($root, xs:anyURI("xmldb:exist:///db/styles/style.xsl"), ())</programlisting>
+               <para>The last two examples try to load the stylesheet from an URI. However,
+                            the "xmldb:" URI points to a resource stored in the database.</para>
+               <para>The stylesheet will be compiled into a template using the standard
+                            Java APIs (<literal>javax.xml.transform</literal>). The template is
+                            shared between all instances of the function and will only be reloaded
+                            if modified since its last invocation.</para>
+               <para>The <literal>$options</literal> parameter can be used to pass stylesheet
+                            parameters to the XSL processor as an XML fragment - for example:</para>
+               <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-7.xml"/>
+               <para>This will set the stylesheet parameter <literal>param1</literal> to the
+                            string value <literal>value1</literal>, and in the XSL stylesheet, the
+                            parameter can then be referenced as follows:
+                        </para>
+               <programlisting>&lt;xsl:param name="param1"/&gt;</programlisting>
+               <para>
+                            There are two special parameters named "exist:stop-on-warn" and "exist:stop-on-error". If set to value "yes", 
+                            eXist will generate an XQuery error if the XSL processor reports a warning or error.
+                        </para>
+               <para>Optionally a set of two arguments can be specified. With the <literal>$attributes</literal> argument it is possible to pass attributes to the 
+                            transformation factory; Verify the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://docs.oracle.com/javase/8/docs/api/javax/xml/transform/TransformerFactory.html#setAttribute-java.lang.String-java.lang.Object-">Java</link>
+                            or  <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.saxonica.com/html/documentation/javadoc/net/sf/saxon/lib/FeatureKeys.html">Saxon</link> documentation for more details:
+                            </para>
+               <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-9.xml"/>
+               <para>
+                            The <literal>serialization-options</literal> argument specifies serialization options in the same way as if they 
+                            were passed to the "declare option exist:serialize" expression. An additional serialization option, "xinclude-path", 
+                            is supported, which specifies a base path against which xincludes will be expanded (if there are xincludes in the document). 
+                            A relative path will be relative to the current module load path.
+                        </para>
+            </listitem>
+         </varlistentry>
+         <varlistentry>
+            <term>transform:stream-transform()</term>
+            <listitem>
+               <para>Identical to the <literal>transform:transform</literal> function, but
+                            it directly streams the transformation result to the HTTP request output
+                            stream and doesn't return anything. The function is thus only usable in
+                            a web context. Note that the servlet output stream will be closed
+                            afterwards.</para>
+            </listitem>
+         </varlistentry>
+      </variablelist>
+   </sect1>
+</article>

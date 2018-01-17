@@ -1,0 +1,727 @@
+<!-- $Id$ -->
+<book>
+    <bookinfo>
+        <productname>eXist-db – Open Source Native XML Database</productname>
+        <title>Security</title>
+        <date>October 2012</date>
+    </bookinfo>
+    <chapter>
+        <title>Security</title>
+        <section id="overview">
+            <title>Overview</title>
+            <para>This article discusses eXist-db's security features and how to manage
+                authentication, users, groups, passwords, permissions, and access controls.
+                eXist-db's security infrastructure is built on a Unix permissions model with a
+                single internal authentication realm, with additional support for access control
+                lists and authentication using multiple realms through a central security
+                manager.</para>
+        </section>
+        <section id="security-manager">
+            <title>Security Manager</title>
+            <para>eXist-db has a central Security Manager which is configured by the file
+                    <filename>/db/system/security/config.xml</filename>. This file, which is
+                generated during database startup, defines what authentication realms are available
+                to the Security Manager.</para>
+            <para>This example Security Manager configuration file defines a URL to be used for
+                authentication:</para>
+            <example>
+                <title>
+                    <filename>/db/system/security/config.xml</filename>
+                </title>
+                <programlisting language="xml">
+        <markup><![CDATA[<security-manager xmlns="http://exist-db.org/Configuration" last-account-id="11" last-group-id="10" version="2.0">
+    <Authentication-Entry-Point>/authentication/login</Authentication-Entry-Point>
+</security-manager>]]></markup>
+                </programlisting>
+            </example>
+            <para>The Security Manager also features an authentication event listener that you can
+                configure to call a custom XQuery module on each authentication event. For example,
+                this configuration file would pass authentication events to a module,
+                    <filename>/db/security-events.xq</filename>, which performs actions when an
+                authentication event occurs.</para>
+            <example>
+                <title>Excerpt of a sample <filename>/db/system/security/config.xml</filename>
+                    illustrating configuration of the authentication event listener</title>
+                <programlisting language="xml">
+        <markup><![CDATA[<security-manager ... version="2.0">
+    ...
+    <events script-uri="/db/security-events.xq"/>
+    ...
+</security-manager>]]></markup>
+            </programlisting>
+            </example>
+            <para>The XQuery module that receives the authentication events must be a library module
+                in the <uri>http://exist-db.org/security/events</uri> namespace and must have a
+                function called <command>authentication()</command>. This example sends a log
+                message to the console.</para>
+            <example>
+                <title>A sample module handler for authentication events, <filename>/db/security-events.xq</filename>
+                </title>
+                <programlisting language="xquery">
+        <markup><![CDATA[xquery version "3.0";
+ 
+module namespace sec-ev="http://exist-db.org/security/events";
+ 
+declare function sec-ev:authentication() {
+    util:log-system-out(concat("An authentication event has occurred for ", xmldb:get-current-user())))
+};]]></markup>
+            </programlisting>
+            </example>
+        </section>
+        <section id="authentication-realms">
+            <title>Authentication Realms</title>
+            <para>eXist-db always has an internal authentication realm, but also supports multiple
+                authentication realms. This allows you to add one or more external realms which
+                provide user and group authentication for eXist-db.</para>
+            <section id="default-internal-realm">
+                <title>Default Internal Realm</title>
+                <para>The "eXist-db realm" is the default internal realm. By default this realm
+                    handles the '<emphasis>SYSTEM</emphasis>', '<emphasis>admin</emphasis>' and
+                        '<emphasis>guest</emphasis>' users and '<emphasis>DBA</emphasis>' and
+                        '<emphasis>guest</emphasis>' groups. Any additional users or groups created
+                    in eXist-db will be added to this realm.</para>
+                <para>Every eXist-db realm user has an account with a username, password, and other 
+                    metadata that is stored in the database. Each user may belong to zero or more
+                    groups.</para>
+                <para>User and group information for the eXist-db realm is maintained in the
+                    collection <filename>/db/system/security/exist</filename>.</para>
+                <important>
+                    <para>The security collections in /db/system/security should not be manually
+                        manipulated or read, rather they should be accessed via the SecurityManager
+                        class or the SecurityManager Module. Directly manipulation can lead to
+                        inconsistent state and security issues.</para>
+                </important>
+                <para>The following is a sample user account document for "aretter" in
+                    the eXist-db realm:</para>
+                <example>
+                    <title>Account Document stored in <filename>/db/system/security/exist/accounts/aretter.xml</filename>
+                    </title>
+                    <programlisting>
+                        <markup><![CDATA[<account xmlns="http://exist-db.org/Configuration" id="11">
+    <name>aretter</name>
+    <password>{RIPEMD160}Vi7e971INiGmyWGT1bm63bHj1gf=</password>
+    <group name="dba"/>
+    <enabled>true</enabled>
+    <expired>false</expired>
+    <metadata/>
+</account>]]></markup>
+                    </programlisting>
+                </example>
+                <para>As this example suggests, eXist-db does not store passwords in the clear, but
+                    rather stores hashed values of the passwords (in base64 encoding). eXist-db uses
+                    the <emphasis>RIPEMD-160</emphasis> cryptographic hashing algorithm. Whenever a
+                    user supplies account credentials for authentication, the database applies
+                    RIPEMD-160 hash to the supplied password and compares it to the hash stored in
+                    the user's account document. Storing hashes of passwords is a best practice in
+                    security that provides a strong layer of security compared to storing passwords
+                    in the clear; the notion is that even if the hashed password is exposed to an
+                    attacker, it is difficult to derive the original password from the hash.</para>
+                <para>Note that the <filename>/db/system/security</filename> collection is (by
+                    default) only readable and writable by the system or users in the <option>dba</option> group.
+                    The <option>dba</option> group is specially reserved for database
+                    administrators, and only <option>dba</option> users are allowed to create,
+                    remove or modify other users.</para>
+            </section>
+            <section id="ldap-realm">
+                <title>LDAP Realm</title>
+                <para>The LDAP Realm is enabled by default (in
+                        <filename>extensions/build.properties</filename>,
+                        <option>include.feature.security.ldap</option> is set to
+                        <option>true</option>.) To use the LDAP realm, add an LDAP realm element to 
+                    <filename>/db/system/security/config.xml</filename>, as in this example:</para>
+                <example>
+                    <title>Sample <filename>/db/system/security/config.xml</filename> for
+                        LDAP</title>
+                    <programlisting>
+                        <markup><![CDATA[<realm id="LDAP" version="1.0" principals-are-case-insensitive="true">
+    <context>
+        <authentication>simple</authentication>
+        <url>ldap://ad.server.url.here:389</url>
+        <domain>domain.here</domain>
+        <search>
+            <base>ou=group,dc=ad,dc=organiation-or-what-ever,dc=domain</base>
+            <default-username>account@domain.here</default-username>
+            <default-password>XXXXXXX</default-password>
+            <account>
+                <search-filter-prefix>objectClass=user</search-filter-prefix>
+                <search-attribute key="objectSid">objectSid</search-attribute>
+                <search-attribute key="primaryGroupID">primaryGroupID</search-attribute>
+                <search-attribute key="name">sAMAccountName</search-attribute>
+                <search-attribute key="dn">distinguishedName</search-attribute>
+                <search-attribute key="memberOf">memberOf</search-attribute>
+                <metadata-search-attribute key="http://axschema.org/namePerson/first">givenName</metadata-search-attribute>
+                <metadata-search-attribute key="http://axschema.org/contact/email">mail</metadata-search-attribute>
+                <metadata-search-attribute key="http://axschema.org/namePerson/last">sn</metadata-search-attribute>
+                <metadata-search-attribute key="http://axschema.org/namePerson">name</metadata-search-attribute>
+            </account>
+            <group>
+                <search-filter-prefix>objectClass=group</search-filter-prefix>
+                <search-attribute key="member">member</search-attribute>
+                <search-attribute key="primaryGroupToken">primaryGroupToken</search-attribute>
+                <search-attribute key="objectSid">objectSid</search-attribute>
+                <search-attribute key="name">sAMAccountName</search-attribute>
+                <search-attribute key="dn">distinguishedName</search-attribute>
+                <whitelist>
+                    <principal>Domain Users</principal>
+                    <principal>Users_GROUP</principal>
+                </whitelist>
+            </group>
+        </search>
+        <transformation><add-group>group.users</add-group></transformation>
+    </context>
+</realm>]]></markup>
+                    </programlisting>
+                </example>
+                <para>Explanation of these elements:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>The default-username and default-password elements are used to
+                            communicate with the LDAP server if a non-LDAP user requests information
+                            from LDAP server.</para>
+                    </listitem>
+                    <listitem>
+                        <para>The search-* elements are mapping for names.</para>
+                    </listitem>
+                    <listitem>
+                        <para>The metadata-search-attribute elements are used for mapping LDAP
+                            account metadata onto eXist-db account metadata.</para>
+                    </listitem>
+                    <listitem>
+                        <para>The whitelist element contains allowed groups for authentication. The
+                            blacklist element contains groups that are not allowed.</para>
+                    </listitem>
+                    <listitem>
+                        <para>The transformation element contains actions to be performed after
+                            first authentication.</para>
+                    </listitem>
+                </itemizedlist>
+                <para>If the <filename>config.xml</filename> file is configured correctly, then you
+                    should be able to authenticate by LDAP.</para>
+            </section>
+            <section id="oauth-realm">
+                <title>OAuth Realm</title>
+                <para>Due to the variation in implementations across OAuth providers, eXist-db
+                    developers have to create provider-specific Java libraries. eXist-db currently
+                    supports only Facebook and Google for OAuth authentication (see <ulink url="http://developers.facebook.com/docs/authentication/">Facebook
+                        Authentication</ulink> and <ulink url="https://developers.google.com/accounts/docs/OAuth2">Google's OAuth
+                        documentation</ulink>.</para>
+                <para>The OAuth Realm is not enabled by default in eXist-db. To enable the OAuth
+                    realm, set the <option>include.feature.security.oauth</option> property to
+                        <option>true</option> in
+                        <filename>extensions/local.build.properties</filename>, and rebuild
+                    eXist-db. Then edit web.xml and controller-config.xml to enable OAuthServlet. 
+                    After startup eXist-db and add a realm element for OAuth to
+                        <filename>/db/system/security/config.xml</filename>, as in this
+                    example:</para>
+                <example>
+                    <title>Sample <filename>/db/system/security/config.xml</filename> for
+                        OAuth</title>
+                    <programlisting>
+                        <markup><![CDATA[<realm id="OAuth" version="1.0">
+    <service name="nnn" key="kkk" secret="sss" provider="facebook"/>
+</realm>]]></markup>
+                    </programlisting>
+                </example>
+                <para>Explanation of these elements:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Valid values for the service element's @provider attribute are 'facebook' and 'google'. </para>
+                    </listitem>
+                    <listitem>
+                        <para>@name unique (in database) name for application.</para>
+                        <para>@key and @secret should be given by OAuth provider.</para>
+                    </listitem>
+                </itemizedlist>
+                <para>If configured correctly, you should be able to authenticate by OAuth.</para>
+            </section>
+            <section id="openid-realm">
+                <title>OpenID Realm</title>
+                <para>
+                    <ulink url="http://openid.net/">OpenID</ulink> is an authentication mechanism
+	                where the identity of the user is maintained by trusted external providers. This
+	                takes the burden in maintaining and securing passwords for users off of the eXist-db
+	                database and on to the Identity Provider (IdP).
+                </para>
+                <para>
+	                By default, the OpenID service is not built and thus is also not enabled.  To
+	                recompile the source with OpenID enabled, edit local.build.properties in the
+	                extensions directory and change the include.feature.security.openid property
+	                from false to true.  Then recompile.
+                </para>
+                <example>
+                    <title>extensions/local.build.properties</title>
+                    <programlisting><![CDATA[#Security OpenID extensions for eXist
+include.feature.security.openid = true
+]]></programlisting>
+                </example>
+                <para>
+			        This extension compiles into <emphasis role="bold">
+                        <emphasis role="italic">lib/extensions/exist-security-openid.jar</emphasis>
+                    </emphasis>.
+                    Run eXist-db with that jar should enable extension. To disable service remove the jar and restart eXist-db.
+				</para>
+            </section>
+            <section id="legacy-internal-realm">
+                <title>Legacy Internal Realm</title>
+                <para>Before eXist-db 2.0, the internal security realm was maintained in a different
+                    manner. The details are included here for the purpose of informing decisions on
+                    migration.</para>
+                <para>Every eXist-db database user has an account with a username, password and other
+                    information that is stored in the database. Furthermore, every user belongs to
+                    one or more groups - and respectively, every resource in the database is owned
+                    by a user and by a group. By default, the owner is set to the user who created
+                    the resource, and his primary group, but eXist-db allows for different permissions
+                    for the owner, the owner's group and others. However, only the owner of the
+                    resource (or <filename>dba</filename> users) can change these
+                    permissions.</para>
+                <para>User and group information is found in the designated XML file
+                        <filename>/db/system/users.xml</filename> located in collection
+                        <filename>/db/system</filename>. This file is generated during database
+                    startup. The following is a simple example of a <filename>users.xml</filename>
+                    document: </para>
+                <example>
+                    <title>
+                        <filename>users.xml</filename> User Information</title>
+                    <programlisting>
+                        <markup><![CDATA[<auth>
+    <groups last-id="3">
+        <group name="dba" id="1"/>
+        <group name="guest" id="2"/>
+        <group name="mygroup" id="3"/>
+    </groups>
+    <users last-id="3">
+        <user name="admin" uid="1" home="">
+            <group>dba</group>
+        </user>
+        <user name="guest" uid="2" password="e55d929cdbc8d5a7ce3bda044bc69f59" home="">
+            <group>guest</group>
+        </user>
+        <user name="user-1" uid="3" password="7f0261c14d7d1b8e51680a013daa623e" home="my-collection">
+            <group>my-group</group>
+        </user>
+    </users>
+</auth>]]></markup>
+                    </programlisting>
+                </example>
+                <para>As we see from this example, passwords are encrypted using an
+                        <emphasis>MD5</emphasis> algorithm (e.g. <option>user-1</option> has the
+                        <emphasis>MD5</emphasis>-encrypted password
+                    "7f0261c14d7d1b8e51680a013daa623e"). Therefore, whenever a user enters his or
+                    her password, the database generates an MD5 encryption and compares it to the
+                    encryption stored in <filename>users.xml</filename>. Since it is very difficult
+                    for users to guess the original password from the MD5 string, passwords in eXist-db
+                    should be sufficiently secure.</para>
+                <para>Note that the <filename>/db/system</filename> collection is (by default) only
+                    readable by <option>dba</option> users (although it is possible to make it
+                    accessible by other users). The <option>dba</option> group is specially reserved
+                    for database administrators, and only <option>dba</option> users are allowed to
+                    create or remove users, or change permissions for other users.</para>
+                <important>
+                    <para>By default, access to an eXist-db database is disabled until a password is
+                        set for the administrator (see <emphasis>Changing the Administrator
+                            Password</emphasis> below for instructions). Since
+                            <option>write</option> permissions for files are granted to everyone, it
+                        is important to be careful about how you configure server access for users
+                        on a network or the Internet.</para>
+                </important>
+            </section>
+        </section>
+        <section id="changing-admin-password">
+            <title>Changing the Administrator Password</title>
+            <para>When the database is started for the first time, two default users are created:
+                "admin" and "guest". (The "admin" user is a member of the <option>dba</option>
+                group, and therefore has administrative privileges; the "guest" user is a member of
+                the group "guest" and is not an administrator). At this initial point, the "admin"
+                password is set to <option>null</option>, and so access to the database is
+                    <emphasis>initially</emphasis> granted to everyone. To set restrictions on
+                database access, you must first set a password for the "admin" user. To do this, use
+                either the <emphasis>Admin Client</emphasis> or the <ulink url="{dashboard}">User Manager</ulink> 
+                in the <ulink url="{dashboard}">Dashboard</ulink>. If eXist-db is used for applications
+                intended for online web publications, or as an embedded library, it is exposed it to
+                potential exploitation. It is therefore strongly advised that you first change the
+                admin password.</para>
+            <para>The Admin Client graphical user interface has a dialog box for user management. To
+                open this dialog box, enter <keysym>Ctrl-U</keysym> or select
+                    <guimenuitem>Tools</guimenuitem> » <guimenuitem>Edit users</guimenuitem>. A
+                dialog box will appear, as shown here.</para>
+            <screenshot>
+                <graphic fileref="/resources/images/client-5.png"/>
+            </screenshot>
+            <orderedlist>
+                <listitem>
+                    <para>At the top, select the "admin" user in the table of users</para>
+                </listitem>
+                <listitem>
+                    <para>Type in your password into the corresponding fields</para>
+                </listitem>
+                <listitem>
+                    <para>Click the "Modify User" button to apply the changes</para>
+                </listitem>
+            </orderedlist>
+            <para>You can also set a new administrator password on the command line in a console or
+                shell. Enter the following at the command prompt:</para>
+            <example>
+                <title>Setting an Administrator Password</title>
+                <screen><![CDATA[type help or ? for help.
+exist:/db>passwd admin
+password: somepass
+re-enter password: somepass
+exist:/db>quit
+]]></screen>
+            </example>
+            <para>Now that the password is set, access control is enabled. To start the shell-mode client as an
+                administrator, you must specify the <option>-u</option> option, following these
+                steps:</para>
+            <procedure>
+                <step>
+                    <para>For Windows and Mac users, double-click on the desktop shortcut icon (if
+                        created) or by selecting the shortcut icon from the start menu</para>
+                </step>
+                <step>
+                    <para>OR enter the following in a Unix shell or DOS/Windows command
+                        prompt:</para>
+                    <synopsis format="linespecific">bin\client.bat -u admin (DOS/Windows)</synopsis>
+                    <synopsis format="linespecific">bin/client.sh -u admin (Unix)</synopsis>
+                </step>
+            </procedure>
+            <para>The other default user, "guest", also has the password "guest". The guest identity
+                is internally assigned to all clients that have not authenticated themselves. For
+                example, the Xincon WebDAV interface does not support authentication, so "guest" is
+                assumed for its users by default. Note that this aspect of WebDAV is a potential
+                source of confusion, and you have to be careful about setting read/write permissions
+                for this API.</para>
+        </section>
+        <section id="creating-users">
+            <title>Creating Users</title>
+            <para>It is easy to create new users using the Admin Client. In the <guimenu>Edit
+                    users</guimenu> dialog box, fill in the <option>Username</option>,
+                    <option>Password</option>, <option>Password (repeat)</option>, and
+                    <option>Home-collection</option> fields, and assign a group (or groups) for the
+                new user. Finally, select <guimenuitem>Create User</guimenuitem>. The new user will
+                appear in the list of users in the top panel.</para>
+            <para>The <command>adduser</command> command also allows you to create additional users.
+                The command asks for a password and a list of groups to which the user should
+                belong. An example is shown below:</para>
+            <example>
+                <title>Creating a New User</title>
+                <screen><![CDATA[exist:/db/shakespeare>adduser wolf
+password: xxxxxxxx
+re-enter password: xxxxxxxx
+enter groups: users]]></screen>
+            </example>
+            <para>To check that the user has been added, use the command <command>users</command> to
+                display a list of all known database users.</para>
+        </section>
+        <section id="permissions">
+            <title>Resource Permissions</title>
+            <para>eXist-db has supports both a Unix like permissions model and simple Access Control
+                Lists. It is important to understand the Unix permission model first, and then
+                consider Access Control Lists, should the Unix Model not prove sufficient for your
+                application.</para>
+            <section>
+                <title>Unix Model</title>
+                <para>The default that is based on the UNIX <emphasis role="bold">read</emphasis>,
+                        <emphasis role="bold">write</emphasis> and <emphasis role="bold">execute</emphasis> flags for <emphasis role="bold">owner</emphasis>,
+                        <emphasis role="bold">group</emphasis> and <emphasis role="bold">world</emphasis>. In versions prior to eXist-db 2.0, there was no <emphasis role="bold">execute</emphasis> flag, rather an <emphasis role="bold">update</emphasis> flag was present.</para>
+                <screenshot>
+                    <graphic fileref="/resources/images/owner-group-world.png"/>
+                </screenshot>
+                <informaltable frame="void" border="1">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Owner</td>
+                            <td>These permissions work for the owner of the resource</td>
+                        </tr>
+                        <tr>
+                            <td>Group</td>
+                            <td>These permissions work for the members of the group of the
+                                resource</td>
+                        </tr>
+                        <tr>
+                            <td>World</td>
+                            <td>These permissions work for any user</td>
+                        </tr>
+                    </tbody>
+                </informaltable>
+                <note>
+                    <para>Please be aware that permissions for collections are
+                            <emphasis>NOT</emphasis> inherited by their sub-collections, i.e., write
+                        permissions can be set for some sub-collections, but you must also have
+                        write permissions for the parent collection for these to be
+                        effective.</para>
+                </note>
+                <para>Using the Java Admin Client or the command line, you can list the permissions
+                    assigned to each resource (this assumes the <property>permissions</property>
+                    property in <filename>client.properties</filename> is set to
+                        <option>true</option>). An example listing is shown below:</para>
+                <example>
+                    <title>Resource Permission Settings</title>
+                    <screen><![CDATA[exist:/db/shakespeare/plays>ls
+    -rwxr-xr--      admin   dba     hamlet.xml
+    -rwxr-xr--      admin   dba     macbeth.xml
+    -rwxr-xr--      wolf    users   r_and_j.xml
+    -rwxr-xr--      admin   dba     shakes.xsl
+    exist:/db/shakespeare/plays>]]></screen>
+                </example>
+                <para>As shown on the left-hand side, the Java Admin Client displays resource permissions
+                    in a format similar to the output of the Unix <command>ls -l</command> command:
+                    a ten-character code. The first character represents the type of resource:
+                        <option>-</option> (hyphen) for documents (files) and <option>d</option> for
+                    collections. The next three characters are the permissions for the user: a
+                        <option>-</option> (hyphen) is used for denied permissions,
+                        <option>r</option> for read, <option>w</option> for write, and
+                        <option>x</option> for execute. The next three characters (five through
+                    seven) set the permissions for groups, and the last three for others (i.e.
+                    anyone else who can access the database). Given the previous example, we can see
+                    that all files except <filename>r_and_j.xml</filename> are owned by user "admin"
+                    and group "dba".</para>
+                <para>As mentioned in the previous section, the database root collection
+                        <filename>/db</filename> initially has permissions set to
+                        <option>drwxr-xr-x</option>, i.e. full access is granted to everyone. Also
+                    note that <option>-rw-r--r--</option> is the default setting for all newly
+                    created resources, i.e. the owner has read/write permissions but not execute,
+                    and the group and others (world) has read permissions.</para>
+                <section>
+                    <title>Changing Resource Permissions</title>
+                    <para>Permissions can be changed using either the <emphasis>Edit
+                            Properties</emphasis> dialog box (shown below) in the Admin
+                        Client or the <command>chmod</command> command in the shell window. The
+                            <emphasis>Edit Properties</emphasis> dialog box is opened by selecting
+                            <guimenuitem>Files</guimenuitem> »<guimenuitem>Resource
+                            Properties</guimenuitem> from the menu, OR by clicking on the
+                            <guiicon>Properties Icon</guiicon> (image with checkboxes) in the toolbar.
+                        This dialog box shows permission settings for all database users and
+                        groups.</para>
+                    <screenshot>
+                        <graphic fileref="/resources/images/client-6.png"/>
+                    </screenshot>
+                    <note>
+                        <para>Please note that only the owner of a resource or members of the
+                                <option>dba</option> group are allowed to change permissions. All other
+                            users who attempt to change these settings will receive an error
+                            message.</para>
+                    </note>
+                    <para>On the command line, you can use the <command>chmod</command> command to
+                        change permissions. This command expects two parameters:</para>
+                    <variablelist>
+                        <varlistentry>
+                            <term>chmod</term>
+                            <listitem>
+                                <para>Parameters:</para>
+                                <orderedlist>
+                                    <listitem>
+                                        <para>Name of a resource or collection</para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>Read, write and execute permissions to set or remove
+                                                (<option>+</option> or <option>-</option>
+                                            respectively, for the specified user, group, or other
+                                            according to the following syntax:</para>
+                                    </listitem>
+                                </orderedlist>
+                                <synopsis>chmod [resource] [user|group|other]=[+|-][read|write|execute][, ...]</synopsis>
+                            </listitem>
+                        </varlistentry>
+                    </variablelist>
+                    <para>For example, to grant the write permission to the group and deny all to
+                        others, you may use:</para>
+                    <synopsis>chmod hamlet.xml group=+write,other=-read,-execute,-write</synopsis>
+                    <para>If you do not specify a resource in the first argument of the
+                            <command>chmod</command> command, the permission string will be applied
+                        to the current collection. This is an important feature if you want to
+                        change permissions for the <filename>/db</filename> root collection, which
+                        would otherwise not be possible. For example, to deny write permissions to
+                        others for the entire database, change directory to the root collection
+                        (i.e. enter <command>cd ..</command>) and enter:</para>
+                    <synopsis>chmod other=-write</synopsis>
+                </section>
+                <section>
+                    <title>Changing Resource Ownership</title>
+                    <para>Only the owner has full control over a resource, and it is sometimes
+                        important to change this ownership. The Admin Client provides the
+                            <command>chown</command> command to do this. The command expects three
+                        arguments:</para>
+                    <variablelist>
+                        <varlistentry>
+                            <term>chown</term>
+                            <listitem>
+                                <para>Arguments:</para>
+                                <orderedlist>
+                                    <listitem>
+                                        <para>Name of the user.</para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>Name of the group.</para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>Name of the resource.</para>
+                                    </listitem>
+                                </orderedlist>
+                                <synopsis>chown [user] [group] [resource]</synopsis>
+                            </listitem>
+                        </varlistentry>
+                    </variablelist>
+                    <para>For example, to change the owner of the file
+                            <filename>r_and_j.xml</filename>, you would do the following:</para>
+                    <example>
+                        <title>Changing Ownership</title>
+                        <screen><![CDATA[
+    exist:/db/shakespeare/plays>chown wolf users r_and_j.xml
+    exist:/db/shakespeare/plays>ls
+    -rwxr-xr--      admin   dba     hamlet.xml
+    -rwxr-xr--      admin   dba     macbeth.xml
+    -rwxr-xr--      wolf    users   r_and_j.xml
+    -rwxr-xr--      admin   dba     shakes.xsl
+    exist:/db/shakespeare/plays>]]></screen>
+                    </example>
+                </section>
+            </section>
+            <section id="ACLs">
+                <title>Access Control Lists (ACL)</title>
+                <para>To be written. More information about ACLs is available as <ulink url="http://www.adamretter.org.uk/presentations/security-in-existdb_xml-prague_existdb_20120210.pdf">slides</ulink> (PDF) and a presentation on <ulink url="http://www.youtube.com/watch?v=Z_Dryy9DtVo">YouTube</ulink>.</para>
+            </section>
+        </section>
+        <section id="permission-checks">
+            <title>Permission Checks</title>
+            <para>Each operation in eXist-db enforces permission checks. The details of the
+                permissions required for an operation are laid out below. These permissions should
+                align with a strict Unix model, but if they are found to be incorrect or lacking, please
+                let the project know immediately.</para>
+            <table border="1">
+                <title>Document Permissions Matrix</title>
+                <tgroup cols="3">
+                    <thead>
+                        <row>
+                            <entry>Operation</entry>
+                            <entry>Collection</entry>
+                            <entry>Document</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Open Collection</entry>
+                            <entry>--x</entry>
+                            <entry>---</entry>
+                        </row>
+                        <row>
+                            <entry>List Collection Contents</entry>
+                            <entry>r-x</entry>
+                            <entry>---</entry>
+                        </row>
+                        <row>
+                            <entry>Add Document</entry>
+                            <entry>-wx</entry>
+                            <entry>---</entry>
+                        </row>
+                        <row>
+                            <entry>Remove Document</entry>
+                            <entry>-wx</entry>
+                            <entry>---</entry>
+                        </row>
+                        <row>
+                            <entry>Overwrite Existing Document</entry>
+                            <entry>--x</entry>
+                            <entry>-w- (or owner)</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+            <table border="1">
+                <title>Document Copy/Move Permissions Matrix</title>
+                <tgroup cols="5">
+                    <thead>
+                        <row>
+                            <entry>Operation</entry>
+                            <entry>Source Collection</entry>
+                            <entry>Source Document</entry>
+                            <entry>Destination Collection (if exists)</entry>
+                            <entry>Destination Document (if exists)</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Copy Document</entry>
+                            <entry>--x</entry>
+                            <entry>r--</entry>
+                            <entry>-wx (w only if destination document does not exist)</entry>
+                            <entry>-w-</entry>
+                        </row>
+                        <row>
+                            <entry>Move/Rename Document</entry>
+                            <entry>-wx</entry>
+                            <entry>--x (or owner)</entry>
+                            <entry>-wx</entry>
+                            <entry>-w-</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+            <table border="1">
+                <title>Collection Permissions Matrix</title>
+                <tgroup cols="6">
+                    <colspec colname="c1"/>
+                    <colspec colname="c2"/>
+                    <colspec colname="c3"/>
+                    <colspec colname="c4"/>
+                    <colspec colname="c5"/>
+                    <colspec colname="c6"/>
+                    <thead>
+                        <row>
+                            <entry namest="col1" nameend="col2">Operation</entry>
+                            <entry>Parent of Source Collection</entry>
+                            <entry>Source Collection</entry>
+                            <entry>Parent of Destination Collection</entry>
+                            <entry>Destination Collection (if exists)</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry namest="col1" nameend="col2">Add Collection</entry>
+                            <entry>---</entry>
+                            <entry>---</entry>
+                            <entry>-wx</entry>
+                            <entry>---</entry>
+                        </row>
+                        <row>
+                            <entry namest="col1" nameend="col2">Remove Collection</entry>
+                            <entry>-wx</entry>
+                            <entry>rwx (and on all sub-collections)</entry>
+                            <entry>---</entry>
+                            <entry>---</entry>
+                        </row>
+                        <row>
+                            <entry namest="col1" nameend="col2">Copy Collection</entry>
+                            <entry>---</entry>
+                            <entry>r-x</entry>
+                            <entry>---</entry>
+                            <entry>---</entry>
+                        </row>
+                        <row>
+                            <entry namest="col1" nameend="col2">Move/Rename Collection</entry>
+                            <entry>-wx</entry>
+                            <entry>-w-</entry>
+                            <entry>---</entry>
+                            <entry>-wx (When replacing an existing collection, then the permissions
+                                for removing that collection must be met first).</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+            <para>When copying a collection, permissions are checked for each sub-collection
+                and resource.</para>
+            <para>Copying a sub-collection requires <emphasis>r-x</emphasis> on the sub-collection,
+                and <emphasis>rwx</emphasis> on the destination collection, and if the
+                sub-collection already exists in the destination then <emphasis>r-x</emphasis> is required on
+                that.</para>
+            <para>Copying resources from a collection requires <emphasis>r--</emphasis> on the
+                resource, and <emphasis>-w-</emphasis> on the destination resource if it exists,
+                otherwise <emphasis>-w-</emphasis> on the destination collection.</para>
+        </section>
+    </chapter>
+</book>

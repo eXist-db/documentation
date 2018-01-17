@@ -1,0 +1,5 @@
+import module namespace kwic="http://exist-db.org/xquery/kwic";
+for $hit in doc("/db/shakespeare/plays/hamlet.xml")//SPEECH[ft:query(., "'nature'")] 
+order by ft:score($hit) descending
+return
+    kwic:summarize($hit, <config width="40"/>)

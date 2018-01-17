@@ -1,0 +1,11 @@
+declare namespace expath = "http://expath.org/ns/pkg";
+
+declare variable $local:data-pkg-collection :=
+    let $descriptor :=
+        collection(repo:get-root())//expath:package[@name = "http://foo.com/data-pkg"]
+    return
+        util:collection-name($descriptor)
+;
+
+(: Query data provided by data-pkg :)
+collection($local:data-pkg-collection)//foo

@@ -1,0 +1,13 @@
+import org.apache.log4j.Level;
+   import org.apache.log4j.Logger;
+
+   // place VERBOSE_SERVER declaration and static block from above here
+   private static final Logger  serverLogger =
+                                     Logger.getLogger( "xx.method.server" );
+   static
+   {
+     if ( VERBOSE_SERVER )
+       serverLogger.setLevel( Level.ALL );
+   }
+   …
+   serverLogger.debug( "some message" );

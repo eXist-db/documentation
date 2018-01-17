@@ -1,0 +1,13 @@
+protected int removeDocument(DocumentImpl doc, Connection conn)
+        throws SQLException {    	
+	PreparedStatement ps = conn.prepareStatement(
+	"DELETE FROM " + GMLHSQLIndex.TABLE_NAME + " WHERE DOCUMENT_URI = ?;"
+	); 
+	ps.setString(1, doc.getURI().toString());
+	try {
+	  return ps.executeUpdate();	 
+	} finally {
+	  if (ps != null)
+	    ps.close();
+	}
+      }

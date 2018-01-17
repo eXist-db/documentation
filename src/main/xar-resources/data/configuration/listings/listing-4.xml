@@ -1,0 +1,28 @@
+<indexer caseSensitive="no" suppress-whitespace="both" index-depth="1" tokenizer="org.exist.storage.analysis.SimpleTokenizer" validation="no">
+
+	<modules>
+        <module id="ngram-index" class="org.exist.indexing.ngram.NGramIndex" file="ngram.dbx" n="3"/>
+        <!--
+        <module id="spatial-index" class="org.exist.indexing.spatial.GMLHSQLIndex"
+            connectionTimeout="10000" flushAfter="300" />
+        -->
+		<!-- The full text index is always required and should
+			 not be disabled. We still have some dependencies on
+             this index in the database core. These will be removed
+             once the redesign has been completed. -->
+		<module id="ft-legacy-index" class="org.exist.fulltext.FTIndex"/>
+    </modules>
+
+    <stopwords file="stopword"/>
+
+	<!-- Default index configuration -->
+    <index>
+        <fulltext default="all" attributes="false">
+            <exclude path="/auth"/>
+        </fulltext>
+    </index>
+
+    <entity-resolver>
+	    <catalog file="samples/xcatalog.xml"/>
+    </entity-resolver>
+</indexer>

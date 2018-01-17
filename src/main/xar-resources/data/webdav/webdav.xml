@@ -1,0 +1,291 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article xmlns="http://docbook.org/ns/docbook" version="5.0">
+   <info>
+      <title>WebDAV</title>
+      <date>March 2011</date>
+      <keywordset>
+         <keyword>TBD</keyword>
+      </keywordset>
+   </info>
+
+   <!-- ================================================================== -->
+
+   <sect1 xml:id="webdav-intro">
+      <title>Introducing WebDAV</title>
+
+      <para>eXist-db ships with a <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://en.wikipedia.org/wiki/WebDAV">WebDAV</link> interface.  WebDAV makes it possible to manage database
+                collections and documents just like directories and files in a file system.  You can copy,
+                move, delete, view or edit files with any application supporting the WebDAV protocol, including Windows
+                Explorer, macOS Finder, <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.webdav.org/cadaver">cadaver</link>, <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.konqueror.org/">KDE Konqueror</link>, <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.oxygenxml.com/">oXygen XML Editor</link>, <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.altova.com/">XML Spy</link>, <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.libreoffice.org/">LibreOffice</link> and many others (see "Compatibility" below).</para>
+      <para>While eXist-db has had WebDAV support since version 1.0b2, the new WebDAV implementation since 
+                version 1.4.1 brings improved WebDAV compatibility, thanks to its use of the excellent open-source <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://milton.io/">Milton</link> WebDAV API for Java. </para>
+      <para>In the default configuration
+                the WebDAV server can be accessed via the URLs <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://localhost:8080/exist/webdav/db/">http://localhost:8080/exist/webdav/db/</link> and <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://localhost:8443/exist/webdav/db/">https://localhost:8443/exist/webdav/db/</link> (since eXist-db 2.0).
+            </para>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1 xml:id="compatibility">
+      <title>Compatibility</title>
+
+      <para>The <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://milton.io">Milton</link> project maintains a detailed WebDAV client
+                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://milton.io/guide/m18/docs/compat.html">compatibility list</link> that describes a "Recipe
+                for broad client compatibility."  In case of any problems please read this document.  However, some preliminary points
+                specific to eXist should be kept in mind:</para>
+      <itemizedlist>
+         <listitem>
+            <para>For Windows 7 see notes below and at the hints on the 
+                        <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://milton.io/guide/m18/docs/compat.html">Milton documentation</link>.</para>
+         </listitem>
+         <listitem>
+            <para>eXist's Milton based WebDAV interface does not currently support HTTP Digest Authentication.</para>
+         </listitem>
+         <listitem>
+            <para>The size of an XML document is presented as a multiple of 4096 bytes, which is eXist's
+                        internal pagesize (see <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="configuration.xml#conf.xml">conf.xml</link>).  The actual
+                        size on an XML document stored in the database can not be determined because the size depends on many factors, e.g. the applied
+                        serialization parameters.</para>
+         </listitem>
+      </itemizedlist>
+      <para>The Milton-based WebDAV interface has been successfully tested with: Windows Web Folders (Windows XP/7), <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.jscape.com/products/file-transfer-clients/anyclient/">AnyClient</link> (cross-platform), macOS
+                Finder, <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.panic.com/transmit/">Transmit</link> (macOS), 
+                <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://cyberduck.ch/">Cyberduck</link>, davfs2 version 1.4.5 (Linux),
+                OxygenXML and LibreOffice.</para>
+      <para>The following clients are reported to have issues: <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://en.wikipedia.org/wiki/GVFS">GVFS</link> (Nautilus) and <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.netdrive.net/">NetDrive</link>. (Compatibility can change over time)</para>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1 xml:id="clients">
+      <title>Clients</title>
+
+
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2 xml:id="webfolders">
+         <title>Windows Web Folders</title>
+
+         <para>Out of the box, Windows (XP, 7) has <emphasis role="italic">some</emphasis> native support for
+                    the WebDAV protocol, but there are some well-known issues.  Please consult the
+                    following articles in case of any problem.</para>
+         <note>
+            <para>Be aware that there are multiple versions of WebDAV Microsoft libraries
+                        (and different flavors of bugs). To avoid some frustration if the steps
+                        below don't work for you, <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://support.microsoft.com/?kbid=892211">Update Windows XP for
+                            Web Folders</link>, or take more information about <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://greenbytes.de/tech/webdav/webfolder-client-list.html">Web
+                            Folder Client (MSDAIPP.DLL) Versions and Issues</link>.</para>
+         </note>
+         <note>
+            <para>Windows Vista and Windows 7 both restrict access to WebDAV servers that
+                        use Basic HTTP authentication on non-SSL connections. This restriction can
+                        be solved by changing a registry key. Read more on <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://support.microsoft.com/kb/841215">MSDN</link> and <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://greenbytes.de/tech/webdav/webdav-redirector-list.html">greenbytes.de</link>.  However, SSL connections do bring improved
+                        security.</para>
+         </note>
+         <para>Perform the following steps in Internet Explorer: </para>
+         <itemizedlist>
+            <listitem>
+               <para>Select <literal>File -&gt; Open</literal>.</para>
+            </listitem>
+            <listitem>
+               <para>Fill in URL like
+                                    <literal>http://localhost:8080/exist/webdav/db/</literal> or
+                                    <literal>https://localhost:8443/exist/webdav/db/</literal>.</para>
+            </listitem>
+            <listitem>
+               <para>Check "Open as Web Folder".</para>
+            </listitem>
+            <listitem>
+               <para>Click OK.</para>
+            </listitem>
+         </itemizedlist>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2 xml:id="macos">
+         <title>macOS Finder</title>
+
+         <para>The eXist-db database can be accessed easily with the macOS Finder. First select in the Finder "Go"
+                    and "Connect to Server..." </para>
+         <informalfigure>
+            <mediaobject>
+               <imageobject>
+                  <imagedata fileref="assets/webdav_macosx_1.png"/>
+               </imageobject>
+            </mediaobject>
+         </informalfigure>
+         <para>Fill in the eXist-db WebDAV URL http://localhost:8080/exist/webdav/db/ </para>
+         <informalfigure>
+            <mediaobject>
+               <imageobject>
+                  <imagedata fileref="assets/webdav_macosx_2.png"/>
+               </imageobject>
+            </mediaobject>
+         </informalfigure>
+         <para>Enter a username and password... </para>
+         <informalfigure>
+            <mediaobject>
+               <imageobject>
+                  <imagedata fileref="assets/webdav_macosx_3.png"/>
+               </imageobject>
+            </mediaobject>
+         </informalfigure>
+         <para>And the database is accessible! </para>
+         <informalfigure>
+            <mediaobject>
+               <imageobject>
+                  <imagedata fileref="assets/webdav_macosx_4.png"/>
+               </imageobject>
+            </mediaobject>
+         </informalfigure>
+         <note>
+            <para>In the last few OSX releases Apple repetitively changed their WebDAV implementation
+                        significantly, repetitively introducing new bugs and problems. The main issue is that
+                        Finder requires exact document sizes reported for PROPFIND where as eXist-db by default
+                        reports a guesstimated size as mentioned in the Compatibility chapter</para>
+            <para>As a workaround, eXist-db detects the OSX finder via the "user-agent" HTTP header and switches for PROPFIND
+                        into a kind of OSX compatibility mode where all XML documents in a collection are serialized 
+                        to determine the exact sizes of these documents. This is a rather expensive and
+                        time consuming operation for large documents and for collections with many documents.</para>
+            <para>Instead it is recommended to use <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.panic.com/transmit/">Transmit</link> or 
+                        <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://cyberduck.ch/">Cyberduck</link> instead.</para>
+            <para>Note that for macOS 10.8 the WebDAV client has become functional (again) in 10.8.2, but still
+                    the client does not work perfect, e.g. at bulk operations.</para>
+         </note>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2 xml:id="oxygenxml">
+         <title>oXygen XML Editor</title>
+
+         <itemizedlist>
+            <listitem>
+               <para>Select <literal>File -&gt; Open URL</literal>.</para>
+            </listitem>
+            <listitem>
+               <para>Fill <literal>User</literal> and <literal>Password</literal>.</para>
+            </listitem>
+            <listitem>
+               <para>Enter <literal>Server URL</literal> http://localhost:8080/exist/webdav/db/.</para>
+            </listitem>
+            <listitem>
+               <para>Click <literal>Browse</literal>.</para>
+            </listitem>
+         </itemizedlist>
+         <informalfigure>
+            <mediaobject>
+               <imageobject>
+                  <imagedata fileref="assets/webdav_oxygen.png"/>
+               </imageobject>
+            </mediaobject>
+         </informalfigure>
+         <para>
+                    More info on the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.oxygenxml.com/xml_editor/ftp_webdav.html/">OxygenXML</link> product pages.
+                </para>
+         <note>
+            <para>Note on SSL connections in oXygen: You may encounter an error: "Error:
+                        sun.security.validator.ValidatorException: PKIX path building failed:
+                        sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification
+                        path to requested target."</para>
+            <para>In order to avoid this error, you'll need to add the Server certificate to your trusted certificates keystore (<link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://java.sun.com/j2se/1.5.0/docs/guide/security/jsse/JSSERefGuide.html#CustomizingStores">more info</link>).</para>
+         </note>
+         <note>
+            <para>Warning: When saving a document to the WebDAV server via oXygen, remember to double check that
+                        the document path in the File URL field at the top of the dialog does really contain the URL to
+                        which you want to save the document.  It happens very easily that you click on another folder or
+                        resource by mistake and thus overwrite the wrong resource. </para>
+         </note>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2 xml:id="kde">
+         <title>KDE Konqueror</title>
+
+         <para>Enter an URL like <literal>webdav://localhost:8080/exist/webdav/db</literal>. Use
+                        <literal>webdavs://</literal> for WebDAV over SSL. </para>
+         <informalfigure>
+            <mediaobject>
+               <imageobject>
+                  <imagedata fileref="assets/webdav_konqueror.png"/>
+               </imageobject>
+            </mediaobject>
+         </informalfigure>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2 xml:id="libreoffice">
+         <title>LibreOffice</title>
+
+         <para>For LibreOffice and OpenOffice.org the recommended way for opening documents 
+                    that are stored in eXist-db is using the 'native' WebDAV client, as documented in
+                    the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://help.libreoffice.org/Common/Opening_a_Document_Using_WebDAV_over_HTTPS">LibreOffice Help</link> documentation.</para>
+         <note>
+            <para>Warning: When using LibreOffice on OSX, do not write documents to a network share
+                        that is mounted via Finder as documented earlier, since this could corrupt
+                        your database. The problem has been identified but there is no solution yet. Please use
+                    the alternative described in this chapter.</para>
+         </note>
+         <para>
+                    The first step is configuring LibreOffice to use the LibreOffice Open/Save dialogs instead
+                    of the dialogs that are provided by the operating system:
+                    </para>
+         <informalfigure>
+            <mediaobject>
+               <imageobject>
+                  <imagedata fileref="assets/webdav_libreoffice_settings.gif"/>
+               </imageobject>
+            </mediaobject>
+         </informalfigure>
+         <para>
+                    Now it is possible to type an URL in the File-Open dialog. Enter <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://localhost:8080/exist/webdav/db/">http://localhost:8080/exist/webdav/db/</link> and provide your login credentials. Now the dialogbox
+                    shows the content of the database:
+                    </para>
+         <informalfigure>
+            <mediaobject>
+               <imageobject>
+                  <imagedata fileref="assets/webdav_libreoffice_open.gif"/>
+               </imageobject>
+            </mediaobject>
+         </informalfigure>
+      </sect2>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1 xml:id="serialization">
+      <title>Serialization</title>
+
+      <para>
+                When retrieving an XML document via the WebDAV interface, the default serialization settings as defined
+                in <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="configuration.xml#conf.xml">conf.xml</link> are effective. It is possible to define 
+                specific for the WebDAV interface custom serialization settings.  
+            </para>
+      <para>
+                Copy the file <literal>extensions/webdav/webdav.properties</literal> into the <literal>$EXIST_HOME</literal> directory and uncomment/modify the
+                parameters. Changes in this file requires a restart of eXist-db.
+            </para>
+      <example>
+         <title>webdav.properties</title>
+         <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-1.txt"/>
+      </example>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1 xml:id="notes">
+      <title>Notes</title>
+
+      <para>
+From the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://github.com/eXist-db/exist/issues/1442">community</link> we 
+have received feedback that the WebDAV interface is not fully functional when it is
+accessed via a reverse proxy and a resource's path is altered (aliased) with it.
+            </para>
+   </sect1>
+</article>

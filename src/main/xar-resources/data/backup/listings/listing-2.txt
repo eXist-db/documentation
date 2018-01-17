@@ -1,0 +1,8 @@
+let $params :=
+ <parameters>
+   <param name="output" value="export"/>
+    <param name="backup" value="yes"/>
+    <param name="incremental" value="yes"/>
+ </parameters>
+ return
+    system:trigger-system-task("org.exist.storage.ConsistencyCheckTask", $params)

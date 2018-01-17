@@ -1,0 +1,5 @@
+XXProperties XXp = XXProperties.getLocalProperties();
+Properties prop = new Properties();
+FileInputStream fis = new FileInputStream( XXp.getProperty ("XX.home", "e:/ptc/Windchill" ) + "/codebase/ext/misccorp/misccorp.properties" );
+prop.load( fis );
+return prop;

@@ -1,0 +1,21 @@
+./build.sh -f build/scripts/jarsigner.xml 
+Starting Ant...
+
+Buildfile: ..../eXist-db/build/scripts/jarsigner.xml
+
+jnlp-prepare:
+
+jnlp-keygen:
+   [genkey] Generating Key for exist
+
+jnlp-sign-exist:
+  [signjar] Signing JAR: ..../eXist-db/exist-fluent.jar to ..../eXist-db/exist-fluent.jar as exist
+  [signjar] Signing JAR: ..../eXist-db/exist-optional.jar to ..../eXist-db/exist-optional.jar as exist
+  [signjar] Signing JAR: ..../eXist-db/exist.jar to ..../eXist-db/exist.jar as exist
+  [signjar] Signing JAR: ..../eXist-db/start.jar to ..../eXist-db/start.jar as exist
+
+jnlp-sign-core:
+  [signjar] Signing JAR: ..../eXist-db/lib/core/antlr-2.7.7.jar to ..../eXist-db/lib/core/antlr-2.7.7.jar as exist
+  [signjar] Signing JAR: ..../eXist-db/lib/core/commons-collections-3.2.1.jar to ..../eXist-db/lib/core/commons-collections-3.2.1.jar as exist
+  ....
+  [signjar] Signing JAR: ..../eXist-db/lib/core/xmlrpc-server-3.1.3.jar to ..../eXist-db/lib/core/xmlrpc-server-3.1.3.jar as exist

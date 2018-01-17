@@ -1,0 +1,17 @@
+xquery version "3.0";
+
+declare namespace rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+
+import module namespace xmldb="http://exist-db.org/xquery/xmldb";
+
+let $log-in := xmldb:login("/db", "admin", "")
+let $create-collection := xmldb:create-collection("/db", "output")
+for $record in doc('/db/records.rdf')/rdf:RDF/*
+let $split-record := 
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+        {$record}
+    </rdf:RDF>
+let $about := $record/@rdf:about
+let $filename := util:hash($record/@rdf:about/string(), "md5") || ".xml"
+return
+    xmldb:store("/db/output", $filename, $split-record)

@@ -1,0 +1,715 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article xmlns="http://docbook.org/ns/docbook" version="5.0">
+   <info>
+      <title>Documentation</title>
+      <date>September 2012</date>
+      <keywordset>
+         <keyword>TBD</keyword>
+      </keywordset>
+   </info>
+
+   <!-- ================================================================== -->
+
+   <sect1 xml:id="recommended-reading">
+      <title>Recommended Reading</title>
+
+
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Screencasts</title>
+
+         <para>For the first steps with your freshly installed eXist-db, we suggest to watch the
+                    screencasts available on the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://exist-db.org">eXist-db homepage</link>.</para>
+         <informalfigure>
+            <mediaobject>
+               <imageobject>
+                  <imagedata fileref="assets/1.jpg"/>
+               </imageobject>
+            </mediaobject>
+         </informalfigure>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Beginners resources</title>
+
+         <para>If you are new to eXist-db, we recommend that you read these articles first:</para>
+         <itemizedlist>
+            <listitem>
+               <para>
+                        <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="quickstart.xml">Quick Start</link>: How to download, install, and get up and running with eXist-db.
+                    </para>
+            </listitem>
+            <listitem>
+               <para>
+                        <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="dashboard.xml">Dashboard</link>: Using the package manager to
+                        install or remove packages.</para>
+            </listitem>
+            <listitem>
+               <para>
+                        <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="development-starter.xml">Getting Started with Web Application Development in eXist-db</link>: eXist-db provides a complete platform for the development of rich web applications based on XML and related technologies
+                    </para>
+            </listitem>
+            <listitem>
+               <para>
+                        <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="indexing.xml">Indexing</link>: Properly configured indexes have a huge impact on database performance! Some expressions might run a 
+                        hundred times faster with an index. Must read.</para>
+            </listitem>
+            <listitem>
+               <para>
+                        <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="learning-xquery.xml">Learning XQuery</link>: (For beginners) Tips and resources for learning XQuery for use with eXist-db.
+                    </para>
+            </listitem>
+            <listitem>
+               <para>
+                        <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="xquery.xml">XQuery Support</link>: (For advanced developers) In depth discussion of eXist-db's support for the XQuery language, including features and extensions.
+                    </para>
+            </listitem>
+            <listitem>
+               <para>
+                        <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="tuning.xml">Tuning the Database</link>: Tips and best practices for optimizing the performance of your queries.
+                    </para>
+            </listitem>
+         </itemizedlist>
+         <para>You can search the entire documentation library using the search box to the right.
+                If you have questions that you can't find the answer to here, see the articles <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="troubleshooting.xml">Troubleshooting</link> and <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="getting-help.xml">Getting Help</link>.</para>
+      </sect2>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1 xml:id="all-documentation">
+      <title>All Documentation</title>
+
+      <para>Besides these articles, you can search eXist-db's XQuery <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{fundocs}/index.html">function module library</link>.</para>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2 xml:id="getting-started">
+         <title>Getting Started</title>
+
+         <table>
+            <title>Getting Started Links</title>
+
+            <tgroup cols="2">
+               <tbody>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="quickstart.xml">Quick Start</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>How to download, install, and get up and running with eXist-db.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="advanced-installation.xml">Advanced Installation Methods</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>How to install on a headless system; how to run as a background service.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="dashboard.xml">Dashboard</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Using the Dashboard to install applications from the eXist-db.org public application repository.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="development-starter.xml">Getting Started with Web Application Development in eXist-db</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>eXist-db provides a complete platform for the development of rich web applications based on XML and related technologies</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="uploading-files.xml">Uploading Files</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>How to get your data into eXist-db.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="upgrading.xml">Upgrade Guide</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Upgrading from an older version of eXist-db.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="troubleshooting.xml">Troubleshooting</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Troubleshooting installation problems and other advanced
+                                    installation topics.</para>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </table>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>General</title>
+
+         <table>
+            <title>General Links</title>
+
+            <tgroup cols="2">
+               <tbody>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="indexing.xml">Configuring Indexes</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>How to configure indexes (<emphasis>must read</emphasis>).</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="deployment.xml">Deployment</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Alternatives for server deployment.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="devguide.xml">Developer's Guide</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Using various interfaces: XML:DB API, XML-RPC, REST, SOAP.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="oxygen.xml">Using oXygen</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>How to set up oXygen XML Editor for use with eXist-db.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="security.xml">Security</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Security features including authentication realms (LDAP, OAuth,
+                                    OpenID), managing users and groups, changing passwords, and
+                                    permissions and access controls.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="configuration.xml">Server
+                                    Configuration</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Configuring the server.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="tuning.xml">Tuning the Database</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Tips and best practices for optimizing the performance of your queries.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="repo.xml">Package Repository</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Manage libraries &amp; application packages (.xar) using
+                                    eXist-db Package Repository. </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="learning-xquery.xml">Learning XQuery</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Tips and resources for beginners learning XQuery for use with eXist-db.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="xquery.xml">XQuery Support</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>In depth discussion of eXist-db's support for the XQuery language, including features and extensions.</para>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </table>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Documentation for Specific Features</title>
+
+         <table>
+            <title>Links to Documentation for Specific Features</title>
+
+            <tgroup cols="2">
+               <tbody>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="ant-tasks.xml">Ant Tasks</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>How to automate tasks with Ant.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="backup.xml">Backup and Restore</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>How to backup/restore your database contents.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="triggers.xml">Configuring Triggers</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>How to configure triggers.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="contentextraction.xml">Content Extraction</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>How to extract content from binary files.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http-request-session.xml">HTTP-Related Functions</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>The request and session modules contain functions for performing HTTP-related operations.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="jmx.xml">JMX</link>
+                                </para>
+                     </entry>
+                     <entry>
+                        <para>Java Management Extensions (JMX) support.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="java-admin-client.xml">Java Admin Client</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Using the Java client from the command line.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="kwic.xml">KWIC display module</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>An XQuery module to easily produce a Keywords in Context (KWIC)
+                                    output of search results.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="lucene.xml">Lucene-based Full Text
+                                    Index</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Apache Lucene integrated into eXist-db's XQuery engine.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="replication.xml">Replication</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Configure two or more eXist-db instances to work together to automatically synchronize documents.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="scheduler.xml">Scheduler Module</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>An optional module to schedule jobs.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="urlrewrite.xml">URL Rewriting and MVC
+                                        Framework</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Simple-but-powerful URL rewriting and redirection. Provides some
+                                    support for MVC (model-view-controller) and servlet-based
+                                    pipelines.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="util.xml">The util module</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>A module with numerous useful utility functions.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="validation.xml">Validation</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Validate XML documents.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="versioning.xml">Versioning</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Versioning extensions.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="webdav.xml">WebDAV</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>How to setup your favourite WebDAV application.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="security.xml#ACLs">ACL</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Unix Style Access Control Lists</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="xinclude.xml">XInclude</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>XInclude support in eXist-db.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="xforms.xml">XForms</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>XForms support in eXist-db (using betterFORM or XSLTForms).</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="xmldb.xml">The xmldb module</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Functions for manipulating database contents.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="xqdoc.xml">XQDoc</link>:
+                                </para>
+                     </entry>
+                     <entry>
+                        <para>The format for documenting XQuery library and main modules.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="update_ext.xml">XQuery Update
+                                    Extensions</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Extensions to update document fragments from within an
+                                    XQuery.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="debugger.xml">XQuery Debugger</link>
+                                </para>
+                     </entry>
+                     <entry>
+                        <para>A debugging interface to XQuery code on the server. This is
+                                    functional, but incomplete (the client side in particular). We
+                                    used emacs and vi as our main clients during development. </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="xsl-transform.xml">XSL Transformations</link>
+                                </para>
+                     </entry>
+                     <entry>
+                        <para>The transform module provides functions for directly applying an XSL stylesheet to
+                                    an XML fragment within an XQuery script.</para>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </table>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>eXist-db Development</title>
+
+         <table>
+            <title>Development Links</title>
+
+            <tgroup cols="2">
+               <tbody>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="development-starter.xml">Getting Started with Web Application Development in eXist-db</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>eXist-db provides a complete platform for the development of rich web applications based on XML and related technologies
+                                </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="building.xml">Building eXist-db</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Compiling and building eXist-db from GitHub.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="devguide_manifesto.xml">eXist-db Developer
+                                        Manifesto</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Guidelines for contributing to the eXist-db codebase.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="devguide_codereview.xml">Code Review
+                                    Guide</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Notes on reviewing code during development.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="xqsuite.xml">Test Guide</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Perform XQuery tests with the XQuery unit test suite.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="devguide_log4j.xml">Log4J Logging
+                                    Guide</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>How use Log4J within eXist-db code.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="devguide_indexes.xml">Developer's Guide to
+                                        Modularized Indexes</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Describes how modularized indexes work through a use case.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="beginners-guide-to-xrx-v4.xml">A Beginners Guide to XRX with eXist</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Describes how to use XForms to perform CRUD operations within an XRX framework.</para>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </table>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Production use</title>
+
+         <table>
+            <title>Production Use Links</title>
+
+            <tgroup cols="2">
+               <tbody>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="production_good_practice.xml">Production use Good
+                                        Practice</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>Best Practices for production environments.</para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="production_web_proxying.xml">Proxying eXist-db
+                                        behind a Web Server</link>:</para>
+                     </entry>
+                     <entry>
+                        <para>How to proxy eXist-db behind various web servers.</para>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </table>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>External Libraries</title>
+
+         <para>The following is an incomplete list of libraries to connect eXist-db with other languages.</para>
+         <table>
+            <title>Links to External Libraries</title>
+
+            <tgroup cols="2">
+               <tbody>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://xqj.net/exist/">XQJ</link>:
+                                </para>
+                     </entry>
+                     <entry>
+                        <para>
+                                    An eXist-db driver for the XQuery API for Java (XQJ) 
+                                </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://github.com/wolfgangmm/existdb-node">nodejs</link>:
+                                </para>
+                     </entry>
+                     <entry>
+                        <para>
+                                    node.js Client Module for the eXist-db Native XML Database
+                                </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://github.com/CuAnnan/php-eXist-db-Client">PHP</link>:
+                                </para>
+                     </entry>
+                     <entry>
+                        <para>
+                                    A client that abstracts out the XML RPC calls for eXist-db.
+                                </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry>
+                        <para>
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://github.com/fancellu/xqs">XQuery for Scala</link>:
+                                </para>
+                     </entry>
+                     <entry>
+                        <para>
+                                    A Scala Library based on the XQuery API for Java (XQJ)
+                                </para>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </table>
+      </sect2>
+   </sect1>
+</article>

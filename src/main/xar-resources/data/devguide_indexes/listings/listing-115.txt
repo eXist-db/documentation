@@ -1,0 +1,26 @@
+private void processCurrentElement(ElementImpl element) {
+        String currentSrsName = (String)srsNamesStack.pop();        		
+	try {
+	  geometryDocument.endElement(element.getNamespaceURI(), element.getLocalName(), element.getQName().getStringValue());
+	  //Some invalid/(yet) incomplete geometries don't have a SRS
+	  if (streamedGeometry != null && currentSrsName != null) {   
+	    currentNodeId = element.getNodeId();
+	    geometries.put(currentNodeId, new SRSGeometry(currentSrsName, streamedGeometry));		        		
+	    if (flushAfter != -1 && geometries.size() >= flushAfter) {
+	      //Mmmh... doesn't flush since it is currently dependant from the
+	      //number of nodes in the DOM file ; would need refactorings
+	      //currentDoc.getBroker().checkAvailableMemory();
+	      currentDoc.getBroker().flush();
+	      ///Aaaaaargl !
+	      final double percent = ((double) Runtime.getRuntime().freeMemory() / (double) Runtime.getRuntime().maxMemory()) * 100;
+	      if (percent < 30) {	        		
+	        System.gc();
+	      }
+            }
+          }        		
+	} catch (Exception e) {
+	  LOG.error("Unable to collect geometry for node: " + currentNodeId + ". Indexing will be skipped", e);        		
+	} finally {  
+	  streamedGeometry = null;	        			
+	}
+      }

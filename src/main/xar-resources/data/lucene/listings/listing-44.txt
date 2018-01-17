@@ -1,0 +1,5 @@
+let $query :=
+    <query>
+        <phrase slop="10"><term>frog</term><term>dog</term></phrase>
+    </query>
+return //SPEECH[ft:query(., $query)]

@@ -1,0 +1,514 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article xmlns="http://docbook.org/ns/docbook" version="5.0">
+   <info>
+      <title>Tuning the Database</title>
+      <date>October 2016</date>
+      <keywordset>
+         <keyword>TBD</keyword>
+      </keywordset>
+   </info>
+
+   <!-- ================================================================== -->
+
+   <sect1>
+      <title>Overview</title>
+
+      <para>This article describes strategies for improving the performance of eXist-db and
+                optimizing its efficiency. It covers the a range of areas that can constrain
+                performance, from memory and cache settings to the way a query is constructed. Many
+                users of eXist-db have little reason to read this document until they encounter a query
+                or operation that is performing poorly. However, whether you have reached that point
+                or you are just curious about learning strategies for keeping your database and
+                queries performing at peak efficiency, this is an essential document.</para>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1 xml:id="memory">
+      <title>Memory settings</title>
+
+      <para>Java always limits the maximum amount of memory available to a process. eXist-db will
+                thus not automatically use all of the memory available on your machine. The default
+                setting is 1024MB.</para>
+      <para>The maximum amount of memory Java will allocate is determined by the
+                    <literal>-Xmx</literal> parameter passed to Java on the command line. When eXist-db is started
+                    via the graphical launcher, parameters will be read from the file <literal>vm.properties</literal>.</para>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-1.txt"/>
+      <para>If you
+                launch eXist via one of the shell or batch scripts, you need to change
+                    <literal>-Xmx</literal> in there.</para>
+      <para>On a <emphasis>Unix</emphasis> system, edit <literal>EXIST_HOME/bin/functions.d/eXist-settings.sh</literal>. Search for the
+                    <literal>JAVA_OPTIONS</literal> variable, which sets <literal>-Xmx</literal> for the
+                server. The <literal>CLIENT_JAVA_OPTIONS</literal> variable does the same for the Java
+                admin client. Instead of directly editing <literal>eXist-settings.sh</literal>,
+                you may also override those variables globally in your own shell.</para>
+      <para>On <emphasis>Windows</emphasis>, the <literal>-Xmx</literal> settings is done in the
+                main .bat files, .e.g. <literal>EXIST_HOME\bin\startup.bat</literal>.</para>
+      <para>If you launch <emphasis>eXist-db as a service</emphasis>, all Java settings will be
+                controlled by the service wrapper. In this case, the file to edit is <literal>EXIST_HOME/tools/yajsw/conf/wrapper.conf</literal>. The installer sets the memory you chose at install time (NNNN), but if you want to change it afterwards search for one of the following lines:</para>
+      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-2.txt"/>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1>
+      <title>Cache settings</title>
+
+      <para>Each of the core database files and indexes has a page cache. The main purpose of
+                this cache is to make sure that the most frequently used pages of the db files are
+                kept in memory. If a file's cache becomes too small, eXist may start to unload pages
+                just to reload them a few moment later. This "trashing effect" results in an
+                immediate performance drop, in particular while indexing documents.</para>
+      <para>All caches share a single memory pool, whose size is determined by the attribute
+                    <literal>cacheSize</literal> in the <tag>db-connection</tag> section of
+                    <literal>conf.xml</literal>. The global cache manager will dynamically grant
+                more memory to caches while they are under load and free the memory used by idle
+                caches.</para>
+      <example>
+         <title>cacheSize parameter in conf.xml</title>
+         <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-3.txt"/>
+      </example>
+      <para>The default setting for <literal>cacheSize</literal> is very conservative (48M). It
+                will be OK for smaller databases, but you may soon experience a performance drop
+                when indexing more than several 100M of XML data. Consider increasing
+                    <literal>cacheSize</literal> up to approx. 1/3 of the main memory available to
+                Java (determined by the <literal>-Xmx</literal> parameter passed to the Java command
+                line). If you are running eXist-db with other web applications in the same servlet
+                engine, you may need to choose a smaller setting (running out of memory will crash
+                the database, so please be careful).</para>
+      <para>The <literal>cacheSize</literal> is mainly relevant when storing/updating data. The
+                effect on query speed should not be that big, unless some of the index caches are
+                really much too small.</para>
+      <para>If you continue to experience performance issues while storing data, you may need
+                to revisit your index configuration. Removing unused indexes will give more room to
+                the other indexes. In particular, the full text index can grow very fast until it
+                becomes a bottleneck. Try to disable the default full text index (see below).</para>
+      <para>The <literal>nodesBuffer</literal> attribute can be used to set eXist-db's temporary
+                internal buffer to a fixed size. The buffer is used during indexing to cache nodes
+                before they are flushed to disk. The default setting (nodesBuffer="-1") is to use as
+                much memory as is available, but this can be problematic if you have to store large
+                documents in a multi-user environment. For a production server, a good
+                recommendation would be to set nodesBuffer to 1000 or less if there are many
+                concurrent write operations.</para>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1>
+      <title>Index configuration</title>
+
+
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Don't rely on the default behaviour</title>
+
+         <para>eXist-db does <emphasis>NOT</emphasis> index any element or attribute values by
+                    default. It may create a full text index (see below), but this won't help with
+                    standard comparison operators or functions. Thus, when evaluating an expression
+                    like</para>
+         <programlisting>//SPEECH[SPEAKER = "HAMLET"]</programlisting>
+         <para>the query engine will fall back to a full scan over all
+                        <tag>SPEAKER</tag> elements in the db. This is very slow and limits
+                    concurrency. You should at least create a global index definition (in <literal>/db/system/config/db/collection.xconf</literal>) and add range indexes for
+                    the most frequently used comparisons.</para>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Disable any default indexes (pre 1.4)</title>
+
+         <para>If no other index <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="indexing.xml">index configuration</link> is
+                    found for a database collection, eXist-db will use the default settings specified
+                    in <literal>conf.xml</literal>. For older eXist-db versions, the default is to
+                    create a full text index on <emphasis>ALL</emphasis> elements and attributes in
+                    the database. The problem with this is that</para>
+         <orderedlist>
+            <listitem>
+               <para>maintaining the default index costs performance and memory, which
+                            could be better used for other indexes. The index may grow very fast,
+                            which can be a destabilizing factor.</para>
+            </listitem>
+            <listitem>
+               <para>the index is unspecific. The query engine cannot use it as efficiently
+                            as a dedicated index on a set of named elements or attributes (<link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#idxdefs">see below</link>).</para>
+            </listitem>
+         </orderedlist>
+         <para>If you experience memory issues or observe a constantly decreasing performance
+                    while loading documents, tuning your indexes should be one of the first
+                    steps:</para>
+         <itemizedlist>
+            <listitem>
+               <para>disable the default full text index in your index <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="indexing.xml#N10422">definitions</link>:</para>
+               <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-5.xml"/>
+            </listitem>
+            <listitem>
+               <para>recreate full text or other indexes only on those elements and
+                            attributes you want to query. Prefer index definitions by qname over a
+                            configuration by path.</para>
+            </listitem>
+            <listitem>
+               <para>if you are using eXist-db 1.4 or above, consider <emphasis>switching to the new
+                                    <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="lucene.xml">Lucene-based index</link>
+                            </emphasis>.
+                            It provides better performance and stability.</para>
+            </listitem>
+         </itemizedlist>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2 xml:id="idxdefs">
+         <title>Prefer simple index definitions</title>
+
+         <para>Keeping your <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="indexing.xml#N10422">index definitions</link> simple
+                    makes it easier for the query optimizer to resolve dependencies. In particular,
+                    avoid context-dependant index definitions unless you really have a reason to use
+                    them. A context-dependant index is defined on a path like
+                        <code>/book/chapter/title</code>, while general indexes are defined on a
+                    simple element or attribute qname:</para>
+         <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-6.xml"/>
+         <para>Defining indexes on qnames may result in a larger index, but it also allows
+                    the query engine to apply all available optimization techniques, which can
+                    improve query times by an order of magnitude. Replacing a context-dependant
+                    index by a simple index on qname can thus result in a performance boost, thanks
+                    to eXist-db's new <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://atomic.exist-db.org/blogs/eXist/NewIndexing">query-rewriting optimizer</link>. Older versions of eXist-db did not offer
+                    those possibilities.</para>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Use range indexes on strongly typed data or short strings</title>
+
+         <para>Range indexes work with the standard XQuery operators and string functions.
+                    Querying for something like</para>
+         <programlisting language="xquery">//book[year = 2000]</programlisting>
+         <para>will always be slow without an index. As long as no index is defined, eXist-db
+                    has to scan over every year element in the db, casting its string value to an
+                    integer.</para>
+         <para>For queries on string content, range indexes work well for exact comparisons
+                        (<code>author = 'Joe Doe'</code>) or regular expressions
+                        (<code>matches(author, "^Joe.*")</code>), though you may also consider using
+                    a full text index in the latter case. However, please note that range indexes on
+                    strings are <emphasis>case-sensitive</emphasis> or rather, to use the correct
+                    formulation, sensitive to the default <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://en.wikipedia.org/wiki/Collation">collation</link>. If you need
+                    case-insensitive queries, consider an ngram index.</para>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Consider an n-gram index for exact substring queries on longer text
+                    sequences</title>
+
+         <para>While range indexes tend to become slow for substring queries (like
+                        <code>contains(title, "XSLT 2.0")</code>), an n-gram index is nearly as fast
+                    as a full text index, but it also indexes whitespace and punctuation.
+                        <code>ngram:contains(title, "XSLT 2.0")</code> will only match titles
+                    containing the exact phrase "XSLT 2.0". n-gram indexes are <emphasis>case
+                        insensitive</emphasis>.</para>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Choose a full text index for tokenizable text where whitespace/punctuation is
+                    mostly irrelevant</title>
+
+         <para>The full text index is fast and should be used whenever you need to query for
+                    a sequence of separate words or tokens in a longer text. It can sometimes even
+                    be faster to post-process the returned node set and filter out wrong matches
+                    than using a much slower regular expression.</para>
+         <para>From version 1.4, eXist-db offers a <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="lucene.xml">full text index</link> which
+                    is based on Apache Lucene. It provides better performance and overall stability
+                    than the built-in index.</para>
+      </sect2>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1>
+      <title>Writing Queries</title>
+
+
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Prefer short paths</title>
+
+         <para>eXist-db uses indexes to directly locate an element or attribute by its name. It
+                    doesn't need to <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://en.wikipedia.org/wiki/Tree_traversal">traverse</link> the entire document tree. This means that the direct
+                    selection of a node through a single descendant step is
+                        <emphasis>faster</emphasis> than walking down the child axis. For
+                    example:</para>
+         <programlisting language="xquery">a/b/c/d/e/f</programlisting>
+         <para>will be <emphasis>slower</emphasis> than</para>
+         <programlisting language="xquery">a//f</programlisting>
+         <para>The first expression requires 6 (!) index lookups while the second just needs
+                    two. The same rules apply to the ancestor axis, e.g. f/ancestor::a.</para>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Always process the most selective filter/expression first</title>
+
+         <para>If you need multiple steps to select certain nodes from a larger node set, try
+                    to process the most selective steps first. The earlier you can reduce the node
+                    set to be processed, the faster your query will run. For example, assume we have
+                    to find publications written by "Bjarne Stroustrup" after the year 2000:</para>
+         <programlisting language="xquery">/dblp/*[year &gt; 2000][author = 'Bjarne Stroustrup']</programlisting>
+         <para>The database has 568824 records matching <code>year &gt; 2000</code>, but only
+                    41 of them were written by Stroustrup. Moving the filter on the author to the
+                    front of the expression should thus result in better performance:</para>
+         <programlisting language="xquery">/dblp/*[author = 'Bjarne Stroustrup'][year &gt; 2000]</programlisting>
+         <para>It would certainly be nice if eXist-db could do this kind of optimization
+                    automatically. We are working on it. eXist-db recognizes more and more cases for
+                    intelligent query rewritings. For example, it already transforms the boolean
+                    expression</para>
+         <programlisting language="xquery">/dblp/*[author = 'Bjarne Stroustrup' and year &gt; 2000]</programlisting>
+         <para>into a multi filter step as shown above.</para>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Avoid unnecessary nested filters</title>
+
+         <para>Nesting filters in an XPath expression is often required and eXist-db will
+                    process them correctly. However, unnecessary nesting should be avoided and has a
+                    negative impact on the query optimizer. For example:</para>
+         <programlisting language="xquery">//A[B[C = "D"]]</programlisting>
+         <para>could also be written as</para>
+         <programlisting language="xquery">//A[B/C = "D"]</programlisting>
+         <para>without changing the result. The variant with only one filter is easier to
+                    optimize for eXist-db, whereas the nested filter implies a performance
+                    penalty.</para>
+         <para>Likewise, if you are calling one of the optimized functions (contains,
+                    matches, ft:query ...), make sure you do not nest them unless really
+                    required:</para>
+         <programlisting language="xquery">//A[B/C[contains(., "D")]]</programlisting>
+         <para>can be rewritten to</para>
+         <programlisting language="xquery">//A[contains(B/C, "D")]</programlisting>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Allow eXist-db to process large node sets in one step</title>
+
+         <para>The query engine is optimized to process a path expression in one, single
+                    operation. For instance, the XPath:</para>
+         <programlisting language="xquery">//A/*[B = 'C']</programlisting>
+         <para>is evaluated in a single operation for all context items. It doesn't make a
+                    difference if the input set comes from a single large document, includes all the
+                    documents in a specific collection or even the entire database. The logic of the
+                    operation remains the same.</para>
+         <para>However, "bad" queries can force the query engine to partition the input
+                    sequence and process it in an item-by-item mode. Several examples for bad uses
+                    of FLWOR expressions will be given below. They should be easy to understand, but
+                    other cases are not so obvious. For example, most function calls will also force
+                    the query engine into item-by-item mode:</para>
+         <programlisting language="xquery">//A/*[f:process(B) = 'C']</programlisting>
+         <para>The function has to be called once for every instance of B. Normally, eXist-db
+                    would try to evaluate the general comparison in a single step (assuming there's
+                    a usable index on B). However, it now needs to call a (non-optimized) function
+                    for each B and will thus need to process the entire comparison once for every
+                    context item.</para>
+         <para>There are functions to which the above does not apply. This includes most
+                    functions which operate on indexes, e.g. <code>contains</code>,
+                        <code>matches</code>, <code>starts-with</code>, <code>ngram:contains</code>,
+                    and the like. They are optimized so eXist-db only needs to call them once to
+                    process the entire context set. For example, using <code>ngram:contains</code>
+                    as below is perfectly OK:</para>
+         <programlisting language="xquery">//A/*[ngram:contains(B, 'C')]</programlisting>
+         <para>while</para>
+         <programlisting language="xquery">//A/*[ngram:contains(f:process(B), 'C')]</programlisting>
+         <para>will again force eXist-db into step-by-step evaluation.</para>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Prefer XPath predicates over where expressions</title>
+
+         <para>This is a variation of the problems discussed above. Many users tend to
+                    formulate SQL-style queries using an explicit "where" clause:</para>
+         <example>
+            <title>Where Example</title>
+            <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-21.txt"/>
+         </example>
+         <para>This could be rewritten as:</para>
+         <example>
+            <title>Equivalent query using XPath predicate</title>
+            <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-22.txt"/>
+         </example>
+         <para>The "for … where" expression forces the query engine into a step-by-step
+                    iteration over the input sequence, testing each instance of $e against the where
+                    expression. Possible optimizations are lost.</para>
+         <para>Contrary to this, the XPath predicate expression can be processed in one
+                    single step, making best use of any available indexes. Sure, there are use cases
+                    which cannot be handled without using "where", e.g. joins between multiple
+                    documents, but you shouldn't use "where" if you can replace it
+                    by a simple XPath.</para>
+         <para>Internally, the query engine will always try to process a "where" clause like
+                    an equivalent XPath with predicate. However, it only detects the simple
+                    cases.</para>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Use general comparisons to compare an item to a list of alternatives</title>
+
+         <para>General comparisons are very handy if you need to compare a given item to
+                    several alternative values. For example, you could use an "or" to find all
+                        <tag>b</tag> children whose string value is either "c" or
+                    "d".</para>
+         <programlisting language="xquery">//a[b eq 'c' or b eq 'd']</programlisting>
+         <para>A shorter way to express this is:</para>
+         <programlisting language="xquery">//a[b = ('c', 'd')]</programlisting>
+         <para>The comparison will be true if b's string value matches one of the strings in
+                    the right hand sequence. If an index is defined on <tag>b</tag>, eXist-db
+                    will need only one index lookup to find all b's matching the comparison. The
+                    equivalent "or" expression needs two separate index lookups.</para>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Use "group by"</title>
+
+         <para>The XQuery 3.0 group by feature is much more efficient than using e.g.
+                    distinct-values. For example, to order the results of a query by the value of
+                    the child element SPEAKER, you may have used:</para>
+         <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-25.txt"/>
+         <para>The XQuery 3.0 variant with group by is much more efficient:</para>
+         <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-26.txt"/>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Querying multiple collections</title>
+
+         <para>If you need to query multiple collections which are on the same level of the
+                    collection hierarchy, you could use a for loop to iterate over the collection
+                    paths. However, this forces the query engine to process the remaining expression
+                    once for each collection. It is thus better to construct the initial node set
+                    once and use it as input for the main expression. For example:</para>
+         <example>
+            <title>Nested for loop</title>
+            <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-27.txt"/>
+         </example>
+         <para>will be less efficient than:</para>
+         <example>
+            <title>Single loop over initial node set</title>
+            <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-28.txt"/>
+         </example>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Use the ancestor or parent axis instead of a top-down approach</title>
+
+         <para>eXist-db can navigate the ancestor axis as fast as the descendant axis. It can
+                    thus be more efficient to build a query bottom-up instead of top-down. Here's a
+                    top-down example:</para>
+         <example>
+            <title>Top-down query using nested for</title>
+            <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-29.txt"/>
+         </example>
+         <para>This query walks through a set of sections and queries each of them for
+                    paragraphs containing the string "XML". It then outputs the title of the
+                    section, followed by the matching paragraphs. Note that it will also return the
+                    title of all sections which do not have any matches.</para>
+         <para>The nested for loop again forces the query engine into a step-by-step
+                    iteration over the section elements. We can avoid this by using a bottom-up
+                    approach:</para>
+         <example>
+            <title>Bottom-up query using ancestor axis</title>
+            <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-30.txt"/>
+         </example>
+         <para>The second query should be several times faster than the first one.</para>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Match regular expressions against the start of a string</title>
+
+         <para>Function fn:matches returns true if any substring of its argument string
+                    matches the regular expression. The query engine thus needs to scan all index
+                    entries as the match could be at any position of an entry.</para>
+         <para>You can reduce the range of entries to be scanned by anchoring your pattern at
+                    the start of a string (where applicable):</para>
+         <programlisting language="xquery">fn:matches($str, "^XQuery")</programlisting>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Use fn:id to lookup xml:id attributes</title>
+
+         <para>eXist-db automatically indexes all xml:id attributes and other attributes with
+                    type ID as declared in a DTD (only if validation is enabled). This automatic
+                    index is used by the standard id functions and provides a fast way to look up an
+                    element. For example,</para>
+         <programlisting language="xquery">id("sect1")/head</programlisting>
+         <para>locates the element with id "sect1" and returns its <tag>head</tag>
+                    child. This is done through a fast index lookup. However, please note that the
+                    equivalent expression</para>
+         <programlisting language="xquery">//section[@xml:id = 'sect1']/head</programlisting>
+         <para>will <emphasis>NOT</emphasis> use the id index (you will need to declare an
+                    extra range index for that).</para>
+         <para>Please be also aware that larger <!--having a large number of? having long?--> xml:id values cost performance as has been
+                    reported by some users working with large databases.</para>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Defer output generation until really needed</title>
+
+         <para>When working with large result sets within a query, it is important to
+                    understand the <emphasis>differences between stored nodes and in-memory
+                        XML</emphasis>: if a node set consists of nodes which are stored in the
+                    database, eXist-db will usually never load those nodes into memory. Instead, it
+                    uses lightweight references for most processing steps. This way, even large node
+                    sets do not consume too much memory.</para>
+         <para>However, all new XML nodes created within an XQuery will reside in memory and
+                    you should be aware that the constructed XML fragments need to fit into the
+                    memory available to the Java VM. If a query generates too many nodes, the XQuery
+                    watchdog (if enabled) may step in and kill it.</para>
+         <para>A typical scenario: a query selects a large number of documents from the
+                    database and then iterates through each to generate some HTML output for
+                    display. However, only the first 10 results are really returned to the user, the
+                    rest is stored into an HTTP session for later viewing.</para>
+         <para>In this case it is important to limit the HTML generation to those items which
+                    are actually returned. Though the source XML documents may be large, eXist-db will
+                    not load them into memory, but just keep references to them. Storing those
+                    references into a session does not consume much memory.</para>
+         <example>
+            <title>Limiting output generation</title>
+            <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-34.txt"/>
+         </example>
+         <para>Please note also that eXist-db uses <emphasis>lazy evaluation</emphasis> when
+                    constructing new XML fragments. For example:</para>
+         <programlisting language="xquery">&lt;book&gt;{$node/title}&lt;/book&gt;</programlisting>
+         <para>Assuming that $node references a node in the database, the query engine will
+                    not copy $node/title into the constructed <tag>book</tag> element.
+                    Instead, only a reference is inserted. The reference will not be expanded until
+                    the fragment is serialized or queried. So if you only need to wrap selected
+                    parts of an element into a new fragment, memory consumption will not be too
+                    high.</para>
+      </sect2>
+   </sect1>
+</article>

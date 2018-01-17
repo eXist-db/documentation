@@ -1,0 +1,104 @@
+<!-- $Id$ -->
+<book>
+    <bookinfo>
+        <productname>eXist-db – Open Source Native XML Database</productname>
+        <title>The util Module</title>
+        <orgname>The eXist-db Project</orgname>
+        <date>October 2012</date>
+    </bookinfo>
+    <chapter>
+        <title>The util module</title>
+        <section id="introduction">
+            <title>Introduction</title>
+            <para>The util module (function namespace <uri>http://exist-db.org/xquery/util</uri>)
+                contains a number of common utility functions, such as <command>util:md5</command>,
+                which can generate md5 hashes. The full list of functions and their documentation is
+                in the <ulink url="/exist/apps/fundocs/">Function Documentation Library</ulink>. This
+                article discusses some of the highlights and main uses for this module.</para>
+        </section>
+        <section id="eval">
+            <title>util:eval()</title>
+            <variablelist>
+                <varlistentry>
+                    <term>util:eval()</term>
+                    <listitem>
+                        <para>This function is used to dynamically execute a constructed XQuery
+                            expression inside a running XQuery script. This can be very handy in
+                            some cases - for example, web-based applications that dynamically
+                            generate queries based on HTTP request parameters the user has
+                            passed.</para>
+                        <para>By default, the dynamically executed query inherits most of the
+                            current context, including local variables:</para>
+                        <synopsis language="xquery">
+let $a := "Hello"
+return util:eval("$a")
+                            </synopsis>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para>Consider the following simple example script in which any two numbers submitted by
+                a user are added or subtracted: </para>
+            <example>
+                <title>Adding/Subtracting Two Numbers</title>
+                <programlisting language="xquery">
+<![CDATA[xquery version "1.0";
+
+declare namespace request="http://exist-db.org/xquery/request";
+declare namespace util="http://exist-db.org/xquery/util";
+
+declare function local:do-query() as element() {
+    let $n1 := request:get-parameter("n1", "")
+	let $n2 := request:get-parameter("n2", "")
+	let $op := request:get-parameter("op", "")
+	return
+		if($n1 = "" or $n2 = "") then
+			<p>Please enter two operands.</p>
+		else
+			let $query := concat($n1, " ", $op, " ", $n2)
+			return
+				<p>{$query} = {util:eval($query)}</p>
+};
+
+<html>
+	<body>
+		<h1>Enter two numbers</h1>
+
+		<form action="{request:get-uri()}" method="get">
+			<table border="0" cellpadding="5">
+			<tr>
+				<td>First number:</td>
+				<td><input name="n1" size="4"/></td>
+			</tr>
+			<tr>
+				<td>Operator:</td>
+				<td>
+					<select name="op">
+						<option name="+">+</option>
+						<option name="-">-</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Second number:</td>
+				<td><input name="n2" size="4"/></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="submit"/></td>
+			</tr>
+			</table>
+		</form>
+
+		{ local:do-query() }
+
+	</body>
+</html>]]></programlisting>
+            </example>
+            <para>In this example, there is one XQuery script responsible for evaluating the
+                user-supplied parameters, which uses the parameters from the HTTP request to
+                construct another XQuery expression, which it then passes to
+                    <command>util:eval</command> for evaluation. The application would then
+                post-process the returned results, and display them to the user. (For more
+                information on how to write web applications using XQuery, go to our <ulink url="devguide.xml">Developer's Guide</ulink>.)</para>
+        </section>
+    </chapter>
+</book>

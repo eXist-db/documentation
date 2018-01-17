@@ -1,0 +1,11 @@
+declare 
+    %templates:wrap %templates:default("language", "en")
+function demo:hello($node as node(), $model as map(*), $language as xs:string, $user as xs:string) as xs:string {
+    switch($language)
+        case "de" return
+            "Hallo " || $user
+        case "it" return
+            "Ciao " || $user
+        default return
+            "Hello " || $user
+};
