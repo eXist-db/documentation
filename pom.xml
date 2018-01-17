@@ -109,12 +109,18 @@
                     <validationSets>
                         <validationSet>
                             <dir>src/main/xar-resources/data</dir>
+                            <includes>
+                              <include>*/*.xml</include>
+                            </includes>
                             <excludes>
-                                <exclude>*.xq</exclude>
-                                <exclude>xinclude.xml</exclude>
+                                <!-- <exclude>**.xq</exclude>
+                                <exclude>**.txt</exclude> -->
+
+                                <exclude>template/template.xml</exclude>
+                                <exclude>db4-versions/*.xml</exclude>
                             </excludes>
-                            <publicId>-//OASIS//DTD DocBook XML V4.5//EN</publicId>
-                            <systemId>${project.baseUri}/src/main/xsd/docbook.xsd</systemId>
+                            <publicId>-//OASIS//DTD DocBook V5.0//EN//XML</publicId>
+                            <systemId>${project.baseUri}src/main/xsd/docbook.xsd</systemId>
                         </validationSet>
                     </validationSets>
                 </configuration>
