@@ -456,24 +456,12 @@
                     <para>We currently support passing the following types: 
                     
                     <itemizedlist>
-                        <listitem>
-                                <para>"String" (default if no type is specified)</para>
-                            </listitem>
-                        <listitem>
-                                <para>"java.io.FileReader" (since Lucene 4) or "file"</para>
-                            </listitem>
-                        <listitem>
-                                <para>"java.lang.Boolean" or "boolean"</para>
-                            </listitem>
-                        <listitem>
-                                <para>"java.lang.Integer" or "int"</para>
-                            </listitem>
-                        <listitem>
-                                <para>"org.apache.lucene.analysis.util.CharArraySet" or "set"</para>
-                            </listitem>
-                        <listitem>
-                                <para>"java.lang.reflect.Field"</para>
-                            </listitem>
+                        <listitem><para>"String" (default if no type is specified)</para></listitem>
+                        <listitem><para>"java.io.FileReader" (since Lucene 4) or "file"</para></listitem>
+                        <listitem><para>"java.lang.Boolean" or "boolean"</para></listitem>
+                        <listitem><para>"java.lang.Integer" or "int"</para></listitem>
+                        <listitem><para>"org.apache.lucene.analysis.util.CharArraySet" or "set"</para></listitem>
+                        <listitem><para>"java.lang.reflect.Field"</para></listitem>
                         </itemizedlist>
                     The value <ulink url="http://lucene.apache.org/core/4_10_4/core/org/apache/lucene/util/Version.html#LUCENE_CURRENT">Version#LUCENE_CURRENT</ulink> is always added
                     as first parameter for the analyzer constructor, but a fall back mechanism is present for older analyzers. 

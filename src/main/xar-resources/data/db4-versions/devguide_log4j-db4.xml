@@ -98,29 +98,19 @@
             <title>What does log4j give us?</title>
             <para>Log4j is based on several core concepts:</para>
             <itemizedlist>
-                <listitem>
-                    <para>Each log event is issued by a hierarchically named “logger”, e.g.
-                    “xx.method.server.httpgw”.</para>
-                </listitem>
-                <listitem>
-                    <para>These hierarchical names may or may not correspond to Java class
-                    names.</para>
-                </listitem>
-                <listitem>
-                    <para>All log events have an associated severity level (trace, debug,
-                    info, warn, error, or fatal).</para>
-                </listitem>
-                <listitem>
-                    <para>To issue a log event programmers just acquire a logger by name
+                <listitem><para>Each log event is issued by a hierarchically named “logger”, e.g.
+                    “xx.method.server.httpgw”.</para></listitem>
+                <listitem><para>These hierarchical names may or may not correspond to Java class
+                    names.</para></listitem>
+                <listitem><para>All log events have an associated severity level (trace, debug,
+                    info, warn, error, or fatal).</para></listitem>
+                <listitem><para>To issue a log event programmers just acquire a logger by name
                     and specify a log message and its severity level (and optionally a Throwable
-                    where applicable).</para>
-                </listitem>
-                <listitem>
-                    <para>Decisions as to whether a given log event is output, how and
+                    where applicable).</para></listitem>
+                <listitem><para>Decisions as to whether a given log event is output, how and
                     where it is output, what additional data (e.g. timestamps) are included beyond
                     the log message, etc, are generally not made by the programmer – instead they
-                    are controlled by an administrator via a log4j configuration file.</para>
-                </listitem>
+                    are controlled by an administrator via a log4j configuration file.</para></listitem>
             </itemizedlist>
             <para>Based on these core concepts, log4j provides a powerful set of
                 functionalities.</para>
@@ -200,11 +190,9 @@
                         <para>Acquire a logger. import org.apache.log4j.Logger; … private Logger
                             logger = Logger.getLogger("xx.method.server.httpgw");</para>
                         <itemizedlist>
-                            <listitem>
-                                <para>This is a somewhat time-consuming operation and should be done
+                            <listitem><para>This is a somewhat time-consuming operation and should be done
                                 in constructors of relatively long-lived objects or in static
-                                initializers.</para>
-                            </listitem>
+                                initializers.</para></listitem>
                             <listitem>
                                 <para>Many classes can separately acquire a logger using the same
                                     logger name. They will all end up with their own reference to
@@ -216,8 +204,7 @@
                         <para>Use the logger: logger.info( "Something I really wanted to say"
                             );</para>
                         <itemizedlist>
-                                <listitem>
-                                <para>info() is just one of Logger’s methods for issuing log4j log
+                                <listitem><para>info() is just one of Logger’s methods for issuing log4j log
                                     events. It implicitly assigns the event a severity level of “info”
                                     and does not specify a Throwable. Logger methods for issuing log
                                     events include:</para>

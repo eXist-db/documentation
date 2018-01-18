@@ -1,5 +1,4 @@
-<!-- $Id$ -->
-<book>
+<!-- $Id$ --><book>
     <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Production Good Practice</title>
@@ -110,15 +109,11 @@
                     <variablelist>
                         <varlistentry>
                             <term>admin account</term>
-                            <listitem>
-                                <para>The password of the admin account is blank by default! Ensure that you set a decent password.</para>
-                            </listitem>
+                            <listitem><para>The password of the admin account is blank by default! Ensure that you set a decent password.</para></listitem>
                         </varlistentry>
                         <varlistentry>
                             <term>default-permissions</term>
-                            <listitem>
-                                <para>The default permissions for creating resources and collections in eXist-db are set in <filename>conf.xml</filename>. The current settings are fairly sane, but you may like to improve on them for your own application security.</para>
-                            </listitem>
+                            <listitem><para>The default permissions for creating resources and collections in eXist-db are set in <filename>conf.xml</filename>. The current settings are fairly sane, but you may like to improve on them for your own application security.</para></listitem>
                         </varlistentry>
                         <varlistentry>
                             <term>/db permissions</term>
@@ -165,8 +160,7 @@ $ pfexec chown -R exist:exist /opt/eXist
                     </varlistentry>
                     <varlistentry>
                         <term>REST server</term>
-                        <listitem>
-                            <para>We recommend to prevent  eXist's REST server from directly recieving web requests, and use URL Rewriting to control code execution via URL instead. This feature is enabled by default in <filename>$EXIST_HOME/webapp/WEB-INF/web.xml</filename>. Changing the param-value to true, allows you to filter request via your own XQuery controller.</para>
+                        <listitem><para>We recommend to prevent  eXist's REST server from directly recieving web requests, and use URL Rewriting to control code execution via URL instead. This feature is enabled by default in <filename>$EXIST_HOME/webapp/WEB-INF/web.xml</filename>. Changing the param-value to true, allows you to filter request via your own XQuery controller.</para>
                          <programlisting language="xml">&lt;init-param&gt;
   &lt;param-name&gt;hidden&lt;/param-name&gt;
   &lt;param-value&gt;true&lt;/param-value&gt;
@@ -175,42 +169,32 @@ $ pfexec chown -R exist:exist /opt/eXist
                     </listitem>
                     </varlistentry>
                     <varlistentry>
-                        <term>XQuery submissions</term>  <listitem>
-                            <para>We recommend to restrict the REST servers ability to execute XQuery code to authenticated users, by modifying:<filename>$EXIST_HOME/webapp/WEB-INF/web.xml</filename>.</para>
+                        <term>XQuery submissions</term>  <listitem><para>We recommend to restrict the REST servers ability to execute XQuery code to authenticated users, by modifying:<filename>$EXIST_HOME/webapp/WEB-INF/web.xml</filename>.</para>
                         <programlisting language="xml">&lt;init-param&gt;
   &lt;param-name&gt;xquery-submission&lt;/param-name&gt; &lt;param-value&gt;authenticated&lt;/param-value&gt;
-&lt;/init-param&gt;</programlisting>
-                        </listitem>
+&lt;/init-param&gt;</programlisting></listitem>
                     </varlistentry>
                     <varlistentry>
                         <term>XUpdate statements</term>
-                        <listitem>
-                            <para>In addtion, we recommend to restrict the REST servers ability to execute XUpdate statements, because of the sensitive nature of update operation. Simply modify   <filename>$EXIST_HOME/webapp/WEB-INF/web.xml</filename>by changing the param-value from enabled to disabled.</para>
+                        <listitem><para>In addtion, we recommend to restrict the REST servers ability to execute XUpdate statements, because of the sensitive nature of update operation. Simply modify   <filename>$EXIST_HOME/webapp/WEB-INF/web.xml</filename>by changing the param-value from enabled to disabled.</para>
                         <programlisting language="xml">&lt;init-param&gt;
   &lt;param-name&gt;xupdate-submission&lt;/param-name&gt; &lt;param-value&gt;disabled&lt;/param-value&gt;
-&lt;/init-param&gt;</programlisting>
-                        </listitem>
+&lt;/init-param&gt;</programlisting></listitem>
                     </varlistentry>
                 </variablelist>
                 <para>Further considerations for a live environment:</para>
                 <variablelist>
                     <varlistentry>
                         <term>Standalone mode</term>
-                        <listitem>
-                            <para>eXist-db can be operated in a cut-down standalone mode (see server.(sh|bat)). This provides just the core services from the database, no webapp file system access, and no documentation. The entire application has to be stored in the database and is served from there. This is an ideal starting place for a production system.</para>
-                        </listitem>
+                        <listitem><para>eXist-db can be operated in a cut-down standalone mode (see server.(sh|bat)). This provides just the core services from the database, no webapp file system access, and no documentation. The entire application has to be stored in the database and is served from there. This is an ideal starting place for a production system.</para></listitem>
                     </varlistentry>
                     <varlistentry>
                         <term>Services</term>
-                        <listitem>
-                            <para>eXist-db provides several services for accessing the database. You should reduce these to the absolute minimum that you need for your production application. If you are operating in standalone mode, this is done via server.xml, else see webapp/WEB-INF/web.xml. You should look at each configured service, servlet or filter and ask yourself - do we use this? Most production environments are unlikely to need WebDAV or SOAP Admin (Axis).</para>
-                        </listitem>
+                        <listitem><para>eXist-db provides several services for accessing the database. You should reduce these to the absolute minimum that you need for your production application. If you are operating in standalone mode, this is done via server.xml, else see webapp/WEB-INF/web.xml. You should look at each configured service, servlet or filter and ask yourself - do we use this? Most production environments are unlikely to need WebDAV or SOAP Admin (Axis).</para></listitem>
                     </varlistentry>
                     <varlistentry>
                         <term>Extension Modules</term>
-                        <listitem>
-                            <para>eXist-db loads several XQuery and Index extension modules by default. You should modify the builtin-modules section of <filename>conf.xml</filename>, to <emphasis>ONLY</emphasis> load what you need for your application.</para>
-                        </listitem>
+                        <listitem><para>eXist-db loads several XQuery and Index extension modules by default. You should modify the builtin-modules section of <filename>conf.xml</filename>, to <emphasis>ONLY</emphasis> load what you need for your application.</para></listitem>
                     </varlistentry>
                 </variablelist>
             </section>
@@ -220,21 +204,15 @@ $ pfexec chown -R exist:exist /opt/eXist
                 <variablelist>
                     <varlistentry>
                         <term>-Xmx</term>
-                        <listitem>
-                            <para>However you decide to deploy and start eXist, please ensure that you allocate enough maximum memory to eXist-db via. the Java -Xmx setting. See backup.sh and startup.sh.</para>
-                        </listitem>
+                        <listitem><para>However you decide to deploy and start eXist, please ensure that you allocate enough maximum memory to eXist-db via. the Java -Xmx setting. See backup.sh and startup.sh.</para></listitem>
                     </varlistentry>
                     <varlistentry>
                         <term>cacheSize and collectionCache</term>
-                        <listitem>
-                            <para>These two settings in the db-connection of <filename>conf.xml</filename> should be adjusted appropriately based on your -Xmx setting (above). See the <ulink url="tuning.xml">tuning guide</ulink> for advice on sensible values.</para>
-                        </listitem>
+                        <listitem><para>These two settings in the db-connection of <filename>conf.xml</filename> should be adjusted appropriately based on your -Xmx setting (above). See the <ulink url="tuning.xml">tuning guide</ulink> for advice on sensible values.</para></listitem>
                     </varlistentry>
                     <varlistentry>
                         <term>disk space</term>
-                        <listitem>
-                            <para>Please ensure that you have plenty of space for your database to grow. Unsurprisingly running out of disk space can result in database corruptions or having to rollback the database to a known state.</para>
-                        </listitem>
+                        <listitem><para>Please ensure that you have plenty of space for your database to grow. Unsurprisingly running out of disk space can result in database corruptions or having to rollback the database to a known state.</para></listitem>
                     </varlistentry>
                 </variablelist>
             </section>
@@ -249,15 +227,9 @@ $ pfexec chown -R exist:exist /opt/eXist
                 <emphasis>This is fundamental</emphasis> - Make sure you have them, they are up-to-date and that they work!</para>
             <para>eXist-db provides 3 different mechanisms for performing backups - </para>
             <orderedlist>
-                <listitem>
-                    <para>Full database backup.</para>
-                </listitem>
-                <listitem>
-                    <para>Differential database backup.</para>
-                </listitem>
-                <listitem>
-                    <para>Snapshot of the database data files.</para>
-                </listitem>
+                <listitem><para>Full database backup.</para></listitem>
+                <listitem><para>Differential database backup.</para></listitem>
+                <listitem><para>Snapshot of the database data files.</para></listitem>
             </orderedlist>
             <para>Each of these backup mechanisms is schedulable either with eXist-db or with your operating system scheduler. See the <ulink url="backup.xml">backup</ulink> page and <filename>conf.xml</filename> for further details.</para>
         </section>

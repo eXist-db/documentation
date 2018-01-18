@@ -1,5 +1,4 @@
-<!-- $Id$ -->
-<book>
+<!-- $Id$ --><book>
     <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
         <title>XQuery in eXist-db</title>
@@ -733,8 +732,7 @@ return $w</synopsis>
         <synopsis language="xquery">for $w in ("das", "daß", "Buch", "Bücher", "Bauer", "Bäuerin", "Jagen", "Jäger") 
 order by $w collation "java:f.c.d.n.MyRuleBasedGermanCollator" 
 return $w</synopsis>
-        <para>The jar with the .class file(s) of the collator needs to be in <filename>${EXIST_HOME}/lib/user</filename>
-            </para>
+        <para>The jar with the .class file(s) of the collator needs to be in <filename>${EXIST_HOME}/lib/user</filename></para>
             <note>
                 <para>eXist-db's range index is currently only usable with the default codepoint
                     collation. This means that comparisons using a different collation will not be
@@ -769,12 +767,8 @@ return $w</synopsis>
                         <methodname>XPathQueryService.setProperty()</methodname> and
                         <methodname>XQueryService.setProperty()</methodname> methods in Java. These
                     methods are defined in
-                    <ulink url="http://download.oracle.com/javase/6/docs/api/javax/xml/transform/OutputKeys.html">
-                        <classname>javax.xml.transform.OutputKeys</classname>
-                    </ulink>
-                    and <ulink url="http://exist-db.org/api/org/exist/storage/serializers/EXistOutputKeys.html">
-                        <classname>EXistOutputKeys</classname>
-                    </ulink>. The latter eXist-specific options include the following:</para>
+                    <ulink url="http://download.oracle.com/javase/6/docs/api/javax/xml/transform/OutputKeys.html"><classname>javax.xml.transform.OutputKeys</classname></ulink>
+                    and <ulink url="http://exist-db.org/api/org/exist/storage/serializers/EXistOutputKeys.html"><classname>EXistOutputKeys</classname></ulink>. The latter eXist-specific options include the following:</para>
                 <variablelist>
                     <varlistentry>
                         <term>

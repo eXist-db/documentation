@@ -1,5 +1,4 @@
-<!-- $Id$ -->
-<book>
+<!-- $Id$ --><book>
     <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Proxying eXist-db Behind a Web Server</title>
@@ -27,9 +26,7 @@
                         </varlistentry>
                         <varlistentry>
                             <term>Virtual Hosting</term>
-                            <listitem>
-                                <para>Providing your Web Server supports Virtual Hosting, then you should be able to proxy many URLs from different domains onto different eXist-db REST URLs which may belong to one or more eXist-db instances. This in effect allows a single eXist-db instance to perform virtual hosting.</para>
-                            </listitem>
+                            <listitem><para>Providing your Web Server supports Virtual Hosting, then you should be able to proxy many URLs from different domains onto different eXist-db REST URLs which may belong to one or more eXist-db instances. This in effect allows a single eXist-db instance to perform virtual hosting.</para></listitem>
                         </varlistentry>
                     </variablelist>
                 </para>
@@ -48,9 +45,7 @@
                             <term>
                                 <ulink url="http://httpd.apache.org/">Apache HTTPD</ulink>
                             </term>
-                            <listitem>
-                                <para>Likely the most prolific Web Server used on the web.</para>
-                            </listitem>
+                            <listitem><para>Likely the most prolific Web Server used on the web.</para></listitem>
                         </varlistentry>
                     </variablelist>
                 </para>
@@ -60,18 +55,10 @@
             <title>Example 1 - Proxying a Web Domain Name to an eXist-db Collection</title>
             <para>In this example we look at how to proxy a web domain name onto an eXist-db Collection. We make the following assumptions -</para>
             <orderedlist>
-                <listitem>
-                    <para>http://www.mywebsite.com is our website domain name address</para>
-                </listitem>
-                <listitem>
-                    <para>eXist-db is running in standalone mode (i.e. http://localhost:8088/) on the same host as the Web Server (i.e. http://localhost:80/)</para>
-                </listitem>
-                <listitem>
-                    <para>/db/apps/mywebsite.com is the eXist-db collection we want to proxy</para>
-                </listitem>
-                <listitem>
-                    <para>Web Server access logging will be written to /srv/www/vhosts/mywebsite.com/logs/access.log</para>
-                </listitem>
+                <listitem><para>http://www.mywebsite.com is our website domain name address</para></listitem>
+                <listitem><para>eXist-db is running in standalone mode (i.e. http://localhost:8088/) on the same host as the Web Server (i.e. http://localhost:80/)</para></listitem>
+                <listitem><para>/db/apps/mywebsite.com is the eXist-db collection we want to proxy</para></listitem>
+                <listitem><para>Web Server access logging will be written to /srv/www/vhosts/mywebsite.com/logs/access.log</para></listitem>
             </orderedlist>
             <section>
                 <title>Nginx</title>

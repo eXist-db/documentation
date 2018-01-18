@@ -1,5 +1,4 @@
-<!-- $Id$ -->
-<book>
+<!-- $Id$ --><book>
     <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Extracting Content from Binary Files</title>
@@ -68,15 +67,13 @@ content:stream-content($binary as xs:base64Binary, $paths as xs:string*, $callba
                         <para>An XML fragment describing the fields you want to add and the text
                             content to index.</para>
                     </listitem>
-                </orderedlist>
-            </para>
+                </orderedlist></para>
             <para>For example, to associate an index with the document test.txt one may call index
                 as follows: <synopsis><![CDATA[ft:index("/db/apps/demo/test.txt", <doc>
     <field name="title" store="yes">Indexing</field>
     <field name="para" store="yes">This is the first paragraph.</field>
     <field name="para" store="yes">And a second paragraph.</field>
-</doc>)]]></synopsis>
-            </para>
+</doc>)]]></synopsis></para>
             <para>This creates a lucene index document, indexes the content using the configured
                 analyzers, and links it to the eXist document with the given path. You may link more
                 than one Lucene document to the same eXist resource. The field elements map to
@@ -96,8 +93,7 @@ content:stream-content($binary as xs:base64Binary, $paths as xs:string*, $callba
             <exist:match>paragraph</exist:match>.</field>
         <field name="title"><exist:match>Indexing</exist:match></field>
     </search>
-</results>]]></synopsis>
-            </para>
+</results>]]></synopsis></para>
             <para>Each matching resource is described by a search element. The score attribute
                 expresses the relevance lucene computed for the resource (the higher the better).
                 Within the search element, every field which contributed to the query result is

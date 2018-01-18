@@ -1,5 +1,4 @@
-<?oxygen RNGSchema="http://www.oasis-open.org/docbook/xml/5.0/rng/docbook.rng" type="xml"?><!-- $Id$ -->
-<book>
+<?oxygen RNGSchema="http://www.oasis-open.org/docbook/xml/5.0/rng/docbook.rng" type="xml"?><!-- $Id$ --><book>
     <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Developer's Guide - Code Review</title>
@@ -285,9 +284,7 @@ return prop;
                 debugging purposes the stack trace should be logged at the final destination of the
                 exception or at whenever the exception is modified, for example throwing a
                 XXException instead of a java.io.IOException.</para>
-            <para>
-                <emphasis role="underline">Logging</emphasis>
-            </para>
+            <para><emphasis role="underline">Logging</emphasis></para>
             <para>If no logging system is in use in the package already or the logging is
                 unconditional, then log4j should be used for all logging. Please see the <emphasis role="bold">
                     <emphasis role="italic">Log4J Logging

@@ -115,33 +115,19 @@
         For example you can:
         
         <itemizedlist>
-            <listitem>
-                        <para>Use the "/db/apps" folder to hold all your applications</para>
-                    </listitem>
-            <listitem>
-                        <para>Use "/db/apps/books" folder to hold your books application.</para>
-                    </listitem>
-            <listitem>
-                        <para>Use a "/db/apps/books/data" to store the actual book data.  Only users with edit rights can change
+            <listitem><para>Use the "/db/apps" folder to hold all your applications</para></listitem>
+            <listitem><para>Use "/db/apps/books" folder to hold your books application.</para></listitem>
+            <listitem><para>Use a "/db/apps/books/data" to store the actual book data.  Only users with edit rights can change
             the data in the collection.  This is the collection that should be versioned or backed up after
-            changes have been made to the book data.</para>
-                    </listitem>
-            <listitem>
-                        <para>Use a "/db/apps/books/views" to store read-only transform views of the book data.</para>
-                    </listitem>
-            <listitem>
-                        <para>Use a "/db/apps/books/edit" to tools that allow you to edit books.  Only users
-            with edit rights will be able to access this folder.</para>
-                    </listitem>
-            <listitem>
-                        <para>Use a "/db/apps/books/admin" to store tools that allow you to perform
+            changes have been made to the book data.</para></listitem>
+            <listitem><para>Use a "/db/apps/books/views" to store read-only transform views of the book data.</para></listitem>
+            <listitem><para>Use a "/db/apps/books/edit" to tools that allow you to edit books.  Only users
+            with edit rights will be able to access this folder.</para></listitem>
+            <listitem><para>Use a "/db/apps/books/admin" to store tools that allow you to perform
             administration on the application.  For example changing code-tables in selection lists
-            or tools that re-index the collection.</para>
-                    </listitem>
-            <listitem>
-                        <para>Use a "/db/apps/books/unit-tests" to store unit-test
-                for the books application.  Only developers will need this collection loaded on their system.</para>
-                    </listitem>
+            or tools that re-index the collection.</para></listitem>
+            <listitem><para>Use a "/db/apps/books/unit-tests" to store unit-test
+                for the books application.  Only developers will need this collection loaded on their system.</para></listitem>
         </itemizedlist>
         
         If you are doing forms processing a common design is to use one file per form.  Although there is

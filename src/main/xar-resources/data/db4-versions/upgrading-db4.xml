@@ -1,5 +1,4 @@
-<!-- $Id$ -->
-<book>
+<!-- $Id$ --><book>
     <bookinfo>
         <productname>eXist-db – Open Source Native XML Database</productname>
         <title>Upgrade Guide</title>
@@ -46,9 +45,7 @@
                     <para>Remove the <emphasis>empty</emphasis> <code>data</code> directory from the new installation.
                         Typically the data directory is located in <code>webapp/WEB-INF/data</code>.
                         If you are not sure where the data directory is located,
-                        you can check the <ulink url="troubleshooting.xml#logs">
-                            <code>exist.log</code>
-                        </ulink>,
+                        you can check the <ulink url="troubleshooting.xml#logs"><code>exist.log</code></ulink>,
                         searching for entires after startup pertaining to <code>DATA_DIR</code>.
                     </para>
                 </step>
@@ -59,9 +56,7 @@
                     <para>Start the new eXist instance.</para>
                 </step>
                 <step>
-                    <para>Check the <ulink url="troubleshooting.xml#logs">
-                            <code>exist.log</code>
-                        </ulink> for any errors during startup.</para>
+                    <para>Check the <ulink url="troubleshooting.xml#logs"><code>exist.log</code></ulink> for any errors during startup.</para>
                 </step>
             </procedure>
         </section>
@@ -125,33 +120,22 @@
                     <tbody>
                 <tr>
                     <td>latest</td>
-                    <td>
-                                <ulink url="http://exist-db.org/exist/apps/wiki/blogs/eXist/search.html?field=tags&amp;q=release">release notes</ulink>
-                            </td>
+                    <td><ulink url="http://exist-db.org/exist/apps/wiki/blogs/eXist/search.html?field=tags&amp;q=release">release notes</ulink></td>
                 </tr>
                 <tr> <!-- add new row with next binary incompatible release -->
                     <td>3.0</td>
-                    <td>
-                                <ulink url="incompatibilities.xml#v3.0">special notes</ulink>
-                            </td>
+                    <td><ulink url="incompatibilities.xml#v3.0">special notes</ulink></td>
                 </tr>
                 <tr>
                     <td>2.2</td>
-                    <td>
-                                <ulink url="incompatibilities.xml#v2.2">special notes</ulink>
-                            </td>
+                    <td><ulink url="incompatibilities.xml#v2.2">special notes</ulink></td>
                 </tr>
                 <tr>
                     <td>2.0</td>
-                    <td>
-                                <ulink url="incompatibilities.xml#v2.0">special notes</ulink>
-                            </td> <!--can't locate 2.0 release notes on dev blog DP-->
+                    <td><ulink url="incompatibilities.xml#v2.0">special notes</ulink></td> <!--can't locate 2.0 release notes on dev blog DP-->
                 </tr>
-                <tr>
-                            <td>1.4.0</td>
-                    <td>
-                                <ulink url="incompatibilities.xml#v1.4">special notes</ulink>
-                            </td>
+                <tr><td>1.4.0</td>
+                    <td><ulink url="incompatibilities.xml#v1.4">special notes</ulink></td>
                 </tr>
                     </tbody>
                 </tgroup>
