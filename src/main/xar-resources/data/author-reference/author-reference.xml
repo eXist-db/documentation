@@ -1,5 +1,4 @@
-<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<article xmlns="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
 
   <info>
     <title>Author Reference</title>
@@ -393,6 +392,37 @@
 
       </variablelist>
 
+    </sect2>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2>
+      <title>Generating indexes</title>
+
+      <para>Indexes can be automagicly generated. For examples have a look at the <link xlink:href="documentation">documentation home page</link>.
+        There are three variations:</para>
+      <variablelist>
+        <varlistentry>
+          <term>Alphabetical index on title</term>
+          <listitem>
+            <para>Add a <code>role="indexontitle"</code> attribute to a <tag>para</tag> element. An index on title will be generated after it.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Index on keyword, all</term>
+          <listitem>
+            <para>Add a <code>role="indexonkeyword"</code> attribute to a <tag>para</tag> element. An index on keywords (as specified in the
+                <tag>info</tag> element, see <xref linkend="keyword-usage"/>) will be generated after it.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Index on keyword, single</term>
+          <listitem>
+            <para>Add a <code>role="indexonkeyword:somekeyword"</code> attribute to a <tag>para</tag> element to generate a list of articles with this
+              specific keyword (as specified in the <tag>info</tag> element, see <xref linkend="keyword-usage"/>).</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
     </sect2>
 
   </sect1>

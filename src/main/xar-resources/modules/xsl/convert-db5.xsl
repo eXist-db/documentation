@@ -19,7 +19,13 @@
   <!-- ================================================================== -->
   <!-- MAIN TEMPLATES: -->
 
-  <xsl:template match="/*">
+  <xsl:template match="/">
+    <xsl:apply-templates select="/*/contents/node()"/>
+  </xsl:template>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <xsl:template match="/*/contents/node()">
     <article>
 
       <!-- Header with title etc. -->
@@ -72,6 +78,22 @@
         <xsl:with-param name="nodes" select="node()"/>
       </xsl:call-template>
     </p>
+    <!-- Check for index: -->
+    <xsl:if test="exists(/*/index)">
+      <xsl:variable name="roles" as="xs:string*" select="tokenize(string(@role), '\s+')"/>
+      <xsl:variable name="indexonkeyword" as="xs:string?" select="($roles[starts-with(., 'indexonkeyword')])[1]"/>
+      <xsl:choose>
+        <xsl:when test="'indexontitle' = $roles">
+          <xsl:call-template name="create-indexontitle"/>
+        </xsl:when>
+        <xsl:when test="exists($indexonkeyword)">
+          <xsl:call-template name="create-indexonkeyword">
+            <xsl:with-param name="keyword" select="normalize-space(substring-after($indexonkeyword, ':'))"/>
+          </xsl:call-template>
+        </xsl:when>
+        <xsl:otherwise/>
+      </xsl:choose>
+    </xsl:if>
   </xsl:template>
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -411,6 +433,110 @@
   </xsl:template>
 
   <!-- ================================================================== -->
+  <!-- INDEXES: -->
+
+  <xsl:template name="create-indexonkeyword">
+    <xsl:param name="base-element" as="element()" required="no" select="."/>
+    <xsl:param name="keyword" as="xs:string" required="yes"/>
+    <xsl:variable name="base-id" as="xs:string" select="generate-id($base-element)"/>
+    <xsl:variable name="docs" as="element(doc)*" select="/*/index/doc"/>
+    <xsl:variable name="all-keywords" as="xs:string*" select="for $kw in distinct-values($docs/db5:info/db5:keywordset/db5:keyword) return lower-case(normalize-space($kw))"/>
+    <xsl:variable name="keywords-to-process" as="xs:string*">
+      <xsl:choose>
+        <xsl:when test="$keyword eq ''">
+          <xsl:sequence select="$all-keywords"/>
+        </xsl:when>
+        <xsl:when test="lower-case($keyword) = $all-keywords">
+          <xsl:sequence select="lower-case($keyword)"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:sequence select="()"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <!-- The code below will generate a header line with all the keywords, clickable. Probably not necessary and quit ugly. -->
+    <!--<p>
+      <xsl:for-each select="$keywords-to-process">
+        <a href="#{$base-id}-{.}">
+          <b>
+            <xsl:value-of select="local:capitalize(.)"/>
+          </b>
+        </a>
+        <xsl:text> </xsl:text>
+      </xsl:for-each>
+    </p>-->
+    <xsl:for-each select="$keywords-to-process">
+      <xsl:sort select="."/>
+      <xsl:variable name="current-keyword" as="xs:string" select="."/>
+      <xsl:if test="$keyword eq ''">
+        <!-- Do not generate a header when we requested a specific keyword.  -->
+        <p>
+          <a name="{$base-id}-{$current-keyword}"/>
+          <b><xsl:value-of select="local:capitalize($current-keyword)"/>:</b>
+        </p>
+      </xsl:if>
+      <ul>
+        <xsl:for-each select="$docs[$current-keyword = local:normalized-docs-keyword-list(.)]">
+          <xsl:sort select="upper-case(normalize-space(db5:info/db5:title))"/>
+          <li>
+            <a href="{substring-before(tokenize(@ref, '/')[last()], '.xml')}">
+              <xsl:value-of select="string(db5:info/db5:title)"/>
+            </a>
+          </li>
+        </xsl:for-each>
+      </ul>
+    </xsl:for-each>
+
+  </xsl:template>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <xsl:function name="local:normalized-docs-keyword-list" as="xs:string*">
+    <xsl:param name="docs" as="element(doc)*"/>
+    <xsl:sequence select="for $kw in distinct-values($docs/db5:info/db5:keywordset/db5:keyword) return lower-case(normalize-space($kw))"/>
+  </xsl:function>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <xsl:template name="create-indexontitle">
+    <xsl:param name="base-element" as="element()" required="no" select="."/>
+    <xsl:variable name="base-id" as="xs:string" select="generate-id($base-element)"/>
+    <!-- Header: -->
+    <p>
+      <xsl:for-each-group select="/*/index/doc" group-by="upper-case(substring(normalize-space(db5:info/db5:title), 1, 1))">
+        <xsl:sort select="current-grouping-key()"/>
+        <a href="#{$base-id}-{current-grouping-key()}">
+          <b>
+            <xsl:value-of select="current-grouping-key()"/>
+          </b>
+        </a>
+        <xsl:text> </xsl:text>
+      </xsl:for-each-group>
+    </p>
+    <!-- Article links: -->
+    <xsl:for-each-group select="/*/index/doc" group-by="upper-case(substring(normalize-space(db5:info/db5:title), 1, 1))">
+      <xsl:sort select="current-grouping-key()"/>
+      <p>
+        <a name="{$base-id}-{current-grouping-key()}"/>
+        <b>
+          <xsl:value-of select="current-grouping-key()"/>
+          <xsl:text>:</xsl:text>
+        </b>
+      </p>
+      <ul>
+        <xsl:for-each select="current-group()">
+          <xsl:sort select="upper-case(normalize-space(db5:info/db5:title))"/>
+          <li>
+            <a href="{substring-before(tokenize(@ref, '/')[last()], '.xml')}">
+              <xsl:value-of select="string(db5:info/db5:title)"/>
+            </a>
+          </li>
+        </xsl:for-each>
+      </ul>
+    </xsl:for-each-group>
+  </xsl:template>
+
+  <!-- ================================================================== -->
   <!-- SUPPORT: -->
 
   <xsl:template match="processing-instruction() | comment()" mode="#all">
@@ -466,6 +592,13 @@
     <xsl:param name="elm" as="element()"/>
     <xsl:param name="role" as="xs:string"/>
     <xsl:sequence select="$role = tokenize(string($elm/@role), '\s+')"/>
+  </xsl:function>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <xsl:function name="local:capitalize" as="xs:string">
+    <xsl:param name="in" as="xs:string"/>
+    <xsl:sequence select="concat(upper-case(substring($in, 1, 1)), substring($in, 2))"/>
   </xsl:function>
 
 </xsl:stylesheet>

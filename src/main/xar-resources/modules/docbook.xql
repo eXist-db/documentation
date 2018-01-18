@@ -94,13 +94,31 @@ declare %private function docbook:to-html-db5($node as node()) {
   let $uri-relative-from-document as xs:string := 
     concat($config:data-root-rel, '/', replace(request:get-parameter('doc', ()), '(.*)[/\\][^/\\]+$', '$1'))
   let $uri-xsl := concat('xmldb:exist://', $config:app-root, '/modules/xsl/convert-db5.xsl')
+  (: Create a content wrapper so we can include multiple inputs for the transformation: :)
+  let $contents as element() :=
+    <contentswrapper>
+      <contents>{ $node }</contents>
+      {
+        if (exists($node//db5:para[contains(@role, 'index')]))
+        then
+          <index>
+          {
+            let $docroot as xs:string := $config:app-root || '/data'
+            for $doc in collection($docroot)[exists(db5:article)][not(contains(base-uri(), '/listings/'))]
+               return <doc ref="{base-uri($doc)}">{ $doc/*/db5:info }</doc>
+          }
+          </index>
+        else
+          ()
+      }
+    </contentswrapper>
   let $parameters as element(parameters) := 
     <parameters>
       <param name="uri-relative-from-app" value="{$uri-reative-from-app}"/>
       <param name="uri-relative-from-document" value="{$uri-relative-from-document}"/>
     </parameters>  
   return
-    transform:transform($node, $uri-xsl, $parameters)
+    transform:transform($contents, $uri-xsl, $parameters)
 (:<p>XX</p>:)
 };
 
