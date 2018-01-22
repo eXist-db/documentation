@@ -1,5 +1,7 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
 
+  <!-- ================================================================== -->
+
   <info>
     <title>Author Reference</title>
     <date>January 2018</date>
@@ -323,6 +325,14 @@
                     <code>role</code> attribute but produces an <tag>i</tag> instead of an <tag>em</tag>.</para>
               </listitem>
             </itemizedlist>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>GUI Items</term>
+          <listitem>
+            <para>Use <tag>guimenuitem</tag> around anything referring to choices in a GUI, for instance <guimenuitem>menu</guimenuitem> choices. The
+              effect is now simple italic but that might be changed later.</para>
           </listitem>
         </varlistentry>
 
