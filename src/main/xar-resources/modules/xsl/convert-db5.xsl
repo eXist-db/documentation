@@ -361,7 +361,16 @@
       <xsl:apply-templates mode="#current"/>
     </xsl:element>
   </xsl:template>
-
+  
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  
+  <xsl:template match="db5:guimenuitem" mode="mode-process-inline-contents">
+    <i>
+      <xsl:apply-templates mode="#current"/>
+    </i>
+  </xsl:template>
+  
+  
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
   <xsl:template match="db5:code | db5:literal" mode="mode-process-inline-contents">
@@ -472,7 +481,8 @@
         <!-- Do not generate a header when we requested a specific keyword.  -->
         <p>
           <a name="{$base-id}-{$current-keyword}"/>
-          <b><xsl:value-of select="local:capitalize($current-keyword)"/>:</b>
+          <b>
+                        <xsl:value-of select="local:capitalize($current-keyword)"/>:</b>
         </p>
       </xsl:if>
       <ul>
