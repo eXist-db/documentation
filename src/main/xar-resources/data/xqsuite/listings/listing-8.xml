@@ -1,0 +1,26 @@
+<testsuites>
+    <testsuite package="http://exist-db.org/xquery/test/bang" timestamp="2012-10-16T10:30:12.966+02:00" failures="1" tests="19" time="PT0.046S">
+        <testcase name="constructor" class="bang:constructor"/>
+        <testcase name="functions1" class="bang:functions1"/>
+        <testcase name="functions2" class="bang:functions2"/>
+        <testcase name="functions3" class="bang:functions3">
+            <failure message="assertEquals failed." type="failure-error-code-1">RED BLACK GREEN</failure>
+            <output>RED BLUE GREEN</output>
+        </testcase>
+        <testcase name="functions4" class="bang:functions4"/>
+        <testcase name="nodepath" class="bang:nodepath"/>
+        <testcase name="nodepath-reverse" class="bang:nodepath-reverse"/>
+        <testcase name="nodes1" class="bang:nodes1"/>
+        <testcase name="nodes2" class="bang:nodes2"/>
+        <testcase name="numbers1" class="bang:numbers1"/>
+        <testcase name="position1" class="bang:position1"/>
+        <testcase name="position2" class="bang:position2"/>
+        <testcase name="position3" class="bang:position3"/>
+        <testcase name="position4" class="bang:position4"/>
+        <testcase name="position5" class="bang:position5"/>
+        <testcase name="precedence1" class="bang:precedence1"/>
+        <testcase name="precedence2" class="bang:precedence2"/>
+        <testcase name="precedence3" class="bang:precedence3"/>
+        <testcase name="sequence" class="bang:sequence"/>
+    </testsuite>
+</testsuites>

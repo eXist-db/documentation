@@ -1,0 +1,11 @@
+<xdb:store xmlns:xdb="http://exist-db.org/ant"
+    uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/shakespeare/plays"
+    createcollection="true">
+    <fileset dir="samples/shakespeare"> 
+        <include name="*.xml"/>
+        <include name="*.xsl"/>
+    </fileset>
+</xdb:store>
+<xdb:store xmlns:xdb="http://exist-db.org/ant"
+  uri="xmldb:exist://localhost:8080/exist/xmlrpc/db/shakespeare/plays"
+  createcollection="true" srcfile="samples/shakespeare/hamlet.xml"/>

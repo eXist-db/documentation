@@ -1,0 +1,18 @@
+(:~ 
+ : This module provides the functions that control the Web presentation
+ : of xqDoc. The logic contained in this module is not specific to any
+ : XQuery implementation and is written to the May 2003 XQuery working
+ : draft specification. It would be a trivial exercise to convert this
+ : code to either the Nov 2003 or Oct 2004 XQuery working draft.
+ :
+ : It should also be noted that these functions not only support the 
+ : real-time presentation of the xqDoc information but are also used
+ : for the static offline presentation mode as well. The static offline
+ : presentation mode has advantages because access to a native XML
+ : database is not needed when viewing the xqDoc information ... it is
+ : only needed when generating the offline materials. 
+ :
+ : @author Darin McBeath
+ : @version 1.0
+ :)
+module "xqdoc/display"

@@ -1,0 +1,8 @@
+let $query := "king"
+for $speechBySpeaker in //SPEECH[ft:query(., $query)]
+group by $speaker := $speechBySpeaker/SPEAKER
+order by $speaker
+return
+    <speaker name="{$speaker}">
+    { $speechBySpeaker }
+    </speaker>

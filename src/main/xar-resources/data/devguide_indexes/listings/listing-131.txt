@@ -1,0 +1,12 @@
+declare namespace gml = "http://www.opengis.net/gml";
+      spatial:within(//gml:Polygon,
+        <gml:Polygon srsName="osgb:BNG" xmlns:gml='http://www.opengis.net/gml'>
+          <gml:outerBoundaryIs>
+	    <gml:LinearRing>
+	      <gml:coordinates>
+	        278200,187600 278400,187600 278400,188000 278200,188000 278200,187600
+	      </gml:coordinates>
+	    </gml:LinearRing>
+	  </gml:outerBoundaryIs>
+        </gml:Polygon>
+      )

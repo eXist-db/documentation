@@ -1,0 +1,9 @@
+private static final boolean VERBOSE_SERVER;
+   static
+   {
+     XXProperties properties = XXProperties.getLocalProperties();
+     VERBOSE_SERVER = properties.getProperty("xx.method.verboseServer", false);
+   }
+   …
+   if ( VERBOSE_SERVER )
+     System.out.println( "some message" );

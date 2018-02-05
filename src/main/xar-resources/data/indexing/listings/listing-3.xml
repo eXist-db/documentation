@@ -1,0 +1,22 @@
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <index>
+        <!-- Full text index based on Lucene -->
+        <lucene>
+            <text qname="SPEECH">
+                <ignore qname="SPEAKER"/>
+            </text>
+            <text qname="TITLE"/>
+        </lucene>
+        
+        <!-- Range indexes -->
+        <range>
+            <create qname="title" type="xs:string"/>
+            <create qname="author" type="xs:string"/>
+            <create qname="year" type="xs:integer"/>
+        </range>
+
+        <!-- N-gram indexes -->
+        <ngram qname="author"/>
+        <ngram qname="title"/>
+    </index>
+</collection>

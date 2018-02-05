@@ -1,0 +1,20 @@
+private void saveDocumentNodes(Connection conn) throws SQLException {
+        if (geometries.size() == 0)
+	  return;  
+	try {	        
+	  for (Iterator iterator = geometries.entrySet().iterator(); iterator.hasNext();) {
+	    Map.Entry entry = (Map.Entry) iterator.next();
+	    NodeId nodeId = (NodeId)entry.getKey();
+	    SRSGeometry srsGeometry = (SRSGeometry)entry.getValue();       	
+	    try {
+	      saveGeometryNode(srsGeometry.getGeometry(), srsGeometry.getSRSName(), 
+	      currentDoc, nodeId, conn);
+	    } finally {
+	      //Help the garbage collector
+	      srsGeometry = null;
+	    }
+	  }
+	} finally {
+	  geometries.clear();
+	}
+      }

@@ -1,0 +1,35 @@
+public Geometry transformGeometry(Geometry geometry, String sourceCRS, String targetCRS)
+        throws SpatialIndexException {
+	if ("osgb:BNG".equalsIgnoreCase(sourceCRS.trim()))
+	  sourceCRS = "EPSG:27700";  	    
+	if ("osgb:BNG".equalsIgnoreCase(targetCRS.trim()))
+	  targetCRS = "EPSG:27700"; 
+	MathTransform transform = (MathTransform)transformations.get(sourceCRS + "_" + targetCRS);
+	if (transform == null) {
+	  try {
+	    try {        	
+	      transform = CRS.findMathTransform(CRS.decode(sourceCRS), CRS.decode(targetCRS), useLenientMode);
+	    } catch (OperationNotFoundException e) {
+	      LOG.info(e);
+	      LOG.info("Switching to lenient mode... beware of precision loss !");
+	      useLenientMode = true;
+	      transform = CRS.findMathTransform(CRS.decode(sourceCRS), CRS.decode(targetCRS), useLenientMode);	
+	    }
+	    transformations.put(sourceCRS + "_" + targetCRS, transform);
+	    LOG.debug("Instantiated transformation from '" + sourceCRS + "' to '" + targetCRS + "'");
+	  } catch (NoSuchAuthorityCodeException e) {
+	    LOG.error(e);
+	  } catch (FactoryException e) {
+	    LOG.error(e);
+	  }
+	}
+	if (transform == null) {
+	  throw new SpatialIndexException("Unable to get a transformation from '" + sourceCRS + "' to '" + targetCRS +"'");        		           	
+	}
+	coordinateTransformer.setMathTransform(transform);
+	try {
+	  return coordinateTransformer.transform(geometry);
+	} catch (TransformException e) {
+	  throw new SpatialIndexException(e);
+        }
+      }

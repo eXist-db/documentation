@@ -1,0 +1,18 @@
+(:~ 
+ : The controller for constructing the xqDoc HTML information for
+ : the specified library module. The following information for
+ : each library module will be generated.
+ : <ul>
+ : <li> Module introductory information</li>
+ : <li> Global variables declared in this module</li>
+ : <li> Modules imported by this module</li>
+ : <li> Summary information for each function defined in the module</li>
+ : <li> Detailed information for each function defined in the module</li>
+ : </ul>
+ :
+ : @param $uri the URI for the library module
+ : @param $local indicates whether to build static HTML link for offline
+ : viewing or dynamic links for real-time viewing.
+ : @return XHTML.
+ :)
+define function print-module($uri as xs:string, $local as xs:boolean) as element()*

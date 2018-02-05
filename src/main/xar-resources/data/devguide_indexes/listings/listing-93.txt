@@ -1,0 +1,31 @@
+public void removeCollection(Collection collection, DBBroker broker) {
+        boolean isCollectionGMLAware = false;
+	IndexSpec idxConf = collection.getIndexConfiguration(broker);
+	if (idxConf != null) {
+	  Map collectionConfig = (Map) idxConf.getCustomIndexSpec(AbstractGMLJDBCIndex.ID);
+	  if (collectionConfig != null) {
+	    isCollectionGMLAware = (collectionConfig != null);
+	  }
+	}
+	if (!isCollectionGMLAware)
+	  return;  
+      
+	Connection conn = null;
+	try {
+	  conn = acquireConnection();
+	  if (LOG.isDebugEnabled())
+	    LOG.debug("Dropping GML index for collection " + collection.getURI());
+	  int nodeCount = removeCollection(collection, conn);
+	  if (LOG.isDebugEnabled())
+	    LOG.debug("Dropped " + nodeCount + " nodes from GML index");
+	} catch (SQLException e) {
+	  LOG.error(e);
+	} finally {
+	  try {
+	    if (conn != null)
+	      releaseConnection(conn);
+	  } catch (SQLException e) {
+	    LOG.error(e);
+	  }    		
+	}
+      }

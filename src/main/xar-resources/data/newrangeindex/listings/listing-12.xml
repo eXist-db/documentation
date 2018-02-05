@@ -1,0 +1,12 @@
+<range>
+    <create qname="mods:name">
+        <field name="name-type" match="@type" type="xs:string"/>
+        <field name="name-part" match="mods:namePart" type="xs:string"/>
+    </create>
+    <create qname="mods:mods">
+        <field name="mods-dateIssued" match="mods:originInfo/mods:dateIssued" type="xs:string"/>
+        <field name="mods-id" match="@ID" type="xs:string"/>
+        <field name="mods-authority" match="@authority" type="xs:string"/>
+        <field name="mods-lang" match="@lang" type="xs:string"/>
+    </create>
+</range>

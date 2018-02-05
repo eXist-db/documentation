@@ -1,0 +1,6 @@
+<loadfile property="xquery" srcFile="wzb.xq"/>
+<xdb:xquery  xmlns:xdb="http://exist-db.org/ant"
+    uri="xmldb:exist://localhost:8080/exist/xmlrpc/db" query="${xquery}"
+    user="guest" password="guest-passwd">
+      <variable name="alpha" value="aaa-alep" />
+</xdb:xquery>

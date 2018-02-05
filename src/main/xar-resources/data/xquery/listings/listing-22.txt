@@ -1,0 +1,24 @@
+public class ExampleModule extends AbstractInternalModule {
+
+public final static String NAMESPACE_URI = 
+    "http://exist-db.org/xquery/examples";
+	
+public final static String PREFIX = "example";
+	
+private final static FunctionDef[] functions = {
+	new FunctionDef(EchoFunction.signature, EchoFunction.class)
+};
+	
+public ExampleModule() {
+	super(functions);
+}
+
+public String getNamespaceURI() {
+	return NAMESPACE_URI;
+}
+
+public String getDefaultPrefix() {
+	return PREFIX;
+}
+
+}

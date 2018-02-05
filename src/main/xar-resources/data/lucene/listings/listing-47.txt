@@ -1,0 +1,5 @@
+let $query :=
+    <query>
+        <near slop="100" ordered="no"><term>bubble</term><term>fillet</term></near>
+    </query>
+return //SPEECH[ft:query(., $query)]

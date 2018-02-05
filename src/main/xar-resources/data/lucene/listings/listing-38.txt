@@ -1,0 +1,6 @@
+let $query :=
+    <query>
+        <bool><term>nation</term><term>miserable</term></bool>
+    </query>
+return
+//SPEECH[ft:query(., $query)]

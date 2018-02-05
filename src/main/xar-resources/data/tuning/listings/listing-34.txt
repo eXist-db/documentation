@@ -1,0 +1,7 @@
+let $nodes := (: select some nodes in the db :)
+let $session := session:set-attribute("result", $nodes) (: store result into session :)
+(: only return the first 10 nodes :)
+for $node in subsequence($nodes, 1, 10)
+return
+    (: Generate HTML for output :)
+    <div>(: Create complex HTML markup using $node :)</div>
