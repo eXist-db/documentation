@@ -1,0 +1,53 @@
+package org.exist.indexing.spatial;
+      
+      public abstract class AbstractGMLJDBCIndexWorker implements IndexWorker {
+      
+        public static String GML_NS = "http://www.opengis.net/gml";    
+        protected final static String INDEX_ELEMENT = "gml";   
+      
+	private static final Logger LOG = Logger.getLogger(AbstractGMLJDBCIndexWorker.class);
+      
+	protected IndexController controller;
+	protected AbstractGMLJDBCIndex index;
+	protected DBBroker broker;
+	protected int currentMode = StreamListener.UNKNOWN;    
+	protected DocumentImpl currentDoc = null;  
+	private boolean isDocumentGMLAware = false;
+	protected Map geometries = new TreeMap();    
+	NodeId currentNodeId = null;    
+	Geometry streamedGeometry = null;
+	boolean documentDeleted = false;
+	int flushAfter = -1;
+	protected GMLHandlerJTS geometryHandler = new GeometryHandler(); 
+	protected GMLFilterGeometry geometryFilter = new GMLFilterGeometry(geometryHandler); 
+	protected GMLFilterDocument geometryDocument = new GMLFilterDocument(geometryFilter);
+	protected TreeMap transformations = new TreeMap();
+	protected boolean useLenientMode = false;   
+	protected GMLStreamListener gmlStreamListener = new GMLStreamListener(); 
+	protected GeometryCoordinateSequenceTransformer coordinateTransformer = new GeometryCoordinateSequenceTransformer();
+	protected GeometryTransformer gmlTransformer = new GeometryTransformer();		
+	protected WKBWriter wkbWriter = new WKBWriter();
+	protected WKBReader wkbReader = new WKBReader();
+	protected WKTWriter wktWriter = new WKTWriter();
+	protected WKTReader wktReader = new WKTReader();
+	protected Base64Encoder base64Encoder = new Base64Encoder();
+	protected Base64Decoder base64Decoder = new Base64Decoder();  
+      
+	public AbstractGMLJDBCIndexWorker(AbstractGMLJDBCIndex index, DBBroker broker) {
+	  this.index = index;
+	  this.broker = broker;
+	}
+      
+	public String getIndexId() {
+	  return AbstractGMLJDBCIndex.ID;
+	}        
+      
+	public String getIndexName() {
+	  return index.getIndexName();
+	}
+      
+	public Index getIndex() {
+	  return index;
+        }
+      
+      }

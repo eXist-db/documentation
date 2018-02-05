@@ -1,0 +1,13 @@
+declare function demo:hello($node as node(), $model as map(*), $language as xs:string, $user as xs:string) as element(div) {
+    <div>
+    {
+        switch($language)
+            case "de" return
+                "Hallo " || $user
+            case "it" return
+                "Ciao " || $user
+            default return
+                "Hello " || $user
+    }
+    </div>
+};

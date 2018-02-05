@@ -1,0 +1,22 @@
+exist:/db>mkcol shakespeare
+created collection.
+exist:/db>cd shakespeare
+exist:/db/shakespeare>mkcol plays
+created collection.
+exist:/db/shakespeare>cd plays
+exist:/db/shakespeare/plays>put samples/shakespeare/
+storing document hamlet.xml (1 of 4) ...done.
+storing document much_ado.xml (2 of 4) ...done.
+storing document r_and_j.xml (3 of 4) ...done.
+storing document shakes.xsl (4 of 4) ...done.
+exist:/db/shakespeare/plays> cd
+exist:/db>mkcol library
+created collection.
+exist:/db>cd library
+exist:/db/library>put samples/biblio.rdf
+storing document biblio.rdf (1 of 1) ...done.
+exist:/db/library>cd
+exist:/db>mkcol xinclude
+created collection.
+exist:/db>cd xinclude
+exist:/db/xinclude>put samples/xinclude

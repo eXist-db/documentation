@@ -1,0 +1,43 @@
+public void startElement(Txn transaction, ElementImpl element, NodePath path) { 
+        if (isDocumentGMLAware) {
+	  //Release the deferred element if any
+	  if (deferredElement != null)        		
+	    processDeferredElement();
+	  //Retain this element
+	  deferredElement = element;  
+	}
+	//Forward the event to the next listener 
+	super.startElement(transaction, element, path);
+      }
+      
+      public void attribute(Txn transaction, AttrImpl attrib, NodePath path) { 
+        //Forward the event to the next listener 
+	super.attribute(transaction, attrib, path);
+      }        
+
+      public void characters(Txn transaction, TextImpl text, NodePath path) {
+        if (isDocumentGMLAware) {
+	  //Release the deferred element if any
+	  if (deferredElement != null)        		
+	    processDeferredElement();	        	
+	  try {
+	    geometryDocument.characters(text.getData().toCharArray(), 0, text.getLength());
+	  } catch (Exception e) {
+	    LOG.error(e);
+	  } 
+	}
+	//Forward the event to the next listener 
+	super.characters(transaction, text, path);
+      }
+
+      public void endElement(Txn transaction, ElementImpl element, NodePath path) {
+        if (isDocumentGMLAware) {   
+	  //Release the deferred element if any
+	  if (deferredElement != null)        		
+	    processDeferredElement();	        	
+	  //Process the element 
+	  processCurrentElement(element);
+	}
+        //Forward the event to the next listener 
+	super.endElement(transaction, element, path);
+      }

@@ -1,0 +1,20 @@
+xquery version "1.0";
+
+declare option exist:serialize "method=xhtml media-type=text/html indent=yes";
+
+let $id := request:get-parameter("id", "")
+let $term := collection('/db/apps/terms/data')/term[id=$id]
+
+return
+<html>
+   <head>
+      <title>Term {$term/id/text()}</title>
+    </head>
+    <body>
+       <h1>Term {$term/id/text()}</h1>
+       <b>Term ID: </b> {$term/id/text()}<br/>
+       <b>Term Name: </b> {$term/term-name/text()}<br/>
+       <b>Term Definition: </b> {$term/definition/text()}<br/>
+       <b>Term Status: </b> {$term/publish-status-code/text()}<br/>
+    </body>
+</html>

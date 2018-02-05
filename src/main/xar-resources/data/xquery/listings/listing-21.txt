@@ -1,0 +1,29 @@
+public class EchoFunction extends BasicFunction {
+
+public final static FunctionSignature signature =
+new FunctionSignature(
+	new QName("echo", ExampleModule.NAMESPACE_URI, ExampleModule.PREFIX),
+	"A useless example function. It just echoes the input parameters.",
+	new SequenceType[] { 
+	    new FunctionParameterSequenceType("text", Type.STRING, Cardinality.ZERO_OR_MORE, "The text to echo")
+    },
+	new FunctionReturnSequenceType(Type.STRING, Cardinality.ZERO_OR_MORE, "the echoed text"));
+
+public EchoFunction(XQueryContext context) {
+	super(context, signature);
+}
+
+public Sequence eval(Sequence[] args, Sequence contextSequence)
+throws XPathException {
+	// is argument the empty sequence?
+	if (args[0].getLength() == 0)
+		return Sequence.EMPTY_SEQUENCE;
+	// iterate through the argument sequence and echo each item
+	ValueSequence result = new ValueSequence();
+	for (SequenceIterator i = args[0].iterate(); i.hasNext();) {
+		String str = i.nextItem().getStringValue();
+		result.add(new StringValue("echo: " + str));
+	}
+	return result;
+}
+}

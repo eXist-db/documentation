@@ -1,0 +1,6 @@
+declare function app:helloworld($node as node(), $model as map(*), $name as xs:string?) {
+    if ($name) then
+        <p>Hello {$name}!</p>
+    else
+        ()
+};

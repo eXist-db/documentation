@@ -1,0 +1,10 @@
+{
+  final boolean  traceEnabled = logger.isTraceEnabled();
+  for ( int ii = 0; ii < n; ++ii )
+  {
+    // do some very quick stuff
+    if ( traceEnabled )
+      logger.trace( ... );
+    // do a little more very quick stuff
+  }
+}

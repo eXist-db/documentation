@@ -1,0 +1,51 @@
+./build.sh -f build/scripts/jarsigner.xml jnlp-pack200
+                    Starting Ant...
+                    
+                    Buildfile: .../eXist-db/build/scripts/jarsigner.xml
+                    
+                    jnlp-pack200:
+                    
+                    jnlp-unsign-all:
+                    [unsignjar] Unsigning exist-fluent.jar
+                    [unsignjar] Unsigning exist-optional.jar
+                    [unsignjar] Unsigning exist.jar
+                    [unsignjar] Unsigning start.jar
+                    [unsignjar] Unsigning antlr-2.7.7.jar
+                    ...
+                    [unsignjar] Unsigning xmlrpc-server-3.1.3.jar
+                    [repack] Normalizing exist-fluent.jar
+                    [repack] Normalizing exist-optional.jar
+                    [repack] Normalizing exist.jar
+                    [repack] Normalizing start.jar
+                    [repack] Normalizing antlr-2.7.7.jar
+                    ...
+                    [repack] Normalizing xmlrpc-server-3.1.3.jar
+                    
+                    jnlp-prepare:
+                    
+                    jnlp-keygen:
+                    
+                    jnlp-sign-exist:
+                    [signjar] Signing JAR: .../eXist-db/exist-fluent.jar to .../eXist-db/exist-fluent.jar as exist
+                    [signjar] Signing JAR: .../eXist-db/exist-optional.jar to .../eXist-db/exist-optional.jar as exist
+                    [signjar] Signing JAR: .../eXist-db/exist.jar to .../eXist-db/exist.jar as exist
+                    [signjar] Signing JAR: .../eXist-db/start.jar to .../eXist-db/start.jar as exist
+                    
+                    jnlp-prepare:
+                    
+                    jnlp-keygen:
+                    
+                    jnlp-sign-core:
+                    [signjar] Signing JAR: .../eXist-db/lib/core/antlr-2.7.7.jar to .../eXist-db/lib/core/antlr-2.7.7.jar as exist
+                    ...
+                    [signjar] Signing JAR: .../eXist-db/lib/core/xmlrpc-server-3.1.3.jar to .../eXist-db/lib/core/xmlrpc-server-3.1.3.jar as exist
+                    [pack] Packing exist-fluent.jar
+                    [pack] Packing exist-optional.jar
+                    [pack] Packing exist.jar
+                    [pack] Packing start.jar
+                    [pack] Packing antlr-2.7.7.jar
+                    ...
+                    [pack] Packing xmlrpc-server-3.1.3.jar
+                    
+                    BUILD SUCCESSFUL
+                    Total time: 1 minute 0 seconds

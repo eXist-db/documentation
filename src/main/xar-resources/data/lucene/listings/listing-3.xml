@@ -1,0 +1,20 @@
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <index xmlns:wiki="http://exist-db.org/xquery/wiki" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:atom="http://www.w3.org/2005/Atom">
+        <!-- Disable the old full text index -->
+        <fulltext default="none" attributes="false"/>
+	<!-- Lucene index is configured below -->
+        <lucene>
+	        <analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/>
+            <analyzer id="ws" class="org.apache.lucene.analysis.core.WhitespaceAnalyzer"/>
+	        <text qname="TITLE" analyzer="ws"/>
+	        <text qname="p">
+	            <inline qname="em"/>
+            </text>
+            <text match="//foo/*"/>
+            <!-- "inline" and "ignore" can be specified globally or per-index as
+                 shown above -->
+	        <inline qname="b"/>
+	        <ignore qname="note"/>
+        </lucene>
+    </index>
+</collection>

@@ -1,0 +1,14 @@
+protected int removeCollection(Collection collection, Connection conn)
+        throws SQLException {
+	PreparedStatement ps = conn.prepareStatement(
+	"DELETE FROM " + GMLHSQLIndex.TABLE_NAME + " WHERE SUBSTRING(DOCUMENT_URI, 1, ?) = ?;"
+	); 
+	ps.setInt(1, collection.getURI().toString().length());
+	ps.setString(2, collection.getURI().toString());
+	try {
+	  return ps.executeUpdate();
+	} finally {
+	  if (ps != null)
+	  ps.close();
+	}
+      }

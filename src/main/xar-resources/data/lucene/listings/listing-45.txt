@@ -1,0 +1,5 @@
+let $query :=
+    <query>
+        <near slop="20"><term>snake</term><near slop="1">tongue dog</near></near>
+    </query>
+return //SPEECH[ft:query(., $query)]

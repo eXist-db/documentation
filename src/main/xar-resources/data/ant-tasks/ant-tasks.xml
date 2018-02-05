@@ -1,0 +1,801 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+
+  <!-- ================================================================== -->
+
+  <info>
+    <title>Ant Tasks</title>
+    <date>1Q18</date>
+    <keywordset>
+      <keyword>operations</keyword>
+    </keywordset>
+  </info>
+
+  <!-- ================================================================== -->
+
+  <para>eXist-db provides a library for the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://ant.apache.org"><code>Ant</code></link> build tool to automate common system administration and operation tasks, like backup/restore or importing files.
+      <code>Ant</code> is included in the eXist-db distribution (only if you've installed the eXist-db source code).</para>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Basic configuration</title>
+
+    <para>To prepare your <code>Ant</code> build script for working with eXist-db, do the following:</para>
+    <itemizedlist>
+      <listitem>
+        <para>Add the eXist-db <code>Ant</code> tasks namespace to your script, preferably on the root <tag>project</tag> element and with prefix
+            <code>xdb</code>:</para>
+        <programlisting>&lt;project xmlns:xdb="http://exist-db.org/ant" … &gt;</programlisting>
+      </listitem>
+      <listitem>
+        <para>Import the eXist-db tasks by adding the following code:</para>
+        <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-1.xml"/>
+      </listitem>
+      <listitem>
+        <para>Setup the <code>classpath</code> (the property <code>${server.dir}</code> must point to the eXist-db installation directory):</para>
+        <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-2.xml"/>
+      </listitem>
+    </itemizedlist>
+
+    <note>
+      <para>For a working example have a look into the file <literal>webapp/xqts/build.xml</literal>, which is used to prepare the database for
+        running the xquery test suite.</para>
+    </note>
+
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Common attributes</title>
+    <para>All tasks share the following common attributes:</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>uri</code></term>
+        <listitem>
+          <para>An XMLDB URI specifying the database collection through XMLRPC. For instance
+              <code>xmldb:exist://localhost:8080/exist/xmlrpc/db/my-collection-my-resource.xml</code>.</para>
+          <para>All collection and resource paths specified in the tasks are relative to this.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>ssl</code></term>
+        <listitem>
+          <para>Use SSL encryption when communicating with the database (default: <code>false</code>).</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><code>user</code></term>
+        <listitem>
+          <para>The user to connect with (default: <code>guest</code>).</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>password</code></term>
+        <listitem>
+          <para>Password for the user (default: <code>guest</code>).</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>failonerror</code></term>
+        <listitem>
+          <para>Whether or not a error should stop the build execution (default: <code>true</code>).</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Storing Documents</title>
+
+    <para>The <code>store</code> task uploads and stores documents into the database. Documents are specified as single source file or with
+        <code>Ant</code> filesets:</para>
+
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-3.txt"/>
+    <variablelist spacing="compact">
+      <para>Attributes:</para>
+      <varlistentry>
+        <term><code>createcollection</code></term>
+        <listitem>
+          <para>If set to <code>true</code>, non-existing base collections are automatically created.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>createsubcollections</code></term>
+        <listitem>
+          <para>If set to <code>true</code>, non-existing sub-collections are automatically created.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>type</code></term>
+        <listitem>
+          <para>The type of the resource: either <code>xml</code> or <code>binary</code>. If <code>binary</code>, documents will be stored as binary
+            resources. If unset, the type will be guessed from identified MIME type.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>defaultmimetype</code></term>
+        <listitem>
+          <para>The default MIME type to use when the resource's MIME type cannot be identified. Default: <code>binary</code>
+              (<code>application/octet-stream</code>).</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>forcemimetype</code></term>
+        <listitem>
+          <para>Use this attribute when you want to force the MIME type. Also set <code>type</code> attribute (because resource kind guessing is
+            disabled in this mode).</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>mimetypesfile</code></term>
+        <listitem>
+          <para>The <code>mime-types.xml</code> file used to identify the resource's kind (<code>binary</code> or <code>xml</code>) and MIME type. If
+            not set eXist-db's default MIME types file will be used. An example MIME types file can be found in the eXist-db installation
+            directory.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>srcfile</code></term>
+        <listitem>
+          <para>a single source file to store. Use either this or <code>Ant</code> filesets.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>permissions</code></term>
+        <listitem>
+          <para>The permissions for the resource, expressed in a Unix-style form, e.g. <code>rwxr-xr-x</code>. Permissions will be applied to the
+            resource/collection after it is created.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Removing Documents/Collections</title>
+
+    <para>The <code>remove</code> task removes a single resource or a collection:</para>
+
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-4.xml"/>
+
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-5.xml"/>
+    <para>Attributes (use either <code>collection</code> or <code>resource</code>, not both):</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>collection</code></term>
+        <listitem>
+          <para>The name of the collection to remove. </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>resource</code></term>
+        <listitem>
+          <para>The name of the resource which should be removed.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Creating Empty Collections</title>
+
+    <para>The <code>create</code> task creates a single, empty, collection:</para>
+
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-6.xml"/>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>collection</code></term>
+        <listitem>
+          <para>The name of the collection to create.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>permissions</code></term>
+        <listitem>
+          <para>The permissions to be applied to the collection, expressed in a Unix-style form, e.g. <code>rwxr-xr-x</code>. Permissions will be
+            applied to the collection after it is created.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Check Existence of Resource/Collection</title>
+
+    <para>The <code>exist</code> task is a condition that checks whether a resource or collection as specified in the uri attribute exists or not. An
+      ant target can be executed conditionally, depending on the property set or not set by the condition.</para>
+
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-7.xml"/>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>resource</code></term>
+        <listitem>
+          <para>The name of the resource to check. If you don't specify this, the existence of the collection in the <code>uri</code> attribute is
+            checked.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>List Resources/Collections</title>
+
+    <para>The list task returns a list of resources and/or collections:</para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-8.xml"/>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-9.xml"/>
+    <para>Attributes:</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>resources</code></term>
+        <listitem>
+          <para>If <code>true</code> lists resources</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>collections</code></term>
+        <listitem>
+          <para>If <code>true</code> lists collections</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>separator</code></term>
+        <listitem>
+          <para>Separator character for the returned list. Default: "<code>,</code>".</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>outputproperty</code></term>
+        <listitem>
+          <para>Name of the (new) <code>Ant</code> property for the result</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Copy a Resource/Collection</title>
+
+    <para>The <code>copy</code> task copies a resource or collection:</para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-10.xml"/>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-11.xml"/>
+    <para>Attributes (use either <code>collection</code> or <code>resource</code>, not both):</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>resource</code></term>
+        <listitem>
+          <para>The name of the resource to copy.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>collection</code></term>
+        <listitem>
+          <para>The name of the collection to copy.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>destination</code></term>
+        <listitem>
+          <para>The name of the destination collection to copy to.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>name</code></term>
+        <listitem>
+          <para>The new name of the resource or collection.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Move a Resource/Collection</title>
+
+    <para>The <code>move</code> task moves a resource or collection:</para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-12.xml"/>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-13.xml"/>
+    <para>Attributes (use either <code>collection</code> or <code>resource</code>, not both):</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>resource</code></term>
+        <listitem>
+          <para>The name of the resource to move.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>collection</code></term>
+        <listitem>
+          <para>The name of the collection to move.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>destination</code></term>
+        <listitem>
+          <para>The name of the destination collection to move to.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>name</code></term>
+        <listitem>
+          <para>The new name of the resource or collection.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Process an XPath Expression</title>
+
+    <para>The <code>xpath</code> task executes an XPath expression on a single or a collection of XML documents.</para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-14.xml"/>
+    <para>Attributes:</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>query</code></term>
+        <listitem>
+          <para>The XPath expression to process.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>resource</code></term>
+        <listitem>
+          <para>Run the XPath query on this resource instead of a collection.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>count</code></term>
+        <listitem>
+          <para>If <code>true</code>, the <emphasis>number</emphasis> of results is returned (instead of the results themselves).</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>outputproperty</code></term>
+        <listitem>
+          <para>Name of the (new) property for returning the results of the query in.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>destDir</code></term>
+        <listitem>
+          <para>Write the results of the query to this destination file. Care should be taken to get a well-formed document (one root tag!). </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>namespace</code></term>
+        <listitem>
+          <para>Optional XML namespace for the query.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+    <para>If you don't specify an output property or destination file, the results are discarded.</para>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Process an XQuery Expression</title>
+
+    <para>The <code>xquery</code> task executes an XQuery expression:</para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-15.txt"/>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-16.xml"/>
+    <para>Attributes:</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>query</code></term>
+        <listitem>
+          <para>The full query to process.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>queryUri</code></term>
+        <listitem>
+          <para>The query to process, specified as a URI.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>outputproperty</code></term>
+        <listitem>
+          <para>Name of the (new) property for returning the results of the query in.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>destfile</code></term>
+        <listitem>
+          <para>Write the results of the query to this destination file. Care should be taken to get a well-formed document (one root tag!).</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>queryfile</code></term>
+        <listitem>
+          <para>The query to process, specified as a filename.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>The XQuery may also be specified as text content of the element.</para>
+    <para>Passing variables to the XQuery script can be done using one or more nested <tag>variable</tag> child elements. Declare these variables in
+      your XQuery script as <code>external</code>. For instance, a variable passed as <code>&lt;variable name="test" value="Yup"/&gt;</code> can be
+      accessed in the XQuery script as <code>declare variable $beta external;</code>:</para>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Extract a Resource/Collection</title>
+
+    <para>The <code>extract</code> task extracts XML resources or collections with XML resources to disk. Extraction of binary resources is not
+      supported.</para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-17.xml"/>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-18.xml"/>
+    <para>Attributes:</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>resource</code></term>
+        <listitem>
+          <para>The name of the resource to extract.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>sub-collections</code></term>
+        <listitem>
+          <para>If <code>true</code> all sub-collections of the specified collection are extracted as well.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>destfile</code></term>
+        <listitem>
+          <para>The name of the destination file to extract to on extracting a resource.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>destdir</code></term>
+        <listitem>
+          <para>The name of a destination directory to extract to on extracting a collection.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>createdirectories</code></term>
+        <listitem>
+          <para>If <code>true</code> directories for sub-collections will be created. Otherwise all extracted resources are written to the same
+            destination directory.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>type</code></term>
+        <listitem>
+          <para>Type of the resource to extract. Only <code>xml</code> is supported currently. </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>overwrite</code></term>
+        <listitem>
+          <para>Set to <code>true</code> to force overwriting of files.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Backup</title>
+
+    <para>The <code>backup</code> task creates a backup of the specified database collection on disk:</para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-19.xml"/>
+    <para>Attributes:</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>dir</code></term>
+        <listitem>
+          <para>The directory where the backup files will be stored.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Restore</title>
+
+    <para>The <code>restore</code> task restores database contents from a backup.</para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-20.xml"/>
+    <para>Attributes (use either <code>dir</code> or <code>file</code>, not both):</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>dir</code></term>
+        <listitem>
+          <para>The directory (containing a <code>__content__.xml</code> file) to restore.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>file</code></term>
+        <listitem>
+          <para>A zip file which contains the backup to be restored. </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>List User Groups</title>
+
+    <para>The <code>groups</code> task lists all user groups defined in eXist-db:</para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-21.xml"/>
+    <para>Attributes:</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>outputproperty</code></term>
+        <listitem>
+          <para>Name of (new) property to write the output to.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>separator</code></term>
+        <listitem>
+          <para>Separator character for the returned list. Default: "<code>,</code>".</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>List Users</title>
+
+    <para>The <code>users</code> task lists all users defined in eXist-db:</para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-22.xml"/>
+    <para>Attributes:</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>outputproperty</code></term>
+        <listitem>
+          <para>Name of (new) property to write the output to.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>separator</code></term>
+        <listitem>
+          <para>Separator character for the returned list. Default: "<code>,</code>".</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Lock Resource</title>
+    <para>The lock task locks a resource for a specific user:</para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-23.xml"/>
+    <para>Attributes:</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>resource</code></term>
+        <listitem>
+          <para>Name of the resource to lock.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>name</code></term>
+        <listitem>
+          <para>Name of the user to lock the resource for.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Add User</title>
+
+    <para>The <code>adduser</code> task adds a user:</para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-24.xml"/>
+    <para>Attributes:</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>name</code></term>
+        <listitem>
+          <para>Name of the new user.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>home</code></term>
+        <listitem>
+          <para>Name of the new user's home collection.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>secret</code></term>
+        <listitem>
+          <para>The password for the new user.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>primaryGroup</code></term>
+        <listitem>
+          <para>Name of primary user group for the new user.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Remove User</title>
+
+    <para>The <code>rmuser</code> task removes a user:</para>
+
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-25.xml"/>
+    <para>Attributes:</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>name</code></term>
+        <listitem>
+          <para>Name of the user to remove.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Change User Password</title>
+
+    <para>The <code>password</code> task changes a user's password.</para>
+
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-26.xml"/>
+    <para>Attributes:</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>name</code></term>
+        <listitem>
+          <para>Name of the user to change the password for.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>secret</code></term>
+        <listitem>
+          <para>The new password.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Add User Group</title>
+
+    <para>The <code>addgroup</code> task adds a user group. </para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-27.xml"/>
+    <para>Attributes:</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>name</code></term>
+        <listitem>
+          <para>Name of the new group.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Remove User Group</title>
+
+    <para>The <code>rmgroup</code> task removes a user group.</para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-28.xml"/>
+    <para>Attributes:</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>name</code></term>
+        <listitem>
+          <para>Name of the group to remove.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Change Resource Permissions</title>
+
+    <para>The <code>chmod</code> task changes the permissions of a resource or collection.</para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-29.xml"/>
+    <para>Attributes:</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>resource</code></term>
+        <listitem>
+          <para>Name of the resource to modify. If no resource has been specified, <code>chmod</code> will operate on the collection specified by the
+              <code>uri</code> attribute.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>permissions</code></term>
+        <listitem>
+          <para>Permission modification string. Use either Unix-style syntax like <code>rwxrwx---</code> or additive/subtractive syntax like
+              <code>[user|group|other]=[+|-][read|write|execute]</code>, comma separated.</para>
+          <para>For example, to set read and write permissions for the group, but not for others:</para>
+          <programlisting>group=+read,+write,other=-read,-write</programlisting>
+          <para>The new settings are OR-ed with the existing settings.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>mode</code></term>
+        <listitem>
+          <para><emphasis role="bold">DEPRECATED:</emphasis> Permission modification string. Use <code>permissions</code> instead.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Change Owner of resource/collection (chown)</title>
+    <para>The <code>chown</code> task changes the owner of a resource or collection. </para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-36.xml"/>
+    <para>Attributes:</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>name</code></term>
+        <listitem>
+          <para>Name of the user to own the resource/collection.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>group</code></term>
+        <listitem>
+          <para>Name of the user group to own the resource/collection.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Database Shutdown</title>
+    <para>The <code>shutdown</code> task will shut down the database instance listening at the provided URI.</para>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Example Ant script</title>
+
+    <para>This example Ant script shows how to copy data from two different instances of eXist-db (remote or local).</para>
+    <para>Supply your own values for the source and target <code>user</code>, <code>pass</code>, and <code>url</code> properties. You can find this
+      Ant script under the <code>samples/ant</code> directory.</para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-37.xml"/>
+  </sect1>
+
+</article>

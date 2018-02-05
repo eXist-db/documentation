@@ -1,0 +1,8 @@
+xquery version "3.0";
+for $speechBySpeaker in //SPEECH[ft:query(., "king")]
+group by $speaker := $speechBySpeaker/SPEAKER
+order by $speaker
+return
+    <speaker name="{$speaker}">
+    { $speechBySpeaker }
+    </speaker>

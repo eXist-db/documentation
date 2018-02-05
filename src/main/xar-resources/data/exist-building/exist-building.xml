@@ -1,0 +1,582 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+
+  <info>
+    <title>Building eXist-db</title>
+    <date>1Q18</date>
+    <keywordset>
+      <keyword>operations</keyword>
+      <keyword>java-development</keyword>
+    </keywordset>
+  </info>
+  <!-- ================================================================== -->
+
+  <para>This article will tell you how to build a Java <code>.war</code> or <code>.jar</code> file for eXist-db. </para>
+
+  <!-- ================================================================== -->
+
+  <sect1 xml:id="war">
+    <title>Building a <code>.war</code> file from the Standard Distribution</title>
+
+    <para>If you would like to deploy eXist-db into an existing servlet engine (e.g. tomcat), you will need a <literal>.war</literal> file. We no
+      longer distribute a <literal>.war</literal> build, but it is easy to create one from the standard distribution by
+        <emphasis>repackaging</emphasis> (not building) it:</para>
+    <orderedlist>
+      <listitem>
+        <para>
+          <emphasis role="bold">Install the standard distribution</emphasis>
+        </para>
+        <para>Get a standard distribution from eXist-db <link xlink:href="http://exist-db.org/exist/apps/homepage/index.html#download" condition="_blank">download
+            page</link>. Install it into a directory of your choice. Make sure you include the <emphasis>source package</emphasis>.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="bold">Generate the WAR</emphasis>
+        </para>
+        <para>Open a command line prompt and change to the directory where you just installed eXist-db. Call</para>
+        <programlisting>build.sh dist-war</programlisting>
+        <para>or</para>
+        <programlisting>build.bat dist-war</programlisting>
+        <para>once. This will generate a <literal>.war</literal> archive into directory <literal>dist</literal>.</para>
+      </listitem>
+    </orderedlist>
+    <para>Note that generating a <code>.war</code> archive does only repackage the files in the distribution. So if the distribution worked properly
+      for you, the <code>.war</code> should as well. You don't need to recompile eXist-db or sign any jars.</para>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1 xml:id="GitHub">
+    <title>Building eXist-db from GitHub</title>
+
+    <para>Building eXist-db is quite easy and requires 3 simple steps:</para>
+    <orderedlist>
+      <listitem>
+        <para>
+          <emphasis role="bold">Clone from Github</emphasis>
+        </para>
+        <para>The GitHub URL for the develop branche is:</para>
+        <programlisting>git@github.com:eXist-db/exist.git</programlisting>
+        <para>Please follow the instructions on <link xlink:href="https://github.com/eXist-db/exist" condition="_blank">our GitHub page</link> page (<link xlink:href="https://github.com/eXist-db/exist/blob/develop/README.md" condition="_blank">
+                        <code>README.md</code>
+                    </link> section)</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="bold">Set <code>JAVA_HOME</code>
+                    </emphasis>
+        </para>
+        <para>Before starting the build, your <code>JAVA_HOME</code> environment variable should be set to point to the root directory of the JAVA JDK
+          (note: JDK, not JRE!). Open a console or a DOS box on windows and type:</para>
+        <programlisting>set JAVA_HOME=c:\path\to\jdk</programlisting>
+        <para>on Windows or</para>
+        <programlisting>export JAVA_HOME=/path/to/jdk</programlisting>
+        <para>on Unix.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis role="bold">Build eXist</emphasis>
+        </para>
+        <para>Change into the eXist-db directory you just checked out and call</para>
+        <programlisting>build.bat</programlisting>
+        <para>on Windows or on Unix:</para>
+        <programlisting>build.sh</programlisting>
+      </listitem>
+    </orderedlist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1 xml:id="build-system">
+    <title>Using the Build System</title>
+
+    <para>You can rebuild all eXist-db packages from the standard distribution or the GitHub repository. You can even create a new distribution from
+      the one you installed. For example, assume you installed eXist using the installer GUI, but you need to have an exist.war package for deployment
+      within a different servlet engine. Just call the main build script (<literal>build.sh</literal> or <literal>build.bat</literal>) and pass it the
+      target <literal>dist-war</literal>:</para>
+    <programlisting>build.sh dist-war</programlisting>
+    <para>This will create a fresh <literal>.war</literal> archive in the <literal>dist</literal> directory.</para>
+    <note>
+      <para>To be able to use the build system, you need to include the "source" module when selecting installable packages in the installer
+        GUI.</para>
+    </note>
+    <para>eXist-db relies on Ant for all compile and build tasks. Ant is included in the distribution (directory <literal>tools/ant</literal>). As
+      already mentioned above, there are two shell scripts to start Ant: <literal>build.sh</literal> or <literal>build.bat</literal>. The shell
+      scripts will take care to create a proper command line to launch Java with the Ant version included in the distribution.</para>
+    <para>Calling Ant without further argument will compile the sources and create the main <code>.jar</code> files (<literal>exist.jar</literal>,
+        <literal>exist-optional.jar</literal>, <literal>start.jar</literal>).</para>
+    <para>
+            <code>build.sh -p</code>lists the available build targets. Passing one of these as argument to ant will call execute the corresponding
+      target. The main targets are:</para>
+    <table>
+      <title>Useful Build Targets</title>
+
+      <tgroup cols="2">
+        <tbody>
+          <row>
+            <entry>
+              <para>all</para>
+            </entry>
+            <entry>
+              <para>Compile the sources and create the main <code>.jar</code> files (<literal>exist.jar</literal>,
+                  <literal>exist-optional.jar</literal>, <literal>start.jar</literal>).</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>benchmark</para>
+            </entry>
+            <entry>
+              <para>Performs the benchmark tests for eXist-db.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>clean</para>
+            </entry>
+            <entry>
+              <para>Cleans the files and directories generated by a previous build. Data is preserved.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>clean-all</para>
+            </entry>
+            <entry>
+              <para>Cleanup deeper.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>clean-conf</para>
+            </entry>
+            <entry>
+              <para>Cleanup config file.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>clean-default-data-dir</para>
+            </entry>
+            <entry>
+              <para>Remove contents in default data directory.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>compile</para>
+            </entry>
+            <entry>
+              <para>Compiles the source code.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>compile-aspectj</para>
+            </entry>
+            <entry>
+              <para>Compiles the aspects.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>dist-tgz</para>
+            </entry>
+            <entry>
+              <para>Packages eXist-db into a <literal>.tgz</literal> file.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>dist-war</para>
+            </entry>
+            <entry>
+              <para>Packages eXist-db into a <literal>.war</literal> file for deployment within a servlet engine.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>dist-zip</para>
+            </entry>
+            <entry>
+              <para>Packages eXist-db into a <literal>.zip</literal> file.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>download-additional-jars</para>
+            </entry>
+            <entry>
+              <para>Download optional third-party <code>.jar</code> files. These are currently: saxon. These are downloaded into
+                  <literal>lib/user/</literal>. </para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>download-icu4j</para>
+            </entry>
+            <entry>
+              <para>Download the optional icu4j library.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>download-xars</para>
+            </entry>
+            <entry>
+              <para>Download xars to include in installer.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>download-xqts</para>
+            </entry>
+            <entry>
+              <para>Download XQTS file.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>download-xslts</para>
+            </entry>
+            <entry>
+              <para>Download XSLTS file.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>extension-modules</para>
+            </entry>
+            <entry>
+              <para>Build the extensions directory. Edit the file <literal>extensions/build.properties</literal> enable extensions and modules.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>installer</para>
+            </entry>
+            <entry>
+              <para>Creates a new installer package based on <link xlink:href="http://izpack.org/" condition="_blank">IzPack</link>. </para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>installer-exe</para>
+            </entry>
+            <entry>
+              <para>Create <literal>.exe</literal> from installer</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>jar</para>
+            </entry>
+            <entry>
+              <para>The default: compiles the source and creates eXist's main <literal>.jar</literal> files.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>javadocs</para>
+            </entry>
+            <entry>
+              <para>Creates the API docs into <literal>webapp/api</literal>. </para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>jdepend</para>
+            </entry>
+            <entry>
+              <para>JDepend traverses Java class file directories and generates design quality metrics for each Java package.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>jetty-keygen</para>
+            </entry>
+            <entry>
+              <para>Generate keystore for jetty.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>jnlp-clean</para>
+            </entry>
+            <entry/>
+          </row>
+          <row>
+            <entry>
+              <para>jnlp-keygen</para>
+            </entry>
+            <entry>
+              <para>Generate keystore for signing <code>.jar</code> files.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>jnlp-pack200</para>
+            </entry>
+            <entry>
+              <para>Pack all <code>.jar</code> files.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>jnlp-sign-all</para>
+            </entry>
+            <entry>
+              <para>This signs all of the <code>.jar</code> files, so that the webstart of the <link xlink:href="java-admin-client.xml" condition="_blank">eXist-db
+                  client Java application</link> will launch without any signing errors.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>jnlp-sign-core</para>
+            </entry>
+            <entry>
+              <para>Sign all CORE <code>.jar</code> files.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>jnlp-sign-exist</para>
+            </entry>
+            <entry>
+              <para>Sign all EXIST <code>.jar</code> files.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>jnlp-unsign-all</para>
+            </entry>
+            <entry>
+              <para>This unsigns all of the <code>.jar</code> files.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>rebuild</para>
+            </entry>
+            <entry>
+              <para>Performs a <emphasis role="italic">clean</emphasis> and the <emphasis role="italic">all</emphasis>. </para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>samples</para>
+            </entry>
+            <entry>
+              <para>Builds the examples and packs them into <literal>examples.jar</literal>. </para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>snapshot-installer</para>
+            </entry>
+            <entry>
+              <para>Creates a snapshot installer.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>test</para>
+            </entry>
+            <entry>
+              <para>Runs all tests in the test suite and outputs the HTML result into <literal>test/junit/html</literal>. This may take several
+                minutes.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>xquery</para>
+            </entry>
+            <entry>
+              <para>Regenerate the XQuery parser code with ANTLR (only required if you change
+                <literal>src/org/exist/xquery/parser/XQuery.g</literal>).</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>xars</para>
+            </entry>
+            <entry>
+              <para>Scan apps directory and include all .xar files into installer.</para>
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <note>
+      <para>You might want to set some custom settings (in particular your HTTP proxy when external libraries are required) before running
+          <literal>build.sh</literal> or <literal>build.bat</literal>. See <literal>build.properties</literal>.</para>
+    </note>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1 xml:id="webstart">
+    <title>Signing <code>.jar</code> files for webstart</title>
+
+    <para>The database can be easily accessed with the Java client, when the client is launched by clicking the <link xlink:href="http://en.wikipedia.org/wiki/Java_Web_Start" condition="_blank">Java Webstart</link> "Launch" button on the right side of this page. Java webstart
+      explicilty requires that all application code, the <code>.jar</code> files, are <link xlink:href="http://java.sun.com/docs/books/tutorial/deployment/jar/signing.html" condition="_blank">signed</link> using a security certificate. Out of the box,
+      when eXist-db is installed using the installer, all relevant <code>.jar</code> files have already been signed, so webstart can be used directly.
+      It is necessary however to (re-)sign the <code>.jar</code> files yourself if you want to (re-)build the eXist-db java code. This chapter
+      explains how to do this.</para>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2 xml:id="quickstart">
+      <title>Quickstart</title>
+
+      <para>To get started quickly, just execute the following command:</para>
+      <programlisting>./build.sh -f build/scripts/jarsigner.xml</programlisting>
+      <para>This command sequentially creates the <code>key.store</code> file and signs a selection of <code>.jar</code> files:</para>
+      <programlisting xlink:href="listings/listing-11.txt"/>
+      <para>Note that this command needs to be executed just once. In subsequent builds newly generated <code>.jar</code> files are signed
+        automatically. </para>
+    </sect2>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2 xml:id="ant-targets">
+      <title>Ant targets</title>
+
+      <para> An overview of all available ant targets can be retrieved by executing the following command:</para>
+      <programlisting>./build.sh -projecthelp -f build/scripts/jarsigner.xml</programlisting>
+      <para>The following ant targets are available for signing <code>.jar</code> files:</para>
+      <variablelist spacing="compact">
+        <varlistentry>
+          <term>jnlp-all</term>
+          <listitem>
+            <para>Create keystore file and sign all EXIST and CORE <code>.jar</code> files. <emphasis role="bold">(Default task)</emphasis>
+            </para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>jnlp-keygen</term>
+          <listitem>
+            <para>Generate a new keystore file if not present.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>jnlp-clean</term>
+          <listitem>
+            <para>Delete the keystore file.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>jnlp-sign-core</term>
+          <listitem>
+            <para>Sign all CORE <code>.jar</code> files in <literal>lib/core</literal>.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>jnlp-sign-exist</term>
+          <listitem>
+            <para>Sign all EXIST <code>.jar</code> files, e.g. <code>exist.jar</code>
+                            <code>exist-XX.jar</code> and <code>start.jar</code>
+                        </para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>jnlp-unsign-all</term>
+          <listitem>
+            <para>Unsign all <code>.jar</code> files.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      <para>The target <emphasis role="bold">jnlp-keygen</emphasis> generates a new certificate file <literal>key.store</literal>. If this file is
+        present the <emphasis role="bold">EXIST <code>.jar</code> files</emphasis> are signed during each following build. The process of signing
+          <code>.jar</code> files can be stopped by removing this keystore file.</para>
+      <para>The ant script contains two additional targets: <emphasis role="bold">jetty-keygen</emphasis> which generates a keystore file for the
+        jetty server and <emphasis role="bold">jnlp-pack200</emphasis> which processes the signed <code>.jar</code> files with <emphasis role="bold">pack200</emphasis> technology. More about the latter in the next section.</para>
+    </sect2>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2 xml:id="pack200">
+      <title>Reducing <code>.jar</code> sizes with pack200 compression</title>
+
+      <para>Pack200 is a compression technology designed for compressing <code>.jar</code> files. It works most efficiently on Java class files.
+        Pack200 can reduce the size of a <code>.jar</code> file up to 60% resulting into a significant reduction of the amount of downloaded webstart
+        data.</para>
+      <para>The webstart <code>.jar</code> files can be compressed with pack200 with the following command: </para>
+      <programlisting>./build.sh -f build/scripts/jarsigner.xml jnlp-pack200</programlisting>
+      <para> This command consecutively performs the following steps for all <code>.jar</code> files: </para>
+      <itemizedlist>
+        <listitem>
+          <para>unsign</para>
+        </listitem>
+        <listitem>
+          <para>repack (normalization)</para>
+        </listitem>
+        <listitem>
+          <para>sign</para>
+        </listitem>
+        <listitem>
+          <para>compress with pack200</para>
+        </listitem>
+        <listitem>
+          <para>compress with gzip</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting xlink:href="listings/listing-14.txt"/>
+    </sect2>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2 xml:id="references">
+      <title>References</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>
+            <link xlink:href="http://en.wikipedia.org/wiki/Java_Web_Start" condition="_blank">Java Web Start</link> (Wikipedia)</para>
+        </listitem>
+        <listitem>
+          <para>Java Web Start: <link xlink:href="http://en.wikipedia.org/wiki/Java_Web_Start#Pack200_compression" condition="_blank">Pack200
+              compression</link> (Wikipedia)</para>
+        </listitem>
+        <listitem>
+          <para>
+            <link xlink:href="http://en.wikipedia.org/wiki/Pack200" condition="_blank">Pack200</link> (Wikipedia)</para>
+        </listitem>
+        <listitem>
+          <para>
+            <link xlink:href="http://wiki.eclipse.org/Pack200" condition="_blank">Pack200</link> (Eclipse.org)</para>
+        </listitem>
+        <listitem>
+          <para>
+            <link xlink:href="http://java.sun.com/j2se/1.5.0/docs/guide/deployment/deployment-guide/pack200.html" condition="_blank">Pack200 and
+              Compression</link> for network deployment (Sun, bit out dated)</para>
+        </listitem>
+        <listitem>
+          <para>Introducing Java SE 6 update 10: <link xlink:href="http://java.sun.com/developer/technicalArticles/javase/java6u10/#usability" condition="_blank">Deployment Usability</link> (Sun).</para>
+        </listitem>
+        <listitem>
+          <para>Ant tasks: <link xlink:href="http://code.google.com/p/existdb-contrib/wiki/ASOCAT" condition="_blank">ASOCAT</link>.</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2 xml:id="notes">
+      <title>Notes</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Sometimes when the <code>.jar</code> files are signed, eXist-db does not start anymore. In this situation unsign the <code>.jar</code>
+            files first. Calling target 'jnlp-pack200' does always unsign all <code>.jar</code> files as first step.</para>
+        </listitem>
+        <listitem>
+          <para>The pack200 target is not executed automatically. If eXist-db code is changed and recompiled, you might want to execute the
+            jnlp-pack200 target again.</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+  </sect1>
+</article>

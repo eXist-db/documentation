@@ -1,0 +1,3 @@
+declare function demo:hit-count($node as node(), $model as map(*)) as xs:integer {
+    count($model("result"))
+};

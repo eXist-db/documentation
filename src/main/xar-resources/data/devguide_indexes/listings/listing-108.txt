@@ -1,0 +1,44 @@
+protected Geometry[] getGeometriesForNodes(DBBroker broker, NodeSet contextSet, boolean getEPSG4326, Connection conn)
+        throws SQLException {
+	PreparedStatement ps = conn.prepareStatement(
+	"SELECT " + (getEPSG4326 ? "EPSG4326_WKB" : "WKB") + ", DOCUMENT_URI, NODE_ID_UNITS, NODE_ID" +
+	" FROM " + GMLHSQLIndex.TABLE_NAME 
+	);
+	ResultSet rs = null;    	
+	try {
+	  rs = ps.executeQuery();
+	  Geometry[] result = new Geometry[contextSet.getLength()];
+	  int index= 0;
+	  while (rs.next()) {
+	    DocumentImpl doc = null;
+	    try {
+	      doc = (DocumentImpl)broker.getXMLResource(XmldbURI.create(rs.getString("DOCUMENT_URI")));        			
+	    } catch (PermissionDeniedException e) {
+	      LOG.debug(e);
+	      result[index++] = null;
+	      //Ignore since the broker has no right on the document
+	      continue;
+	    }
+	    if (contextSet.getDocumentSet().contains(doc.getDocId())) {
+	      NodeId nodeId = new DLN(rs.getInt("NODE_ID_UNITS"), rs.getBytes("NODE_ID"), 0); 
+	      NodeProxy p = new NodeProxy((DocumentImpl)doc, nodeId);
+	      if (contextSet.get(p) != null) {
+	        Geometry geometry = wkbReader.read(rs.getBytes(1));
+		result[index++] = geometry;
+	      }
+            }
+          }
+	  return result;
+	} catch (ParseException e) {
+        //Transforms the exception into an SQLException.
+	//Very unlikely to happen though...
+	SQLException ee = new SQLException(e.getMessage());
+	ee.initCause(e);
+	throw ee;
+        } finally {   
+          if (rs != null)
+	    rs.close();
+	  if (ps != null)
+	    ps.close();
+	}
+      }

@@ -1,0 +1,12 @@
+declare namespace gml = "http://www.opengis.net/gml";
+      spatial:intersects(//gml:Polygon,
+        <gml:Polygon srsName="osgb:BNG" xmlns:gml='http://www.opengis.net/gml'>
+          <gml:outerBoundaryIs>
+	    <gml:LinearRing>
+	      <gml:coordinates>
+	        278201,187600 278401,187600 278401,188000 278201,188000 278201,187600
+	      </gml:coordinates>
+	    </gml:LinearRing>
+	  </gml:outerBoundaryIs>
+        </gml:Polygon>
+      )
