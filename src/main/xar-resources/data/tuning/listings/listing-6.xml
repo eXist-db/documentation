@@ -1,0 +1,10 @@
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <index>
+        <!-- Range indexes by qname -->
+        <create qname="title" type="xs:string"/>
+        <create qname="@ID" type="xs:string"/>
+
+        <!-- context-dependant configuration using the path attribute: -->
+        <create path="/book/title" type="xs:string"/>
+    </index>
+</collection>

@@ -1,0 +1,14 @@
+// initialize driver
+String driver = "org.exist.xmldb.DatabaseImpl";
+Class cl = Class.forName(driver);			
+Database database1 = (Database)cl.newInstance();
+database1.setProperty("create-database", "true");
+database1.setProperty("configuration", "/home/exist/test/conf.xml");
+database1.setProperty("database-id", "test");
+DatabaseManager.registerDatabase(database1);
+
+Database database2 = (Database)cl.newInstance();
+database2.setProperty("create-database", "true");
+database2.setProperty("configuration", "/home/exist/production/conf.xml");
+database2.setProperty("database-id", "exist");
+DatabaseManager.registerDatabase(database1);

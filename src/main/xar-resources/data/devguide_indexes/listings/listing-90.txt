@@ -1,0 +1,42 @@
+public void flush() {
+        if (!isDocumentGMLAware)
+	  //Not concerned
+	  return;
+	//Is the job already done ?
+	if (currentMode == StreamListener.REMOVE_ALL_NODES && documentDeleted)
+	  return;
+	Connection conn = null;
+	try {
+	  conn = acquireConnection();
+	  conn.setAutoCommit(false);
+	  switch (currentMode) {
+	    case StreamListener.STORE :
+	      saveDocumentNodes(conn);
+	      break;
+	    case StreamListener.REMOVE_SOME_NODES :
+	      dropDocumentNode(conn);
+	      break;
+	    case StreamListener.REMOVE_ALL_NODES:
+	      removeDocument(conn);
+	      documentDeleted = true;
+	      break;
+	  }
+	  conn.commit();	  
+	} catch (SQLException e) {
+	  LOG.error("Document: " + currentDoc + " NodeID: " + currentNodeId, e);
+	  try {
+	    conn.rollback();
+	  } catch (SQLException ee) {
+	    LOG.error(ee);
+	  }
+	} finally {
+	  try {
+	    if (conn != null) {
+	      conn.setAutoCommit(true);
+	      releaseConnection(conn);
+	    }
+	  } catch (SQLException e) {
+	    LOG.error(e);
+	  }        		
+	}
+      }

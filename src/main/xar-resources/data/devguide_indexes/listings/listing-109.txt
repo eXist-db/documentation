@@ -1,0 +1,41 @@
+protected AtomicValue getGeometricPropertyForNode(DBBroker broker, NodeProxy p, Connection conn, String propertyName)
+        throws SQLException, XPathException {
+	PreparedStatement ps = conn.prepareStatement(
+	"SELECT " + propertyName + 
+	" FROM " + GMLHSQLIndex.TABLE_NAME + 
+	" WHERE DOCUMENT_URI = ? AND NODE_ID_UNITS = ? AND NODE_ID = ?"
+	);
+	ps.setString(1, p.getDocument().getURI().toString());
+	ps.setInt(2, p.getNodeId().units());
+	byte[] bytes = new byte[p.getNodeId().size()];
+	p.getNodeId().serialize(bytes, 0);
+	ps.setBytes(3, bytes);    	
+	ResultSet rs = null;    	
+	try {
+	  rs = ps.executeQuery();
+	  if (!rs.next())
+	    //Nothing returned
+	    return AtomicValue.EMPTY_VALUE;
+          AtomicValue result = null;
+	  if (rs.getMetaData().getColumnClassName(1).equals(Boolean.class.getName())) {
+	    result = new BooleanValue(rs.getBoolean(1));
+	  } else if (rs.getMetaData().getColumnClassName(1).equals(Double.class.getName())) {
+	    result = new DoubleValue(rs.getDouble(1));
+	  } else if (rs.getMetaData().getColumnClassName(1).equals(String.class.getName())) {
+	    result = new StringValue(rs.getString(1));
+	  } else if (rs.getMetaData().getColumnType(1) == java.sql.Types.BINARY) {
+	    result = new Base64Binary(rs.getBytes(1));
+	  } else 
+	    throw new SQLException("Unable to make an atomic value from '" + rs.getMetaData().getColumnClassName(1) + "'");		
+	  if (rs.next()) {   	
+	    //Should be impossible    		
+	    throw new SQLException("More than one geometry for node " + p);
+	  }
+	  return result;    
+	} finally {   
+	  if (rs != null)
+	    rs.close();
+	  if (ps != null)
+	    ps.close();
+	}
+      }

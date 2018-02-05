@@ -1,0 +1,7 @@
+for $section in collection("/db/articles")//section
+for $match in $section//p[contains(., "XML")]
+return
+    <match>
+        <section>{$section/title/text()}</section>
+        {$match}
+    </match>

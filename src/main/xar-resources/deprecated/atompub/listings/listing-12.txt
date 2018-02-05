@@ -1,0 +1,17 @@
+POST /atom/query/users/johndoe/blog HTTP/1.1
+Host: example.org
+User- Agent: Thingio/1.0
+Content- Type: application/xquery
+Content- Length: nnn
+
+<?xml version="1.0" ?>
+<atom:feed xmlns:atom="http://www.w3.org/2005/Atom">
+     {
+         /atom:feed/atom:id,
+         /atom:feed/atom:title,
+         /atom:feed/atom:updated,
+         for $e in (/atom:feed/atom:entry)
+             where starts-with(string($e/atom:published),"2006-06")
+                return ( "&#x0a;",$e, "&#x0a;")
+     }
+</atom:feed>

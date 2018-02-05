@@ -1,0 +1,22 @@
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:atom="http://www.w3.org/2005/Atom">
+   <title>All Feeds Example</title>
+   <id>id:all</id>
+   {
+     let $current := substring-before(base-uri(/atom:feed),'/.feed.atom'),
+         $current-path := substring-after($current,'/db')
+        for $i in (collection($current)/atom:feed)
+           let $path :=  substring-after(substring-before(base-uri($i),'/.feed.atom'),'/db')
+              return ( <entry>
+                        {
+                           $i/atom:id,
+                           $i/atom:title,
+                           <summary> {
+                               $i/atom:subtitle/@type,
+                               $i/atom:subtitle/node()
+                           }</summary>,
+                           <link rel="alternate" type="application/atom+xml" href="/atom/edit{$path}"/>
+                       }
+                       </entry>
+                     )
+   }
+</feed>

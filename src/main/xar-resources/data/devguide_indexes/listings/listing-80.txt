@@ -1,0 +1,41 @@
+private void initializeConnection()
+	  throws SQLException {
+	  System.setProperty("hsqldb.cache_scale", "11");
+	  System.setProperty("hsqldb.cache_size_scale", "12");
+	  System.setProperty("hsqldb.default_table_type", "cached");
+	  //Get a connection to the DB... and keep it
+	  this.conn = DriverManager.getConnection("jdbc:hsqldb:" + getDataDir() + "/" + db_file_name_prefix, "sa", "");
+	  try {	
+	    ResultSet rs = this.conn.getMetaData().getTables(null, null, TABLE_NAME, new String[] { "TABLE" });
+	    rs.last(); 
+	    if (rs.getRow() == 1) {
+	      if (LOG.isDebugEnabled()) 
+	        LOG.debug("Opened GML index: " + getDataDir() + "/" + db_file_name_prefix); 
+	      //Create the data structure if it doesn't exist
+	    } else if (rs.getRow() == 0) {
+	      Statement stmt = conn.createStatement();
+	      stmt.executeUpdate("CREATE TABLE " + TABLE_NAME + "(" +
+	      /*1*/ "DOCUMENT_URI VARCHAR, " +        		
+	      /*2*/ "NODE_ID_UNITS INTEGER, " + 
+	      /*3*/ "NODE_ID BINARY, " +        			
+	      ...	        	
+	      /*26*/ "IS_VALID BOOLEAN, " +
+	      //Enforce uniqueness
+	      "UNIQUE (" +
+	      "DOCUMENT_URI, NODE_ID_UNITS, NODE_ID" +
+	      ")" +
+	      ")"
+	      );
+	      stmt.executeUpdate("CREATE INDEX DOCUMENT_URI ON " + TABLE_NAME + " (DOCUMENT_URI);");
+	      ...
+	      stmt.close();        	
+	      if (LOG.isDebugEnabled()) 
+	        LOG.debug("Created GML index: " + getDataDir() + "/" + db_file_name_prefix);  
+	    } else {
+	      throw new SQLException("2 tables with the same name ?"); 
+	    }
+	  } finally {
+	    if (rs != null)
+	    rs.close();    				
+	  }        
+	}

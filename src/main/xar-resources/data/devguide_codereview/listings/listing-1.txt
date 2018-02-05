@@ -1,0 +1,16 @@
+Transaction trx = new Transaction();
+try
+{
+    trx.start();
+    // do something
+    if (trx != null ) trx.commit;
+    trx = null;
+}
+catch ( Exception e )
+{
+    // processing exception
+}
+if( trx != null )
+{
+    trx.rollback();
+}

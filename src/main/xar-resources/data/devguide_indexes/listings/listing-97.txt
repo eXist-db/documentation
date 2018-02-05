@@ -1,0 +1,41 @@
+public Geometry streamNodeToGeometry(XQueryContext context, NodeValue node)
+        throws SpatialIndexException {
+	try {
+	  context.pushDocumentContext();
+	  try {			
+	    node.toSAX(context.getBroker(), geometryDocument, null);
+	  } finally {
+	    context.popDocumentContext();
+	  }
+	} catch (SAXException e) {
+	  throw new SpatialIndexException(e);
+	}
+	return streamedGeometry;
+      }	
+
+      public Element streamGeometryToElement(Geometry geometry, String srsName, Receiver receiver)
+        throws SpatialIndexException {           
+	String gmlString = null;
+	try {
+	  gmlString = gmlTransformer.transform(geometry);
+	} catch (TransformerException e) {
+	  throw new SpatialIndexException(e);
+	}
+	try {
+	  SAXParserFactory factory = SAXParserFactory.newInstance();
+	  factory.setNamespaceAware(true);
+	  InputSource src = new InputSource(new StringReader(gmlString));
+	  SAXParser parser = factory.newSAXParser();
+	  XMLReader reader = parser.getXMLReader();
+	  reader.setContentHandler((ContentHandler)receiver);
+	  reader.parse(src);
+	  Document doc = receiver.getDocument();
+	  return doc.getDocumentElement(); 
+	} catch (ParserConfigurationException e) {				
+	  throw new SpatialIndexException(e);
+	} catch (SAXException e) {
+	  throw new SpatialIndexException(e);
+	} catch (IOException e) {
+	  throw new SpatialIndexException(e);	
+	}
+      }

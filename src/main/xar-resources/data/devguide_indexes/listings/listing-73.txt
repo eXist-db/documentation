@@ -1,0 +1,45 @@
+public AbstractGMLJDBCIndex() {    	
+	}  
+	
+	public void configure(BrokerPool pool, String dataDir, Element config) throws DatabaseConfigurationException {        
+	  super.configure(pool, dataDir, config);
+	  try {
+	    checkDatabase();
+	  } catch (ClassNotFoundException e) {
+	  throw new DatabaseConfigurationException(e.getMessage()); 
+	  } catch (SQLException e) {
+	  throw new DatabaseConfigurationException(e.getMessage()); 
+	  }
+	}
+
+	public void open() throws DatabaseConfigurationException {     
+	}
+
+	public void close() throws DBException {
+	  Iterator i = workers.values().iterator();
+	  while (i.hasNext()) {
+	    AbstractGMLJDBCIndexWorker worker = (AbstractGMLJDBCIndexWorker)i.next();		
+	    worker.flush();		
+	    worker.setDocument(null, StreamListener.UNKNOWN);
+	  }
+	  shutdownDatabase();
+	}
+
+	public void sync() throws DBException {
+	}
+	
+	public void remove() throws DBException {
+	  Iterator i = workers.values().iterator();
+	  while (i.hasNext()) {
+	    AbstractGMLJDBCIndexWorker worker = (AbstractGMLJDBCIndexWorker)i.next();		
+	    worker.flush();		
+	    worker.setDocument(null, StreamListener.UNKNOWN);
+	  }
+	  removeIndexContent();
+	  shutdownDatabase();
+	  deleteDatabase();	
+	}			
+
+	public boolean checkIndex(DBBroker broker) {
+	  return getWorker(broker).checkIndex(broker);
+	}

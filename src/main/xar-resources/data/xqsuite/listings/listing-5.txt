@@ -1,0 +1,8 @@
+declare
+    %test:args("2012-06-26")
+    %test:assertEquals("26.6.2012")
+    %test:args("2012-06-01")
+    %test:assertEquals("1.6.2012")
+function fd:simple-date($date as xs:date) as xs:string {
+    format-date($date, "[D].[M].[Y]")
+};

@@ -1,0 +1,12 @@
+<lucene>
+    <analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/>
+    <text qname="section">
+        <ignore qname="title"/>
+        <ignore qname="programlisting"/>
+        <ignore qname="screen"/>
+        <ignore qname="synopsis"/>
+    </text>
+    <text qname="para"/>
+    <text qname="title" boost="2.0"/>
+    <ignore qname="title"/>
+</lucene>

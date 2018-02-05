@@ -1,0 +1,14 @@
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <!--from Tamboti-->
+    <index xmlns:mods="http://www.loc.gov/mods/v3">
+        <lucene>
+            <text qname="mods:title"/>
+        </lucene>
+        <!-- Range indexes -->
+        <range>
+            <create qname="mods:namePart" type="xs:string" case="no"/>
+            <create qname="mods:dateIssued" type="xs:string"/>
+            <create qname="@ID" type="xs:string"/>
+        </range>
+    </index>
+</collection>

@@ -1,0 +1,37 @@
+<realm id="LDAP" version="1.0" principals-are-case-insensitive="true">
+    <context>
+        <authentication>simple</authentication>
+        <url>ldap://ad.server.url.here:389</url>
+        <domain>domain.here</domain>
+        <search>
+            <base>ou=group,dc=ad,dc=organiation-or-what-ever,dc=domain</base>
+            <default-username>account@domain.here</default-username>
+            <default-password>XXXXXXX</default-password>
+            <account>
+                <search-filter-prefix>objectClass=user</search-filter-prefix>
+                <search-attribute key="objectSid">objectSid</search-attribute>
+                <search-attribute key="primaryGroupID">primaryGroupID</search-attribute>
+                <search-attribute key="name">sAMAccountName</search-attribute>
+                <search-attribute key="dn">distinguishedName</search-attribute>
+                <search-attribute key="memberOf">memberOf</search-attribute>
+                <metadata-search-attribute key="http://axschema.org/namePerson/first">givenName</metadata-search-attribute>
+                <metadata-search-attribute key="http://axschema.org/contact/email">mail</metadata-search-attribute>
+                <metadata-search-attribute key="http://axschema.org/namePerson/last">sn</metadata-search-attribute>
+                <metadata-search-attribute key="http://axschema.org/namePerson">name</metadata-search-attribute>
+            </account>
+            <group>
+                <search-filter-prefix>objectClass=group</search-filter-prefix>
+                <search-attribute key="member">member</search-attribute>
+                <search-attribute key="primaryGroupToken">primaryGroupToken</search-attribute>
+                <search-attribute key="objectSid">objectSid</search-attribute>
+                <search-attribute key="name">sAMAccountName</search-attribute>
+                <search-attribute key="dn">distinguishedName</search-attribute>
+                <whitelist>
+                    <principal>Domain Users</principal>
+                    <principal>Users_GROUP</principal>
+                </whitelist>
+            </group>
+        </search>
+        <transformation><add-group>group.users</add-group></transformation>
+    </context>
+</realm>

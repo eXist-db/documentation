@@ -1,0 +1,5 @@
+declare %templates:wrap function config:expand-links($node as node(), $model as map(*), $base as xs:string?) {
+    for $node in templates:process($node/node(), $model)
+    return
+        config:expand-links($node, $base)
+};

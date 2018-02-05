@@ -1,0 +1,385 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+   <info>
+      <title>Configuring Database Indexes</title>
+      <date>November 2009</date>
+      <keywordset>
+         <keyword>TBD</keyword>
+      </keywordset>
+   </info>
+
+   <!-- ================================================================== -->
+
+   <sect1>
+      <title>Overview</title>
+
+      <para>In this section, we discuss the types of database indexes used by eXist-db, as well
+                as how they are created, configured and maintained. It assumes readers have a basic
+                understanding of XML and XQuery.</para>
+      <para>Database indexes are used extensively by eXist-db to facilitate efficient querying of
+                the database. This is accomplished both by system-generated and user-configured
+                database indexes. The current (3.0) version of eXist-db by default includes the following
+                types of indexes:</para>
+      <note>
+         <para>Properly configured indexes have a huge impact on database performance! Some
+                    expressions might run a hundred times faster with an index. This particulary
+                    applies to the range index: without a range index, eXist has to do a full scan
+                    over the context nodes to look up an element value, which severly limits 
+                    performance and scalability.</para>
+      </note>
+      <orderedlist>
+         <listitem>
+            <para>
+                        <emphasis>
+                            <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="newrangeindex.xml">New Range Indexes</link>
+                        </emphasis>: A rewritten range index which provides superior performance on
+                        large data sets.</para>
+         </listitem>
+         <listitem>
+            <para>
+                        <emphasis>
+                            <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="lucene.xml">Full Text Indexes</link>
+                        </emphasis>: This full text indexing module features faster and
+                        customizable full text indexing by transparently integrating Lucene into the
+                        XQuery engine. Prefer this index over the Legacy Full Text Index.
+                    </para>
+         </listitem>
+         <listitem>
+            <para>
+                        <emphasis>
+                            <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="oldrangeindex.xml">Legacy Range Indexes</link>
+                        </emphasis>: These map specific text nodes and attributes of the documents
+                        in a collection to typed values.</para>
+         </listitem>
+         <listitem>
+            <para>
+                        <emphasis>
+                            <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="ngram.xml">NGram Indexes</link>
+                        </emphasis>: These map specific text nodes and attributes of the documents
+                        in a collection to splitted tokens of n-characters (where n = 3 by default).
+			This is very efficient for exact substring searches and for queries on scripts
+                        (mostly non-European ones) which can not be easily split into whitespace
+                  separated tokens and are thus a bad match for the Lucene full text index. </para>
+         </listitem>
+         <listitem>
+            <para>
+                        <emphasis>
+                            <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="devguide_indexes.xml#spatial">Spatial Indexes</link>
+                            (Experimental)</emphasis>: A working proof-of-concept index, which listens for spatial geometries
+                        described through the Geography Markup Language (GML). A detailed description of
+                        the implementation can be found in the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="devguide_indexes.xml#spatial">Developer's Guide to Modularized Indexes</link>.</para>
+         </listitem>
+         <listitem>
+            <para>
+                        <emphasis>
+                            xml:id Index
+                        </emphasis>: An index of all xml:id attribute values is automatically created. 
+                    These values can be queried by fn:id(). </para>
+         </listitem>
+         <listitem>
+            <para>
+                        <emphasis>
+                            <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#structuralidx">Structural Indexes</link>
+                        </emphasis>: This index keeps track of the elements, attributes, and the nodal structure
+                        of all XML documents in a collection. It is created and maintained automatically. No configuration required.</para>
+         </listitem>
+      </orderedlist>
+      <para>eXist-db features a modularized indexing architecture. Most
+                types of indexes have been moved out of the database core and are now maintained as
+                pluggable extensions. The full text, the ngram, the spatial and the new range indexes 
+                fall under this category. </para>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1 xml:id="idxconf">
+      <title>Configuring Indexes</title>
+
+      <para>eXist-db has no "create index" command. Instead, indexes are configured in
+                collection-specific configuration files. These files are stored as standard XML
+                documents in the system collection: <literal>/db/system/config</literal>, which
+                can be accessed like any other document (e.g. using the Admin interface or Java
+                Client). In addition to defining settings for indexing collections, the
+                configuration document specifies other collection-specific settings such as triggers
+                or default permissions.</para>
+      <para>The contents of the system collection (<literal>/db/system/config</literal>)
+                should mirror the hierarchical structure of the main collection. Configurations are shared
+                by descendants in the hierarchy unless they have their own configuration (i.e. the
+                configuration settings for the child collection override those set for the parent).
+                If no collection-specific configuration file is created for any document, the global
+                settings in the main configuration file, <literal>conf.xml</literal>, will apply
+                by default. That being said, the <literal>conf.xml</literal> file should only
+                define the default global <emphasis>index creation policy</emphasis>.</para>
+      <para> To configure a given collection - e.g. <literal>/db/foo</literal> - create a
+                file <literal>collection.xconf</literal> and store it as <literal>/db/system/config/db/foo/collection.xconf</literal>. Note the replication of
+                the <literal>/db/foo</literal> hierarchy inside <literal>/db/system/config/</literal>. Sub-collections which do not have a <literal>collection.xconf</literal> file of their own will be governed by the
+                configuration policy specified for the closest ancestor collection which does have
+                such a file, so you are not required to specify a configuration for every
+                collection. Note, however, that configuration settings do not cascade, that is to say that a sub-collection
+                with a <literal>collection.xconf</literal>, will not inherit any settings from any ancestor collection
+                that has a <literal>collection.xconf</literal>; If you choose
+                to deploy a <literal>collection.xconf</literal> file in a sub-collection, you must
+                specify in that file <emphasis>all</emphasis> the configuration options you wish to
+                have applied to that sub-collection (and any lower-level sub-collections without
+                    <literal>collection.xconf</literal> files of their own). </para>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>Maintaining Indexes and Re-indexing</title>
+
+         <table>
+            <title/>
+
+            <tgroup cols="2">
+               <tbody>
+                  <row>
+                     <entry>
+                        <para>The eXist-db index system automatically maintains and updates
+                                        indexes defined by the user. You therefore do not need to
+                                        update an index when you update a database document or
+                                        collection. eXist-db will even update indexes following partial
+                                        document updates via <emphasis>XUpdate</emphasis> or
+                                            <emphasis>XQuery Update</emphasis> expressions.</para>
+                        <para>The only exception to eXist-db's automatic update occurs when
+                                        you <emphasis>add a new index definition to an existing
+                                            database collection</emphasis>. In this case, the new
+                                        index settings will <emphasis>only</emphasis> apply to new
+                                        data added to this collection, or any of its
+                                        sub-collections, and <emphasis>not</emphasis> to previously
+                                        existing data. To apply the new settings to the entire
+                                        collection, you need to trigger a "manual reindex" of the
+                                        collection being updated. You can re-index collections using
+                                        the Java Admin Client (shown on the right). From the Admin
+                                        menu, select File»Reindex Collection.
+                                    </para>
+                        <para>You can also index by passing an XQuery to eXist-db:</para>
+                        <programlisting language="xquery">xmldb:reindex('/db/foo')</programlisting>
+                     </entry>
+                     <entry>
+                        <informalfigure>
+                           <mediaobject>
+                              <imageobject>
+                                 <imagedata fileref="assets/client4.png"/>
+                              </imageobject>
+                           </mediaobject>
+                        </informalfigure>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </table>
+      </sect2>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2>
+         <title>General Configuration Structure and Syntax</title>
+
+         <para>Index configuration files are standard XML documents that have their elements
+                    and attributes defined by the eXist-db namespace:</para>
+         <programlisting>http://exist-db.org/collection-config/1.0</programlisting>
+         <para>The following example shows a configuration example:</para>
+         <example>
+            <title>Configuration Document</title>
+            <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-3.xml"/>
+         </example>
+         <para>All configuration documents have an <tag>index</tag>
+                    element directly below the root element, which encloses the index configuration.
+                    Only <emphasis>one</emphasis>
+                    <tag>index</tag> element is permitted in a document. Apart from the
+                    index configuration, the document may also contain settings not related to indexing,
+                    e.g. for triggers; these will not be covered here. </para>
+         <para>In the <tag>index</tag> element are elements that define the various
+                    index types. Each index type can add its own configuration elements, which are
+                    directly forwarded to the corresponding index implementation. The example above
+                    configures three different types of indexes: full text, range and ngram.</para>
+         <sect3>
+            <title>Namespaces</title>
+
+            <para>If the document to be indexed uses namespaces, you should add a
+                            <literal>xmlns</literal> declaration for each of the required namespaces to
+                        the <tag>index</tag> element:</para>
+            <example>
+               <title>Using Namespaces</title>
+               <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-4.xml"/>
+            </example>
+            <para>The example configuration above creates two indexes on a collection of
+                        atom documents. The two elements which should be indexed are both in the
+                            <literal>atom</literal> namespace and we thus need to declare a mapping
+                        for this namespace. Please note that the <literal>xmlns</literal> namespace
+                        declarations have to be specified on the <tag>index</tag> element, not
+                        the <tag>create</tag> or <tag>fulltext</tag>
+                        elements.</para>
+         </sect3>
+      </sect2>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1>
+      <title>Check Index Usage</title>
+
+      <para>The quickest way to see if an index was used or not is to go to the 
+                <literal>Profiling</literal> menu item in the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{monex}">Monex Monitoring and Profiling application</link>.</para>
+      <orderedlist>
+         <listitem>
+            <para>Click on <literal>Enable Tracing</literal> to enable usage statistics.</para>
+         </listitem>
+         <listitem>
+            <para>Run the query you would like to profile. The profiler will collect statistics about
+                    any query running on the database instance, no matter how the query is called.</para>
+         </listitem>
+         <listitem>
+            <para>Click <literal>Refresh</literal> and switch to the <literal>Index Usage</literal>
+                    tab.</para>
+         </listitem>
+      </orderedlist>
+      <figure>
+         <title>Query Profiling</title>
+         <mediaobject>
+            <imageobject>
+               <imagedata fileref="assets/IndexProfiling.png"/>
+            </imageobject>
+         </mediaobject>
+      </figure>
+      <para>The table provides the following information:</para>
+      <variablelist spacing="compact">
+         <varlistentry>
+            <term>Source</term>
+            <listitem>
+               <para>The query containing the expression. The line/column of the expression is
+                        given in brackets. For queries stored in the database, the file name will be shown.
+                        Dynamically executed queries are displayed with the name "String".</para>
+            </listitem>
+         </varlistentry>
+         <varlistentry>
+            <term>Index</term>
+            <listitem>
+               <para>Type of the index used: "range" for the old range index, "new-range" for the new
+                        range index, "lucene" for the full text index.</para>
+            </listitem>
+         </varlistentry>
+         <varlistentry>
+            <term>Optimization</term>
+            <listitem>
+               <para>Either "Full", "Basic", or "No index". The meaning of those labels is as follows:</para>
+               <itemizedlist>
+                  <listitem>
+                     <para>"Full": the expression was rewritten by the optimizer to make full use of the index.
+                                This is the best you can achieve.</para>
+                  </listitem>
+                  <listitem>
+                     <para>"Basic": the index was used, but the expression was not rewritten by the optimizer. This is
+                                better than "No index" but still several times slower than "Full". Most probably the context of 
+                                the expression was too complex to rewrite it.</para>
+                  </listitem>
+                  <listitem>
+                     <para>"No index": no index defined. Expression is evaluated in "brute force" mode.</para>
+                  </listitem>
+               </itemizedlist>
+            </listitem>
+         </varlistentry>
+         <varlistentry>
+            <term>Calls</term>
+            <listitem>
+               <para>The number of calls to the expression.</para>
+            </listitem>
+         </varlistentry>
+         <varlistentry>
+            <term>Elapsed time</term>
+            <listitem>
+               <para>The time elapsed for all calls together. The time is measured for the index lookup only.
+                        The absolute numbers are not reliable (due to measurement errors), but they show a tendency: if a lookup takes 
+                        relatively longer than other expressions, it might be worth to optimize it with an index.</para>
+            </listitem>
+         </varlistentry>
+      </variablelist>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1 xml:id="moduleconf">
+      <title>Enabling Index Modules</title>
+
+      <para>While some indexes (n-gram, full text) are already pre-build in the standard
+                eXist-db distribution, other modules may need to be enabled first. For example, the
+                spatial index depends on a bunch of external libraries, which do not ship with
+                eXist-db. However, enabling the spatial index is a simple process:</para>
+      <orderedlist>
+         <listitem>
+            <para>Copy the properties file <literal>extensions/indexes/build.properties</literal> and store it as
+                        <literal>local.build.properties</literal> in the same directory if it does not already exist.</para>
+         </listitem>
+         <listitem>
+            <para>Edit <literal>extensions/indexes/local.build.properties</literal>:</para>
+            <example>
+               <title>local.build.properties</title>
+               <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-5.txt"/>
+            </example>
+            <para>To include an index, change the corresponding property to "true".</para>
+         </listitem>
+         <listitem>
+            <para>Call the Ant build system once to regenerate the eXist-db libraries:</para>
+            <programlisting>build.sh</programlisting>
+            <para>or</para>
+            <programlisting>build.bat</programlisting>
+         </listitem>
+      </orderedlist>
+      <para>The build process should create a jar file for every index implementation in
+                directory <literal>lib/extensions</literal>. For example, the spatial index is
+                packaged into the jar <literal>exist-spatial-module.jar</literal>.</para>
+      <para>Once the index module has been built, it can be announced to eXist-db. To activate an
+                index plugin, it needs to be added to the <tag>modules</tag> section within
+                the global configuration file <literal>conf.xml</literal>:</para>
+      <example>
+         <title>Index Plugin Configuration in conf.xml</title>
+         <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-8.xml"/>
+      </example>
+      <para>Every <tag>module</tag> element needs at least an <literal>id</literal> and
+                <literal>class</literal> attribute. The class attribute contains the name of the
+                plugin class, which has to be an implementation of
+                <literal>org.exist.indexing.Index</literal>.</para>
+      <para>All other attributes or nested configuration elements below the
+                <tag>module</tag> element are specific to the implementation and will
+                differ between indexes. They should be documented by the index implementor.</para>
+      <para>If an index implementation cannot be loaded from the specified class, the entry
+                will simply be ignored. A warning will be written to the logs which should provide
+                more information on the issue which caused the configuration to fail.</para>
+   </sect1>
+
+   <!-- ================================================================== -->
+
+   <sect1>
+      <title>Automatic Indexes</title>
+
+
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <sect2 xml:id="structuralidx">
+         <title>Structural index</title>
+
+         <para>This index keeps track of the elements (tags), attributes, and nodal structure
+                    for all XML documents in a collection. It is created and maintained
+                    automatically in eXist-db, and can neither be reconfigured nor disabled by the
+                    user. The structural index is required for nearly all XPath and XQuery
+                    expressions in eXist-db (with the exception of wildcard-only expressions such as
+                    "<literal>//*</literal>"). This index is stored in the database file
+                    <literal>structure.dbx</literal>. </para>
+         <para>Technically, the structural index maps every element and attribute
+                    <emphasis>qname</emphasis> (or <emphasis>qualified name</emphasis>) in a
+                    document collection to a list of <tag>documentId, nodeId</tag> pairs.
+                    This mapping is used by the query engine to resolve queries for a given XPath
+                    expression.</para>
+         <para>For example, given the following query:</para>
+         <programlisting>//book/section</programlisting>
+         <para>eXist-db uses two index lookups: the first for the <tag>book</tag> node,
+                    and the second for the <tag>section</tag> node. It then computes the
+                    <emphasis>structural join</emphasis> between these node sets to determine
+                    which <tag>section</tag> elements are in fact children of
+                    <tag>book</tag> elements.</para>
+      </sect2>
+   </sect1>
+</article>

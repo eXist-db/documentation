@@ -1,0 +1,3 @@
+for $m in //SPEECH[ft:query(., "boil bubble")]
+order by ft:score($m) descending
+return $m

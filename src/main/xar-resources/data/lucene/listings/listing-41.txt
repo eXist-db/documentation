@@ -1,0 +1,5 @@
+let $query :=
+    <query>
+        <bool><term occur="must">boil</term><term occur="should">bubble</term></bool>
+    </query>
+return //SPEECH[ft:query(LINE, $query)]

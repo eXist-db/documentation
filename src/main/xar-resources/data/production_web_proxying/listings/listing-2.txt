@@ -1,0 +1,12 @@
+<VirtualHost *:80>
+    ProxyRequests	    off
+    ServerName	    www.mywebsite.com
+    ServerAlias     *.mywebsite.com
+    ProxyPass	    /	http://localhost:8088/exist/apps/mywebsite.com
+    ProxyPassReverse	/	http://localhost:8088/exist/apps/mywebsite.com
+    ProxyPassReverseCookieDomain localhost mywebsite.com
+    ProxyPassReverseCookiePath /exist /
+
+    RewriteEngine       on
+    RewriteRule         ^/(.*)$     /$1   [PT]
+</VirtualHost>

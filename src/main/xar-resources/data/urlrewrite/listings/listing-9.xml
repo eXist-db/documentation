@@ -1,0 +1,8 @@
+<dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+	<view>
+		<forward servlet="XSLTServlet">
+			<set-attribute name="xslt.stylesheet" value="stylesheets/db2html.xsl"/>
+		</forward>
+	</view>
+    <cache-control cache="no"/>
+</dispatch>

@@ -1,0 +1,9 @@
+public void  log( Level level, Object message )
+{
+  if ( isEnabledFor( level ) )
+  {
+    String  string = render( messasge );
+    for ( Appender appender : myAppenders )
+      appender.output( string );
+  }
+}
