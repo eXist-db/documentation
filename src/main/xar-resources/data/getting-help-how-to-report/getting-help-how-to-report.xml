@@ -1,83 +1,83 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
         schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
-   <info>
-      <title>Getting Help: How to report issues</title>
-      <date>October 2016</date>
-      <keywordset>
-         <keyword>TBD</keyword>
-      </keywordset>
-   </info>
+  <info>
+    <title>How to report issues</title>
+    <date>1Q18</date>
+    <keywordset>
+      <keyword>getting-started</keyword>
+    </keywordset>
+  </info>
 
-   <!-- ================================================================== -->
+  <!-- ================================================================== -->
 
-   <sect1>
-      <title>Introduction</title>
+  <para>This article will tell you what information to provide when you report an issue.</para>
 
-      <para>When a (potential) bug is reported, please include as much of the information as described below. When
-            more information is provided, it is more easy for the developers to understand and reproduce the issue,
-            which means that the issue can be picked-up and solved much faster.</para>
-   </sect1>
+  <!-- ================================================================== -->
 
-   <!-- ================================================================== -->
+  <sect1>
+    <title>Reporting an issue</title>
 
-   <sect1>
+    <para>Bugs can be reported on the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://github.com/eXist-db/exist/issues/" condition="_blank">Bug Tracker</link>. Data and log files can be attached.</para>
+
+    <para>When a (potential) bug is reported, please include as much of the information described below. When more information is provided it is
+      easier for the developers to understand and reproduce the issue, which means that the issue can be picked-up and solved much faster.</para>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2>
       <title>General information</title>
 
-      <note>
-         <para>When reporting a (suspected) bug please make the report as complete as possible: </para>
-         <itemizedlist>
-            <listitem>
-               <para>Try to write a clear (and short) description how to reproduce the problem</para>
-            </listitem>
-            <listitem>
-               <para>Include the exact version (and revision), e.g. "1.4.3" (rev1234) or "2.1". </para>
-            </listitem>
-            <listitem>
-               <para>Always add the operating system (e.g. "Windows7 64bit"), the exact Java version as is outputted by
-                            the command 'java -version' on the console.</para>
-            </listitem>
-            <listitem>
-               <para>Include relevant <emphasis role="bold">parts</emphasis> of the logfile (e.g.
-                                    <literal>webapp/WEB-INF/logs/exist.log</literal> and <literal>tools/yajsw/logs/wrapper.log</literal>)</para>
-            </listitem>
-            <listitem>
-               <para>Mention the changes that have been made in the configuration files, e.g.
-                                    <literal>conf.xml</literal>, <literal>vm.properties</literal>,
-                                    <literal>tools/yajsw/conf/wrapper.conf</literal> and
-                                    <literal>tools/jetty/etc/jetty.xml</literal>.</para>
-            </listitem>
-         </itemizedlist>
-      </note>
-   </sect1>
+      <para>When reporting a (suspected) bug please make the report as complete as possible: </para>
+      <itemizedlist>
+        <listitem>
+          <para>Try to write a clear (and short) description how to reproduce the problem</para>
+        </listitem>
+        <listitem>
+          <para>Include the exact version (and revision), e.g. "1.4.3" (rev1234) or "2.1". </para>
+        </listitem>
+        <listitem>
+          <para>Always add the operating system (e.g. "Windows7 64bit"), the exact Java version as is outputted by the command <code>java
+              -version</code> on the console.</para>
+        </listitem>
+        <listitem>
+          <para>Include relevant <emphasis role="bold">parts</emphasis> of the logfile (<literal>webapp/WEB-INF/logs/exist.log</literal> and
+              <literal>tools/yajsw/logs/wrapper.log</literal>)</para>
+        </listitem>
+        <listitem>
+          <para>Mention the changes made in the configuration files, for instance <literal>conf.xml</literal>, <literal>vm.properties</literal>,
+              <literal>tools/yajsw/conf/wrapper.conf</literal> and <literal>tools/jetty/etc/jetty.xml</literal>.</para>
+        </listitem>
+      </itemizedlist>
 
-   <!-- ================================================================== -->
+    </sect2>
 
-   <sect1>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2>
       <title>XQuery specific</title>
 
-      <note>
-         <para>When reporting a potential <emphasis role="bold">XQuery</emphasis> bug please: </para>
-         <itemizedlist>
-            <listitem>
-               <para>Make the XQuery, if possible, 'self containing', meaning that the XQuery does not
-                                require any additional files to run.</para>
-            </listitem>
-            <listitem>
-               <para>Describe the actual XQuery result and the expected result</para>
-            </listitem>
-            <listitem>
-               <para>Check if the issue has been solved in the latest version of eXist-db; For this the web
-                                based tool <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://exist-db.org/exist/apps/eXide/index.html">eXide</link>
-                                can be used.</para>
-            </listitem>
-            <listitem>
-               <para>Run the XQuery with <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://kernowforsaxon.sourceforge.net">Kernow for
-                                    Saxon</link> and check the similarities and differences. </para>
-            </listitem>
-         </itemizedlist>
-      </note>
-      <para>Bugs can also be reported on the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://github.com/eXist-db/exist/issues/">Bug Tracker</link>
-                where data and log files can be attached.</para>
-   </sect1>
+      <para>When reporting a potential <emphasis role="bold">XQuery</emphasis> bug please: </para>
+      <itemizedlist>
+        <listitem>
+          <para>Make the XQuery, if possible, 'self containing', meaning that the XQuery does not require any additional files to run.</para>
+        </listitem>
+        <listitem>
+          <para>Describe the actual XQuery result and the expected result</para>
+        </listitem>
+        <listitem>
+          <para>Check if the issue has been solved in the latest version of eXist-db; For this the web based tool <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://exist-db.org/exist/apps/eXide/index.html">eXide</link> can be used.</para>
+        </listitem>
+        <listitem>
+          <para>Run the XQuery with <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://kernowforsaxon.sourceforge.net">Kernow for
+              Saxon</link> and check the similarities and differences. </para>
+        </listitem>
+      </itemizedlist>
+
+
+    </sect2>
+
+  </sect1>
+
+
 </article>

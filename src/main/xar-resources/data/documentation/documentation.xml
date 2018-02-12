@@ -42,11 +42,19 @@
       </listitem>
       <listitem>
         <para>
+          <link xlink:href="getting-help">Getting Help</link> will tell you where to go for help and advice. </para>
+      </listitem>
+      <listitem>
+        <para>
           <link xlink:href="dashboard">Dashboard</link>: Learn how to use and populate eXist-db's main user interface, the dashboard.</para>
       </listitem>
       <listitem>
         <para>
           <link xlink:href="uploading-files">Uploading files</link>: Learn how to get files in and populate your database.</para>
+      </listitem>
+      <listitem>
+        <para>If you think you found a bug, this article will tell you <link xlink:href="getting-help-how-to-report">how to report an
+          issue</link>.</para>
       </listitem>
     </itemizedlist>
   </sect1>
@@ -76,6 +84,14 @@
     <itemizedlist>
       <listitem>
         <para>
+          <link xlink:href="">Getting Started with Web Application Development</link> will help you build a basic web application using the built-in
+            <link xlink:href="templating.xml">HTML templating framework</link>.</para>
+      </listitem>
+      <listitem>
+        <para><link xlink:href="indexing">Indexing</link> will provide you with an overview of eXist-db's indexes and how to configure them.</para>
+      </listitem>
+      <listitem>
+        <para>
           <link xlink:href="beginners-guide-to-xrx-v4">The beginners guide to XRX</link> will learn you how to create a simple application using XRX
           (XForms, REST, XQuery).</para>
       </listitem>
@@ -84,8 +100,40 @@
           <link xlink:href="contentextraction">Content extraction</link> shows ho to extract and index non-XML contents, like PDF or Word
           documents.</para>
       </listitem>
+      <listitem>
+        <para>
+          <link xlink:href="devguide_rest">REST-Style Web API</link> explains how to use eXist-db's REST interface, a useful tool in building
+          applications.</para>
+      </listitem>
+      <listitem>
+        <para><link xlink:href="http-request-session">HTTP Request/Session</link> provides information about the functions available working with HTTP
+          requests and sessions.</para>
+      </listitem>
     </itemizedlist>
 
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Interfaces</title>
+
+    <para>eXist-db provides many ways of interfacing with the database.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>
+          <link xlink:href="devguide_rest">REST-Style Web API</link> explains how to use eXist-db's REST interface.</para>
+      </listitem>
+      <listitem>
+        <para>The <link xlink:href="devguide_soap">SOAP Interface Developer's Guide</link> explains how to add a SOAP interface to eXist-db using Java
+          code.</para>
+      </listitem>
+      <listitem>
+        <para>The <link xlink:href="devguide_xmlrpc">XML-RPC API Developer's Guide</link> explains how to interface with eXist-db using the XML-RPC
+          API.</para>
+      </listitem>
+    </itemizedlist>
   </sect1>
 
   <!-- ================================================================== -->
@@ -115,12 +163,21 @@
           administration and operation tasks.</para>
       </listitem>
       <listitem>
-        <para><link xlink:href="deployment">Database Deployment</link>: How to install eXist-db as a stand-alone or embedded server.</para>
+        <para>
+          <link xlink:href="deployment">Database Deployment</link>: How to install eXist-db as a stand-alone or embedded server.</para>
       </listitem>
       <listitem>
         <para>
           <link xlink:href="exist-building">Building eXist</link>: How to build Java <code>.jar</code> or <code>.war</code> files from an eXist
           distribution.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <link xlink:href="faq_performance">Performance FAQ</link> contains a short FAQ about eXist-db's performance.</para>
+      </listitem>
+      <listitem>
+        <para>Consult the <link xlink:href="incompatibilities">incompatibilities overview</link> when you upgrade from an older version of
+          eXist-db.</para>
       </listitem>
     </itemizedlist>
   </sect1>
@@ -133,13 +190,41 @@
         <emphasis>within</emphasis> Java code. The following articles will help you with this.</para>
     <itemizedlist>
       <listitem>
-        <para><link xlink:href="deployment">Database Deployment</link>: How to install eXist-db as a stand-alone or embedded server. An embedded
-          server can be accessed directly from Java code.</para>
+        <para>
+          <link xlink:href="deployment">Database Deployment</link>: How to install eXist-db as a stand-alone or embedded server. An embedded server
+          can be accessed directly from Java code.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <link xlink:href="devguide_xmldb">Writing Java Applications with the XML:DB API</link> explains how to work with eXist-db from Java code
+          using the XML:DB API. This API provides a common interface to native or XML-enabled databases and supports the development of portable,
+          reusable applications.</para>
       </listitem>
       <listitem>
         <para>
           <link xlink:href="exist-building">Building eXist</link>: How to build Java <code>.jar</code> or <code>.war</code> files from an eXist
           distribution.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <link xlink:href="devguide_indexes">Developer's Guide to Modularized Indexes</link> explains how the internal indexing mechanism works and
+          how to add your own indexes to it.</para>
+      </listitem>
+      <listitem>
+        <para>The <link xlink:href="devguide_log4j">Log4j Logging Guide</link> explains how to add logging to your Java code using Log4J.</para>
+      </listitem>
+      <listitem>
+        <para>The <link xlink:href="devguide_soap">SOAP Interface Developer's Guide</link> explains how to add a SOAP interface to eXist-db using Java
+          code.</para>
+      </listitem>
+      <listitem>
+        <para>The <link xlink:href="devguide_xmlrpc">XML-RPC API Developer's Guide</link> explains how to interface with eXist-db using the XML-RPC
+          API.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <link xlink:href="extensions">Extension Modules</link> provides an overview of how to create eXist-db extension modules (in Java) and
+          contains a list of available extension modules.</para>
       </listitem>
     </itemizedlist>
   </sect1>
@@ -153,8 +238,16 @@
       documentation.</para>
     <itemizedlist>
       <listitem>
-        <para>The <link xlink:href="author-reference">Author Reference</link> explains how to write a documentation article for eXist-db (like the ones
-          you are looking at now).</para>
+        <para>The <link xlink:href="devguide_manifesto">eXist-db Developer Manifesto</link> lays out guidelines for developers that wish to contribute
+          to eXist-db's code base itself.</para>
+      </listitem>
+      <listitem>
+        <para>The <link xlink:href="devguide_codereview">Code Review Guide</link> provides instructions how to review somebody else's (or your own of
+          course) code.</para>
+      </listitem>
+      <listitem>
+        <para>The <link xlink:href="author-reference">Author Reference</link> explains how to write a documentation article for eXist-db (like the
+          ones you are looking at now).</para>
       </listitem>
     </itemizedlist>
   </sect1>
