@@ -9,12 +9,17 @@
     </keywordset>
   </info>
 
-  <para>Welcome to eXist-db. This article serves as an index to the eXist-db documentation articles, which will help you getting to know, installing
-    and using eXist.</para>
+  <para>Welcome to eXist-db. This article serves as an index to the eXist-db documentation articles, which will help you getting to know, install and
+    use eXist-db.</para>
 
-  <note>
-    <para>This article is stripped from its original contents and will re-grow during the re-writing of the documentation 1Q18.</para>
-  </note>
+  <important>
+    <para>eXist-db's documentation is currently being re-factored. Articles are checked, (partly) rewritten and/or reorganized. If everything goes
+      according to plan this will take until the end of 1Q18.</para>
+    <para>As a consequence, the entry page (which you are looking at now) is currently <emphasis>incomplete</emphasis>. The subject related sections
+      below point to articles that have been through at least one re-factoring pass (re-factoring is a multi-pass process). During 1Q18 this page will
+      grow to include all articles and the quality of the articles will rise.</para>
+    <para>To allow access to all (also not yet re-factored) articles there is an <xref linkend="alphabetical-index"/> and a <xref linkend="subject-index"/>, which both include all the available articles.</para>
+  </important>
 
   <!-- ================================================================== -->
 
@@ -25,15 +30,23 @@
     <itemizedlist>
       <listitem>
         <para>
-          <link xlink:href="basic-installation">Basic Installation</link>: How to install and fire up
-          eXist-db for basic installation and usage. </para>
+          <link xlink:href="basic-installation">Basic Installation</link>: How to do a basic installation of eXist-db and fire it up for the first
+          time.</para>
       </listitem>
       <listitem>
         <para>For the first steps with your freshly installed eXist-db, watch the screencasts available on the <link xlink:href="http://exist-db.org">eXist-db homepage</link>.</para>
       </listitem>
       <listitem>
-        <para><link xlink:href="uploading-files">Uploading files</link>: Learn how to get files in and
-          populate your database.</para>
+        <para>There is a whole <link xlink:href="http://shop.oreilly.com/product/0636920026525.do">book about eXist</link>, written for both the
+          novice <emphasis>and</emphasis> the more experienced user.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <link xlink:href="dashboard">Dashboard</link>: Learn how to use and populate eXist-db's main user interface, the dashboard.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <link xlink:href="uploading-files">Uploading files</link>: Learn how to get files in and populate your database.</para>
       </listitem>
     </itemizedlist>
   </sect1>
@@ -44,37 +57,121 @@
     <title>XQuery</title>
     <para>eXist-db's main programming language is XQuery. This documentation set does not contain a full introduction to XQuery. For this read the
       excellent <link xlink:href="http://shop.oreilly.com/product/0636920035589.do">book about XQuery by Priscilla Walmsley</link>. The XQuery related
-      articles below [TBD]</para>
+      articles below discuss specific eXist-db related details or shed light on some of the lesser known features of the language.</para>
+    <itemizedlist>
+      <listitem>
+        <para>
+          <link xlink:href="debugger">Debugger</link> will tell you how to debug XQuery code on the server using Emacs or VIM.</para>
+      </listitem>
+    </itemizedlist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Application development</title>
+
+    <para>eXist-db is not only a database but also an excellent application development platform. The following articles will help you find your way
+      in this:</para>
+    <itemizedlist>
+      <listitem>
+        <para>
+          <link xlink:href="beginners-guide-to-xrx-v4">The beginners guide to XRX</link> will learn you how to create a simple application using XRX
+          (XForms, REST, XQuery).</para>
+      </listitem>
+      <listitem>
+        <para>
+          <link xlink:href="contentextraction">Content extraction</link> shows ho to extract and index non-XML contents, like PDF or Word
+          documents.</para>
+      </listitem>
+    </itemizedlist>
+
   </sect1>
 
   <!-- ================================================================== -->
 
   <sect1>
     <title>Operations</title>
-    <para>Operations is the art of keeping an eXist-db database up-and-running professionally. This includes things like more advanced installation
-      types, doing backups and restores, automate data transfers, etc.</para>
+    <para>Operations is the art of installing eXist-db and keeping it up-and-running professionally. This includes things like more advanced
+      installation types, doing backups and restores, automate data transfers, etc.</para>
     <itemizedlist>
       <listitem>
-        <para><link xlink:href="advanced-installation">Advanced Installation</link>: How to install eXist-db on a headless (no GUI) system and run it
-          as a service.</para>
+        <para>
+          <link xlink:href="configuration">Configuration</link>: How to configure eXist-db using its main configuration file
+          <code>conf.xml</code>.</para>
       </listitem>
       <listitem>
-        <para><link xlink:href="ant-tasks">Ant tasks</link>: How to use the specific eXist-db <code>Ant</code> tasks to automate common system administration and
-          operation tasks.</para>
+        <para>
+          <link xlink:href="backup">Backups</link>: How to backup and restore an eXist-db database.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <link xlink:href="advanced-installation">Advanced Installation</link>: How to install eXist-db on a headless (no GUI) system and run it as a
+          service.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <link xlink:href="ant-tasks">Ant tasks</link>: How to use the specific eXist-db <code>Ant</code> tasks to automate common system
+          administration and operation tasks.</para>
+      </listitem>
+      <listitem>
+        <para><link xlink:href="deployment">Database Deployment</link>: How to install eXist-db as a stand-alone or embedded server.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <link xlink:href="exist-building">Building eXist</link>: How to build Java <code>.jar</code> or <code>.war</code> files from an eXist
+          distribution.</para>
       </listitem>
     </itemizedlist>
   </sect1>
+
   <!-- ================================================================== -->
 
   <sect1>
+    <title>Java development</title>
+    <para>eXist-db is based on Java. Besides using eXist-db as a stand-alone application platform, you can also use it from
+        <emphasis>within</emphasis> Java code. The following articles will help you with this.</para>
+    <itemizedlist>
+      <listitem>
+        <para><link xlink:href="deployment">Database Deployment</link>: How to install eXist-db as a stand-alone or embedded server. An embedded
+          server can be accessed directly from Java code.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <link xlink:href="exist-building">Building eXist</link>: How to build Java <code>.jar</code> or <code>.war</code> files from an eXist
+          distribution.</para>
+      </listitem>
+    </itemizedlist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Developing eXist-db</title>
+
+    <para>The following articles provide information on how to work on eXist-db itself, either by enhancing its code or providing
+      documentation.</para>
+    <itemizedlist>
+      <listitem>
+        <para>The <link xlink:href="author-reference">Author Reference</link> explains how to write a documentation article for eXist-db (like the ones
+          you are looking at now).</para>
+      </listitem>
+    </itemizedlist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1 xml:id="alphabetical-index">
     <title>Alphabetical index</title>
+    <para>This section lists all available articles in title alphabetical order.</para>
     <para role="indexontitle"/>
   </sect1>
 
   <!-- ================================================================== -->
 
-  <sect1>
+  <sect1 xml:id="subject-index">
     <title>Subject index</title>
+    <para>This section lists all available articles by subject. Not yet re-factored articles are listed under <emphasis role="bold">Tbd</emphasis>.</para>
     <para role="indexonkeyword"/>
   </sect1>
 

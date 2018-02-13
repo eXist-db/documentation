@@ -1,1176 +1,1232 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
-   <info>
-      <title>Application Server Configuration</title>
-      <date>2017-12-19</date>
-      <keywordset>
-         <keyword>TBD</keyword>
-      </keywordset>
-   </info>
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+  <info>
+    <title>Application Server Configuration</title>
+    <date>1Q18</date>
+    <keywordset>
+      <keyword>operations</keyword>
+    </keywordset>
+  </info>
 
-   <!-- ================================================================== -->
+  <!-- ================================================================== -->
 
-   <sect1>
-      <title>Overview</title>
+  <para>This section deals with the configuration of the eXist-db Application Server in eXist-db's main configuration file
+    <code>conf.xml</code>.</para>
 
-      <para>This section deals with the configuration of the eXist-db Application Server. The main configuration file for
-          <literal>eXist-db</literal> is called <literal>conf.xml</literal>, which is loaded from different directories depending on the
-        server set-up (see <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="deployment.xml">Server Deployment</link> for more information).</para>
-      <para>Specifically, if you installed the standalone eXist-db distribution with the installer, the <literal>conf.xml</literal> file located in
-        the root directory of the distribution (as specified by the system property <literal>exist.home</literal>) will be loaded by default. On the
-        other hand, if eXist-db is installed as a web application (packaged in a <literal>.war</literal> file) in a servlet engine like tomcat,
-          <literal> conf.xml</literal> is read from the <literal>WEB-INF</literal> directory of the web
-        application.</para>
-      <para>Why is the configuration file placed in two separate locations? The reason is that eXist-db normally has no access to files outside the
-        context in which it is running when it is deployed as part of a web application. Therefore, when eXist is deployed in this way, the
-        configuration is read from the <literal>WEB-INF</literal> directory.</para>
-   </sect1>
+  <!-- ================================================================== -->
 
-   <!-- ================================================================== -->
+  <sect1 xml:id="conf.xml">
+    <title>Main configuration file</title>
 
-   <sect1>
-      <title>Services</title>
+    <para>The main configuration file for <literal>eXist-db</literal> is called <literal>conf.xml</literal>, which is loaded from different
+      directories depending on the server set-up (see <link xlink:href="deployment">Server Deployment</link> for more information).
+      Specifically:</para>
+    <itemizedlist>
+      <listitem>
+        <para>If you installed the standalone eXist-db distribution with the installer, the <literal>conf.xml</literal> file located in the root
+          directory of the distribution (as specified by the system property <literal>exist.home</literal>).</para>
+        <para/>
+      </listitem>
+      <listitem>
+        <para>If eXist-db is installed as a web application (packaged in a <literal>.war</literal> file) in a servlet engine like tomcat, <literal>
+            conf.xml</literal> is read from the <literal>WEB-INF</literal> directory of the web application.</para>
+        <para>eXist-db normally has no access to files outside the context in which it is running when it is deployed as part of a web application.
+          Therefore, when eXist is deployed in this way, the configuration is read from the <literal>WEB-INF</literal> directory.</para>
+      </listitem>
+    </itemizedlist>
 
-      <para>The following table lists which services and modules ship with eXist; a description of each; the resources in the eXist installation where
-        they are configured; and whether they are active by default in an out-of-the box configuration.</para>
-      <note>
-         <para>This is a work in progress. It is being refined, but I want to get it into the repository to maintain history.</para>
-      </note>
-      <informaltable>
-         <tgroup cols="2">
-            <thead>
-               <row>
-                  <entry>
-                     <para>Service</para>
-                  </entry>
-                  <entry>
-                     <para>Description</para>
-                  </entry>
-               </row>
-            </thead>
-            <tbody>
-               <row>
-                  <entry>
-                     <para>debugger</para>
-                  </entry>
-                  <entry>
-                     <para> This is an XQuery debugger.</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>fluent</para>
-                  </entry>
-                  <entry>
-                     <para>This is an API for embedded access to eXist-db which is tightly integrated with java.</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>Desktop Application Support</para>
-                  </entry>
-                  <entry/>
-               </row>
-               <row>
-                  <entry>
-                     <para>LDAP</para>
-                  </entry>
-                  <entry>
-                     <para> LDAP is an authentication mechanism by binding.</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>OpenID </para>
-                  </entry>
-                  <entry>
-                     <para> OpenID is an authentication mechanism where the identity of the user is maintained by trusted external providers.</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>OAuth </para>
-                  </entry>
-                  <entry>
-                     <para> OAuth is an authentication mechanism where the identity of the user is maintained by trusted external providers.</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>Versioning </para>
-                  </entry>
-                  <entry>
-                     <para> Versioning extension</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>XQDoc </para>
-                  </entry>
-                  <entry>
-                     <para> xqDoc provides a simple vendor neutral solution for documenting XQuery library and main modules that is similar to
-                JavaDoc.</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>XSLT </para>
-                  </entry>
-                  <entry>
-                     <para>XSLT extension</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>Cache </para>
-                  </entry>
-                  <entry>
-                     <para> Cache module</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>Compression </para>
-                  </entry>
-                  <entry>
-                     <para>Provides functions to manipulate archives, tar/zip/gzip</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>Context </para>
-                  </entry>
-                  <entry>
-                     <para> Context module</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>Counter </para>
-                  </entry>
-                  <entry>
-                     <para> Persistent counter module</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>Datetime </para>
-                  </entry>
-                  <entry>
-                     <para> Date/DateTime/Time utility functions module</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>Example </para>
-                  </entry>
-                  <entry>
-                     <para> This is an example Java based function module. It is a template for creating other Java based function modules.</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>File </para>
-                  </entry>
-                  <entry>
-                     <para> Provides functions to manipulate files in the local file system.</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>Http Client</para>
-                  </entry>
-                  <entry>
-                     <para> This provides functions to call other web servers as if eXist were a web browser.</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>Image</para>
-                  </entry>
-                  <entry>
-                     <para> Generate thumbnails of images.</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>JFreechart</para>
-                  </entry>
-                  <entry>
-                     <para> Provides functions to generate graphs using JFreechart</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>JNDI</para>
-                  </entry>
-                  <entry>
-                     <para> Provides functions to query a JNDI Directory</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>Mail</para>
-                  </entry>
-                  <entry>
-                     <para> Send emails from XQuery</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>Math</para>
-                  </entry>
-                  <entry>
-                     <para> Math function module</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>Scheduler</para>
-                  </entry>
-                  <entry>
-                     <para> The Quartz scheduler</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>SimpleQL</para>
-                  </entry>
-                  <entry>
-                     <para> Implements a simple query language which is translated into XQuery</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>SQL</para>
-                  </entry>
-                  <entry>
-                     <para> A set of functions to query a SQL database.</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>Subversion</para>
-                  </entry>
-                  <entry>
-                     <para> Provides functions to query a subversion repository</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>XMLDiff</para>
-                  </entry>
-                  <entry>
-                     <para> Utility module to compare XML fragments</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>XMPP</para>
-                  </entry>
-                  <entry>
-                     <para> XMPP client; based on smack</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>XSL FO</para>
-                  </entry>
-                  <entry>
-                     <para> XSL FO transformations (Uses Apache FOP)</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>XML RPC</para>
-                  </entry>
-                  <entry>
-                     <para> RpcServlet provides XML-RPC access to eXist</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>DatabaseAdminServlet</para>
-                  </entry>
-                  <entry>
-                     <para>This servlet can be used to ensure that eXist-db is running in the background. Just set the start-parameter to true and
-                load-on-startup to 1 </para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>webDAV</para>
-                  </entry>
-                  <entry>
-                     <para> Servlet that enables webDAV</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>XQueryServlet</para>
-                  </entry>
-                  <entry>
-                     <para>This generates HTML from an XQuery file</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>XQueryURLRewrite</para>
-                  </entry>
-                  <entry/>
-               </row>
-               <row>
-                  <entry>
-                     <para>Axis/SOAP</para>
-                  </entry>
-                  <entry>
-                     <para>Axis provides eXist's web-services via SOAP</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>Atom</para>
-                  </entry>
-                  <entry>
-                     <para>Atom Publishing Protocol</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>Webstart (jnlp)</para>
-                  </entry>
-                  <entry/>
-               </row>
-               <row>
-                  <entry>
-                     <para>Indexing</para>
-                  </entry>
-                  <entry/>
-               </row>
-               <row>
-                  <entry>
-                     <para>Scheduler</para>
-                  </entry>
-                  <entry>
-                     <para>This module executes scheduled system tasks.</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>Serializer</para>
-                  </entry>
-                  <entry/>
-               </row>
-               <row>
-                  <entry>
-                     <para>XSLT Transformer</para>
-                  </entry>
-                  <entry>
-                     <para>Default settings for the XSLT Transformer. Allow's for a choice of implementation.</para>
-                  </entry>
-               </row>
-               <row>
-                  <entry>
-                     <para>XML Validation</para>
-                  </entry>
-                  <entry/>
-               </row>
-               <row>
-                  <entry>
-                     <para>XProc</para>
-                  </entry>
-                  <entry/>
-               </row>
-            </tbody>
-         </tgroup>
-      </informaltable>
-   </sect1>
+    <para>The configuration file <literal>conf.xml</literal> is divided into eleven sections:</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term>
+          <tag>db-connection</tag>
+        </term>
+        <listitem>
+          <para>Configures the storage back-end.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <tag>repository</tag>
+        </term>
+        <listitem>
+          <para>Settings for the package repository.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <tag>binary-manager</tag>
+        </term>
+        <listitem>
+          <para>Settings for the Binary Manager.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <tag>indexer</tag>
+        </term>
+        <listitem>
+          <para>Controls the indexing process.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <tag>scheduler</tag>
+        </term>
+        <listitem>
+          <para>Job scheduler for system or user jobs. </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <tag>parser</tag>
+        </term>
+        <listitem>
+          <para>Default settings for parsing structured documents.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <tag>serializer</tag>
+        </term>
+        <listitem>
+          <para>Default settings for the serializer (external data representation).</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <tag>transformer</tag>
+        </term>
+        <listitem>
+          <para>Default settings for the XSLT Transformer.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <tag>validation</tag>
+        </term>
+        <listitem>
+          <para>Settings for XML validation.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <tag>xquery</tag>
+        </term>
+        <listitem>
+          <para>Define (built-in) modules that contain xQuery functions.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <tag>xupdate</tag>
+        </term>
+        <listitem>
+          <para>Configuration options related to XUpdate processing.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+    <para>The following sections describe the most commonly modified of the above elements, including how to change the default behavior of eXist-db's
+      handling of whitespace characters.</para>
 
-   <!-- ================================================================== -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <sect2>
+      <title><tag>db-connection</tag> element</title>
 
-   <sect1 xml:id="conf.xml">
-      <title>eXist-db Configuration: Editing conf.xml</title>
+      <para>This element contains basic default storage settings for eXist-db, including memory and system limits. Only one <tag>db-connection</tag>
+        should be specified. An example configuration for the native back-end is shown below:</para>
 
-      <para>The configuration file <literal>conf.xml</literal> can be divided into eleven sections with the following
-        elements:</para>
-      <variablelist spacing="compact">
-         <varlistentry>
-            <term>&lt;db-connection&gt;</term>
+      <programlisting language="xml" xlink:href="listings/listing-1.xml"/>
+
+      <sect3>
+        <title><tag>db-connection</tag> attributes</title>
+
+        <variablelist spacing="compact">
+          <varlistentry>
+            <term>
+              <code>database</code>
+            </term>
             <listitem>
-               <para>Configures the storage back-end.</para>
+              <para>This attribute selects a database system type. Since relational database back-ends are no longer supported by the current release
+                of eXist, only <literal>native</literal> is available.</para>
             </listitem>
-         </varlistentry>
-         <varlistentry>
-            <term>&lt;repository&gt;</term>
+          </varlistentry>
+          <varlistentry>
+            <term>
+              <code>files</code>
+            </term>
             <listitem>
-               <para>Settings for the package repository.</para>
+              <para>This attribute specifies the directory where the native back-end will keep its database files, and so it is necessary that this
+                directory exists. If a relative path is specified, it will be based on the root directory as defined in the
+                  <literal>exist.home</literal> system property. If this data directory does not have write permissions (see <link xlink:href="security">User Authentication and Access Control</link>), eXist will internally switch to <emphasis>read-only
+                  mode</emphasis> such that any attempt to change the database will throw an exception.</para>
             </listitem>
-         </varlistentry>
-         <varlistentry>
-            <term>&lt;binary-manager&gt;</term>
+          </varlistentry>
+          <varlistentry>
+            <term>
+              <code>cacheSize</code>
+            </term>
             <listitem>
-               <para>Settings for the Binary Manager.</para>
+              <para>This attribute sets the maximum amount of main memory used by all page buffers (i.e. assuming all page buffers are at full
+                capacity). The database uses this parameter to calculate the maximum size of each internal cache. You can increase this value if your
+                system allows for greater memory use.</para>
+              <para>While indexing documents, eXist will reserve the amount of memory specified in cacheSize - even if not all caches are filled - and
+                will not use it for temporary data.</para>
+              <para>The cacheSize should not be more than half of the size of the JVM heap size (set by the JVM <code>-Xmx</code> parameter). If the
+                JVM heap is less than 512 megabyte, the cacheSize should even be smaller, e.g. 1/3.</para>
             </listitem>
-         </varlistentry>
-         <varlistentry>
-            <term>&lt;indexer&gt;</term>
+          </varlistentry>
+          <varlistentry>
+            <term>
+              <code>collectionCache</code>
+            </term>
             <listitem>
-               <para>Controls the indexing process.</para>
+              <para>Determines the size of the collection cache, which is a separate caching space. Usually this setting does not need to be changed
+                unless you really have more than a few thousand collections in the db. Increase it carefully, maybe up to 128M.</para>
             </listitem>
-         </varlistentry>
-         <varlistentry>
-            <term>&lt;scheduler&gt;</term>
+          </varlistentry>
+          <varlistentry>
+            <term><code>pageSize</code></term>
             <listitem>
-               <para>Job scheduler for system or user jobs. </para>
+              <para>This specifies the number of bytes used for internal data and B-tree pages. This should be equal to or a multiple of the page size
+                used by the filesystem (usually a multiple of 4096).</para>
             </listitem>
-         </varlistentry>
-         <varlistentry>
-            <term>&lt;parser&gt;</term>
+          </varlistentry>
+          <varlistentry>
+            <term>
+              <code>nodesBuffer</code>
+            </term>
             <listitem>
-               <para>Default settings for parsing structured documents.</para>
+              <para>Size of the temporary buffer used by eXist for caching index data while indexing a document. If set to -1, eXist will use the
+                entire free memory to buffer index entries and will flush the cache once the memory is full.</para>
+              <para>If set to a value &gt; 0, the buffer will be fixed to the given size. The specified number corresponds to the number of nodes the
+                buffer can hold, in thousands. Usually, a good default could be <code>nodesBuffer="1000"</code>.</para>
+              <para>The default setting, nodesBuffer="-1", can be problematic if you frequently need to store large documents in a multi-user
+                environment. In this case, the index operation may consume most of the memory resources, which means that concurrent threads will be
+                slowed down or even come to a halt.</para>
             </listitem>
-         </varlistentry>
-         <varlistentry>
-            <term>&lt;serializer&gt;</term>
+          </varlistentry>
+        </variablelist>
+      </sect3>
+      <sect3>
+        <title><tag>db-connection</tag>/<tag>pool</tag> element</title>
+
+        <para>These settings control the internal database connection pool.</para>
+        <variablelist spacing="compact">
+          <title>
+            <tag>pool</tag> Attributes</title>
+
+          <varlistentry>
+            <term>
+              <code>min</code> | <code>max</code>
+            </term>
             <listitem>
-               <para>Default settings for the serializer (external data representation).</para>
+              <para>These options specify the minimum and maximum size of the connection pool. This pool restricts the number of parallel (basic)
+                operations that can be executed by the database. Settings should be somewhere between 1 and 20. </para>
+              <para>Please note that this has nothing to do with the HTTP and XMLRPC server settings - these servers have their own connection
+                pools.</para>
             </listitem>
-         </varlistentry>
-         <varlistentry>
-            <term>&lt;transformer&gt;</term>
+          </varlistentry>
+          <varlistentry>
+            <term>
+              <code>sync-period</code>
+            </term>
             <listitem>
-               <para>Default settings for the XSLT Transformer.</para>
+              <para>This option defines how often the database will flush its internal buffers to disk (in milliseconds). The sync-thread will
+                interrupt normal database operation after the specified time and write all dirty pages to disk. It also writes a checkpoint to the
+                transaction log. In case of a database crash, only transactions which started after the last checkpoint have to be redone or rolled
+                back. The sync-period should thus not be set too long.</para>
             </listitem>
-         </varlistentry>
-         <varlistentry>
-            <term>&lt;validation&gt;</term>
+          </varlistentry>
+          <varlistentry>
+            <term>
+              <code>wait-before-shutdown</code>
+            </term>
             <listitem>
-               <para>Settings for XML validation.</para>
+              <para>This option specifies the maximum amount of time (in milliseconds) that the database will allow for any running processes to
+                complete upon database shutdown. After that, eXist will try to kill the remaining processes.</para>
+              <para>If wait-before-shutdown is set to a positive number, eXist will stop the db after the specified timeout, even if there were still
+                running database operations. In this case, no checkpoint will be written to the transaction log. If there were any open transactions,
+                eXist will trigger a recovery run after restart.</para>
+              <para>If wait-before-shutdown is set to -1, eXist will not shut down before all active database operations returned. This is a safe
+                setting, but it may require a manual intervention to stop the JVM.</para>
             </listitem>
-         </varlistentry>
-         <varlistentry>
-            <term>&lt;xquery&gt;</term>
+          </varlistentry>
+        </variablelist>
+      </sect3>
+
+      <sect3>
+        <title><tag>db-connection</tag>/<tag>query-pool</tag> element</title>
+
+        <para>This element configures the global pool for compiled XQuery expressions. For each XQuery, a maximum number of compiled expressions are
+          kept in the pool, and is removed if it hasn't been used for the defined timeout. The XQuery pool is multi-threaded.</para>
+        <para>
+          <tag>query-pool</tag> Attributes:</para>
+        <variablelist spacing="compact">
+          <varlistentry>
+            <term>
+              <code>max-stack-size</code>
+            </term>
             <listitem>
-               <para>Define (built-in) modules that contain xQuery functions.</para>
+              <para>The maximum number of queries in the query-pool.</para>
             </listitem>
-         </varlistentry>
-         <varlistentry>
-            <term>&lt;xupdate&gt;</term>
+          </varlistentry>
+          <varlistentry>
+            <term>
+              <code>size</code>
+            </term>
             <listitem>
-               <para>Configuration options related to XUpdate processing.</para>
+              <para>The number of copies of the same query kept in the query-pool. Value <code>"-1"</code> effectively disables caching. Queries
+                cannot be shared by threads, each thread needs a private copy of a query.</para>
             </listitem>
-         </varlistentry>
-      </variablelist>
-      <para>The following sections describe the most commonly modified attributes and child elements of the above elements, including how to change
-        the default behavior of exist-db's handling of whitespace characters.</para>
+          </varlistentry>
+          <varlistentry>
+            <term><code>timeout</code></term>
+            <listitem>
+              <para>The amount of time that a query will be cached in the query-pool in milliseconds.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>timeout-check-interval</code></term>
+            <listitem>
+              <para>The time between checking for timed out queries. For value <code>"-1"</code> the time out is switched off, resulting cached
+                queries to remain in the cache forever.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </sect3>
 
-      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+      <sect3>
+        <title><tag>db-connection</tag>/<tag>recovery</tag> element</title>
 
-      <sect2>
-         <title>&lt;db-connection&gt;</title>
+        <para>This element configures the journalling and recovery of the database. With recovery enabled, the database is able to recover from an
+          unclean database shutdown due to, for example, power failures, OS reboots, and hanging processes. For this to work correctly, all database
+          operations must be logged to a journal file. The location, size and other parameters for this file can be set using the <tag>recovery</tag>
+          element.</para>
+        <para><tag>recovery</tag> Attributes:</para>
+        <variablelist spacing="compact">
+          <varlistentry>
+            <term><code>enabled</code></term>
+            <listitem>
+              <para>If this attribute is set to <literal>yes</literal>, automatic recovery is enabled.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>size</code></term>
+            <listitem>
+              <para>This attributes sets the maximum allowed size of the journal file. Once the journal reaches this limit, a checkpoint will be
+                triggered and the journal will be cleaned. However, the database waits for running transactions to return before processing this
+                checkpoint. In the event one of these transactions writes a lot of data to the journal file, the file will grow until the transaction
+                has completed. Hence, the size limit is not enforced in all cases.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>journal-dir</code></term>
+            <listitem>
+              <para>This attribute sets the directory where journal files are to be written. If no directory is specified, the default path is to the
+                  <literal>data</literal> directory.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>sync-on-commit</code></term>
+            <listitem>
+              <para>This attribute determines whether or not to protect the journal during operating system failures. That is, it determines whether
+                the database forces a file-sync on the journal after every commit. If this attribute is set to <literal>yes</literal>, the journal is
+                protected against operating system failures. However, this will slow performance - especially on Windows systems. If set to
+                  <literal>no</literal>, eXist will rely on the operating system to flush out the journal contents to disk. In the worst case
+                scenario, in which there is a complete system failure, some committed transactions might not have yet been written to the journal, and
+                so will be rolled back.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>group-commit</code></term>
+            <listitem>
+              <para>If set to <code>yes</code>, eXist will not sync the journal file immediately after every transaction commit. Instead, it will wait
+                until the current file buffer (32kb) is really full. This can speed up eXist on some systems where a file sync is an expensive
+                operation (mainly windows XP; not necessary on Linux).</para>
+              <para>However, <literal>group-comit="yes"</literal> will increase the chance that an already committed operation is rolled back after a
+                database crash.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>force-restart</code></term>
+            <listitem>
+              <para>Try to restart the db even if crash recovery failed. This is dangerous because there might be corruptions inside the data files.
+                The transaction log will be cleared, all locks removed and the db re-indexed.</para>
+              <para>Set this option to <code>yes</code> if you need to make sure that the db is online, even after a fatal crash. Errors encountered
+                during recovery are written to the log files. Scan the log files to see if any problems occurred.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>consistency-check</term>
+            <listitem>
+              <para>If set to <code>yes</code>, a consistency check will be run on the database if an error was detected during crash recovery. This
+                option requires force-restart to be set to <code>yes</code>, otherwise it has no effect.</para>
+              <para>The consistency check outputs a report to the directory {files}/sanity and if inconsistencies are found in the db, it writes an
+                emergency backup to the same directory.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </sect3>
 
-         <para>This element contains basic default storage settings for eXist-db, including memory and system limits. Only one &lt;db-connection&gt;
-          should be specified. An example configuration for the native back-end is shown below:</para>
-         <example>
-            <title>Basic &lt;db-connection&gt; Entry</title>
-            <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-1.xml"/>
-         </example>
-         <sect3>
-            <title>&lt;db-connection&gt; Attributes</title>
+      <sect3>
+        <title><tag>db-connection</tag>/<tag>watchdog</tag> element</title>
 
-            <variablelist spacing="compact">
-               <varlistentry>
-                  <term>database</term>
-                  <listitem>
-                     <para>This attribute selects a database system type. Since relational database back-ends are no longer supported by the current
-                  release of eXist, only "<literal>native</literal>" is available.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>files</term>
-                  <listitem>
-                     <para>This attribute specifies the directory where the native back-end will keep its database files, and so it is necessary that this
-                  directory exists. If a relative path is specified, it will be based on the root directory as defined in the
-                    <literal>exist.home</literal> system property. If this data directory does not have write permissions (see <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="security.xml"> User Authentication and Access Control</link>), eXist will internally switch to <emphasis>read-only mode</emphasis> such that
-                  any attempt to change the database will throw an exception.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>cacheSize</term>
-                  <listitem>
-                     <para>This attribute sets the maximum amount of main memory used by all page buffers (i.e. assuming all page buffers are at full
-                  capacity). The database uses this parameter to calculate the maximum size of each internal cache. You can increase this value if
-                  your system allows for greater memory use.</para>
-                     <para>While indexing documents, eXist will reserve the amount of memory specified in cacheSize - even if not all caches are filled -
-                  and will not use it for temporary data.</para>
-                     <para>The cacheSize should not be more than half of the size of the JVM heap size (set by the JVM -Xmx parameter). If the JVM heap is
-                  less than 512 megabyte, the cacheSize should even be smaller, e.g. 1/3.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>collectionCache</term>
-                  <listitem>
-                     <para>Determines the size of the collection cache, which is a separate caching space. Usually this setting does not need to be changed
-                  unless you really have more than a few thousand collections in the db. Increase it carefully, maybe up to 128M.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>pageSize</term>
-                  <listitem>
-                     <para>This specifies the number of bytes used for internal data and B-tree pages. This should be equal to or a multiple of the page
-                  size used by the filesystem (usually a multiple of 4096).</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>nodesBuffer</term>
-                  <listitem>
-                     <para>Size of the temporary buffer used by eXist for caching index data while indexing a document. If set to -1, eXist will use the
-                  entire free memory to buffer index entries and will flush the cache once the memory is full.</para>
-                     <para>If set to a value &gt; 0, the buffer will be fixed to the given size. The specified number corresponds to the number of nodes
-                  the buffer can hold, in thousands. Usually, a good default could be nodesBuffer="1000".</para>
-                     <para>The default setting, nodesBuffer="-1", can be problematic if you frequently need to store large documents in a multi-user
-                  environment. In this case, the index operation may consume most of the memory resources, which means that concurrent threads will be
-                  slowed down or may even come to a halt.</para>
-                  </listitem>
-               </varlistentry>
-            </variablelist>
-         </sect3>
-         <sect3>
-            <title>&lt;pool&gt;</title>
+        <para>This is the global configuration for the <emphasis>query watchdog</emphasis>. The watchdog monitors all query processes, and can
+          terminate any long-running queries if they exceed one of the predefined limits. These limits are as follows:</para>
 
-            <para>These settings control the internal database connection pool.</para>
-            <variablelist spacing="compact">
-               <title>&lt;pool&gt; Attributes</title>
+        <para><tag>watchdog</tag> Attributes:</para>
+        <variablelist spacing="compact">
+          <varlistentry>
+            <term><code>query-timeout</code></term>
+            <listitem>
+              <para>This attribute sets the maximum amount of time (expressed in milliseconds) that the query can take before it is killed. The
+                setting can be overwritten in an XQuery by specifiying the option <literal>exist:timeout</literal>:</para>
+              <programlisting language="xquery">declare option exist:timeout "time-in-ms";</programlisting>
+              <para>Please check the documentation on <link xlink:href="xquery.xml#xqopts">XQuery options</link>.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>output-size-limit</code></term>
+            <listitem>
+              <para>This attribute limits the size of XML fragments constructed using XQuery, and thus sets the maximum amount of main memory a query
+                is allowed to use. This limit is expressed as the maximum number of nodes allowed for an in-memory DOM tree. The purpose of this
+                option is to avoid memory shortages on the server in cases where users are allowed to run queries that produce very large output
+                fragments. The setting can be overwritten in an XQuery by specifying the option <literal>exist:output-size-limit</literal>:</para>
+              <programlisting language="xquery">declare option exist:output-size-limit "size-hint";</programlisting>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </sect3>
 
-               <varlistentry>
-                  <term>min | max</term>
-                  <listitem>
-                     <para>These options specify the minimum and maximum size of the connection pool. This pool restricts the number of parallel (basic)
-                  operations that can be executed by the database. Settings should be somewhere between 1 and 20. (Please note that this has nothing
-                  to do with the HTTP and XMLRPC server settings - these servers have their own connection pools.)</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>sync-period</term>
-                  <listitem>
-                     <para>This option defines how often the database will flush its internal buffers to disk (in milliseconds). The sync-thread will
-                  interrupt normal database operation after the specified time and write all dirty pages to disk. It also writes a checkpoint to the
-                  transaction log. In case of a database crash, only transactions which started after the last checkpoint have to be redone or rolled
-                  back. The sync-period should thus not be set too long.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>wait-before-shutdown</term>
-                  <listitem>
-                     <para>This option specifies the maximum amount of time (in milliseconds) that the database will allow for any running processes to
-                  complete upon database shutdown. After that, eXist will try to kill the remaining processes.</para>
-                     <para>If wait-before-shutdown is set to a positive number, eXist will stop the db after the specified timeout, even if there were
-                  still running database operations. In this case, no checkpoint will be written to the transaction log. If there were any open
-                  transactions, eXist will trigger a recovery run after restart.</para>
-                     <para>If wait-before-shutdown is set to -1, eXist will not shut down before all active database operations returned. This is a safe
-                  setting, but it may require a manual intervention to stop the jvm.</para>
-                  </listitem>
-               </varlistentry>
-            </variablelist>
-         </sect3>
-         <sect3>
-            <title>&lt;query-pool&gt;</title>
+      <sect3>
+        <title><tag>db-connection</tag>/<tag>default-permissions</tag> element</title>
 
-            <para>This element configures the global pool for compiled XQuery expressions. For each XQuery, a maximum number of compiled expressions are
-            kept in the pool, and is removed if it hasn't been used for the defined timeout. The XQuery pool is multi-threaded.</para>
-            <variablelist spacing="compact">
-               <title>&lt;query-pool&gt; Attributes</title>
+        <para>Specifies the default permissions for all resources and collections in eXist (see <link xlink:href="security.xml"> User Authentication
+            and Access Control</link>). When this is not configured, the default <literal>mod</literal> (similar to the Unix <code>chmod</code>
+          command) is set to <literal>0775</literal> in the <literal>resources</literal> and <literal>collections</literal> attributes. A different
+          default value may be set for a database instance. Local overrides are also possible.</para>
+      </sect3>
+    </sect2>
 
-               <varlistentry>
-                  <term>max-stack-size</term>
-                  <listitem>
-                     <para>The maximum number of queries in the query-pool.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>size</term>
-                  <listitem>
-                     <para>The number of copies of the same query kept in the query-pool. Value "-1" effectively disables caching. Queries cannot be shared
-                  by threads, each thread needs a private copy of a query.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>timeout</term>
-                  <listitem>
-                     <para>The amount of time that a query will be cached in the query-pool in milliseconds.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>timeout-check-interval</term>
-                  <listitem>
-                     <para>The time between checking for timed out queries. For value "-1" the time out is switched off, resulting cached queries to remain
-                  in the cache forever.</para>
-                  </listitem>
-               </varlistentry>
-            </variablelist>
-         </sect3>
-         <sect3>
-            <title>&lt;recovery&gt;</title>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-            <para>This element configures the journaling and recovery of the database. With recovery enabled, the database is able to recover from an
-            unclean database shutdown due to, for example, power failures, OS reboots, and hanging processes. For this to work correctly, all database
-            operations must be logged to a journal file. The location, size and other parameters for this file can be set using the &lt;recovery&gt;
-            element.</para>
-            <variablelist spacing="compact">
-               <title>&lt;recovery&gt; Attributes</title>
+    <sect2>
+      <title><tag>indexer</tag> element </title>
 
-               <varlistentry>
-                  <term>enabled</term>
-                  <listitem>
-                     <para>If this attribute is set to <literal>yes</literal>, automatic recovery is enabled.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>size</term>
-                  <listitem>
-                     <para>This attributes sets the maximum allowed size of the journal file. Once the journal reaches this limit, a checkpoint will be
-                  triggered and the journal will be cleaned. However, the database waits for running transactions to return before processing this
-                  checkpoint. In the event one of these transactions writes a lot of data to the journal file, the file will grow until the
-                  transaction has completed. Hence, the size limit is not enforced in all cases.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>journal-dir</term>
-                  <listitem>
-                     <para>This attribute sets the directory where journal files are to be written. If no directory is specified, the default path is to
-                  the <literal>data</literal> directory.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>sync-on-commit</term>
-                  <listitem>
-                     <para>This attribute determines whether or not to protect the journal during operating system failures. That is, it determines whether
-                  the database forces a file-sync on the journal after every commit. If this attribute is set to "<literal>yes</literal>", the journal
-                  is protected against operating system failures. However, this will slow performance - especially on Windows systems. If set to
-                    "<literal>no</literal>", eXist will rely on the operating system to flush out the journal contents to disk. In the worst case
-                  scenario, in which there is a complete system failure, some committed transactions might not have yet been written to the journal,
-                  and so will be rolled back.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>group-commit</term>
-                  <listitem>
-                     <para>If set to "yes", eXist will not sync the journal file immediately after every transaction commit. Instead, it will wait until
-                  the current file buffer (32kb) is really full. This can speed up eXist on some systems where a file sync is an expensive operation
-                  (mainly windows XP; not necessary on Linux).</para>
-                     <para>However, <literal>group-comit="yes"</literal> will increase the chance that an already committed operation is rolled back after a
-                  database crash.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>force-restart</term>
-                  <listitem>
-                     <para>Try to restart the db even if crash recovery failed. This is dangerous because there might be corruptions inside the data files.
-                  The transaction log will be cleared, all locks removed and the db reindexed.</para>
-                     <para>Set this option to "yes" if you need to make sure that the db is online, even after a fatal crash. Errors encountered during
-                  recovery are written to the log files. Scan the log files to see if any problems occurred.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>consistency-check</term>
-                  <listitem>
-                     <para>If set to "yes", a consistency check will be run on the database if an error was detected during crash recovery. This option
-                  requires force-restart to be set to "yes", otherwise it has no effect.</para>
-                     <para>The consistency check outputs a report to the directory {files}/sanity and if inconsistencies are found in the db, it writes an
-                  emergency backup to the same directory.</para>
-                  </listitem>
-               </varlistentry>
-            </variablelist>
-         </sect3>
-         <sect3>
-            <title>&lt;watchdog&gt;</title>
+      <para>This element sets parameters on how XML files are to be indexed by eXist. An example configuration is shown below:</para>
+      <programlisting language="xml" xlink:href="listings/listing-4.xml"/>
 
-            <para>This is the global configuration for the <emphasis>query watchdog</emphasis>. The watchdog monitors all query processes, and can
-            terminate any long-running queries if they exceed one of the predefined limits. These limits are as follows:</para>
-            <variablelist spacing="compact">
-               <title>&lt;watchdog&gt; Attributes</title>
+      <sect3>
+        <title>
+          <tag>indexer</tag> attributes</title>
 
-               <varlistentry>
-                  <term>query-timeout</term>
-                  <listitem>
-                     <para>This attribute sets the maximum amount of time (expressed in milliseconds) that the query can take before it is killed. The
-                  setting can be overwritten in an XQuery by specifiying the option <literal>exist:timeout</literal>:</para>
-                     <programlisting language="xquery">declare option exist:timeout "time-in-ms";</programlisting>
-                     <para>Please check the documentation on <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="xquery.xml#xqopts">XQuery options</link>.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>output-size-limit</term>
-                  <listitem>
-                     <para>This attribute limits the size of XML fragments constructed using XQuery, and thus sets the maximum amount of main memory a
-                  query is allowed to use. This limit is expressed as the maximum number of nodes allowed for an in-memory DOM tree. The purpose of
-                  this option is to avoid memory shortages on the server in cases where users are allowed to run queries that produce very large
-                  output fragments. The setting can be overwritten in an XQuery by specifying the option
-                  <literal>exist:output-size-limit</literal>:</para>
-                     <programlisting language="xquery">declare option exist:output-size-limit "size-hint";</programlisting>
-                  </listitem>
-               </varlistentry>
-            </variablelist>
-         </sect3>
-         <sect3>
-            <title>&lt;default-permissions&gt;</title>
-
-            <para>Specifies the default permissions for all resources and collections in eXist (see <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="security.xml"> User Authentication and
-              Access Control</link>). When this is not configured, the default "<literal>mod</literal>" (similar to the Unix "chmod" command) is set to
-              <literal>0775</literal> in the <literal>resources</literal> and <literal>collections</literal> attributes. A different default value may be
-            set for a database instance, and local overrides are also possible.</para>
-         </sect3>
-      </sect2>
-
-      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-      <sect2>
-         <title>&lt;indexer&gt;</title>
-
-         <para>This element sets parameters on how XML files are to be indexed by eXist. An example configuration is shown below:</para>
-         <example>
-            <title>Specifying Indexer-Options in conf.xml</title>
-            <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-4.xml"/>
-         </example>
-         <sect3>
-            <title>&lt;indexer&gt; Attributes</title>
-
-            <variablelist spacing="compact">
-               <varlistentry>
-                  <term>caseSensitive</term>
-                  <listitem>
-                     <para>Specifies whether string comparisons are to be case-sensitive. This option applies to XPath equality tests (i.e.
-                    "<literal>=</literal>" operator), as well as functions such as <literal>contains()</literal>, <literal>starts-with()</literal>
-                  and <literal>ends-with()</literal>. This setting does not apply to operators or functions of the fulltext index (e.g.
-                    "<literal>&amp;=</literal>", "<literal>|=</literal>", "<literal>near()</literal>") or the n-gram index, which are
-                    <emphasis>never</emphasis> case-sensitive</para>
-                     <para>Setting <literal>caseSensitive="no"</literal> violates the XQuery specs! The option should be regarded as a dirty workaround,
+        <variablelist spacing="compact">
+          <varlistentry>
+            <term><code>caseSensitive</code></term>
+            <listitem>
+              <para>Specifies whether string comparisons are to be case-sensitive. This option applies to XPath equality tests (i.e. the
+                  <literal>=</literal> operator), as well as functions such as <literal>contains()</literal>, <literal>starts-with()</literal> and
+                  <literal>ends-with()</literal>. </para>
+              <para>This setting does not apply to operators or functions of the full-text index (e.g. <literal>&amp;=</literal>,
+                  <literal>|=</literal>, <literal>near()</literal>) nor the n-gram index, which are <emphasis>never</emphasis> case-sensitive</para>
+              <warning>
+                <para>Setting <literal>caseSensitive="no"</literal> violates the XQuery specs! The option should be regarded as a dirty workaround,
                   which will be removed in the future. Please use the n-gram or full-text indexes for case-insensitive queries or - if that is
-                  impossible - specify a <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="xquery.xml#collations">collation</link>.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>suppress-whitespace</term>
-                  <listitem>
-                     <para>Specifies how the &lt;indexer&gt; is to treat whitespace at the start or end of a character sequence. This option
-                    <emphasis>ONLY</emphasis> applies to newly stored files, and therefore changing it has no effect on previously stored documents.
-                  Possible values for this attribute are:</para>
-                     <orderedlist>
-                        <listitem>
-                           <para>
-                              <literal>leading</literal> - Suppresses leading whitespace.</para>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              <literal>trailing</literal> - Suppresses trailing whitespace.</para>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              <literal>both</literal> - Suppresses leading and trailing whitespace.</para>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              <literal>none</literal> - Preserves all whitespace.</para>
-                        </listitem>
-                     </orderedlist>
-                     <para>Note that suppressing whitespace at the start or end of character sequences does effectively change the document!</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>preserve-whitespace-mixed-content</term>
-                  <listitem>
-                     <para>controls how ignorable whitespace is handled. If set to <literal>no</literal>, ignorable whitespace, e.g. between the end tag of
-                  an element and the start tag of another, will not be stored into the persistent DOM. This leads to a smaller DOM and usually
-                  increases the readability of the XML. Ignorable whitespace is not considered as a part of the logical document model, so removing it
-                  doesn't change the document.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>tokenizer</term>
-                  <listitem>
-                     <para>This attribute invokes the Java class used to tokenize a string into a sequence of single words or tokens, which are stored to
-                  the fulltext index. Currently only the <literal>SimpleTokenizer</literal> is available.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>index-depth</term>
-                  <listitem>
-                     <para>This attribute specifies the depth of the DOM index, or the tree level up to which elements will be added to the index. For
-                  example, a value of "<literal>2</literal>" results in the document root node and all its child elements being indexed; a value of
-                    "<literal>1</literal>" only indexes the root node.</para>
-                     <para>The DOM index maps unique node identifiers to the nodes' storage locations in the DOM file. Generating this index is time- and
-                  memory-consuming. It is furthermore primarily needed to access nodes by their unique node identifier - for example, when serializing
-                  XML data for query results or XUpdate - which are operations not normally considered time-critical. Moreover, most XPath expressions
-                  can do without this index since they use short-cuts to access the node directly.</para>
-                     <para>Beginning with version 0.9, only top-level elements are added to the DOM index, whereas attributes and text nodes are always
-                  excluded. This results in much smaller index sizes and, consequently, a smaller <literal>dom.dbx</literal> file
-                  size. Usually, setting the <literal>index-depth</literal> to a value of "<literal>2</literal>" offers a reasonable compromise of index
-                  size and performance. However, if your documents are <emphasis>deeply-structured</emphasis>, you might consider increasing this
-                  setting to a level of 3, 4 or 5. For example, if the longest path from the document root to an element node has greater than ten
-                  node levels, an <literal>index-depth</literal> setting of <literal>4</literal> or <literal>5</literal> would probably help to increase
-                  overall query performance for some types of queries.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>validation</term>
-                  <listitem>
-                     <para>This attribute defines the default setting for the validation of documents by the XML parser. If it is set to
-                    "<literal>no</literal>", documents will never be validated against an existing DTD or schema. A value of "<literal>auto</literal>"
-                  will leave document validation to the SAX parser (i.e. the <emphasis>Xerces</emphasis> parser).</para>
-                  </listitem>
-               </varlistentry>
-            </variablelist>
-         </sect3>
-         <sect3>
-            <title> &lt;modules&gt; </title>
+                  impossible - specify a <link xlink:href="xquery.xml#collations">collation</link>.</para>
+              </warning>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>suppress-whitespace</code></term>
+            <listitem>
+              <para>Specifies how the <tag>indexer</tag> is to treat whitespace at the start or end of a character sequence. This option
+                  <emphasis>only</emphasis> applies to newly stored files, and therefore changing it has no effect on previously stored documents.
+                Possible values for this attribute are:</para>
+              <orderedlist>
+                <listitem>
+                  <para>
+                    <literal>leading</literal> - Suppresses leading whitespace.</para>
+                </listitem>
+                <listitem>
+                  <para>
+                    <literal>trailing</literal> - Suppresses trailing whitespace.</para>
+                </listitem>
+                <listitem>
+                  <para>
+                    <literal>both</literal> - Suppresses leading and trailing whitespace.</para>
+                </listitem>
+                <listitem>
+                  <para>
+                    <literal>none</literal> - Preserves all whitespace.</para>
+                </listitem>
+              </orderedlist>
+              <para>Note that suppressing whitespace at the start or end of character sequences does effectively change the document!</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>preserve-whitespace-mixed-content</code></term>
+            <listitem>
+              <para>controls how ignorable whitespace is handled. If set to <literal>no</literal>, ignorable whitespace, e.g. between the end tag of
+                an element and the start tag of another, will not be stored into the persistent DOM. This leads to a smaller DOM and usually increases
+                the readability of the XML. Ignorable whitespace is not considered as a part of the logical document model, so removing it doesn't
+                change the document.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>tokenizer</code></term>
+            <listitem>
+              <para>This attribute invokes the Java class used to tokenize a string into a sequence of single words or tokens, which are stored to the
+                full-text index. Currently only <literal>SimpleTokenizer</literal> is available.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>index-depth</code></term>
+            <listitem>
+              <para>This attribute specifies the depth of the DOM index, or the tree level up to which elements will be added to the index. For
+                example, a value of <literal>2</literal> results in the document root node and all its child elements being indexed; a value of
+                  <literal>1</literal> only indexes the root node.</para>
+              <para>The DOM index maps unique node identifiers to the nodes' storage locations in the DOM file. Generating this index is time- and
+                memory-consuming. It is furthermore primarily needed to access nodes by their unique node identifier, for example, when serializing
+                XML data for query results or XUpdate - which are operations not normally considered time-critical. Moreover, most XPath expressions
+                can do without this index since they use short-cuts to access the node directly.</para>
+              <para>Normally only top-level elements are added to the DOM index, whereas attributes and text nodes are always excluded. This results
+                in much smaller index sizes and, consequently, a smaller <literal>dom.dbx</literal> file size. Usually, setting the
+                  <literal>index-depth</literal> to a value of <literal>2</literal> offers a reasonable compromise of index size and
+                performance.</para>
+              <para>However, if your documents are <emphasis>deeply-structured</emphasis>, you might consider increasing this setting to a level of 3,
+                4 or 5. For example, if the longest path from the document root to an element node has greater than ten node levels, an
+                  <literal>index-depth</literal> setting of <literal>4</literal> or <literal>5</literal> would probably help to increase overall query
+                performance for some types of queries.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>validation</code></term>
+            <listitem>
+              <para>This attribute defines the default setting for the validation of documents by the XML parser. If it is set to
+                  <literal>no</literal>, documents will never be validated against an existing DTD or schema. A value of <literal>auto</literal> will
+                leave document validation to the SAX parser.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </sect3>
 
-            <para>This section configures optional indexing modules. Beginning with version 1.2, eXist features a modularized indexing architecture,
-            which allows new indexes to be plugged into the indexing pipeline. The &lt;modules&gt; section lists and configures the indexes that will
-            be available to the database: </para>
-            <example>
-               <title>Configuring Index Modules</title>
-               <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-5.xml"/>
-            </example>
-            <para>The only common attributes for each &lt;module&gt; element are <literal>class</literal> and <literal>id</literal>. The other attributes as
-            well as any nested elements are specific to the index implementation. Detailed information is available in the document on <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="indexing.xml#moduleconf">Configuring Database Indexes</link>.</para>
-         </sect3>
-         <sect3>
-            <title> &lt;stopwords&gt; </title>
+      <sect3>
+        <title><tag>indexer</tag>/<tag>modules</tag> element </title>
 
-            <para>The <literal>file</literal> for this element points to a file containing a list of <emphasis>stopwords</emphasis>. Note that stopwords
-            are <emphasis>NOT</emphasis> added to the fullext index.</para>
-         </sect3>
-         <sect3>
-            <title> &lt;index&gt; </title>
+        <para>This section configures optional indexing modules. Beginning with version 1.2, eXist features a modularized indexing architecture, which
+          allows new indexes to be plugged into the indexing pipeline. The <tag>modules</tag> section lists and configures the indexes that will be
+          available to the database:</para>
+        <programlisting language="xml" xlink:href="listings/listing-5.xml"/>
+        <para>The only common attributes for each <tag>module</tag> element are <literal>class</literal> and <literal>id</literal>. The other
+          attributes, as well as any nested elements, are specific to the index implementation. Detailed information is available in the article on
+            <link xlink:href="indexing.xml#moduleconf">Configuring Database Indexes</link>.</para>
+      </sect3>
 
-            <para>This configuration element specifies the default index settings. These settings are applied if neither the collection nor any of its
-            ancestors provide a collection configuration. Configuring indexes via the default settings is not recommended. If you need a global
-            collection configuration, store one for the root collection <literal>/db</literal>. For more information, read the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="indexing.xml"> Configuring Indexes</link> documentation.</para>
-         </sect3>
-      </sect2>
+      <sect3>
+        <title><tag>indexer</tag>/<tag>stopwords</tag> element </title>
 
-      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <para>The <literal>file</literal> attribute for this element points to a file containing a list of <emphasis>stop-words</emphasis>. Stop-words
+          are not added to the full-text index.</para>
+      </sect3>
 
-      <sect2>
-         <title> &lt;scheduler&gt; </title>
+      <sect3>
+        <title><tag>indexer</tag>/<tag>index</tag> element </title>
 
-         <para>This section is used to configure asynchronous jobs with eXist's internal scheduler. Three types of jobs are supported:</para>
-         <variablelist spacing="compact">
-            <varlistentry>
-               <term>startup jobs</term>
-               <listitem>
-                  <para>Startup jobs are executed once during database startup, but before the database becomes available. These jobs are synchronous. The
-                database is blocked to outside requests and no other operations will run at the same time.</para>
-               </listitem>
-            </varlistentry>
-            <varlistentry>
-               <term>system jobs</term>
-               <listitem>
-                  <para>System jobs require the database to be in a consistent state. The scheduler will run them in an exclusive environment. Once the
-                job is triggered, the database will block all new requests and wait for running operations to complete. It then executes the job. All
-                other database operations will be stopped until the job returns or throws an exception. Any exception will be caught and a warning
-                written to the log.</para>
-               </listitem>
-            </varlistentry>
-            <varlistentry>
-               <term>user jobs</term>
-               <listitem>
-                  <para>User jobs may be scheduled at any time and may be mutually exclusive or non-exclusive</para>
-               </listitem>
-            </varlistentry>
-         </variablelist>
-         <para>Below is an example which configures a <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="backup.xml#backuptask">BackupSystemTask</link>: </para>
-         <example>
-            <title>Configuring a BackupSystemTask</title>
-            <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-6.xml"/>
-         </example>
-         <para>Each job is configured in a &lt;job&gt; element which accepts a number of standard attributes:</para>
-         <sect3>
-            <title> &lt;job&gt; attributes</title>
+        <para>This configuration element specifies the default index settings. These settings are applied if neither the collection nor any of its
+          ancestors provide a collection configuration.</para>
+        <para>Configuring indexes via the default settings is <emphasis>not</emphasis> recommended. If you need a global collection configuration,
+          store one for the root collection <literal>/db</literal>. For more information, see <link xlink:href="indexing.xml">Configuring
+            Indexes</link>.</para>
+      </sect3>
+    </sect2>
 
-            <variablelist spacing="compact">
-               <varlistentry>
-                  <term>type</term>
-                  <listitem>
-                     <para>The type of the job to schedule. Must be either "startup", "system" or "user".</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>class</term>
-                  <listitem>
-                     <para>If the job is written in Java then this should be the name of the class that extends either</para>
-                     <itemizedlist>
-                        <listitem>
-                           <para>org.exist.scheduler.StartupJob</para>
-                        </listitem>
-                        <listitem>
-                           <para>org.exist.storage.SystemTask</para>
-                        </listitem>
-                        <listitem>
-                           <para>org.exist.scheduler.UserJavaJob</para>
-                        </listitem>
-                     </itemizedlist>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>xquery</term>
-                  <listitem>
-                     <para>If the job is written in XQuery (not suitable for system jobs) then this should be a path to an XQuery stored in the database.
-                  e.g. <literal>/db/myCollection/myJob.xql</literal> XQuery job's will be launched under the guest account initially, although the
-                  running XQuery may switch permissions through calls to <literal>xmldb:login()</literal>.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>cron-trigger</term>
-                  <listitem>
-                     <para>To define a firing pattern for the Job using Cron style syntax use this attribute otherwise for a periodic job use the period
-                  attribute. Not applicable to startup jobs.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>unschedule-on-exception</term>
-                  <listitem>
-                     <para>Boolean: yes/true, no/false. Default: true. If true and an exception is encountered then the job is unscheduled for further
-                  execution until a restart; otherwise, the exception is ignored.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>period</term>
-                  <listitem>
-                     <para>Can be used to define an explicit period for firing the job instead of a Cron style syntax. The period should be in
-                  milliseconds. Not applicable to startup jobs.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>delay</term>
-                  <listitem>
-                     <para>Can be used with a period to delay the start of a job. If unspecified jobs will start as soon as the database and scheduler are
-                  initialised.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>repeat</term>
-                  <listitem>
-                     <para>Can be used with a period to define for how many periods a job should be executed. If unspecified jobs will repeat for every
-                  period indefinitely.</para>
-                  </listitem>
-               </varlistentry>
-            </variablelist>
-            <para>Every job can take additional parameters, which are passed as name/value pairs (see example above).</para>
-         </sect3>
-      </sect2>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <sect2>
+      <title><tag>scheduler</tag> element </title>
 
-      <sect2>
-         <title>&lt;serializer&gt;</title>
+      <para>This section is used to configure asynchronous jobs with eXist's internal scheduler. Three types of jobs are supported:</para>
+      <variablelist spacing="compact">
+        <varlistentry>
+          <term>startup jobs</term>
+          <listitem>
+            <para>Startup jobs are executed once during database startup, but before the database becomes available. These jobs are synchronous. The
+              database is blocked to outside requests and no other operations will run at the same time.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>system jobs</term>
+          <listitem>
+            <para>System jobs require the database to be in a consistent state. The scheduler will run them in an exclusive environment. Once the job
+              is triggered, the database will block all new requests and wait for running operations to complete. It then executes the job. All other
+              database operations will be stopped until the job returns or throws an exception. Any exception will be caught and a warning written to
+              the log.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>user jobs</term>
+          <listitem>
+            <para>User jobs may be scheduled at any time and may be mutually exclusive or non-exclusive</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      <para>Below is an example which configures a <link xlink:href="backup.xml#backuptask">BackupSystemTask</link>: </para>
 
-         <para>The serializer is responsible for serializing XML documents or document fragments back into XML. This configuration element defines
-          default settings for various parameters, which can also be specified programmatically. All settings can be overwritten by XQuery <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="xquery.xml#serialization">serialization options</link>.</para>
-         <sect3>
-            <title>&lt;serializer&gt; Attributes</title>
+      <programlisting language="xml" xlink:href="listings/listing-6.xml"/>
+      <para>Each job is configured in a <tag>job</tag> element which accepts a number of standard attributes:</para>
+      <sect3>
+        <title>
+          <tag>job</tag> attributes</title>
 
-            <variablelist spacing="compact">
-               <varlistentry>
-                  <term>enable-xinclude</term>
-                  <listitem>
-                     <para>This attribute determines whether &lt;xinclude&gt; tags are to be expanded during serialization. Setting the value to
-                    "<literal>false</literal>" will leave &lt;xinclude&gt; tags unexpanded.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>enable-xsl</term>
-                  <listitem>
-                     <para>This attribute (when set to "<literal>true</literal>") tells the serializer to pass its output to an XSL stylesheet when it
-                  encounters an XSL processing-instruction at the start of the document.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>add-exist-id</term>
-                  <listitem>
-                     <para>This attribute tells the serializer to add debug information to each element expressed as additional attributes. This
-                  information includes the internal identifier of the node and source document. These are the accepted values:</para>
-                     <orderedlist>
-                        <listitem>
-                           <para>
-                              <literal>all</literal> - Adds debug information to every node in the output.</para>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              <literal>element</literal> - Adds debug information to top-level elements only.</para>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              <literal>none</literal> (default) - Disables debugging feature.</para>
-                        </listitem>
-                     </orderedlist>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>indent</term>
-                  <listitem>
-                     <para>The serializer defaults to pretty-print the resulting XML source code. Set this option to "<literal>no</literal>" to disable
-                  pretty-printing.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>match-tagging-elements</term>
-                  <listitem>
-                     <para>The database can highlight matches in the text content of a node by tagging the matching text string with &lt;exist:match&gt;.
-                  Clearly, this only works for XPath expressions using the fulltext index. Set the parameter to "<literal>yes</literal>" to
-                    <emphasis>disable</emphasis> this feature.</para>
-                  </listitem>
-               </varlistentry>
-            </variablelist>
-         </sect3>
-      </sect2>
+        <variablelist spacing="compact">
+          <varlistentry>
+            <term><code>type</code></term>
+            <listitem>
+              <para>The type of the job to schedule. Must be either <code>startup</code>, <code>system</code> or <code>user</code>.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>class</code></term>
+            <listitem>
+              <para>If the job is written in Java this should be the name of the class that extends either</para>
+              <itemizedlist>
+                <listitem>
+                  <para><code>org.exist.scheduler.StartupJob</code></para>
+                </listitem>
+                <listitem>
+                  <para><code>org.exist.storage.SystemTask</code></para>
+                </listitem>
+                <listitem>
+                  <para><code>org.exist.scheduler.UserJavaJob</code></para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>xquery</code></term>
+            <listitem>
+              <para>If the job is written in XQuery (not suitable for system jobs) this should be a path to the XQuery stored in the database, e.g.
+                  <literal>/db/myCollection/myJob.xql</literal>. XQuery job's will be launched under the <code>guest</code> account initially. The
+                running XQuery may switch permissions through calls to <literal>xmldb:login()</literal>.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>cron-trigger</code></term>
+            <listitem>
+              <para>To define a firing pattern for the Job using <code>cron</code> style syntax. Not applicable to start-up jobs.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>unschedule-on-exception</code></term>
+            <listitem>
+              <para>Either <code>true</code> (default) or <code>false</code>. If <code>true</code> and an exception is encountered the job is
+                unscheduled for further execution until a restart. Otherwise, the exception is ignored.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>period</code></term>
+            <listitem>
+              <para>Can be used to define an explicit period for firing the job instead of a <code>cron</code> style syntax. Expressed in
+                milliseconds. Not applicable to start-up jobs.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>delay</code></term>
+            <listitem>
+              <para>Can be used for periodic jobs to delay the start of a job. If unspecified jobs will start as soon as the database and scheduler
+                are initialised.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>repeat</code></term>
+            <listitem>
+              <para>Can be used for periodic jobs to define how many periods a job should be executed. If unspecified, jobs will repeat
+                indefinitely.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+        <para>Every job can take additional parameters, which are passed as name/value pairs.</para>
+      </sect3>
+    </sect2>
 
-      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-      <sect2>
-         <title> &lt;transformer&gt; </title>
+    <sect2>
+      <title><tag>serializer</tag> element </title>
 
-         <para>This section determines which XSLT processor will be used by eXist. By default, eXist relies on Xalan, which is an XSLT 1.0 engine.
-          Please refer to <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://atomic.exist-db.org/wiki/HowTo/XSLT2/">this howto</link> to switch to an XSLT 2.0 processor like
-          saxon.</para>
-      </sect2>
+      <para>The serializer is responsible for serializing XML documents or document fragments back into XML. This configuration element defines
+        default settings for various parameters, which can also be specified programmatically. All settings can be overwritten by XQuery <link xlink:href="xquery.xml#serialization">serialization options</link>.</para>
+      <sect3>
+        <title><tag>serializer</tag> attributes</title>
 
-      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <variablelist spacing="compact">
+          <varlistentry>
+            <term><code>enable-xinclude</code></term>
+            <listitem>
+              <para>This attribute determines whether <tag>xinclude</tag> tags are to be expanded during serialization. Setting the value to
+                  <literal>false</literal> will leave <tag>xinclude</tag> tags unexpanded.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>enable-xsl</code></term>
+            <listitem>
+              <para>Setting this attribute to <literal>true</literal> tells the serializer to pass its output to an XSL stylesheet when it encounters
+                an XSL processing-instruction at the start of the document.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>add-exist-id</code></term>
+            <listitem>
+              <para>This attribute tells the serializer to add additional debug attributes to each element. This information includes the internal
+                identifier of the node and source document. Values:</para>
+              <orderedlist>
+                <listitem>
+                  <para>
+                    <literal>all</literal> - Adds debug information to every node in the output.</para>
+                </listitem>
+                <listitem>
+                  <para>
+                    <literal>element</literal> - Adds debug information to top-level elements only.</para>
+                </listitem>
+                <listitem>
+                  <para>
+                    <literal>none</literal> (default) - Disables debugging feature.</para>
+                </listitem>
+              </orderedlist>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>indent</code></term>
+            <listitem>
+              <para>The serializer defaults to pretty-print the resulting XML source code. Setingt this option to <literal>no</literal> disables
+                pretty-printing.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>match-tagging-elements</code></term>
+            <listitem>
+              <para>The database can highlight matches in the text content of a node by tagging the matching text string with <tag>exist:match</tag>.
+                This only works for XPath expressions using the full-text index. Set the parameter to <literal>yes</literal> to
+                  <emphasis>disable</emphasis> this feature.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </sect3>
+    </sect2>
 
-      <sect2>
-         <title> &lt;validation&gt; </title>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-         <para>Defines the default validation settings that will be active when parsing XML and links to catalog files. Catalog files are used to
-          locate DTDs, schemas and resolve external entities in general.</para>
-         <para>Please refer to the corresponding documentation on <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="validation.xml">XML Validation</link>.</para>
-      </sect2>
+    <sect2>
+      <title><tag>transformer</tag> element </title>
 
-      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+      <para>This section determines which XSLT processor will be used by eXist. By default, eXist relies on Saxon.</para>
+    </sect2>
 
-      <sect2>
-         <title>&lt;xupdate&gt;</title>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-         <para>Inserting new nodes into a document can lead to fragmentation in the DOM storage file. eXist will thus trigger a defragmentation run if
-          the fragmentation exceeds a certain limit. The frequency of such defragmentation runs can be configured in the &lt;xupdate&gt; section. The
-          main parameter is called <literal>allowed-fragmentation</literal>:</para>
-         <example>
-            <title>XUpdate-Options in conf.xml</title>
-            <programlisting language="xml">&lt;xupdate allowed-fragmentation="20" enable-consistency-checks="no" /&gt;</programlisting>
-         </example>
-         <sect3>
-            <title>&lt;xupdate&gt; Attributes</title>
+    <sect2>
+      <title><tag>validation</tag> element </title>
 
-            <variablelist spacing="compact">
-               <varlistentry>
-                  <term>allowed-fragmentation</term>
-                  <listitem>
-                     <para>This attribute defines the maximum number of page splits allowed within a document before a defragmentation run is
-                  triggered.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>enable-consistency-checks</term>
-                  <listitem>
-                     <para>This attribute is for or debugging purposes only. If the parameter is set to "<literal>yes</literal>", a <emphasis>consistency
-                    check</emphasis> will be run on modified documents after every XUpdate request. This checks whether the persistent DOM is
-                  complete, and all pointers in the structural index point to valid storage addresses that contain valid nodes.</para>
-                  </listitem>
-               </varlistentry>
-            </variablelist>
-         </sect3>
-      </sect2>
+      <para>Defines the default validation settings active when parsing XML and links to catalog files. Catalog files are used to locate DTDs, schemas
+        and resolve external entities in general.</para>
+      <para>Please refer to the corresponding documentation on <link xlink:href="validation.xml">XML Validation</link>.</para>
+    </sect2>
 
-      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-      <sect2>
-         <title> &lt;xquery&gt; </title>
+    <sect2>
+      <title><tag>xupdate</tag> element</title>
 
-         <example>
-            <title>XQuery Engine Configuration</title>
-            <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-8.xml"/>
-         </example>
-         <para>The &lt;xquery&gt; section is used to enable/disable certain core features of the XQuery engine. It also lists the XQuery modules that
-          will be known to the query engine by default.</para>
-         <sect3>
-            <title> &lt;xquery&gt; attributes</title>
+      <para>Inserting new nodes into a document can lead to fragmentation in the DOM storage file. eXist will thus trigger a de-fragmentation run if
+        the fragmentation exceeds a certain limit. The frequency of such de-fragmentation runs can be configured in the <tag>xupdate</tag> section.
+        The main parameter is called <literal>allowed-fragmentation</literal>:</para>
 
-            <variablelist spacing="compact">
-               <varlistentry>
-                  <term>enable-java-binding=yes|no</term>
-                  <listitem>
-                     <para>enables or disables the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="xquery.xml#javamods">java binding</link>. Giving users full access to all Java classes
-                  should be considered a security risk and the feature is thus disabled by default.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>disable-deprecated-functions=yes|no</term>
-                  <listitem>
-                     <para>enables or disables XQuery functions marked as deprecated.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>enforce-index-use=strict|always</term>
-                  <listitem>
-                     <para>controls if available range indexes should be used if only some collections in the context set define a matching index.
-                  Available settings are: "always" to always use an index, even if it does not apply to the entire set of collections being queried;
-                  "strict" to only use indexes if they are defined for the entire collection set.</para>
-                     <para>For example, if you have two collections: /db/one and /db/two, and you define a range index on a certain element &lt;node&gt; in
-                  /db/one, but not in /db/two, the query engine would not use the index with setting "strict" if you query both collections. At
-                  compile time, eXist doesn't know if &lt;node&gt; exists in both collections and will not use the index if it determines that an
-                  index definition does only apply to a part of the collection set being queried. To use the index, you would need to start your XPath
-                  expression with a call to collection(), selecting the correct collection with the index defined.</para>
-                     <para>On the other hand, if enforce-index-use is set to "always", the query engine only checks if one collection in the collection set
-                  has a matching index defined on it. This may lead to an incomplete query result if one forgets certain collections.</para>
-                     <para>In other words, when enforce-index-use is set to "always", it is the query writers responsibility to make sure indexes are
-                  defined properly. But experience has shown it is easier for users to understand that a certain result is incomplete because an index
-                  is missing, whereas they have problems to see that a performance issue is caused by inconsistent indexing. </para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>raise-error-on-failed-retrieval=yes|no</term>
-                  <listitem>
-                     <para>set to <literal>"yes"</literal> if a call to <literal>doc()</literal>, <literal>xmldb:document()</literal>,
-                    <literal>collection()</literal> or <literal>xmldb:xcollection()</literal> should raise an error (FODC0002) when an XML resource
-                  can not be retrieved.</para>
-                     <para>set to <literal>"no"</literal> if a call to <literal>doc()</literal>, <literal>xmldb:document()</literal>,
-                    <literal>collection()</literal> or <literal>xmldb:xcollection()</literal> should return an empty sequence when an XML resource can
-                  not be retrieved.</para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>enable-query-rewriting=yes|no</term>
-                  <listitem>
-                     <para>the query engine can often achieve considerable performance improvements by rewriting an XQuery expression into a more efficient
-                  form (see the documentation about <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="indexing.xml#pathvsqname">indexing</link>). However, these features are relatively
-                  new. If you have doubts about the correctness of a query result, you may temporarily set <literal>enable-query-rewriting</literal> to
-                    <literal>"no"</literal> and see if the result changes in any way. If it does, you have hit a bug which should be reported. </para>
-                  </listitem>
-               </varlistentry>
-               <varlistentry>
-                  <term>backwardCompatible=yes|no</term>
-                  <listitem>
-                     <para>enables or disables XPath 1.0 backwards compatibility. The setting mainly effects automatic type conversions, which were less
-                  strict in XPath 1.0 than in XQuery/XPath 2.0.</para>
-                  </listitem>
-               </varlistentry>
-            </variablelist>
-         </sect3>
-         <sect3>
-            <title>&lt;builtin-modules&gt; </title>
+      <programlisting language="xml"><![CDATA[<xupdate allowed-fragmentation="20" enable-consistency-checks="no" />]]></programlisting>
+      <sect3>
+        <title>
+          <tag>xupdate</tag> attributes</title>
 
-            <para>This section lists the XQuery modules which will be known to the query engine. The modules in this list can be imported into a query
-            without specifying a location. For example, the following entry:</para>
-            <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-9.xml"/>
-            <para>establishes a static mapping between the module URI for the file module and the Java class which implements it. When using that
-            module, it is sufficient to provide the correct URI in the import. Specifying a location is not needed:</para>
-            <programlisting language="xquery">import module namespace file="http://exist-db.org/xquery/file";</programlisting>
-            <para>Instead of providing a Java class, one can also specify a src URI which must point to the XQuery source code of the module,
-            e.g.:</para>
-            <programlisting language="xml">&lt;module uri="http://exist-db.org/xquery/kwic" src="resource:org/exist/xquery/lib/kwic.xql"/&gt;</programlisting>
-            <para>For the src attribute, eXist understands the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="xquery.xml#module-system">same types of URIs</link> as in an ordinary XQuery
-            import statement.</para>
-         </sect3>
-      </sect2>
-   </sect1>
+        <variablelist spacing="compact">
+          <varlistentry>
+            <term><code>allowed-fragmentation</code></term>
+            <listitem>
+              <para>This attribute defines the maximum number of page splits allowed within a document before a de-fragmentation run is
+                triggered.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>enable-consistency-checks</code></term>
+            <listitem>
+              <para>This attribute is for or debugging purposes only. If the parameter is set to <literal>yes</literal>, a <emphasis>consistency
+                  check</emphasis> will be run on modified documents after every XUpdate request. This checks whether the persistent DOM is complete,
+                and all pointers in the structural index point to valid storage addresses that contain valid nodes.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </sect3>
+    </sect2>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2>
+      <title><tag>xquery</tag> element</title>
+
+      <programlisting language="xml" xlink:href="listings/listing-8.xml"/>
+      <para>The <tag>xquery</tag> section is used to enable/disable certain core features of the XQuery engine. It also lists the XQuery modules that
+        will be known to the query engine by default.</para>
+
+      <sect3>
+        <title><tag>xquery</tag> attributes</title>
+
+        <variablelist spacing="compact">
+          <varlistentry>
+            <term><code>enable-java-binding</code></term>
+            <listitem>
+              <para>Set to <code>yes</code> to enable the <link xlink:href="xquery.xml#javamods">java binding</link>. Giving users full access to all
+                Java classes should be considered a security risk and the feature is thus disabled by default.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>disable-deprecated-functions</code></term>
+            <listitem>
+              <para>Set to <code>yes</code> to enable XQuery functions marked as deprecated.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>enforce-index-use</code></term>
+            <listitem>
+              <para>controls if available range indexes should be used if only some collections in the context set define a matching index. Available
+                settings are: </para>
+              <itemizedlist>
+                <listitem>
+                  <para><code>always</code> to always use an index, even if it does not apply to the entire set of collections being queried.</para>
+                </listitem>
+                <listitem>
+                  <para><code>strict</code> to only use indexes if they are defined for the entire collection set.</para>
+                </listitem>
+              </itemizedlist>
+
+              <para> </para>
+              <para>For example, if you have two collections: <code>/db/one</code> and <code>/db/two</code>, and you define a range index on a certain
+                element <tag>node</tag> in <code>/db/one</code>, but not in <code>/db/two</code>, the query engine would not use the index with
+                setting <code>strict</code> if you query both collections. At compile time, eXist doesn't know if <tag>node</tag> exists in both
+                collections and will not use the index if it determines that an index definition does only apply to a part of the collection set being
+                queried. To use the index, you would need to start your XPath expression with a call to <code>collection()</code>, selecting the
+                correct collection with the index defined.</para>
+              <para>If <code>enforce-index-use</code> is set to <code>always</code>, the query engine only checks if one collection in the collection
+                set has a matching index defined on it. This may lead to an incomplete query result if one forgets certain collections.</para>
+              <para>In other words, when <code>enforce-index-use</code> is set to "always", it is the query writer's responsibility to make sure
+                indexes are defined properly. But experience has shown it is easier for users to understand that a certain result is incomplete
+                because an index is missing, whereas they have problems to see that a performance issue is caused by inconsistent indexing. </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>raise-error-on-failed-retrieval</code></term>
+            <listitem>
+              <para>Set to <literal>yes</literal> if a call to <literal>doc()</literal>, <literal>xmldb:document()</literal>,
+                  <literal>collection()</literal> or <literal>xmldb:xcollection()</literal> should raise an error (FODC0002) when an XML resource can
+                not be retrieved.</para>
+              <para>Set to <literal>no</literal> if a call to <literal>doc()</literal>, <literal>xmldb:document()</literal>,
+                  <literal>collection()</literal> or <literal>xmldb:xcollection()</literal> should return an empty sequence when an XML resource can
+                not be retrieved.</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>enable-query-rewriting</code>o</term>
+            <listitem>
+              <para>the query engine can often achieve considerable performance improvements by rewriting an XQuery expression into a more efficient
+                form (see the documentation about <link xlink:href="indexing.xml#pathvsqname">indexing</link>). However, these features are relatively
+                new. If you have doubts about the correctness of a query result, you may temporarily set <literal>enable-query-rewriting</literal> to
+                  <literal>no</literal> and see if the result changes in any way. If it does, you have hit a bug which should be reported. </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><code>backwardCompatible</code></term>
+            <listitem>
+              <para>|Set to <code>yes</code> to enable XPath 1.0 backwards compatibility. The setting mainly effects automatic type conversions, which
+                were less strict in XPath 1.0 than in later versions.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </sect3>
+
+      <sect3>
+        <title><tag>xquery</tag>/<tag>builtin-modules</tag> element </title>
+
+        <para>This section lists the XQuery modules which will be known to the query engine. The modules in this list can be imported into a query
+          without specifying a location. For example:</para>
+        <programlisting language="xml" xlink:href="listings/listing-9.xml"/>
+        <para>This establishes a static mapping between the module URI for the file module and the Java class which implements it. When using that
+          module, it is sufficient to provide the correct URI in the import. Specifying a location is not needed, like in:</para>
+        <programlisting language="xquery">import module namespace file="http://exist-db.org/xquery/file";</programlisting>
+        <para>Instead of providing a Java class, one can also specify a <code>src</code> URI which must point to the XQuery source code of the module,
+          for instance:</para>
+        <programlisting language="xml"><![CDATA[<module uri="http://exist-db.org/xquery/kwic" src="resource:org/exist/xquery/lib/kwic.xql"/>]]></programlisting>
+        <para>For the <code>src</code> attribute, eXist understands the <link xlink:href="xquery.xml#module-system">same types of URIs</link> as in an
+          ordinary XQuery import statement.</para>
+      </sect3>
+    </sect2>
+
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Services</title>
+
+    <para>The following table lists which services and modules ship with eXist-db, a description of each, the resources in the eXist installation
+      where they are configured and whether they are active by default in an out-of-the box configuration.</para>
+
+    <informaltable>
+      <tgroup cols="2">
+        <thead>
+          <row>
+            <entry>
+              <para>Service</para>
+            </entry>
+            <entry>
+              <para>Description</para>
+            </entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>
+              <para>debugger</para>
+            </entry>
+            <entry>
+              <para> This is an XQuery debugger.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>fluent</para>
+            </entry>
+            <entry>
+              <para>This is an API for embedded access to eXist-db which is tightly integrated with java.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Desktop Application Support</para>
+            </entry>
+            <entry/>
+          </row>
+          <row>
+            <entry>
+              <para>LDAP</para>
+            </entry>
+            <entry>
+              <para> LDAP is an authentication mechanism by binding.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>OpenID </para>
+            </entry>
+            <entry>
+              <para> OpenID is an authentication mechanism where the identity of the user is maintained by trusted external providers.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>OAuth </para>
+            </entry>
+            <entry>
+              <para> OAuth is an authentication mechanism where the identity of the user is maintained by trusted external providers.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Versioning </para>
+            </entry>
+            <entry>
+              <para> Versioning extension</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>XQDoc </para>
+            </entry>
+            <entry>
+              <para> xqDoc provides a simple vendor neutral solution for documenting XQuery library and main modules that is similar to
+                JavaDoc.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>XSLT </para>
+            </entry>
+            <entry>
+              <para>XSLT extension</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Cache </para>
+            </entry>
+            <entry>
+              <para> Cache module</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Compression </para>
+            </entry>
+            <entry>
+              <para>Provides functions to manipulate archives, tar/zip/gzip</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Context </para>
+            </entry>
+            <entry>
+              <para> Context module</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Counter </para>
+            </entry>
+            <entry>
+              <para> Persistent counter module</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Datetime </para>
+            </entry>
+            <entry>
+              <para> Date/DateTime/Time utility functions module</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Example </para>
+            </entry>
+            <entry>
+              <para> This is an example Java based function module. It is a template for creating other Java based function modules.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>File </para>
+            </entry>
+            <entry>
+              <para> Provides functions to manipulate files in the local file system.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Http Client</para>
+            </entry>
+            <entry>
+              <para> This provides functions to call other web servers as if eXist were a web browser.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Image</para>
+            </entry>
+            <entry>
+              <para> Generate thumbnails of images.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>JFreechart</para>
+            </entry>
+            <entry>
+              <para> Provides functions to generate graphs using JFreechart</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>JNDI</para>
+            </entry>
+            <entry>
+              <para> Provides functions to query a JNDI Directory</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Mail</para>
+            </entry>
+            <entry>
+              <para> Send emails from XQuery</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Math</para>
+            </entry>
+            <entry>
+              <para> Math function module</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Scheduler</para>
+            </entry>
+            <entry>
+              <para> The Quartz scheduler</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>SimpleQL</para>
+            </entry>
+            <entry>
+              <para> Implements a simple query language which is translated into XQuery</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>SQL</para>
+            </entry>
+            <entry>
+              <para> A set of functions to query a SQL database.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Subversion</para>
+            </entry>
+            <entry>
+              <para> Provides functions to query a subversion repository</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>XMLDiff</para>
+            </entry>
+            <entry>
+              <para> Utility module to compare XML fragments</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>XMPP</para>
+            </entry>
+            <entry>
+              <para> XMPP client; based on smack</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>XSL FO</para>
+            </entry>
+            <entry>
+              <para> XSL FO transformations (Uses Apache FOP)</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>XML RPC</para>
+            </entry>
+            <entry>
+              <para> RpcServlet provides XML-RPC access to eXist</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>DatabaseAdminServlet</para>
+            </entry>
+            <entry>
+              <para>This servlet can be used to ensure that eXist-db is running in the background. Just set the start-parameter to true and
+                load-on-startup to 1 </para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>webDAV</para>
+            </entry>
+            <entry>
+              <para> Servlet that enables webDAV</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>XQueryServlet</para>
+            </entry>
+            <entry>
+              <para>This generates HTML from an XQuery file</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>XQueryURLRewrite</para>
+            </entry>
+            <entry/>
+          </row>
+          <row>
+            <entry>
+              <para>Axis/SOAP</para>
+            </entry>
+            <entry>
+              <para>Axis provides eXist's web-services via SOAP</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Atom</para>
+            </entry>
+            <entry>
+              <para>Atom Publishing Protocol</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Webstart (jnlp)</para>
+            </entry>
+            <entry/>
+          </row>
+          <row>
+            <entry>
+              <para>Indexing</para>
+            </entry>
+            <entry/>
+          </row>
+          <row>
+            <entry>
+              <para>Scheduler</para>
+            </entry>
+            <entry>
+              <para>This module executes scheduled system tasks.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Serializer</para>
+            </entry>
+            <entry/>
+          </row>
+          <row>
+            <entry>
+              <para>XSLT Transformer</para>
+            </entry>
+            <entry>
+              <para>Default settings for the XSLT Transformer. Allow's for a choice of implementation.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>XML Validation</para>
+            </entry>
+            <entry/>
+          </row>
+          <row>
+            <entry>
+              <para>XProc</para>
+            </entry>
+            <entry/>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+  </sect1>
+
 </article>

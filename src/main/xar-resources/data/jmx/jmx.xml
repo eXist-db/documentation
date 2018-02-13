@@ -1,6 +1,6 @@
-<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<article xmlns="http://docbook.org/ns/docbook" version="5.0">
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
   <info>
     <title>Java Management Extensions (JMX)</title>
     <date>September 2009</date>
@@ -14,10 +14,13 @@
   <sect1>
     <title>Intro</title>
 
-    <para>eXist-db provides access to various management interfaces via Java Management Extensions (JMX). JMX is a standard mechanism available in Java 5 and above. An agent in the Java virtual machine exposes agent services as so-called MBeans that
-      belong to different components running within the virtual machine. A JMX-compliant management application can then connect to the agent through the MBeans and access the available services in a standardized way. The standard Java installation
-      includes a simple client, JConsole, which will also display the eXist-specific services. However, eXist also provides a command-line client for quick access to server statistics and other information.</para>
-    <para>Right now, eXist only exposes a limited set of read-only services. Most of them are only useful for debugging. This will certainly change in the future as we add more services. We also plan to provide write access to configuration properties.</para>
+    <para>eXist-db provides access to various management interfaces via Java Management Extensions (JMX). JMX is a standard mechanism available in
+      Java 5 and above. An agent in the Java virtual machine exposes agent services as so-called MBeans that belong to different components running
+      within the virtual machine. A JMX-compliant management application can then connect to the agent through the MBeans and access the available
+      services in a standardized way. The standard Java installation includes a simple client, JConsole, which will also display the eXist-specific
+      services. However, eXist also provides a command-line client for quick access to server statistics and other information.</para>
+    <para>Right now, eXist only exposes a limited set of read-only services. Most of them are only useful for debugging. This will certainly change in
+      the future as we add more services. We also plan to provide write access to configuration properties.</para>
   </sect1>
 
   <!-- ================================================================== -->
@@ -25,20 +28,14 @@
   <sect1>
     <title>Enabling the JMX agent</title>
 
-    <para>To enable the platform server within the host virtual machine, you need to pass a few Java system properties to the
-      <literal>java</literal>
+    <para>To enable the platform server within the host virtual machine, you need to pass a few Java system properties to the <literal>java</literal>
       executable. The properties are:</para>
     <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-1.txt"/>
     <note>
-      <para>This option makes the server publicly accessible. Please check the Oracle
-        <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://docs.oracle.com/javase/1.5.0/docs/guide/management/agent.html">
-          JMX documentation
-        </link>
-        for details.</para>
+      <para>This option makes the server publicly accessible. Please check the Oracle <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://docs.oracle.com/javase/1.5.0/docs/guide/management/agent.html"> JMX documentation </link> for details.</para>
     </note>
     <para>The extension can be activated by passing a command-line parameter to the eXist start scripts (<literal>client.sh</literal>,
-      <literal>startup.sh</literal>
-      etc.)</para>
+        <literal>startup.sh</literal> etc.)</para>
     <variablelist spacing="normal">
       <varlistentry>
         <term>-j &lt;argument&gt;, --jmx &lt;argument&gt;</term>
@@ -50,9 +47,7 @@
     <para>Some examples:</para>
     <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-2.txt"/>
     <note>
-      <para>In the Oracle Java SE 6 and 7 platforms, the JMX agent for local monitoring is
-        <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://java.sun.com/javase/6/docs/technotes/guides/management/agent.html">enabled</link>
-        by default.</para>
+      <para>In the Oracle Java SE 6 and 7 platforms, the JMX agent for local monitoring is <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://java.sun.com/javase/6/docs/technotes/guides/management/agent.html">enabled</link> by default.</para>
     </note>
   </sect1>
 
@@ -61,16 +56,18 @@
   <sect1>
     <title>Monitoring and Management</title>
 
+
+
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
     <sect2>
       <title>Use JConsole</title>
 
-      <para>Once you restart eXist, you can use a JMX-compliant management console to access the management interfaces. For example, you can call jconsole, which is included with the JDK:</para>
+      <para>Once you restart eXist, you can use a JMX-compliant management console to access the management interfaces. For example, you can call
+        jconsole, which is included with the JDK:</para>
       <programlisting>jconsole localhost:1099</programlisting>
-      <para>Clicking on the
-        <literal>MBeans</literal>
-        tab should show some eXist-specific MBeans below the standard Java MBeans in the tree component to the left.</para>
+      <para>Clicking on the <literal>MBeans</literal> tab should show some eXist-specific MBeans below the standard Java MBeans in the tree component
+        to the left.</para>
     </sect2>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -78,7 +75,8 @@
     <sect2>
       <title>Use JMXClient</title>
 
-      <para>eXist includes a simple command-line JMX client which provides a quick access to some important server statistics. The application accepts the following command-line parameters:</para>
+      <para>eXist includes a simple command-line JMX client which provides a quick access to some important server statistics. The application accepts
+        the following command-line parameters:</para>
       <programlisting>java -jar start.jar org.exist.management.client.JMXClient &lt;params&gt;</programlisting>
       <variablelist spacing="normal">
         <varlistentry>
@@ -114,7 +112,8 @@
         <varlistentry>
           <term>-l, --locks</term>
           <listitem>
-            <para>lock manager: display locking information on all threads currently waiting for a lock on a resource or collection. Useful to debug deadlocks. During normal operation, the list will usually be empty (means: no blocked threads).</para>
+            <para>lock manager: display locking information on all threads currently waiting for a lock on a resource or collection. Useful to debug
+              deadlocks. During normal operation, the list will usually be empty (means: no blocked threads).</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -138,8 +137,7 @@
         <varlistentry>
           <term>-w, --wait &lt;argument&gt;</term>
           <listitem>
-            <para>
-              while displaying server statistics: keep retrieving statistics, but wait the specified number of seconds between calls.</para>
+            <para> while displaying server statistics: keep retrieving statistics, but wait the specified number of seconds between calls.</para>
           </listitem>
         </varlistentry>
       </variablelist>
@@ -152,10 +150,11 @@
     <sect2>
       <title>JMXServlet</title>
 
-      <para>eXist also provides a servlet which connects to the JMX interface and returns a status report for the database as XML. By default, the servlet listens on</para>
+      <para>eXist also provides a servlet which connects to the JMX interface and returns a status report for the database as XML. By default, the
+        servlet listens on</para>
       <programlisting>http://localhost:8080/exist/status</programlisting>
-      <para>For simplicity, the different JMX objects in eXist are organized into categories. One or more categories can be passed to the servlet in parameter
-        <literal>c</literal>. The following categories are recognized:</para>
+      <para>For simplicity, the different JMX objects in eXist are organized into categories. One or more categories can be passed to the servlet in
+        parameter <literal>c</literal>. The following categories are recognized:</para>
       <variablelist spacing="compact">
         <varlistentry>
           <term>memory</term>
@@ -213,15 +212,19 @@
       <sect3>
         <title>Testing responsiveness using "ping"</title>
 
-        <para>The servlet also implements a simple "ping" operation. Ping will first try to obtain an internal database broker object. If the db is under very high load or deadlocked, it will run out of broker objects and ping will not be able to obtain one
-          within a certain time. This is thus a good indication that the database has become unresponsive for requests. If a broker object could be obtained, the servlet will run a simple XQuery to test the availability of the XQuery engine.</para>
-        <para>To run a "ping", call the servlet with parameter
-          <literal>operation=ping</literal>. The operation also accepts an optional timeout parameter,
-          <literal>t=timeout-in-ms</literal>, which defines a timeout in milliseconds. For example, the following URL starts a ping with a timeout of 2 seconds:</para>
+        <para>The servlet also implements a simple "ping" operation. Ping will first try to obtain an internal database broker object. If the db is
+          under very high load or deadlocked, it will run out of broker objects and ping will not be able to obtain one within a certain time. This is
+          thus a good indication that the database has become unresponsive for requests. If a broker object could be obtained, the servlet will run a
+          simple XQuery to test the availability of the XQuery engine.</para>
+        <para>To run a "ping", call the servlet with parameter <literal>operation=ping</literal>. The operation also accepts an optional timeout
+          parameter, <literal>t=timeout-in-ms</literal>, which defines a timeout in milliseconds. For example, the following URL starts a ping with a
+          timeout of 2 seconds:</para>
         <programlisting>http://localhost:8080/exist/status?operation=ping&amp;t=2000</programlisting>
-        <para>If the ping returns within the specified timeout, the servlet returns the attributes of the SanityReport JMX bean, which will include an element &lt;jmx:Status&gt;PING_OK&lt;/jmx:Status&gt;:</para>
+        <para>If the ping returns within the specified timeout, the servlet returns the attributes of the SanityReport JMX bean, which will include an
+          element &lt;jmx:Status&gt;PING_OK&lt;/jmx:Status&gt;:</para>
         <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-10.xml"/>
-        <para>If the ping takes longer than the timeout, you'll instead find an element &lt;jmx:error&gt; in the returned XML. In this case, additional information on running queries, memory consumption and database locks will be provided:</para>
+        <para>If the ping takes longer than the timeout, you'll instead find an element &lt;jmx:error&gt; in the returned XML. In this case,
+          additional information on running queries, memory consumption and database locks will be provided:</para>
         <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-11.xml"/>
       </sect3>
     </sect2>
