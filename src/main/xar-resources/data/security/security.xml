@@ -79,7 +79,7 @@
                         '<emphasis>guest</emphasis>' users and '<emphasis>DBA</emphasis>' and
                         '<emphasis>guest</emphasis>' groups. Any additional users or groups created
                     in eXist-db will be added to this realm.</para>
-         <para>Every eXist-db realm user has an account with a username, password, and other 
+         <para>Every eXist-db realm user has an account with a username, password, and other
                     metadata that is stored in the database. Each user may belong to zero or more
                     groups.</para>
          <para>User and group information for the eXist-db realm is maintained in the
@@ -121,7 +121,7 @@
          <para>The LDAP Realm is enabled by default (in
                         <literal>extensions/build.properties</literal>,
                         <literal>include.feature.security.ldap</literal> is set to
-                        <literal>true</literal>.) To use the LDAP realm, add an LDAP realm element to 
+                        <literal>true</literal>.) To use the LDAP realm, add an LDAP realm element to
                     <literal>/db/system/security/config.xml</literal>, as in this example:</para>
          <example>
             <title>Sample <literal>/db/system/security/config.xml</literal> for
@@ -169,7 +169,7 @@
                     realm, set the <literal>include.feature.security.oauth</literal> property to
                         <literal>true</literal> in
                         <literal>extensions/local.build.properties</literal>, and rebuild
-                    eXist-db. Then edit web.xml and controller-config.xml to enable OAuthServlet. 
+                    eXist-db. Then edit web.xml and controller-config.xml to enable OAuthServlet.
                     After startup eXist-db and add a realm element for OAuth to
                         <literal>/db/system/security/config.xml</literal>, as in this
                     example:</para>
@@ -282,7 +282,7 @@
                 password is set to <literal>null</literal>, and so access to the database is
                     <emphasis>initially</emphasis> granted to everyone. To set restrictions on
                 database access, you must first set a password for the "admin" user. To do this, use
-                either the <emphasis>Admin Client</emphasis> or the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{dashboard}">User Manager</link> 
+                either the <emphasis>Admin Client</emphasis> or the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{dashboard}">Usermanager</link>
                 in the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{dashboard}">Dashboard</link>. If eXist-db is used for applications
                 intended for online web publications, or as an embedded library, it is exposed it to
                 potential exploitation. It is therefore strongly advised that you first change the
@@ -309,6 +309,14 @@
             <para>Click the "Modify User" button to apply the changes</para>
          </listitem>
       </orderedlist>
+      <para>Alternatively in the <emphasis>usermanager</emphasis> click on the user account that you wish to edit and type its  password twice. Confirm by clicking save.</para>
+      <informalfigure>
+         <mediaobject>
+            <imageobject>
+               <imagedata fileref="assets/usermanager.png"/>
+            </imageobject>
+         </mediaobject>
+      </informalfigure>
       <para>You can also set a new administrator password on the command line in a console or
                 shell. Enter the following at the command prompt:</para>
       <example>
