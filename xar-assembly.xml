@@ -14,10 +14,18 @@
   <category id="apps">Applications</category>
   <category id="doc">Documentation</category>
   <dependency processor="http://exist-db.org" semver-min="${exist.version}"/>
-  <dependency package="http://exist-db.org/apps/shared" semver-min="0.4.0"/>
+  <dependency package="http://exist-db.org/apps/shared" semver-min="0.4.2"/>
   <prepare>pre-install.xql</prepare>
   <note>Note for users of eXist 2.x: When upgrading, please make sure you also updated the shared-resources package to > 0.4.0.</note>
   <changelog>
+    <change version="4.0.0">
+      <ul xmlns="http://www.w3.org/1999/xhtml">
+        <li>[lucene.xml, indexing.xml] add info about the ICUFoldingFilter and UCA collation</li>
+        <li>documentation now uses docbook 5.0 </li>
+        <li>fix use of empty-sequence in example</li>
+        <li>A major rework is in progress based on edits by Erik Siegel</li>
+      </ul>
+    </change>
     <change version="3.0.0">
       <ul xmlns="http://www.w3.org/1999/xhtml">
         <li>

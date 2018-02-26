@@ -1,163 +1,142 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
         schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
-   <info>
-      <title>Generating KWIC (Keywords in Context) Output</title>
-      <date>September 2009</date>
-      <keywordset>
-         <keyword>TBD</keyword>
-      </keywordset>
-   </info>
+  <info>
+    <title>KWIC (Keywords in Context) Output</title>
+    <date>1Q18</date>
+    <keywordset>
+      <keyword>xquery</keyword>
+    </keywordset>
+  </info>
 
-   <!-- ================================================================== -->
+  <!-- ================================================================== -->
 
-   <sect1>
-      <title>Abstract</title>
+  <para>Keywords In Context (KWIC) helps users to quickly scan through search results by listing hits surrounded by their context. eXist provides a
+    KWIC module that is not bound to a specific index or query operation. It but can be applied to query results from all indexes that support match
+    highlighting. This includes the Lucene-based index and the ngram index.</para>
+  <para>The documentation search function on eXist's home page is a good example. It queries documents written in DocBook format. However, the KWIC
+    module has also been successfully used with different schemas (e.g. TEI) and languages (e.g. Chinese).</para>
 
-      <para>A KWIC display helps users to quickly scan through search results by
-                listing hits surrounded by their context. eXist provides a
-                KWIC module that is not bound to a specific index or query
-                operation, but can be applied to query results from all indexes that support match
-                highlighting. This includes the Lucene-based index, the ngram index, as
-                well as the old full text index.</para>
-      <para>The documentation search function on eXist's home page is a good example. It
-                queries documents written in the DocBook format. However, the KWIC module has also
-                been successfully used and deployed with different schemas (e.g. TEI) and languages
-                (e.g. Chinese).</para>
-   </sect1>
+  <!-- ================================================================== -->
 
-   <!-- ================================================================== -->
+  <sect1>
+    <title>Using the Module</title>
 
-   <sect1>
-      <title>Preparing your Query</title>
+    <para>The KWIC module is entirely written in XQuery. To use the module, import its namespace into your query (you don't need to specify a
+      location):</para>
+    <programlisting language="xquery">import module namespace kwic="http://exist-db.org/xquery/kwic";</programlisting>
 
-      <para>The KWIC module is entirely written in XQuery. <!--It requires eXist-db 1.3/1.4 or above and won't
-                work with eXist 1.2.x (the old KWIC functions in eXist 1.2.x are now deprecated).--> To
-                use the module, simply import its namespace into your query:</para>
-      <programlisting language="xquery">import module namespace kwic="http://exist-db.org/xquery/kwic";</programlisting>
-      <para>You don't need to specify a location since the module is already registered in
-                    <literal>conf.xml</literal>. If you would still like to provide one, change
-                the import as follows:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-2.txt"/>
-      <para>The module is part of the main <literal>exist.jar</literal>, so we can use a
-                resource link here.</para>
-   </sect1>
+    <para>The easiest way to get KWIC output is to call the <literal>kwic:summarize</literal> function on an element node returned from a full text or
+      ngram query:</para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-3.txt"/>
+    <para>Every call to <literal>kwic:summarize</literal> will return an HTML paragraph containing 3 <code>span</code> elements with the text before
+      and after each match, as well as the match text itself:</para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-4.xml"/>
 
-   <!-- ================================================================== -->
+    <para>The <tag>config</tag> element, passed to <literal>kwic:summarize</literal> (as second parameter) determines the appearance of the generated
+      HTML. It recognizes 3 attributes:</para>
+    <variablelist spacing="compact">
+      <varlistentry>
+        <term><code>width</code></term>
+        <listitem>
+          <para>The maximum number of characters to be printed before and after the match</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>table</code></term>
+        <listitem>
+          <para>By default <literal>kwic:summarize</literal> returns an HTML paragraph with spans.</para>
+          <para>If <code>table="yes"</code> it will return an HTML <emphasis>table row</emphasis>
+            <tag>tr</tag> element. The text chunks will be enclosed in a table column <tag>td</tag> element.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><code>link</code></term>
+        <listitem>
+          <para>If present, each match will be enclosed within a link, using the URI in the link attribute as target.
+            <!--This feature should be documented-->
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
 
-   <sect1>
-      <title>Using the Module</title>
+    <sect2>
+      <title>Using a callback function for more fine-grained control</title>
 
-      <para>The easiest way to get KWIC output is to call the
-                    <literal>kwic:summarize</literal> function on an element node returned from a
-                full text or ngram query:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-3.txt"/>
-      <para>Every call to <literal>kwic:summarize</literal> will return an HTML paragraph
-                containing 3 spans with the text before and after each match as well as the match
-                text itself:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-4.xml"/>
-      <para>The <tag>config</tag> element, passed to
-                    <literal>kwic:summarize</literal> as second parameter, determines the
-                appearance of the generated HTML. There are 3 different attributes you can set
-                here:</para>
-      <variablelist spacing="compact">
-         <varlistentry>
-            <term>width</term>
-            <listitem>
-               <para>The maximum number of characters to be printed before and after the
-                            match</para>
-            </listitem>
-         </varlistentry>
-         <varlistentry>
-            <term>table</term>
-            <listitem>
-               <para>if set to "yes", <literal>kwic:summarize</literal> will return an
-                            HTML table row (<tag>tr</tag>). The text chunks will be enclosed
-                            in a table column (<tag>td</tag>).</para>
-               <para>The default behaviour, <literal>table="no"</literal>, is to return an
-                            HTML paragraph with spans.</para>
-            </listitem>
-         </varlistentry>
-         <varlistentry>
-            <term>link</term>
-            <listitem>
-               <para>If present, each match will be enclosed within a link, using the URI
-                            in the link attribute as target. <!--This feature should be documented-->
-                        </para>
-            </listitem>
-         </varlistentry>
-      </variablelist>
-      <para>If you look at the output of above query, you may notice that a space is missing
-                between words if the previous or following chunk extends to a different
-                    <tag>LINE</tag> element. Also, it would be nicer to only display text
-                from <tag>LINE</tag> elements and to ignore <tag>SPEAKER</tag> or
-                    <tag>STAGEDIR</tag> tags. This can be achieved with the help of a
-                callback function:</para>
+      <para>If you look at the output of query above you may notice that a space is missing between words if the previous or following chunk extends
+        to a different <tag>LINE</tag> element. And it would also be nicer to display text from <tag>LINE</tag> elements only and to ignore
+          <tag>SPEAKER</tag> or <tag>STAGEDIR</tag> elements. This can be achieved with the help of a callback function:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-5.txt"/>
-      <para>The third parameter to <literal>kwic:summarize</literal> should be a reference
-                to a function <!--(passing references to functions is a non-standard feature of eXist)-->
-                accepting 2 arguments: 1) a single text node which should be appended or prepended
-                to the current text chunk, 2) a string indicating the current direction in which
-                text is appended, i.e. "before" or "after". The function may return the empty
-                sequence if the current node should be ignored (e.g. if it belongs to a "footnote"
-                which should not be displayed). Otherwise it should return a single string.</para>
-      <para>The <literal>local:filter</literal> function above first checks if the passed
-                node has a SPEAKER or STAGEDIR parent and if yes, <emphasis>ignores</emphasis> that
-                node by returning the empty sequence. If not, the function adds a single whitespace
-                before or after the string, so adjacent lines will be properly separated.</para>
-   </sect1>
+      <para>The third parameter to <literal>kwic:summarize</literal> here is a reference to a function accepting 2 arguments:</para>
+      <orderedlist>
+        <listitem>
+          <para>A single text node which should be appended or prepended to the current text chunk</para>
+        </listitem>
+        <listitem>
+          <para>A string indicating the current direction in which text is appended: <code>before</code> or <code>after</code>.</para>
+        </listitem>
+      </orderedlist>
 
-   <!-- ================================================================== -->
 
-   <sect1>
-      <title>Advanced Use</title>
+      <para>The function can return the empty sequence if the current node should be ignored (for instance if it belongs to a footnote which should
+        not be displayed). Otherwise it must return a single string.</para>
+      <para>The <literal>local:filter</literal> function above first checks if the passed node has a SPEAKER or STAGEDIR parent. If so, it
+          <emphasis>ignores</emphasis> that node by returning the empty sequence. If not, the function adds a single whitespace before or after the
+        string, so adjacent lines will be properly separated.</para>
+    </sect2>
+  </sect1>
 
-      <para>Using <literal>kwic:summarize</literal>, you will get one KWIC-formatted item
-                for every match, even if the matches are in the same paragraph. Also, the context
-                from which the text is taken is always the same: the element you queried.</para>
-      <para>To get more control over the output, you can directly call
-                    <literal>kwic:get-summary</literal>, which is the module's core function. It
-                expects 3 or 4 parameters, where the first two parameters are: a) the current
-                context root, b) the match object to process. Parameters 3 and 4 are the same as for
-                    <literal>kwic:summarize</literal>.</para>
-      <para>Before passing nodes to <literal>kwic:get-summary</literal> you have to
-                    <emphasis>expand</emphasis> them, which basically means to create an in-memory
-                copy in which all matches are properly marked up with <tag>exist:match</tag>
-                tags. The main part of the query should look as follows:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-6.txt"/>
-      <para>In this example, we select the first <tag>exist:match</tag> only, thus
-                ignoring all other matches within <literal>$expanded</literal>.</para>
-      <para>Sometimes you may also want to change the context to restrict the KWIC display to
-                certain elements within the larger query context, e.g. paragraphs within sections.
-                The following example still queries <tag>SPEECH</tag>, but displays a KWIC
-                entry for each <tag>LINE</tag> with a match, grouped by speech:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-7.txt"/>
-      <para>You may ask why we are not querying <tag>LINE</tag> directly to get a
-                different context, e.g. as in:</para>
-      <programlisting language="xquery">//SPEECH[ft:query(LINE, "nature")]</programlisting>
-      <para>Well, we want Lucene to compute the relevance of each match with respect to the
-                SPEECH context, not LINE. If we queried LINE, each single line would get a match
-                score and the matches would end up in a completely different order.</para>
-   </sect1>
+  <!-- ================================================================== -->
 
-   <!-- ================================================================== -->
+  <sect1>
+    <title>Advanced Use</title>
 
-   <sect1 xml:id="highlight">
-      <title>Marking up Matches without using KWIC</title>
+    <para>Using <literal>kwic:summarize</literal>, you will get one KWIC-formatted item for every match, even if the matches are in the same
+      paragraph. Also, the context from which the text is taken is always the same: the element you queried. To get more control over the output, you
+      can directly call <literal>kwic:get-summary</literal>, which is the module's core function. </para>
+    <para><literal>kwic:get-summary</literal> expects 3 or 4 parameters. </para>
+    <itemizedlist>
+      <listitem>
+        <para>The current context root</para>
+      </listitem>
+      <listitem>
+        <para>The match object to process</para>
+      </listitem>
+      <listitem>
+        <para>Parameters 3 and 4 are the same as for <literal>kwic:summarize</literal></para>
+      </listitem>
+    </itemizedlist>
 
-      <para>Sometimes you don't want to use the KWIC module, but you would still like to have indicated
-                where matches were found in the text. eXist's XML serializer can automatically highlight
-                matches when it writes out a piece of XML. All the matches will be surrounded by an
-                <tag>exist:match</tag> tag.</para>
-      <para>You can achieve the same within an XQuery by calling the extension function
-                <literal>util:expand</literal>:</para>
-      <example>
-         <title>Using util:expand</title>
-         <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-9.txt"/>
-      </example>
-      <para>
-                <literal>util:expand</literal> returns a copy of the XML fragment it received
-                in its first parameter, which - unless configured otherwise - has all matches
-                wrapped into <tag>exist:match</tag> tags.</para>
-   </sect1>
+    <para>Before passing nodes to <literal>kwic:get-summary</literal> you have to <emphasis>expand</emphasis> them, which basically means to create an
+      in-memory copy in which all matches are properly marked up with <tag>exist:match</tag> tags. The main part of the query should look as
+      follows:</para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-6.txt"/>
+    <para>In this example, we select the first <tag>exist:match</tag> only, thus ignoring all other matches within
+      <literal>$expanded</literal>.</para>
+
+    <para>Sometimes you may also want to change the context to restrict the KWIC display to certain elements within the larger query context, for
+      instance paragraphs within sections. The following example still queries <tag>SPEECH</tag> but displays a KWIC entry for each <tag>LINE</tag>
+      with a match, grouped by speech:</para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-7.txt"/>
+    <para>You might wonder why we don't query <tag>LINE</tag> directly to get a different context, as in:</para>
+    <programlisting language="xquery">//SPEECH[ft:query(LINE, "nature")]</programlisting>
+    <para>This is because Lucene computes the relevance of each match with respect to the SPEECH context, not LINE. If we queried LINE, each single
+      line would get a match score and the matches would end up in a completely different order.</para>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1 xml:id="highlight">
+    <title>Marking up Matches without using KWIC</title>
+
+    <para>Sometimes you don't want to use the KWIC module, but still would like an indication where matches were found in the text. eXist's XML
+      serializer can automatically highlight matches when it writes out a piece of XML. All the matches will be surrounded by an
+        <tag>exist:match</tag> tag.</para>
+    <para>You can achieve the same within an XQuery by calling the extension function <literal>util:expand</literal>:</para>
+
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-9.txt"/>
+    <para>
+      <literal>util:expand</literal> returns a copy of the XML fragment it received in its first parameter, which, unless configured otherwise, has
+      all matches wrapped into <tag>exist:match</tag> tags.</para>
+  </sect1>
 </article>
