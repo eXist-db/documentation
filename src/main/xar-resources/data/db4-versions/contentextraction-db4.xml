@@ -35,7 +35,7 @@ include.feature.contentextraction = true</synopsis>
             <para>The module provides three functions:</para>
             <synopsis>content:get-metadata($binary as xs:base64Binary) as document-node()
 content:get-metadata-and-content($binary as xs:base64Binary) as document-node()
-content:stream-content($binary as xs:base64Binary, $paths as xs:string*, $callback as function, $namespaces as element()?, $userData as item()*) as empty()</synopsis>
+content:stream-content($binary as xs:base64Binary, $paths as xs:string*, $callback as function, $namespaces as element()?, $userData as item()*) as empty-sequence()</synopsis>
             <para>The first two functions need little explanation: get-metadata just returns some
                 metadata extracted from the resource, while get-metadata-and-content will also
                 provide the text body of the resource—if there is any. The third function is a
