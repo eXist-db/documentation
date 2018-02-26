@@ -1,3 +1,6 @@
-let $xslt-pi := processing-instruction xml-stylesheet 
-    {'type="text/xsl" href="/exist/rest/db/xforms/xsltforms/xsltforms.xsl"'}
-return ($xslt-pi, $form)
+if ($id) then
+    <xf:output ref="id" class="id">
+        <xf:label>ID:</xf:label>
+    </xf:output>
+else 
+    ()

@@ -1,2 +1,2 @@
-let $debug := processing-instruction xsltforms-options {'debug="yes"'}
-return ($xslt-pi, $debug, $form)
+let $xslt-pi := processing-instruction xml-stylesheet {'type="text/xsl" href="/exist/apps/xsltforms/xsltforms.xsl"'}
+return ($xslt-pi, $form)
