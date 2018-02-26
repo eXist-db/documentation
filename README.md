@@ -22,7 +22,7 @@ As of January 2018 the exist-db documentation is undergoing a major rewrite. Whi
 ## Contributions
 Found an area of the documentation that needs to be improved? Please raise an [issue](https://github.com/eXist-db/documentation/issues) or better yet submit a [pull request](https://github.com/eXist-db/documentation/pulls)!
 
-Our test-suite performs a validation check on all articles when you open a pull request. You can speed up the review process by running `mvn validate` locally before submitting a pull request.
+Before you edit the docs please take a look at our [style guide](https://www.exist-db.org/exist/apps/doc/author-reference). While the guide is work in progress, it should help you understand our articles structure and use of the docbook format. You can speed up the review process by running `mvn validate` on your local machine before opening a pull request. This way you can be certain that your edits won't interfere with the [automated tests](https://travis-ci.org/eXist-db/documentation) of this repo. 
 
 Should you encounter documentation for features that are deprecated in the minimum eXist-db version mentioned [above](#dependencies), you can simply delete them. If you are unsure about this, please open an [issue](https://github.com/eXist-db/documentation/issues).
 
