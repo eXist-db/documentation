@@ -9,29 +9,31 @@ let $data-collection := '/db/apps/terms/data'
 let $item := request:get-data()
  
 (: get the next ID from the next-id.xml file :)
-let $next-id-file-path := concat($app-collection,'/edit/next-id.xml')
-let $id := doc($next-id-file-path)/data/next-id/text() 
-let $file := concat($id, '.xml')
+let $next-id-file-path := concat($app-collection, '/edit/next-id.xml')
+let $next-id := doc($next-id-file-path)/data/next-id/text() 
+let $file := concat($next-id, '.xml')
 
-(: logs into the collection :)
+(: log into the collection :)
 let $login := xmldb:login($app-collection, 'admin', 'myadminpassword')
 
 (: create the new file with a still-empty id element :)
 let $store := xmldb:store($data-collection, $file, $item)
+let $new-document := doc(concat($data-collection, '/', $file))
 
 (: add the correct ID to the new document we just saved :)
-let $update-id :=  update replace doc(concat($data-collection, '/', $file))/term/id with <id>{$id}</id>
+let $update-id := update value $new-document/term/id with $id
 
 (: update the next-id.xml file :)
-let $new-next-id :=  update replace doc($next-id-file-path)/data/next-id/text() with ($id + 1)
+let $new-next-id :=  update value $next-id with $next-id + 1
 
-(: we need to return the original ID number in our results, but $id has already been increased by 1 :)
-let $original-id := ($id - 1)
+(: we need to return the original ID number in our results, 
+   but the previous update expression increased $next-id by 1 :)
+let $original-id := $next-id - 1
 
 return
 <html>
     <head>
-       <title>Save Conformation</title>
+        <title>Save Conformation</title>
     </head>
     <body>
         <a href="../index.xhtml">Term Home</a>
