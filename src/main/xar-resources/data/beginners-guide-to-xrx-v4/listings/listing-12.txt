@@ -6,7 +6,7 @@ let $new := request:get-parameter('new', '')
 let $id := request:get-parameter('id', '')
 let $data-collection := '/db/apps/terms/data'
 let $file := 
-    if ($new) then
+    if ($new ne '') then
         'new-instance.xml'
     else
         concat('../data/', $id, '.xml')
@@ -50,7 +50,7 @@ let $form :=
             <xf:model>
                 <xf:instance xmlns="" src="{$file}" id="save-data"/>
                 <xf:submission id="save" method="post" action="{
-                        if ($new = 'true') then
+                        if ($new eq 'true') then
                             'save-new.xq'
                         else
                             'update.xq'
@@ -95,4 +95,9 @@ let $form :=
     </html>
 let $xslt-pi := processing-instruction xml-stylesheet {'type="text/xsl" href="/exist/apps/xsltforms/xsltforms.xsl"'}
 return
-    ($xslt-pi, $form)
+    (
+        (: Prevent betterFORM (still enabled by default) from intercepting the form, allowing XSLTForms to handle it :)
+        request:set-attribute("betterform.filter.ignoreResponseBody", "true"),
+        $xslt-pi, 
+        $form
+    )

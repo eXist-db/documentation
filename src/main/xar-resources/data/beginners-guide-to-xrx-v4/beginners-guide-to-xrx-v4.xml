@@ -454,21 +454,24 @@
     <sect2>
       <title>Re-indexing</title>
 
-      <para>After you have created or modified your configuration file, you must re-index any data that you have. This can be done by executing the
-        following two XQuery lines:</para>
+      <para>After you have created or modified your collection configuration
+                file, you must re-index any data that you have. This can be done
+                by executing the following two XQuery lines (supplying your
+                eXist administrative user's password in place of
+                    <code>myadminpassword</code>, since reindexing requires
+                administrative privileges):</para>
 
       <programlisting xlink:href="listings/listing-7.txt"/>
-      <para>You can run this query directly in <!--eXide-->, or you can also
-                store the following XQuery script in the app's
-                    <code>admin</code> collection and call it via your browser.
-                The script will login as the administrator and then run the
-                    <code>xmldb:reindex</code> function (which needs
-                administrative privileges) on the data collection. It also
-                returns the time used to reindex the collection. For collections
-                that are under 1,000 medium sized 10K byte documents, this
-                script usually runs in a few seconds. Tools are available for
-                larger collections to schedule indexing during off hours with
-                the eXist job scheduler.</para>
+      <para>You can run this query directly in eXide, or you can also store the
+                following XQuery script in the app's <code>admin</code>
+                collection and call it via your browser. The script will login
+                as the administrator and then run the <code>xmldb:reindex</code>
+                function on the data collection. It also returns the time used
+                to reindex the collection. For collections that are under 1,000
+                medium sized 10K byte documents, this script usually runs in a
+                few seconds. Tools are available for larger collections to
+                schedule indexing during off hours with the eXist job
+                scheduler.</para>
       <para><code>/db/apps/terms/admin/reindex.xq</code></para>
       <programlisting xlink:href="listings/listing-8.txt"/>
       <para>The result will be:</para>
@@ -584,9 +587,15 @@
       <para>Note that this form does "double duty" as both a form for new items
                 and a form for updating existing items. The
                     <code>new=true</code> parameter must always be passed to the
-                form when creating a new item. A more sophisticated production
+                form when creating a new item. (A more sophisticated production
                 systems would check for these parameters and return error codes
-                if one or the other is not passed to the form.</para>
+                if one or the other is not passed to the form.) In order to
+                create the new item, the form fetches a document containing
+                blank fields to be used as a template for the form.</para>
+      <para>
+        <code>/db/apps/terms/edit/new-instance.xml</code>:</para>
+        
+      <programlisting xlink:href="listings/listing-13.xml"/>
       <para>All XForms hold the form data in the <tag>xf:model</tag> element.
                 This form uses a single <tag>xf:instance</tag> element within
                 the model to store the data that will saved when the user clicks
@@ -605,7 +614,7 @@
       <para>The query that is used is wrapped inside of the <code>action</code>
                 attribute of the save submission. Here is the portion from
                     <code>edit.xq</code> with this code: </para>
-      <programlisting xlink:href="listings/listing-13.txt"/>
+      <programlisting xlink:href="listings/listing-14.txt"/>
       <para>You can see that if the user is creating a new item the data is sent
                 via an HTTP POST request to the <code>save-new.xq</code> query.
                 If the user does not have a new item the POST data is sent to
@@ -619,7 +628,7 @@
                 updated. </para>
       <para>The next section of code to notice is that the ID element is only displayed using a read-only <tag>xf:output</tag> element if the form is
         in update mode.</para>
-      <programlisting xlink:href="listings/listing-14.txt"/>
+      <programlisting xlink:href="listings/listing-15.txt"/>
       <para>This shows some of the power of combining XQuery and XForms. In this
                 case we are using logic on the server to conditionally include
                 portions of the form based on the context. Contextual indicators
@@ -652,9 +661,9 @@
         with elements. </para>
       <para>The final part of the form contains the instructions needed to place the XSLTForms processing instruction at the top of the file when it
         is rendered.</para>
-      <programlisting xlink:href="listings/listing-15.txt"/>
-      <para>You can also add a directive that will put the XSLTForms system into a debug mode by adding the following .</para>
       <programlisting xlink:href="listings/listing-16.txt"/>
+      <para>You can also add a directive that will put the XSLTForms system into a debug mode by adding the following:</para>
+      <programlisting xlink:href="listings/listing-17.txt"/>
     </sect2>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -666,7 +675,7 @@
         next ID to be used in a small XML file with only one element in the root called <emphasis role="bold">next-id</emphasis>. Here is that file: </para>
       <para>
         <code>/db/apps/terms/edit/next-id.xml</code>: </para>
-      <programlisting language="xml" xlink:href="listings/listing-17.xml"/>
+      <programlisting language="xml" xlink:href="listings/listing-18.xml"/>
       <para>The <tag>next-id</tag> element is updated using an XQuery "update
                 function" when new items are saved to the data collection. We
                 save the file using the number as the filename; in this case,
@@ -679,7 +688,7 @@
 
       <para>
         <code>/db/apps/terms/edit/save-new.xq</code>: </para>
-      <programlisting xlink:href="listings/listing-18.txt"/>
+      <programlisting xlink:href="listings/listing-19.txt"/>
     </sect2>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -692,7 +701,7 @@
         updated and re-indexed upon the store operation. </para>
       <para>
         <code>/db/apps/terms/edit/update.xq</code>:</para>
-      <programlisting xlink:href="listings/listing-19.txt"/>
+      <programlisting xlink:href="listings/listing-20.txt"/>
     </sect2>
   </sect1>
 
@@ -718,7 +727,7 @@
                 appropriately with a red warning indicator.</para>
       <para>
         <code>/db/apps/terms/edit/delete-confirm.xq</code>: </para>
-      <programlisting xlink:href="listings/listing-20.txt"/>
+      <programlisting xlink:href="listings/listing-21.txt"/>
     </sect2>
   </sect1>
 
@@ -730,7 +739,7 @@
     <para>The delete script also takes a single REST parameter of the ID</para>
     <para>
       <code>/db/apps/terms/edit/delete.xq</code>: </para>
-    <programlisting xlink:href="listings/listing-21.txt"/>
+    <programlisting xlink:href="listings/listing-22.txt"/>
   </sect1>
 
   <!-- ================================================================== -->
@@ -743,7 +752,7 @@
       below.</para>
     <para>
       <code>/db/apps/terms/index.html</code>: </para>
-    <programlisting language="xml" xlink:href="listings/listing-22.xml"/>
+    <programlisting language="xml" xlink:href="listings/listing-23.xml"/>
     <informalfigure>
       <mediaobject>
         <imageobject>
