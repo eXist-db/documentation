@@ -309,7 +309,7 @@
         XQuery itself.</para>
     </note>
     <para>To create a session and store query results, pass <literal>_cache=yes</literal> with a <code>GET</code> request or set attribute
-        <literal>cache="yes"</literal> within the XML payload of a <note>POST</note> query request. The server will execute the query as usual. If the
+        <literal>cache="yes"</literal> within the XML payload of a <code>POST</code> query request. The server will execute the query as usual. If the
       result sequence contains more than one item, the entire sequence will be stored into a newly created session.</para>
     <para>The id of the created session is included in the response. For requests which return a <tag>exist:result</tag> wrapper element, the session
       id will be specified in the <literal>exist:session</literal> attribute. The session id is also available in the HTTP header
