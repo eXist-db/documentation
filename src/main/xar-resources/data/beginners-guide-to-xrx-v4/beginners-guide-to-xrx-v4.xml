@@ -67,9 +67,7 @@
                         have <link xlink:href="http://exist-db.org">eXist</link>
                         running on your local system. By default eXist runs on
                         port <code>8080</code> so that when you set your web
-                        browser to <link
-                            xlink:href="http://localhost:8080/exist/"
-                            >http://localhost:8080/exist/</link> you should see
+                        browser to <link xlink:href="http://localhost:8080/exist/">http://localhost:8080/exist/</link> you should see
                         the eXist homepage come up.</para>
           <para>You can also run this tutorial on a remote eXist server. If you
                         are doing this, you must replace the server name
@@ -120,9 +118,7 @@
                 <emphasis role="bold">XRX</emphasis> is the name of the web
                 application architecture that we are introducing in this guide.
                 The term XRX comes from the combination of XForms, REST, and
-                XQuery. The term was <link
-                    xlink:href="http://archive.oreilly.com/pub/post/xrx_a_simple_elegant_disruptiv_1.html"
-                    >coined</link> by Dan McCreary. XForms are used in the
+                XQuery. The term was <link xlink:href="http://archive.oreilly.com/pub/post/xrx_a_simple_elegant_disruptiv_1.html">coined</link> by Dan McCreary. XForms are used in the
                 client (web browser), REST is the interface between the client
                 and the server, and XQuery is the server language. Two of the
                 most significant advantages of XRX over other architectures are:
@@ -174,9 +170,7 @@
                 SOAP interface testing tools are required. All you need to test
                 your web services is a web browser. For example, the home page
                 of the test application under the default configuration will be
-                    <link
-                    xlink:href="http://localhost:8080/exist/apps/term/index.html"
-                    >http://localhost:8080/exist/apps/term/index.html</link>.</para>
+                    <link xlink:href="http://localhost:8080/exist/apps/term/index.html">http://localhost:8080/exist/apps/term/index.html</link>.</para>
       <para>Several additional terms and concepts are helpful in understanding the XRX approach:</para>
       <para>
         <emphasis role="bold">WebDAV</emphasis> is a protocol for transferring files, and we use eXist's WebDAV interface to move files to and from
@@ -210,8 +204,7 @@
       <listitem>
         <para>
                     <emphasis role="bold">Apps</emphasis>: XRX applications
-                    should be stored within the <emphasis role="bold"
-                        >/db/apps</emphasis> parent collection. </para>
+                    should be stored within the <emphasis role="bold">/db/apps</emphasis> parent collection. </para>
       </listitem>
       <listitem>
         <para>
@@ -277,9 +270,7 @@
                     has created a specification for application metadata, called
                     EXPath Packaging System. eXist supports and extends this
                     module. This tutorial will not cover this file's structure,
-                    but you can learn more about this by reading <link
-                        xlink:href="https://exist-db.org/exist/apps/doc/repo.xml"
-                    />. </para>
+                    but you can learn more about this by reading <link xlink:href="https://exist-db.org/exist/apps/doc/repo.xml"/>. </para>
       </listitem>
     </orderedlist>
     <para>You are always free to change the names of the collection or the
@@ -446,9 +437,7 @@
                 publish-status-code. (By using the repo.xml Deployment
                 Descriptor's "prepare" field, you can automate the installation
                 of this collection.xconf file into the target location; see
-                    <link
-                    xlink:href="https://exist-db.org/exist/apps/doc/repo.xml#D1.4.10"
-                />.)</para>
+                    <link xlink:href="https://exist-db.org/exist/apps/doc/repo.xml#D1.4.10"/>.)</para>
     </sect2>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -648,9 +637,7 @@
                 The last control is the <tag>xf:select1</tag> control that
                 allows the user to select one value from a list of values. (For
                 a complete discussion of the XForms controls we suggest you use
-                the XForms Wikibook at <link
-                    xlink:href="http://en.wikibooks.org/wiki/XForms"
-                    >http://en.wikibooks.org/wiki/XForms</link>. The Input Form
+                the XForms Wikibook at <link xlink:href="http://en.wikibooks.org/wiki/XForms">http://en.wikibooks.org/wiki/XForms</link>. The Input Form
                 Controls section goes through each of the controls in the XForms
                 specification. In addition to the standard controls there are
                 other controls that can also be integrated directly into XForms,
@@ -778,9 +765,7 @@
                     reduce duplication and then reference these functions in
                     each of your queries. For example, you could put the HTML
                     boilerplate into a style module. You could also explore
-                    eXist's HTML templating module; see <link
-                        xlink:href="https://exist-db.org/exist/apps/doc/templating.xml"
-                    />.</para>
+                    eXist's HTML templating module; see <link xlink:href="https://exist-db.org/exist/apps/doc/templating.xml"/>.</para>
       </listitem>
       <listitem>
         <para>Change the <code>list-items.xq</code> to use HTML tables to view each item.</para>
@@ -832,9 +817,7 @@
       <listitem>
         <para>Modify the collection configuration file for the
                         <code>/db/apps/terms/data</code> collection to enable
-                    versioning when items are updated. See <link
-                        xlink:href="https://exist-db.org/exist/apps/doc/versioning.xml"
-                    />.</para>
+                    versioning when items are updated. See <link xlink:href="https://exist-db.org/exist/apps/doc/versioning.xml"/>.</para>
       </listitem>
     </orderedlist>
   </sect1>
