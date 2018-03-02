@@ -1,7 +1,4 @@
 let $params := subsequence(analyze-string($exist:path, '^/?(.*)/([^/]+)$')//fn:group, 2)
-	    (: the deprecated text module is not available anymore in eXist-db 3.0
-	       analyze-string() can used whereever text:groups() was used before :)
-	    (: subsequence(text:groups($exist:path, '^/?(.*)/([^/]+)$'), 2) :)
 return
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="/index.xql">
