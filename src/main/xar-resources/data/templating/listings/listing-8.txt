@@ -1,4 +1,4 @@
-declare 
+declare
     %templates:wrap
 function demo:search($node as node(), $model as map(*), $query as xs:string) as map(*) {
     let $result :=
@@ -6,5 +6,5 @@ function demo:search($node as node(), $model as map(*), $query as xs:string) as 
         order by ft:score($hit) descending
         return $hit
     return
-        map { "result" := $result }
+        map { "result": $result }
 };
