@@ -4,7 +4,7 @@
         </fulltext>
     </index>
     <triggers>
-        <trigger event="create,delete,update" class="org.exist.versioning.VersioningTrigger">
+        <trigger event="create,delete,update,copy,move" class="org.exist.versioning.VersioningTrigger">
             <parameter name="overwrite" value="yes"/>
         </trigger>
     </triggers>
