@@ -1,5 +1,6 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+  version="5.0">
   <info>
     <title>Documentation</title>
     <date>1Q18</date>
@@ -20,7 +21,8 @@
       have been through at least one re-factoring pass (re-factoring is a multi-pass process).
       During 1Q18 this page will grow to include all articles and the quality of the articles will
       rise.</para>
-    <para>To allow access to all (also not yet re-factored) articles there is an <xref linkend="alphabetical-index"/> and a <xref linkend="subject-index"/>, which both include all
+    <para>To allow access to all (also not yet re-factored) articles there is an <xref
+      linkend="alphabetical-index"/> and a <xref linkend="subject-index"/>, which both include all
       the available articles.</para>
   </important>
 
@@ -40,7 +42,8 @@
           available on the <link xlink:href="http://exist-db.org">eXist-db homepage</link>.</para>
       </listitem>
       <listitem>
-        <para>There is a whole <link xlink:href="http://shop.oreilly.com/product/0636920026525.do">book about eXist</link>, written for both the novice <emphasis>and</emphasis> the more
+        <para>There is a whole <link xlink:href="http://shop.oreilly.com/product/0636920026525.do"
+          >book about eXist</link>, written for both the novice <emphasis>and</emphasis> the more
           experienced user.</para>
       </listitem>
       <listitem>
@@ -73,11 +76,13 @@
       </listitem>
 
       <listitem>
-        <para>If you're using <link xlink:href="http://oxygenxml.com/" condition="_blank">oXygen</link>, this article describes <link xlink:href="oxygen">how to use oXygen
+        <para>If you're using <link xlink:href="http://oxygenxml.com/" condition="_blank"
+          >oXygen</link>, this article describes <link xlink:href="oxygen">how to use oXygen
           together with eXist-db</link>.</para>
       </listitem>
       <listitem>
-        <para>If you think you found a bug, this article will tell you <link xlink:href="getting-help-how-to-report">how to report an issue</link>.</para>
+        <para>If you think you found a bug, this article will tell you <link
+          xlink:href="getting-help-how-to-report">how to report an issue</link>.</para>
       </listitem>
     </itemizedlist>
   </sect1>
@@ -87,7 +92,8 @@
   <sect1>
     <title>XQuery</title>
     <para>eXist-db's main programming language is XQuery. This documentation set does not contain a
-      full introduction to XQuery. For this read the excellent <link xlink:href="http://shop.oreilly.com/product/0636920035589.do">book about XQuery by Priscilla
+      full introduction to XQuery. For this read the excellent <link
+      xlink:href="http://shop.oreilly.com/product/0636920035589.do">book about XQuery by Priscilla
       Walmsley</link>. The XQuery related articles below discuss specific eXist-db related details
       or shed light on some of the lesser known features of the language.</para>
     <itemizedlist>
@@ -104,6 +110,9 @@
         <para> <link xlink:href="update_ext">XQuery Update Extensions</link> tells you how to update
           XML stored in the database using eXist-db's update extension.</para>
       </listitem>
+      <listitem>
+        <para><link xlink:href="xqdoc">xqDoc</link>: Describes the built-in XQuery documentation system</para>
+      </listitem>
     </itemizedlist>
   </sect1>
 
@@ -117,7 +126,8 @@
     <itemizedlist>
       <listitem>
         <para> <link xlink:href="development-starter">Getting Started with Web Application
-          Development</link> will help you build a basic web application using the built-in <link xlink:href="templating.xml">HTML templating framework</link>.</para>
+          Development</link> will help you build a basic web application using the built-in <link
+          xlink:href="templating.xml">HTML templating framework</link>.</para>
       </listitem>
       <listitem>
         <para> <link xlink:href="using-collections">Using Collections in eXist-db</link>: Provide
@@ -125,8 +135,7 @@
           eXist-db.</para>
       </listitem>
       <listitem>
-        <para>
-                    <link xlink:href="xmldb">xmldb module</link>: Provides an overview of the functions to
+        <para><link xlink:href="xmldb">xmldb module</link>: Provides an overview of the functions to
           query and manipulate the database contents in the xmldb module.</para>
       </listitem>
       <listitem>
@@ -289,11 +298,13 @@
           eXist-db's performance.</para>
       </listitem>
       <listitem>
-        <para>When you use eXist-db on a production system, please read <link xlink:href="production_good_practice">Production Use - Good Practice</link> for
+        <para>When you use eXist-db on a production system, please read <link
+          xlink:href="production_good_practice">Production Use - Good Practice</link> for
           advice.</para>
       </listitem>
       <listitem>
-        <para>You can proxy eXist-db behind a web server like Nginx or Apache. <link xlink:href="production_web_proxying">Production use - Proxying eXist-db behind a Web
+        <para>You can proxy eXist-db behind a web server like Nginx or Apache. <link
+          xlink:href="production_web_proxying">Production use - Proxying eXist-db behind a Web
           Server</link> will provide you with some examples.</para>
       </listitem>
       <listitem>
@@ -378,7 +389,8 @@
           modules.</para>
       </listitem>
       <listitem>
-        <para>eXist provides access to various management interfaces using <link xlink:href="jmx">JMX</link>.</para>
+        <para>eXist provides access to various management interfaces using <link xlink:href="jmx"
+          >JMX</link>.</para>
       </listitem>
       <listitem>
         <para> <link xlink:href="devguide_indexes">Developer's Guide to Modularized Indexes</link>
