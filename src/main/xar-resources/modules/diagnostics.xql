@@ -1,85 +1,244 @@
 xquery version "3.0";
+(:============================================================================:)
+(:== 
+  Module for the link diagnostics of the docyumantation articles. 
+  
+  This is not very performant code but it doesn't matter much here.
+==:)
+(:============================================================================:)
+(:== FUNCTIONS: ==:)
 
 module namespace diag="http://exist-db.org/xquery/diagnostics";
 
-import module namespace templates="http://exist-db.org/xquery/templates" at "templates.xql";
 import module namespace config="http://exist-db.org/xquery/apps/config" at "config.xqm";
 
-declare function diag:prepare($node as node(), $model as map(*)) {
-    let $ulinks := collection($config:data-root)//ulink
-    return
-        map { "ulinks" := $ulinks } 
-};
+declare namespace db5="http://docbook.org/ns/docbook";
+declare namespace xlink="http://www.w3.org/1999/xlink";
 
-declare function diag:countulinks($node as node(), $model as map(*)) {
-  let $ulinks := $model("ulinks")
-  return count($ulinks)
-};
+declare variable $diag:link-article as xs:string := 'Article' ;
+declare variable $diag:link-external as xs:string := 'External' ;
+declare variable $diag:link-resource as xs:string := 'Resource' ;
+declare variable $diag:link-computed as xs:string := 'Computed' ;
+declare variable $diag:link-unknown as xs:string := 'Unknown' ;
 
+declare variable $diag:error-prompt as item()* := <span style="color:red; font-weight:bold;">*ERROR* </span>;
+declare variable $diag:ok-prompt as item()* := <span style="color:green; font-weight:bold;">OK </span>;
 
-declare %private function diag:filterlocallinks($ulinks as node()*){
+(:============================================================================:)
+(:== PUBLIC FUNCTIONS: ==:)
 
-    for $ulink in $ulinks
-    let $url :=  normalize-space(string(data($ulink/@url)))
-    return
-        if( starts-with($url, "http:") or starts-with($url, "https:") or starts-with($url, "mailto:") or
-        starts-with($url, "/")   or starts-with($url, "#") or $url eq "" or  starts-with($url, "{") 
-        or  starts-with($url, "api") or starts-with($url, "irc:"))
-        then
-        ()
-        else
-        $ulink
-
-};
-
-declare %private function diag:cleanUrl($url as xs:string) as xs:string {
-
-    let $rawurl :=  normalize-space($url)
-    return if (contains($rawurl, "#"))
-        then
-            substring-before($rawurl, "#")
-        else
-            $rawurl
-        
-};
-
-declare function diag:deadlinks($node as node(), $model as map(*)) {
-  let $ulinks := $model("ulinks")
-  let $filtered := diag:filterlocallinks($ulinks)
-  return
-  <table class="table">
-  <tr><th>In document</th><th>Linked document</th></tr>
+declare function diag:diagnose($node as node(), $model as map(*)) as element()*
+{
+  <p>Data root: <code>{$config:data-root}</code></p>,
+  <p>All errors are marked with {$diag:error-prompt} so you can search on it.</p>,
+  <ul>
   {
-     for $row in $filtered
-     let $url := data($row/@url)
-     return
-     if(doc-available($config:data-root || "/" || $url))
-     then
-     ()
-     else
-     <tr><td>{document-uri(root($row))}</td><td>{data($row/@url) }</td></tr>
+    for $doc in collection($config:data-root)[exists(db5:article)]
+    let $uri as xs:string := string(base-uri($doc))
+    return
+      <li>
+      {
+        <h3><code>{substring-after($uri, $config:data-root || '/')}</code></h3>,
+        local:diagnose-document($doc)
+      }
+      </li>
+  } 
+  </ul>
+};
+
+(:============================================================================:)
+(:== LOCALS: ==:)
+
+declare function local:diagnose-document($doc as document-node()) as element()*
+{
+  (: Create a table with all outgoing links and analyze them: :)
+  <table border="1">
+  <tr>
+    <th>Link</th>
+    <th>Type</th>
+    <th>Status</th>
+  </tr>
+  {
+    for $link in distinct-values(data($doc//@xlink:href))
+    order by $link
+    let $link-type := local:get-link-type($link)
+    return
+     <tr>
+       <td> <code>{$link}</code> </td>
+       <td> {$link-type} </td>
+       <td>
+       {
+          switch ($link-type)
+            case $diag:link-resource return local:check-link-resource($doc, $link)
+            case $diag:link-article return local:check-link-article($doc, $link)
+            case $diag:link-external return 'Not checked'
+            case $diag:link-computed return 'Not checked'
+            case $diag:link-unknown return 'Not checked'
+            default return ($diag:error-prompt, 'Unrecognized link type')
+       }
+       </td>
+     </tr>
   }
+  </table>,
+  
+  <p>&#160;</p>,
+  
+  (: Create a table with all resources underneath where the document is stored and check whether they're used: :)
+  <table border="1">
+    <tr>
+      <th>Resource</th>
+      <th>Used</th>
+    </tr>
+    {
+      let $base-collection as xs:string := local:get-path-component(string(base-uri($doc)))
+      for $rel-resource-link in local:get-relative-resource-links($base-collection, ()) 
+      order by $rel-resource-link
+      return
+        <tr>
+          <td><code>{$rel-resource-link}</code></td>
+          <td>
+          {
+            if (local:resource-link-exists($doc, $rel-resource-link))
+              then $diag:ok-prompt
+              else ($diag:error-prompt, ' Not referenced')
+          }
+          </td>
+        </tr>  
+    }
   </table>
 };
 
-declare function diag:unreferenced($node as node(), $model as map(*)) {
-  let $ulinks := $model("ulinks")
-  
-  let $alldocs := xmldb:get-child-resources($config:data-root)
-  return
-  <table class="table">
-  <tr><th>Document</th></tr>
-  {
-  for $doc in $alldocs
+(:----------------------------------------------------------------------------:)
+
+declare function local:get-relative-resource-links($collection-abs as xs:string, $collection-rel as xs:string?) as xs:string*
+(: Get a list of all (relative) resource links underneath (not in) a collection: :)
+{
+  for $sub-collection in xmldb:get-child-collections($collection-abs)  
+    let $sub-collection-abs as xs:string := $collection-abs || '/' || $sub-collection
+    let $sub-collection-rel as xs:string := $collection-rel || (if (empty($collection-rel)) then '' else '/') || $sub-collection
+    return 
+    (
+      for $resource in xmldb:get-child-resources($sub-collection-abs)
+        return $sub-collection-rel || '/' || $resource,
+      local:get-relative-resource-links($sub-collection-abs, $sub-collection-rel)
+    )
+};
+
+(:----------------------------------------------------------------------------:)
+
+declare function local:resource-link-exists($doc as document-node(), $rel-link as xs:string) as xs:boolean
+(: Rough computation whether a resource is referenced in a document: :)
+{
+  $rel-link = (data($doc//@xlink:href), data($doc//@fileref))
+};
+
+(:----------------------------------------------------------------------------:)
+
+declare function local:check-link-resource($from as document-node(), $link as xs:string) as item()*
+(: Checks whether a link to a resource actulaly exists: :)
+{
+  let $full-collection := util:collection-name($from) || '/' || local:get-path-component($link)
   return 
-    if($ulinks/@url = $doc)
-    then
-        ()
-    else
-        <tr><td><a href="{$doc}">{$doc}</a></td></tr>
-  }
-  </table>
-  
-  };
-  
-  
+    if (xmldb:collection-available($full-collection))
+      then 
+        if (local:get-name-component($link) = xmldb:get-child-resources($full-collection))
+          then $diag:ok-prompt
+          else ($diag:error-prompt, <code>{$link}</code>, ' not found')
+      else ($diag:error-prompt, 'Collection ', <code>{$full-collection}</code>, ' not found')
+};
+
+(:----------------------------------------------------------------------------:)
+
+declare function local:check-link-article($doc as document-node(), $link as xs:string) as item()*
+(: Checks whether a link to some other article is ok (including its anchor): :)
+{
+  let $link-no-anchor := local:link-no-anchor($link)
+  let $anchor := local:link-anchor($link)
+  let $full-name as xs:string := if (contains($link-no-anchor, '.')) then $link-no-anchor else $link-no-anchor || '.xml'
+  let $relative-link-to-article as xs:string? := config:get-resource-path($config:data-root, $full-name)
+  let $absolute-link-to-article as xs:string := $config:data-root || '/' || $relative-link-to-article
+  let $full-article as document-node()? := if ($link-no-anchor eq '') 
+    then $doc
+    else doc($absolute-link-to-article)  
+  return 
+    if ($link-no-anchor eq '' or exists($relative-link-to-article))
+      then
+      (
+        $diag:ok-prompt,
+        if ($anchor eq '')
+          then ()
+          else 
+          (
+            '(doc) ',
+            if (local:anchor-exists($full-article, $anchor))
+              then $diag:ok-prompt
+              else $diag:error-prompt,
+            ' (anchor)' 
+          )
+      )  
+      else ($diag:error-prompt, <code>{$full-name}</code>, ' not found')
+};
+
+(:============================================================================:)
+(:== GENERIC HELPER FUNCTIONS: ==:)
+
+declare function local:get-link-type($link as xs:string) as xs:string
+{
+  let $link-no-anchor := local:link-no-anchor($link)
+  return
+    if (starts-with($link, '/'))
+      then $diag:link-unknown
+    else if (contains($link, '{'))
+      then $diag:link-computed
+    else if (starts-with($link, 'http://') or starts-with($link, 'https://') or starts-with($link, 'mailto:'))
+      then $diag:link-external
+    else if (contains($link-no-anchor, '/'))
+      then $diag:link-resource
+    else 
+      $diag:link-article
+};
+
+(:----------------------------------------------------------------------------:)
+
+declare function local:link-no-anchor($link as xs:string) as xs:string
+{
+  if (contains($link, '#'))
+    then substring-before($link, '#')
+    else $link
+};
+
+(:----------------------------------------------------------------------------:)
+
+declare function local:link-anchor($link as xs:string) as xs:string
+{
+  if (contains($link, '#'))
+    then substring-after($link, '#')
+    else ''
+};
+
+(:----------------------------------------------------------------------------:)
+
+declare function local:get-path-component($link as xs:string) as xs:string
+{
+  if (contains($link, '/'))
+    then replace($link, '(.*)/[^/]+$', '$1')
+    else ''
+};
+
+(:----------------------------------------------------------------------------:)
+
+declare function local:get-name-component($link as xs:string) as xs:string
+{
+  tokenize($link, '/')[last()]
+};
+
+(:----------------------------------------------------------------------------:)
+
+declare function local:anchor-exists($doc as document-node(), $anchor as xs:string) as xs:boolean
+{
+  $anchor = data($doc//@xml:id)
+};
+
+(:============================================================================:)
+
+
