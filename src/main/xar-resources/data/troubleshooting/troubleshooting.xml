@@ -53,7 +53,7 @@
       done to avoid potential damage and give an administrator a chance to check the database and
       create a backup. It does not necessarily indicate a real problem. In most cases, the database
       should be ok and restarting it will be save.</para>
-    <para>We recommend to run a <link xlink:href="backup.xml#consistency-check">consistency check</link> in when this happens. If
+    <para>We recommend to run a <link xlink:href="backup">consistency check</link> in when this happens. If
       inconsistencies are found, make sure you have a backup before continuing.</para>
   </sect1>
 
@@ -277,7 +277,7 @@
           </listitem>
           <listitem>
             <para>If inconsistencies are detected during the recovery, eXist will switch to
-              read-only mode. In this case, stop it again and run a <link xlink:href="backup.xml#consistency-check">consistency check</link>, which can also create a low-level backup.</para>
+              read-only mode. In this case, stop it again and run a <link xlink:href="backup">consistency check</link>, which can also create a low-level backup.</para>
             <para>If the consistency check reports errors, eXist may still be able to run, but there
               might be inconsistencies in its data structures. Prepare for a complete restore into a
               clean data directory as soon as you can take the database offline for

@@ -382,9 +382,9 @@
             <term><code>query-timeout</code></term>
             <listitem>
               <para>This attribute sets the maximum amount of time (expressed in milliseconds) that the query can take before it is killed. The
-                setting can be overwritten in an XQuery by specifiying the option <literal>exist:timeout</literal>:</para>
+                setting can be overwritten in an XQuery by specifying the option <literal>exist:timeout</literal>:</para>
               <programlisting language="xquery">declare option exist:timeout "time-in-ms";</programlisting>
-              <para>Please check the documentation on <link xlink:href="xquery.xml#xqopts">XQuery options</link>.</para>
+              <para>Please check the documentation on <link xlink:href="xquery">XQuery options</link>.</para>
             </listitem>
           </varlistentry>
           <varlistentry>
@@ -572,7 +572,7 @@
           </listitem>
         </varlistentry>
       </variablelist>
-      <para>Below is an example which configures a <link xlink:href="backup.xml#backuptask">BackupSystemTask</link>: </para>
+      <para>Below is an example which configures a <link xlink:href="backup">BackupSystemTask</link>: </para>
 
       <programlisting language="xml" xlink:href="listings/listing-6.xml"/>
       <para>Each job is configured in a <tag>job</tag> element which accepts a number of standard attributes:</para>
@@ -784,7 +784,7 @@
           <varlistentry>
             <term><code>enable-java-binding</code></term>
             <listitem>
-              <para>Set to <code>yes</code> to enable the <link xlink:href="xquery.xml#javamods">java binding</link>. Giving users full access to all
+              <para>Set to <code>yes</code> to enable the <link xlink:href="xquery">java binding</link>. Giving users full access to all
                 Java classes should be considered a security risk and the feature is thus disabled by default.</para>
             </listitem>
           </varlistentry>
@@ -837,7 +837,7 @@
             <term><code>enable-query-rewriting</code>o</term>
             <listitem>
               <para>the query engine can often achieve considerable performance improvements by rewriting an XQuery expression into a more efficient
-                form (see the documentation about <link xlink:href="indexing.xml#pathvsqname">indexing</link>). However, these features are relatively
+                form (see the documentation about <link xlink:href="indexing">indexing</link>). However, these features are relatively
                 new. If you have doubts about the correctness of a query result, you may temporarily set <literal>enable-query-rewriting</literal> to
                   <literal>no</literal> and see if the result changes in any way. If it does, you have hit a bug which should be reported. </para>
             </listitem>

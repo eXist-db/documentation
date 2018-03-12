@@ -1,6 +1,7 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article xmlns="http://docbook.org/ns/docbook" version="5.0">
   <info>
     <title>Developer's Guide to Modularized Indexes</title>
     <date>1Q18</date>
@@ -12,8 +13,8 @@
 
   <!-- ================================================================== -->
 
-  <para>eXist-db provides a modular mechanism to index data. This eases index development and the development of more-or-less related custom functions
-    (in Java).</para>
+  <para>eXist-db provides a modular mechanism to index data. This eases index development and the
+    development of more-or-less related custom functions (in Java).</para>
 
   <!-- ================================================================== -->
 
@@ -27,7 +28,8 @@
       <varlistentry>
         <term>NGram index</term>
         <listitem>
-          <para>An NGram index will store the N-grams contained in the data's characters. For instance, if the index is configured to index 3-grams,
+          <para>An NGram index will store the N-grams contained in the data's characters. For
+            instance, if the index is configured to index 3-grams,
               <literal>&lt;data&gt;abcde&lt;/data&gt;</literal> will generate these index entries: </para>
           <itemizedlist>
             <listitem>
@@ -51,19 +53,30 @@
       <varlistentry>
         <term>Spatial index</term>
         <listitem>
-          <para>A spatial index will store some of the geometric characteristics of <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.opengeospatial.org/standards/gml" condition="_blank">Geography Markup Language</link> geometries (tested against
-            GML version 2.1.2). For instance:</para>
+          <para>A spatial index will store some of the geometric characteristics of <link
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              xlink:href="http://www.opengeospatial.org/standards/gml" condition="_blank">Geography
+              Markup Language</link> geometries (tested against GML version 2.1.2). For
+            instance:</para>
           <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-1.xml"/>
           <para>This will generate several index entries. The most important ones are:</para>
           <itemizedlist>
             <listitem>
-              <para>The <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://en.wikipedia.org/wiki/Spatial_referencing_systems" condition="_blank">spatial referencing system</link> (<literal>osgb:BNG</literal> for this polygon)</para>
+              <para>The <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                  xlink:href="http://en.wikipedia.org/wiki/Spatial_referencing_systems"
+                  condition="_blank">spatial referencing system</link> (<literal>osgb:BNG</literal>
+                for this polygon)</para>
             </listitem>
             <listitem>
-              <para>The polygon itself, stored in a binary form (<link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://en.wikipedia.org/wiki/Well-known_text" condition="_blank">Well-Known Binary</link>)</para>
+              <para>The polygon itself, stored in a binary form (<link
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  xlink:href="http://en.wikipedia.org/wiki/Well-known_text" condition="_blank"
+                  >Well-Known Binary</link>)</para>
             </listitem>
             <listitem>
-              <para>The coordinates of its <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://en.wikipedia.org/wiki/Minimum_bounding_rectangle" condition="_blank">bounding box</link>
+              <para>The coordinates of its <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                  xlink:href="http://en.wikipedia.org/wiki/Minimum_bounding_rectangle"
+                  condition="_blank">bounding box</link>
               </para>
             </listitem>
           </itemizedlist>
@@ -81,55 +94,69 @@
     <sect2>
       <title> org.exist.indexing.IndexManager </title>
 
-      <para>The indexing architecture introduces a package, <literal>org.exist.indexing</literal>, responsible for index management. It is created by
-          <literal>org.exist.storage.BrokerPool</literal> which allocates <literal>org.exist.storage.DBBroker</literal>s to each process accessing
-        each DB instance. Each time a DB instance is created (most installations generally have only one, most often called <literal>exist</literal>),
-        the <literal>initialize()</literal> method contructs an <literal>IndexManager</literal> that will be available through the
-          <literal>getIndexManager()</literal> method of <literal>org.exist.storage.BrokerPool</literal>. </para>
+      <para>The indexing architecture introduces a package, <literal>org.exist.indexing</literal>,
+        responsible for index management. It is created by
+          <literal>org.exist.storage.BrokerPool</literal> which allocates
+          <literal>org.exist.storage.DBBroker</literal>s to each process accessing each DB instance.
+        Each time a DB instance is created (most installations generally have only one, most often
+        called <literal>exist</literal>), the <literal>initialize()</literal> method contructs an
+          <literal>IndexManager</literal> that will be available through the
+          <literal>getIndexManager()</literal> method of
+          <literal>org.exist.storage.BrokerPool</literal>. </para>
       <programlisting>public IndexManager(BrokerPool pool, Configuration config)</programlisting>
-      <para>This constructor keeps track of the <literal>BrokerPool</literal> that has created the instance and receives the database's configuration
-        object, usually defined in an XML file called <literal>conf.xml</literal>. This new entry is expected in the configuration file: </para>
+      <para>This constructor keeps track of the <literal>BrokerPool</literal> that has created the
+        instance and receives the database's configuration object, usually defined in an XML file
+        called <literal>conf.xml</literal>. This new entry is expected in the configuration file: </para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-3.xml"/>
-      <para>This defines 2 indexes, backed-up by their specific classes (<literal>class</literal> attribute; these classes implement the
-          <literal>org.exist.indexing.Index</literal> interface as will be seen below), eventually assigns them a human-readable (writable even)
-        identifier and passes them custom parameters which are implementation-dependant. Then, it configures (by calling their
-          <literal>configure()</literal> method), opens (by calling their <literal>open()</literal> method) and keeps track of each of them.</para>
+      <para>This defines 2 indexes, backed-up by their specific classes (<literal>class</literal>
+        attribute; these classes implement the <literal>org.exist.indexing.Index</literal> interface
+        as will be seen below), eventually assigns them a human-readable (writable even) identifier
+        and passes them custom parameters which are implementation-dependant. Then, it configures
+        (by calling their <literal>configure()</literal> method), opens (by calling their
+          <literal>open()</literal> method) and keeps track of each of them.</para>
       <para>
-        <literal>org.exist.indexing.IndexManager</literal> also provides these public methods:</para>
+        <literal>org.exist.indexing.IndexManager</literal> also provides these public
+        methods:</para>
 
       <programlisting>public BrokerPool getBrokerPool()</programlisting>
-      <para>This returns the <literal>org.exist.storage.BrokerPool</literal> for which this <literal>IndexManager</literal> was created.</para>
+      <para>This returns the <literal>org.exist.storage.BrokerPool</literal> for which this
+          <literal>IndexManager</literal> was created.</para>
       <programlisting>public synchronized Index getIndexById(String indexId)</programlisting>
-      <para>A method that returns an <literal>Index</literal> given its class identifier (see below). Allows custom functions to access
-          <literal>Index</literal>es whatever their human-defined name is. This is probably the only method in this class that will be really needed
-        by a developer.</para>
+      <para>A method that returns an <literal>Index</literal> given its class identifier (see
+        below). Allows custom functions to access <literal>Index</literal>es whatever their
+        human-defined name is. This is probably the only method in this class that will be really
+        needed by a developer.</para>
       <programlisting>public synchronized Index getIndexByName(String indexName)</programlisting>
-      <para>The counterpart of the previous method. Pass the human-readable name of the <literal>Index</literal> as defined in the
-        configuration.</para>
+      <para>The counterpart of the previous method. Pass the human-readable name of the
+          <literal>Index</literal> as defined in the configuration.</para>
       <programlisting>public void shutdown()</programlisting>
-      <para>This method is called when eXist shuts down. <literal>close()</literal> will be called for every registered <literal>Index</literal>. That
-        allows them to free the resources they have allocated.</para>
+      <para>This method is called when eXist shuts down. <literal>close()</literal> will be called
+        for every registered <literal>Index</literal>. That allows them to free the resources they
+        have allocated.</para>
       <programlisting>public void removeIndexes()</programlisting>
-      <para>This method is called when <literal>repair()</literal> is called from <literal>org.exist.storage.NativeBroker</literal>.</para>
+      <para>This method is called when <literal>repair()</literal> is called from
+          <literal>org.exist.storage.NativeBroker</literal>.</para>
       <note>
         <para>
-          <literal>repair()</literal> reconstructs every index (including the structural one) from what is contained in the persistent DOM (usually
-            <literal>dom.dbx</literal>).</para>
+          <literal>repair()</literal> reconstructs every index (including the structural one) from
+          what is contained in the persistent DOM (usually <literal>dom.dbx</literal>).</para>
       </note>
       <para>
-        <literal>remove()</literal> will be called for every registered <literal>Index</literal>. That allows each index to destroy its persistent
-        storage if it wants to do so (but it is probably suitable given that <literal>repair()</literal> is called when the DB and/or its indexes are
-        corrupted).</para>
+        <literal>remove()</literal> will be called for every registered <literal>Index</literal>.
+        That allows each index to destroy its persistent storage if it wants to do so (but it is
+        probably suitable given that <literal>repair()</literal> is called when the DB and/or its
+        indexes are corrupted).</para>
       <programlisting>public void reopenIndexes()</programlisting>
-      <para>This method is called when <literal>repair()</literal> is called from <literal>org.exist.storage.NativeBroker</literal>.</para>
+      <para>This method is called when <literal>repair()</literal> is called from
+          <literal>org.exist.storage.NativeBroker</literal>.</para>
       <note>
         <para>
-          <literal>repair()</literal> reconstructs every index (including the structural one) from what is contained in the persistent DOM (usually
-            <literal>dom.dbx</literal>).</para>
+          <literal>repair()</literal> reconstructs every index (including the structural one) from
+          what is contained in the persistent DOM (usually <literal>dom.dbx</literal>).</para>
       </note>
       <para>
-        <literal>open()</literal> will be called for every registered <literal>Index</literal>. That allows each index to (re)allocate the resources
-        it needs for its persistent storage.</para>
+        <literal>open()</literal> will be called for every registered <literal>Index</literal>. That
+        allows each index to (re)allocate the resources it needs for its persistent storage.</para>
     </sect2>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -137,85 +164,110 @@
     <sect2>
       <title> org.exist.indexing.IndexController </title>
 
-      <para>Another important class is <literal>org.exist.indexing.IndexController</literal> which, as its name suggests, controls the way data to be
-        indexed are dispatched to the registered indexes, using <literal>org.exist.indexing.IndexWorker</literal>s that will be described below. Each
-          <literal>org.exist.storage.DBBroker</literal> constructs such an <literal>IndexController</literal> when it is itself constructed, using
-        this constructor :</para>
+      <para>Another important class is <literal>org.exist.indexing.IndexController</literal> which,
+        as its name suggests, controls the way data to be indexed are dispatched to the registered
+        indexes, using <literal>org.exist.indexing.IndexWorker</literal>s that will be described
+        below. Each <literal>org.exist.storage.DBBroker</literal> constructs such an
+          <literal>IndexController</literal> when it is itself constructed, using this constructor
+        :</para>
       <programlisting>public IndexController(DBBroker broker)</programlisting>
-      <para>... that registers the <literal>broker</literal>'s <literal>IndexWorker</literal>s, one for each registered <literal>Index</literal>.
-        These <literal>IndexWorker</literal>s, that will be described below, are returned by the <literal>getWorker()</literal> method in
-          <literal>org.exist.indexing.Index</literal>, which is usually a good place to create such an <literal>IndexWorker</literal>, at least the
-        first time it is called.</para>
-      <para>This <literal>IndexController</literal> will be available through the <literal>getIndexController()</literal> method of
+      <para>... that registers the <literal>broker</literal>'s <literal>IndexWorker</literal>s, one
+        for each registered <literal>Index</literal>. These <literal>IndexWorker</literal>s, that
+        will be described below, are returned by the <literal>getWorker()</literal> method in
+          <literal>org.exist.indexing.Index</literal>, which is usually a good place to create such
+        an <literal>IndexWorker</literal>, at least the first time it is called.</para>
+      <para>This <literal>IndexController</literal> will be available through the
+          <literal>getIndexController()</literal> method of
           <literal>org.exist.storage.DBBroker</literal>.</para>
       <para> Here are the other public methods :</para>
       <programlisting>public Map configure(NodeList configNodes, Map namespaces)</programlisting>
-      <para>This method receives the database's configuration object, usually defined in an XML file called <literal>conf.xml</literal>. Both
-        configuration nodes and namespaces (remember that some configuration settings including e.g. pathes need namespaces to be defined) will be
-        passed to the <literal>configure()</literal> method of each <literal>IndexWorker</literal>. The returned object is a
-          <literal>java.util.Map</literal> that will be available from
+      <para>This method receives the database's configuration object, usually defined in an XML file
+        called <literal>conf.xml</literal>. Both configuration nodes and namespaces (remember that
+        some configuration settings including e.g. pathes need namespaces to be defined) will be
+        passed to the <literal>configure()</literal> method of each <literal>IndexWorker</literal>.
+        The returned object is a <literal>java.util.Map</literal> that will be available from
           <literal>collection.getIndexConfiguration(broker).getCustomIndexSpec(INDEX_CLASS_IDENTIFIER)</literal>. </para>
       <programlisting>public IndexWorker getWorkerByIndexId(String indexId)</programlisting>
-      <para>A method that returns an <literal>IndexWorker</literal> given the class identifier of its associated <literal>Index</literal> identifier.
-        Very useful to the developer since it allows custom functions to access <literal>IndexWorker</literal>s whatever the human-defined name of
-        their <literal>Index</literal> is. This is probably the only method in this class that will be really needed by a developer.</para>
+      <para>A method that returns an <literal>IndexWorker</literal> given the class identifier of
+        its associated <literal>Index</literal> identifier. Very useful to the developer since it
+        allows custom functions to access <literal>IndexWorker</literal>s whatever the human-defined
+        name of their <literal>Index</literal> is. This is probably the only method in this class
+        that will be really needed by a developer.</para>
       <programlisting>public IndexWorker getWorkerByIndexName(String indexName)</programlisting>
-      <para>The counterpart of the previous method. For the human-readable name of the <literal>Index</literal> as defined in the
-        configuration.</para>
+      <para>The counterpart of the previous method. For the human-readable name of the
+          <literal>Index</literal> as defined in the configuration.</para>
       <programlisting>public void setDocument(DocumentImpl doc)</programlisting>
-      <para>This method sets the <literal>org.exist.dom.DocumentImpl</literal> on which the <literal>IndexWorker</literal>s shall work. Calls
-          <literal>setDocument(doc)</literal> on each registered <literal>IndexWorker</literal>.</para>
+      <para>This method sets the <literal>org.exist.dom.DocumentImpl</literal> on which the
+          <literal>IndexWorker</literal>s shall work. Calls <literal>setDocument(doc)</literal> on
+        each registered <literal>IndexWorker</literal>.</para>
       <programlisting>public void setMode(int mode)</programlisting>
-      <para>This method sets the operating mode in which the <literal>IndexWorker</literal>s shall work. See below for further details on operating
-        modes. Calls <literal>setMode(mode)</literal> on each registered <literal>IndexWorker</literal>.</para>
+      <para>This method sets the operating mode in which the <literal>IndexWorker</literal>s shall
+        work. See below for further details on operating modes. Calls
+          <literal>setMode(mode)</literal> on each registered <literal>IndexWorker</literal>.</para>
       <programlisting>public void setDocument(DocumentImpl doc, int mode)</programlisting>
-      <para>A convenience method that sets both the <literal>org.exist.dom.DocumentImpl</literal> and the operating mode. Calls
-          <literal>setDocument(doc, mode)</literal> on each registered <literal>IndexWorker</literal>.</para>
+      <para>A convenience method that sets both the <literal>org.exist.dom.DocumentImpl</literal>
+        and the operating mode. Calls <literal>setDocument(doc, mode)</literal> on each registered
+          <literal>IndexWorker</literal>.</para>
       <programlisting>public DocumentImpl getDocument()</programlisting>
-      <para>Returns the <literal>org.exist.dom.DocumentImpl</literal> on which the <literal>IndexWorker</literal>s will have to work.</para>
+      <para>Returns the <literal>org.exist.dom.DocumentImpl</literal> on which the
+          <literal>IndexWorker</literal>s will have to work.</para>
       <programlisting>public int getMode()</programlisting>
-      <para>Returns the operating mode in which the <literal>IndexWorker</literal>s will have to work.</para>
+      <para>Returns the operating mode in which the <literal>IndexWorker</literal>s will have to
+        work.</para>
       <programlisting>public void flush()</programlisting>
-      <para>Called in various places when pending operations, obviously data insertion, update or removal, have to be completed. Calls
-          <literal>flush()</literal> on each registered <literal>IndexWorker</literal>.</para>
+      <para>Called in various places when pending operations, obviously data insertion, update or
+        removal, have to be completed. Calls <literal>flush()</literal> on each registered
+          <literal>IndexWorker</literal>.</para>
       <programlisting>public void removeCollection(Collection collection, DBBroker broker)</programlisting>
-      <para>Called when a collection is to be removed. That allows to delete index entries for this collection in a single operation. Calls
-          <literal>removeCollection()</literal> on each registered <literal>IndexWorker</literal>.</para>
+      <para>Called when a collection is to be removed. That allows to delete index entries for this
+        collection in a single operation. Calls <literal>removeCollection()</literal> on each
+        registered <literal>IndexWorker</literal>.</para>
       <programlisting>public void reindex(Txn transaction, StoredNode reindexRoot, int mode)</programlisting>
-      <para>Called when a document is to be reindexed. Only the <literal>reindexRoot</literal> node and its descendants will have their index entries
-        updated or removed depending of the <literal>mode</literal> parameter.</para>
+      <para>Called when a document is to be reindexed. Only the <literal>reindexRoot</literal> node
+        and its descendants will have their index entries updated or removed depending of the
+          <literal>mode</literal> parameter.</para>
       <programlisting>public StoredNode getReindexRoot(StoredNode node, NodePath path)</programlisting>
-      <para>Determines the node which should be reindexed together with its descendants. Calls <literal>getReindexRoot()</literal> on each registered
-          <literal>IndexWorker</literal>. The top-most node will be the actual node from which the <literal>DBBroker</literal> will start
+      <para>Determines the node which should be reindexed together with its descendants. Calls
+          <literal>getReindexRoot()</literal> on each registered <literal>IndexWorker</literal>. The
+        top-most node will be the actual node from which the <literal>DBBroker</literal> will start
         reindexing.</para>
       <programlisting>public StoredNode getReindexRoot(StoredNode node, NodePath path, boolean includeSelf)</programlisting>
       <para>Same as above, with more parameters.</para>
       <programlisting>public StreamListener getStreamListener()</programlisting>
-      <para>Returns the first <literal>org.exist.indexing.StreamListener</literal> in the <literal>StreamListener</literal>s pipeline. There is at
-        most one <literal>StreamListener</literal> per <literal>IndexWorker</literal> that will intercept the (re)indexed nodes stream.
-          <literal>IndexWorker</literal>s that are not interested in the data (depending of e.g. the document and/or the operating mode) may return
-          <literal>null</literal> through their <literal>getListener()</literal> method and thus not participate in the (re)indexing process. In other
-        terms, they will not listen to the indexed nodes.</para>
+      <para>Returns the first <literal>org.exist.indexing.StreamListener</literal> in the
+          <literal>StreamListener</literal>s pipeline. There is at most one
+          <literal>StreamListener</literal> per <literal>IndexWorker</literal> that will intercept
+        the (re)indexed nodes stream. <literal>IndexWorker</literal>s that are not interested in the
+        data (depending of e.g. the document and/or the operating mode) may return
+          <literal>null</literal> through their <literal>getListener()</literal> method and thus not
+        participate in the (re)indexing process. In other terms, they will not listen to the indexed
+        nodes.</para>
       <programlisting>public void indexNode(Txn transaction, StoredNode node, NodePath path, StreamListener listener)</programlisting>
-      <para>Index any kind of indexable node (currently elements, attributes and text nodes ; comments and especially processing instructions might be
-        considered in the future).</para>
+      <para>Index any kind of indexable node (currently elements, attributes and text nodes ;
+        comments and especially processing instructions might be considered in the future).</para>
       <programlisting>public void startElement(Txn transaction, ElementImpl node, NodePath path, StreamListener listener)</programlisting>
-      <para>More specific than <literal>indexNode()</literal>. For an element. Will call <literal>startElement()</literal> on
-          <literal>listener</literal> if it is not <literal>null</literal>. Hence the analogy with <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.xml.com/pub/a/2003/09/17/stax.html">STAX events</link> is obvious.</para>
+      <para>More specific than <literal>indexNode()</literal>. For an element. Will call
+          <literal>startElement()</literal> on <literal>listener</literal> if it is not
+          <literal>null</literal>. Hence the analogy with <link
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xlink:href="http://www.xml.com/pub/a/2003/09/17/stax.html">STAX events</link> is
+        obvious.</para>
       <programlisting>public void attribute(Txn transaction, AttrImpl node, NodePath path, StreamListener listener)</programlisting>
-      <para>More specific than <literal>indexNode()</literal>. For an attribute. Will call <literal>attribute()</literal> on
-          <literal>listener</literal> if it is not <literal>null</literal>.</para>
+      <para>More specific than <literal>indexNode()</literal>. For an attribute. Will call
+          <literal>attribute()</literal> on <literal>listener</literal> if it is not
+          <literal>null</literal>.</para>
       <programlisting>public void characters(Txn transaction, TextImpl node, NodePath path, StreamListener listener)</programlisting>
-      <para>More specific than <literal>indexNode()</literal>. For a text node. Will call <literal>characters()</literal> on
-          <literal>listener</literal> if it is not <literal>null</literal>.</para>
+      <para>More specific than <literal>indexNode()</literal>. For a text node. Will call
+          <literal>characters()</literal> on <literal>listener</literal> if it is not
+          <literal>null</literal>.</para>
       <programlisting>public void endElement(Txn transaction, ElementImpl node, NodePath path, StreamListener listener)</programlisting>
-      <para>Signals end of indexing for an element node. Will call <literal>endElement()</literal> on <literal>listener</literal> if it is not
-          <literal>null</literal>
+      <para>Signals end of indexing for an element node. Will call <literal>endElement()</literal>
+        on <literal>listener</literal> if it is not <literal>null</literal>
       </para>
       <programlisting>public MatchListener getMatchListener(NodeProxy proxy)</programlisting>
       <para>Returns a <literal>org.exist.indexing.MatchListener</literal> for the given node.</para>
-      <para>The two classes aim to be essentially used by eXist itself. As a programmer you will probably need to use just one or two of the above
-        methods.</para>
+      <para>The two classes aim to be essentially used by eXist itself. As a programmer you will
+        probably need to use just one or two of the above methods.</para>
     </sect2>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -223,51 +275,63 @@
     <sect2>
       <title> org.exist.indexing.Index and org.exist.indexing.AbstractIndex </title>
 
-      <para>Now let's get into the interfaces and classes that will need to be extended by the index programmer. The first of them is the interface
-          <literal>org.exist.indexing.Index</literal> which will maintain the index itself.</para>
-      <para>As described above, a new instance of the interface will be created by the constructor of
-          <literal>org.exist.indexing.IndexManager</literal> which calls the interface's <literal>newInstance()</literal> method. No need for a
-        constructor then.</para>
+      <para>Now let's get into the interfaces and classes that will need to be extended by the index
+        programmer. The first of them is the interface <literal>org.exist.indexing.Index</literal>
+        which will maintain the index itself.</para>
+      <para>As described above, a new instance of the interface will be created by the constructor
+        of <literal>org.exist.indexing.IndexManager</literal> which calls the interface's
+          <literal>newInstance()</literal> method. No need for a constructor then.</para>
       <para>Here are the methods that have to be implemented in an implementation: </para>
       <programlisting>String getIndexId()</programlisting>
       <para>Returns the class identifier of the index.</para>
       <programlisting>String getIndexName()</programlisting>
-      <para>Returns the human-defined name of the index, if one was defined in the configuration file.</para>
+      <para>Returns the human-defined name of the index, if one was defined in the configuration
+        file.</para>
       <programlisting>BrokerPool getBrokerPool()</programlisting>
-      <para>Returns the <literal>org.exist.storage.BrokerPool</literal> that has created the index.</para>
+      <para>Returns the <literal>org.exist.storage.BrokerPool</literal> that has created the
+        index.</para>
       <programlisting>void configure(BrokerPool pool, String dataDir, Element config)</programlisting>
-      <para>Notifies the <literal>Index</literal> a data directory (normally <literal>${EXIST_HOME}/webapp/WEB-INF/data</literal>) and the
-        configuration element in which it is declared.</para>
+      <para>Notifies the <literal>Index</literal> a data directory (normally
+          <literal>${EXIST_HOME}/webapp/WEB-INF/data</literal>) and the configuration element in
+        which it is declared.</para>
       <programlisting>void open()</programlisting>
-      <para>Method that is executed when the <literal>Index</literal> is opened, whatever it means. Consider this method as an initialization and
-        allocate the necessary resources here.</para>
+      <para>Method that is executed when the <literal>Index</literal> is opened, whatever it means.
+        Consider this method as an initialization and allocate the necessary resources here.</para>
       <programlisting>void close()</programlisting>
-      <para>Method that is executed when the <literal>Index</literal> is closed, whatever it means. Consider this method as a finalization and free
-        the allocated resources here.</para>
+      <para>Method that is executed when the <literal>Index</literal> is closed, whatever it means.
+        Consider this method as a finalization and free the allocated resources here.</para>
       <programlisting>void sync()</programlisting>
       <para>Unused.</para>
       <programlisting>void remove()</programlisting>
-      <para>Method that is executed when eXist requires the index content to be entitrely deleted, e.g. before repairing a corrupted database.</para>
+      <para>Method that is executed when eXist requires the index content to be entitrely deleted,
+        e.g. before repairing a corrupted database.</para>
       <programlisting>IndexWorker getWorker(DBBroker broker)</programlisting>
-      <para>Returns the <literal>IndexWorker</literal> that operates on this <literal>Index</literal> on behalf of <literal>broker</literal>. One may
-        want to create a new <literal>IndexWorker</literal> here or pick one form a pool.</para>
+      <para>Returns the <literal>IndexWorker</literal> that operates on this
+          <literal>Index</literal> on behalf of <literal>broker</literal>. One may want to create a
+        new <literal>IndexWorker</literal> here or pick one form a pool.</para>
       <programlisting>boolean checkIndex(DBBroker broker)</programlisting>
-      <para>To be called by applications that want to implement a consistency check on the <literal>Index</literal>.</para>
-      <para>There is also an abstract class that implements <literal>org.exist.indexing.Index</literal>,
-          <literal>org.exist.indexing.AbstractIndex</literal> that can be used a a basis for most <literal>Index</literal> implementations. Most of
-        its methods are abstract and still have to be implemented in the concrete classes. These are the few concrete methods:</para>
+      <para>To be called by applications that want to implement a consistency check on the
+          <literal>Index</literal>.</para>
+      <para>There is also an abstract class that implements
+          <literal>org.exist.indexing.Index</literal>,
+          <literal>org.exist.indexing.AbstractIndex</literal> that can be used a a basis for most
+          <literal>Index</literal> implementations. Most of its methods are abstract and still have
+        to be implemented in the concrete classes. These are the few concrete methods:</para>
       <programlisting>public String getDataDir()</programlisting>
-      <para>Returns the directory in which this <literal>Index</literal> operates. Usually defined by <literal>configure()</literal> which itself
-        receives eXist's configuration settings. NB! There might be some <literal>Index</literal>es for which the concept of data directory isn't
+      <para>Returns the directory in which this <literal>Index</literal> operates. Usually defined
+        by <literal>configure()</literal> which itself receives eXist's configuration settings. NB!
+        There might be some <literal>Index</literal>es for which the concept of data directory isn't
         accurate.</para>
       <programlisting>public void configure(BrokerPool pool, String dataDir, Element config)</programlisting>
-      <para>Its minimal implementation retains the <literal>org.exist.storage.BrokerPool</literal>, the data directory and the human-defined name, if
-        defined in the configuration file (in an attribute called <literal>id</literal>). Sub-classes may call <literal>super.configure()</literal> to
-        retain this default behaviour.</para>
+      <para>Its minimal implementation retains the <literal>org.exist.storage.BrokerPool</literal>,
+        the data directory and the human-defined name, if defined in the configuration file (in an
+        attribute called <literal>id</literal>). Sub-classes may call
+          <literal>super.configure()</literal> to retain this default behaviour.</para>
       <para>This member is protected :</para>
       <programlisting>protected static String ID = "Give me an ID !"</programlisting>
-      <para>This is where the class identifier of the <literal>Index</literal> is defined. Override this member with, say,
-          <literal>MyClass.class.getName()</literal> to provide a reasonably unique identifier within your system.</para>
+      <para>This is where the class identifier of the <literal>Index</literal> is defined. Override
+        this member with, say, <literal>MyClass.class.getName()</literal> to provide a reasonably
+        unique identifier within your system.</para>
     </sect2>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -275,54 +339,71 @@
     <sect2>
       <title> org.exist.indexing.IndexWorker </title>
 
-      <para>The next important interface that will need to be implemented is <literal>org.exist.indexing.IndexWorker</literal> which is responsible
-        for managing the data in the index. Remember that each <literal>org.exist.storage.DBBroker</literal> will have such an
-          <literal>IndexWorker</literal> at its disposal and that their <literal>IndexController</literal> will know what method of
-          <literal>IndexWorker</literal> to call and when to call it.</para>
+      <para>The next important interface that will need to be implemented is
+          <literal>org.exist.indexing.IndexWorker</literal> which is responsible for managing the
+        data in the index. Remember that each <literal>org.exist.storage.DBBroker</literal> will
+        have such an <literal>IndexWorker</literal> at its disposal and that their
+          <literal>IndexController</literal> will know what method of <literal>IndexWorker</literal>
+        to call and when to call it.</para>
       <para>Here are the methods that have to be implemented in the concrete implementations : </para>
       <programlisting>public String getIndexId()</programlisting>
       <para>Returns the class identifier of the index.</para>
       <programlisting>public String getIndexName()</programlisting>
-      <para>Returns the human-defined name of the index, if one was defined in the configuration file.</para>
+      <para>Returns the human-defined name of the index, if one was defined in the configuration
+        file.</para>
       <programlisting>Object configure(IndexController controller, NodeList configNodes, Map namespaces)</programlisting>
-      <para>This method receives the database's configuration object, usually defined in an XML file called <literal>conf.xml</literal>. Both
-        configuration nodes and namespaces (remember that some configuration settings including e.g. pathes need namespaces to be defined) will be
-        passed to the <literal>configure()</literal> method of the <literal>IndexWorker</literal>'s <literal>IndexController</literal>. The
-          <literal>IndexWorker</literal> can use this method to retain custom configuration options in a custom object that will be available in the
+      <para>This method receives the database's configuration object, usually defined in an XML file
+        called <literal>conf.xml</literal>. Both configuration nodes and namespaces (remember that
+        some configuration settings including e.g. pathes need namespaces to be defined) will be
+        passed to the <literal>configure()</literal> method of the <literal>IndexWorker</literal>'s
+          <literal>IndexController</literal>. The <literal>IndexWorker</literal> can use this method
+        to retain custom configuration options in a custom object that will be available in the
           <literal>java.util.Map</literal> returned by
-          <literal>collection.getIndexConfiguration(broker).getCustomIndexSpec(INDEX_CLASS_IDENTIFIER)</literal>. The return type is free but will
-        probably generally be an implementation of <literal>java.util.Collection</literal> in order to retain several parameters. </para>
+          <literal>collection.getIndexConfiguration(broker).getCustomIndexSpec(INDEX_CLASS_IDENTIFIER)</literal>.
+        The return type is free but will probably generally be an implementation of
+          <literal>java.util.Collection</literal> in order to retain several parameters. </para>
       <programlisting>void setDocument(DocumentImpl doc)</programlisting>
-      <para>This method sets the <literal>org.exist.dom.DocumentImpl</literal> on which this <literal>IndexWorker</literal> will have to work.</para>
+      <para>This method sets the <literal>org.exist.dom.DocumentImpl</literal> on which this
+          <literal>IndexWorker</literal> will have to work.</para>
       <programlisting>void setMode(int mode)</programlisting>
-      <para>This method sets the operating mode in which this <literal>IndexWorker</literal> will have to work. See below for further details on
-        operating modes.</para>
+      <para>This method sets the operating mode in which this <literal>IndexWorker</literal> will
+        have to work. See below for further details on operating modes.</para>
       <programlisting>void setDocument(DocumentImpl doc, int mode)</programlisting>
-      <para>A convenience method that sets both the <literal>org.exist.dom.DocumentImpl</literal> and the operating mode.</para>
+      <para>A convenience method that sets both the <literal>org.exist.dom.DocumentImpl</literal>
+        and the operating mode.</para>
       <programlisting>DocumentImpl getDocument()</programlisting>
-      <para>Returns the <literal>org.exist.dom.DocumentImpl</literal> on which this <literal>IndexWorker</literal> will have to work.</para>
+      <para>Returns the <literal>org.exist.dom.DocumentImpl</literal> on which this
+          <literal>IndexWorker</literal> will have to work.</para>
       <programlisting>int getMode()</programlisting>
-      <para>Returns the operating mode in which this <literal>IndexWorker</literal> will have to work.</para>
+      <para>Returns the operating mode in which this <literal>IndexWorker</literal> will have to
+        work.</para>
       <programlisting>void flush()</programlisting>
-      <para>Called periodically by the <literal>IndexController</literal> or by any other process. That is where data insertion, update or removal
-        should actually take place.</para>
+      <para>Called periodically by the <literal>IndexController</literal> or by any other process.
+        That is where data insertion, update or removal should actually take place.</para>
       <programlisting>void removeCollection(Collection collection, DBBroker broker)</programlisting>
-      <para>Called when a collection is to be removed. That allows to delete index entries for this collection in a single operation without a need
-        for a <literal>StreamListener</literal> (see below) or a call to <literal>setMode()</literal> nor <literal>setDocument()</literal>.</para>
+      <para>Called when a collection is to be removed. That allows to delete index entries for this
+        collection in a single operation without a need for a <literal>StreamListener</literal> (see
+        below) or a call to <literal>setMode()</literal> nor
+        <literal>setDocument()</literal>.</para>
       <programlisting>StoredNode getReindexRoot(StoredNode node, NodePath path, boolean includeSelf)</programlisting>
-      <para>Determines the node which should be reindexed together with its descendants. This will give a hint to the
-          <literal>IndexController</literal> to determine from which node reindexing should start.</para>
+      <para>Determines the node which should be reindexed together with its descendants. This will
+        give a hint to the <literal>IndexController</literal> to determine from which node
+        reindexing should start.</para>
       <programlisting>StreamListener getListener()</programlisting>
-      <para>Returns a <literal>StreamListener</literal> that will intercept the (re)indexed nodes stream. <literal>IndexWorker</literal>s that are not
-        interested in the data (depending of e.g. the document and/or the operating mode) may return <literal>null</literal> here.</para>
+      <para>Returns a <literal>StreamListener</literal> that will intercept the (re)indexed nodes
+        stream. <literal>IndexWorker</literal>s that are not interested in the data (depending of
+        e.g. the document and/or the operating mode) may return <literal>null</literal> here.</para>
       <programlisting>MatchListener getMatchListener(NodeProxy proxy)</programlisting>
       <para>Returns a <literal>org.exist.indexing.MatchListener</literal> for the given node.</para>
       <programlisting>boolean checkIndex(DBBroker broker)</programlisting>
-      <para>To be called by applications that want to implement a consistency check on the index.</para>
+      <para>To be called by applications that want to implement a consistency check on the
+        index.</para>
       <programlisting>Occurrences[] scanIndex(DocumentSet docs)</programlisting>
-      <para>Returns an array of <literal>org.exist.dom.DocumentImpl.Occurrences</literal> that is an <emphasis>ordered</emphasis> list of the index
-        entries, in a textual form, associated with the number of occurences for the entries and a list of the documents containing them. NB! For some
-        indexes, the concept of ordered or textual occurrences might not be meaningful.</para>
+      <para>Returns an array of <literal>org.exist.dom.DocumentImpl.Occurrences</literal> that is an
+          <emphasis>ordered</emphasis> list of the index entries, in a textual form, associated with
+        the number of occurences for the entries and a list of the documents containing them. NB!
+        For some indexes, the concept of ordered or textual occurrences might not be
+        meaningful.</para>
     </sect2>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -330,28 +411,38 @@
     <sect2>
       <title> org.exist.indexing.StreamListener and org.exist.indexing.AbstractStreamListener </title>
 
-      <para>The interface <literal>org.exist.indexing.StreamListener</literal> has these public members :</para>
+      <para>The interface <literal>org.exist.indexing.StreamListener</literal> has these public
+        members :</para>
       <programlisting>public final static int UNKNOWN = -1;</programlisting>
       <programlisting>public final static int STORE = 0;</programlisting>
       <programlisting>public final static int REMOVE_ALL_NODES = 1;</programlisting>
       <programlisting>public final static int REMOVE_SOME_NODES = 2;</programlisting>
-      <para>Obviously, they are used by the <literal>setMode()</literal> method in <literal>org.exist.indexing.IndexController</literal> which is
-        istself called by the different <literal>org.exist.storage.DBBroker</literal>s when they have to (re)index a node and its descendants. As
-        their name suggests, there is a mode for storing nodes and two modes for removing them from the indexes. The difference between
-          <literal>StreamListener.REMOVE_ALL_NODES</literal> and <literal>StreamListener.REMOVE_SOME_NODES</literal> is that the former removes all
-        the nodes from a document whereas the latter removes only some nodes from a document, usually the descendants of the node returned by
-          <literal>getReindexRoot()</literal>. We thus have the opportunity to trigger a process that will directly remove all the nodes from a given
-        document without having to listen to each of them. Such a technique is described below.</para>
+      <para>Obviously, they are used by the <literal>setMode()</literal> method in
+          <literal>org.exist.indexing.IndexController</literal> which is istself called by the
+        different <literal>org.exist.storage.DBBroker</literal>s when they have to (re)index a node
+        and its descendants. As their name suggests, there is a mode for storing nodes and two modes
+        for removing them from the indexes. The difference between
+          <literal>StreamListener.REMOVE_ALL_NODES</literal> and
+          <literal>StreamListener.REMOVE_SOME_NODES</literal> is that the former removes all the
+        nodes from a document whereas the latter removes only some nodes from a document, usually
+        the descendants of the node returned by <literal>getReindexRoot()</literal>. We thus have
+        the opportunity to trigger a process that will directly remove all the nodes from a given
+        document without having to listen to each of them. Such a technique is described
+        below.</para>
       <para>Here are the methods that must be implement by an implemetation:</para>
       <programlisting>IndexWorker getWorker()</programlisting>
-      <para>Returns the <literal>IndexWorker</literal> that owns this <literal>StreamListener</literal>.</para>
+      <para>Returns the <literal>IndexWorker</literal> that owns this
+          <literal>StreamListener</literal>.</para>
       <programlisting>void setNextInChain(StreamListener listener);</programlisting>
-      <para>Should not be used. Used to specify which is the next <literal>StreamListener</literal> in the <literal>IndexController</literal>'s
-          <literal>StreamListener</literal>s pipeline.</para>
+      <para>Should not be used. Used to specify which is the next <literal>StreamListener</literal>
+        in the <literal>IndexController</literal>'s <literal>StreamListener</literal>s
+        pipeline.</para>
       <programlisting>StreamListener getNextInChain();</programlisting>
-      <para>Returns the next <literal>StreamListener</literal> in the <literal>IndexController</literal>'s <literal>StreamListener</literal>s
-        pipeline. Very important because it is the responsability of the <literal>StreamListener</literal> to forward the event stream to the next
-          <literal>StreamListener</literal> in the pipeline.</para>
+      <para>Returns the next <literal>StreamListener</literal> in the
+          <literal>IndexController</literal>'s <literal>StreamListener</literal>s pipeline. Very
+        important because it is the responsability of the <literal>StreamListener</literal> to
+        forward the event stream to the next <literal>StreamListener</literal> in the
+        pipeline.</para>
       <programlisting>void startElement(Txn transaction, ElementImpl element, NodePath path)</programlisting>
       <para>Signals the start of an element to the listener.</para>
       <programlisting>void attribute(Txn transaction, AttrImpl attrib, NodePath path)</programlisting>
@@ -359,18 +450,21 @@
       <programlisting>void characters(Txn transaction, TextImpl text, NodePath path)</programlisting>
       <para>Passes some character data to the listener.</para>
       <programlisting>void endElement(Txn transaction, ElementImpl element, NodePath path)</programlisting>
-      <para>Signals the end of an element to the listener. Allow to free any temporary resource created since the matching
-          <literal>startElement()</literal> has been called.</para>
-      <para>Beside the <literal>StreamListener</literal> interface, each custom listener should extend
-          <literal>org.exist.indexing.AbstractStreamListener</literal>.</para>
-      <para>This abstract class provides concrete implementations for <literal>setNextInChain()</literal> and <literal>getNextInChain()</literal> that
-        should normally never be overridden.</para>
-      <para>It also provides dummy <literal>startElement()</literal>, <literal>attribute()</literal>, <literal>characters()</literal>,
-          <literal>endElement()</literal> methods that do nothing but forwarding the node to the next <literal>StreamListener</literal> in the
-          <literal>IndexController</literal>'s <literal>StreamListener</literal>s pipeline.</para>
+      <para>Signals the end of an element to the listener. Allow to free any temporary resource
+        created since the matching <literal>startElement()</literal> has been called.</para>
+      <para>Beside the <literal>StreamListener</literal> interface, each custom listener should
+        extend <literal>org.exist.indexing.AbstractStreamListener</literal>.</para>
+      <para>This abstract class provides concrete implementations for
+          <literal>setNextInChain()</literal> and <literal>getNextInChain()</literal> that should
+        normally never be overridden.</para>
+      <para>It also provides dummy <literal>startElement()</literal>,
+        <literal>attribute()</literal>, <literal>characters()</literal>,
+          <literal>endElement()</literal> methods that do nothing but forwarding the node to the
+        next <literal>StreamListener</literal> in the <literal>IndexController</literal>'s
+          <literal>StreamListener</literal>s pipeline.</para>
       <programlisting>public abstract IndexWorker getWorker()</programlisting>
-      <para>remains abstract though, since we still can not know what <literal>IndexWorker</literal> will own the <literal>Listener</literal> until we
-        haven't a concrete implementation.</para>
+      <para>remains abstract though, since we still can not know what <literal>IndexWorker</literal>
+        will own the <literal>Listener</literal> until we haven't a concrete implementation.</para>
     </sect2>
   </sect1>
 
@@ -380,129 +474,182 @@
     <title>Use case: developing an indexing architecture for GML geometries</title>
 
 
-    <para>To demonstrate how modular eXist <literal>Index</literal>es are, we have decided to show how a spatial <literal>Index</literal> could be
-      implemented. What makes its design interesting is that this kind of <literal>Index</literal> doesn't store character data from the document, nor
-      does it use a <literal>org.exist.storage.index.BFile</literal> to store the index entries. Instead, we will store WKB index entries in a JDBC
-      database, namely a <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://hsqldb.org/">HSQLDB</link> to keep the distribution as
-      light as possible and reduce the number of external dependencies, but it wouldn't be too difficult to use another one like <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://postgis.refractions.net/">PostGIS</link> given that the implementation has
-      itself been designed in a quite modular way. </para>
-    <para>In eXist's SVN repository, the modularized <literal>Index</literal>es code is in <literal>extensions/indexes</literal> and the file system's
-      architecture is designed to follow eXist's core architecture, i.e. <literal>org.exist.indexing.*</literal> for the <literal>Index</literal>es
-      and <literal>org.exist.xquery.*</literal> for their associated <literal>Module</literal>s. There is also a dedicated location for required
-      external libraries and for the test cases. The build system should normally be able to download the required libraries from the WWW (do no
-      forget to adjust your proxy server's properties in <literal>build.properties</literal> if required) build the all the files automatically, in
-      particular the <literal>extension-modules</literal> Ant target, and even launch the tests provided that the DB's configuration file declares the
-        <literal>Index</literal>es (see above) and their associated <literal>Module</literal>s (see below).</para>
-    <para>The described spatial <literal>Index</literal> heavily relies on the excellent open source librairies provided by the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://geotools.codehaus.org/">Geotools</link> project. We have experienced a few
-      problems that will be mentioned further, but since feedback has been provided, the situation will unquestionably improve in the future, making
-      current workarounds redundant.</para>
-    <para>The <literal>Index</literal> has been tested with only one file which is available from the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.ordnancesurvey.co.uk/oswebsite/">Ordnance Survey of Great-Britain</link>, a topography layer of Port-Talbot, which is
-      available as <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.ordnancesurvey.co.uk/oswebsite/products/try-now/sample-data.html">sample data</link>. Shall we mention that obtaining
-        <emphasis>valid</emphasis> and sizeable GML data is still extremely difficult? </para>
+    <para>To demonstrate how modular eXist <literal>Index</literal>es are, we have decided to show
+      how a spatial <literal>Index</literal> could be implemented. What makes its design interesting
+      is that this kind of <literal>Index</literal> doesn't store character data from the document,
+      nor does it use a <literal>org.exist.storage.index.BFile</literal> to store the index entries.
+      Instead, we will store WKB index entries in a JDBC database, namely a <link
+        xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://hsqldb.org/">HSQLDB</link> to
+      keep the distribution as light as possible and reduce the number of external dependencies, but
+      it wouldn't be too difficult to use another one like <link
+        xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://postgis.refractions.net/"
+        >PostGIS</link> given that the implementation has itself been designed in a quite modular
+      way. </para>
+    <para>In eXist's SVN repository, the modularized <literal>Index</literal>es code is in
+        <literal>extensions/indexes</literal> and the file system's architecture is designed to
+      follow eXist's core architecture, i.e. <literal>org.exist.indexing.*</literal> for the
+        <literal>Index</literal>es and <literal>org.exist.xquery.*</literal> for their associated
+        <literal>Module</literal>s. There is also a dedicated location for required external
+      libraries and for the test cases. The build system should normally be able to download the
+      required libraries from the WWW (do no forget to adjust your proxy server's properties in
+        <literal>build.properties</literal> if required) build the all the files automatically, in
+      particular the <literal>extension-modules</literal> Ant target, and even launch the tests
+      provided that the DB's configuration file declares the <literal>Index</literal>es (see above)
+      and their associated <literal>Module</literal>s (see below).</para>
+    <para>The described spatial <literal>Index</literal> heavily relies on the excellent open source
+      librairies provided by the <link xmlns:xlink="http://www.w3.org/1999/xlink"
+        xlink:href="http://geotools.codehaus.org/">Geotools</link> project. We have experienced a
+      few problems that will be mentioned further, but since feedback has been provided, the
+      situation will unquestionably improve in the future, making current workarounds
+      redundant.</para>
+    <para>The <literal>Index</literal> has been tested with only one file which is available from
+      the <link xmlns:xlink="http://www.w3.org/1999/xlink"
+        xlink:href="http://www.ordnancesurvey.co.uk/oswebsite/">Ordnance Survey of
+        Great-Britain</link>, a topography layer of Port-Talbot, which is available as <link
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        xlink:href="http://www.ordnancesurvey.co.uk/oswebsite/products/try-now/sample-data.html"
+        >sample data</link>. Shall we mention that obtaining <emphasis>valid</emphasis> and sizeable
+      GML data is still extremely difficult? </para>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
     <sect2>
       <title>Writing the concrete implementation of org.exist.indexing.AbstractIndex </title>
 
-      <para>Well, in fact we will start by writing an abstract implementation first. As said above, we have planned a modular JDBC spatial
-          <literal>Index</literal>, which will be abstract, and that will be extended by a concrete HSQLDB <literal>Index</literal>.</para>
+      <para>Well, in fact we will start by writing an abstract implementation first. As said above,
+        we have planned a modular JDBC spatial <literal>Index</literal>, which will be abstract, and
+        that will be extended by a concrete HSQLDB <literal>Index</literal>.</para>
       <para>Let's start with this :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-71.txt"/>
-      <para> ... where we define an abstract class that extends <literal>org.exist.indexing.AbstractIndex</literal> and thus implements
-          <literal>org.exist.indexing.Index</literal>. We also define a few members like <literal>ID</literal> that will be returned by the
-        unoverriden <literal>getIndexId()</literal> from <literal>org.exist.indexing.AbstractIndex</literal>, a <literal>Logger</literal>, a
-          <literal>java.util.HashMap</literal> that will be a "pool" of <literal>IndexWorker</literal>s (one for each
-          <literal>org.exist.storage.DBBroker</literal>) and a <literal>java.sql.Connection</literal> that will handle the database operations at the
+      <para> ... where we define an abstract class that extends
+          <literal>org.exist.indexing.AbstractIndex</literal> and thus implements
+          <literal>org.exist.indexing.Index</literal>. We also define a few members like
+          <literal>ID</literal> that will be returned by the unoverriden
+          <literal>getIndexId()</literal> from <literal>org.exist.indexing.AbstractIndex</literal>,
+        a <literal>Logger</literal>, a <literal>java.util.HashMap</literal> that will be a "pool" of
+          <literal>IndexWorker</literal>s (one for each
+          <literal>org.exist.storage.DBBroker</literal>) and a
+          <literal>java.sql.Connection</literal> that will handle the database operations at the
         index level. </para>
       <para>Let' now introduce this general purpose interface :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-72.txt"/>
-      <para>... that defines the spatial operators that will be used by spatial queries (what would be worth a spatial index that doesn't support
-        spatial queries?). For more information about the semantics, see the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.vividsolutions.com/jts/bin/JTS%20Technical%20Specs.pdf">JTS documentation</link> (chapter 11). We will use this
-        wonderful library everytime a spatial computation is required. So does the Geotools project by the way.</para>
-      <para>Here are a few concrete methods that should be usable by any JDBC-enabled database:</para>
+      <para>... that defines the spatial operators that will be used by spatial queries (what would
+        be worth a spatial index that doesn't support spatial queries?). For more information about
+        the semantics, see the <link xmlns:xlink="http://www.w3.org/1999/xlink"
+          xlink:href="http://www.vividsolutions.com/jts/bin/JTS%20Technical%20Specs.pdf">JTS
+          documentation</link> (chapter 11). We will use this wonderful library everytime a spatial
+        computation is required. So does the Geotools project by the way.</para>
+      <para>Here are a few concrete methods that should be usable by any JDBC-enabled
+        database:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-73.txt"/>
-      <para>First, an empty constructor, not even necessary since the <literal>Index</literal> is created through the <literal>newInstance()</literal>
-        method of its interface (see above).</para>
-      <para>Then, a configuration method that calls its ancestor, whose behaviour fullfills our needs. This method calls a
-          <literal>checkDatabase()</literal> method whose semantics will be dependant of the underlying DB. The basic idea is to prevent eXist to
-        continue its initialization if there is a problem with the DB.</para>
-      <para>Then we will do nothing during <literal>open()</literal>. No need to open a database, which is costly, if we dont need it.</para>
-      <para>The <literal>close()</literal> will flush any pending operation currently queued by the <literal>IndexWorker</literal>s and resets their
-        state in order to prevent them to start any further operation, which should never be possible if eXist is their only user. Then it will call a
-          <literal>shutdownDatabase()</literal> method whose semantics will be dependant of the underlying DB. They can be fairly simple for DBs that
-        shut down automatically when the virtual machine shuts down.</para>
-      <para>The <literal>sync()</literal> is never called by eXist. It's here to make the interface happy.</para>
-      <para>The <literal>remove()</literal> method is similar to <literal>close()</literal>. It then calls two database-dependant methods that are
-        pretty redundant. <literal>deleteDatabase()</literal> will probably not be able to do what its name suggests if eXist doesn't own the admin
-        rights. Conversely, <literal>removeIndexContent()</literal> wiould probably have nothing to do if eXist owns the admin rights since physically
+      <para>First, an empty constructor, not even necessary since the <literal>Index</literal> is
+        created through the <literal>newInstance()</literal> method of its interface (see
+        above).</para>
+      <para>Then, a configuration method that calls its ancestor, whose behaviour fullfills our
+        needs. This method calls a <literal>checkDatabase()</literal> method whose semantics will be
+        dependant of the underlying DB. The basic idea is to prevent eXist to continue its
+        initialization if there is a problem with the DB.</para>
+      <para>Then we will do nothing during <literal>open()</literal>. No need to open a database,
+        which is costly, if we dont need it.</para>
+      <para>The <literal>close()</literal> will flush any pending operation currently queued by the
+          <literal>IndexWorker</literal>s and resets their state in order to prevent them to start
+        any further operation, which should never be possible if eXist is their only user. Then it
+        will call a <literal>shutdownDatabase()</literal> method whose semantics will be dependant
+        of the underlying DB. They can be fairly simple for DBs that shut down automatically when
+        the virtual machine shuts down.</para>
+      <para>The <literal>sync()</literal> is never called by eXist. It's here to make the interface
+        happy.</para>
+      <para>The <literal>remove()</literal> method is similar to <literal>close()</literal>. It then
+        calls two database-dependant methods that are pretty redundant.
+          <literal>deleteDatabase()</literal> will probably not be able to do what its name suggests
+        if eXist doesn't own the admin rights. Conversely, <literal>removeIndexContent()</literal>
+        wiould probably have nothing to do if eXist owns the admin rights since physically
         destroying the DB would probably be more efficient than deleteing table contents.</para>
       <para>
-        <literal>checkIndex()</literal> will delegate the task to the <literal>broker</literal>'s <literal>IndexWorker</literal>.</para>
+        <literal>checkIndex()</literal> will delegate the task to the <literal>broker</literal>'s
+          <literal>IndexWorker</literal>.</para>
       <para>The remaining methods are DB-dependant and thus abstract :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-74.txt"/>
-      <para>Let's see now how a HSQL-dependant implementation would be going by describing the concrete class :</para>
+      <para>Let's see now how a HSQL-dependant implementation would be going by describing the
+        concrete class :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-75.txt"/>
-      <para>Of course, we extend <literal>org.exist.indexing.spatial.AbstractGMLJDBCIndex</literal>, then a few members are defined : a
-          <literal>Logger</literal>, a file prefix (which will be required by the files required by HSQLDB storage, namely
-          <literal>spatial_index.lck</literal>, <literal>spatial_index.log</literal>, <literal>spatial_index.script</literal> and
-          <literal>spatial_index.properties</literal>), then a table name in which the spatial index data will be stored, then a variable that will
-        hold the <literal>org.exist.storage.DBBroker</literal> that currently holds a connection to the DB (we could have used an
-          <literal>IndexWorker</literal> here, given their 1:1 relationship). The problem is that we run HSQLDB in embedded mode and that only one
+      <para>Of course, we extend <literal>org.exist.indexing.spatial.AbstractGMLJDBCIndex</literal>,
+        then a few members are defined : a <literal>Logger</literal>, a file prefix (which will be
+        required by the files required by HSQLDB storage, namely
+          <literal>spatial_index.lck</literal>, <literal>spatial_index.log</literal>,
+          <literal>spatial_index.script</literal> and <literal>spatial_index.properties</literal>),
+        then a table name in which the spatial index data will be stored, then a variable that will
+        hold the <literal>org.exist.storage.DBBroker</literal> that currently holds a connection to
+        the DB (we could have used an <literal>IndexWorker</literal> here, given their 1:1
+        relationship). The problem is that we run HSQLDB in embedded mode and that only one
         connection is available at a given time.</para>
-      <para>A more elaborated DBMS, or HSQLDB running in server mode would permit the allocation of one connection per <literal>IndexWorker</literal>,
-        but we have chosen to keep things simple for now. Indeed, if <literal>IndexWorker</literal>s are thread-safe (because each
-          <literal>org.exist.storage.DBBroker</literal> operates within its own thread), a single connection will have to be controlled by the
-          <literal>Index</literal> which is controlled by the <literal>org.exist.storage.BrokerPool</literal>. See below how we will handle
+      <para>A more elaborated DBMS, or HSQLDB running in server mode would permit the allocation of
+        one connection per <literal>IndexWorker</literal>, but we have chosen to keep things simple
+        for now. Indeed, if <literal>IndexWorker</literal>s are thread-safe (because each
+          <literal>org.exist.storage.DBBroker</literal> operates within its own thread), a single
+        connection will have to be controlled by the <literal>Index</literal> which is controlled by
+        the <literal>org.exist.storage.BrokerPool</literal>. See below how we will handle
         concurrency, given such perequisites.</para>
-      <para>The last member is the timeout when a <literal>Connection</literal> to the DB is requested.</para>
+      <para>The last member is the timeout when a <literal>Connection</literal> to the DB is
+        requested.</para>
       <para>As we can see, we have an empty constructor again.</para>
-      <para>The next method calls its ancestor's <literal>configure()</literal> method and just retains the content of the
-          <literal>connectionTimeout</literal> attribute as defined in the configuration file.</para>
+      <para>The next method calls its ancestor's <literal>configure()</literal> method and just
+        retains the content of the <literal>connectionTimeout</literal> attribute as defined in the
+        configuration file.</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-76.txt"/>
       <para>The next method is also quite straightforward :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-77.txt"/>
-      <para>It picks an <literal>IndexWorker</literal> (more precisely a <literal>org.exist.indexing.spatial.GMLHSQLIndexWorker</literal> that will be
-        described below) for the given <literal>broker</literal> from the "pool". If needed, namely the first time the method is called with with
-        parameter, it creates one. Notice that this <literal>IndexWorker</literal> is DB-dependant. It will be described below.</para>
+      <para>It picks an <literal>IndexWorker</literal> (more precisely a
+          <literal>org.exist.indexing.spatial.GMLHSQLIndexWorker</literal> that will be described
+        below) for the given <literal>broker</literal> from the "pool". If needed, namely the first
+        time the method is called with with parameter, it creates one. Notice that this
+          <literal>IndexWorker</literal> is DB-dependant. It will be described below.</para>
       <para>Then come a few general-purpose methods:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-78.txt"/>
       <para>
-        <literal>checkDatabase()</literal> just checks that we have a suitable driver in the CLASSPATH. We don't want to open the database right now.
-        It costs too much.</para>
+        <literal>checkDatabase()</literal> just checks that we have a suitable driver in the
+        CLASSPATH. We don't want to open the database right now. It costs too much.</para>
       <para>
-        <literal>shutdownDatabase()</literal> is just one of the many ways to shutdown a HSQLDB.</para>
+        <literal>shutdownDatabase()</literal> is just one of the many ways to shutdown a
+        HSQLDB.</para>
       <para>
-        <literal>deleteDatabase()</literal> is just a file system management problem ; remember that the database should be closed at that moment : no
-        file locking issues.</para>
+        <literal>deleteDatabase()</literal> is just a file system management problem ; remember that
+        the database should be closed at that moment : no file locking issues.</para>
       <para>
-        <literal>removeIndexContent()</literal> deletes the table that contains spatial data. Less efficient than deleteing the whole databse though
-        ;-), as explained above.</para>
-      <para>The 2 next methods are totally JDBC-specific and, given the way they are implemented, are totally embedded HSQLDB-specific. The
-          <emphasis>current</emphasis> code is directly adapted from <literal>org.exist.storage.lock.ReentrantReadWriteLock</literal> to show that
-        connection management should be severely controlled given the concurrency context induced by using many
-          <literal>org.exist.storage.DBBroker</literal>. Despite the fact <literal>DBBroker</literal>s are thread-safe, access to
-          <emphasis>shared</emphasis> storage must be concurrential, in particular when <literal>flush()</literal> is called. </para>
+        <literal>removeIndexContent()</literal> deletes the table that contains spatial data. Less
+        efficient than deleteing the whole databse though ;-), as explained above.</para>
+      <para>The 2 next methods are totally JDBC-specific and, given the way they are implemented,
+        are totally embedded HSQLDB-specific. The <emphasis>current</emphasis> code is directly
+        adapted from <literal>org.exist.storage.lock.ReentrantReadWriteLock</literal> to show that
+        connection management should be severely controlled given the concurrency context induced by
+        using many <literal>org.exist.storage.DBBroker</literal>. Despite the fact
+          <literal>DBBroker</literal>s are thread-safe, access to <emphasis>shared</emphasis>
+        storage must be concurrential, in particular when <literal>flush()</literal> is called. </para>
       <para>
-        <literal>org.exist.storage.index.BFile</literal> users would call <literal>getLock()</literal> to acquire and release locks on the index
-        files. Our solution is thus very similar.</para>
-      <para>However, since most JDBC databases are able to work in a concurrential context, it would then be better to never call these
-          <literal>Index</literal>-level methods from the <literal>IndexWorker</literal>s and let each <literal>IndexWorker</literal> handle its
+        <literal>org.exist.storage.index.BFile</literal> users would call
+          <literal>getLock()</literal> to acquire and release locks on the index files. Our solution
+        is thus very similar.</para>
+      <para>However, since most JDBC databases are able to work in a concurrential context, it would
+        then be better to never call these <literal>Index</literal>-level methods from the
+          <literal>IndexWorker</literal>s and let each <literal>IndexWorker</literal> handle its
         connection to the underlying DB.</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-79.txt"/>
       <para>
-        <literal>acquireConnection()</literal> acquires an <emphasis>exclusive</emphasis> JDBC <literal>Connection</literal> to the storage engine for
-        an <literal>IndexWorker</literal> (or a <literal>org.exist.storage.DBBroker</literal>, which roughly means the same thing). This is where a
-          <literal>Connection</literal> is created if necessary (see below) and makes the first connection's performance cost due only when
-        needed.</para>
+        <literal>acquireConnection()</literal> acquires an <emphasis>exclusive</emphasis> JDBC
+          <literal>Connection</literal> to the storage engine for an <literal>IndexWorker</literal>
+        (or a <literal>org.exist.storage.DBBroker</literal>, which roughly means the same thing).
+        This is where a <literal>Connection</literal> is created if necessary (see below) and makes
+        the first connection's performance cost due only when needed.</para>
       <para>
-        <literal>releaseConnection()</literal> marks the connection as being unused. It will thus become available when requested again.</para>
-      <para>The last method concentrates the index-level DB-dependant code in just one place (<literal>removeIndexContent()</literal> is relatively
-        DB-independant).</para>
+        <literal>releaseConnection()</literal> marks the connection as being unused. It will thus
+        become available when requested again.</para>
+      <para>The last method concentrates the index-level DB-dependant code in just one place
+          (<literal>removeIndexContent()</literal> is relatively DB-independant).</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-80.txt"/>
-      <para>This method opens a <literal>Connection</literal> and, if it is a new one (<emphasis>the</emphasis> new one since we only have one),
-        checks that we have a SQL table for the spatial data. If not, i.e. if the spatial index doesn't exist yet, a table is created with the
-        following structure :</para>
+      <para>This method opens a <literal>Connection</literal> and, if it is a new one
+          (<emphasis>the</emphasis> new one since we only have one), checks that we have a SQL table
+        for the spatial data. If not, i.e. if the spatial index doesn't exist yet, a table is
+        created with the following structure :</para>
       <table>
         <title/>
 
@@ -559,7 +706,8 @@
                 <para>The node ID, as a byte array</para>
               </entry>
               <entry>
-                <para>See above. Only <emphasis>some</emphasis> bits might be considered due to obvious data alignment requirements</para>
+                <para>See above. Only <emphasis>some</emphasis> bits might be considered due to
+                  obvious data alignment requirements</para>
               </entry>
             </row>
             <row>
@@ -599,8 +747,9 @@
                 <para>VARCHAR</para>
               </entry>
               <entry>
-                <para>The <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://de.wikipedia.org/wiki/Well_Known_Text">Well-Known
-                    Text</link> representation of the geometry</para>
+                <para>The <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                    xlink:href="http://de.wikipedia.org/wiki/Well_Known_Text">Well-Known Text</link>
+                  representation of the geometry</para>
               </entry>
               <entry/>
             </row>
@@ -713,8 +862,8 @@
                 <para>The WKT representation of the geometry</para>
               </entry>
               <entry>
-                <para>In the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://en.wikipedia.org/wiki/EPSG:4326">epsg:4326</link>
-                  SRS</para>
+                <para>In the <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                    xlink:href="http://en.wikipedia.org/wiki/EPSG:4326">epsg:4326</link> SRS</para>
               </entry>
             </row>
             <row>
@@ -840,7 +989,9 @@
                 <para>Whether or not this geometry is "closed"</para>
               </entry>
               <entry>
-                <para>See the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.vividsolutions.com/jts/bin/JTS%20Technical%20Specs.pdf">JTS documentation</link> (chapter 13)</para>
+                <para>See the <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                    xlink:href="http://www.vividsolutions.com/jts/bin/JTS%20Technical%20Specs.pdf"
+                    >JTS documentation</link> (chapter 13)</para>
               </entry>
             </row>
             <row>
@@ -854,7 +1005,9 @@
                 <para>Whether or not this geometry is "simple"</para>
               </entry>
               <entry>
-                <para>See the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.vividsolutions.com/jts/bin/JTS%20Technical%20Specs.pdf">JTS documentation</link> (chapter 13)</para>
+                <para>See the <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                    xlink:href="http://www.vividsolutions.com/jts/bin/JTS%20Technical%20Specs.pdf"
+                    >JTS documentation</link> (chapter 13)</para>
               </entry>
             </row>
             <row>
@@ -868,15 +1021,17 @@
                 <para>Whether or not this geometry is "valid"</para>
               </entry>
               <entry>
-                <para>See the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.vividsolutions.com/jts/bin/JTS%20Technical%20Specs.pdf">JTS documentation</link> (chapter 13). Should
-                  always be TRUE</para>
+                <para>See the <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                    xlink:href="http://www.vividsolutions.com/jts/bin/JTS%20Technical%20Specs.pdf"
+                    >JTS documentation</link> (chapter 13). Should always be TRUE</para>
               </entry>
             </row>
           </tbody>
         </tgroup>
       </table>
-      <para>Uniqueness will be enforced on a <literal>(DOCUMENT_URI, NODE_ID_UNITS, NODE_ID)</literal> basis. Indeed, we can have at most one index
-        entry for a given node in a given document.</para>
+      <para>Uniqueness will be enforced on a <literal>(DOCUMENT_URI, NODE_ID_UNITS,
+          NODE_ID)</literal> basis. Indeed, we can have at most one index entry for a given node in
+        a given document.</para>
       <para>Also, indexes are created on these fields to help queries :</para>
       <itemizedlist>
         <listitem>
@@ -913,15 +1068,22 @@
           <para>EPSG4326_CENTROID_Y</para>
         </listitem>
       </itemizedlist>
-      <para>Every geometry will be internally stored in <emphasis>both</emphasis> its original SRS and in the epsg:4326 SRS. Having this kind of
-        common, world-wide applicable, SRS for <emphasis>all</emphasis> geometries in the index allows to make operations on them even if they are
-        originally defined in different SRSes.</para>
+      <para>Every geometry will be internally stored in <emphasis>both</emphasis> its original SRS
+        and in the epsg:4326 SRS. Having this kind of common, world-wide applicable, SRS for
+          <emphasis>all</emphasis> geometries in the index allows to make operations on them even if
+        they are originally defined in different SRSes.</para>
       <important>
-        <para>By default, eXist's build will download the lightweight <literal>gt2-epsg-wkt-XXX.jar</literal> library which lacks some parameters, the
-            <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://udig.refractions.net/docs/api-geotools/org/geotools/referencing/datum/BursaWolfParameters.html"> Bursa-Wolf</link>
-          ones. A better accuracy for geographic transformations might be obtained by using a heavier library like <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://lists.refractions.net/m2/org/geotools/gt2-epsg-hsql/">
+        <para>By default, eXist's build will download the lightweight
+            <literal>gt2-epsg-wkt-XXX.jar</literal> library which lacks some parameters, the <link
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            xlink:href="http://udig.refractions.net/docs/api-geotools/org/geotools/referencing/datum/BursaWolfParameters.html"
+            > Bursa-Wolf</link> ones. A better accuracy for geographic transformations might be
+          obtained by using a heavier library like <link xmlns:xlink="http://www.w3.org/1999/xlink"
+            xlink:href="http://lists.refractions.net/m2/org/geotools/gt2-epsg-hsql/">
             <literal>gt2-epsg-hsql-XXX.jar</literal>
-          </link> which is documented <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://javadoc.geotools.fr/snapshot/org/geotools/referencing/factory/epsg/FactoryOnHSQL.html">here</link>.</para>
+          </link> which is documented <link xmlns:xlink="http://www.w3.org/1999/xlink"
+            xlink:href="http://javadoc.geotools.fr/snapshot/org/geotools/referencing/factory/epsg/FactoryOnHSQL.html"
+            >here</link>.</para>
       </important>
     </sect2>
 
@@ -930,142 +1092,194 @@
     <sect2>
       <title>Writing the concrete implementation of org.exist.indexing.IndexWorker </title>
 
-      <para>Just like for <literal>org.exist.indexing.spatial.AbstractGMLJDBCIndex</literal>, we will start to design a database-independant abstract
-        class. This class should normally be the basis of every JDBC spatial index. It will handle most of the hard work.</para>
+      <para>Just like for <literal>org.exist.indexing.spatial.AbstractGMLJDBCIndex</literal>, we
+        will start to design a database-independant abstract class. This class should normally be
+        the basis of every JDBC spatial index. It will handle most of the hard work.</para>
       <para>Let's start by a few members and a few general-purpose public methods :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-81.txt"/>
-      <para>Of course, <literal>org.exist.indexing.spatial.AbstractGMLJDBCIndexWorker</literal> implements
-          <literal>org.exist.indexing.IndexWorker</literal>.</para>
+      <para>Of course, <literal>org.exist.indexing.spatial.AbstractGMLJDBCIndexWorker</literal>
+        implements <literal>org.exist.indexing.IndexWorker</literal>.</para>
       <para>
-        <literal>GML_NS</literal> is the GML namespace for which the spatial index is specially designed. Use this public member to avoid redundancy
-        and, worse, inconsistencies.</para>
+        <literal>GML_NS</literal> is the GML namespace for which the spatial index is specially
+        designed. Use this public member to avoid redundancy and, worse, inconsistencies.</para>
       <para>
-        <literal>INDEX_ELEMENT</literal> is the configuration's element name which is accurate for our <literal>Index</literal> configuration. To
-        configure a collection in order to index its GML data, define such a configuration : </para>
+        <literal>INDEX_ELEMENT</literal> is the configuration's element name which is accurate for
+        our <literal>Index</literal> configuration. To configure a collection in order to index its
+        GML data, define such a configuration : </para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-82.xml"/>
-      <para>Got the <tag>gml</tag> element? We will shortly see how this information is able to configure our <literal>IndexWorker</literal>.</para>
+      <para>Got the <tag>gml</tag> element? We will shortly see how this information is able to
+        configure our <literal>IndexWorker</literal>.</para>
       <para>
-        <literal>controller</literal>, <literal>index</literal> and <literal>broker</literal> should now be quite straightforward.</para>
+        <literal>controller</literal>, <literal>index</literal> and <literal>broker</literal> should
+        now be quite straightforward.</para>
       <para>
-        <literal>currentMode</literal> and <literal>currentDoc</literal> should also be straightforward.</para>
+        <literal>currentMode</literal> and <literal>currentDoc</literal> should also be
+        straightforward.</para>
       <para>
-        <literal>geometries</literal> is a collection of <literal>com.vividsolutions.jts.geom.Geometry</literal> instances that are currently held in
-        memory, waiting for being "flushed" to the database. Depending of <literal>currentMode</literal>, they're pending for insertion or
-        removal.</para>
+        <literal>geometries</literal> is a collection of
+          <literal>com.vividsolutions.jts.geom.Geometry</literal> instances that are currently held
+        in memory, waiting for being "flushed" to the database. Depending of
+          <literal>currentMode</literal>, they're pending for insertion or removal.</para>
       <para>
-        <literal>currentNodeId</literal> is used to share the ID of the node currently being processed between the different inner classes.</para>
+        <literal>currentNodeId</literal> is used to share the ID of the node currently being
+        processed between the different inner classes.</para>
       <para>
-        <literal>streamedGeometry</literal> is the last <literal>com.vividsolutions.jts.geom.Geometry</literal> that has been generated by GML
-        parsing. It is <literal>null</literal> if the geometry is topologically not well formed. This latter case is maybe a too restrictive feature
-        of Geotools parser which also throws <literal>NullPointerException</literal>s (!) if the GML is somehow not well-formed. See <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://jira.codehaus.org/browse/GEOT-742">GEOT-742</link> for more information on
-        this issue.</para>
+        <literal>streamedGeometry</literal> is the last
+          <literal>com.vividsolutions.jts.geom.Geometry</literal> that has been generated by GML
+        parsing. It is <literal>null</literal> if the geometry is topologically not well formed.
+        This latter case is maybe a too restrictive feature of Geotools parser which also throws
+          <literal>NullPointerException</literal>s (!) if the GML is somehow not well-formed. See
+          <link xmlns:xlink="http://www.w3.org/1999/xlink"
+          xlink:href="http://jira.codehaus.org/browse/GEOT-742">GEOT-742</link> for more information
+        on this issue.</para>
       <para>
-        <literal>documentDeleted</literal> is a flag indicating that the current document has been deleted and that we don't have to process it any
-        more. Remember that <literal>StreamListener.REMOVE_ALL_NODES</literal> send some events for <emphasis>all</emphasis> nodes.</para>
+        <literal>documentDeleted</literal> is a flag indicating that the current document has been
+        deleted and that we don't have to process it any more. Remember that
+          <literal>StreamListener.REMOVE_ALL_NODES</literal> send some events for
+          <emphasis>all</emphasis> nodes.</para>
       <para>
         <literal>flushAfter </literal> will hold our configuration's setting.</para>
       <para>
-        <literal>geometryHandler</literal> is our GML geometries SAX handler that will convert GML to a
-          <literal>com.vividsolutions.jts.geom.Geometry</literal> instance. It is included in a handler chain composed of
-          <literal>geometryFilter</literal> and <literal>geometryDocument</literal>.</para>
+        <literal>geometryHandler</literal> is our GML geometries SAX handler that will convert GML
+        to a <literal>com.vividsolutions.jts.geom.Geometry</literal> instance. It is included in a
+        handler chain composed of <literal>geometryFilter</literal> and
+          <literal>geometryDocument</literal>.</para>
       <para>
-        <literal>transforms</literal> will cache a list a transformations between a source and a target SRS.</para>
+        <literal>transforms</literal> will cache a list a transformations between a source and a
+        target SRS.</para>
       <para>
-        <literal>useLenientMode</literal> will be set to <literal>true</literal> is the transformation libraries that are in the CLASSPATH don't have
-        the Bursa-Wolf parameters. Transformations will be attempted, but with a precision loss (see above).</para>
+        <literal>useLenientMode</literal> will be set to <literal>true</literal> is the
+        transformation libraries that are in the CLASSPATH don't have the Bursa-Wolf parameters.
+        Transformations will be attempted, but with a precision loss (see above).</para>
       <para>
-        <literal>gmlStreamListener</literal> is our own implementation of <literal>org.exist.indexing.StreamListener</literal>. Since there is a 1:1
-        (or even 1:0) relationship with the <literal>IndexWorker</literal>, it will be implemented as an inner class and will be described
-        below.</para>
+        <literal>gmlStreamListener</literal> is our own implementation of
+          <literal>org.exist.indexing.StreamListener</literal>. Since there is a 1:1 (or even 1:0)
+        relationship with the <literal>IndexWorker</literal>, it will be implemented as an inner
+        class and will be described below.</para>
       <para>
-        <literal>coordinateTransformer</literal> will be needed during <literal>Geometry</literal> transformations to other SRSes.</para>
+        <literal>coordinateTransformer</literal> will be needed during <literal>Geometry</literal>
+        transformations to other SRSes.</para>
       <para>
-        <literal>gmlTransformer</literal> will be needed during <literal>Geometry</literal> transformations to XML.</para>
+        <literal>gmlTransformer</literal> will be needed during <literal>Geometry</literal>
+        transformations to XML.</para>
       <para>
-        <literal>wkbWriter</literal> and <literal>wkbReader</literal> will be needed during <literal>Geometry</literal> serialization and
-        deserialization to and from the database.</para>
+        <literal>wkbWriter</literal> and <literal>wkbReader</literal> will be needed during
+          <literal>Geometry</literal> serialization and deserialization to and from the
+        database.</para>
       <para>
-        <literal>wktWriter</literal> and <literal>wktReader</literal> will be needed during <literal>Geometry</literal> WKT serialization and
-        deserialization to and from the database. WKT could be dynamically generated from <literal>Geometry</literal> but we have chosen to store it
-        in the HSQLDB.</para>
+        <literal>wktWriter</literal> and <literal>wktReader</literal> will be needed during
+          <literal>Geometry</literal> WKT serialization and deserialization to and from the
+        database. WKT could be dynamically generated from <literal>Geometry</literal> but we have
+        chosen to store it in the HSQLDB.</para>
       <para>
-        <literal>base64Encoder</literal> and <literal>base64Decoder</literal> will be needed to convert binary date, namely WKB, to XML types, namely
-          <literal>xs:base64Binary</literal>.</para>
-      <para>No need to comment the methods, expect maybe <literal>getIndexId()</literal> that will return the <emphasis>static</emphasis> ID of the
-          <literal>Index</literal>. No chance to be wrong with such a design.</para>
+        <literal>base64Encoder</literal> and <literal>base64Decoder</literal> will be needed to
+        convert binary date, namely WKB, to XML types, namely
+        <literal>xs:base64Binary</literal>.</para>
+      <para>No need to comment the methods, expect maybe <literal>getIndexId()</literal> that will
+        return the <emphasis>static</emphasis> ID of the <literal>Index</literal>. No chance to be
+        wrong with such a design.</para>
       <para>The next method is a bit specific :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-83.txt"/>
-      <para>It is only interested in the <tag>gml</tag> element of the configuration. If it finds one, it creates a
-          <literal>org.exist.indexing.spatial.GMLIndexConfig</literal> instance wich is a very simple class :</para>
+      <para>It is only interested in the <tag>gml</tag> element of the configuration. If it finds
+        one, it creates a <literal>org.exist.indexing.spatial.GMLIndexConfig</literal> instance wich
+        is a very simple class :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-84.txt"/>
       <para>... that retains the configuration attribute and provides a getter for it.</para>
-      <para>This configuration object is saved in a Map with the <literal>Index</literal> ID and will be available as shown in the next method
-        :</para>
+      <para>This configuration object is saved in a Map with the <literal>Index</literal> ID and
+        will be available as shown in the next method :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-85.txt"/>
-      <para>The objective is to determine if <literal>document</literal> should be indexed by the spatial <literal>Index</literal>.</para>
-      <para>For this, we look up its collection configuration and try to find a "custom" index specification for our <literal>Index</literal>. If one
-        is found, our <literal>document</literal> will be processed by the <literal>IndexWorker</literal>. We also take advantage of this process to
-        set one of our members. If <literal>document</literal> doesn't interest our <literal>IndexWorker</literal>, we reset some members to avoid
-        having an inconsistent sticky state.</para>
+      <para>The objective is to determine if <literal>document</literal> should be indexed by the
+        spatial <literal>Index</literal>.</para>
+      <para>For this, we look up its collection configuration and try to find a "custom" index
+        specification for our <literal>Index</literal>. If one is found, our
+          <literal>document</literal> will be processed by the <literal>IndexWorker</literal>. We
+        also take advantage of this process to set one of our members. If
+          <literal>document</literal> doesn't interest our <literal>IndexWorker</literal>, we reset
+        some members to avoid having an inconsistent sticky state.</para>
       <para>The next methods don't require any particular comment :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-86.txt"/>
       <para>The next method is somehow tricky :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-87.txt"/>
-      <para>It doesn't return any <literal>StreamListener</literal> in the <literal>StreamListner.REMOVE_ALL_NODES</literal>. It would be totally
-        unnecessary to listen at every node whereas a JDBC database will be able to delete all the document's nodes in one single statement.</para>
-      <para>The next method is a place holder that needs more thinking. How to highlight a geometric information smartly?</para>
+      <para>It doesn't return any <literal>StreamListener</literal> in the
+          <literal>StreamListner.REMOVE_ALL_NODES</literal>. It would be totally unnecessary to
+        listen at every node whereas a JDBC database will be able to delete all the document's nodes
+        in one single statement.</para>
+      <para>The next method is a place holder that needs more thinking. How to highlight a geometric
+        information smartly?</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-88.txt"/>
-      <para>The next method computes the reindexing root. We will go bottom-up form the not to be modified until the top-most element in the GML
-        namespace. Indeed, GML allows "nested" or "multi" geometries. If a single part of such <literal>Geometry</literal> is modified, the whole
-        geometry has to be recomputed.</para>
+      <para>The next method computes the reindexing root. We will go bottom-up form the not to be
+        modified until the top-most element in the GML namespace. Indeed, GML allows "nested" or
+        "multi" geometries. If a single part of such <literal>Geometry</literal> is modified, the
+        whole geometry has to be recomputed.</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-89.txt"/>
       <para>The next method delegates the write operations :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-90.txt"/>
-      <para>Even though its code looks thick, it proves to be a good way to acquire (then release) a <literal>Connection</literal> whatever the way it
-        is provided by the <literal>IndexWorker</literal> (see above for these aspects, concurrency in particular). It then delegates the write
-        operations to dedicated methods, which do not have to care about the <literal>Connection</literal>. Write operations are embedded in a
-        transaction. Should an exception occur, it would be logged and swallowed: eXist doesn't like exceptions when it flushes its data.</para>
+      <para>Even though its code looks thick, it proves to be a good way to acquire (then release) a
+          <literal>Connection</literal> whatever the way it is provided by the
+          <literal>IndexWorker</literal> (see above for these aspects, concurrency in particular).
+        It then delegates the write operations to dedicated methods, which do not have to care about
+        the <literal>Connection</literal>. Write operations are embedded in a transaction. Should an
+        exception occur, it would be logged and swallowed: eXist doesn't like exceptions when it
+        flushes its data.</para>
       <para>The next method delegates node storage:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-91.txt"/>
-      <para>It will call <literal>saveGeometryNode()</literal> (see below) passing a container inner class that will not be described given its
-        simplicity.</para>
-      <para>The next two methods are built with the same design. The first one destroys the index entry for the currently processed node and the
-        second one removes the index entries for the whole document.</para>
+      <para>It will call <literal>saveGeometryNode()</literal> (see below) passing a container inner
+        class that will not be described given its simplicity.</para>
+      <para>The next two methods are built with the same design. The first one destroys the index
+        entry for the currently processed node and the second one removes the index entries for the
+        whole document.</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-92.txt"/>
-      <para>The next method is a mix of the designs described above. It also previously makes a check:</para>
+      <para>The next method is a mix of the designs described above. It also previously makes a
+        check:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-93.txt"/>
-      <para>Indeed, we have to check if the collection is indexable by the <literal>Index</literal> before trying to delete its index entries.</para>
-      <para>The next methods are built on the same design (<literal>Collection</literal> and exception management) and will thus not be
-        described.</para>
+      <para>Indeed, we have to check if the collection is indexable by the <literal>Index</literal>
+        before trying to delete its index entries.</para>
+      <para>The next methods are built on the same design (<literal>Collection</literal> and
+        exception management) and will thus not be described.</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-94.txt"/>
-      <para>... because all these methods delegate to the following abstract methods that will have to be implemented by the DB-dependant concrete
-        classes :</para>
+      <para>... because all these methods delegate to the following abstract methods that will have
+        to be implemented by the DB-dependant concrete classes :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-95.txt"/>
-      <para>Let's have a look however at this method that doesn't need a DB-dependant implementation :</para>
+      <para>Let's have a look however at this method that doesn't need a DB-dependant implementation
+        :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-96.txt"/>
-      <para>Same design (<literal>Collection</literal> and exception management, delegation mechanism). We probably will add more like this in the
-        future.</para>
-      <para>The following methods are utility methods to stream <literal>Geometry</literal> instances to XML and vice-versa.</para>
+      <para>Same design (<literal>Collection</literal> and exception management, delegation
+        mechanism). We probably will add more like this in the future.</para>
+      <para>The following methods are utility methods to stream <literal>Geometry</literal>
+        instances to XML and vice-versa.</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-97.txt"/>
-      <para>The first one uses a <literal>org.geotools.gml.GMLFilterDocument</literal> (see below) and the second one uses a
-          <literal>org.geotools.gml.producer.GeometryTransformer</literal> which needs some polishing because, despite it is called a transformer, it
-        doesn't cope easily with a <literal>Handler</literal> and returns a... <literal>String</literal> ! See <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://codehaus01a.managed.contegix.com/browse/GEOT-1315">GEOT-1315</link>.</para>
+      <para>The first one uses a <literal>org.geotools.gml.GMLFilterDocument</literal> (see below)
+        and the second one uses a <literal>org.geotools.gml.producer.GeometryTransformer</literal>
+        which needs some polishing because, despite it is called a transformer, it doesn't cope
+        easily with a <literal>Handler</literal> and returns a... <literal>String</literal> ! See
+          <link xmlns:xlink="http://www.w3.org/1999/xlink"
+          xlink:href="http://codehaus01a.managed.contegix.com/browse/GEOT-1315"
+        >GEOT-1315</link>.</para>
       <para>The last method is also a utility method :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-98.txt"/>
-      <para>It implements a workaround for our test file SRS which isn't yet known by Geotools libraries (see <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://codehaus01a.managed.contegix.com/browse/GEOT-1307">GEOT-1307</link>), then it
-        tries to get the transformation from our cache. If it doesn't succeed, it tries to find one in the libraries that are in the CLASSPATH. Should
-        those libraries lack the Bursa-Wolf parameters, it will make another attempt in lenient mode, which will induce a loss of accuracy. Then, it
-        transforms the <literal>Geometry</literal> from its <literal>sourceCRS</literal> to the required <literal>targetCRS</literal>.</para>
-      <para>Now, let's study how the abstract methods are implement by the HSQLDB-dependant class :</para>
+      <para>It implements a workaround for our test file SRS which isn't yet known by Geotools
+        libraries (see <link xmlns:xlink="http://www.w3.org/1999/xlink"
+          xlink:href="http://codehaus01a.managed.contegix.com/browse/GEOT-1307">GEOT-1307</link>),
+        then it tries to get the transformation from our cache. If it doesn't succeed, it tries to
+        find one in the libraries that are in the CLASSPATH. Should those libraries lack the
+        Bursa-Wolf parameters, it will make another attempt in lenient mode, which will induce a
+        loss of accuracy. Then, it transforms the <literal>Geometry</literal> from its
+          <literal>sourceCRS</literal> to the required <literal>targetCRS</literal>.</para>
+      <para>Now, let's study how the abstract methods are implement by the HSQLDB-dependant class
+        :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-99.txt"/>
-      <para>The only noticeable point is that we indeed extend our <literal>org.exist.indexing.spatial.AbstractGMLJDBCIndexWorker</literal>
+      <para>The only noticeable point is that we indeed extend our
+          <literal>org.exist.indexing.spatial.AbstractGMLJDBCIndexWorker</literal>
       </para>
-      <para>Now, this method will do something more interesting, store the <literal>Geometry</literal> associated to a node :</para>
+      <para>Now, this method will do something more interesting, store the
+          <literal>Geometry</literal> associated to a node :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-100.txt"/>
-      <para>The generated SQL statement should be straightforward. We make a heavy use of the methods provided by
-          <literal>com.vividsolutions.jts.geom.Geometry</literal>, both on the "native" <literal>Geometry</literal> and on its EPSG:4326
-        transformation. Would could probably store other properties here (like, e.g. the geometry's boundary). Other <literal>IndexWorker</literal>s,
-        especially those accessing a spatially-enabled DBMS, might prefer to store fewer properties if they can be computed dynamically at a cheap
+      <para>The generated SQL statement should be straightforward. We make a heavy use of the
+        methods provided by <literal>com.vividsolutions.jts.geom.Geometry</literal>, both on the
+        "native" <literal>Geometry</literal> and on its EPSG:4326 transformation. Would could
+        probably store other properties here (like, e.g. the geometry's boundary). Other
+          <literal>IndexWorker</literal>s, especially those accessing a spatially-enabled DBMS,
+        might prefer to store fewer properties if they can be computed dynamically at a cheap
         price.</para>
       <para>The next method is even much easier to understand :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-101.txt"/>
@@ -1074,47 +1288,59 @@
       <para>This one however, is a little bit trickier :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-103.txt"/>
       <para>... maybe because it makes use of a SQL function to filter the right documents ?</para>
-      <para>The two next methods are straightforward, now that we have explained that <literal>Connection</literal>s had to be requested from the
-          <literal>Index</literal> to avoid concurrency problems on an embedded HSQLDB instance.</para>
+      <para>The two next methods are straightforward, now that we have explained that
+          <literal>Connection</literal>s had to be requested from the <literal>Index</literal> to
+        avoid concurrency problems on an embedded HSQLDB instance.</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-104.txt"/>
-      <para>The next method is much more interesting. This is where is the core of the spatial index is:</para>
+      <para>The next method is much more interesting. This is where is the core of the spatial index
+        is:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-105.txt"/>
-      <para>The trick is to filter the geometries on (fast) BBox operations first (intersecting geometries have BBox intersecting as well) which is
-        possible in every case but for the <literal>Spatial.DISJOINT</literal> operator. For the latter case, we will have to fetch the BBox
-        coordinates in order to apply a further filtering. Then, we examine the results and filter out the documents that are not in the
-          <literal>contextSet</literal>. <literal>Spatial.DISJOINT</literal> filtering is then applied to avoid the next step in case the BBoxes are
-        themselves disjoint. Only then, we perform the costly operations, namely <literal>Geometry</literal> deserialization from the DB then
-        performing spatial operations on it. Matching nodes are then returned.</para>
+      <para>The trick is to filter the geometries on (fast) BBox operations first (intersecting
+        geometries have BBox intersecting as well) which is possible in every case but for the
+          <literal>Spatial.DISJOINT</literal> operator. For the latter case, we will have to fetch
+        the BBox coordinates in order to apply a further filtering. Then, we examine the results and
+        filter out the documents that are not in the <literal>contextSet</literal>.
+          <literal>Spatial.DISJOINT</literal> filtering is then applied to avoid the next step in
+        case the BBoxes are themselves disjoint. Only then, we perform the costly operations, namely
+          <literal>Geometry</literal> deserialization from the DB then performing spatial operations
+        on it. Matching nodes are then returned.</para>
       <para>The next method is quite straightforward:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-106.txt"/>
-      <para>Notice that it will return EPSG:4326 <literal>Geometry</literal>ies and that it will rethrow a
-          <literal>com.vividsolutions.jts.io.ParseException</literal> as a <literal>java.sql.SQLException</literal>.</para>
+      <para>Notice that it will return EPSG:4326 <literal>Geometry</literal>ies and that it will
+        rethrow a <literal>com.vividsolutions.jts.io.ParseException</literal> as a
+          <literal>java.sql.SQLException</literal>.</para>
       <para>The next method is a bit more restrictive and modular :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-107.txt"/>
-      <para>... because if directly selects the right node and allows to return either the original <literal>Geometry</literal>, either its EPSG:4326
-        transformation.</para>
+      <para>... because if directly selects the right node and allows to return either the original
+          <literal>Geometry</literal>, either its EPSG:4326 transformation.</para>
       <para>The next method is a generalization of the previous one:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-108.txt"/>
-      <para>It queries the whole index for the requested <literal>Geometry</literal>, ignoring the documents that are not in the
-          <literal>contextSet</literal>, and it also ignores the nodes that are not in the <literal>contextSet</literal>. After that the
+      <para>It queries the whole index for the requested <literal>Geometry</literal>, ignoring the
+        documents that are not in the <literal>contextSet</literal>, and it also ignores the nodes
+        that are not in the <literal>contextSet</literal>. After that the
           <literal>Geometry</literal> is deserialized.</para>
       <note>
-        <para>This method is not yet used by the spatial functions but it is planned to use it in a future optimization effort.</para>
+        <para>This method is not yet used by the spatial functions but it is planned to use it in a
+          future optimization effort.</para>
       </note>
       <para>This is the next method, designed like <literal>getGeometryForNode()</literal>:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-109.txt"/>
-      <para>It directly requests the required property from the DB and returns an appropriate XML atomic value.</para>
+      <para>It directly requests the required property from the DB and returns an appropriate XML
+        atomic value.</para>
       <para>The next method is a generalization of the previous one :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-110.txt"/>
-      <para>It queries the whole index for the requested property, ignoring the documents that are not in the <literal>contextSet</literal>, and it
-        also ignores the nodes that are not in the <literal>contextSet</literal>. Finally the property mapped to the appropriate XML atomic value is
-        returned.</para>
+      <para>It queries the whole index for the requested property, ignoring the documents that are
+        not in the <literal>contextSet</literal>, and it also ignores the nodes that are not in the
+          <literal>contextSet</literal>. Finally the property mapped to the appropriate XML atomic
+        value is returned.</para>
       <note>
-        <para>This method is not yet used by the spatial functions but it is planned to use it in a future optimization effort.</para>
+        <para>This method is not yet used by the spatial functions but it is planned to use it in a
+          future optimization effort.</para>
       </note>
       <para>The last method is a utility method and we will only show a part of its body:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-111.txt"/>
-      <para>It deserializes each <literal>Geometry</literal> and checks that its data are consistent with what is stored in the DB.</para>
+      <para>It deserializes each <literal>Geometry</literal> and checks that its data are consistent
+        with what is stored in the DB.</para>
     </sect2>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1122,62 +1348,74 @@
     <sect2>
       <title>Writing a concrete implementation of org.exist.indexing.StreamListener </title>
 
-      <para>The <literal>StreamListener</literal>'s main purpose is to generate <literal>Geometry</literal> instances, if accurate, from the nodes it
-        listens to.</para>
-      <para>This will be done using a <literal>org.geotools.gml.GMLFilterDocument</literal> provided by the Geotools libraries. The trick is to map
-        our STAX events to the expected SAX events.</para>
-      <para>As stated above, our <literal>StreamListener</literal> will be implemented as an inner class of
-          <literal>org.exist.indexing.spatial.AbstractGMLJDBCIndexWorker</literal>. Of course, it will extend
-          <literal>org.exist.indexing.AbstractStreamListener</literal>:</para>
+      <para>The <literal>StreamListener</literal>'s main purpose is to generate
+          <literal>Geometry</literal> instances, if accurate, from the nodes it listens to.</para>
+      <para>This will be done using a <literal>org.geotools.gml.GMLFilterDocument</literal> provided
+        by the Geotools libraries. The trick is to map our STAX events to the expected SAX
+        events.</para>
+      <para>As stated above, our <literal>StreamListener</literal> will be implemented as an inner
+        class of <literal>org.exist.indexing.spatial.AbstractGMLJDBCIndexWorker</literal>. Of
+        course, it will extend <literal>org.exist.indexing.AbstractStreamListener</literal>:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-112.txt"/>
-      <para>There are only two members. <literal>srsNamesStack</literal> will maintain a (<literal>String</literal>)
-          <literal>java.util.Stack</literal> for the <literal>srsName</literal> attribute of the elements in the GML namespace
-        (http://www.opengis.net/gml). <literal>null</literal> will be pushed if such an attribute doesn't exist, namely because it isn't
-        accurate.</para>
+      <para>There are only two members. <literal>srsNamesStack</literal> will maintain a
+          (<literal>String</literal>) <literal>java.util.Stack</literal> for the
+          <literal>srsName</literal> attribute of the elements in the GML namespace
+        (http://www.opengis.net/gml). <literal>null</literal> will be pushed if such an attribute
+        doesn't exist, namely because it isn't accurate.</para>
       <para>
-        <literal>deferredElement</literal> will hold an element whose streaming is deferred, namely because we still haven't received its
-        attributes.</para>
+        <literal>deferredElement</literal> will hold an element whose streaming is deferred, namely
+        because we still haven't received its attributes.</para>
       <para>The <literal>getWorker()</literal> method should be straightforward.</para>
       <para>Let's see how the process is performed:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-113.txt"/>
-      <para>Element deferring occurs only if <literal>currentDoc</literal> is to be indexed of course. If so, an incoming element is deferred but we
-        do not forget to forward the event to the next <literal>StreamListener</literal> in the pipeline.</para>
-      <para>If we have a deferred element, we will process it (see below) in order to collect its attributes and if relevant,
-          <literal>endElement()</literal>, will add an index entry for the current element. The method <literal>characters()</literal> also forwards
-        its data to the SAX handler.</para>
+      <para>Element deferring occurs only if <literal>currentDoc</literal> is to be indexed of
+        course. If so, an incoming element is deferred but we do not forget to forward the event to
+        the next <literal>StreamListener</literal> in the pipeline.</para>
+      <para>If we have a deferred element, we will process it (see below) in order to collect its
+        attributes and if relevant, <literal>endElement()</literal>, will add an index entry for the
+        current element. The method <literal>characters()</literal> also forwards its data to the
+        SAX handler.</para>
       <note>
-        <para>We could have used <literal>attribute()</literal> to collect the deferred element's attributes. The described design is just a matter of
-          choice.</para>
+        <para>We could have used <literal>attribute()</literal> to collect the deferred element's
+          attributes. The described design is just a matter of choice.</para>
       </note>
       <para>Let's see how the deferred element is processed :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-114.txt"/>
-      <para>We first need to collect its attributes and that's why it is deferred, because attributes events come <emphasis>after</emphasis> the call
-        to <literal>startElement()</literal>. Elements in the GML namespace that carry an <literal>srsName</literal> attribute will push its value. If
-        the element is not in the GML namespace or if no <literal>srsName</literal> attribute exists, <literal>null</literal> is pushed.</para>
+      <para>We first need to collect its attributes and that's why it is deferred, because
+        attributes events come <emphasis>after</emphasis> the call to
+          <literal>startElement()</literal>. Elements in the GML namespace that carry an
+          <literal>srsName</literal> attribute will push its value. If the element is not in the GML
+        namespace or if no <literal>srsName</literal> attribute exists, <literal>null</literal> is
+        pushed.</para>
       <note>
-        <para>We could have had a smarter mechanism, but we first have to take a decision about the fact that we could define a default SRS here,
-          either from the config, or from a higher-level element. This part of the code will thus probably be revisited once the decision is
-          taken.</para>
+        <para>We could have had a smarter mechanism, but we first have to take a decision about the
+          fact that we could define a default SRS here, either from the config, or from a
+          higher-level element. This part of the code will thus probably be revisited once the
+          decision is taken.</para>
       </note>
-      <para>When the attributes are collected, we can send a <literal>startElement()</literal> event to the SAX handler, thus marking the end of the
-        deferring process.</para>
+      <para>When the attributes are collected, we can send a <literal>startElement()</literal> event
+        to the SAX handler, thus marking the end of the deferring process.</para>
       <para>Processing of the current element with <literal>endElement()</literal>:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-115.txt"/>
-      <para>We first pop a SRS name from the stack. <literal>null</literal> will indicate that the element doesn't have any and thus that it is an
-        element which doesn't carry enough information to build a complete geometry. That doesn't prevent us to forward this element to the SAX
-        handler.</para>
-      <para>The SAX handler might have been able to build a <literal>Geometry</literal> then. If so, the current index entry (composed of
-          <literal>currentSrsName</literal>, <literal>streamedGeometry</literal>, <literal>currentNodeId</literal> and the "global"
-          <literal>org.exist.dom.DocumentImpl</literal>) is added to <literal>geometries</literal> (wrapped in the convenience
-          <literal>SRSGeometry</literal> class). We then check if it's time to flush the pending index entries.</para>
-      <para>This is how the <literal>GeometryHandler</literal> looks like. It is also implemented as an inner class of
-          <literal>org.exist.indexing.spatial.AbstractGMLJDBCIndexWorker</literal>
+      <para>We first pop a SRS name from the stack. <literal>null</literal> will indicate that the
+        element doesn't have any and thus that it is an element which doesn't carry enough
+        information to build a complete geometry. That doesn't prevent us to forward this element to
+        the SAX handler.</para>
+      <para>The SAX handler might have been able to build a <literal>Geometry</literal> then. If so,
+        the current index entry (composed of <literal>currentSrsName</literal>,
+          <literal>streamedGeometry</literal>, <literal>currentNodeId</literal> and the "global"
+          <literal>org.exist.dom.DocumentImpl</literal>) is added to <literal>geometries</literal>
+        (wrapped in the convenience <literal>SRSGeometry</literal> class). We then check if it's
+        time to flush the pending index entries.</para>
+      <para>This is how the <literal>GeometryHandler</literal> looks like. It is also implemented as
+        an inner class of <literal>org.exist.indexing.spatial.AbstractGMLJDBCIndexWorker</literal>
       </para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-116.txt"/>
-      <para>Thanks to Geotools SAX parser, it hasn't to be more complicated than setting the <literal>streamedGeometry</literal> "global"
-        member.</para>
+      <para>Thanks to Geotools SAX parser, it hasn't to be more complicated than setting the
+          <literal>streamedGeometry</literal> "global" member.</para>
       <note>
-        <para>However, it may throw some <literal>NullPointerException</literal>s as described above.</para>
+        <para>However, it may throw some <literal>NullPointerException</literal>s as described
+          above.</para>
       </note>
     </sect2>
 
@@ -1186,50 +1424,70 @@
     <sect2>
       <title>Implementing some functions that cooperate with the spatial index</title>
 
-      <para>We currently provide three sets of functions that are able to cooperate with spatial indexes.</para>
-      <para>The functions are declared in the <literal>org.exist.xquery.modules.spatial.SpatialModule</literal> module which operates in the
-          <literal>http://exist-db.org/xquery/spatial</literal> namespace (whose default prefix is <literal>spatial</literal>).</para>
-      <para>The functions signatures are documented together with the functions themselves in <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://demo.exist-db.org/xquery/functions.xq">this page</link>. Here we will only look at their <literal>eval()</literal>
-        methods.</para>
-      <para>The first functions set we will describe is <literal>org.exist.xquery.modules.spatial.FunSpatialSearch</literal>, which performs searches
-        on the spatial index:</para>
+      <para>We currently provide three sets of functions that are able to cooperate with spatial
+        indexes.</para>
+      <para>The functions are declared in the
+          <literal>org.exist.xquery.modules.spatial.SpatialModule</literal> module which operates in
+        the <literal>http://exist-db.org/xquery/spatial</literal> namespace (whose default prefix is
+          <literal>spatial</literal>).</para>
+      <para>The functions signatures are documented together with the functions themselves in <link
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xlink:href="http://demo.exist-db.org/xquery/functions.xq">this page</link>. Here we will
+        only look at their <literal>eval()</literal> methods.</para>
+      <para>The first functions set we will describe is
+          <literal>org.exist.xquery.modules.spatial.FunSpatialSearch</literal>, which performs
+        searches on the spatial index:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-117.txt"/>
       <para>We first build an early result if empty sequences are passed to the function.</para>
-      <para>Then, we try to access the <literal>XQueryContext</literal>'s <literal>AbstractGMLJDBCIndex</literal> (remember that there is a 1:1
-        relationship between <literal>XQueryContext</literal> and <literal>DBBroker</literal> and a 1:1 relationship between
-          <literal>DBBroker</literal> and <literal>IndexWorker</literal>). If we can not find an <literal>AbstractGMLJDBCIndex</literal> we throw an
-          <literal>Exception</literal> since we will need this and its concrete class to delegate spatial operations to (whatever its underlying DB
-        implementation is, thanks to our generic design).</para>
-      <para>Then, we examine if the geometry node is persistent, in which case it <emphasis>might</emphasis> be indexed. If so, we try to get an
-        EPSG:4326 <literal>Geometry</literal> from the index.</para>
-      <para>If nothing is returned here, either because the node isn't indexed or because it is an in-memory node, we stream it to a
-          <literal>Geometry</literal> and we transform this into an EPSG:4326 <literal>Geometry</literal>. Of course, this process is slower than a
-        direct lookup into the index.</para>
-      <para>Then we search for the geometry in the index after having determined the spatial operator from the function's name.</para>
-      <para>The second functions set is <literal>org.exist.xquery.modules.spatial.FunGeometricProperties</literal>, which retrieves a property for a
-          <literal>Geometry</literal>:</para>
+      <para>Then, we try to access the <literal>XQueryContext</literal>'s
+          <literal>AbstractGMLJDBCIndex</literal> (remember that there is a 1:1 relationship between
+          <literal>XQueryContext</literal> and <literal>DBBroker</literal> and a 1:1 relationship
+        between <literal>DBBroker</literal> and <literal>IndexWorker</literal>). If we can not find
+        an <literal>AbstractGMLJDBCIndex</literal> we throw an <literal>Exception</literal> since we
+        will need this and its concrete class to delegate spatial operations to (whatever its
+        underlying DB implementation is, thanks to our generic design).</para>
+      <para>Then, we examine if the geometry node is persistent, in which case it
+          <emphasis>might</emphasis> be indexed. If so, we try to get an EPSG:4326
+          <literal>Geometry</literal> from the index.</para>
+      <para>If nothing is returned here, either because the node isn't indexed or because it is an
+        in-memory node, we stream it to a <literal>Geometry</literal> and we transform this into an
+        EPSG:4326 <literal>Geometry</literal>. Of course, this process is slower than a direct
+        lookup into the index.</para>
+      <para>Then we search for the geometry in the index after having determined the spatial
+        operator from the function's name.</para>
+      <para>The second functions set is
+          <literal>org.exist.xquery.modules.spatial.FunGeometricProperties</literal>, which
+        retrieves a property for a <literal>Geometry</literal>:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-118.txt"/>
-      <para>The design is very much the same : we build an early result if empty sequences are involved, we get a
-          <literal>AbstractGMLJDBCIndex</literal>, then we set a <literal>propertyName</literal>, which is actually a SQL field name, depending on the
+      <para>The design is very much the same : we build an early result if empty sequences are
+        involved, we get a <literal>AbstractGMLJDBCIndex</literal>, then we set a
+          <literal>propertyName</literal>, which is actually a SQL field name, depending on the
         function's name.</para>
-      <para>An attempt to retrieve the field content from the DB is made and, if unsuccessful, we try to get the node's <literal>Geometry</literal>
-        from the index.</para>
-      <para>Then, if we still haven't got this <literal>Geometry</literal>, either because the node isn't indexed or because it is an in-memory node,
-        we stream it to a <literal>Geometry</literal> and we transform this into an EPSG:4326 <literal>Geometry</literal> if the function's name
-        requires to do so.</para>
+      <para>An attempt to retrieve the field content from the DB is made and, if unsuccessful, we
+        try to get the node's <literal>Geometry</literal> from the index.</para>
+      <para>Then, if we still haven't got this <literal>Geometry</literal>, either because the node
+        isn't indexed or because it is an in-memory node, we stream it to a
+          <literal>Geometry</literal> and we transform this into an EPSG:4326
+          <literal>Geometry</literal> if the function's name requires to do so.</para>
       <para>We then <emphasis>dynamically</emphasis> build the property to be returned.</para>
       <note>
-        <para>This mechanism if far from being efficient compared to the index lookup, but it shows how easy it would be to return a property which is
-          not available in a spatial index.</para>
+        <para>This mechanism if far from being efficient compared to the index lookup, but it shows
+          how easy it would be to return a property which is not available in a spatial
+          index.</para>
       </note>
-      <para>The third functions set, <literal>org.exist.xquery.modules.spatial.FunGMLProducers</literal>, uses the same design :</para>
+      <para>The third functions set,
+          <literal>org.exist.xquery.modules.spatial.FunGMLProducers</literal>, uses the same design
+        :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-119.txt"/>
-      <para><!-- probably this procedure should be listed once (ordered list) and then be referred to /ljo--> It looks more complicated because of the
-        multiple possible argument counts. However, the pinciple remains the same: early result when empty sequences are involved, fetching of the
-          <literal>Geometry</literal>ies (and of its/their SRS) from the DB, streaming if nothing can be fetched, then geometric computations after a
-        transformation of the second <literal>Geometry</literal> if relevant.</para>
-      <para>The final process streams the resulting <literal>Geometry</literal> as the result, in the SRS specified by the relevant argument or in the
-        SRS of the first <literal>Geometry</literal>, depending on the function's name.</para>
+      <para><!-- probably this procedure should be listed once (ordered list) and then be referred to /ljo-->
+        It looks more complicated because of the multiple possible argument counts. However, the
+        pinciple remains the same: early result when empty sequences are involved, fetching of the
+          <literal>Geometry</literal>ies (and of its/their SRS) from the DB, streaming if nothing
+        can be fetched, then geometric computations after a transformation of the second
+          <literal>Geometry</literal> if relevant.</para>
+      <para>The final process streams the resulting <literal>Geometry</literal> as the result, in
+        the SRS specified by the relevant argument or in the SRS of the first
+          <literal>Geometry</literal>, depending on the function's name.</para>
     </sect2>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1237,58 +1495,79 @@
     <sect2>
       <title>Playing with the spatial index</title>
 
-      <para>Now that we have described the spatial index, it is time to play with it. Only a few of its features will be demonstrated, but we will
-        explain again what happens under the hood.</para>
-      <para>The first step is to make sure to have a recent enough release version of eXist : 1.2 of later.</para>
-      <para>Then, you have to prepare eXist to build the spatial index library. To do that, go into the
-          <literal>${EXIST_HOME}/extensions/indexes</literal> directory and, if necessary, copy <literal>build.properties</literal> to a new file,
-          <literal>local.properties</literal>.</para>
-      <para>Open this file and check that <literal>include.index.spatial</literal> is set to <literal>true</literal>.</para>
-      <para>Invoke <literal>build.bat clean</literal> or <literal>build.sh clean</literal>, depending on your platform, from a command line. This will
-        generate <literal>${EXIST_HOME}/extensions/indexes/build.xml</literal>, which is needed by the modularized indexes infrastructure.</para>
-      <para>Invoke <literal>build.bat extension-indexes</literal> or <literal>build.sh extension-indexes</literal>, depending on your platform, from a
-        command line.</para>
-      <para>If necessary, the required external (large) libraries will be downloaded from the WWW into the
-          <literal>${EXIST_HOME}/extensions/indexes/spatial/lib</literal> directory. Most of them have a <literal>gt2-*.jar</literal> name. Make sure
-        to make them available in your application's classpath !</para>
+      <para>Now that we have described the spatial index, it is time to play with it. Only a few of
+        its features will be demonstrated, but we will explain again what happens under the
+        hood.</para>
+      <para>The first step is to make sure to have a recent enough release version of eXist : 1.2 of
+        later.</para>
+      <para>Then, you have to prepare eXist to build the spatial index library. To do that, go into
+        the <literal>${EXIST_HOME}/extensions/indexes</literal> directory and, if necessary, copy
+          <literal>build.properties</literal> to a new file,
+        <literal>local.properties</literal>.</para>
+      <para>Open this file and check that <literal>include.index.spatial</literal> is set to
+          <literal>true</literal>.</para>
+      <para>Invoke <literal>build.bat clean</literal> or <literal>build.sh clean</literal>,
+        depending on your platform, from a command line. This will generate
+          <literal>${EXIST_HOME}/extensions/indexes/build.xml</literal>, which is needed by the
+        modularized indexes infrastructure.</para>
+      <para>Invoke <literal>build.bat extension-indexes</literal> or <literal>build.sh
+          extension-indexes</literal>, depending on your platform, from a command line.</para>
+      <para>If necessary, the required external (large) libraries will be downloaded from the WWW
+        into the <literal>${EXIST_HOME}/extensions/indexes/spatial/lib</literal> directory. Most of
+        them have a <literal>gt2-*.jar</literal> name. Make sure to make them available in your
+        application's classpath !</para>
       <note>
-        <para>If you are behind a proxy, do not forget to set its settings in <literal>${EXIST_HOME}/build.properties</literal>.</para>
+        <para>If you are behind a proxy, do not forget to set its settings in
+            <literal>${EXIST_HOME}/build.properties</literal>.</para>
       </note>
-      <para>A file named <literal>exist-spatial-module.jar</literal> should be generated into the <literal>${EXIST_HOME}/lib/extensions</literal>
-        directory.</para>
-      <para>Enable the spatial index and the spatial module in <literal>${EXIST_HOME}/conf.xml</literal> if it is not already done.</para>
+      <para>A file named <literal>exist-spatial-module.jar</literal> should be generated into the
+          <literal>${EXIST_HOME}/lib/extensions</literal> directory.</para>
+      <para>Enable the spatial index and the spatial module in
+          <literal>${EXIST_HOME}/conf.xml</literal> if it is not already done.</para>
       <para>the spatial index:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-120.xml"/>
       <para>and the spatial module:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-121.xml"/>
       <para>This concludes the prerequisites for running the test.</para>
-      <para>Our demonstration file is taken from the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.ordnancesurvey.co.uk/oswebsite/">Ordnance Survey of Great-Britain's WWW site</link> which offers <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href=" http://www.ordnancesurvey.co.uk/oswebsite/products/try-now/sample-data.html">sample
-          data</link>.</para>
-      <para>The chosen topography layer is of Port-Talbot, which is available as <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.ordnancesurvey.co.uk/products/osmastermap/layers/topography/sampledata/2182-SS7886-2c1.gz">2182-SS7886-2c1.gz</link>.
-        Download this file, gunzip it, and give to the resulting file a <literal>.gml</literal> extension (<literal>port-talbot.gml</literal>) this
-        will allow eXist to reckognize it as an XML file.</para>
+      <para>Our demonstration file is taken from the <link
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xlink:href="http://www.ordnancesurvey.co.uk/oswebsite/">Ordnance Survey of Great-Britain's
+          WWW site</link> which offers <link xmlns:xlink="http://www.w3.org/1999/xlink"
+          xlink:href="http://www.ordnancesurvey.co.uk/oswebsite/products/try-now/sample-data.html"
+          >sample data</link>.</para>
+      <para>The chosen topography layer is of Port-Talbot, which is available as <link
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xlink:href="http://www.ordnancesurvey.co.uk/products/osmastermap/layers/topography/sampledata/2182-SS7886-2c1.gz"
+          >2182-SS7886-2c1.gz</link>. Download this file, gunzip it, and give to the resulting file
+        a <literal>.gml</literal> extension (<literal>port-talbot.gml</literal>) this will allow
+        eXist to reckognize it as an XML file.</para>
       <note>
-        <para>If you have previously executed <literal>build test</literal>, the file should have been downloaded and gunzipped for you in
+        <para>If you have previously executed <literal>build test</literal>, the file should have
+          been downloaded and gunzipped for you in
             <literal>${EXIST_HOME}/extensions/indexes/spatial/test/resources</literal>.</para>
       </note>
-      <para>Since this file refers to an OSGB-hosted schema, we will need to bypass validation in <literal>${EXIST_HOME}/conf.xml</literal>.</para>
+      <para>Since this file refers to an OSGB-hosted schema, we will need to bypass validation in
+          <literal>${EXIST_HOME}/conf.xml</literal>.</para>
       <para>Make sure the mode value is set like this:</para>
       <programlisting>&lt;validation mode="no"&gt;</programlisting>
-      <para>We are now ready to start the demonstration and we will use the interactive client for that. Run either
-          <literal>${EXIST_HOME}/bin/client.bat</literal> or <literal>${EXIST_HOME}/bin/client.sh</literal> from the command line (please read
+      <para>We are now ready to start the demonstration and we will use the interactive client for
+        that. Run either <literal>${EXIST_HOME}/bin/client.bat</literal> or
+          <literal>${EXIST_HOME}/bin/client.sh</literal> from the command line (please read
         elsewhere if you do not know how to start it).</para>
-      <para>Let's start by creating a collection named <literal>spatial</literal> in the <literal>/db</literal> collection. The menus might be
-        localised, but in english it is <literal>File/Create a collection...</literal>.</para>
+      <para>Let's start by creating a collection named <literal>spatial</literal> in the
+          <literal>/db</literal> collection. The menus might be localised, but in english it is
+          <literal>File/Create a collection...</literal>.</para>
       <para>Then, we will configure this collection by creating a configuration collection.</para>
       <para>Let's navigate to <literal>/db/system/config</literal>
       </para>
-      <para>If required, let's create a general configuration collection : <literal>File/Create a collection...</literal> name it
-          <literal>db</literal> and get into it.</para>
-      <para>Then let's create a configuration collection for <literal>/db/spatial</literal>: <literal>File/Create a collection...</literal> name it
-          <literal>spatial</literal> and get into it.</para>
+      <para>If required, let's create a general configuration collection : <literal>File/Create a
+          collection...</literal> name it <literal>db</literal> and get into it.</para>
+      <para>Then let's create a configuration collection for <literal>/db/spatial</literal>:
+          <literal>File/Create a collection...</literal> name it <literal>spatial</literal> and get
+        into it.</para>
       <para>We are now in <literal>/db/system/config/db/spatial</literal>.</para>
-      <para>Let's now create a configuration file for this collection: <literal>File/Create an empty document...</literal> name it
-          <literal>collection.xconf</literal>.</para>
+      <para>Let's now create a configuration file for this collection: <literal>File/Create an empty
+          document...</literal> name it <literal>collection.xconf</literal>.</para>
       <para>Double-click on this document and let's replace its auto-generated content :</para>
       <programlisting language="xml">&lt;template/&gt;</programlisting>
       <para>with this one:</para>
@@ -1296,14 +1575,19 @@
       <note>
         <para>Do not forget to save the document before closing the window.</para>
       </note>
-      <para>The <literal>/db/system/config/db/spatial</literal> collection is now configured to index GML geometries when they are uploaded. The
-        in-memory index entries will be flushed to the HSQLDB every 200 geometries and will wait at most 100 seconds, the default value, to establish
-        a connection to the HSQL db.</para>
+      <para>The <literal>/db/system/config/db/spatial</literal> collection is now configured to
+        index GML geometries when they are uploaded. The in-memory index entries will be flushed to
+        the HSQLDB every 200 geometries and will wait at most 100 seconds, the default value, to
+        establish a connection to the HSQL db.</para>
       <para>Let's navigate to <literal>/db/spatial</literal>.</para>
       <para>Let's upload <literal>port-talbot.gml</literal>: File/Upload files/directories...</para>
-      <para>On my computer, the operation on this 23.6 Mb file is performed in about 100 seconds, including some default fulltext indexing. Let's
-        close the upload window and quit the interactive client.</para>
-      <para>Let's look our our GML file looks like on GML Viewer, a free viewer provided by <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.snowflakesoftware.co.uk/products/gmlviewer/index.htm">Snowflake software</link> :</para>
+      <para>On my computer, the operation on this 23.6 Mb file is performed in about 100 seconds,
+        including some default fulltext indexing. Let's close the upload window and quit the
+        interactive client.</para>
+      <para>Let's look our our GML file looks like on GML Viewer, a free viewer provided by <link
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xlink:href="http://www.snowflakesoftware.co.uk/products/gmlviewer/index.htm">Snowflake
+          software</link> :</para>
       <informalfigure>
         <mediaobject>
           <imageobject>
@@ -1311,29 +1595,34 @@
           </imageobject>
         </mediaobject>
       </informalfigure>
-      <para>If you want to have a look at the spatial index HSQLDB, which, if you are using the default data-dir, is in
-          <literal>${EXIST_HOME}/webapp/WEB-INF/data/spatial_index.*</literal> there is a dedicated script file in
-          <literal>${EXIST_HOME}/extensions/indexes/spatial/</literal>. to launch HSQL's GUI client: Use either <literal>hsql.bat</literal> or
-          <literal>hsql.sh [data-dir]</literal> (you only need to supply data-dir if it is not the default one).</para>
-      <para>If the SQL command <literal>SELECT * FROM SPATIAL_INDEX_V1;</literal> is executed, the result window shows that 21961 geometries have been
-        indexed.</para>
-      <para>Let's get back to the interactive client and open the query window (the one we get when clicking on the binocular button in the
-        toolbar).</para>
+      <para>If you want to have a look at the spatial index HSQLDB, which, if you are using the
+        default data-dir, is in <literal>${EXIST_HOME}/webapp/WEB-INF/data/spatial_index.*</literal>
+        there is a dedicated script file in
+          <literal>${EXIST_HOME}/extensions/indexes/spatial/</literal>. to launch HSQL's GUI client:
+        Use either <literal>hsql.bat</literal> or <literal>hsql.sh [data-dir]</literal> (you only
+        need to supply data-dir if it is not the default one).</para>
+      <para>If the SQL command <literal>SELECT * FROM SPATIAL_INDEX_V1;</literal> is executed, the
+        result window shows that 21961 geometries have been indexed.</para>
+      <para>Let's get back to the interactive client and open the query window (the one we get when
+        clicking on the binocular button in the toolbar).</para>
       <para>This query:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-125.txt"/>
-      <para>... is processed in a little bit less than 2 seconds. That could seem high, but there is a cost for the Geotools transformation factories
-        initialization. Subsequent requests will be much faster, although there will always be a small cost for the streaming of the in-memory node to
-        a <literal>Geometry</literal> object.</para>
+      <para>... is processed in a little bit less than 2 seconds. That could seem high, but there is
+        a cost for the Geotools transformation factories initialization. Subsequent requests will be
+        much faster, although there will always be a small cost for the streaming of the in-memory
+        node to a <literal>Geometry</literal> object.</para>
       <para>The result is:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-126.xml"/>
       <note>
-        <para>Due to the current Geotools limitations, there is no <literal>srsName</literal> attribute on <tag>gml:Polygon</tag> ! See above.</para>
+        <para>Due to the current Geotools limitations, there is no <literal>srsName</literal>
+          attribute on <tag>gml:Polygon</tag> ! See above.</para>
       </note>
       <para>... but people might find more convenient to perform this query :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-127.txt"/>
       <para>... which returns:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-128.txt"/>
-      <para>So, 3 degrees West, 51 deegrees North... we must be indeed northern of Brittany, i.e. in south-western Great-Britain.</para>
+      <para>So, 3 degrees West, 51 deegrees North... we must be indeed northern of Brittany, i.e. in
+        south-western Great-Britain.</para>
       <para>Let's see what our polygon looks like:</para>
       <informalfigure>
         <mediaobject>
@@ -1344,9 +1633,10 @@
       </informalfigure>
       <para>Now, we continue doing something more practical:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-129.txt"/>
-      <para>This query returns 756 <tag>gml:Polygon</tag>s in about 15 seconds. A subsequent call returns in just about 450 ms, not having the cost
-        for initializations (in particular the first connection to the HSQLDB). A slighly modified query, in order to show the performance without
-        utilising eXist's performant cache:</para>
+      <para>This query returns 756 <tag>gml:Polygon</tag>s in about 15 seconds. A subsequent call
+        returns in just about 450 ms, not having the cost for initializations (in particular the
+        first connection to the HSQLDB). A slighly modified query, in order to show the performance
+        without utilising eXist's performant cache:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-130.txt"/>
       <para>... retuns 755 <tag>gml:Polygon</tag> (one less) in just about 470 ms.</para>
       <para>The result of our first intersection query looks like this:</para>
@@ -1359,7 +1649,8 @@
       </informalfigure>
       <para>Let's try another type of spatial query:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-131.txt"/>
-      <para>It returns 598 <tag>gml:Polygon</tag>s in just a little bit more than 400 ms. Here is what they look like:</para>
+      <para>It returns 598 <tag>gml:Polygon</tag>s in just a little bit more than 400 ms. Here is
+        what they look like:</para>
       <informalfigure>
         <mediaobject>
           <imageobject>
@@ -1367,7 +1658,8 @@
           </imageobject>
         </mediaobject>
       </informalfigure>
-      <para>The last query of this session is just to demonstrate some interesting capabilities of the spatial functions:</para>
+      <para>The last query of this session is just to demonstrate some interesting capabilities of
+        the spatial functions:</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-132.txt"/>
       <para>See the (not so) rounded corners of our 500 metres buffer over Port-Talbot :</para>
       <informalfigure>
@@ -1384,54 +1676,76 @@
     <sect2>
       <title>Facts and thoughts</title>
 
-      <para>As of june 2007, the spatial index is in working condition. It provides an interesting set of functionalities and its performance is
-        satisfactory given the lightweight, non spatially-enabled, database engine that stores the <literal>Geometry</literal> objects and their
-        properties. The main objective was to return within the second; we're there.</para>
+      <para>As of june 2007, the spatial index is in working condition. It provides an interesting
+        set of functionalities and its performance is satisfactory given the lightweight, non
+        spatially-enabled, database engine that stores the <literal>Geometry</literal> objects and
+        their properties. The main objective was to return within the second; we're there.</para>
       <para>Here are still some tentative improvements.</para>
-      <para>The first improvement is to plug in the <literal>getGeometriesForNodes()</literal> and <literal>getGeometricPropertyForNodes()</literal>
-        (in <literal>org.exist.indexing.spatial.AbstractGMLJDBCIndexWorker</literal>) to allow sequence/set optimization.</para>
+      <para>The first improvement is to plug in the <literal>getGeometriesForNodes()</literal> and
+          <literal>getGeometricPropertyForNodes()</literal> (in
+          <literal>org.exist.indexing.spatial.AbstractGMLJDBCIndexWorker</literal>) to allow
+        sequence/set optimization.</para>
       <para>Indeed, a query like this one on our test file :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-133.txt"/>
-      <para>... returns 5339 items through as many calls to the DB in... 51 seconds on an initialized index ! Intercepting the
-          <literal>SINGLE_STEP_EXECUTION</literal> flag when the expression is analyzed would allow to call the 2 above methods rather than their
-        "individual" counterparts, namely <literal>getGeometryForNode()</literal> and <literal>getGeometricPropertyForNode()</literal>. The expected
-        performance improvement would be interesting.</para>
-      <para>A second improvement could be to refine the queries on the HSQLDB. Currently, <literal>search()</literal> (in
-          <literal>org.exist.indexing.spatial.GMLHSQLIndexWorker</literal>) filters the records on the BBox of the searched
-          <literal>Geometry</literal>. It would also be nice to refine the query on the context nodes and, in particular, on their involved
-        collections and/or documents. The like applies for the HSQL implementation of <literal>getGeometryForNode()</literal> and
+      <para>... returns 5339 items through as many calls to the DB in... 51 seconds on an
+        initialized index ! Intercepting the <literal>SINGLE_STEP_EXECUTION</literal> flag when the
+        expression is analyzed would allow to call the 2 above methods rather than their
+        "individual" counterparts, namely <literal>getGeometryForNode()</literal> and
+          <literal>getGeometricPropertyForNode()</literal>. The expected performance improvement
+        would be interesting.</para>
+      <para>A second improvement could be to refine the queries on the HSQLDB. Currently,
+          <literal>search()</literal> (in
+          <literal>org.exist.indexing.spatial.GMLHSQLIndexWorker</literal>) filters the records on
+        the BBox of the searched <literal>Geometry</literal>. It would also be nice to refine the
+        query on the context nodes and, in particular, on their involved collections and/or
+        documents. The like applies for the HSQL implementation of
+          <literal>getGeometryForNode()</literal> and
           <literal>getGeometricPropertyForNode()</literal> too.</para>
-      <para>However, we have to be aware that writing such a SQL statement and passing it to the DB server might become counter-productive. The idea
-        is then to define some (configurable) threshold values that would refine the query on the documents if there are fewer than, say, 10 documents
-        in the context nodeset, and if there are more than 10 documents in it, but less than, say, 15 collections, refine the query on the
-        collection.</para>
-      <para>It would be quite easy to determine those threshold values above which writing a long SQL statement and passing it to the DB server takes
-        more time than filtering the fectched data.</para>
-      <para>We might also consider the field in which the document's URI is stored (<literal>DOCUMENT_URI</literal>) and possibly split it into two
-        fields, one for the collection and the second one for the document. Of course, having indexed integer values here would probably be
-        interesting.</para>
-      <para>Having some better algorithms to prefilter the <literal>Geometry</literal>ies could probably help as well and, more generally, everything
-        a DB server could bring (caching for instance) should be considered.</para>
-      <para>An other improvement would be to introduce some error margins for <literal>Geometry</literal>ies computations or BBox ones. The <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.vividsolutions.com/jts/jtshome.htm">Java Topology Suite</link>, widely
-        used by Geotools, has all the necessary material for this.</para>
-      <para>Another interesting improvement would be to compute and return simplified <literal>Geometry</literal>ies depending of a "hint".
-        Applications might want to return simplified polygons and even points at wider scales. Depending on the hint's value, passed in the function's
-        parameters, the index could use the right DB fields in order to work on <emphasis>precomputed</emphasis> simpler (or, more generally,
-        different) entries.</para>
+      <para>However, we have to be aware that writing such a SQL statement and passing it to the DB
+        server might become counter-productive. The idea is then to define some (configurable)
+        threshold values that would refine the query on the documents if there are fewer than, say,
+        10 documents in the context nodeset, and if there are more than 10 documents in it, but less
+        than, say, 15 collections, refine the query on the collection.</para>
+      <para>It would be quite easy to determine those threshold values above which writing a long
+        SQL statement and passing it to the DB server takes more time than filtering the fectched
+        data.</para>
+      <para>We might also consider the field in which the document's URI is stored
+          (<literal>DOCUMENT_URI</literal>) and possibly split it into two fields, one for the
+        collection and the second one for the document. Of course, having indexed integer values
+        here would probably be interesting.</para>
+      <para>Having some better algorithms to prefilter the <literal>Geometry</literal>ies could
+        probably help as well and, more generally, everything a DB server could bring (caching for
+        instance) should be considered.</para>
+      <para>An other improvement would be to introduce some error margins for
+          <literal>Geometry</literal>ies computations or BBox ones. The <link
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xlink:href="http://www.vividsolutions.com/jts/jtshome.htm">Java Topology Suite</link>,
+        widely used by Geotools, has all the necessary material for this.</para>
+      <para>Another interesting improvement would be to compute and return simplified
+          <literal>Geometry</literal>ies depending of a "hint". Applications might want to return
+        simplified polygons and even points at wider scales. Depending on the hint's value, passed
+        in the function's parameters, the index could use the right DB fields in order to work on
+          <emphasis>precomputed</emphasis> simpler (or, more generally, different) entries.</para>
       <para>This is how a hint configuration could look like :</para>
       <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-134.xml"/>
-      <para>We should also discuss with the other developers about the opportunity to have a <literal>org.exist.indexing.Index</literal> interface in
-        the modularized indexes hierarchy. The abstract class <literal>org.exist.indexing.AbstractIndex</literal> provides some nice general-purpose
-        methods and allows <emphasis>static</emphasis> members that are nearly mandatory (like <literal>ID</literal>). The like for
-          <literal>org.exist.indexing.StreamListener</literal> versus <literal>org.exist.indexing.AbstractStreamListener</literal>.</para>
-      <para>More tests should also be driven. The spatial index has only be tested on one file until now although this file is sizeable. It might be
-        interesting to see how it behaves with unusual geometries like rectangles, multi-geometries and collections. It might also be interesting to
-        know more about the error margin when geometries in different SRSes are involved. The accuracy of the referencing libraries available in the
-        CLASSPATH would play an important role here.</para>
-      <para>As always, the code could be written in a more efficient way. There are probably too many </para>
+      <para>We should also discuss with the other developers about the opportunity to have a
+          <literal>org.exist.indexing.Index</literal> interface in the modularized indexes
+        hierarchy. The abstract class <literal>org.exist.indexing.AbstractIndex</literal> provides
+        some nice general-purpose methods and allows <emphasis>static</emphasis> members that are
+        nearly mandatory (like <literal>ID</literal>). The like for
+          <literal>org.exist.indexing.StreamListener</literal> versus
+          <literal>org.exist.indexing.AbstractStreamListener</literal>.</para>
+      <para>More tests should also be driven. The spatial index has only be tested on one file until
+        now although this file is sizeable. It might be interesting to see how it behaves with
+        unusual geometries like rectangles, multi-geometries and collections. It might also be
+        interesting to know more about the error margin when geometries in different SRSes are
+        involved. The accuracy of the referencing libraries available in the CLASSPATH would play an
+        important role here.</para>
+      <para>As always, the code could be written in a more efficient way. There are probably too
+        many </para>
       <programlisting>if (...) ... else if(...) ... else ...</programlisting>
-      <para> constructs in the code for instance. Also, we will have to follow Geotools progress to get rid of some of the more or less elegant
-        workarounds we've had to implement.</para>
+      <para> constructs in the code for instance. Also, we will have to follow Geotools progress to
+        get rid of some of the more or less elegant workarounds we've had to implement.</para>
     </sect2>
   </sect1>
 </article>
