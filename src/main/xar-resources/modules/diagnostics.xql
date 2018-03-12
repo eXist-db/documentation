@@ -34,6 +34,7 @@ declare function diag:diagnose($node as node(), $model as map(*)) as element()*
   <ul>
   {
     for $doc in collection($config:data-root)[exists(db5:article)]
+    order by base-uri($doc)
     let $uri as xs:string := string(base-uri($doc))
     return
       <li>
