@@ -3,13 +3,14 @@ xquery version "3.0";
 (:== 
   Module for the link diagnostics of the docyumantation articles. 
   
-  This is not very performant code but it doesn't matter much here.
+  This is not very performant code but it doesn't matter much here. Will only be run rarely.
 ==:)
 (:============================================================================:)
-(:== FUNCTIONS: ==:)
+(:== PROLOG: ==:)
 
 module namespace diag="http://exist-db.org/xquery/diagnostics";
 
+import module namespace rvds="http://exist-db.org/xquery/rvd-support" at "rvd-support.xql";
 import module namespace config="http://exist-db.org/xquery/apps/config" at "config.xqm";
 
 declare namespace db5="http://docbook.org/ns/docbook";
@@ -62,7 +63,7 @@ declare function local:diagnose-document($doc as document-node()) as element()*
   {
     for $link in distinct-values(data($doc//@xlink:href))
     order by $link
-    let $link-type := local:get-link-type($link)
+    let $link-type := rvds:get-link-type($link)
     return
      <tr>
        <td> <code>{$link}</code> </td>
@@ -91,7 +92,7 @@ declare function local:diagnose-document($doc as document-node()) as element()*
       <th>Used</th>
     </tr>
     {
-      let $base-collection as xs:string := local:get-path-component(string(base-uri($doc)))
+      let $base-collection as xs:string := rvds:get-path-component(string(base-uri($doc)))
       for $rel-resource-link in local:get-relative-resource-links($base-collection, ()) 
       order by $rel-resource-link
       return
@@ -138,11 +139,11 @@ declare function local:resource-link-exists($doc as document-node(), $rel-link a
 declare function local:check-link-resource($from as document-node(), $link as xs:string) as item()*
 (: Checks whether a link to a resource actulaly exists: :)
 {
-  let $full-collection := util:collection-name($from) || '/' || local:get-path-component($link)
+  let $full-collection := util:collection-name($from) || '/' || rvds:get-path-component($link)
   return 
     if (xmldb:collection-available($full-collection))
       then 
-        if (local:get-name-component($link) = xmldb:get-child-resources($full-collection))
+        if (rvds:get-name-component($link) = xmldb:get-child-resources($full-collection))
           then $diag:ok-prompt
           else ($diag:error-prompt, <code>{$link}</code>, ' not found')
       else ($diag:error-prompt, 'Collection ', <code>{$full-collection}</code>, ' not found')
@@ -153,8 +154,8 @@ declare function local:check-link-resource($from as document-node(), $link as xs
 declare function local:check-link-article($doc as document-node(), $link as xs:string) as item()*
 (: Checks whether a link to some other article is ok (including its anchor): :)
 {
-  let $link-no-anchor := local:link-no-anchor($link)
-  let $anchor := local:link-anchor($link)
+  let $link-no-anchor := rvds:link-no-anchor($link)
+  let $anchor := rvds:link-anchor($link)
   let $full-name as xs:string := if (contains($link-no-anchor, '.')) then $link-no-anchor else $link-no-anchor || '.xml'
   let $relative-link-to-article as xs:string? := config:get-resource-path($config:data-root, $full-name)
   let $absolute-link-to-article as xs:string := $config:data-root || '/' || $relative-link-to-article
@@ -171,7 +172,7 @@ declare function local:check-link-article($doc as document-node(), $link as xs:s
           else 
           (
             '(doc) ',
-            if (local:anchor-exists($full-article, $anchor))
+            if (rvds:anchor-exists($full-article, $anchor))
               then $diag:ok-prompt
               else $diag:error-prompt,
             ' (anchor)' 
@@ -181,65 +182,3 @@ declare function local:check-link-article($doc as document-node(), $link as xs:s
 };
 
 (:============================================================================:)
-(:== GENERIC HELPER FUNCTIONS: ==:)
-
-declare function local:get-link-type($link as xs:string) as xs:string
-{
-  let $link-no-anchor := local:link-no-anchor($link)
-  return
-    if (starts-with($link, '/'))
-      then $diag:link-unknown
-    else if (contains($link, '{'))
-      then $diag:link-computed
-    else if (starts-with($link, 'http://') or starts-with($link, 'https://') or starts-with($link, 'mailto:'))
-      then $diag:link-external
-    else if (contains($link-no-anchor, '/'))
-      then $diag:link-resource
-    else 
-      $diag:link-article
-};
-
-(:----------------------------------------------------------------------------:)
-
-declare function local:link-no-anchor($link as xs:string) as xs:string
-{
-  if (contains($link, '#'))
-    then substring-before($link, '#')
-    else $link
-};
-
-(:----------------------------------------------------------------------------:)
-
-declare function local:link-anchor($link as xs:string) as xs:string
-{
-  if (contains($link, '#'))
-    then substring-after($link, '#')
-    else ''
-};
-
-(:----------------------------------------------------------------------------:)
-
-declare function local:get-path-component($link as xs:string) as xs:string
-{
-  if (contains($link, '/'))
-    then replace($link, '(.*)/[^/]+$', '$1')
-    else ''
-};
-
-(:----------------------------------------------------------------------------:)
-
-declare function local:get-name-component($link as xs:string) as xs:string
-{
-  tokenize($link, '/')[last()]
-};
-
-(:----------------------------------------------------------------------------:)
-
-declare function local:anchor-exists($doc as document-node(), $anchor as xs:string) as xs:boolean
-{
-  $anchor = data($doc//@xml:id)
-};
-
-(:============================================================================:)
-
-
