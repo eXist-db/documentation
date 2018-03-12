@@ -1,6 +1,7 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>Database Deployment</title>
     <date>1Q18</date>
@@ -160,8 +161,7 @@
       on a stripped-down Jetty. It uses a limited configuration, excluding all the additional services available in a full-blown servlet
       environment.</para>
     <para>The stand-alone deployment is more reliable and performs better than the web application setup, since no other threads (simultaneous tasks)
-      are running. If your application does not need WebDAV or SOAP, consider using the stand-alone server.</para>
-    <para>The stand-alone database server offers XML-RPC, WebDAV and REST-style HTTP interfaces for external client access. Please note that it does
+      are running. The stand-alone database server offers XML-RPC, WebDAV and REST-style HTTP interfaces for external client access. Please note that it does
       not support SOAP. </para>
     <para>By default, the stand-alone server listens on port <literal>8088</literal>, though this can be changed (see configuration below). The Java
       class for launching the server is <literal>org.exist.jetty.StandaloneServer</literal>.</para>
