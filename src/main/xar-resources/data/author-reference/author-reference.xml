@@ -1,4 +1,6 @@
-<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude"
+  xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
 
   <!-- ================================================================== -->
 
@@ -55,8 +57,8 @@
 
       <para>The following patterns tend to occur again and again in writing documentation. Please
         try to avoid them…</para>
-      <para>The examples are probably a bit exaggerated, but that's for illustration purposes, not
-        to offend anyone.</para>
+      <para>The examples exaggerated, but that's for illustration purposes, not to offend
+        anyone.</para>
 
       <sect3>
         <title>Avoid the difficult and explain the easy</title>
@@ -88,9 +90,9 @@ but does not because its too simple)</programlisting>
       <sect3>
         <title>Being overly polite</title>
 
-        <para>Sometimes writers try to be very polite to both the reader and, strangely enough, the system. Since
-          the reader wants it clear and you can't offend a system, don't.</para>
-        
+        <para>Sometimes writers try to be very polite to both the reader and, strangely enough, the
+          system. Since the reader wants it clear and you can't offend a system, don't.</para>
+
         <table>
           <title>Table title</title>
           <tgroup cols="2">
@@ -141,6 +143,26 @@ but does not because its too simple)</programlisting>
         </table>
       </sect3>
 
+      <sect3>
+        <title>Using thus instead of therefore</title>
+        <para>Somehow there seems to be a preference among eXist-db's documentation writers for the
+          word "thus" when "therefore" is meant. Thus is almost always wrong in this kind of prose,
+          so please default to therefore. If you want to know more read on <link
+            xlink:href="https://painintheenglish.com/case/4452/" condition="_blank"
+          >here</link>.</para>
+      </sect3>
+
+      <sect3>
+        <title>Java isn't always interesting</title>
+        <para>Some articles that explain stuff about things in the XQuery realm keep rambling on
+          about stuff in Java or in eXist-db's architecture: Servlets that execute, methods that are
+          called, etc.</para>
+        <para>Yes, because <emphasis>you</emphasis> are a Java programmer its probably interesting
+          to you. But when the intended audience of the article is XQuery programmers, don't bother
+          them with this. And if you really (really!) think it is necessary information for some of
+          them, add it to a separate section at the bottom.</para>
+      </sect3>
+
     </sect2>
 
 
@@ -151,7 +173,8 @@ but does not because its too simple)</programlisting>
   <sect1>
     <title>Technical guidelines</title>
 
-    <para>More information about Docbook itself can be found on the <link xlink:href="http://docbook.org/" condition="_blank">official Docbook site</link>.</para>
+    <para>More information about Docbook itself can be found on the <link
+        xlink:href="http://docbook.org/" condition="_blank">official Docbook site</link>.</para>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
@@ -160,9 +183,9 @@ but does not because its too simple)</programlisting>
       <itemizedlist xml:id="test-list-for-ref" xreflabel="directory structure list">
         <listitem>
           <para>A single article must be stored in a collection on its own, the
-              <emphasis>article-collection</emphasis>. Any related assets or other files will be
-            stored in sub-collections of this. This setup ensures that everything belonging to a
-            single article stays together. </para>
+              <emphasis>article-collection</emphasis>. Related assets or other files will be stored
+            in sub-collections of this. This setup ensures that everything belonging to a single
+            article stays together. </para>
         </listitem>
         <listitem>
           <para>In the eXist documentation app, the article-collection will become a sub-collection
@@ -200,8 +223,9 @@ but does not because its too simple)</programlisting>
       <title>Overall XML structure</title>
       <para>Here is an example how an article for this documentation set looks like:</para>
       <programlisting xlink:href="listings/structure.xml" language="xml"/>
-      <para>Both the processing instructions at the top are optional. They're present to guide tools
-        like oXygen in validating the document and provide authoring hints.</para>
+      <para>Both the processing instructions at the top are optional but strongly recommended.
+        They're present to guide tools like oXygen in validating the document and provide authoring
+        hints.</para>
     </sect2>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -213,8 +237,9 @@ but does not because its too simple)</programlisting>
       <para>The following rules and guidelines apply:</para>
       <itemizedlist>
         <listitem>
-          <para>There must be a title present in a <tag>title</tag> element. This is the main title
-            of the document. It will be displayed at the top of the page.</para>
+          <para>There <emphasis>must</emphasis> be a title present in a <tag>title</tag> element.
+            This is the main title of the document. It will be displayed at the top of the
+            page.</para>
         </listitem>
         <listitem>
           <para>Optional but strongly recommended is a date in the <tag>date</tag> element. This
@@ -224,8 +249,8 @@ but does not because its too simple)</programlisting>
             like 1Q18.</para>
         </listitem>
         <listitem>
-          <para>We use keywords to mark an article for certain subject areas, OS-s, programming
-            languages, etc. See <xref linkend="keyword-usage"/>.</para>
+          <para>We use keywords to mark an article for certain subject areas. See <xref
+              linkend="keyword-usage"/>.</para>
         </listitem>
         <listitem>
           <para>You can add more information in <tag>info</tag> to your heart's desire but the
@@ -235,7 +260,115 @@ but does not because its too simple)</programlisting>
 
       <sect3 xml:id="keyword-usage">
         <title>Keyword usage</title>
-        <para>TBD</para>
+
+        <para>The <tag>info</tag> element must contain at least one keyword. This is used to create
+          an index on subject. Multiple keywords can be specified by repeating the
+            <tag>keyword</tag> element.</para>
+        <para>Keywords are always written <emphasis>lower-case</emphasis> and must not contain
+          spaces.</para>
+        <para>The following keywords are in use:</para>
+        <table>
+          <title>Keyword usage</title>
+          <tgroup cols="2">
+            <colspec colwidth="30%"/>
+            <colspec/>
+            <thead>
+              <row>
+                <entry>Keyword</entry>
+                <entry>Meaning</entry>
+              </row>
+            </thead>
+            <!-- Please keep in alphabetical order. -->
+            <tbody>
+              <row>
+                <entry>
+                  <para><code>application-development</code></para>
+                </entry>
+                <entry>
+                  <para>Information related to using eXIst-db as an application platform.</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>exist</code></para>
+                </entry>
+                <entry>
+                  <para>Anything related to eXist-db itself, like legal statements, how to send in
+                    bugs, etc.</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>getting-started</code></para>
+                </entry>
+                <entry>
+                  <para>Basic information on how to get eXist-db up and running.</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>java-development</code></para>
+                </entry>
+                <entry>
+                  <para>Information about programming Java for or in eXist-db.</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>indexing</code></para>
+                </entry>
+                <entry>
+                  <para>Information related to eXist-db's indexes.</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>installation</code></para>
+                </entry>
+                <entry>
+                  <para>Information about installing eXist-db</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>interfaces</code></para>
+                </entry>
+                <entry>
+                  <para>Information about specific interfaces eXist-db provides</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>operations</code></para>
+                </entry>
+                <entry>
+                  <para>How to keep eXist-db up and running, not from a programmer's but from a
+                    system maintenance point of view.</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>xquery</code></para>
+                </entry>
+                <entry>
+                  <para>Information related to XQuery (or XPath) in general or eXist-db's specific
+                    features of the language.</para>
+                </entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+
+        <warning>
+          <para>Tables like the one above tend to get outdated sooner or later (because somebody
+            adds/deletes a keyword and forgets to update it). To see all the keywords
+            actually in use, look at the index-by-subject section of the main <link
+              xlink:href="documentation">main documentation page</link>.</para>
+          <para>Watch out: For legibility reasons the keywords there are presented
+              <emphasis>capitalized</emphasis>. Remember that in the article documents the keywords
+            must be stated in <emphasis>lower-case</emphasis>!</para>
+        </warning>
+
       </sect3>
 
     </sect2>
@@ -470,7 +603,7 @@ but does not because its too simple)</programlisting>
           <listitem>
             <para>Use <tag>guimenuitem</tag> around anything referring to choices in a GUI, for
               instance <guimenuitem>menu</guimenuitem> choices. The effect is now simple italic but
-              that might be changed later.</para>
+              that might change later.</para>
           </listitem>
         </varlistentry>
 
@@ -518,7 +651,8 @@ but does not because its too simple)</programlisting>
               To do so, give the target an identifier by using <code>xml:id="..."</code> and mention
               this identifier in the <code>linkend</code> attribute of the <tag>xref</tag>. </para>
             <para>You can generate a specific link text by adding an <code>xreflabel</code>
-              attribute to the <emphasis>target</emphasis> element, like here: <xref linkend="test-list-for-ref"/>. If this attribute is not present on the target its
+              attribute to the <emphasis>target</emphasis> element, like here: <xref
+                linkend="test-list-for-ref"/>. If this attribute is not present on the target its
               title is used, like this: <xref linkend="writing-guidelines"/>. If there is no title,
               the name of the element is presented.</para>
           </listitem>
@@ -530,7 +664,8 @@ but does not because its too simple)</programlisting>
             <para>Links to external sources are done with the <tag>link</tag> element. Place the
               target's full URI in the <code>xlink:href</code> attribute. For instance,
                 <code><![CDATA[<link xlink:href="http://exist-db.org/exist/apps/homepage/index.html">]]></code>
-              links to the <link xlink:href="http://exist-db.org/exist/apps/homepage/index.html" condition="_blank">eXist home page</link>.</para>
+              links to the <link xlink:href="http://exist-db.org/exist/apps/homepage/index.html"
+                condition="_blank">eXist home page</link>.</para>
             <para>To open the link on a new page, add <code>condition="_blank"</code>.</para>
           </listitem>
         </varlistentry>
@@ -541,7 +676,8 @@ but does not because its too simple)</programlisting>
             <para>To create a link to another article in this documentation set, also use the
                 <tag>link</tag> element. However, use the target's document name (without the
                 <code>.xml</code> extension) as the link address. For instance,
-                <code><![CDATA[<link xlink:href="documentation">]]></code> links to the <link xlink:href="documentation">documentation home page</link>.</para>
+                <code><![CDATA[<link xlink:href="documentation">]]></code> links to the <link
+                xlink:href="documentation">documentation home page</link>.</para>
           </listitem>
         </varlistentry>
 
@@ -554,7 +690,8 @@ but does not because its too simple)</programlisting>
     <sect2>
       <title>Generating indexes</title>
 
-      <para>Indexes can be automagicly generated. For examples have a look at the <link xlink:href="documentation">documentation home page</link>. There are three
+      <para>Indexes can be automagicly generated. For examples have a look at the <link
+          xlink:href="documentation">documentation home page</link>. There are three
         variations:</para>
       <variablelist>
         <varlistentry>
@@ -568,7 +705,8 @@ but does not because its too simple)</programlisting>
           <term>Index on keyword, all</term>
           <listitem>
             <para>Add a <code>role="indexonkeyword"</code> attribute to a <tag>para</tag> element.
-              An index on keywords (as specified in the <tag>info</tag> element, see <xref linkend="keyword-usage"/>) will be generated after it.</para>
+              An index on keywords (as specified in the <tag>info</tag> element, see <xref
+                linkend="keyword-usage"/>) will be generated after it.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -576,7 +714,8 @@ but does not because its too simple)</programlisting>
           <listitem>
             <para>Add a <code>role="indexonkeyword:somekeyword"</code> attribute to a
                 <tag>para</tag> element to generate a list of articles with this specific keyword
-              (as specified in the <tag>info</tag> element, see <xref linkend="keyword-usage"/>).</para>
+              (as specified in the <tag>info</tag> element, see <xref linkend="keyword-usage"
+              />).</para>
           </listitem>
         </varlistentry>
       </variablelist>
