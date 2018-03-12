@@ -1,9 +1,10 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>Security</title>
-    <date>October 2012</date>
+    <date>1Q18</date>
     <keywordset>
       <keyword>operations</keyword>
       <keyword>application-development</keyword>
@@ -484,10 +485,14 @@
               <para>Open Collection</para>
             </entry>
             <entry>
-              <para><code>--x</code></para>
+              <para>
+                                <code>--x</code>
+                            </para>
             </entry>
             <entry>
-              <para><code>---</code></para>
+              <para>
+                                <code>---</code>
+                            </para>
             </entry>
           </row>
           <row>
@@ -495,10 +500,14 @@
               <para>List Collection Contents</para>
             </entry>
             <entry>
-              <para><code>r-x</code></para>
+              <para>
+                                <code>r-x</code>
+                            </para>
             </entry>
             <entry>
-              <para><code>---</code></para>
+              <para>
+                                <code>---</code>
+                            </para>
             </entry>
           </row>
           <row>
@@ -506,10 +515,14 @@
               <para>Add Document</para>
             </entry>
             <entry>
-              <para><code>-wx</code></para>
+              <para>
+                                <code>-wx</code>
+                            </para>
             </entry>
             <entry>
-              <para><code>---</code></para>
+              <para>
+                                <code>---</code>
+                            </para>
             </entry>
           </row>
           <row>
@@ -517,10 +530,14 @@
               <para>Remove Document</para>
             </entry>
             <entry>
-              <para><code>-wx</code></para>
+              <para>
+                                <code>-wx</code>
+                            </para>
             </entry>
             <entry>
-              <para><code>---</code></para>
+              <para>
+                                <code>---</code>
+                            </para>
             </entry>
           </row>
           <row>
@@ -528,10 +545,13 @@
               <para>Overwrite Existing Document</para>
             </entry>
             <entry>
-              <para><code>--x</code></para>
+              <para>
+                                <code>--x</code>
+                            </para>
             </entry>
             <entry>
-              <para><code>-w-</code> (or owner)</para>
+              <para>
+                                <code>-w-</code> (or owner)</para>
             </entry>
           </row>
         </tbody>
@@ -566,17 +586,24 @@
               <para>Copy Document</para>
             </entry>
             <entry>
-              <para><code>--x</code></para>
+              <para>
+                                <code>--x</code>
+                            </para>
             </entry>
             <entry>
-              <para><code>r--</code></para>
+              <para>
+                                <code>r--</code>
+                            </para>
             </entry>
             <entry>
-              <para><code>-wx</code> (<code>w</code> only if destination document does not
+              <para>
+                                <code>-wx</code> (<code>w</code> only if destination document does not
                 exist)</para>
             </entry>
             <entry>
-              <para><code>-w-</code></para>
+              <para>
+                                <code>-w-</code>
+                            </para>
             </entry>
           </row>
           <row>
@@ -584,16 +611,23 @@
               <para>Move/Rename Document</para>
             </entry>
             <entry>
-              <para><code>-wx</code></para>
+              <para>
+                                <code>-wx</code>
+                            </para>
             </entry>
             <entry>
-              <para><code>--x</code> (or owner)</para>
+              <para>
+                                <code>--x</code> (or owner)</para>
             </entry>
             <entry>
-              <para><code>-wx</code></para>
+              <para>
+                                <code>-wx</code>
+                            </para>
             </entry>
             <entry>
-              <para><code>-w-</code></para>
+              <para>
+                                <code>-w-</code>
+                            </para>
             </entry>
           </row>
         </tbody>
@@ -634,16 +668,24 @@
               <para>Add Collection</para>
             </entry>
             <entry>
-              <para><code>---</code></para>
+              <para>
+                                <code>---</code>
+                            </para>
             </entry>
             <entry>
-              <para><code>---</code></para>
+              <para>
+                                <code>---</code>
+                            </para>
             </entry>
             <entry>
-              <para><code>-wx</code></para>
+              <para>
+                                <code>-wx</code>
+                            </para>
             </entry>
             <entry>
-              <para><code>---</code></para>
+              <para>
+                                <code>---</code>
+                            </para>
             </entry>
           </row>
           <row>
@@ -651,16 +693,23 @@
               <para>Remove Collection</para>
             </entry>
             <entry>
-              <para><code>-wx</code></para>
+              <para>
+                                <code>-wx</code>
+                            </para>
             </entry>
             <entry>
-              <para><code>rwx</code> (and on all sub-collections)</para>
+              <para>
+                                <code>rwx</code> (and on all sub-collections)</para>
             </entry>
             <entry>
-              <para><code>---</code></para>
+              <para>
+                                <code>---</code>
+                            </para>
             </entry>
             <entry>
-              <para><code>---</code></para>
+              <para>
+                                <code>---</code>
+                            </para>
             </entry>
           </row>
           <row>
@@ -668,16 +717,24 @@
               <para>Copy Collection</para>
             </entry>
             <entry>
-              <para><code>---</code></para>
+              <para>
+                                <code>---</code>
+                            </para>
             </entry>
             <entry>
-              <para><code>r-x</code></para>
+              <para>
+                                <code>r-x</code>
+                            </para>
             </entry>
             <entry>
-              <para><code>---</code></para>
+              <para>
+                                <code>---</code>
+                            </para>
             </entry>
             <entry>
-              <para><code>---</code></para>
+              <para>
+                                <code>---</code>
+                            </para>
             </entry>
           </row>
           <row>
@@ -685,16 +742,23 @@
               <para>Move/Rename Collection</para>
             </entry>
             <entry>
-              <para><code>-wx</code></para>
+              <para>
+                                <code>-wx</code>
+                            </para>
             </entry>
             <entry>
-              <para><code>-w-</code></para>
+              <para>
+                                <code>-w-</code>
+                            </para>
             </entry>
             <entry>
-              <para><code>---</code></para>
+              <para>
+                                <code>---</code>
+                            </para>
             </entry>
             <entry>
-              <para><code>-wx</code> (When replacing an existing collection, then the permissions
+              <para>
+                                <code>-wx</code> (When replacing an existing collection, then the permissions
                 for removing that collection must be met first).</para>
             </entry>
           </row>
