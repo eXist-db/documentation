@@ -55,14 +55,13 @@
         distributions are better served by distribution-specific instructions. More information for specific versions of Linux can be found at <link xmlns:xlink="http://www.w3.org/1999/xlink" condition="_blank" xlink:href="http://livingtao.blogspot.com/2012/01/few-easy-steps-to-install-sunoracle-jdk.html">Amazon Linux</link>, <link xmlns:xlink="http://www.w3.org/1999/xlink" condition="_blank" xlink:href="http://www.webupd8.org/2012/01/install-oracle-java-jdk-7-in-ubuntu-via.html">Ubuntu</link> and <link xmlns:xlink="http://www.w3.org/1999/xlink" condition="_blank" xlink:href="http://www.webupd8.org/2012/06/how-to-install-oracle-java-7-in-debian.html">Debian</link>.</para>
 
 
-      <para>Note for For pre eXist-db v2.2 versions: Due to reported compatibility issues it is NOT recommended to use "OpenJDK6" (IcedTea) and "GNU
+      <para>Note for pre eXist-db v2.2 versions: Due to compatibility issues it is NOT recommended to use "OpenJDK6" (IcedTea) and "GNU
         Compiler for Java" (GCJ) which are shipped by several Linux distributions.</para>
     </note>
 
     <warning>
       <para> If you have installed Saxon as a JRE extension (via the extensions folder), this can cause a critical error during installation. To avoid
-        this error user need to either remove the JRE extension, or install a second JRE which you use just for eXist-db and set the JAVA_HOME to that
-        when running eXist-db.</para>
+        this error either remove the JRE extension, or install a second JRE just for use with eXist-db and set JAVA_HOME accordingly.</para>
     </warning>
   </sect1>
 
