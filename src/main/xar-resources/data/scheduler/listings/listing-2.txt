@@ -1,16 +1,18 @@
-package org.exist.scheduler;
+package com.example;
 
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.exist.storage.BrokerPool;
 
-public class TestJob extends UserJavaJob {
+public class MyJob extends UserJavaJob {
 
-    private String jobName = this.getClass().getName();
+    private static final AtomicInteger COUNTER = new AtomicInteger();
+    private String jobName = "MyJob";
     
-	public void execute(BrokerPool brokerpool, Map params) throws JobException {
-		
-		System.out.println("****** TEST JOB EXECUTED ******");
+	public void execute(final BrokerPool brokerpool, final Map<String, ?> params) throws JobException {
+
+		System.out.println("****** My Job count=" + COUNTER.incrementAndGet());
 
 	}
 
@@ -18,7 +20,7 @@ public class TestJob extends UserJavaJob {
 		return jobName;
 	}
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.jobName = name;
     }
 }

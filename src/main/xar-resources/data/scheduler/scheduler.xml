@@ -1,6 +1,6 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>Scheduler Module</title>
     <date>1Q18</date>
@@ -10,15 +10,13 @@
     </keywordset>
   </info>
 
-  <!-- ================================================================== -->
-
-  <para>eXist has a scheduler based on Quartz, a full-featured, open source job scheduling system.
+  <para>eXist has a job scheduler based on <link xlink:href="http://www.quartz-scheduler.org/">Quartz</link>, a full-featured, open source job scheduling system.
     This article will explain how to use the scheduler.</para>
 
-  <!-- ================================================================== -->
-
   <sect1>
-    <title>Activating the Scheduler</title>
+    <title>Scheduling Jobs</title>
+    <para>Jobs can be configured to be scheduled for execution by the scheduler in one of two
+      ways:</para>
 
     <para>There are two type of uses for the Quartz Scheduler within eXist-db. The first is always
       active and is invoked at system startup. The second is the XQuery function module for
@@ -29,23 +27,36 @@
       <varlistentry>
         <term>System Start-up</term>
         <listitem>
-          <para>The jobs that are initiated at system start-up are invoked by the settings in the
-              <tag>scheduler</tag> element in the <code>conf.xml</code> file. There is a full set of
-            instructions with (commented out) example jobs here.</para>
+          <para>Jobs may be statically scheduled by configuring them in the <tag>scheduler</tag>
+            element of eXist-db's <code>conf.xml</code> configuration file. When eXist-db starts-up
+            this configuration is read and the jobs will be scheduled with the scheduler. There is a
+            full set of instructions with (commented out) example jobs in the confiiguration
+            file.</para>
+          <example>
+            <title>Example conf.xml scheduled job</title>
+            <programlisting language="xml" xlink:href="listings/listing-3.xml"/>
+          </example>
         </listitem>
       </varlistentry>
       <varlistentry>
-        <term>XQuery Function Module</term>
+        <term>Scheduler XQuery Module</term>
         <listitem>
-          <para>The scheduler XQuery function module is activated by uncommenting the following in
-              <code>conf.xml</code>:</para>
-          <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-1.xml"/>
-          <para>Once the scheduler XQuery function module is active, XQuery code can be written to
-            invoke and manage <emphasis>user</emphasis> type jobs (see <xref linkend="sect-job-types"/>).</para>
+          <para>There is an XQuery library module, <link xlink:href="http://www.exist-db.org/exist/apps/fundocs/view.html?uri=http://exist-db.org/xquery/scheduler&amp;location=java:org.exist.xquery.modules.scheduler.SchedulerModule&amp;details=true">Scheduler Module</link>,
+            which provides functions for scheduling jobs and managing jobs scheduled for execution.
+            The scheduler XQuery library module is activated by uncommenting the following in
+            eXist-db's <code>conf.xml</code> configuration file:</para>
+          <programlisting language="xml" xlink:href="listings/listing-1.xml"/>
+          <para>Once the scheduler XQuery library module is active, XQuery code can be written to
+            invoke and manage <emphasis>user</emphasis> jobs (see <xref linkend="sect-job-types"
+            />).</para>
+          <example>
+            <title>Example of calling scheduler:get-scheduled-jobs()</title>
+            <programlisting language="xml" xlink:href="listings/listing-3.xml"/>
+          </example>
         </listitem>
       </varlistentry>
     </variablelist>
-
+    <para>The scheduler keeps a log file of its actions and issues that occur when executing jobs in <code>webapp/WEB-INF/logs/scheduler.log</code>.</para>
   </sect1>
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -53,28 +64,36 @@
   <sect1 xml:id="sect-job-types">
     <title>Job Types</title>
 
-    <para>There are three types of scheduler jobs:</para>
+    <para>The scheduler supports three different types of job, each of which has a distinct
+      purpose:</para>
     <variablelist spacing="compact">
       <varlistentry>
-        <term><code>startup</code></term>
+        <term><code>Startup</code></term>
         <listitem>
-          <para>Start-up jobs are executed once during the database start-up, but before the
-            database becomes available. These jobs are synchronous.</para>
+          <para>Start-up jobs are executed only once during the database start-up. This execution
+            occurs before the database becomes available for general use. Each start-up job is
+            executed in-turn to completion.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
-        <term><code>system</code></term>
+        <term><code>User</code></term>
         <listitem>
-          <para>System jobs require the database to be in a consistent state. All database
-            operations will stop until the method returns or throws an exception. Any exception will
-            be caught and a warning is written to the log.</para>
+          <para>User jobs are a general class of job that has been authored by a user of the system.
+            These be scheduled for execution either periodically or as a one-off. A user job can
+            also be configured to execute concurrently with another instance of itself, should
+            schedules overlap due to execution time, or be mutually exclusive.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
-        <term><code>user</code></term>
+        <term><code>System</code></term>
         <listitem>
-          <para>User jobs may be scheduled at any time and may be mutually exclusive or
-            non-exclusive.</para>
+          <para>System jobs are similar to user jobs but require the database to be in a consistent
+            state, i.e. no other concurrent operations are running and all in-memory buffers have
+            been flushed to disk. These are typically used for internal tasks such as flushing the
+            database Journal. In general users should avoid scheduling this type of job, as during
+            execution all other database operations will be paused until the job finishes or raises
+            an exception. Any exception will be caught and a warning is written to the scheduler
+            log.</para>
         </listitem>
       </varlistentry>
     </variablelist>
@@ -83,476 +102,469 @@
   <!-- ================================================================== -->
 
   <sect1>
-    <title>Java vs. XQuery Jobs</title>
+    <title>Authoring Jobs</title>
 
-    <para>The system makes a distinction between XQuery and Java jobs:</para>
+    <para>The scheduler supports jobs that are authored in either XQuery or Java:</para>
 
     <variablelist>
       <varlistentry>
         <term>XQuery Jobs</term>
         <listitem>
-          <para>XQuery jobs can <emphasis>only</emphasis> be <code>user</code> type jobs.</para>
-          <para> If the job is written in XQuery this should be a path to an XQuery stored in the
-            database. For instance <code>/db/myCollection/myJob.xql</code>. </para>
-          <para>XQuery job's will be launched under the guest account initially. The running XQuery
-            can switch permissions through calls to <code>xmldb:login()</code>. </para>
+          <para>Jobs coded in XQuery can <emphasis>only</emphasis> be <code>user</code> type
+            jobs.</para>
+          <para>An XQuery job is just a standard XQuery Main Module which is stored in the database.
+            You configure the scheduling of the job by providing the database path to the XQuery,
+            for example:  <code>/db/my-collection/my-job.xq</code>. </para>
+          <para>XQuery job's are launched under the <emphasis>guest</emphasis> account. If you wish
+            to perform tasks as another user account, you can either switch permissions by calling
+              <code>xmldb:login()</code> from within your job, or by setting the
+              <emphasis>SetUID</emphasis> or <emphasis>SetGid</emphasis> bits on the XQuery's file
+            permissions. </para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term>Java Jobs</term>
         <listitem>
-          <para>Java jobs can be <code>startup</code>, <code>system</code> or <code>user</code> type
-            jobs.</para>
-          <para>A Java job invoked from the XQuery function module has to be extended from the
-              <code>org.exist.scheduler.UserJavaJob</code> class. A start-up or system Java job that
-            is invoked from the <code>conf.xml</code> file implements
-              <code>org.exist.storage.SystemTask</code>.</para>
+          <para>Jobs coded in Java can be <code>startup</code>, <code>system</code> or
+              <code>user</code> type jobs.</para>
+          <para>A Java job is just a class (available on eXist-db's classpath) which extends either
+              <code>org.exist.scheduler.UserJavaJob</code>, or
+              <code>org.exist.storage.SystemTask</code> for for start-up or system type jobs.</para>
 
-          <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="java" xlink:href="listings/listing-2.txt"/>
+          <programlisting language="java" xlink:href="listings/listing-2.txt"/>
         </listitem>
       </varlistentry>
     </variablelist>
-
-
   </sect1>
 
-  <!-- ================================================================== -->
-
   <sect1>
-    <title>Periodic Runs</title>
-
-    <para>A scheduled job can be run on a periodic basis. When the job is scheduled, you can specify
-      to run every <code>n</code> milliseconds. There is the additional option to start after
-        <code>x</code> milliseconds and to only be repeated <code>y</code> times after the initial
-      execution.</para>
-  </sect1>
-
-  <!-- ================================================================== -->
-
-  <sect1>
-    <title>Cron Tutorial</title>
-
-    <note>
-      <para>This section was copied from the OpenSymphony CronTriggers Tutorial.</para>
-    </note>
-
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
+    <title>Job Schedule</title>
+    <para>Job's may be scheduled using one of two mechanisms, a simple mechanism for periodic execution,
+      or a more complex mechanism which uses the Cron syntax to offer greater flexibility.</para>
     <sect2>
-      <title>Introduction</title>
-
-      <para><code>cron</code> is a UNIX tool that has been around for a long time, so its scheduling
-        capabilities are powerful and proven. The <code>CronTrigger</code> class is based on the
-        scheduling capabilities of <code>cron</code>. </para>
-      <para><code>CronTrigger</code> uses "<code>cron</code> expressions", which are able to create
-        firing schedules such as: "At 8:00am every Monday through Friday" or "At 1:30am every last
-        Friday of the month". </para>
-      <para><code>cron</code> expressions are powerful, but can be confusing. This tutorial aims to
-        take some of the mystery out of creating a <code>cron</code> expression, giving users a
-        resource which they can visit before having to ask in a forum or mailing list. </para>
+      <title>Periodic Scheduling</title>
+  
+      <para>Period scheduling enables you to simply specify execution of a job after a period. When
+        configuring the scheduled job, you can specify for the job to run every <code>n</code> milliseconds.
+        There are also additional options to specify a delay before the first execution of the job,
+        and to only repeat the execution of the job schedule a fixed number of times</para>
     </sect2>
-
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
+  
     <sect2>
-      <title>Format</title>
+      <title>Cron Scheduling</title>
+      <para>Cron scheduling enables you to specify the execution schedule of a job using the more complicated but flexible <link xlink:href="https://en.wikipedia.org/wiki/Cron">Cron</link> syntax.</para>
+      <note>
+        <para>This section was copied from the <link xlink:href="http://www.quartz-scheduler.org/documentation/quartz-2.x/tutorials/crontrigger.html">Quartz Cron Trigger Tutorial</link>.</para>
+      </note>
+  
+      <sect3>
+        <title>Introduction</title>
+  
+        <para><code>cron</code> is a UNIX tool that has been around for a long time, so its scheduling
+          capabilities are powerful and proven. The <code>CronTrigger</code> class is based on the
+          scheduling capabilities of <code>cron</code>. </para>
+        <para><code>CronTrigger</code> uses "<code>cron</code> expressions", which are able to create
+          firing schedules such as: "At 8:00am every Monday through Friday" or "At 1:30am every last
+          Friday of the month". </para>
+        <para><code>cron</code> expressions are powerful, but can be confusing. This tutorial aims to
+          take some of the mystery out of creating a <code>cron</code> expression, giving users a
+          resource which they can visit before having to ask in a forum or mailing list. </para>
+      </sect3>
+  
+      <sect3>
+        <title>Format</title>
+  
+        <para>A <code>cron</code> expression is a string comprised of 6 or 7 fields separated by white
+          space. Fields can contain any of the allowed values, along with various combinations of the
+          allowed special characters for that field. The fields are as follows: </para>
+        <informaltable>
+          <tgroup cols="4">
+            <colspec colwidth="25%"/>
+            <colspec colwidth="25%"/>
+            <colspec colwidth="30%"/>
+            <colspec colwidth="20%"/>
+            <tbody>
+              <row>
+                <entry>
+                  <para>Field Name</para>
+                </entry>
+                <entry>
+                  <para>Mandatory?</para>
+                </entry>
+                <entry>
+                  <para>Allowed Values</para>
+                </entry>
+                <entry>
+                  <para>Allowed Special Characters</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>Seconds</para>
+                </entry>
+                <entry>
+                  <para>YES</para>
+                </entry>
+                <entry>
+                  <para>0-59</para>
+                </entry>
+                <entry>
+                  <para>, - * /</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>Minutes</para>
+                </entry>
+                <entry>
+                  <para>YES</para>
+                </entry>
+                <entry>
+                  <para>0-59</para>
+                </entry>
+                <entry>
+                  <para>, - * /</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>Hours</para>
+                </entry>
+                <entry>
+                  <para>YES</para>
+                </entry>
+                <entry>
+                  <para>0-23</para>
+                </entry>
+                <entry>
+                  <para>, - * /</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>Day of month</para>
+                </entry>
+                <entry>
+                  <para>YES</para>
+                </entry>
+                <entry>
+                  <para>1-31</para>
+                </entry>
+                <entry>
+                  <para>, - * ? / L W</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>Month</para>
+                </entry>
+                <entry>
+                  <para>YES</para>
+                </entry>
+                <entry>
+                  <para>1-12 or JAN-DEC</para>
+                </entry>
+                <entry>
+                  <para>, - * /</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>Day of week</para>
+                </entry>
+                <entry>
+                  <para>YES</para>
+                </entry>
+                <entry>
+                  <para>1-7 or SUN-SAT</para>
+                </entry>
+                <entry>
+                  <para>, - * ? / L #</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>Year</para>
+                </entry>
+                <entry>
+                  <para>NO</para>
+                </entry>
+                <entry>
+                  <para>empty, 1970-2099</para>
+                </entry>
+                <entry>
+                  <para>, - * /</para>
+                </entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable>
+        <para>So <code>cron</code> expressions can be as simple as this: <code>* * * * ? *</code>
+        </para>
+        <para>Or more complex, like this: <code>0 0/5 14,18,3-39,52 ? JAN,MAR,SEP MON-FRI
+            2002-201</code>0 </para>
+      </sect3>
+  
+      <sect3>
+        <title>Special characters</title>
+  
+        <itemizedlist>
+          <listitem>
+            <para>
+              <code>*</code> ("all values") - used to select all values within a field. For example,
+              "*" in the minute field means "every minute". </para>
+          </listitem>
+          <listitem>
+            <para>
+              <code>?</code> ("no specific value") - useful when you need to specify something in one
+              of the two fields in which the character is allowed, but not the other. For example, if
+              I want my trigger to fire on a particular day of the month (say, the 10th), but don't
+              care what day of the week that happens to be, I would put "10" in the day-of-month
+              field, and "?" in the day-of-week field. See the examples below for clarification.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <code>-</code> - used to specify ranges. For example, "10-12" in the hour field means
+              "the hours 10, 11 and 12". </para>
+          </listitem>
+          <listitem>
+            <para>
+              <code>,</code> - used to specify additional values. For example, "MON,WED,FRI" in the
+              day-of-week field means "the days Monday, Wednesday, and Friday". </para>
+          </listitem>
+          <listitem>
+            <para>
+              <code>/</code> - used to specify increments. For example, "0/15" in the seconds field
+              means "the seconds 0, 15, 30, and 45". And "5/15" in the seconds field means "the
+              seconds 5, 20, 35, and 50". You can also specify '/' after the '' character - in this
+              case '' is equivalent to having '0' before the '/'. '1/3' in the day-of-month field
+              means "fire every 3 days starting on the first day of the month". </para>
+          </listitem>
+          <listitem>
+            <para>
+              <code>L</code> ("last") - has different meaning in each of the two fields in which it is
+              allowed. For example, the value "L" in the day-of-month field means "the last day of the
+              month" - day 31 for January, day 28 for February on non-leap years. If used in the
+              day-of-week field by itself, it simply means "7" or "SAT". But if used in the
+              day-of-week field after another value, it means "the last xxx day of the month" - for
+              example "6L" means "the last friday of the month". When using the 'L' option, it is
+              important not to specify lists, or ranges of values, as you'll get confusing results.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <code>W</code> ("weekday") - used to specify the weekday (Monday-Friday) nearest the
+              given day. As an example, if you were to specify "15W" as the value for the day-of-month
+              field, the meaning is: "the nearest weekday to the 15th of the month". So if the 15th is
+              a Saturday, the trigger will fire on Friday the 14th. If the 15th is a Sunday, the
+              trigger will fire on Monday the 16th. If the 15th is a Tuesday, then it will fire on
+              Tuesday the 15th. However if you specify "1W" as the value for day-of-month, and the 1st
+              is a Saturday, the trigger will fire on Monday the 3rd, as it will not 'jump' over the
+              boundary of a month's days. The 'W' character can only be specified when the
+              day-of-month is a single day, not a range or list of days. The 'L' and 'W' characters
+              can also be combined in the day-of-month field to yield 'LW', which translates to "last
+              weekday of the month". </para>
+          </listitem>
+          <listitem>
+            <para>
+              <code>#</code> - used to specify "the nth" XXX day of the month. For example, the value
+              of "6#3" in the day-of-week field means "the third Friday of the month" (day 6 = Friday
+              and "#3" = the 3rd one in the month). Other examples: "2#1" = the first Monday of the
+              month and "4#5" = the fifth Wednesday of the month. Note that if you specify "#5" and
+              there is not 5 of the given day-of-week in the month, then no firing will occur that
+              month. The legal characters and the names of months and days of the week are not case
+              sensitive. MON is the same as mon. </para>
+          </listitem>
+        </itemizedlist>
+      </sect3>
 
-      <para>A <code>cron</code> expression is a string comprised of 6 or 7 fields separated by white
-        space. Fields can contain any of the allowed values, along with various combinations of the
-        allowed special characters for that field. The fields are as follows: </para>
-      <informaltable>
-        <tgroup cols="4">
-          <colspec colwidth="25%"/>
-          <colspec colwidth="25%"/>
-          <colspec colwidth="30%"/>
-          <colspec colwidth="20%"/>
-          <tbody>
-            <row>
-              <entry>
-                <para>Field Name</para>
-              </entry>
-              <entry>
-                <para>Mandatory?</para>
-              </entry>
-              <entry>
-                <para>Allowed Values</para>
-              </entry>
-              <entry>
-                <para>Allowed Special Characters</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para>Seconds</para>
-              </entry>
-              <entry>
-                <para>YES</para>
-              </entry>
-              <entry>
-                <para>0-59</para>
-              </entry>
-              <entry>
-                <para>, - * /</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para>Minutes</para>
-              </entry>
-              <entry>
-                <para>YES</para>
-              </entry>
-              <entry>
-                <para>0-59</para>
-              </entry>
-              <entry>
-                <para>, - * /</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para>Hours</para>
-              </entry>
-              <entry>
-                <para>YES</para>
-              </entry>
-              <entry>
-                <para>0-23</para>
-              </entry>
-              <entry>
-                <para>, - * /</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para>Day of month</para>
-              </entry>
-              <entry>
-                <para>YES</para>
-              </entry>
-              <entry>
-                <para>1-31</para>
-              </entry>
-              <entry>
-                <para>, - * ? / L W</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para>Month</para>
-              </entry>
-              <entry>
-                <para>YES</para>
-              </entry>
-              <entry>
-                <para>1-12 or JAN-DEC</para>
-              </entry>
-              <entry>
-                <para>, - * /</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para>Day of week</para>
-              </entry>
-              <entry>
-                <para>YES</para>
-              </entry>
-              <entry>
-                <para>1-7 or SUN-SAT</para>
-              </entry>
-              <entry>
-                <para>, - * ? / L #</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para>Year</para>
-              </entry>
-              <entry>
-                <para>NO</para>
-              </entry>
-              <entry>
-                <para>empty, 1970-2099</para>
-              </entry>
-              <entry>
-                <para>, - * /</para>
-              </entry>
-            </row>
-          </tbody>
-        </tgroup>
-      </informaltable>
-      <para>So <code>cron</code> expressions can be as simple as this: <code>* * * * ? *</code>
-      </para>
-      <para>Or more complex, like this: <code>0 0/5 14,18,3-39,52 ? JAN,MAR,SEP MON-FRI
-          2002-201</code>0 </para>
-    </sect2>
-
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-    <sect2>
-      <title>Special characters</title>
-
-      <itemizedlist>
-        <listitem>
-          <para>
-            <code>*</code> ("all values") - used to select all values within a field. For example,
-            "*" in the minute field means "every minute". </para>
-        </listitem>
-        <listitem>
-          <para>
-            <code>?</code> ("no specific value") - useful when you need to specify something in one
-            of the two fields in which the character is allowed, but not the other. For example, if
-            I want my trigger to fire on a particular day of the month (say, the 10th), but don't
-            care what day of the week that happens to be, I would put "10" in the day-of-month
-            field, and "?" in the day-of-week field. See the examples below for clarification.
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-            <code>-</code> - used to specify ranges. For example, "10-12" in the hour field means
-            "the hours 10, 11 and 12". </para>
-        </listitem>
-        <listitem>
-          <para>
-            <code>,</code> - used to specify additional values. For example, "MON,WED,FRI" in the
-            day-of-week field means "the days Monday, Wednesday, and Friday". </para>
-        </listitem>
-        <listitem>
-          <para>
-            <code>/</code> - used to specify increments. For example, "0/15" in the seconds field
-            means "the seconds 0, 15, 30, and 45". And "5/15" in the seconds field means "the
-            seconds 5, 20, 35, and 50". You can also specify '/' after the '' character - in this
-            case '' is equivalent to having '0' before the '/'. '1/3' in the day-of-month field
-            means "fire every 3 days starting on the first day of the month". </para>
-        </listitem>
-        <listitem>
-          <para>
-            <code>L</code> ("last") - has different meaning in each of the two fields in which it is
-            allowed. For example, the value "L" in the day-of-month field means "the last day of the
-            month" - day 31 for January, day 28 for February on non-leap years. If used in the
-            day-of-week field by itself, it simply means "7" or "SAT". But if used in the
-            day-of-week field after another value, it means "the last xxx day of the month" - for
-            example "6L" means "the last friday of the month". When using the 'L' option, it is
-            important not to specify lists, or ranges of values, as you'll get confusing results.
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-            <code>W</code> ("weekday") - used to specify the weekday (Monday-Friday) nearest the
-            given day. As an example, if you were to specify "15W" as the value for the day-of-month
-            field, the meaning is: "the nearest weekday to the 15th of the month". So if the 15th is
-            a Saturday, the trigger will fire on Friday the 14th. If the 15th is a Sunday, the
-            trigger will fire on Monday the 16th. If the 15th is a Tuesday, then it will fire on
-            Tuesday the 15th. However if you specify "1W" as the value for day-of-month, and the 1st
-            is a Saturday, the trigger will fire on Monday the 3rd, as it will not 'jump' over the
-            boundary of a month's days. The 'W' character can only be specified when the
-            day-of-month is a single day, not a range or list of days. The 'L' and 'W' characters
-            can also be combined in the day-of-month field to yield 'LW', which translates to "last
-            weekday of the month". </para>
-        </listitem>
-        <listitem>
-          <para>
-            <code>#</code> - used to specify "the nth" XXX day of the month. For example, the value
-            of "6#3" in the day-of-week field means "the third Friday of the month" (day 6 = Friday
-            and "#3" = the 3rd one in the month). Other examples: "2#1" = the first Monday of the
-            month and "4#5" = the fifth Wednesday of the month. Note that if you specify "#5" and
-            there is not 5 of the given day-of-week in the month, then no firing will occur that
-            month. The legal characters and the names of months and days of the week are not case
-            sensitive. MON is the same as mon. </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-    <sect2>
-      <title>Examples</title>
-
-      <para>Here are some full examples:</para>
-      <informaltable>
-        <tgroup cols="2">
-          <colspec colwidth="30%"/>
-          <colspec colwidth="70%"/>
-          <tbody>
-            <row>
-              <entry>
-                <para>Expression</para>
-              </entry>
-              <entry>
-                <para>Meaning</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para><code>0 0 12 * * ? </code></para>
-              </entry>
-              <entry>
-                <para> Fire at 12pm (noon) every day </para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para><code>0 15 10 * * ?</code></para>
-              </entry>
-              <entry>
-                <para>Fire at 10:15am every day</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para><code>0 15 10 * * ? *</code></para>
-              </entry>
-              <entry>
-                <para>Fire at 10:15am every day</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para><code>0 15 10 * * ? 2005</code></para>
-              </entry>
-              <entry>
-                <para>Fire at 10:15am every day during the year 2005</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para><code>0 * 14 * * ?</code></para>
-              </entry>
-              <entry>
-                <para>Fire every minute starting at 2pm and ending at 2:59pm, every day</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para><code>0 0/5 14 * * ?</code></para>
-              </entry>
-              <entry>
-                <para>Fire every 5 minutes starting at 2pm and ending at 2:55pm, every day</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para><code>0 0/5 14,18 * * ?</code></para>
-              </entry>
-              <entry>
-                <para>Fire every 5 minutes starting at 2pm and ending at 2:55pm, AND fire every 5
-                  minutes starting at 6pm and ending at 6:55pm, every day</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para><code>0 0-5 14 * * ?</code></para>
-              </entry>
-              <entry>
-                <para>Fire every minute starting at 2pm and ending at 2:05pm, every day</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para><code>0 10,44 14 ? 3 WED</code></para>
-              </entry>
-              <entry>
-                <para>Fire at 2:10pm and at 2:44pm every Wednesday in the month of March.</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para><code>0 15 10 ? * MON-FRI</code></para>
-              </entry>
-              <entry>
-                <para>Fire at 10:15am every Monday, Tuesday, Wednesday, Thursday and Friday</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para><code>0 15 10 15 * ?</code></para>
-              </entry>
-              <entry>
-                <para>Fire at 10:15am on the 15th day of every month</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para><code>0 15 10 L * ?</code></para>
-              </entry>
-              <entry>
-                <para>Fire at 10:15am on the last day of every month</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para><code>0 15 10 ? * 6L</code></para>
-              </entry>
-              <entry>
-                <para>Fire at 10:15am on the last Friday of every month</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para><code>0 15 10 ? * 6L</code></para>
-              </entry>
-              <entry>
-                <para>Fire at 10:15am on the last Friday of every month</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para><code>0 15 10 ? * 6L 2002-2005</code></para>
-              </entry>
-              <entry>
-                <para>Fire at 10:15am on every last friday of every month during the years 2002,
-                  2003, 2004 and 2005</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para><code>0 15 10 ? * 6#3</code></para>
-              </entry>
-              <entry>
-                <para>Fire at 10:15am on the third Friday of every month</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para><code>0 0 12 1/5 * ?</code></para>
-              </entry>
-              <entry>
-                <para>Fire at 12pm (noon) every 5 days every month, starting on the first day of the
-                  month.</para>
-              </entry>
-            </row>
-            <row>
-              <entry>
-                <para><code>0 11 11 11 11 ?</code></para>
-              </entry>
-              <entry>
-                <para>Fire every November 11th at 11:11am.</para>
-              </entry>
-            </row>
-          </tbody>
-        </tgroup>
-      </informaltable>
-      <para>Pay attention to the effects of '?' and '*' in the day-of-week and day-of-month
-        fields!</para>
-    </sect2>
-
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-    <sect2>
-      <title>Notes</title>
-
-      <itemizedlist>
-        <listitem>
-          <para> Support for specifying both a day-of-week and a day-of-month value is not complete
-            (you must currently use the '?' character in one of these fields). </para>
-        </listitem>
-        <listitem>
-          <para> Be careful when setting fire times between mid-night and 1:00 AM - "daylight
-            savings" can cause a skip or a repeat depending on whether the time moves back or jumps
-            forward. </para>
-        </listitem>
-      </itemizedlist>
+      <sect3>
+        <title>Examples</title>
+  
+        <para>Here are some full examples:</para>
+        <informaltable>
+          <tgroup cols="2">
+            <colspec colwidth="30%"/>
+            <colspec colwidth="70%"/>
+            <tbody>
+              <row>
+                <entry>
+                  <para>Expression</para>
+                </entry>
+                <entry>
+                  <para>Meaning</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>0 0 12 * * ? </code></para>
+                </entry>
+                <entry>
+                  <para> Fire at 12pm (noon) every day </para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>0 15 10 * * ?</code></para>
+                </entry>
+                <entry>
+                  <para>Fire at 10:15am every day</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>0 15 10 * * ? *</code></para>
+                </entry>
+                <entry>
+                  <para>Fire at 10:15am every day</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>0 15 10 * * ? 2005</code></para>
+                </entry>
+                <entry>
+                  <para>Fire at 10:15am every day during the year 2005</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>0 * 14 * * ?</code></para>
+                </entry>
+                <entry>
+                  <para>Fire every minute starting at 2pm and ending at 2:59pm, every day</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>0 0/5 14 * * ?</code></para>
+                </entry>
+                <entry>
+                  <para>Fire every 5 minutes starting at 2pm and ending at 2:55pm, every day</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>0 0/5 14,18 * * ?</code></para>
+                </entry>
+                <entry>
+                  <para>Fire every 5 minutes starting at 2pm and ending at 2:55pm, AND fire every 5
+                    minutes starting at 6pm and ending at 6:55pm, every day</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>0 0-5 14 * * ?</code></para>
+                </entry>
+                <entry>
+                  <para>Fire every minute starting at 2pm and ending at 2:05pm, every day</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>0 10,44 14 ? 3 WED</code></para>
+                </entry>
+                <entry>
+                  <para>Fire at 2:10pm and at 2:44pm every Wednesday in the month of March.</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>0 15 10 ? * MON-FRI</code></para>
+                </entry>
+                <entry>
+                  <para>Fire at 10:15am every Monday, Tuesday, Wednesday, Thursday and Friday</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>0 15 10 15 * ?</code></para>
+                </entry>
+                <entry>
+                  <para>Fire at 10:15am on the 15th day of every month</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>0 15 10 L * ?</code></para>
+                </entry>
+                <entry>
+                  <para>Fire at 10:15am on the last day of every month</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>0 15 10 ? * 6L</code></para>
+                </entry>
+                <entry>
+                  <para>Fire at 10:15am on the last Friday of every month</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>0 15 10 ? * 6L</code></para>
+                </entry>
+                <entry>
+                  <para>Fire at 10:15am on the last Friday of every month</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>0 15 10 ? * 6L 2002-2005</code></para>
+                </entry>
+                <entry>
+                  <para>Fire at 10:15am on every last friday of every month during the years 2002,
+                    2003, 2004 and 2005</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>0 15 10 ? * 6#3</code></para>
+                </entry>
+                <entry>
+                  <para>Fire at 10:15am on the third Friday of every month</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>0 0 12 1/5 * ?</code></para>
+                </entry>
+                <entry>
+                  <para>Fire at 12pm (noon) every 5 days every month, starting on the first day of the
+                    month.</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para><code>0 11 11 11 11 ?</code></para>
+                </entry>
+                <entry>
+                  <para>Fire every November 11th at 11:11am.</para>
+                </entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable>
+        <para>Pay attention to the effects of '?' and '*' in the day-of-week and day-of-month
+          fields!</para>
+      </sect3>
+  
+      <sect3>
+        <title>Notes</title>
+  
+        <itemizedlist>
+          <listitem>
+            <para>Support for specifying both a day-of-week and a day-of-month value is not complete
+              (you must currently use the '?' character in one of these fields). </para>
+          </listitem>
+          <listitem>
+            <para>Be careful when setting fire times between mid-night and 1:00 AM - "daylight
+              savings" can cause a skip or a repeat depending on whether the time moves back or jumps
+              forward.</para>
+          </listitem>
+        </itemizedlist>
+      </sect3>
     </sect2>
   </sect1>
 </article>
