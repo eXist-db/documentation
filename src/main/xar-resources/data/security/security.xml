@@ -13,11 +13,14 @@
 
   <para>This article discusses eXist-db's security features and how to manage authentication, users,
     groups, passwords, permissions and access controls. </para>
-  <para>eXist-db's security infrastructure is built on a <link linkend="unix-model">Unix permissions model</link>, which we have
-    extended with <link linkend="ACLs">ACLs</link> (Access Control Lists). The security infrastructure is very flexible and
-    extensible, which enables the more advanced user, to provide custom <link linkend="authentication-realms">pluggable realms</link> to enable
-    different authentication models.</para>
-  <para>As well as the mechanisms described in this article, you should also note the presence of the <link xlink:href="http://www.exist-db.org/exist/apps/fundocs/view.html?uri=http://exist-db.org/xquery/scheduler&amp;location=java:org.exist.xquery.modules.scheduler.SchedulerModule&amp;details=true">Security Manager XQuery library module</link>, which enables you to perform many user and security related tasks programmatically from XQuery.</para>
+  <para>eXist-db's security infrastructure is built on a Unix permissions model (see <xref linkend="unix-model"/>), which we have extended with <xref linkend="ACLs"/>. The security
+    infrastructure is very flexible and extensible, which enables the more advanced user, to provide
+    custom <xref linkend="authentication-realms"/> to enable different authentication models.</para>
+  <para>As well as the mechanisms described in this article, you should also note the presence of
+    the <link xlink:href="http://www.exist-db.org/exist/apps/fundocs/view.html?uri=http://exist-db.org/xquery/securitymanager&amp;location=java:org.exist.xquery.functions.securitymanager.SecurityManagerModule&amp;details=true">Security Manager XQuery library module</link>, which enables you to perform many user and
+    security related tasks programmatically from XQuery.</para>
+
+  <!-- ================================================================== -->
 
   <sect1 xml:id="changing-admin-password">
     <title>Changing the Administrator Password</title>
@@ -26,16 +29,16 @@
         <code>admin</code> and <code>guest</code>. The <code>admin</code> user is a member of the
         <literal>dba</literal> group, and therefore has administrative privileges; the
         <code>guest</code> user is a member of the group <code>guest</code> and is not an
-      administrator, in fact it has the least priviledges.</para>
+      administrator, in fact it has the least privileges.</para>
     <para> At this point, the <code>admin</code> password is <emphasis>empty</emphasis>, and so
       access to the database is <emphasis>initially granted to everyone</emphasis>. </para>
     <para>To set restrictions on database access, first set a password for the <code>admin</code>
       user in one of the following ways: </para>
     <itemizedlist>
       <listitem>
-        <para>The <link xlink:href="java-admin-client">Java Admin Client</link> GUI has a dialog
-          box for user management. To open this dialog box, enter <guimenuitem>Ctrl-U</guimenuitem>
-          or select <guimenuitem>Tools, Edit Users</guimenuitem>:</para>
+        <para>The <link xlink:href="java-admin-client">Java Admin Client</link> GUI has a dialog box
+          for user management. To open this dialog box, enter <guimenuitem>Ctrl-U</guimenuitem> or
+          select <guimenuitem>Tools, Edit Users</guimenuitem>:</para>
         <informalfigure>
           <mediaobject>
             <imageobject>
@@ -57,9 +60,9 @@
         </orderedlist>
       </listitem>
       <listitem>
-        <para>In the <link xlink:href="{dashboard}" condition="_blank">User manager</link>'s <emphasis>User Manager</emphasis>, click on the
-          user account that you wish to edit and type its password twice. Confirm by clicking
-            <guimenuitem>save</guimenuitem>.</para>
+        <para>In the Dashboard's <link xlink:href="{dashboard}" condition="_blank">User
+            manager</link>, click on the user account that you wish to edit and type its password
+          twice. Confirm by clicking <guimenuitem>save</guimenuitem>.</para>
         <informalfigure>
           <mediaobject>
             <imageobject>
@@ -69,47 +72,85 @@
         </informalfigure>
       </listitem>
       <listitem>
-        <para>You can also set a new administrator password on the command line in the console mode
-          of the <link xlink:href="java-admin-client">Java Admin Client</link>. Enter the following
-          at the command prompt:</para>
+        <para>Set a new administrator password on the command line in the console mode of the <link xlink:href="java-admin-client">Java Admin Client</link>. Enter the following at the
+          command prompt:</para>
         <programlisting xlink:href="listings/listing-9.txt"/>
+      </listitem>
+      <listitem>
+        <para>Change the password programmatically, for instance from within eXide, by using the
+            <code>sm:passwd()</code> function of the <link xlink:href="http://www.exist-db.org/exist/apps/fundocs/view.html?uri=http://exist-db.org/xquery/securitymanager&amp;location=java:org.exist.xquery.functions.securitymanager.SecurityManagerModule&amp;details=true">Security Manager XQuery library module</link>.</para>
       </listitem>
     </itemizedlist>
 
-    <para>The other default user, <code>guest</code> has the default password <code>guest</code>.
+    <para>The other default user, <code>guest</code>, has the default password <code>guest</code>.
       The guest identity is internally assigned to all clients that have not authenticated
       themselves.</para>
   </sect1>
 
+  <!-- ================================================================== -->
+
   <sect1 xml:id="creating-users">
     <title>Creating Users</title>
 
-    <para>It is easy to create new users using the <link xlink:href="java-admin-client">Java Admin
-        Client</link>. In the <guimenuitem>Edit users</guimenuitem> dialog box, fill in the
-      username, password, and home collection fields. Assign a group (or groups) for the new user.
-      Finally, select <guimenuitem>Create User</guimenuitem>. The new user will appear in the list
-      of users in the top panel.</para>
-    <para>The console <code>adduser</code> command also allows you to create additional users. The
-      command asks for a password and a list of groups to which the user should belong. An example
-      is shown below:</para>
-    <programlisting xlink:href="listings/listing-12.txt"/>
-    <para>You can list all the users using the <literal>users</literal> command.</para>
+    <para>There are several ways to create new users:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Use the Dashboard's <link xlink:href="{dashboard}" condition="_blank">User
+            manager</link> to add a new user. Click on the big red <guimenuitem>+</guimenuitem>
+          button in the lower right-hand corner and fill in the dialog.</para>
+        <informalfigure>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="assets/usermanager2.png" width="50%"/>
+            </imageobject>
+          </mediaobject>
+        </informalfigure>
+      </listitem>
+
+      <listitem>
+        <para>Use the GUI of the <link xlink:href="java-admin-client">Java Admin Client</link>. In
+          the <guimenuitem>Edit users</guimenuitem> dialog box, fill in the username, password, and
+          home collection fields. Assign a group (or groups) for the new user. Finally, select
+            <guimenuitem>Create User</guimenuitem>. The new user will appear in the list of users in
+          the top panel.</para>
+      </listitem>
+      <listitem>
+        <para>The console <code>adduser</code> of the <link xlink:href="java-admin-client">Java
+            Admin Client</link> command also allows you to create additional users. The command asks
+          for a password and a list of groups to which the user should belong. An example is shown
+          below:</para>
+        <programlisting xlink:href="listings/listing-12.txt"/>
+        <para>You can list all the users using the <literal>users</literal> command.</para>
+      </listitem>
+      <listitem>
+        <para>Create a user programmatically, for instance from within eXide, by using the
+            <code>sm:create-account()</code> function of the <link xlink:href="http://www.exist-db.org/exist/apps/fundocs/view.html?uri=http://exist-db.org/xquery/securitymanager&amp;location=java:org.exist.xquery.functions.securitymanager.SecurityManagerModule&amp;details=true">Security Manager XQuery library module</link>.</para>
+      </listitem>
+    </itemizedlist>
+
+
   </sect1>
+
+  <!-- ================================================================== -->
 
   <sect1 xml:id="permissions">
     <title>Resource Permissions</title>
 
     <para>eXist-db supports both a Unix like permissions model and simple Access Control Lists. It
-      is important to understand the Unix permission model first. Access Control Lists can be useful
-      if the Unix Model is insufficient for your application.</para>
+      is important to understand the Unix permission model first. Access Control Lists are useful if
+      the Unix Model is insufficient for your application.</para>
 
     <sect2 xml:id="unix-model">
       <title>Unix Model</title>
 
       <para>The default that is based on the UNIX <emphasis role="bold">read</emphasis>, <emphasis role="bold">write</emphasis> and <emphasis role="bold">execute</emphasis> flags for
           <emphasis role="bold">owner</emphasis>, <emphasis role="bold">group</emphasis> and
-          <emphasis role="bold">world</emphasis>. (In versions prior to eXist-db 2.0, there was no
-          <emphasis role="bold">execute</emphasis> flag, rather an <emphasis role="bold">update</emphasis> flag was present.)</para>
+          <emphasis role="bold">world</emphasis>.</para>
+      <note>
+        <para>In versions prior to eXist-db 2.0, there was no <emphasis role="bold">execute</emphasis> flag, rather an <emphasis role="bold">update</emphasis> flag was
+          present.</para>
+      </note>
       <informalfigure>
         <mediaobject>
           <imageobject>
@@ -157,10 +198,11 @@
           </tbody>
         </tgroup>
       </informaltable>
+
       <note>
         <para>Be aware that permissions for collections are <emphasis>not</emphasis> inherited by
           their sub-collections: write permissions can be set for sub-collections, but you must also
-          have write permissions for the parent collection for these to be effective.</para>
+          have write permissions for the parent collection for these to be effective!</para>
       </note>
       <para>Using the <link xlink:href="java-admin-client">Java Admin Client</link> or its command
         line, you can list the permissions assigned to each resource (this assumes the
@@ -172,15 +214,54 @@
         the Unix <literal>ls -l</literal> command: a ten-character code.</para>
       <itemizedlist>
         <listitem>
-          <para> The first character represents the type of resource: <literal>-</literal> (hyphen)
-            for documents (files) and <literal>c</literal> for collections. </para>
+          <para> The first character represents the type of resource: </para>
+          <itemizedlist>
+            <listitem>
+              <para>
+                                <literal>-</literal> (hyphen) for documents</para>
+            </listitem>
+            <listitem>
+              <para>
+                                <literal>c</literal> for collections</para>
+            </listitem>
+          </itemizedlist>
         </listitem>
         <listitem>
-          <para>The next three characters are the permissions for the user: a <literal>-</literal>
-            (hyphen) is used for denied permissions, <literal>r</literal> for read,
-              <literal>w</literal> for write, <literal>x</literal> for execute,
-            <literal>S</literal> for set-uid, <literal>s</literal> for set-uid and execute,
-            <literal>T</literal> for sticky bit, and <literal>t</literal> for sticky bit and execute.</para>
+          <para>The next three characters are the permissions for the user:</para>
+          <itemizedlist>
+            <listitem>
+              <para>
+                                <literal>-</literal> (hyphen) for denied permissions</para>
+            </listitem>
+            <listitem>
+              <para>
+                                <literal>r</literal> for read</para>
+            </listitem>
+            <listitem>
+              <para>
+                                <literal>w</literal> for write</para>
+            </listitem>
+            <listitem>
+              <para>
+                                <literal>x</literal> for execute</para>
+            </listitem>
+            <listitem>
+              <para>
+                                <literal>S</literal> for set-uid</para>
+            </listitem>
+            <listitem>
+              <para>
+                                <literal>s</literal> for set-uid and execute</para>
+            </listitem>
+            <listitem>
+              <para>
+                                <literal>T</literal> for sticky bit</para>
+            </listitem>
+            <listitem>
+              <para>
+                                <literal>t</literal> for sticky bit and execute</para>
+            </listitem>
+          </itemizedlist>
         </listitem>
         <listitem>
           <para>The next three characters (five through seven) set the permissions for groups</para>
@@ -190,120 +271,100 @@
         </listitem>
       </itemizedlist>
 
-      <para>Given the previous example, we can see that all files except
-          <literal>r_and_j.xml</literal> are owned by user <code>admin</code> and group
-          <code>dba</code>.</para>
-      <para>As mentioned in the previous section, the database root collection
-          <literal>/db</literal> initially has its permissions set to <literal>drwxr-xr-x</literal>,
-        so full access is granted to everyone. </para>
+
+      <para>The database root collection <literal>/db</literal> initially has its permissions set to
+          <literal>drwxr-xr-x</literal>, so full access is granted to everyone. You might consider
+        changing this.</para>
       <para> Also note that the default setting for all newly created resources is
-          <literal>-rw-r--r--</literal>: the owner has read/write permissions, not execute, and the
+          <literal>-rw-r--r--</literal>: the owner has read/write permissions, not execute. The
         group and others (world) have read permissions only.</para>
 
       <sect3>
-        <title>Changing Resource Permissions</title>
+        <title>Changing Resource Permissions and Ownership</title>
 
-        <para>Permissions can be changed using either the <guimenuitem>Edit Properties</guimenuitem>
-          dialog box (shown below) in the <link xlink:href="java-admin-client">Java Admin
-            Client</link> or the <literal>chmod</literal> command in its shell window. </para>
-        <para>The <guimenuitem>Edit Properties</guimenuitem> dialog box is opened by selecting
-            <guimenuitem>Files, Resource Properties</guimenuitem> from the menu, or by clicking on
-          the <guimenuitem>Properties Icon</guimenuitem> (image with checkboxes) in the toolbar.
-          This dialog box shows the permission settings for all database users and groups.</para>
-        <informalfigure>
-          <mediaobject>
-            <imageobject>
-              <imagedata fileref="assets/client-6.png" width="50%"/>
-            </imageobject>
-          </mediaobject>
-        </informalfigure>
         <note>
           <para>Please note that only the owner of a resource or members of the
               <literal>dba</literal> group are allowed to change permissions. All other users who
             attempt to change these settings will receive an error message.</para>
         </note>
-        <para>On the command line, you can use the <literal>chmod</literal> command. This command
-          expects two parameters:</para>
-        <programlisting>chmod [resource] [user|group|other]=[+|-][read|write|execute][, ...]</programlisting>
-        <orderedlist>
-          <listitem>
-            <para>Name of a resource or collection</para>
-          </listitem>
-          <listitem>
-            <para>Read, write and execute permissions to set or remove (<literal>+</literal> or
-                <literal>-</literal> respectively, for the specified user, group, or other according
-              to the following syntax:</para>
-          </listitem>
-        </orderedlist>
 
-        <para>For example, to grant the write permission to the group and deny all to others:</para>
-        <programlisting>chmod hamlet.xml group=+write,other=-read,-execute,-write</programlisting>
-        <para>If you do not specify a resource in the first argument of the <literal>chmod</literal>
-          command, the permission string will be applied to the <emphasis>current
-            collection</emphasis>. This is an important feature if you want to change permissions
-          for the <literal>/db</literal> root collection. </para>
-        <para>For example, to deny write permissions to others for the entire database, change
-          directory to the root collection (enter <literal>cd /db</literal>) and enter:</para>
-        <programlisting>chmod other=-write</programlisting>
+        <para>To change permissions and/or ownership, use one of the following methods: </para>
+        <itemizedlist>
+          <listitem>
+            <para>Use the GUI of the .</para>
+          </listitem>
+          <listitem>
+            <para>The command line of the <link xlink:href="java-admin-client">Java Admin
+                Client</link>:</para>
+            <programlisting>chmod [resource] [user|group|other]=[+|-][read|write|execute][, ...]</programlisting>
+            <programlisting>chown [user] [group] [resource]</programlisting>
+            <para>If you do not specify a resource in the first argument of the
+                <literal>chmod</literal> command, the permission string will be applied to the
+                <emphasis>current collection</emphasis>. This is an important feature if you want to
+              change permissions for the <literal>/db</literal> root collection. </para>
+            <para>For example, to deny write permissions to others for the entire database, change
+              directory to the root collection (enter <literal>cd /db</literal>) and enter:</para>
+            <programlisting>chmod other=-write</programlisting>
+          </listitem>
+          <listitem>
+            <para>Use the GUI interface of the Dashboard's <link xlink:href="{dashboard}" condition="_blank">User manager</link>
+                        </para>
+          </listitem>
+          <listitem>
+            <para>Do it programmatically, for instance from within eXide, by using the one of the
+              functions of the <link xlink:href="http://www.exist-db.org/exist/apps/fundocs/view.html?uri=http://exist-db.org/xquery/securitymanager&amp;location=java:org.exist.xquery.functions.securitymanager.SecurityManagerModule&amp;details=true">Security Manager XQuery library module</link>.</para>
+          </listitem>
+        </itemizedlist>
       </sect3>
 
-      <sect3>
-        <title>Changing Resource Ownership</title>
-
-        <para>Only the owner has full control over a resource. The <link xlink:href="java-admin-client">Java Admin Client</link> provides the
-            <literal>chown</literal> command to change ownership. The command expects three
-          arguments:</para>
-        <programlisting>chown [user] [group] [resource]</programlisting>
-        <orderedlist>
-          <listitem>
-            <para>Name of the user.</para>
-          </listitem>
-          <listitem>
-            <para>Name of the group.</para>
-          </listitem>
-          <listitem>
-            <para>Name of the resource.</para>
-          </listitem>
-        </orderedlist>
-
-        <para>For example, to change the owner of the file <literal>r_and_j.xml</literal>:</para>
-        <programlisting xlink:href="listings/listing-18.txt"/>
-      </sect3>
     </sect2>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
     <sect2 xml:id="ACLs">
       <title>Access Control Lists (ACL)</title>
 
-      <para>ACL's complement the <link linkend="unix-model">Unix permission model</link> implemented by eXist-db. When ACL's are exmployed, the ACL is always evaluated first, and if no match is found, the Unix permission model is then evaluated.</para>
-      <para>An ACL is a list of ACEs (Access Control Entrys). When an ACL is evaluated, the list of ACE's are evaluated from top to bottom. Each ACE allows you to grant or deny additional permissions
-        to a Collection or Document for a user or group. Each ACE has 3 permission bits: <literal>r</literal> for read, <literal>w</literal> for write, and <literal>x</literal> for execute.</para>
-        
-        <para>ACL's are perhaps best illustrated by an example, consider the following document <literal>somedoc.xml</literal> which has the following permissions:
-          <example>
-            <title>Example ACL in the Java Admin Client</title>
-            <informalfigure>
-              <mediaobject>
-                <imageobject>
-                  <imagedata fileref="assets/client-7.png" width="50%"/>
-                </imageobject>
-              </mediaobject>
-            </informalfigure>
-          </example>
-          In this example, the document <literal>somedoc.xml</literal> is owned by <literal>fred</literal>. However our ACL has three ACEs which:
-          <itemizedlist>
-            <listitem>
-              <para>Deny the user <literal>bob</literal> read and write to the document (even though he is an editor). We won't pontificate about why <literal>bob</literal> is in disgrace with his fellow editors.</para>
-            </listitem>
-            <listitem>
-              <para>Allow the group <literal>editors</literal> read and write access to the document.</para>
-            </listitem>
-            <listitem>
-              <para>Allow the group <literal>reviewers</literal> read only access to the document.</para>
-            </listitem>
-          </itemizedlist>
-          To recap, because the ACL is evaluated from top-to-bottom, even though <literal>bob</literal> is in the <literal>editors</literal> group and editors are allowed read and write access to the document, there is an earlier rule which prohibits access for just <literal>bob</literal>.
-        </para>
-       <para>More information about ACLs is available as <link xlink:href="http://www.adamretter.org.uk/presentations/security-in-existdb_xml-prague_existdb_20120210.pdf" condition="_blank">slides</link> (PDF) and a presentation on <link xlink:href="http://www.youtube.com/watch?v=Z_Dryy9DtVo" condition="_blank">YouTube</link>.</para>
+      <para>ACL's complement the <xref linkend="unix-model"/> implemented by eXist-db. When ACL's
+        are employed these are evaluated first. If no match is found, the Unix permission model is
+        evaluated.</para>
+      <para>An ACL is a list of ACEs (Access Control Entries). When an ACL is evaluated, the list of
+        ACE's are evaluated from top to bottom. Each ACE allows you to grant or deny additional
+        permissions to a collection or document for a user or group. Each ACE has 3 permission bits:
+          <literal>r</literal> for read, <literal>w</literal> for write, and <literal>x</literal>
+        for execute.</para>
+
+      <para>ACL's are perhaps best illustrated by an example, consider the following document
+          <literal>somedoc.xml</literal> which has the following permissions: </para>
+
+      <informalfigure>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="assets/client-7.png" width="50%"/>
+          </imageobject>
+        </mediaobject>
+      </informalfigure>
+
+      <para> In this example, the document <literal>somedoc.xml</literal> is owned by
+          <literal>fred</literal>. However our ACL has three ACEs which: </para>
+      <itemizedlist>
+        <listitem>
+          <para>Deny the user <literal>bob</literal> read and write to the document (even though he
+            is an editor) (we won't pontificate about why <literal>Bob</literal> is in disgrace with
+            his fellow editors…).</para>
+        </listitem>
+        <listitem>
+          <para>Allow the group <literal>editors</literal> read and write access to the
+            document.</para>
+        </listitem>
+        <listitem>
+          <para>Allow the group <literal>reviewers</literal> read only access to the
+            document.</para>
+        </listitem>
+      </itemizedlist>
+      <para>Because the ACL is evaluated from top-to-bottom, even though <literal>bob</literal> is
+        in the <literal>editors</literal> group and editors are allowed read and write access to the
+        document, there is an earlier rule which prohibits access for just <literal>bob</literal>. </para>
+      <para>More information about ACLs is available as <link xlink:href="http://www.adamretter.org.uk/presentations/security-in-existdb_xml-prague_existdb_20120210.pdf" condition="_blank">slides</link> (PDF) and a presentation on <link xlink:href="http://www.youtube.com/watch?v=Z_Dryy9DtVo" condition="_blank">YouTube</link>.</para>
     </sect2>
   </sect1>
 
@@ -366,12 +427,12 @@
             </entry>
             <entry>
               <para>
-                  <code>-wx</code>
+                <code>-wx</code>
               </para>
             </entry>
             <entry>
               <para>
-                  <code>---</code>
+                <code>---</code>
               </para>
             </entry>
           </row>
@@ -381,12 +442,12 @@
             </entry>
             <entry>
               <para>
-                  <code>-wx</code>
+                <code>-wx</code>
               </para>
             </entry>
             <entry>
               <para>
-                  <code>---</code>
+                <code>---</code>
               </para>
             </entry>
           </row>
@@ -396,13 +457,12 @@
             </entry>
             <entry>
               <para>
-                  <code>--x</code>
+                <code>--x</code>
               </para>
             </entry>
             <entry>
               <para>
-                <code>-w-</code> (or owner)
-              </para>
+                <code>-w-</code> (or owner) </para>
             </entry>
           </row>
         </tbody>
@@ -437,12 +497,12 @@
             </entry>
             <entry>
               <para>
-                  <code>--x</code>
+                <code>--x</code>
               </para>
             </entry>
             <entry>
               <para>
-                  <code>r--</code>
+                <code>r--</code>
               </para>
             </entry>
             <entry>
@@ -451,7 +511,7 @@
             </entry>
             <entry>
               <para>
-                  <code>-w-</code>
+                <code>-w-</code>
               </para>
             </entry>
           </row>
@@ -461,22 +521,21 @@
             </entry>
             <entry>
               <para>
-                  <code>-wx</code>
+                <code>-wx</code>
               </para>
             </entry>
             <entry>
               <para>
-                <code>--x</code> (or owner)
+                <code>--x</code> (or owner) </para>
+            </entry>
+            <entry>
+              <para>
+                <code>-wx</code>
               </para>
             </entry>
             <entry>
               <para>
-                  <code>-wx</code>
-              </para>
-            </entry>
-            <entry>
-              <para>
-                  <code>-w-</code>
+                <code>-w-</code>
               </para>
             </entry>
           </row>
@@ -492,7 +551,6 @@
         <colspec colname="c3"/>
         <colspec colname="c4"/>
         <colspec colname="c5"/>
-        <colspec colname="c6"/>
         <thead>
           <row>
             <entry>
@@ -519,22 +577,22 @@
             </entry>
             <entry>
               <para>
-                  <code>---</code>
+                <code>---</code>
               </para>
             </entry>
             <entry>
               <para>
-                  <code>---</code>
+                <code>---</code>
               </para>
             </entry>
             <entry>
               <para>
-                  <code>-wx</code>
+                <code>-wx</code>
               </para>
             </entry>
             <entry>
               <para>
-                  <code>---</code>
+                <code>---</code>
               </para>
             </entry>
           </row>
@@ -544,22 +602,21 @@
             </entry>
             <entry>
               <para>
-                  <code>-wx</code>
+                <code>-wx</code>
               </para>
             </entry>
             <entry>
               <para>
-                <code>rwx</code> (and on all sub-collections)
+                <code>rwx</code> (and on all sub-collections) </para>
+            </entry>
+            <entry>
+              <para>
+                <code>---</code>
               </para>
             </entry>
             <entry>
               <para>
-                  <code>---</code>
-              </para>
-            </entry>
-            <entry>
-              <para>
-                  <code>---</code>
+                <code>---</code>
               </para>
             </entry>
           </row>
@@ -569,22 +626,22 @@
             </entry>
             <entry>
               <para>
-                  <code>---</code>
+                <code>---</code>
               </para>
             </entry>
             <entry>
               <para>
-                  <code>r-x</code>
+                <code>r-x</code>
               </para>
             </entry>
             <entry>
               <para>
-                  <code>---</code>
+                <code>---</code>
               </para>
             </entry>
             <entry>
               <para>
-                  <code>---</code>
+                <code>---</code>
               </para>
             </entry>
           </row>
@@ -594,22 +651,23 @@
             </entry>
             <entry>
               <para>
-                  <code>-wx</code>
+                <code>-wx</code>
               </para>
             </entry>
             <entry>
               <para>
-                  <code>-w-</code>
+                <code>-w-</code>
               </para>
             </entry>
             <entry>
               <para>
-                  <code>---</code>
+                <code>---</code>
               </para>
             </entry>
             <entry>
               <para>
-                <code>-wx</code> (When replacing an existing collection, then the permissions for removing that collection must be met first).</para>
+                <code>-wx</code> (When replacing an existing collection, permissions for removing
+                that collection must be met first).</para>
             </entry>
           </row>
         </tbody>
@@ -619,7 +677,7 @@
       resource.</para>
     <para>Copying a sub-collection requires <emphasis>r-x</emphasis> on the sub-collection and
         <emphasis>rwx</emphasis> on the destination collection. If the sub-collection already exists
-      in the destination then <emphasis>r-x</emphasis> is required on that.</para>
+      in the destination <emphasis>r-x</emphasis> is required on that.</para>
     <para>Copying resources from a collection requires <emphasis>r--</emphasis> on the resource, and
         <emphasis>-w-</emphasis> on the destination resource if it exists, otherwise
         <emphasis>-w-</emphasis> on the destination collection.</para>
@@ -627,97 +685,98 @@
 
   <sect1 xml:id="security-manager">
     <title>The Security Manager</title>
-    
+
     <para>eXist-db has a central Security Manager which is configured in the file
-      <literal>/db/system/security/config.xml</literal>. This document, which is generated during
-      database start-up, defines what authentication realms are available to the Security
-      Manager.</para>
+        <literal>/db/system/security/config.xml</literal>. This document, which is generated during
+      database start-up, defines what authentication <emphasis>realms</emphasis> are available to
+      the Security Manager.</para>
     <para>For example, this Security Manager configuration file defines a URL for
       authentication:</para>
     <programlisting language="xml" xlink:href="listings/listing-1.xml"/>
-    
+
     <para>The Security Manager also features an authentication event listener that you can configure
       to call a custom XQuery module on each authentication event. For example, this configuration
-      file would pass authentication events to module <literal>/db/security-events.xq</literal>,
-      which performs actions when an authentication event occurs:</para>
+      file would pass authentication events to module
+      <literal>/db/security-events.xq</literal>:</para>
     <programlisting language="xml" xlink:href="listings/listing-2.txt"/>
-    
+
     <para>The XQuery module that receives the authentication events must be a library module in the
-      <literal>http://exist-db.org/security/events</literal> namespace. It must have a function
-      <literal>authentication()</literal>. This example sends a log message to the console:</para>
+        <literal>http://exist-db.org/security/events</literal> namespace. It must have a function
+        <literal>authentication()</literal>. This example sends a log message to the console:</para>
     <programlisting language="xquery" xlink:href="listings/listing-3.txt"/>
-    
-    
+
+
     <sect2 xml:id="authentication-realms">
       <title>Authentication Realms</title>
-      
+
       <para>eXist-db always has an internal authentication realm. It also supports multiple external
         authentication realms. This allows you to add one or more external realms which provide user
         and group authentication.</para>
-      
+
       <sect3 xml:id="default-internal-realm">
         <title>Default Internal Realm</title>
-        
+
         <para>The "eXist-db realm" is the default internal realm. By default this realm handles the
-          <code>SYSTEM</code>, <code>admin</code> and <code>guest</code> users and <code>DBA</code>
-          and <code>guest</code> groups. Any additional users or groups created in eXist-db will be
-          added to this realm.</para>
+            <code>SYSTEM</code>, <code>admin</code> and <code>guest</code> users and the
+            <code>DBA</code> and <code>guest</code> groups. Any additional users or groups created
+          in eXist-db are added to this realm.</para>
         <para>Every eXist-db realm user has an account with a username, password and other metadata,
-          that is stored in the database. Each user can belong to zero or more groups. This user and
-          group information for the eXist-db realm is maintained in the collection
-          <literal>/db/system/security/exist</literal>.</para>
-        
+          stored in the database. This user information for the eXist-db realm is maintained in the
+          collection <literal>/db/system/security/exist</literal>.</para>
+
         <important>
           <para>The security collections in <code>/db/system/security</code> should
-            <emphasis>not</emphasis> be directly manipulated or accessed. They should only be accessed via the
-            <code>SecurityManager</code> class or the <code>SecurityManager</code> XQuery library module. Direct
-            manipulation can lead to inconsistent state and security issues.</para>
+              <emphasis>not</emphasis> be manipulated or accessed directly . Only access this
+            information through the <code>SecurityManager</code> class or the
+              <code>SecurityManager</code> XQuery library module. Direct manipulation may lead to
+            inconsistent state and security issues.</para>
         </important>
-        
-        <para>The following is a sample user account document for <literal>aretter</literal> in the eXist-db
-          realm:</para>
+
+        <para>The following is a sample user account document for <literal>aretter</literal> in the
+          eXist-db realm:</para>
         <programlisting language="xml" xlink:href="listings/listing-4.xml"/>
-        
-        <para>As you can see, eXist-db does not store passwords in the clear. It stores hashed values
-          of the passwords (in base64 encoding). For this eXist-db uses the
-          <emphasis>RIPEMD-160</emphasis> cryptographic hashing algorithm. </para>
+
+        <para>As you can see, eXist-db does not store passwords in the clear. It stores hashed
+          values of the passwords (in base64 encoding), using the <emphasis>RIPEMD-160</emphasis>
+          cryptographic hashing algorithm. </para>
         <para>Whenever a user supplies account credentials for authentication, the database applies
-          RIPEMD-160 hash to the supplied password and compares it to the hash stored in the user's
-          account document. Storing hashes of passwords is a best practice in security that provides a
-          strong layer of security compared to storing passwords in the clear. The notion is that even
-          if the hashed password is exposed to an attacker, it is too difficult to derive the original
-          password from the hash.</para>
+          RIPEMD-160 hash to the password and compares it to the hash stored in the user's account
+          document. Storing hashes of passwords is a best practice in security that provides a
+          strong layer of security compared to storing passwords in the clear. The notion is that
+          even if the hashed password is exposed to an attacker, it is too difficult to derive the
+          original password from the hash.</para>
         <para>Note that the <literal>/db/system/security</literal> collection is (by default) only
           readable and writable by the system or users in the <literal>dba</literal> group. The
-          <literal>dba</literal> group is reserved for database administrators, and only
-          <literal>dba</literal> users are allowed to create, remove or modify other users.</para>
+            <literal>dba</literal> group is reserved for database administrators, and only
+            <literal>dba</literal> users are allowed to create, remove or modify other users.</para>
       </sect3>
-      
+
       <sect3 xml:id="ldap-realm">
         <title>LDAP Realm</title>
-        
-        <para>The LDAP Realm is enabled by default in the build configuration file <literal>extensions/build.properties</literal>,
-          setting <literal>include.feature.security.ldap</literal> to <literal>true</literal>. To use
-          the LDAP realm, add an LDAP realm element to the file <literal>/db/system/security/config.xml</literal>. For example:</para>
+
+        <para>The LDAP Realm is enabled by default in the build configuration file
+            <literal>extensions/build.properties</literal>
+            (<literal>include.feature.security.ldap</literal> property). To use the LDAP realm, add
+          an LDAP realm element to <literal>/db/system/security/config.xml</literal>. For
+          example:</para>
         <programlisting language="xml" xlink:href="listings/listing-5.xml"/>
-        
-        <para>Explanation of the elements used:</para>
+
         <itemizedlist>
           <listitem>
-            <para>The <tag>default-username</tag> and <tag>default-password</tag> elements are used to
-              communicate with the LDAP server if a non-LDAP user requests information from LDAP
+            <para>The <tag>default-username</tag> and <tag>default-password</tag> elements are used
+              to communicate with the LDAP server if a non-LDAP user requests information from LDAP
               server.</para>
           </listitem>
           <listitem>
             <para>The <tag>search-*</tag> elements are mapping for names.</para>
           </listitem>
           <listitem>
-            <para>The <tag>metadata-search-attribute</tag> elements are used for mapping LDAP account
-              metadata onto eXist-db account metadata.</para>
+            <para>The <tag>metadata-search-attribute</tag> elements are used for mapping LDAP
+              account metadata onto eXist-db account metadata.</para>
           </listitem>
           <listitem>
-            <para>The <tag>whitelist</tag> element contains the allowed groups for authentication. The
-              <tag>blacklist</tag> element contains groups that are not allowed.</para>
+            <para>The <tag>whitelist</tag> element contains the allowed groups for authentication.
+              The <tag>blacklist</tag> element contains groups that are not allowed.</para>
           </listitem>
           <listitem>
             <para>The <tag>transformation</tag> element contains actions to be performed after first
@@ -725,26 +784,25 @@
           </listitem>
         </itemizedlist>
       </sect3>
-      
+
       <sect3 xml:id="oauth-realm">
         <title>OAuth Realm</title>
-        
-        <para>Due to the variation in implementations across OAuth providers, eXist-db developers have
-          to create provider-specific Java libraries. eXist-db currently supports only Facebook and
-          Google for OAuth authentication (see <link xlink:href="http://developers.facebook.com/docs/authentication/" condition="_blank">Facebook Authentication</link> and <link xlink:href="https://developers.google.com/accounts/docs/OAuth2" condition="_blank">Google's OAuth documentation</link>.</para>
-        <para>The OAuth Realm is not enabled by default. To enable the OAuth realm, set the
-          <literal>include.feature.security.oauth</literal> property to <literal>true</literal> in the file 
-          <literal>extensions/local.build.properties</literal> and <link xlink:href="exist-building">rebuild eXist-db</link>. Then edit <code>web.xml</code> and
-          <code>controller-config.xml</code> to enable <code>OAuthServlet</code>. After restarting
-          eXist-db, add a <tag>realm</tag> element for OAuth to
-          <literal>/db/system/security/config.xml</literal>. For example:</para>
+
+        <para>Due to the variation in implementations across OAuth providers, provider-specific Java
+          libraries are necessary. eXist-db currently supports only Facebook and Google for OAuth
+          authentication (see <link xlink:href="http://developers.facebook.com/docs/authentication/" condition="_blank">Facebook Authentication</link> and <link xlink:href="https://developers.google.com/accounts/docs/OAuth2" condition="_blank">Google's OAuth documentation</link>.</para>
+        <para>The OAuth Realm is not enabled by default. To enable it, set the
+            <literal>include.feature.security.oauth</literal> property to <literal>true</literal> in
+            <literal>extensions/local.build.properties</literal>. Then <link xlink:href="exist-building">rebuild eXist-db</link>. After this, edit
+            <code>web.xml</code> and <code>controller-config.xml</code> to enable the
+            <code>OAuthServlet</code>. After restarting eXist-db, add a <tag>realm</tag> element for
+          OAuth to <literal>/db/system/security/config.xml</literal>. For example:</para>
         <programlisting language="xml" xlink:href="listings/listing-6.xml"/>
-        
-        <para>Explanation of these elements:</para>
+
         <itemizedlist>
           <listitem>
             <para>Valid values for the service element's <code>provider</code> attribute are
-              <code>facebook</code> and <code>google</code>. </para>
+                <code>facebook</code> and <code>google</code>. </para>
           </listitem>
           <listitem>
             <para>The <code>name</code> attribute must be a unique name for the application.</para>
@@ -753,30 +811,32 @@
           </listitem>
         </itemizedlist>
       </sect3>
-      
+
       <sect3 xml:id="openid-realm">
         <title>OpenID Realm</title>
-        
+
         <para>
-          <link xlink:href="http://openid.net/" condition="_blank">OpenID</link> is an authentication mechanism where the identity of the
-          user is maintained by trusted external providers. This takes the burden in maintaining and
-          securing passwords for users off of the eXist-db database and on to the Identity Provider
-          (IdP). </para>
-        <para> By default, the OpenID service is not built and therefore not enabled. To recompile the
-          source with OpenID enabled, edit the file <code>local.build.properties</code> in the <literal>extensions</literal>
-          directory and change the <code>include.feature.security.openid</code> property from <literal>false</literal> to
-          <literal>true</literal>. Then <link xlink:href="exist-building">rebuild eXist-db</link>.</para>
-        
-        <programlisting xlink:href="listings/listing-7.txt"/>
+          <link xlink:href="http://openid.net/" condition="_blank">OpenID</link> is an
+          authentication mechanism where the identity of the user is maintained by trusted external
+          providers. This takes the burden in maintaining and securing passwords for users from the
+          eXist-db database to the Identity Provider (IdP). </para>
+        <para> By default, the OpenID service is not built and therefore not enabled. To recompile
+          the source with OpenID enabled, edit the file <code>local.build.properties</code> in the
+            <literal>extensions</literal> directory and change the
+            <code>include.feature.security.openid</code> property from <literal>false</literal> to
+            <literal>true</literal>. Then <link xlink:href="exist-building">rebuild
+          eXist-db</link>.</para>
         <para> This extension compiles into <code>lib/extensions/exist-security-openid.jar</code>.
           Running eXist-db with that <code>.jar</code> should enable the extension. To disable the
-          service remove the <code>.jar</code> and restart eXist-db.</para>
+          service, remove the <code>.jar</code> and restart eXist-db.</para>
       </sect3>
-      
-    </sect2>
-    
-  </sect1>
 
+    </sect2>
+
+  </sect1>
+  
+  <!-- ================================================================== -->
+  
   <sect1 xml:id="legacy-internal-realm">
     <title>Legacy Internal Realm</title>
 
