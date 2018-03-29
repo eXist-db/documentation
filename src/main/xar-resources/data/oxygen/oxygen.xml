@@ -20,7 +20,7 @@
 
     <para>
       <link xlink:href="http://oxygenxml.com/" condition="_blank">oXygen XML Editor</link> is a powerful
-      IDE for working with XNML in general but also with eXist-db. Its eXist-db specific capabilities include:</para>
+      IDE for working with XML in general but also with eXist-db. Its eXist-db specific capabilities include:</para>
     <itemizedlist>
       <listitem>
         <para>Browsing eXist-db database contents</para>
@@ -42,20 +42,28 @@
 
   <sect1 xml:id="setup">
     <title>How to tell oXygen about your eXist-db installation</title>
-
+    <note>
+      <para>Please also check the oXygen documentation for your version of oXygen</para>
+    </note>
     <para>To tap into eXist-db via oXygen, you must tell oXygen a bit about your eXist-db installation. First, we need to create an entry for eXist-db
       in oXygen's list of <emphasis>Data Sources</emphasis>. Then we need to create an entry in its list of Data Connections; this involves providing
       oXygen with a URL and account information for your eXist-db instance.</para>
     <orderedlist>
       <listitem>
-        <para>In oXygen, go to <guimenuitem>Preferences, Data Sources</guimenuitem>, and you will see a window with two areas: Data Sources (at the
+        <para>In oXygen, go to <guimenuitem>Preferences > Data Sources</guimenuitem>, and you will see a window with two areas: Data Sources (at the
           top) and Connections (at the bottom). </para>
       </listitem>
       <listitem>
-        <para>Click the <guimenuitem>Create eXist-db XML connection</guimenuitem> link at the top.</para>
+        <para>Click the <guimenuitem>Create eXist-db XML connection</guimenuitem> link at the top.
+        <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="assets/oxygen_v20_conn-wiz.png"/>
+          </imageobject>
+        </inlinemediaobject>
+      </para>
       </listitem>
       <listitem>
-        <para>Fill in the dialog (for a default installation you'll only to change the user to <code>admin</code> and fill in its password)</para>
+        <para>Fill in the dialog (for a default installation. You'll only need to change the user to <code>admin</code> and fill in its password)</para>
       </listitem>
       <listitem>
         <para>Click <guimenuitem>ok</guimenuitem> on all subsequent dialogs (if any). This will create both a Data Source and Connection for
