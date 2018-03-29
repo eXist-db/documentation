@@ -125,7 +125,7 @@
   <sect1>
     <title>Deploying in a Servlet Container</title>
 
-    <para>The standard distribution by default launches eXist-db as a web application deployed in a <link xlink:href="http://jetty.mortbay.org/" condition="_blank">Jetty</link> servlet container.</para>
+    <para>The standard distribution by default launches eXist-db as a web application deployed in a <link xlink:href="http://eclipse.org/jetty/" condition="_blank">Jetty</link> servlet container.</para>
     <para>The Jetty configuration can be found in <literal>tools/jetty/webapps/exist-webapp-context.xml</literal>. It defines a single web application context value <literal>&lt;Set name="contextPath"&gt;/exist&lt;/Set&gt;</literal>, mapped to the <literal>webapp</literal> directory. This value can be set to either <literal>/exist</literal> or <literal>/</literal>. Users modifying this value should subsequently remove the <literal>portal</literal> folder at <literal> /tools/jetty/webapps</literal>, which contains the default exist-db splashscreen displayed during certain redirects.</para>
     <para>Jetty is small, efficient and stable, so there is no need to switch to a different servlet engine unless your server setup requires this.
       However, it is not difficult to deploy eXist in a different servlet container, e.g. Apache's Tomcat.</para>

@@ -15,8 +15,7 @@
 
   <para>eXist-db offers support for the W3C XForms standard. It offers both a client-side (<link xlink:href="http://www.agencexml.com" condition="_blank">XSLTForms</link>) and a server-side (<link xlink:href="http://www.betterform.de" condition="_blank">betterFORM</link>) implementation.
     With this it is fully equipped to build complete applications that use XML from front to back.
-    However, eXist-db will also work with other XForms processors, such as Orbeon or Chiba (the
-    ancestor of betterFORM).</para>
+    However, eXist-db will also work with other XForms processors, such as Orbeon or betterFORM.</para>
   <para>As eXist-db also has native support for RESTful interactions, saving XML data is as easy as
     using a HTTP PUT submission. For more complex tasks, you can submit your XForms instances to an
     XQuery, post-process them and get the results back into your form. Several examples are referred
@@ -44,7 +43,8 @@
 
     <sect2>
       <title>Getting started</title>
-
+      <important><para>Warning: the following information is subject to change for eXist-db 5.0 when betterFORM will likely not be available by
+      default any more</para></important>
       <para>betterFORM is activated once you have installed eXist-db on your machine. By default
         betterFORM is configured to run XForms exclusively from the database.</para>
       <para>To execute an XHTML/XForms document it is sufficient to store it into your database
@@ -71,7 +71,6 @@
         a navigation menu with links to many sample XForms that show working examples along with
         relevant links to the XForms Spec. A live CSS reference helps with styling forms by showing
         all available CSS classes.</para>
-
     </sect2>
   </sect1>
 
@@ -155,6 +154,14 @@
         <para>Change the value of the property <literal>filter.ignoreResponseBody</literal> to
             <literal>true</literal> and restart eXist-db. </para>
       </listitem>
+            <listitem>
+                    <para>By removing the configuration for XFormsFilter in <literal>$EXIST_HOME/webapp/WEB-INF/web.xml</literal>. By commenting
+                            the filter-mapping XForms processing will be disabled. However note that betterFORM still get loaded on the classpath.</para>
+            </listitem>
+        <listitem>
+          <para>To fully remove betterFORM from your eXist-db binary, you have to comment the line <code>include.feature.betterform = true
+          </code> in <literal>$EXIST_HOME/extensions/build.properties</literal> and rebuild the code.</para>
+        </listitem>
     </itemizedlist>
   </sect1>
 
@@ -195,12 +202,7 @@
         </listitem>
         <listitem>
           <para>
-            <link xlink:href="https://lists.sourceforge.net/lists/listinfo/betterform-users" condition="_blank"> betterFORM Users mailing list</link>
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-            <link xlink:href="https://lists.sourceforge.net/lists/listinfo/betterform-developer" condition="_blank"> betterFORM Developers mailing list</link>
+            betterFORM questions may be asked on <link xlink:href="https://sourceforge.net/p/exist/mailman/exist-open/" condition="_blank"> exist open mailinglist.</link>
           </para>
         </listitem>
       </itemizedlist>
