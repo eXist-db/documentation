@@ -99,8 +99,29 @@
       <para>Run the following command to get eXist-db started during initialization of the system:</para>
       <programlisting>tools/yajsw/bin/installDaemon.sh</programlisting>
       <para> This works for MacOS and many Linux distributions.</para>
-      <para>It might be required to set some variables for the specific system, among which <code>wrapper.app.account</code> (to have eXist-db started
-        as a specific user) and <code>wrapper.plist.template</code> for <code>launchd</code>. Details can be found on the <link xlink:href="http://yajsw.sourceforge.net/YAJSW%20Configuration%20Parameters.html">YAJSW website</link>.</para>
+      <para>It might be required to set some variables for the specific system. Complete
+        documentation of the configuraiton settings YAJSW can be found at the <link
+          xlink:href="http://yajsw.sourceforge.net/YAJSW%20Configuration%20Parameters.html">YAJSW
+          website</link>. Below are a list of some important settings: </para>
+      <para>
+        <itemizedlist>
+          <listitem>
+            <para><code>wrapper.app.account</code> - Allows eXist to be run as a specific
+              user</para>
+          </listitem>
+          <listitem>
+            <para><code>wrapper.plist.template</code> - Used on Mac systems to provide a list of
+              parameters to <code>launchd</code> daemon</para>
+          </listitem>
+          <listitem>
+            <para><code>wrapper.ping.timeout</code> YAJSW pings the application to determine if it
+              has entered and unresponsive state. The ping timeout parameters sets the limit on how
+              long YAJSW will wait. If you have long running queries you may find that you need to
+              increase the value of this parameter to prevent YAJSW from restarting eXist. The
+              parameter value is in seconds and the default value is 30.</para>
+          </listitem>
+        </itemizedlist>
+      </para>
       <para> If your system supports <code>systemd</code> you can run the service wrapper as a non-privileged user. You will be notified on choosing
           <code>systemd</code> non-privileged when running the service wrapper installer and uninstaller.</para>
     </sect2>
