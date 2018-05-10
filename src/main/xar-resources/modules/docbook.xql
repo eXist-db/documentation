@@ -54,7 +54,7 @@ declare %public function docbook:to-html($node as node(), $model as map(*)) {
  : Generate a table of contents.
  :)
 declare %public function docbook:toc($node as node(), $model as map(*)) {
-  let $root := root($node)
+  let $root  as element() := $model("doc")
   return
     <div>
       <h3>Contents</h3>
