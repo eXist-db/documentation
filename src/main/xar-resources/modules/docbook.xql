@@ -11,7 +11,7 @@ import module namespace dq="http://exist-db.org/xquery/documentation/search" at 
 
 declare namespace db5="http://docbook.org/ns/docbook";
 
-declare variable $docbook:INLINE := 
+declare variable $docbook:INLINE :=
     ("filename", "classname", "methodname", "option", "command", "parameter", "guimenu", "guimenuitem", "guibutton", "function", "envar");
 
 (:============================================================================:)
@@ -21,7 +21,7 @@ declare variable $docbook:INLINE :=
  : Load a docbook document. If a query was specified, re-run the query on the document
  : to get matches highlighted.
  :)
-declare 
+declare
     %public %templates:default("field", "all")
 function docbook:load($node as node(), $model as map(*), $q as xs:string?, $doc as xs:string?, $field as xs:string) {
     let $path := $config:data-root || "/" || $doc
@@ -54,14 +54,14 @@ declare %public function docbook:to-html($node as node(), $model as map(*)) {
  : Generate a table of contents.
  :)
 declare %public function docbook:toc($node as node(), $model as map(*)) {
-  let $root as element() := $model("doc")
+  let $root := root($node)
   return
     <div>
       <h3>Contents</h3>
-      { 
+      {
         if (namespace-uri($root) eq "http://docbook.org/ns/docbook")
           then docbook:toc-db5($root)
-          else docbook:print-sections-db4($root/*/(chapter|section)) 
+          else docbook:print-sections-db4($root/*/(chapter|section))
       }
     </div>
 };
@@ -82,7 +82,7 @@ declare %private function docbook:to-html($nodes as node()*) {
 
 declare %private function docbook:toc-db5($node as node()) {
   let $uri-xsl := concat('xmldb:exist://', $config:app-root, '/modules/xsl/convert-db5-toc.xsl')
-  let $parameters as element(parameters)? := () 
+  let $parameters as element(parameters)? := ()
   return
     transform:transform($node, $uri-xsl, $parameters)
 };
@@ -91,7 +91,7 @@ declare %private function docbook:toc-db5($node as node()) {
 
 declare %private function docbook:to-html-db5($node as node()) {
   let $uri-reative-from-app as xs:string := replace($config:app-root, '/db/', '/')
-  let $uri-relative-from-document as xs:string := 
+  let $uri-relative-from-document as xs:string :=
     concat($config:data-root-rel, '/', replace(request:get-parameter('doc', ()), '(.*)[/\\][^/\\]+$', '$1'))
   let $uri-xsl := concat('xmldb:exist://', $config:app-root, '/modules/xsl/convert-db5.xsl')
   (: Create a content wrapper so we can include multiple inputs for the transformation: :)
@@ -112,11 +112,11 @@ declare %private function docbook:to-html-db5($node as node()) {
           ()
       }
     </contentswrapper>
-  let $parameters as element(parameters) := 
+  let $parameters as element(parameters) :=
     <parameters>
       <param name="uri-relative-from-app" value="{$uri-reative-from-app}"/>
       <param name="uri-relative-from-document" value="{$uri-relative-from-document}"/>
-    </parameters>  
+    </parameters>
   return
     transform:transform($contents, $uri-xsl, $parameters)
 (:<p>XX</p>:)
@@ -148,7 +148,7 @@ declare %private function docbook:to-html-db4($nodes as node()*) {
     for $node in $nodes
     return
         typeswitch ($node)
-            
+
             (: Main sections: :)
             case element(book) return
                 <article>
@@ -170,7 +170,7 @@ declare %private function docbook:to-html-db4($nodes as node()*) {
                         <a name="D{$node/@exist:id}"></a>
                         {docbook:process-children($node)}
                     </section>
-                    
+
             case element(abstract) return
                 <blockquote>{docbook:process-children($node)}</blockquote>
             case element(title) return
@@ -187,7 +187,7 @@ declare %private function docbook:to-html-db4($nodes as node()*) {
                             <a name="D{$node/../@exist:id}"></a>,
                         docbook:process-children($node)
                     }
-                    
+
             case element(para) return
                 <p>{docbook:process-children($node)}</p>
             case element(emphasis) return
@@ -287,7 +287,7 @@ declare %private function docbook:to-html-db4($nodes as node()*) {
                 <li>{docbook:process-children($node)}</li>
             case element(tocentry) return
                 docbook:process-children($node)
-            
+
             case element(guimenuitem) return
                 <span class="guimenuitem">{docbook:process-children($node)}</span>
             case element(guibutton) return
@@ -296,8 +296,8 @@ declare %private function docbook:to-html-db4($nodes as node()*) {
                 <span class="sgmltag">&lt;{docbook:process-children($node)}&gt;</span>
             case element(exist:match) return
                 <span class="hi">{$node/text()}</span>
-            
-                
+
+
            (: Table related: :)
             case element(informaltable) return
                 <table border="0" cellpadding="0" cellspacing="0">{$node/node()}</table>
@@ -312,16 +312,16 @@ declare %private function docbook:to-html-db4($nodes as node()*) {
             case element(row) return
                 <tr>{docbook:process-children($node)}</tr>
             case element(entry) return
-                if ($node/ancestor::thead) then 
+                if ($node/ancestor::thead) then
                     <th>{docbook:process-children($node)}</th>
                 else
-                    <td>{docbook:process-children($node)}</td>    
+                    <td>{docbook:process-children($node)}</td>
             case element(col) return
                 <col width="{$node/@width}">{docbook:process-children($node)}</col>
             case element(colgroup) return
                 <colgroup>{docbook:process-children($node)}</colgroup>
-                
-            (: Defaults/General: :)  
+
+            (: Defaults/General: :)
             case element() return
                 let $name := local-name($node)
                 return
@@ -398,7 +398,7 @@ declare %private function docbook:table($node as node()) {
 (:----------------------------------------------------------------------------:)
 
 declare %private function docbook:code($elem as element()) {
-    let $lang := 
+    let $lang :=
         if ($elem//markup) then
             "xml"
         else if ($elem/@language) then
@@ -446,7 +446,7 @@ declare %private function docbook:get-resource-uri($ref as xs:string) as xs:stri
   let $prefix-path := if (starts-with($ref, '/'))
   then replace($config:app-root, '/db/', '/')
   else concat($config:data-root-rel, '/', replace(request:get-parameter('doc', ()), '(.*)[/\\][^/\\]+$', '$1'))
-  return 
+  return
     concat($prefix-path, '/', $ref)
 };
 
