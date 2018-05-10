@@ -175,11 +175,13 @@ function dq:match-to-copy($element as element()) as element() {
 declare
     %private
 function dq:to-uri-query($search-params as map(xs:string, xs:string)) as xs:string {
-  let $string :=
     string-join(
-        map:for-each($search-params, function($k, $v) { $k || "=" || $v }),
+        map:for-each($search-params, function($k, $v) {
+            if ($k eq "q" and $v eq "xsl") then
+                ()
+            else 
+                $k || "=" || $v 
+        }),
         "&amp;"
-    )
-  return
-    substring-after($string, 'q=xsl&amp;') 
+    ) 
 };
