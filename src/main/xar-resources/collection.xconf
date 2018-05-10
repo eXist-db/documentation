@@ -1,21 +1,49 @@
 <collection xmlns="http://exist-db.org/collection-config/1.0">
-    <index>
+    <index xmlns:db5="http://docbook.org/ns/docbook">
         <fulltext default="none" attributes="false"/>
         <lucene>
             <analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/>
-            <text qname="section">
-                <ignore qname="title"/>
-                <ignore qname="programlisting"/>
-                <ignore qname="screen"/>
-                <ignore qname="synopsis"/>
+
+            <!--
+                Indexes below are ordered by their relevance (or "boost"),
+                with the most relevant listed first.
+                
+                Our definitions are based on the assumption that the most
+                specific content will be deeper within the document.
+            -->
+
+            <!-- document metadata -->
+            <text qname="db5:keyword" boost="2.0"/>
+            <text match="/db5:article/db5:info/db5:title" boost="1.7"/>
+            <text match="/db5:article/db5:para" boost="1.5"/>
+
+            <!-- sect3 -->
+            <text match="/db5:article/db5:sect1/db5:sect2/db5:sect3/db5:title" boost="1.35"/>
+            <text qname="db5:sect3" boost="1.3">
+                <ignore qname="db5:title"/>
+                <ignore qname="db5:programlisting"/>
+                <ignore qname="db5:screen"/>
+                <ignore qname="db5:synopsis"/>
             </text>
-            <text qname="title" boost="2.0"/>
-        </lucene>
-        <lucene>
-            <analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/>
-            <text qname="para"/>
-            <text qname="title" boost="2.0"/>
-            <ignore qname="title"/>
+            
+            <!-- sect2 -->
+            <text match="/db5:article/db5:sect1/db5:sect2/db5:title" boost="1.25"/>
+            <text qname="db5:sect2" boost="1.2">
+                <ignore qname="db5:title"/>
+                <ignore qname="db5:programlisting"/>
+                <ignore qname="db5:screen"/>
+                <ignore qname="db5:synopsis"/>
+            </text>
+                
+            <!-- sect1 -->
+            <text match="/db5:article/db5:sect1/db5:title" boost="1.15"/>
+            <text qname="db5:sect1" boost="1.1">
+                <ignore qname="db5:title"/>
+                <ignore qname="db5:programlisting"/>
+                <ignore qname="db5:screen"/>
+                <ignore qname="db5:synopsis"/>
+            </text>
+
         </lucene>
     </index>
 </collection>
