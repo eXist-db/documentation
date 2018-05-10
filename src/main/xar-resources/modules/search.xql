@@ -177,11 +177,11 @@ declare
 function dq:to-uri-query($search-params as map(xs:string, xs:string)) as xs:string {
     string-join(
         map:for-each($search-params, function($k, $v) {
-            if ($k eq "q" and $v eq "xsl") then
+            if ($k eq "q") then
                 ()
-            else 
-                $k || "=" || $v 
+            else
+                $k || "=" || $v
         }),
         "&amp;"
-    ) 
+    )
 };
