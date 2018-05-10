@@ -21,7 +21,7 @@ declare variable $dq:CHARS_KWIC := 80;
 (:~
     Templating function: process the query.
 :)
-declare 
+declare
     %public
     %templates:default("field", "all")
     %templates:default("view", "summary")
@@ -46,7 +46,7 @@ function dq:query($node as node()*, $model as map(*), $q as xs:string?, $field a
 : @param field the name of a field, if the query should be restricted to a specific field
 :
 : @return The elements that match the query, typically one of:
-:     db5:title, db5:keyword, db5:para, db5:sect1, db5:sect2, db5:sect3. 
+:     db5:title, db5:keyword, db5:para, db5:sect1, db5:sect2, db5:sect3.
 :)
 declare
     %public
@@ -56,7 +56,7 @@ function dq:do-query($context as node()*, $query as xs:string?, $field as xs:str
             $context/db5:article/db5:info/db5:title[ft:query(., $query)]
             |
             $context//(db5:sect3|db5:sect2|db5:sect1)/db5:title[ft:query(., $query)]
-        
+
         default return
             $context//db5:keyword[ft:query(., $query)]
             |
@@ -142,11 +142,11 @@ function dq:print($hit as element(), $search-params as map(xs:string, xs:string)
                     <config xmlns="" width="{if ($view eq 'summary') then $dq:CHARS_SUMMARY else $dq:CHARS_KWIC}"
          			    table="{if ($view eq 'summary') then 'no' else 'yes'}"
          			    link="{$uri}"/>
-            
+
             for $ancestor in ($matches/ancestor::db5:para | $matches/ancestor::db5:title | $matches/ancestor::db5:td | $matches/ancestor::db5:note[not(db5:para)])
             for $match in $ancestor//exist:match
             return
-                kwic:get-summary($ancestor, $match, $config) 
+                kwic:get-summary($ancestor, $match, $config)
         else
             let $ancestors := ($matches/ancestor::db5:para | $matches/ancestor::db5:title | $matches/ancestor::db5:td | $matches/ancestor::db5:note[not(db5:para)])
             return
@@ -175,8 +175,11 @@ function dq:match-to-copy($element as element()) as element() {
 declare
     %private
 function dq:to-uri-query($search-params as map(xs:string, xs:string)) as xs:string {
+  let $string :=
     string-join(
         map:for-each($search-params, function($k, $v) { $k || "=" || $v }),
         "&amp;"
     )
+  return
+    substring-after($string, 'q=xsl&amp;') 
 };
