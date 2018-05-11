@@ -40,7 +40,11 @@ $ mvn release:rollback
 ## Preparing the Release Commit
 1.  Merge outstanding and reviewed PRs.
 
-2.  Set the `exist.version` in  `pom.xml` to prevent users of older exist releases, from installing the wrong documentation locally. Since the canonical version needs to run on exist-db.org please make sure that the main server can actually run the latest documentation, and raise an issue if necessary.
+2.  Set the `exist.version` in  `pom.xml` to prevent users of older exist releases from installing the wrong documentation locally:
+```xml
+<exist.version>4.1.0</exist.version>
+```
+Since the canonical version needs to run on exist-db.org please make sure that the main server can actually run the latest documentation, and raise an issue if necessary.
 
 3.  To generate the release notes run:
 ```bash

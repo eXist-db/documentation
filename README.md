@@ -1,18 +1,15 @@
 # eXist-db Documentation
 [![Build Status](https://travis-ci.org/eXist-db/documentation.svg?branch=master)](https://travis-ci.org/eXist-db/documentation)
 [![Docbook version](https://img.shields.io/badge/docbook-5.0-19a5a4.svg)](http://docbook.org/xml/5.0/)
-[![eXist-db version](https://img.shields.io/badge/eXist_db-4.0.0-blue.svg)](http://www.exist-db.org/exist/apps/homepage/index.html)
+[![eXist-db version](https://img.shields.io/badge/eXist_db-4.1.0-blue.svg)](http://www.exist-db.org/exist/apps/homepage/index.html)
 
 <img src="src/main/xar-resources/icon.png" align="left" width="15%"/>
 
 This repository contains the official documentation for the [eXist-db native XML database](http://www.exist-db.org) and the application for browsing it. You can browse the latest release of the documentation on [eXist-db homepage](http://exist-db.org/exist/apps/doc/). User reporting errors should check the [contributions](#contributions) section below. Core-contributors preparing a release should consult the [release procedure](RELEASE.md)
 
-## Notice
-As of January 2018 the exist-db documentation is undergoing a major rewrite. While this is work in progress ,we want to keep the contents open for community edits. Consequently, the display of the documentation will at times appear less polished then usual.  
-
 ## Dependencies
 -   [Maven](https://maven.apache.org): 3.x
--   [eXist-db](http://exist-db.org): 4.0.0
+-   [eXist-db](http://exist-db.org): 4.1.0
 
 ## Installation
 -   The default eXist-db installer includes the documentation app. Just go to your eXist server's Dashboard and select Documentation.
@@ -22,7 +19,7 @@ As of January 2018 the exist-db documentation is undergoing a major rewrite. Whi
 ## Contributions
 Found an area of the documentation that needs to be improved? Please raise an [issue](https://github.com/eXist-db/documentation/issues) or better yet submit a [pull request](https://github.com/eXist-db/documentation/pulls)!
 
-Before you edit the docs please take a look at our [style guide](https://www.exist-db.org/exist/apps/doc/author-reference). While the guide is work in progress, it should help you understand our articles structure and use of the docbook format. You can speed up the review process by running `mvn validate` on your local machine before opening a pull request. This way you can be certain that your edits won't interfere with the [automated tests](https://travis-ci.org/eXist-db/documentation) of this repo. 
+Before you edit the docs please take a look at our [style guide](https://www.exist-db.org/exist/apps/doc/author-reference). It should help you understand our articles structure and use of the docbook format. You can speed up the review process by running `mvn validate` on your local machine before opening a pull request. This way you can be certain that your edits won't interfere with the [automated tests](https://travis-ci.org/eXist-db/documentation) of this repo.
 
 Should you encounter documentation for features that are deprecated in the minimum eXist-db version mentioned [above](#dependencies), you can simply delete them. If you are unsure about this, please open an [issue](https://github.com/eXist-db/documentation/issues).
 
