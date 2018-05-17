@@ -136,12 +136,10 @@
         </listitem>
       </varlistentry>
       <varlistentry>
-        <term><code>%test:assertError($errString)</code></term>
+        <term><code>%test:assertError($err)</code></term>
         <listitem>
           <para>Evaluating the tested function should result in a dynamic error. If a value is
-            given, it should either be a string contained in the error description or correspond to
-            the error code of the dynamic error.</para>
-
+            given for <code>$error</code>, it should either be: 1) the error code of the dynamic error, or 2) a regular expression that matches the error description.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
