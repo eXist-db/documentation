@@ -154,6 +154,17 @@
         </listitem>
       </varlistentry>
       <varlistentry>
+        <term><code>%test:assumeIntenetAccess($uri)</code></term>
+        <listitem>
+          <para>Marks that a test <emphasis>assumes</emphasis> that Internet access is available.
+            If the <code>$uri</code> can be reached over HTTP via a HEAD request, then the test
+            will be executed as part of the test suite. If the connection to the <code>$uri</code>
+            cannot be made, then the test has the same status as a test marked with
+            <code>%test:pending</code>. This can be useful when you have a test which relies on an
+            external resource.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
         <term><code>%test:pending</code></term>
         <listitem>
           <para>Marks a test as <emphasis>pending</emphasis>, which means that it will not be
