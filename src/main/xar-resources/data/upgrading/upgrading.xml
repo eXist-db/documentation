@@ -144,7 +144,7 @@
         <orderedlist>
             
             <listitem><para>In the folder where you installed eXist-db, run <code>git status</code> to see which files differ from the updated repository on GitHub. In particular, you're interested to see which are the configuration files you edited and which you want to preserve (e.g. <code>conf.xml</code>, <code>webapp/WEB-INF/controller-config.xml</code>, <code>tools/jetty/webapps/exist-webapp-context.xml</code>, etc.).</para></listitem>
-            <listitem><para>Create a full backup from eXist-db (i.e. to a set of files or .zip file).</para></listitem>
+            <listitem><para>Create a <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="backup.xml">full backup</link> from eXist-db (i.e. to a set of files or .zip file).</para></listitem>
             <listitem><para>Stop eXist-db.</para></listitem>
             <listitem><para>Make a backup copy of the <code>webapp/WEB-INF/data directory</code> directory and any other configuration file you wish to preserve (see above), plus the 'local.build.properties' file in case you edited `build.properties`.</para></listitem>
             <listitem><para>If you previously signed your jar files, run <code>git checkout -- lib/</code> to unsign them.</para></listitem>
