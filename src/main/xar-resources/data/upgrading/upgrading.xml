@@ -143,19 +143,19 @@
         <title>Upgrading from Source</title>
         <orderedlist>
             
-            <listitem><para>In the folder where you installed eXist-db, run `git status` to see which files differ from the updated repository on GitHub. In particular, you're interested to see which are the configuration files you edited and which you want to preserve (e.g. `conf.xml`, `webapp/WEB-INF/controller-config.xml`, `tools/jetty/webapps/exist-webapp-context.xml`, etc.).</para></listitem>
+            <listitem><para>In the folder where you installed eXist-db, run <code>git status</code> to see which files differ from the updated repository on GitHub. In particular, you're interested to see which are the configuration files you edited and which you want to preserve (e.g. <code>conf.xml</code>, <code>webapp/WEB-INF/controller-config.xml</code>, <code>tools/jetty/webapps/exist-webapp-context.xml</code>, etc.).</para></listitem>
             <listitem><para>Create a full backup from eXist-db (i.e. to a set of files or .zip file).</para></listitem>
             <listitem><para>Stop eXist-db.</para></listitem>
-            <listitem><para>Make a backup copy of the `webapp/WEB-INF/data directory` directory and any other configuration file you wish to preserve (see above), plus the 'local.build.properties' file in case you edited `build.properties`.</para></listitem>
-            <listitem><para>Run `git checkout -- lib/` to unsign the jar files.</para></listitem>
-            <listitem><para>Run `git status`: you should see no lib/ paths in the output.</para></listitem>
-            <listitem><para>Run `git fetch`.</para></listitem>
-            <listitem><para>Run `git stash`.</para></listitem>
-            <listitem><para>Run `git rebase origin/master` or `develop`, whichever you want.</para></listitem>
-            <listitem><para>Run `git stash pop`.</para></listitem>
-            <listitem><para>Run `./build.sh clean`.</para></listitem>
-            <listitem><para>Run `./build.sh jnlp-unsign-all all jnlp-sign-exist jnlp-sign-core jnlp-sign-exist-extensions`.</para></listitem>
-            <listitem><para>Copy back the configuration files (and, optionally, the' local.build.properties` - see above).</para></listitem>
+            <listitem><para>Make a backup copy of the <code>webapp/WEB-INF/data directory` directory and any other configuration file you wish to preserve (see above), plus the 'local.build.properties' file in case you edited `build.properties`.</para></listitem>
+            <listitem><para>If you previously signed your jar files, run <code>git checkout -- lib/</code> to unsign them.</para></listitem>
+            <listitem><para>Run <code>git status</code>: you should see no lib/ paths in the output.</para></listitem>
+            <listitem><para>Run <code>git fetch</code>.</para></listitem>
+            <listitem><para>Run <code>git stash</code>.</para></listitem>
+            <listitem><para>Run <code>git rebase origin/master</code> or <code>develop</code>, whichever you want.</para></listitem>
+            <listitem><para>Run <code>git stash pop</code>.</para></listitem>
+            <listitem><para>Run <code>./build.sh clean</code>.</para></listitem>
+            <listitem><para>If you want to sign the jar files, run <code>./build.sh jnlp-unsign-all all jnlp-sign-exist jnlp-sign-core jnlp-sign-exist-extensions</code>.</para></listitem>
+            <listitem><para>Copy back the configuration files (and, optionally, the <code>local.build.properties</code> - see above).</para></listitem>
             <listitem><para>Start your eXist-db and you should now have an up-to-date eXist-db instance running.</para></listitem>
         </orderedlist>
     </sect1>
