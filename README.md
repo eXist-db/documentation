@@ -1,7 +1,7 @@
 # eXist-db Documentation
 [![Build Status](https://travis-ci.org/eXist-db/documentation.svg?branch=master)](https://travis-ci.org/eXist-db/documentation)
 [![Docbook version](https://img.shields.io/badge/docbook-5.0-19a5a4.svg)](http://docbook.org/xml/5.0/)
-[![eXist-db version](https://img.shields.io/badge/eXist_db-4.1.0-blue.svg)](http://www.exist-db.org/exist/apps/homepage/index.html)
+[![eXist-db version](https://img.shields.io/badge/eXist_db-4.2.0-blue.svg)](http://www.exist-db.org/exist/apps/homepage/index.html)
 
 <img src="src/main/xar-resources/icon.png" align="left" width="15%"/>
 
@@ -9,7 +9,7 @@ This repository contains the official documentation for the [eXist-db native XML
 
 ## Dependencies
 -   [Maven](https://maven.apache.org): 3.x
--   [eXist-db](http://exist-db.org): 4.1.0
+-   [eXist-db](http://exist-db.org): 4.2.0
 
 ## Installation
 -   The default eXist-db installer includes the documentation app. Just go to your eXist server's Dashboard and select Documentation.
