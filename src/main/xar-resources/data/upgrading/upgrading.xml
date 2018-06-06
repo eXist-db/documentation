@@ -146,7 +146,7 @@
             <listitem><para>In the folder where you installed eXist-db, run <code>git status</code> to see which files differ from the updated repository on GitHub. In particular, you're interested to see which are the configuration files you edited and which you want to preserve (e.g. <code>conf.xml</code>, <code>webapp/WEB-INF/controller-config.xml</code>, <code>tools/jetty/webapps/exist-webapp-context.xml</code>, etc.).</para></listitem>
             <listitem><para>Create a full backup from eXist-db (i.e. to a set of files or .zip file).</para></listitem>
             <listitem><para>Stop eXist-db.</para></listitem>
-            <listitem><para>Make a backup copy of the <code>webapp/WEB-INF/data directory` directory and any other configuration file you wish to preserve (see above), plus the 'local.build.properties' file in case you edited `build.properties`.</para></listitem>
+            <listitem><para>Make a backup copy of the <code>webapp/WEB-INF/data directory</code> directory and any other configuration file you wish to preserve (see above), plus the 'local.build.properties' file in case you edited `build.properties`.</para></listitem>
             <listitem><para>If you previously signed your jar files, run <code>git checkout -- lib/</code> to unsign them.</para></listitem>
             <listitem><para>Run <code>git status</code>: you should see no lib/ paths in the output.</para></listitem>
             <listitem><para>Run <code>git fetch</code>.</para></listitem>
@@ -159,76 +159,76 @@
             <listitem><para>Start your eXist-db and you should now have an up-to-date eXist-db instance running.</para></listitem>
         </orderedlist>
     </sect1>
+    
+    
+    
+    <!-- ================================================================== -->
+    
+    <sect1 xml:id="compatibility-history">
+        <title>History of Non-compatible Upgrades</title>
+        
+        <para>This is a list of binary non-compatible releases for quick reference.</para>
+        <para>If a non-incremental upgrade across multiple non-compatible releases is necessary,
+            foir instance from 1.4 to 3.6, we strongly recommend to first check past release notes to understand
+            how breaking changes might affect you.</para>
+        
+        <table xml:id="old-news">
+            <title>Notes on previous releases</title>
             
-            
-            
-            <!-- ================================================================== -->
-            
-            <sect1 xml:id="compatibility-history">
-                <title>History of Non-compatible Upgrades</title>
-                
-                <para>This is a list of binary non-compatible releases for quick reference.</para>
-                <para>If a non-incremental upgrade across multiple non-compatible releases is necessary,
-                    foir instance from 1.4 to 3.6, we strongly recommend to first check past release notes to understand
-                    how breaking changes might affect you.</para>
-                
-                <table xml:id="old-news">
-                    <title>Notes on previous releases</title>
-                    
-                    <tgroup cols="2">
-                        <tbody>
-                            <row>
-                                <entry>
-                                    <para>latest</para>
-                                </entry>
-                                <entry>
-                                    <para>
-                                        <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://exist-db.org/exist/apps/wiki/blogs/eXist/search.html?field=tags&amp;q=release">release notes</link>
-                                    </para>
-                                </entry>
-                            </row>
-                            <row>
-                                <entry>
-                                    <para>3.0</para>
-                                </entry>
-                                <entry>
-                                    <para>
-                                        <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="incompatibilities.xml#v3.0">special notes</link>
-                                    </para>
-                                </entry>
-                            </row>
-                            <row>
-                                <entry>
-                                    <para>2.2</para>
-                                </entry>
-                                <entry>
-                                    <para>
-                                        <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="incompatibilities.xml#v2.2">special notes</link>
-                                    </para>
-                                </entry>
-                            </row>
-                            <row>
-                                <entry>
-                                    <para>2.0</para>
-                                </entry>
-                                <entry>
-                                    <para>
-                                        <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="incompatibilities.xml#v2.0">special notes</link>
-                                    </para>
-                                </entry>
-                            </row>
-                            <row>
-                                <entry>
-                                    <para>1.4.0</para>
-                                </entry>
-                                <entry>
-                                    <para>
-                                        <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="incompatibilities.xml#v1.4">special notes</link>
-                                    </para>
-                                </entry>
-                            </row>
-                        </tbody>
-                    </tgroup>
-                </table>
-            </sect1>
+            <tgroup cols="2">
+                <tbody>
+                    <row>
+                        <entry>
+                            <para>latest</para>
+                        </entry>
+                        <entry>
+                            <para>
+                                <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://exist-db.org/exist/apps/wiki/blogs/eXist/search.html?field=tags&amp;q=release">release notes</link>
+                            </para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry>
+                            <para>3.0</para>
+                        </entry>
+                        <entry>
+                            <para>
+                                <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="incompatibilities.xml#v3.0">special notes</link>
+                            </para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry>
+                            <para>2.2</para>
+                        </entry>
+                        <entry>
+                            <para>
+                                <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="incompatibilities.xml#v2.2">special notes</link>
+                            </para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry>
+                            <para>2.0</para>
+                        </entry>
+                        <entry>
+                            <para>
+                                <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="incompatibilities.xml#v2.0">special notes</link>
+                            </para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry>
+                            <para>1.4.0</para>
+                        </entry>
+                        <entry>
+                            <para>
+                                <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="incompatibilities.xml#v1.4">special notes</link>
+                            </para>
+                        </entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+    </sect1>
 </article>
