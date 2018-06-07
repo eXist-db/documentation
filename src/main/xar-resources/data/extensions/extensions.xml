@@ -1,6 +1,6 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>Extension Modules</title>
     <date>1Q18</date>
@@ -32,7 +32,7 @@
     <note>
       <para>eXist-db will require a restart to load any new modules added. </para>
     </note>
-    <para>Once a Module is configured and loaded eXist-db will display the module and its function definitions as part of the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{${fundocs.pkg.abbrev}}">function library</link> page or through
+    <para>Once a Module is configured and loaded eXist-db will display the module and its function definitions as part of the <link  xlink:href="{${fundocs.pkg.abbrev}}">function library</link> page or through
         <literal>util:decribe-function()</literal>.</para>
   </sect1>
 
@@ -405,8 +405,8 @@
     </sect2>
     <sect2 xml:id="module_spatial">
       <title>Spatial module</title>
-      <para>Various functions for <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.opengeospatial.org/standards/gml">GML</link>
-        geometries, whether indexed or not. More information about the design is available <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="devguide_indexes.xml">here</link>.</para>
+      <para>Various functions for <link  xlink:href="http://www.opengeospatial.org/standards/gml">GML</link>
+        geometries, whether indexed or not. More information about the design is available <link  xlink:href="devguide_indexes.xml">here</link>.</para>
       <itemizedlist>
         <listitem>
           <para>Creator: Pierrick Brihaye</para>

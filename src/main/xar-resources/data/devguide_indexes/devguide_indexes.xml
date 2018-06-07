@@ -1,7 +1,7 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
         schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<article xmlns="http://docbook.org/ns/docbook" version="5.0">
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>Developer's Guide to Modularized Indexes</title>
     <date>1Q18</date>
@@ -54,27 +54,27 @@
         <term>Spatial index</term>
         <listitem>
           <para>A spatial index will store some of the geometric characteristics of <link
-              xmlns:xlink="http://www.w3.org/1999/xlink"
+
               xlink:href="http://www.opengeospatial.org/standards/gml" condition="_blank">Geography
               Markup Language</link> geometries (tested against GML version 2.1.2). For
             instance:</para>
-          <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-1.xml"/>
+          <programlisting  language="xml" xlink:href="listings/listing-1.xml"/>
           <para>This will generate several index entries. The most important ones are:</para>
           <itemizedlist>
             <listitem>
-              <para>The <link xmlns:xlink="http://www.w3.org/1999/xlink"
+              <para>The <link
                   xlink:href="http://en.wikipedia.org/wiki/Spatial_referencing_systems"
                   condition="_blank">spatial referencing system</link> (<literal>osgb:BNG</literal>
                 for this polygon)</para>
             </listitem>
             <listitem>
               <para>The polygon itself, stored in a binary form (<link
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
+
                   xlink:href="http://en.wikipedia.org/wiki/Well-known_text" condition="_blank"
                   >Well-Known Binary</link>)</para>
             </listitem>
             <listitem>
-              <para>The coordinates of its <link xmlns:xlink="http://www.w3.org/1999/xlink"
+              <para>The coordinates of its <link
                   xlink:href="http://en.wikipedia.org/wiki/Minimum_bounding_rectangle"
                   condition="_blank">bounding box</link>
               </para>
@@ -107,7 +107,7 @@
       <para>This constructor keeps track of the <literal>BrokerPool</literal> that has created the
         instance and receives the database's configuration object, usually defined in an XML file
         called <literal>conf.xml</literal>. This new entry is expected in the configuration file: </para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-3.xml"/>
+      <programlisting  language="xml" xlink:href="listings/listing-3.xml"/>
       <para>This defines 2 indexes, backed-up by their specific classes (<literal>class</literal>
         attribute; these classes implement the <literal>org.exist.indexing.Index</literal> interface
         as will be seen below), eventually assigns them a human-readable (writable even) identifier
@@ -249,7 +249,7 @@
       <para>More specific than <literal>indexNode()</literal>. For an element. Will call
           <literal>startElement()</literal> on <literal>listener</literal> if it is not
           <literal>null</literal>. Hence the analogy with <link
-          xmlns:xlink="http://www.w3.org/1999/xlink"
+
           xlink:href="http://www.xml.com/pub/a/2003/09/17/stax.html">STAX events</link> is
         obvious.</para>
       <programlisting>public void attribute(Txn transaction, AttrImpl node, NodePath path, StreamListener listener)</programlisting>
@@ -479,10 +479,10 @@
       is that this kind of <literal>Index</literal> doesn't store character data from the document,
       nor does it use a <literal>org.exist.storage.index.BFile</literal> to store the index entries.
       Instead, we will store WKB index entries in a JDBC database, namely a <link
-        xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://hsqldb.org/">HSQLDB</link> to
+         xlink:href="http://hsqldb.org/">HSQLDB</link> to
       keep the distribution as light as possible and reduce the number of external dependencies, but
       it wouldn't be too difficult to use another one like <link
-        xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://postgis.refractions.net/"
+         xlink:href="http://postgis.refractions.net/"
         >PostGIS</link> given that the implementation has itself been designed in a quite modular
       way. </para>
     <para>In eXist's SVN repository, the modularized <literal>Index</literal>es code is in
@@ -497,16 +497,16 @@
       provided that the DB's configuration file declares the <literal>Index</literal>es (see above)
       and their associated <literal>Module</literal>s (see below).</para>
     <para>The described spatial <literal>Index</literal> heavily relies on the excellent open source
-      librairies provided by the <link xmlns:xlink="http://www.w3.org/1999/xlink"
+      librairies provided by the <link
         xlink:href="http://geotools.codehaus.org/">Geotools</link> project. We have experienced a
       few problems that will be mentioned further, but since feedback has been provided, the
       situation will unquestionably improve in the future, making current workarounds
       redundant.</para>
     <para>The <literal>Index</literal> has been tested with only one file which is available from
-      the <link xmlns:xlink="http://www.w3.org/1999/xlink"
+      the <link
         xlink:href="http://www.ordnancesurvey.co.uk/oswebsite/">Ordnance Survey of
         Great-Britain</link>, a topography layer of Port-Talbot, which is available as <link
-        xmlns:xlink="http://www.w3.org/1999/xlink"
+
         xlink:href="http://www.ordnancesurvey.co.uk/oswebsite/products/try-now/sample-data.html"
         >sample data</link>. Shall we mention that obtaining <emphasis>valid</emphasis> and sizeable
       GML data is still extremely difficult? </para>
@@ -520,7 +520,7 @@
         we have planned a modular JDBC spatial <literal>Index</literal>, which will be abstract, and
         that will be extended by a concrete HSQLDB <literal>Index</literal>.</para>
       <para>Let's start with this :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-71.txt"/>
+      <programlisting  xlink:href="listings/listing-71.txt"/>
       <para> ... where we define an abstract class that extends
           <literal>org.exist.indexing.AbstractIndex</literal> and thus implements
           <literal>org.exist.indexing.Index</literal>. We also define a few members like
@@ -532,16 +532,16 @@
           <literal>java.sql.Connection</literal> that will handle the database operations at the
         index level. </para>
       <para>Let' now introduce this general purpose interface :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-72.txt"/>
+      <programlisting  xlink:href="listings/listing-72.txt"/>
       <para>... that defines the spatial operators that will be used by spatial queries (what would
         be worth a spatial index that doesn't support spatial queries?). For more information about
-        the semantics, see the <link xmlns:xlink="http://www.w3.org/1999/xlink"
+        the semantics, see the <link
           xlink:href="http://www.vividsolutions.com/jts/bin/JTS%20Technical%20Specs.pdf">JTS
           documentation</link> (chapter 11). We will use this wonderful library everytime a spatial
         computation is required. So does the Geotools project by the way.</para>
       <para>Here are a few concrete methods that should be usable by any JDBC-enabled
         database:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-73.txt"/>
+      <programlisting  xlink:href="listings/listing-73.txt"/>
       <para>First, an empty constructor, not even necessary since the <literal>Index</literal> is
         created through the <literal>newInstance()</literal> method of its interface (see
         above).</para>
@@ -569,10 +569,10 @@
         <literal>checkIndex()</literal> will delegate the task to the <literal>broker</literal>'s
           <literal>IndexWorker</literal>.</para>
       <para>The remaining methods are DB-dependant and thus abstract :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-74.txt"/>
+      <programlisting  xlink:href="listings/listing-74.txt"/>
       <para>Let's see now how a HSQL-dependant implementation would be going by describing the
         concrete class :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-75.txt"/>
+      <programlisting  xlink:href="listings/listing-75.txt"/>
       <para>Of course, we extend <literal>org.exist.indexing.spatial.AbstractGMLJDBCIndex</literal>,
         then a few members are defined : a <literal>Logger</literal>, a file prefix (which will be
         required by the files required by HSQLDB storage, namely
@@ -596,16 +596,16 @@
       <para>The next method calls its ancestor's <literal>configure()</literal> method and just
         retains the content of the <literal>connectionTimeout</literal> attribute as defined in the
         configuration file.</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-76.txt"/>
+      <programlisting  xlink:href="listings/listing-76.txt"/>
       <para>The next method is also quite straightforward :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-77.txt"/>
+      <programlisting  xlink:href="listings/listing-77.txt"/>
       <para>It picks an <literal>IndexWorker</literal> (more precisely a
           <literal>org.exist.indexing.spatial.GMLHSQLIndexWorker</literal> that will be described
         below) for the given <literal>broker</literal> from the "pool". If needed, namely the first
         time the method is called with with parameter, it creates one. Notice that this
           <literal>IndexWorker</literal> is DB-dependant. It will be described below.</para>
       <para>Then come a few general-purpose methods:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-78.txt"/>
+      <programlisting  xlink:href="listings/listing-78.txt"/>
       <para>
         <literal>checkDatabase()</literal> just checks that we have a suitable driver in the
         CLASSPATH. We don't want to open the database right now. It costs too much.</para>
@@ -633,7 +633,7 @@
         then be better to never call these <literal>Index</literal>-level methods from the
           <literal>IndexWorker</literal>s and let each <literal>IndexWorker</literal> handle its
         connection to the underlying DB.</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-79.txt"/>
+      <programlisting  xlink:href="listings/listing-79.txt"/>
       <para>
         <literal>acquireConnection()</literal> acquires an <emphasis>exclusive</emphasis> JDBC
           <literal>Connection</literal> to the storage engine for an <literal>IndexWorker</literal>
@@ -645,7 +645,7 @@
         become available when requested again.</para>
       <para>The last method concentrates the index-level DB-dependant code in just one place
           (<literal>removeIndexContent()</literal> is relatively DB-independant).</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-80.txt"/>
+      <programlisting  xlink:href="listings/listing-80.txt"/>
       <para>This method opens a <literal>Connection</literal> and, if it is a new one
           (<emphasis>the</emphasis> new one since we only have one), checks that we have a SQL table
         for the spatial data. If not, i.e. if the spatial index doesn't exist yet, a table is
@@ -747,7 +747,7 @@
                 <para>VARCHAR</para>
               </entry>
               <entry>
-                <para>The <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                <para>The <link
                     xlink:href="http://de.wikipedia.org/wiki/Well_Known_Text">Well-Known Text</link>
                   representation of the geometry</para>
               </entry>
@@ -862,7 +862,7 @@
                 <para>The WKT representation of the geometry</para>
               </entry>
               <entry>
-                <para>In the <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                <para>In the <link
                     xlink:href="http://en.wikipedia.org/wiki/EPSG:4326">epsg:4326</link> SRS</para>
               </entry>
             </row>
@@ -989,7 +989,7 @@
                 <para>Whether or not this geometry is "closed"</para>
               </entry>
               <entry>
-                <para>See the <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                <para>See the <link
                     xlink:href="http://www.vividsolutions.com/jts/bin/JTS%20Technical%20Specs.pdf"
                     >JTS documentation</link> (chapter 13)</para>
               </entry>
@@ -1005,7 +1005,7 @@
                 <para>Whether or not this geometry is "simple"</para>
               </entry>
               <entry>
-                <para>See the <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                <para>See the <link
                     xlink:href="http://www.vividsolutions.com/jts/bin/JTS%20Technical%20Specs.pdf"
                     >JTS documentation</link> (chapter 13)</para>
               </entry>
@@ -1021,7 +1021,7 @@
                 <para>Whether or not this geometry is "valid"</para>
               </entry>
               <entry>
-                <para>See the <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                <para>See the <link
                     xlink:href="http://www.vividsolutions.com/jts/bin/JTS%20Technical%20Specs.pdf"
                     >JTS documentation</link> (chapter 13). Should always be TRUE</para>
               </entry>
@@ -1075,13 +1075,13 @@
       <important>
         <para>By default, eXist's build will download the lightweight
             <literal>gt2-epsg-wkt-XXX.jar</literal> library which lacks some parameters, the <link
-            xmlns:xlink="http://www.w3.org/1999/xlink"
+
             xlink:href="http://udig.refractions.net/docs/api-geotools/org/geotools/referencing/datum/BursaWolfParameters.html"
             > Bursa-Wolf</link> ones. A better accuracy for geographic transformations might be
-          obtained by using a heavier library like <link xmlns:xlink="http://www.w3.org/1999/xlink"
+          obtained by using a heavier library like <link
             xlink:href="http://lists.refractions.net/m2/org/geotools/gt2-epsg-hsql/">
             <literal>gt2-epsg-hsql-XXX.jar</literal>
-          </link> which is documented <link xmlns:xlink="http://www.w3.org/1999/xlink"
+          </link> which is documented <link
             xlink:href="http://javadoc.geotools.fr/snapshot/org/geotools/referencing/factory/epsg/FactoryOnHSQL.html"
             >here</link>.</para>
       </important>
@@ -1096,7 +1096,7 @@
         will start to design a database-independant abstract class. This class should normally be
         the basis of every JDBC spatial index. It will handle most of the hard work.</para>
       <para>Let's start by a few members and a few general-purpose public methods :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-81.txt"/>
+      <programlisting  xlink:href="listings/listing-81.txt"/>
       <para>Of course, <literal>org.exist.indexing.spatial.AbstractGMLJDBCIndexWorker</literal>
         implements <literal>org.exist.indexing.IndexWorker</literal>.</para>
       <para>
@@ -1106,7 +1106,7 @@
         <literal>INDEX_ELEMENT</literal> is the configuration's element name which is accurate for
         our <literal>Index</literal> configuration. To configure a collection in order to index its
         GML data, define such a configuration : </para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-82.xml"/>
+      <programlisting  language="xml" xlink:href="listings/listing-82.xml"/>
       <para>Got the <tag>gml</tag> element? We will shortly see how this information is able to
         configure our <literal>IndexWorker</literal>.</para>
       <para>
@@ -1129,7 +1129,7 @@
         parsing. It is <literal>null</literal> if the geometry is topologically not well formed.
         This latter case is maybe a too restrictive feature of Geotools parser which also throws
           <literal>NullPointerException</literal>s (!) if the GML is somehow not well-formed. See
-          <link xmlns:xlink="http://www.w3.org/1999/xlink"
+          <link
           xlink:href="http://jira.codehaus.org/browse/GEOT-742">GEOT-742</link> for more information
         on this issue.</para>
       <para>
@@ -1179,15 +1179,15 @@
         return the <emphasis>static</emphasis> ID of the <literal>Index</literal>. No chance to be
         wrong with such a design.</para>
       <para>The next method is a bit specific :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-83.txt"/>
+      <programlisting  xlink:href="listings/listing-83.txt"/>
       <para>It is only interested in the <tag>gml</tag> element of the configuration. If it finds
         one, it creates a <literal>org.exist.indexing.spatial.GMLIndexConfig</literal> instance wich
         is a very simple class :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-84.txt"/>
+      <programlisting  xlink:href="listings/listing-84.txt"/>
       <para>... that retains the configuration attribute and provides a getter for it.</para>
       <para>This configuration object is saved in a Map with the <literal>Index</literal> ID and
         will be available as shown in the next method :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-85.txt"/>
+      <programlisting  xlink:href="listings/listing-85.txt"/>
       <para>The objective is to determine if <literal>document</literal> should be indexed by the
         spatial <literal>Index</literal>.</para>
       <para>For this, we look up its collection configuration and try to find a "custom" index
@@ -1197,23 +1197,23 @@
           <literal>document</literal> doesn't interest our <literal>IndexWorker</literal>, we reset
         some members to avoid having an inconsistent sticky state.</para>
       <para>The next methods don't require any particular comment :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-86.txt"/>
+      <programlisting  xlink:href="listings/listing-86.txt"/>
       <para>The next method is somehow tricky :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-87.txt"/>
+      <programlisting  xlink:href="listings/listing-87.txt"/>
       <para>It doesn't return any <literal>StreamListener</literal> in the
           <literal>StreamListner.REMOVE_ALL_NODES</literal>. It would be totally unnecessary to
         listen at every node whereas a JDBC database will be able to delete all the document's nodes
         in one single statement.</para>
       <para>The next method is a place holder that needs more thinking. How to highlight a geometric
         information smartly?</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-88.txt"/>
+      <programlisting  xlink:href="listings/listing-88.txt"/>
       <para>The next method computes the reindexing root. We will go bottom-up form the not to be
         modified until the top-most element in the GML namespace. Indeed, GML allows "nested" or
         "multi" geometries. If a single part of such <literal>Geometry</literal> is modified, the
         whole geometry has to be recomputed.</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-89.txt"/>
+      <programlisting  xlink:href="listings/listing-89.txt"/>
       <para>The next method delegates the write operations :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-90.txt"/>
+      <programlisting  xlink:href="listings/listing-90.txt"/>
       <para>Even though its code looks thick, it proves to be a good way to acquire (then release) a
           <literal>Connection</literal> whatever the way it is provided by the
           <literal>IndexWorker</literal> (see above for these aspects, concurrency in particular).
@@ -1222,43 +1222,43 @@
         exception occur, it would be logged and swallowed: eXist doesn't like exceptions when it
         flushes its data.</para>
       <para>The next method delegates node storage:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-91.txt"/>
+      <programlisting  xlink:href="listings/listing-91.txt"/>
       <para>It will call <literal>saveGeometryNode()</literal> (see below) passing a container inner
         class that will not be described given its simplicity.</para>
       <para>The next two methods are built with the same design. The first one destroys the index
         entry for the currently processed node and the second one removes the index entries for the
         whole document.</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-92.txt"/>
+      <programlisting  xlink:href="listings/listing-92.txt"/>
       <para>The next method is a mix of the designs described above. It also previously makes a
         check:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-93.txt"/>
+      <programlisting  xlink:href="listings/listing-93.txt"/>
       <para>Indeed, we have to check if the collection is indexable by the <literal>Index</literal>
         before trying to delete its index entries.</para>
       <para>The next methods are built on the same design (<literal>Collection</literal> and
         exception management) and will thus not be described.</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-94.txt"/>
+      <programlisting  xlink:href="listings/listing-94.txt"/>
       <para>... because all these methods delegate to the following abstract methods that will have
         to be implemented by the DB-dependant concrete classes :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-95.txt"/>
+      <programlisting  xlink:href="listings/listing-95.txt"/>
       <para>Let's have a look however at this method that doesn't need a DB-dependant implementation
         :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-96.txt"/>
+      <programlisting  xlink:href="listings/listing-96.txt"/>
       <para>Same design (<literal>Collection</literal> and exception management, delegation
         mechanism). We probably will add more like this in the future.</para>
       <para>The following methods are utility methods to stream <literal>Geometry</literal>
         instances to XML and vice-versa.</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-97.txt"/>
+      <programlisting  xlink:href="listings/listing-97.txt"/>
       <para>The first one uses a <literal>org.geotools.gml.GMLFilterDocument</literal> (see below)
         and the second one uses a <literal>org.geotools.gml.producer.GeometryTransformer</literal>
         which needs some polishing because, despite it is called a transformer, it doesn't cope
         easily with a <literal>Handler</literal> and returns a... <literal>String</literal> ! See
-          <link xmlns:xlink="http://www.w3.org/1999/xlink"
+          <link
           xlink:href="http://codehaus01a.managed.contegix.com/browse/GEOT-1315"
         >GEOT-1315</link>.</para>
       <para>The last method is also a utility method :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-98.txt"/>
+      <programlisting  xlink:href="listings/listing-98.txt"/>
       <para>It implements a workaround for our test file SRS which isn't yet known by Geotools
-        libraries (see <link xmlns:xlink="http://www.w3.org/1999/xlink"
+        libraries (see <link
           xlink:href="http://codehaus01a.managed.contegix.com/browse/GEOT-1307">GEOT-1307</link>),
         then it tries to get the transformation from our cache. If it doesn't succeed, it tries to
         find one in the libraries that are in the CLASSPATH. Should those libraries lack the
@@ -1267,13 +1267,13 @@
           <literal>sourceCRS</literal> to the required <literal>targetCRS</literal>.</para>
       <para>Now, let's study how the abstract methods are implement by the HSQLDB-dependant class
         :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-99.txt"/>
+      <programlisting  xlink:href="listings/listing-99.txt"/>
       <para>The only noticeable point is that we indeed extend our
           <literal>org.exist.indexing.spatial.AbstractGMLJDBCIndexWorker</literal>
       </para>
       <para>Now, this method will do something more interesting, store the
           <literal>Geometry</literal> associated to a node :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-100.txt"/>
+      <programlisting  xlink:href="listings/listing-100.txt"/>
       <para>The generated SQL statement should be straightforward. We make a heavy use of the
         methods provided by <literal>com.vividsolutions.jts.geom.Geometry</literal>, both on the
         "native" <literal>Geometry</literal> and on its EPSG:4326 transformation. Would could
@@ -1282,19 +1282,19 @@
         might prefer to store fewer properties if they can be computed dynamically at a cheap
         price.</para>
       <para>The next method is even much easier to understand :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-101.txt"/>
+      <programlisting  xlink:href="listings/listing-101.txt"/>
       <para>... and this one even more :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-102.txt"/>
+      <programlisting  xlink:href="listings/listing-102.txt"/>
       <para>This one however, is a little bit trickier :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-103.txt"/>
+      <programlisting  xlink:href="listings/listing-103.txt"/>
       <para>... maybe because it makes use of a SQL function to filter the right documents ?</para>
       <para>The two next methods are straightforward, now that we have explained that
           <literal>Connection</literal>s had to be requested from the <literal>Index</literal> to
         avoid concurrency problems on an embedded HSQLDB instance.</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-104.txt"/>
+      <programlisting  xlink:href="listings/listing-104.txt"/>
       <para>The next method is much more interesting. This is where is the core of the spatial index
         is:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-105.txt"/>
+      <programlisting  xlink:href="listings/listing-105.txt"/>
       <para>The trick is to filter the geometries on (fast) BBox operations first (intersecting
         geometries have BBox intersecting as well) which is possible in every case but for the
           <literal>Spatial.DISJOINT</literal> operator. For the latter case, we will have to fetch
@@ -1305,16 +1305,16 @@
           <literal>Geometry</literal> deserialization from the DB then performing spatial operations
         on it. Matching nodes are then returned.</para>
       <para>The next method is quite straightforward:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-106.txt"/>
+      <programlisting  xlink:href="listings/listing-106.txt"/>
       <para>Notice that it will return EPSG:4326 <literal>Geometry</literal>ies and that it will
         rethrow a <literal>com.vividsolutions.jts.io.ParseException</literal> as a
           <literal>java.sql.SQLException</literal>.</para>
       <para>The next method is a bit more restrictive and modular :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-107.txt"/>
+      <programlisting  xlink:href="listings/listing-107.txt"/>
       <para>... because if directly selects the right node and allows to return either the original
           <literal>Geometry</literal>, either its EPSG:4326 transformation.</para>
       <para>The next method is a generalization of the previous one:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-108.txt"/>
+      <programlisting  xlink:href="listings/listing-108.txt"/>
       <para>It queries the whole index for the requested <literal>Geometry</literal>, ignoring the
         documents that are not in the <literal>contextSet</literal>, and it also ignores the nodes
         that are not in the <literal>contextSet</literal>. After that the
@@ -1324,11 +1324,11 @@
           future optimization effort.</para>
       </note>
       <para>This is the next method, designed like <literal>getGeometryForNode()</literal>:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-109.txt"/>
+      <programlisting  xlink:href="listings/listing-109.txt"/>
       <para>It directly requests the required property from the DB and returns an appropriate XML
         atomic value.</para>
       <para>The next method is a generalization of the previous one :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-110.txt"/>
+      <programlisting  xlink:href="listings/listing-110.txt"/>
       <para>It queries the whole index for the requested property, ignoring the documents that are
         not in the <literal>contextSet</literal>, and it also ignores the nodes that are not in the
           <literal>contextSet</literal>. Finally the property mapped to the appropriate XML atomic
@@ -1338,7 +1338,7 @@
           future optimization effort.</para>
       </note>
       <para>The last method is a utility method and we will only show a part of its body:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-111.txt"/>
+      <programlisting  xlink:href="listings/listing-111.txt"/>
       <para>It deserializes each <literal>Geometry</literal> and checks that its data are consistent
         with what is stored in the DB.</para>
     </sect2>
@@ -1356,7 +1356,7 @@
       <para>As stated above, our <literal>StreamListener</literal> will be implemented as an inner
         class of <literal>org.exist.indexing.spatial.AbstractGMLJDBCIndexWorker</literal>. Of
         course, it will extend <literal>org.exist.indexing.AbstractStreamListener</literal>:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-112.txt"/>
+      <programlisting  xlink:href="listings/listing-112.txt"/>
       <para>There are only two members. <literal>srsNamesStack</literal> will maintain a
           (<literal>String</literal>) <literal>java.util.Stack</literal> for the
           <literal>srsName</literal> attribute of the elements in the GML namespace
@@ -1367,7 +1367,7 @@
         because we still haven't received its attributes.</para>
       <para>The <literal>getWorker()</literal> method should be straightforward.</para>
       <para>Let's see how the process is performed:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-113.txt"/>
+      <programlisting  xlink:href="listings/listing-113.txt"/>
       <para>Element deferring occurs only if <literal>currentDoc</literal> is to be indexed of
         course. If so, an incoming element is deferred but we do not forget to forward the event to
         the next <literal>StreamListener</literal> in the pipeline.</para>
@@ -1380,7 +1380,7 @@
           attributes. The described design is just a matter of choice.</para>
       </note>
       <para>Let's see how the deferred element is processed :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-114.txt"/>
+      <programlisting  xlink:href="listings/listing-114.txt"/>
       <para>We first need to collect its attributes and that's why it is deferred, because
         attributes events come <emphasis>after</emphasis> the call to
           <literal>startElement()</literal>. Elements in the GML namespace that carry an
@@ -1396,7 +1396,7 @@
       <para>When the attributes are collected, we can send a <literal>startElement()</literal> event
         to the SAX handler, thus marking the end of the deferring process.</para>
       <para>Processing of the current element with <literal>endElement()</literal>:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-115.txt"/>
+      <programlisting  xlink:href="listings/listing-115.txt"/>
       <para>We first pop a SRS name from the stack. <literal>null</literal> will indicate that the
         element doesn't have any and thus that it is an element which doesn't carry enough
         information to build a complete geometry. That doesn't prevent us to forward this element to
@@ -1410,7 +1410,7 @@
       <para>This is how the <literal>GeometryHandler</literal> looks like. It is also implemented as
         an inner class of <literal>org.exist.indexing.spatial.AbstractGMLJDBCIndexWorker</literal>
       </para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-116.txt"/>
+      <programlisting  xlink:href="listings/listing-116.txt"/>
       <para>Thanks to Geotools SAX parser, it hasn't to be more complicated than setting the
           <literal>streamedGeometry</literal> "global" member.</para>
       <note>
@@ -1431,13 +1431,13 @@
         the <literal>http://exist-db.org/xquery/spatial</literal> namespace (whose default prefix is
           <literal>spatial</literal>).</para>
       <para>The functions signatures are documented together with the functions themselves in <link
-          xmlns:xlink="http://www.w3.org/1999/xlink"
+
           xlink:href="http://demo.exist-db.org/xquery/functions.xq">this page</link>. Here we will
         only look at their <literal>eval()</literal> methods.</para>
       <para>The first functions set we will describe is
           <literal>org.exist.xquery.modules.spatial.FunSpatialSearch</literal>, which performs
         searches on the spatial index:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-117.txt"/>
+      <programlisting  xlink:href="listings/listing-117.txt"/>
       <para>We first build an early result if empty sequences are passed to the function.</para>
       <para>Then, we try to access the <literal>XQueryContext</literal>'s
           <literal>AbstractGMLJDBCIndex</literal> (remember that there is a 1:1 relationship between
@@ -1458,7 +1458,7 @@
       <para>The second functions set is
           <literal>org.exist.xquery.modules.spatial.FunGeometricProperties</literal>, which
         retrieves a property for a <literal>Geometry</literal>:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-118.txt"/>
+      <programlisting  xlink:href="listings/listing-118.txt"/>
       <para>The design is very much the same : we build an early result if empty sequences are
         involved, we get a <literal>AbstractGMLJDBCIndex</literal>, then we set a
           <literal>propertyName</literal>, which is actually a SQL field name, depending on the
@@ -1478,7 +1478,7 @@
       <para>The third functions set,
           <literal>org.exist.xquery.modules.spatial.FunGMLProducers</literal>, uses the same design
         :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-119.txt"/>
+      <programlisting  xlink:href="listings/listing-119.txt"/>
       <para><!-- probably this procedure should be listed once (ordered list) and then be referred to /ljo-->
         It looks more complicated because of the multiple possible argument counts. However, the
         pinciple remains the same: early result when empty sequences are involved, fetching of the
@@ -1525,18 +1525,18 @@
       <para>Enable the spatial index and the spatial module in
           <literal>${EXIST_HOME}/conf.xml</literal> if it is not already done.</para>
       <para>the spatial index:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-120.xml"/>
+      <programlisting  language="xml" xlink:href="listings/listing-120.xml"/>
       <para>and the spatial module:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-121.xml"/>
+      <programlisting  language="xml" xlink:href="listings/listing-121.xml"/>
       <para>This concludes the prerequisites for running the test.</para>
       <para>Our demonstration file is taken from the <link
-          xmlns:xlink="http://www.w3.org/1999/xlink"
+
           xlink:href="http://www.ordnancesurvey.co.uk/oswebsite/">Ordnance Survey of Great-Britain's
-          WWW site</link> which offers <link xmlns:xlink="http://www.w3.org/1999/xlink"
+          WWW site</link> which offers <link
           xlink:href="http://www.ordnancesurvey.co.uk/oswebsite/products/try-now/sample-data.html"
           >sample data</link>.</para>
       <para>The chosen topography layer is of Port-Talbot, which is available as <link
-          xmlns:xlink="http://www.w3.org/1999/xlink"
+
           xlink:href="http://www.ordnancesurvey.co.uk/products/osmastermap/layers/topography/sampledata/2182-SS7886-2c1.gz"
           >2182-SS7886-2c1.gz</link>. Download this file, gunzip it, and give to the resulting file
         a <literal>.gml</literal> extension (<literal>port-talbot.gml</literal>) this will allow
@@ -1571,7 +1571,7 @@
       <para>Double-click on this document and let's replace its auto-generated content :</para>
       <programlisting language="xml">&lt;template/&gt;</programlisting>
       <para>with this one:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-124.xml"/>
+      <programlisting  language="xml" xlink:href="listings/listing-124.xml"/>
       <note>
         <para>Do not forget to save the document before closing the window.</para>
       </note>
@@ -1585,7 +1585,7 @@
         including some default fulltext indexing. Let's close the upload window and quit the
         interactive client.</para>
       <para>Let's look our our GML file looks like on GML Viewer, a free viewer provided by <link
-          xmlns:xlink="http://www.w3.org/1999/xlink"
+
           xlink:href="http://www.snowflakesoftware.co.uk/products/gmlviewer/index.htm">Snowflake
           software</link> :</para>
       <informalfigure>
@@ -1606,21 +1606,21 @@
       <para>Let's get back to the interactive client and open the query window (the one we get when
         clicking on the binocular button in the toolbar).</para>
       <para>This query:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-125.txt"/>
+      <programlisting  xlink:href="listings/listing-125.txt"/>
       <para>... is processed in a little bit less than 2 seconds. That could seem high, but there is
         a cost for the Geotools transformation factories initialization. Subsequent requests will be
         much faster, although there will always be a small cost for the streaming of the in-memory
         node to a <literal>Geometry</literal> object.</para>
       <para>The result is:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-126.xml"/>
+      <programlisting  language="xml" xlink:href="listings/listing-126.xml"/>
       <note>
         <para>Due to the current Geotools limitations, there is no <literal>srsName</literal>
           attribute on <tag>gml:Polygon</tag> ! See above.</para>
       </note>
       <para>... but people might find more convenient to perform this query :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-127.txt"/>
+      <programlisting  xlink:href="listings/listing-127.txt"/>
       <para>... which returns:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-128.txt"/>
+      <programlisting  xlink:href="listings/listing-128.txt"/>
       <para>So, 3 degrees West, 51 deegrees North... we must be indeed northern of Brittany, i.e. in
         south-western Great-Britain.</para>
       <para>Let's see what our polygon looks like:</para>
@@ -1632,12 +1632,12 @@
         </mediaobject>
       </informalfigure>
       <para>Now, we continue doing something more practical:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-129.txt"/>
+      <programlisting  xlink:href="listings/listing-129.txt"/>
       <para>This query returns 756 <tag>gml:Polygon</tag>s in about 15 seconds. A subsequent call
         returns in just about 450 ms, not having the cost for initializations (in particular the
         first connection to the HSQLDB). A slighly modified query, in order to show the performance
         without utilising eXist's performant cache:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-130.txt"/>
+      <programlisting  xlink:href="listings/listing-130.txt"/>
       <para>... retuns 755 <tag>gml:Polygon</tag> (one less) in just about 470 ms.</para>
       <para>The result of our first intersection query looks like this:</para>
       <informalfigure>
@@ -1648,7 +1648,7 @@
         </mediaobject>
       </informalfigure>
       <para>Let's try another type of spatial query:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-131.txt"/>
+      <programlisting  xlink:href="listings/listing-131.txt"/>
       <para>It returns 598 <tag>gml:Polygon</tag>s in just a little bit more than 400 ms. Here is
         what they look like:</para>
       <informalfigure>
@@ -1660,7 +1660,7 @@
       </informalfigure>
       <para>The last query of this session is just to demonstrate some interesting capabilities of
         the spatial functions:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-132.txt"/>
+      <programlisting  xlink:href="listings/listing-132.txt"/>
       <para>See the (not so) rounded corners of our 500 metres buffer over Port-Talbot :</para>
       <informalfigure>
         <mediaobject>
@@ -1686,7 +1686,7 @@
           <literal>org.exist.indexing.spatial.AbstractGMLJDBCIndexWorker</literal>) to allow
         sequence/set optimization.</para>
       <para>Indeed, a query like this one on our test file :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-133.txt"/>
+      <programlisting  xlink:href="listings/listing-133.txt"/>
       <para>... returns 5339 items through as many calls to the DB in... 51 seconds on an
         initialized index ! Intercepting the <literal>SINGLE_STEP_EXECUTION</literal> flag when the
         expression is analyzed would allow to call the 2 above methods rather than their
@@ -1718,7 +1718,7 @@
         instance) should be considered.</para>
       <para>An other improvement would be to introduce some error margins for
           <literal>Geometry</literal>ies computations or BBox ones. The <link
-          xmlns:xlink="http://www.w3.org/1999/xlink"
+
           xlink:href="http://www.vividsolutions.com/jts/jtshome.htm">Java Topology Suite</link>,
         widely used by Geotools, has all the necessary material for this.</para>
       <para>Another interesting improvement would be to compute and return simplified
@@ -1727,7 +1727,7 @@
         in the function's parameters, the index could use the right DB fields in order to work on
           <emphasis>precomputed</emphasis> simpler (or, more generally, different) entries.</para>
       <para>This is how a hint configuration could look like :</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-134.xml"/>
+      <programlisting  language="xml" xlink:href="listings/listing-134.xml"/>
       <para>We should also discuss with the other developers about the opportunity to have a
           <literal>org.exist.indexing.Index</literal> interface in the modularized indexes
         hierarchy. The abstract class <literal>org.exist.indexing.AbstractIndex</literal> provides

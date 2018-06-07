@@ -1,8 +1,7 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
         schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
-  version="5.0">
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>XQSuite - Annotation-based Test Framework for XQuery</title>
     <date>1Q18</date>
@@ -200,7 +199,7 @@
       <para>To test a function which takes parameters, use the <code>%test:arg</code> or
           <code>%test:args</code> annotation in combination with one or more
           <code>%test:assert*</code> assertions. For example:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-3.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-3.txt"/>
       <itemizedlist>
         <listitem>
           <para>The <code>%test:arg</code> annotation is used to set the parameters for the next
@@ -233,7 +232,7 @@
             for every parameter, use a single <code>%test:args</code> annotation to define all
             parameter values at once. <code>%test:args</code> takes a list of values. Each value is
             mapped to exactly one function parameter. Example:</para>
-          <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-4.txt"/>
+          <programlisting language="xquery" xlink:href="listings/listing-4.txt"/>
         </listitem>
       </itemizedlist>
     </sect2>
@@ -248,7 +247,7 @@
         assertions. </para>
       <para>For example, the following function expects a parameter of type
         <code>xs:date</code>:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-5.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-5.txt"/>
       <para>The string value passed to the <code>%test:args</code> annotation is automatically
         converted to the <code>xs:date</code> type declared for the function parameter. The same
         applies to the assertion values.</para>
@@ -273,10 +272,10 @@
       </listitem>
     </orderedlist>
     <para>Here is an example of a module for test, stored as <literal>math.xql</literal>:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-6.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-6.txt"/>
     <para>To run the tests in this module, create a main XQuery, for example called
         <literal>suite.xql</literal>, and store it in the same collection:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-7.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-7.txt"/>
     <para>Executing the main XQuery, for instance within eXide, will return the test results as an
       XML fragment (see <xref linkend="sect-test-output"/>).</para>
     <para>In the main XQuery, the function: <code>inspect:module-functions</code> returns a function
@@ -299,6 +298,6 @@
       empty if the test passed. If the test failed, there will be a <tag>failure</tag> element
       containing the expected result of the function, and an <tag>output</tag> element with the
       actual result. For example:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-8.xml"/>
+    <programlisting language="xml" xlink:href="listings/listing-8.xml"/>
   </sect1>
 </article>

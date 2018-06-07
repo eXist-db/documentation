@@ -1,6 +1,6 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>XML-RPC API Developer's Guide</title>
     <date>1Q18</date>
@@ -22,12 +22,12 @@
 
     <para>XML-RPC (XML Remote Procedural Call) provides a simple way to access eXist-db by calling remote procedures from a wide variety of
       programming languages and environments, like CGI scripts, PHP, JSP and more. </para>
-    <para>For a Java server, eXist uses the XML-RPC library created by Hannes Wallnoefer which recently has moved to Apache (see: <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://xml.apache.org/xmlrpc">http://xml.apache.org/xmlrpc</link>). </para>
-    <para>Perl examples use the RPC::XML package, which should be available at every CPAN mirror (see <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.cpan.org">CPAN</link>).</para>
+    <para>For a Java server, eXist uses the XML-RPC library created by Hannes Wallnoefer which recently has moved to Apache (see: <link  xlink:href="http://xml.apache.org/xmlrpc">http://xml.apache.org/xmlrpc</link>). </para>
+    <para>Perl examples use the RPC::XML package, which should be available at every CPAN mirror (see <link  xlink:href="http://www.cpan.org">CPAN</link>).</para>
     <para>The following is a small example, which shows how to talk to eXist-db from Java using the Apache XML-RPC library. This example can be found
       in <literal>samples/org/exist/examples/xmldb/Retrieve.java</literal>.</para>
 
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="java" xlink:href="listings/listing-1.txt"/>
+    <programlisting  language="java" xlink:href="listings/listing-1.txt"/>
     <para>As shown above, the <literal>execute</literal> method of <literal>XmlRpcClient</literal> expects as its parameters a method (passed as a
       string) to call on the server and a <code>Vector</code> of parameters to pass to this executed method. In this example, the method
         <literal>getDocumentAsString</literal> is called as the first parameter, and a <code>Vector params</code>. Various output properties can also
@@ -47,14 +47,14 @@
     </note>
     <para>Querying is easy using XML-RPC:</para>
 
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="java" xlink:href="listings/listing-2.txt"/>
+    <programlisting  language="java" xlink:href="listings/listing-2.txt"/>
     <para>You will find the source code of this example in <literal>samples/xmlrpc/search2.pl</literal>. It uses the simple query method, which
       executes the query and returns a document containing the specified number of results. The result set is <emphasis>not</emphasis> cached on the
       server. </para>
     <para>The following example calls the <literal>executeQuery</literal> method, which returns a unique session id. In this case, the actual results
       are cached on the server and can be retrieved using the <literal>retrieve</literal> method. </para>
 
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="java" xlink:href="listings/listing-3.txt"/>
+    <programlisting  language="java" xlink:href="listings/listing-3.txt"/>
   </sect1>
 
   <!-- ================================================================== -->

@@ -1,6 +1,6 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>Package Repository</title>
     <date>1Q18</date>
@@ -21,7 +21,7 @@
   <sect1>
     <title>Introduction</title>
 
-    <para>The package repository is based on and extends the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://expath.org/modules/pkg/" condition="_blank">EXPath Packaging System</link>. The core of the EXPath packaging
+    <para>The package repository is based on and extends the <link xlink:href="http://expath.org/modules/pkg/" condition="_blank">EXPath Packaging System</link>. The core of the EXPath packaging
       specification has been designed to work across different XQuery implementations and is
       targeted at managing extension libraries (including XQuery, Java or XSLT code modules).
       eXist-db extends this core by adding a facility for the automatic deployment of entire
@@ -98,7 +98,7 @@
       <title><code>expath-pkg.xml</code></title>
 
       <para>As an example, the EXPath descriptor for the documentation app is shown below:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-1.xml"/>
+      <programlisting language="xml" xlink:href="listings/listing-1.xml"/>
       <para>The schema of this file is documented in the specification. In short, the attributes are
         as follows:</para>
       <variablelist spacing="compact">
@@ -151,7 +151,7 @@
           the other package: The name attribute (URI) of the <code>expath-pkg.xml</code> descriptor.
           For eaxample:</para>
         <programlisting language="xml">&lt;dependency package="http://exist-db.org/apps/shared"/&gt;</programlisting>
-        <para>It is also possible to create a dependency on a specific version, based on <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://http://semver.org/" condition="_blank">Semantic Versioning</link>. This can be done by adding either of the
+        <para>It is also possible to create a dependency on a specific version, based on <link xlink:href="http://http://semver.org/" condition="_blank">Semantic Versioning</link>. This can be done by adding either of the
           attributes: <code>version</code>, <code>semver</code>, <code>semver-min</code>,
             <code>semver-max</code>: </para>
         <variablelist spacing="compact">
@@ -209,12 +209,12 @@
           used by other packages without knowing where the module code is stored. </para>
         <para>For example, the following descriptor registers the module
             <literal>functx.xql</literal> using the given namespace: </para>
-        <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-4.xml"/>
+        <programlisting language="xml" xlink:href="listings/listing-4.xml"/>
         <para>The namespace has to correspond to the namespace defined in the module declaration of
           the XQuery module. The file should be placed into a subdirectory of the .xar archive,
           named "content". The structure of the <code>.xar</code> for the <code>functx</code>
           library would be as follows:</para>
-        <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-5.txt"/>
+        <programlisting xlink:href="listings/listing-5.txt"/>
         <para>Only XQuery files which are registered in <code>expath-pkg.xml</code> need to go into
           this special directory. You are free to keep other XQuery files wherever you want. Also,
           XQuery resources which are only used by a single application, should
@@ -225,7 +225,7 @@
           from anywhere within the database instance without knowing the exact import path. Thus the
           following import statement will be sufficient to import the <code>functx</code>
           module:</para>
-        <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-6.txt"/>
+        <programlisting language="xquery" xlink:href="listings/listing-6.txt"/>
       </sect3>
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -239,7 +239,7 @@
             <literal>exist.xml</literal>. </para>
         <para>As an example, the <code>exist.xml</code> descriptor of the cryptographic extension
           module is shown below:</para>
-        <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-7.xml"/>
+        <programlisting language="xml" xlink:href="listings/listing-7.xml"/>
         <para>The descriptor may contain one or more <tag>jar</tag> elements, each pointing to a
           Java <literal>.jar</literal> archive to be installed. Arbitrary <code>.jar</code> files
           can be listed here: they do not need to be XQuery extension modules. Again, the
@@ -263,7 +263,7 @@
 
       <para>The deployment descriptor contains additional metadata and defines how the package will
         be installed into an eXist-db database instance. For example:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-8.xml"/>
+      <programlisting language="xml" xlink:href="listings/listing-8.xml"/>
       <para>The two settings: <code>type</code> and <code>target</code> determine how a package is
         handled by the installer:</para>
       <informaltable>
@@ -382,7 +382,7 @@
               guarantee that index definitions are applied when data is uploaded to the db.</para>
             <para>The target collection, the file system path to the current package directory and
               eXist-db's home directory, are passed to the script as external variables:</para>
-            <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-10.txt"/>
+            <programlisting language="xquery" xlink:href="listings/listing-10.txt"/>
             <para>The script can use these to read files contained in the package.</para>
           </listitem>
         </varlistentry>
@@ -426,7 +426,7 @@
       the future. For example, if an application requires access to data stored in another package
       called "data-pkg", it could define a variable to point to the correct collection as
       follows:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-14.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-14.txt"/>
   </sect1>
 
   <!-- ================================================================== -->
@@ -441,7 +441,7 @@
         <literal>repo.xml</literal> will always be relative to this root collection.</para>
     <para>eXist-db's URL rewriting is by default configured to map any path starting with
         <code>/apps</code> to the repository root collection. Check
-        <literal>webapp/WEB-INF/controller-config.xml</literal> and the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="urlrewrite">URL rewriting
+        <literal>webapp/WEB-INF/controller-config.xml</literal> and the <link xlink:href="urlrewrite">URL rewriting
         documentation</link>.</para>
   </sect1>
 
@@ -488,7 +488,7 @@
     <para>You can run your private repository and install packages from it, for instance to
       distribute applications to your customers. The eXist-db repository is implemented by the
       application package <code>http://exist-db.org/apps/public-repo</code>. The code can be
-      downloaded from the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://github.com/eXist-db/public-xar-repo" condition="_blank">eXist-db
+      downloaded from the <link xlink:href="https://github.com/eXist-db/public-xar-repo" condition="_blank">eXist-db
         GitHub</link> repo.</para>
     <para>Once you have built and installed the app, you can upload the package <code>.xar</code>
       files you wish to distribute into the collection <literal>public-repo/public</literal>. To
