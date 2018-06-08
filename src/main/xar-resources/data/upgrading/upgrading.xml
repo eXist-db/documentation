@@ -17,20 +17,22 @@
 
   <sect1 xml:id="key-concepts">
     <title>Introduction</title>
-
-    <para>The primary goal of an upgrade is to migrate your eXist application to a new version, while preserving the contents of your database.</para>
-    <para>Before embarking on an upgrade, you should first review the new version's release notes (see the
-      <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://exist-db.org/exist/apps/wiki/blogs/eXist/" condition="_blank">eXist Developer's Blog</link>
-      for an archive of all past release notes). The release notes introduce the new version's features, improvements and bug fixes. They can also outline any new requirements (for instance the required version of Java).
-    </para>
-    <para>For the purpose of this guide, the most important item in the release notes is whether the new version is
-      <emphasis>binary-compatible</emphasis>
-      with the previous version or not. Pay close attention to these notes, as they will tell you which upgrade route to follow.</para>
-    <para>If a new version is binary-compatible with the previous version, it means the format eXist uses to store the contents of the database has not changed. The data can be used by new version without modification.
-    </para>
-    <para>However, if a new version is
-      <emphasis>not</emphasis>
-      binary-compatible, the new version of eXist has changed the way it reads data from or stores data into the database. Additional steps are required to migrate your data to the new version of eXist.</para>
+    <para>The primary goal of an upgrade is to migrate your eXist application to a new version,
+      while preserving the contents of your database.</para>
+    <para>Before embarking on an upgrade, you should first review the new version's release notes
+      (see the <link xlink:href="http://exist-db.org/exist/apps/wiki/blogs/eXist/" condition="_blank">eXist
+        Developer's Blog</link> for an archive of all past release notes). The release notes
+      introduce the new version's features, improvements and bug fixes. They can also outline any
+      new requirements (for instance the required version of Java). </para>
+    <para>For the purpose of this guide, the most important item in the release notes is whether the
+      new version is <emphasis>binary-compatible</emphasis> with the previous version or not. Pay
+      close attention to these notes, as they will tell you which upgrade route to follow.</para>
+    <para>If a new version is binary-compatible with the previous version, it means the format eXist
+      uses to store the contents of the database has not changed. The data can be used by new
+      version without modification. </para>
+    <para>However, if a new version is <emphasis>not</emphasis> binary-compatible, the new version
+      of eXist has changed the way it reads data from or stores data into the database. Additional
+      steps are required to migrate your data to the new version of eXist.</para>
     <para>Always back up your data before upgrading to any new version of eXist.</para>
     <para>Do not install the new version of eXist over the previous version. Instead, install the new version into a fresh new directory.</para>
   </sect1>
@@ -56,12 +58,10 @@
           install one eXist version over the existing one. Always install the new version into a fresh new directory.</para>
       </listitem>
       <listitem>
-        <para>Remove the still
-          <emphasis>empty</emphasis>
-          <code>data</code>
-          directory from the new installation. By default the data directory is located in
-          <code>webapp/WEB-INF/data</code>. If you are not sure where the data directory is, check the main logfile
-          <link xlink:href="troubleshooting.xml#logs">
+        <para>Remove the still <emphasis>empty</emphasis>
+          <code>data</code> directory from the new installation. By default the data directory is
+          located in <code>webapp/WEB-INF/data</code>. If you are not sure where the data directory
+          is, check the main logfile <link xlink:href="troubleshooting.xml#logs">
             <code>exist.log</code>
           </link>, searching for entries after start-up pertaining to
           <code>DATA_DIR</code>.
@@ -74,8 +74,7 @@
         <para>Start the new eXist instance.</para>
       </listitem>
       <listitem>
-        <para>Check the
-          <link xlink:href="troubleshooting.xml#logs">
+        <para>Check the <link xlink:href="troubleshooting.xml#logs">
             <code>exist.log</code>
           </link>
           for any errors during startup.</para>
@@ -93,9 +92,8 @@
       of your backed-up data into the new installation.</para>
     <orderedlist>
       <listitem>
-        <para>Create a
-          <link xlink:href="backup.xml">server-side backup</link>. This can be done in a number of ways:
-        </para>
+        <para>Create a <link xlink:href="backup">server-side backup</link>. This can be done in a number
+          of ways: </para>
         <orderedlist>
           <listitem>
             <para>Use Backup Central from the Dashboard (with "Zip" option for databases with less then 4GB)</para>
@@ -129,9 +127,8 @@
         <para>Install the new version of eXist. DO not install one eXist version over another one. Always install the new version into a fresh new directory.</para>
       </listitem>
       <listitem>
-        <para>Perform a full
-          <link xlink:href="backup.xml#restore">restore</link>
-          of the backup onto the new version of eXist.</para>
+        <para>Perform a full <link xlink:href="backup.xml#restore">restore</link> of the backup onto the new version of
+          eXist.</para>
       </listitem>
     </orderedlist>
   </sect1>
@@ -176,11 +173,11 @@
     <title>History of Non-compatible Upgrades</title>
 
     <para>This is a list of binary non-compatible releases for quick reference.</para>
-    <para>If a non-incremental upgrade across multiple non-compatible releases is necessary, foir instance from 1.4 to 3.6, we strongly recommend to first check past release notes to understand how breaking changes might affect you.</para>
-
+    <para>If a non-incremental upgrade across multiple non-compatible releases is necessary,
+      foir instance from 1.4 to 3.6, we strongly recommend to first check past release notes to understand
+      how breaking changes might affect you.</para>
     <table xml:id="old-news">
       <title>Notes on previous releases</title>
-
       <tgroup cols="2">
         <tbody>
           <row>
@@ -189,7 +186,7 @@
             </entry>
             <entry>
               <para>
-                <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://exist-db.org/exist/apps/wiki/blogs/eXist/search.html?field=tags&amp;q=release">release notes</link>
+                <link xlink:href="http://exist-db.org/exist/apps/wiki/blogs/eXist/search.html?field=tags&amp;q=release">release notes</link>
               </para>
             </entry>
           </row>
@@ -199,7 +196,7 @@
             </entry>
             <entry>
               <para>
-                <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="incompatibilities.xml#v3.0">special notes</link>
+                <link xlink:href="incompatibilities.xml#v3.0">special notes</link>
               </para>
             </entry>
           </row>
@@ -209,7 +206,7 @@
             </entry>
             <entry>
               <para>
-                <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="incompatibilities.xml#v2.2">special notes</link>
+                <link xlink:href="incompatibilities.xml#v2.2">special notes</link>
               </para>
             </entry>
           </row>
@@ -219,7 +216,7 @@
             </entry>
             <entry>
               <para>
-                <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="incompatibilities.xml#v2.0">special notes</link>
+                <link xlink:href="incompatibilities.xml#v2.0">special notes</link>
               </para>
             </entry>
           </row>
@@ -229,7 +226,7 @@
             </entry>
             <entry>
               <para>
-                <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="incompatibilities.xml#v1.4">special notes</link>
+                <link xlink:href="incompatibilities.xml#v1.4">special notes</link>
               </para>
             </entry>
           </row>

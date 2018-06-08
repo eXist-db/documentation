@@ -1,6 +1,6 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>N-Gram Index</title>
     <date>1Q18</date>
@@ -20,7 +20,7 @@
 
     <para>To create an n-gram index, add a <tag>ngram</tag> element directly below the root <tag>index</tag> node of a <code>collection.xconf</code>
       document:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-1.xml"/>
+    <programlisting language="xml" xlink:href="listings/listing-1.xml"/>
 
     <para> The <code>ngram</code> index only supports index definitions by <literal>qname</literal>. The <literal>path</literal> attribute is not
       supported. There are no additional parameters to be specified.</para>

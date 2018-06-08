@@ -1,6 +1,6 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>Java Management Extensions (JMX)</title>
     <date>1Q18</date>
@@ -25,14 +25,14 @@
     <title>Enabling the JMX agent</title>
 
     <para>To enable the platform server within the host virtual machine, pass the following Java system properties:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-1.txt"/>
+    <programlisting xlink:href="listings/listing-1.txt"/>
     <warning>
-      <para>These options makes the server publicly accessible. Please check the Oracle <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://docs.oracle.com/javase/1.5.0/docs/guide/management/agent.html"> JMX documentation</link> for details.</para>
+      <para>These options makes the server publicly accessible. Please check the Oracle <link xlink:href="http://docs.oracle.com/javase/1.5.0/docs/guide/management/agent.html"> JMX documentation</link> for details.</para>
     </warning>
     <para>The extension can now be activated by passing a <code>-j</code> or <code>-jmx</code> command-line parameter to the eXist start scripts
         (<literal>client.sh</literal>, <literal>startup.sh</literal> etc.). This parameter must be followed by the port number through which the
       JMX/RMI connections are enabled. For instance:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-2.txt"/>
+    <programlisting xlink:href="listings/listing-2.txt"/>
   </sect1>
 
   <!-- ================================================================== -->
@@ -140,7 +140,7 @@
       <para>For example, to get a report on current memory usage and running instances, use the following URL:</para>
       <programlisting>http://localhost:8080/exist/status?c=memory&amp;c=instances</programlisting>
       <para>This returns something like:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-8.xml"/>
+      <programlisting language="xml" xlink:href="listings/listing-8.xml"/>
       <para>The different JMX objects in eXist are organized into categories. One or more categories can be passed to the servlet in parameter
           <literal>c</literal>. The following categories are recognized:</para>
       <variablelist spacing="compact">
@@ -208,13 +208,13 @@
         <programlisting>http://localhost:8080/exist/status?operation=ping&amp;t=2000</programlisting>
         <para>If the ping returns within the specified timeout, the servlet returns the attributes of the SanityReport JMX bean, which will include an
           element <code>&lt;jmx:Status&gt;PING_OK&lt;/jmx:Status&gt;</code>:</para>
-        <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-10.xml"/>
+        <programlisting language="xml" xlink:href="listings/listing-10.xml"/>
         <para>If the ping takes longer than the timeout, you'll instead find an element <code>&lt;jmx:error&gt;</code> in the returned XML. In this
           case, additional information on running queries, memory consumption and database locks will be provided:</para>
-        <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-11.xml"/>
+        <programlisting language="xml" xlink:href="listings/listing-11.xml"/>
       </sect3>
-      
+
     </sect2>
-    
+
   </sect1>
 </article>

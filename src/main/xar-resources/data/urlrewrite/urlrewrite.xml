@@ -1,6 +1,6 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>URL Rewriting</title>
     <date>1Q18</date>
@@ -46,13 +46,13 @@
     <para>When designing RESTful web applications, a common rule is to provide meaningful URIs to
       the user. For example, our eXist wiki implements a hierarchical document space. The user can
       directly browse to a document by entering the path to it into the browser's location bar. The
-      URL <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://atomic.exist-db.org/HowTo/OxygenXML/">http://atomic.exist-db.org/HowTo/OxygenXML/eXistXmlRpcChanged</link> will directly lead to
+      URL <link xlink:href="http://atomic.exist-db.org/HowTo/OxygenXML/">http://atomic.exist-db.org/HowTo/OxygenXML/eXistXmlRpcChanged</link> will directly lead to
       the corresponding document.</para>
     <para>Internally all document views are handled by the same XQuery script. Above URL will be
       forwarded to an XQuery called <literal>index.xql</literal> as follows:</para>
     <programlisting>index.xql?feed=HowTo/OxygenXML/&amp;ref=eXistXmlRpcChanged</programlisting>
     <para>The XQuery code which does the rewrite magic is shown below:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-2.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-2.txt"/>
 
     <para>The <tag>forward</tag> element tells <code>XQueryURLRewrite</code> to pass the request to
       the specified URL. The forwarding is done via the <literal>RequestDispatcher</literal> of the
@@ -64,12 +64,12 @@
     <para>If you want the user to see the rewritten URL, replace the <tag>forward</tag> action with
       a <tag>redirect</tag>. A common use for <tag>redirect</tag> is to send the user to a default
       page:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-3.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-3.txt"/>
 
     <para>If no action is specified within the dispatch element, the request will be passed through
       the filter chain and handled normally. The same happens if the action is the <tag>ignore</tag>
       element. For example, the simplest controller script consist of a single ignore:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-4.xml"/>
+    <programlisting language="xml" xlink:href="listings/listing-4.xml"/>
 
 
     <note>
@@ -145,7 +145,7 @@
             is running from within the database, the corresponding <literal>/stylesheets</literal>
             collection. You want your app to be able to run from either location. The solution is to
             use <literal>exist:root</literal>:</para>
-          <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-5.xml"/>
+          <programlisting language="xml" xlink:href="listings/listing-5.xml"/>
         </listitem>
       </varlistentry>
     </variablelist>
@@ -243,7 +243,7 @@
     <para>The <tag>root</tag> elements define the roots of a directory or database collection
       hierarchy, mapped to a certain base path. For example, the default
         <literal>controller-config.xml</literal> uses two roots:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-7.txt"/>
+    <programlisting language="xml" xlink:href="listings/listing-7.txt"/>
     <para>This means that paths starting with <literal>/tools</literal> will be mapped to the
       collection hierarchy below <literal>/db/www</literal>. Everything else is handled by the catch
       all pattern pointing to the root directory of the webapp (by default corresponding to
@@ -253,7 +253,7 @@
         <literal>/db/www/admin/</literal> (if there is one) or will directly resolve to
         <literal>/db/www/admin/admin.xql</literal>. In this case, all relative or absolute URIs
       within the controller will be resolved against the database, not the file system. However,
-      there's a possibility to escape this path interpretation, described <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#EXTERNAL_RESOURCES">below</link>.</para>
+      there's a possibility to escape this path interpretation, described <link xlink:href="#EXTERNAL_RESOURCES">below</link>.</para>
   </sect1>
 
   <!-- ================================================================== -->
@@ -277,7 +277,7 @@
       sending this through an XSLT stylesheet <literal>webapp/stylesheets/db2html.xsl</literal>.
       This can be done by returning the following <tag>dispatch</tag> fragment by
         <literal>controller.xql</literal>:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-9.xml"/>
+    <programlisting language="xml" xlink:href="listings/listing-9.xml"/>
     <para>In this example there's no forwarding action except for the view So the request will be
       handled by the servlet engine the normal way. The response is then passed to
         <code>XSLTServlet</code>. A new HTTP POST request is created whose body is set to the
@@ -290,7 +290,7 @@
     <para>We can also pass a request through more than one view. The following fragment applies two
       stylesheets in sequence:</para>
 
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-10.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-10.txt"/>
     <para>The example also demonstrates how information can be passed between actions.
         <code>XQueryServlet</code> (which is called implicitly because the URL ends with
         <code>.xql</code>) can save the results of the called XQuery to a request attribute instead
@@ -331,7 +331,7 @@
       query to XQueryServlet first, then post-processes the returned result and stores it into a
       session for later use by the ajax frontend:</para>
 
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-11.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-11.txt"/>
     <para>The client passes the user-supplied query string in a request parameter, so the controller
       has to forward this to <code>XQueryServlet</code> somehow. <code>XQueryServlet</code> has an
       option to read the XQuery source from a request attribute, <literal>xquery.source</literal>.
@@ -396,7 +396,7 @@
               <listitem>
                 <para>To be used in combination with <literal>url</literal>. If set to "yes", the
                   url will be interpreted as an absolute path within the current servlet context.
-                  See <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#EXTERNAL_RESOURCES">below</link> for an example.</para>
+                  See <link xlink:href="#EXTERNAL_RESOURCES">below</link> for an example.</para>
               </listitem>
             </varlistentry>
             <varlistentry>
@@ -485,7 +485,7 @@
     <para>For example, to forward all requests starting with a path <literal>/libs/</literal> to a
       directory within the <literal>webapp</literal> folder of eXist, you can use the following
       snippet:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-12.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-12.txt"/>
     <para>This simply removes the /libs/ prefix and sets absolute="yes", so the path will be
       resolved relative to the main context of the servlet engine, usually /exist/. In your HTML,
       you can now write:</para>

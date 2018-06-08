@@ -1,6 +1,6 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>Tuning the Database</title>
     <date>1Q18</date>
@@ -27,7 +27,7 @@
         <literal>-Xmx</literal> parameter passed to Java on the command line. </para>
     <para>When eXist-db is started via the graphical launcher or via one of the shell or batch
       scripts, memory settings are read from the file <literal>vm.properties</literal>:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-1.txt"/>
+    <programlisting xlink:href="listings/listing-1.txt"/>
 
 
     <para>For <emphasis>Unix</emphasis> systems, this is done in
@@ -40,7 +40,7 @@
     <para>If you launch <emphasis>eXist-db as a service</emphasis>, all Java settings will be
       controlled by the <emphasis>service wrapper</emphasis>. In this case, the file to edit is
         <literal>EXIST_HOME/tools/yajsw/conf/wrapper.conf</literal>:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-2.txt"/>
+    <programlisting xlink:href="listings/listing-2.txt"/>
   </sect1>
 
   <!-- ================================================================== -->
@@ -56,7 +56,7 @@
     <para>All caches share a single memory pool, whose size is determined by the attribute
         <literal>cacheSize</literal> in the <tag>db-connection</tag> section of
         <literal>conf.xml</literal>:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-3.txt"/>
+    <programlisting language="xml" xlink:href="listings/listing-3.txt"/>
     <para>The global cache manager will dynamically grant more memory to caches while they are under
       load and free memory used by idle caches.</para>
     <para>The default setting for <literal>cacheSize</literal> is very conservative (48M). It is ok
@@ -109,13 +109,13 @@
     <sect2 xml:id="idxdefs">
       <title>Prefer simple index definitions</title>
 
-      <para>Keeping your <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="indexing">index definitions</link> simple makes it easier for the query optimizer to resolve
+      <para>Keeping your <link xlink:href="indexing">index definitions</link> simple makes it easier for the query optimizer to resolve
         dependencies. </para>
       <para>In particular, avoid context-dependant index definitions unless you really have a reason
         to use them. A context-dependant index is defined on a path like
           <code>/book/chapter/title</code>. General indexes are defined on a simple element or
         attribute qname. For instance:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-6.xml"/>
+      <programlisting language="xquery" xlink:href="listings/listing-6.xml"/>
       <para>Defining indexes on qnames may result in a larger index, but allows the query engine to
         apply all available optimization techniques. This can improve query times by an order of
         magnitude. Replacing a context-dependant index by a simple index on qname can therefore
@@ -136,7 +136,7 @@
           (<code>author = 'Joe Doe'</code>) or regular expressions (<code>matches(author,
           "^Joe.*")</code>) You can also use a full text index for the latter. </para>
       <para>Range indexes on strings are by default <emphasis>case-sensitive</emphasis>. To be more
-        precise: they are sensitive to the default <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://en.wikipedia.org/wiki/Collation" condition="_blank">collation</link>.
+        precise: they are sensitive to the default <link xlink:href="http://en.wikipedia.org/wiki/Collation" condition="_blank">collation</link>.
         If you need case-insensitive queries, consider using an ngram index.</para>
     </sect2>
 
@@ -176,7 +176,7 @@
       <title>Prefer short paths</title>
 
       <para>eXist-db uses internal indexes to directly locate an element or attribute by name. It
-        doesn't need to <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://en.wikipedia.org/wiki/Tree_traversal" condition="_blank">traverse</link> the document tree. This means that direct selection of a node through a
+        doesn't need to <link xlink:href="http://en.wikipedia.org/wiki/Tree_traversal" condition="_blank">traverse</link> the document tree. This means that direct selection of a node through a
         single descendant step is <emphasis>faster</emphasis> than walking the child axis. For
         example:</para>
       <programlisting language="xquery">a/b/c/d/e/f</programlisting>
@@ -257,10 +257,10 @@
       <para>This is a variation of what was discussed above. Many users formulate SQL-style queries
         using an explicit "where" clause:</para>
 
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-21.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-21.txt"/>
       <para>This could be rewritten as:</para>
 
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-22.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-22.txt"/>
       <para>The "<code>for … where</code>" expression forces the query engine into a step-by-step
         iteration over the input sequence, testing each instance of <code>$e</code> against the
           <code>where</code> expression. Any possible optimizations are lost.</para>
@@ -296,9 +296,9 @@
       <para>The XQuery 3.0 <code>group by</code> feature is more efficient than using the
           <code>distinct-values</code> function. For example, to order the results of a query by the
         value of the child element <tag>SPEAKER</tag>:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-25.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-25.txt"/>
       <para>The XQuery 3.0 variant with <code>group by</code> is much more efficient:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-26.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-26.txt"/>
     </sect2>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -311,10 +311,10 @@
         remaining expression once for each collection. It is more efficient to construct the initial
         node set once and use it as input for the main expression. For example:</para>
 
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-27.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-27.txt"/>
       <para>This will be less efficient than:</para>
 
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-28.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-28.txt"/>
     </sect2>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -326,14 +326,14 @@
         be more efficient to build a query bottom-up instead of top-down. Here's a top-down
         example:</para>
 
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-29.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-29.txt"/>
       <para>This query walks through a set of sections and queries each of them for paragraphs
         containing the string "XML". It then outputs the title of the section, followed by the
         matching paragraphs. Note that it will also return the title of all sections which do not
         have any matches.</para>
       <para>The nested <code>for</code> loop forces the query engine into a step-by-step iteration
         over the section elements. We can avoid this by using a bottom-up approach:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-30.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-30.txt"/>
     </sect2>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -386,7 +386,7 @@
         eXist-db will not load them into memory. Storing those references into a session does not
         consume much memory:</para>
 
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-34.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-34.txt"/>
       <para>Also note that eXist-db uses <emphasis>lazy evaluation</emphasis> when constructing new
         XML fragments. For example:</para>
       <programlisting language="xquery">&lt;book&gt;{$node/title}&lt;/book&gt;</programlisting>

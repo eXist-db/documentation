@@ -1,6 +1,6 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>Basic Installation</title>
     <date>1Q18</date>
@@ -43,16 +43,16 @@
       <title>eXist-db and Java</title>
       <para>eXist-db is built on Java, a free, cross-platform software development environment. Java comes in a number of versions, so it is important
         that you use the version that eXist-db requires: Java 8 (since eXist-db 3.0). For instructions about running Java on your operating system,
-        see Oracle's <link xmlns:xlink="http://www.w3.org/1999/xlink" condition="_blank" xlink:href="http://www.java.com/en/download/help/index_installing.xml">Installing Java</link> page. It is recommended to use the Oracle Java
+        see Oracle's <link  condition="_blank" xlink:href="http://www.java.com/en/download/help/index_installing.xml">Installing Java</link> page. It is recommended to use the Oracle Java
         VM, but the OpenJDK 7 is a good open source alternative for the Oracle JVM.</para>
       <para>eXist-db runs with both the Java JRE (Java Runtime Environment) and the JDK (Java Development Kit). The JRE usually suffices. You only
         need the JDK to compile eXist-db from its source code.</para>
 
       <para>Details of the Java installation can be obtained with the <code>java -version</code> command:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-1.txt"/>
+      <programlisting  xlink:href="listings/listing-1.txt"/>
 
       <para>For Linux users: Unfortunately, Oracle's own pages (such as the link above) focus on commercial Linux distributions. Users of other
-        distributions are better served by distribution-specific instructions. More information for specific versions of Linux can be found at <link xmlns:xlink="http://www.w3.org/1999/xlink" condition="_blank" xlink:href="http://livingtao.blogspot.com/2012/01/few-easy-steps-to-install-sunoracle-jdk.html">Amazon Linux</link>, <link xmlns:xlink="http://www.w3.org/1999/xlink" condition="_blank" xlink:href="http://www.webupd8.org/2012/01/install-oracle-java-jdk-7-in-ubuntu-via.html">Ubuntu</link> and <link xmlns:xlink="http://www.w3.org/1999/xlink" condition="_blank" xlink:href="http://www.webupd8.org/2012/06/how-to-install-oracle-java-7-in-debian.html">Debian</link>.</para>
+        distributions are better served by distribution-specific instructions. More information for specific versions of Linux can be found at <link  condition="_blank" xlink:href="http://livingtao.blogspot.com/2012/01/few-easy-steps-to-install-sunoracle-jdk.html">Amazon Linux</link>, <link  condition="_blank" xlink:href="http://www.webupd8.org/2012/01/install-oracle-java-jdk-7-in-ubuntu-via.html">Ubuntu</link> and <link  condition="_blank" xlink:href="http://www.webupd8.org/2012/06/how-to-install-oracle-java-7-in-debian.html">Debian</link>.</para>
 
 
       <para>Note for pre eXist-db v2.2 versions: Due to compatibility issues it is NOT recommended to use "OpenJDK6" (IcedTea) and "GNU
@@ -73,7 +73,7 @@
     <para>The first steps in installing eXist-db are downloading the installer and firing it up:</para>
     <itemizedlist>
       <listitem>
-        <para>Download the installer by following the download link on the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://exist-db.org/">eXist-db homepage</link> page. We recommend that you download the latest stable release.</para>
+        <para>Download the installer by following the download link on the <link  xlink:href="http://exist-db.org/">eXist-db homepage</link> page. We recommend that you download the latest stable release.</para>
         <para>The installer is a single file called <literal>eXist-db-setup-[version].jar</literal> (for instance
             <literal>eXist-db-setup-3.6.1.jar</literal>). </para>
       </listitem>
@@ -83,7 +83,7 @@
           <listitem>
             <para>On Mac and Windows, simply double-click the downloaded <code>.jar</code> file.</para>
             <note>
-              <para>On Mac OS X 10.7 and higher, a security feature called <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://support.apple.com/kb/HT5290">Gatekeeper</link> may prevent the installer from running since eXist-db is not
+              <para>On Mac OS X 10.7 and higher, a security feature called <link  xlink:href="http://support.apple.com/kb/HT5290">Gatekeeper</link> may prevent the installer from running since eXist-db is not
                 registered with Apple. To circumvent the warning dialog and allow the installer to run, right-click or control-click the file and
                 select Open.</para>
             </note>
@@ -99,7 +99,7 @@
         </itemizedlist>
       </listitem>
       <listitem>
-        <para>More advanced installation methods (like installing on a headless system) are described in the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="advanced-installation.xml#headless">Advanced Installation</link> article.</para>
+        <para>More advanced installation methods (like installing on a headless system) are described in the <link  xlink:href="advanced-installation.xml#headless">Advanced Installation</link> article.</para>
       </listitem>
     </itemizedlist>
 
@@ -202,7 +202,7 @@
     </itemizedlist>
 
     <note>
-      <para>eXist-db can also be run as a background service. For more information see the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="advanced-installation.xml#headless">Advanced Installation</link> article.</para>
+      <para>eXist-db can also be run as a background service. For more information see the <link  xlink:href="advanced-installation.xml#headless">Advanced Installation</link> article.</para>
     </note>
 
 
@@ -256,11 +256,11 @@
       </orderedlist>
 
       <para>If you want to launch eXist-db without a GUI, use the shell scripts in the <literal>bin/</literal> sub-directory. On Linux or Mac, enter
-          <code>bin/startup.sh</code>, on Windows <code>bin\startup.bat</code>. More information about these start-up scripts in the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="advanced-installation.xml#headless">Advanced Installation</link> article.</para>
+          <code>bin/startup.sh</code>, on Windows <code>bin\startup.bat</code>. More information about these start-up scripts in the <link  xlink:href="advanced-installation.xml#headless">Advanced Installation</link> article.</para>
 
       <note>
         <title>Having trouble?</title>
-        <para>If you're having trouble launching eXist-db, see our articles on <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="troubleshooting">Troubleshooting</link> and <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="advanced-installation.xml#headless">Advanced Installation</link>.</para>
+        <para>If you're having trouble launching eXist-db, see our articles on <link  xlink:href="troubleshooting">Troubleshooting</link> and <link  xlink:href="advanced-installation.xml#headless">Advanced Installation</link>.</para>
       </note>
     </sect2>
   </sect1>
@@ -270,8 +270,8 @@
   <sect1 xml:id="diving-in">
     <title>Diving In</title>
 
-    <para>After a successful installation and launch, access eXist-db's <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{dashboard}/">Dashboard</link>, the central administration and application hub of eXist-db. If the system tray icon works on your system, select <guimenuitem>Open
-      Dashboard</guimenuitem> from the pop-up menu. Or just open a web browser and enter the following URL: <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://localhost:8080/exist/">http://localhost:8080/exist/</link>
+    <para>After a successful installation and launch, access eXist-db's <link  xlink:href="{dashboard}/">Dashboard</link>, the central administration and application hub of eXist-db. If the system tray icon works on your system, select <guimenuitem>Open
+      Dashboard</guimenuitem> from the pop-up menu. Or just open a web browser and enter the following URL: <link  xlink:href="http://localhost:8080/exist/">http://localhost:8080/exist/</link>
     </para>
     <para>The following page appears:</para>
     <informalfigure>
@@ -281,9 +281,9 @@
         </imageobject>
       </mediaobject>
     </informalfigure>
-    <para>Seeing it? Congratulations! (Not seeing it? See our article on <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="troubleshooting.xml">Troubleshooting</link>).</para>
+    <para>Seeing it? Congratulations! (Not seeing it? See our article on <link  xlink:href="troubleshooting.xml">Troubleshooting</link>).</para>
 
-    <para>All right, ready to dive in! Your local installation includes everything you need. Access is easy, through the applications on the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{dashboard}/">Dashboard</link> (see also the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="dashboard">article on the Dashboard</link>).</para>
+    <para>All right, ready to dive in! Your local installation includes everything you need. Access is easy, through the applications on the <link  xlink:href="{dashboard}/">Dashboard</link> (see also the <link  xlink:href="dashboard">article on the Dashboard</link>).</para>
 
   </sect1>
 
@@ -300,7 +300,7 @@
             server)</guimenuitem> to shut down eXist-db and the system tray launcher at the same time.</para>
       </listitem>
       <listitem>
-        <para>From the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{dashboard}">Dashboard</link>: select the Shutdown button</para>
+        <para>From the <link  xlink:href="{dashboard}">Dashboard</link>: select the Shutdown button</para>
       </listitem>
       <listitem>
         <para>From the command line, run the <literal>bin/shutdown.sh</literal> (Linux/Mac) or <literal>shutdown.bat</literal> (DOS/Windows) shutdown
@@ -313,7 +313,7 @@
         <programlisting>java -jar start.jar shutdown -u admin -p youradminpassword</programlisting>
       </listitem>
       <listitem>
-        <para>From the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="java-admin-client">Java Admin Client</link>: select
+        <para>From the <link  xlink:href="java-admin-client">Java Admin Client</link>: select
             <guimenuitem>Connection</guimenuitem>, <guimenuitem>Shutdown</guimenuitem> from the menu.</para>
       </listitem>
     </itemizedlist>

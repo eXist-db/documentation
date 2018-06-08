@@ -1,6 +1,6 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>Versioning Extensions</title>
     <date>1Q18</date>
@@ -81,14 +81,14 @@
 
       <para>To enable versioning for a collection, you have to edit the collection's
           <literal>collection.xconf</literal> configuration file. This file must be stored below the
-          <literal>/db/system/config</literal> collection. As described in the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="indexing.xml">Configuring
+          <literal>/db/system/config</literal> collection. As described in the <link xlink:href="indexing.xml">Configuring
           Indexes</link> document, the <literal>/db/system/config</literal> collection mirrors the
         hierarchical structure of the main collection tree.</para>
       <para>Within <literal>collection.xconf</literal>, you must register the trigger class
           <literal>org.exist.versioning.VersioningTrigger</literal> for the <code>create</code>,
           <code>update</code>, <code>delete</code>, <code>copy</code> and <code>move</code>
         events:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-1.xml"/>
+      <programlisting language="xml" xlink:href="listings/listing-1.xml"/>
 
       <para>If you store above document into
           <literal>/db/system/config/db/collection.xconf</literal>, it will enable versioning for
@@ -128,7 +128,7 @@
           <literal>conf.xml</literal>. Add a <tag>custom-filter</tag> child tag to the
           <tag>serializer</tag> element and set its <literal>class</literal> attribute to
           <literal>org.exist.versioning.VersioningFilter</literal>:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-2.xml"/>
+      <programlisting language="xml" xlink:href="listings/listing-2.xml"/>
       <para>eXist must be restarted for the versioning filter to become active.</para>
     </sect2>
   </sect1>
@@ -149,13 +149,13 @@
 
     <para>eXist provides an XQuery module to access the revision history or restore a given
       revision. For example, to view the history of a resource:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-3.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-3.txt"/>
     <para>This returns an XML fragment like this:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-4.txt"/>
+    <programlisting language="xml" xlink:href="listings/listing-4.txt"/>
     <para>The most important function is <literal>v:doc</literal>, which is used to restore an
       arbitrary revision of a document on the fly. You can use this function similar to the standard
         <literal>fn:doc</literal> to query the revision. For example:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-5.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-5.txt"/>
     <para>This will restore revision 35 of <literal>hamlet.xml</literal> and then find all
         <tag>SPEECH</tag> elements with a <tag>SPEAKER</tag> called "HAMLET". No indexes are
       available to the query engine when processing a restore document.</para>
@@ -172,13 +172,13 @@
       instance when opening it in an editor). The inserted metadata attributes are all in a separate
       versioning namespace and will never be stored in the database. The following fragment shows
       the added attributes:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-6.xml"/>
+    <programlisting language="xml" xlink:href="listings/listing-6.xml"/>
     <para>When eXist detects a potential write conflict, it cannot do more than reject the update
       and raise an error. However, there's an XQuery function to check if newer revisions exist. You
       pass it the revision number and the unique key as given in the versioning attributes of the
       document root element. If the function returns the empty sequence, no newer revisions exist in
       the database. Otherwise, the function returns the version documents for each newer revision. </para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-7.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-7.txt"/>
     <para>Once you made sure that you really want to store the document and overwrite any revisions,
       simply remove the version attributes from the root element.</para>
 

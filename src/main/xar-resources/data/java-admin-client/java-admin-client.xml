@@ -1,6 +1,6 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>Java Admin Client</title>
     <date>1Q18</date>
@@ -30,7 +30,7 @@
         <para>You can download its Java WebStart file <code>exist.jnlp</code> via your web browser. Once the download has completed, double-click it
           to launch the client: </para>
         <para>
-          <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/webstart/exist.jnlp">
+          <link  xlink:href="/webstart/exist.jnlp">
             <inlinemediaobject>
               <imageobject>
                 <imagedata fileref="assets/webstart.small.jpg"/>
@@ -185,7 +185,7 @@
         <listitem>
           <para>To check if the new collection is present, enter <literal>ls</literal> to get a listing of the current collection contents. The
             listing below shows an example session of how to add the sample documents:</para>
-          <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-6.txt"/>
+          <programlisting  xlink:href="listings/listing-6.txt"/>
         </listitem>
         <listitem>
           <para>Adding files to the database is done using <code>put</code>. This expects either a single file, a file-pattern or a directory name as
@@ -234,7 +234,7 @@
         overwritten by command-line parameters or by the <literal>set</literal> command in shell-mode.</para>
       <para>The client relies on the XML:DB API to communicate with the database. It will therefore work with remote as well as embedded database
         instances. The correct database instance is determined through the XML:DB base URI as specified in the properties file or through command-line
-        options. The <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="deployment.xml">deployment</link> article describes how different
+        options. The <link  xlink:href="deployment.xml">deployment</link> article describes how different
         servers are addressed using the XML:DB URI.</para>
       <para>The XML:DB base URI used by the client for connections is defined by the <literal>uri=</literal> property. By default, this is set to
           <literal>uri=xmldb:exist://localhost:8080/exist/xmlrpc</literal>. With this, the client will try to connect to a database instance running
@@ -312,7 +312,7 @@
         </listitem>
       </itemizedlist>
       <para> This mechanism is also used by the eXist-db servers . For example to specify that <code>.xmap</code> extension is used for XML files: </para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-14.xml"/>
+      <programlisting  language="xml" xlink:href="listings/listing-14.xml"/>
 
     </sect2>
 
@@ -353,7 +353,7 @@
           <para>For example, on Unix you may do the follwong:</para>
           <programlisting>echo "//SPEECH[contains(LINE, 'love')]" | bin/client.sh -x</programlisting>
           <para>Remember to type Ctrl-d when working without pipe:</para>
-          <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-18.txt"/>
+          <programlisting  xlink:href="listings/listing-18.txt"/>
         </listitem>
         <listitem>
           <para>Queries can also be read from a file using the <code>-F</code> parameter. For example,</para>

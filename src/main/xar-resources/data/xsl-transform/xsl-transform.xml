@@ -1,7 +1,7 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
         schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<article xmlns="http://docbook.org/ns/docbook" version="5.0">
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>XSL transformations</title>
     <date>1Q18</date>
@@ -30,8 +30,8 @@
 
       <para>The transform:transform function performs an XSLT transformation and returns you the
         result:. It has two signatures:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-1.txt"/>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-2.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-1.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-2.txt"/>
 
       <variablelist>
         <varlistentry>
@@ -72,7 +72,7 @@
           <listitem>
             <para>Specify any stylesheet parameters. This must be an XML fragment like the following
               example:</para>
-            <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-7.xml"/>
+            <programlisting language="xml" xlink:href="listings/listing-7.xml"/>
             <para>The stylesheet can now reference parameter <code>param1</code> as follows:</para>
             <programlisting>&lt;xsl:param name="param1"/&gt;</programlisting>
             <para> There are two special parameters named <code>exist:stop-on-warn</code> and
@@ -84,13 +84,13 @@
           <term>$attributes</term>
           <listitem>
             <para>Pass attributes to the transformation factory. Verify the <link
-                xmlns:xlink="http://www.w3.org/1999/xlink"
+
                 xlink:href="http://docs.oracle.com/javase/8/docs/api/javax/xml/transform/TransformerFactory.html#setAttribute-java.lang.String-java.lang.Object-"
-                >Java</link> or <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                >Java</link> or <link
                 xlink:href="http://www.saxonica.com/html/documentation/javadoc/net/sf/saxon/lib/FeatureKeys.html"
                 >Saxon</link> documentation for more details.</para>
             <para>Its contents must be an XML fragment, like this:</para>
-            <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-9.xml"/>
+            <programlisting language="xml" xlink:href="listings/listing-9.xml"/>
           </listitem>
         </varlistentry>
         <varlistentry>

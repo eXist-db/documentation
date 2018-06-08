@@ -1,6 +1,6 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>KWIC (Keywords in Context) Output</title>
     <date>1Q18</date>
@@ -28,10 +28,10 @@
 
     <para>The easiest way to get KWIC output is to call the <literal>kwic:summarize</literal> function on an element node returned from a full text or
       ngram query:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-3.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-3.txt"/>
     <para>Every call to <literal>kwic:summarize</literal> will return an HTML paragraph containing 3 <code>span</code> elements with the text before
       and after each match, as well as the match text itself:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-4.xml"/>
+    <programlisting language="xml" xlink:href="listings/listing-4.xml"/>
 
     <para>The <tag>config</tag> element, passed to <literal>kwic:summarize</literal> (as second parameter) determines the appearance of the generated
       HTML. It recognizes 3 attributes:</para>
@@ -66,7 +66,7 @@
       <para>If you look at the output of query above you may notice that a space is missing between words if the previous or following chunk extends
         to a different <tag>LINE</tag> element. And it would also be nicer to display text from <tag>LINE</tag> elements only and to ignore
           <tag>SPEAKER</tag> or <tag>STAGEDIR</tag> elements. This can be achieved with the help of a callback function:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-5.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-5.txt"/>
       <para>The third parameter to <literal>kwic:summarize</literal> here is a reference to a function accepting 2 arguments:</para>
       <orderedlist>
         <listitem>
@@ -110,14 +110,14 @@
     <para>Before passing nodes to <literal>kwic:get-summary</literal> you have to <emphasis>expand</emphasis> them, which basically means to create an
       in-memory copy in which all matches are properly marked up with <tag>exist:match</tag> tags. The main part of the query should look as
       follows:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-6.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-6.txt"/>
     <para>In this example, we select the first <tag>exist:match</tag> only, thus ignoring all other matches within
       <literal>$expanded</literal>.</para>
 
     <para>Sometimes you may also want to change the context to restrict the KWIC display to certain elements within the larger query context, for
       instance paragraphs within sections. The following example still queries <tag>SPEECH</tag> but displays a KWIC entry for each <tag>LINE</tag>
       with a match, grouped by speech:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-7.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-7.txt"/>
     <para>You might wonder why we don't query <tag>LINE</tag> directly to get a different context, as in:</para>
     <programlisting language="xquery">//SPEECH[ft:query(LINE, "nature")]</programlisting>
     <para>This is because Lucene computes the relevance of each match with respect to the SPEECH context, not LINE. If we queried LINE, each single
@@ -134,7 +134,7 @@
         <tag>exist:match</tag> tag.</para>
     <para>You can achieve the same within an XQuery by calling the extension function <literal>util:expand</literal>:</para>
 
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-9.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-9.txt"/>
     <para>
       <literal>util:expand</literal> returns a copy of the XML fragment it received in its first parameter, which, unless configured otherwise, has
       all matches wrapped into <tag>exist:match</tag> tags.</para>
