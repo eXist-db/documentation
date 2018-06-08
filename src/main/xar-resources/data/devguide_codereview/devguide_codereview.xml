@@ -1,6 +1,6 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>Code Review Guide</title>
     <date>1Q18</date>
@@ -136,12 +136,12 @@
     <title>Proper rollback of database transactions</title>
 
     <para>For database transaction take care of rollback properly. Here is an example how <emphasis>not</emphasis> to do this:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="java" xlink:href="listings/listing-1.txt"/>
+    <programlisting  language="java" xlink:href="listings/listing-1.txt"/>
     <para>The consequence of this code is that if there is an error when executing the transaction, the transaction will not be rolled back correctly.
       This will have an impact on data integrity. </para>
 
     <para>We recommend using the following structure for all database transactions to ensure data integrity. </para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="java" xlink:href="listings/listing-2.txt"/>
+    <programlisting  language="java" xlink:href="listings/listing-2.txt"/>
   </sect1>
 
   <!-- ================================================================== -->
@@ -150,7 +150,7 @@
     <title>Hard Coding</title>
 
     <para>Hard code is hard to maintain and may cause potential problems.Here is an example: </para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="java" xlink:href="listings/listing-3.txt"/>
+    <programlisting  language="java" xlink:href="listings/listing-3.txt"/>
     <para>This code will remove the host name from the URL. However, it is hard coded and will break if there is a rehosting. </para>
   </sect1>
 
@@ -160,7 +160,7 @@
     <title>Resources not released</title>
 
     <para>Resource should be released when it is not needed. Here is an example:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="java" xlink:href="listings/listing-4.txt"/>
+    <programlisting  language="java" xlink:href="listings/listing-4.txt"/>
     <para>The FileInputStream is not closed before returning from the method.</para>
   </sect1>
 
@@ -278,7 +278,7 @@
         </listitem>
         <listitem>
           <para>Logging calls should be wrapped in enablement checks so that arguments do not get unnecessarily evaluated for example:</para>
-          <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="java" xlink:href="listings/listing-5.txt"/>
+          <programlisting  language="java" xlink:href="listings/listing-5.txt"/>
         </listitem>
       </itemizedlist>
     </sect2>

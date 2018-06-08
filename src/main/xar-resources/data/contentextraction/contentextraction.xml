@@ -1,6 +1,6 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>Extracting Content from Binary Files</title>
     <date>1Q18</date>
@@ -14,7 +14,7 @@
   <para>The Content Extraction module extends eXist-db's XML abilities to binary files. The module contains functions for extracting the content of
     the binary files, and returning the content as XML. In this form, the content can then be queried, indexed, and manipulated. It useful especially
     in conjunction with Lucene indexes.</para>
-  <para>The Content Extraction is built on the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://tika.apache.org/">Apache
+  <para>The Content Extraction is built on the <link  xlink:href="http://tika.apache.org/">Apache
       Tika</link> library. Tika understands a large variety of formats, ranging from PDF documents to spreadsheets and image metadata.</para>
 
   <!-- ================================================================== -->
@@ -24,7 +24,7 @@
 
     <para>To enable the content extraction module, edit <code>$EXIST_HOME/extensions/build.properties</code> and set the
         <code>include.feature.contentextraction</code> property to true:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-1.txt"/>
+    <programlisting  xlink:href="listings/listing-1.txt"/>
     <para>Next, run <code>bin/build.sh</code> or <code>bin/build.bat</code> to build the module. You should see in the output the various libraries
       from the Tika project downloaded and installed.</para>
   </sect1>
@@ -35,10 +35,10 @@
     <title>Usage</title>
 
     <para>To import the module use the following import statement:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-2.txt"/>
+    <programlisting  xlink:href="listings/listing-2.txt"/>
 
     <para>The module provides three functions:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-3.txt"/>
+    <programlisting  xlink:href="listings/listing-3.txt"/>
 
     <para>The first two functions need little explanation: <code>get-metadata()</code> just returns some metadata extracted from the resource, while
         <code>get-metadata-and-content()</code> will also provide the text body of the resource (if any). The third function is a streaming variant of
@@ -67,7 +67,7 @@
       </listitem>
     </orderedlist>
     <para>For example, to associate an index with the document <code>test.txt</code>, call <code>ft:index()</code> as follows: </para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-4.txt"/>
+    <programlisting  xlink:href="listings/listing-4.txt"/>
 
     <para>This creates a Lucene index document, indexes the content using the configured analyzers, and links it to the eXist document with the given
       path. You may link more than one Lucene document to the same eXist resource. The field elements map to Lucene fields. You can use as many fields
@@ -78,7 +78,7 @@
     <para> The first parameter is the path to the resource or collection to query. Tthe second specifies a Lucene query string. Note how we prefix the
       query term by the name of the field.</para>
     <para>Executing this query returns:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-6.txt"/>
+    <programlisting  xlink:href="listings/listing-6.txt"/>
 
     <para>Each matching resource is described by a search element. The score attribute expresses the relevance Lucene computed for the resource (the
       higher the better). Within the search element, every field which contributed to the query result is returned, but only if

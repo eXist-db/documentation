@@ -1,6 +1,6 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>Production use - Proxying eXist-db behind a Web Server</title>
     <date>1Q18</date>
@@ -51,7 +51,7 @@
     <variablelist spacing="compact">
       <varlistentry>
         <term>
-          <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://wiki.nginx.org/Main" condition="_blank">Nginx</link>
+          <link xlink:href="http://wiki.nginx.org/Main" condition="_blank">Nginx</link>
         </term>
         <listitem>
           <para>A very small but extremely powerful Web Server which is also simple to configure. It
@@ -60,7 +60,7 @@
       </varlistentry>
       <varlistentry>
         <term>
-          <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://httpd.apache.org/" condition="_blank">Apache HTTPD</link>
+          <link xlink:href="http://httpd.apache.org/" condition="_blank">Apache HTTPD</link>
         </term>
         <listitem>
           <para>Likely the most prolific Web Server used on the web. See <xref linkend="sect-apache"/>.</para>
@@ -99,7 +99,7 @@
       <title>Using Nginx</title>
 
       <para>This needs to be added to the <code>http</code> section of the <code>nginx.conf</code> file:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="nginx" xlink:href="listings/listing-1.txt"/>
+      <programlisting language="nginx" xlink:href="listings/listing-1.txt"/>
     </sect2>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -108,8 +108,8 @@
       <title>Using Apache HTTPD</title>
 
       <para>This needs to be added to your <code>httpd.conf</code>:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-2.txt"/>
+      <programlisting language="xml" xlink:href="listings/listing-2.txt"/>
     </sect2>
-    
+
   </sect1>
 </article>

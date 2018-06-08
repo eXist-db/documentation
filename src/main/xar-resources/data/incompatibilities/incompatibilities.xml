@@ -1,6 +1,6 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>Known Issues when upgrading</title>
     <date>1Q18</date>
@@ -53,7 +53,7 @@
         <para>The SOAP APi, SOAP server, and XACML Security features were removed.</para>
       </listitem>
       <listitem>
-        <para>The versioning extension is now available as a separate <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://github.com/eXist-db/xquery-versioning-module">EXPATH package</link>
+        <para>The versioning extension is now available as a separate <link  xlink:href="https://github.com/eXist-db/xquery-versioning-module">EXPATH package</link>
         </para>
       </listitem>
       <listitem>
@@ -64,7 +64,7 @@
           packages should now explicitly specify the eXist-db versions that they are compatible with.</para>
       </listitem>
       <listitem>
-        <para>eXist-db v3.0 is the culmination of almost 1,500 changes. For more information on new features head to the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://exist-db.org/exist/apps/wiki/blogs/eXist//eXist-db-v3">blog</link>.</para>
+        <para>eXist-db v3.0 is the culmination of almost 1,500 changes. For more information on new features head to the <link  xlink:href="http://exist-db.org/exist/apps/wiki/blogs/eXist//eXist-db-v3">blog</link>.</para>
       </listitem>
     </itemizedlist>
 
@@ -82,12 +82,12 @@
       </listitem>
       <listitem>
         <para>2.2 introduces a <emphasis>new range index module</emphasis>. Old index definitions will still work though as we made sure to keep
-          backwards compatible. If you would like to upgrade to the new index, check its <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="newrangeindex.xml">documentation</link>.</para>
+          backwards compatible. If you would like to upgrade to the new index, check its <link  xlink:href="newrangeindex.xml">documentation</link>.</para>
       </listitem>
       <listitem>
         <para>The XQuery engine has been updated to support the changed syntax for <emphasis>maps in XQuery 3.1</emphasis>. The query parser will
           still accept the old syntax for map constructors though (<code>map { x:= "y"}</code> instead of <code>map { x: "y" }</code> in XQuery 3.1),
-          so old code should run without modifications. All map module functions from XQuery 3.1 are <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{${fundocs.pkg.abbrev}}/view.html?uri=http://www.w3.org/2005/xpath-functions/map&amp;location=java:org.exist.xquery.functions.map.MapModule">available</link>.</para>
+          so old code should run without modifications. All map module functions from XQuery 3.1 are <link  xlink:href="{${fundocs.pkg.abbrev}}/view.html?uri=http://www.w3.org/2005/xpath-functions/map&amp;location=java:org.exist.xquery.functions.map.MapModule">available</link>.</para>
       </listitem>
       <listitem>
         <para>The signatures for some <emphasis>higher-order utility functions</emphasis> like <code>fn:filter</code>, <code>fn:fold-left</code> and
@@ -155,7 +155,7 @@
             </orderedlist>
             <para>You can use an XQuery to automatically apply a default permission to every collection and XQuery, and then change them manually for
               some collections or resources.</para>
-            <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-1.txt"/>
+            <programlisting  language="xquery" xlink:href="listings/listing-1.txt"/>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -199,7 +199,7 @@
             </orderedlist>
             <para>Please consider using the new Lucene-based full text index. However, if you need to switch back to the old behaviour to ensure
               backwards compatibility, just edit the system-wide defaults in conf.xml:</para>
-            <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-2.xml"/>
+            <programlisting  language="xml" xlink:href="listings/listing-2.xml"/>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -208,7 +208,7 @@
             <para>Validation of XML documents during storage is now <emphasis>turned off by default</emphasis> in <literal>conf.xml</literal>:</para>
             <programlisting language="xml">&lt;validation mode="no"&gt;</programlisting>
             <para>The previous <literal>auto</literal> setting was apparently too confusing for new users who did not know what to do if eXist-db
-              refused to store a document due to failing validation. If you are familiar with <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="validation.xml">validation</link>, the use of catalog files and the like, feel free to set the default back to
+              refused to store a document due to failing validation. If you are familiar with <link  xlink:href="validation.xml">validation</link>, the use of catalog files and the like, feel free to set the default back to
                 <literal>auto</literal> or <literal>yes</literal>.</para>
           </listitem>
         </varlistentry>
@@ -216,7 +216,7 @@
           <term>Cocoon</term>
           <listitem>
             <para>eXist-db does no longer require Cocoon for viewing documentation and samples. Cocoon has been largely replaced by eXist-db's own
-                <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="urlrewrite.xml">URL rewriting and MVC framework</link>.</para>
+                <link  xlink:href="urlrewrite.xml">URL rewriting and MVC framework</link>.</para>
             <para>Consequently, we now limit Cocoon to one directory of the web application (<literal>webapp/cocoon</literal>) and moved all the
               Cocoon samples in there. For the 1.5 version we completely removed Cocoon support.</para>
           </listitem>

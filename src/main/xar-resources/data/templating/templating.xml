@@ -1,6 +1,6 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>HTML Templating Module</title>
     <date>1Q18</date>
@@ -28,11 +28,11 @@
     <para>The templating module also handles most of the HTTP processing an application requires. It
       does so using sophisticated features like automatic parameter injection and type conversion.
       The goal was to remove repeating code like:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-1.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-1.txt"/>
     <para>In fact you should not see many calls to the HTTP request or session module inside a
       templating function. This is all handled by parameter injection. </para>
     <note>
-      <para>Working examples for the templating module can be found in the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{demo}/examples/templating/templates.html">demo application</link>.</para>
+      <para>Working examples for the templating module can be found in the <link xlink:href="{demo}/examples/templating/templates.html">demo application</link>.</para>
     </note>
   </sect1>
 
@@ -95,7 +95,7 @@
       parameters of a specific type. Additional parameters are allowed. If a function does not
       follow this convention it will be ignored by the framework.</para>
     <para> For example, our "Hello world!" function could be defined as follows:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-5.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-5.txt"/>
     <para>The two required parameters are <code>$node</code> and <code>$model</code>: </para>
     <itemizedlist>
       <listitem>
@@ -162,7 +162,7 @@
       annotation are used as values for the variable. </para>
     <para>For example, set <code>$language</code> to <code>en</code> if the value cannot be
       determined otherwise:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-6.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-6.txt"/>
     <para>Because of the <code>%templates:wrap</code> we can now remove the wrapping <tag>div</tag>
       in the function and just return a string now. </para>
   </sect1>
@@ -180,7 +180,7 @@
     <para>This is where the <code>$model</code> parameter comes into play. It is passed to all
       template functions and they can add data to it. This is available to nested template calls. </para>
     <para>For example a search page:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xml" xlink:href="listings/listing-7.xml"/>
+    <programlisting language="xml" xlink:href="listings/listing-7.xml"/>
     <para> The <code>demo:hit-count</code> and <code>demo:result-list</code> occur inside the
         <tag>div</tag> calling <code>demo:search</code>. They are <emphasis>nested</emphasis>
       template calls. <code>demo:search</code> will perform the actual search operation, based on
@@ -188,7 +188,7 @@
       delegates this to the nested templates.</para>
     <para>
       <code>demo:search</code> can be implemented as: </para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-8.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-8.txt"/>
     <para>
       <code>demo:search</code> differs from the functions we have seen so far in that it returns an
       XQuery map and not HTML or some atomic type. If a templating function returns a map, the
@@ -204,7 +204,7 @@
     </orderedlist>
     <para>The <code>demo:hit-count</code> can now access the query results in
       <code>$model</code>:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-9.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-9.txt"/>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
@@ -228,7 +228,7 @@
         current element, then apply some action to the processed tree. The documentation app has a
         function, <code>config:expand-links</code>, which scans the final document tree for links
         and expands them. The function is implemented as follows:</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-11.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-11.txt"/>
     </sect2>
   </sect1>
 
@@ -241,11 +241,11 @@
       function, <code>templates:apply</code>. A complete main module which calls the templating
       framework to process an HTML file passed in the HTTP request body could look as
       follows:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-12.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-12.txt"/>
     <para>This module would be called from the URL rewriting controller. For example, we could add a
       rule to <literal>controller.xql</literal> to pass any .html resource to the above main query
       (saved to <literal>modules/view.xql</literal>):</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-13.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-13.txt"/>
     <para>The only part of the main module code which might look a bit unusual is the inline lookup
       function: the templating module uses dynamic function calls to execute template functions in
       application modules. But unfortunately, XQuery modules can only "see" functions in their own
@@ -265,7 +265,7 @@
     <para>The "New Application" templates in eXide already include the HTML templating module and
       configures the URL rewriting to call this for any path ending in <literal>.html</literal>.
       Using eXide is therefore the easiest way to get started with the templating framework. </para>
-    <para>Please consult the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="development-starter.xml">Getting Started with Web Application Development</link>
+    <para>Please consult the <link xlink:href="development-starter.xml">Getting Started with Web Application Development</link>
       guide.</para>
   </sect1>
 
@@ -276,9 +276,9 @@
 
     <para>If you generate your application with eXide, a copy of the HTML templating module will be
       included, so you can customize it. If you rather want to make sure you have the latest version
-      of the templating module: the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://github.com/eXist-db/shared-resources">shared-resources</link>
+      of the templating module: the <link xlink:href="https://github.com/eXist-db/shared-resources">shared-resources</link>
       application also exports the module. This will always be the latest version. You could
-      therefore define a dependency on the shared-resources app (see the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="repo.xml">packaging
+      therefore define a dependency on the shared-resources app (see the <link xlink:href="repo.xml">packaging
         documentation</link>). You can now just import the module by its namespace URI, but without
       specifying a location:</para>
     <programlisting language="xquery">import module namespace templates="http://exist-db.org/xquery/templates";</programlisting>
@@ -353,7 +353,7 @@
         element in the <code>with</code> resource. The current content will be surrounded by this
         element. If this parameter is missing, the entire document given in <code>with</code> will
         be used.</para>
-      <para>The surround template instruction is used by all pages of the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{demo}/index.html">Demo</link>
+      <para>The surround template instruction is used by all pages of the <link xlink:href="{demo}/index.html">Demo</link>
         application. The header, basic page structure and menus are the same for all pages. Each
         page only contains a simple <tag>div</tag> with a template instruction:</para>
       <programlisting language="xquery">templates:surround?with=templates/page.html&amp;at=content</programlisting>

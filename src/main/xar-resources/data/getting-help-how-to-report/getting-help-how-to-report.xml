@@ -1,6 +1,6 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>How to report issues</title>
     <date>1Q18</date>
@@ -18,7 +18,7 @@
   <sect1>
     <title>Reporting an issue</title>
 
-    <para>Bugs can be reported on the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://github.com/eXist-db/exist/issues/" condition="_blank">Bug Tracker</link>. Data and log files can be attached.</para>
+    <para>Bugs can be reported on the <link  xlink:href="https://github.com/eXist-db/exist/issues/" condition="_blank">Bug Tracker</link>. Data and log files can be attached.</para>
 
     <para>When a (potential) bug is reported, please include as much of the information described below. When more information is provided it is
       easier for the developers to understand and reproduce the issue, which means that the issue can be picked-up and solved much faster.</para>
@@ -66,10 +66,10 @@
           <para>Describe the actual XQuery result and the expected result</para>
         </listitem>
         <listitem>
-          <para>Check if the issue has been solved in the latest version of eXist-db; For this the web based tool <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://exist-db.org/exist/apps/eXide/index.html">eXide</link> can be used.</para>
+          <para>Check if the issue has been solved in the latest version of eXist-db; For this the web based tool <link  xlink:href="http://exist-db.org/exist/apps/eXide/index.html">eXide</link> can be used.</para>
         </listitem>
         <listitem>
-          <para>Run the XQuery with <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://kernowforsaxon.sourceforge.net">Kernow for
+          <para>Run the XQuery with <link  xlink:href="http://kernowforsaxon.sourceforge.net">Kernow for
               Saxon</link> and check the similarities and differences. </para>
         </listitem>
       </itemizedlist>
