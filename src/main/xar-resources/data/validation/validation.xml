@@ -50,8 +50,7 @@
     <sect2>
       <title>Validation mode</title>
 
-      <para>The validation mode cvan be set in the <tag>validation</tag> element in
-          <code>conf.xml</code>:</para>
+      <para>The validation mode can be set in the <tag>validation</tag> element in <code>conf.xml</code>:</para>
 
       <programlisting language="xml" xlink:href="listings/listing-1.xml"/>
       <para>Attribute <emphasis>mode</emphasis> switches the validation capabilities of the (Xerces)
@@ -266,6 +265,20 @@
           <listitem>
             <para>One or more grammar files, referenced as document nodes , element nodes,
                 <code>xs:anyURI</code> or as Java file objects.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <code>$language</code>
+          </term>
+          <listitem>
+            <para>
+              The namespace URI to designate a schema language. Depending on the 
+              <code>jaxv.SchemaFactory</code> implementation the following values are valid: 
+              (XSD 1.0) <code>http://www.w3.org/2001/XMLSchema</code> or <code>http://www.w3.org/XML/XMLSchema/v1.0</code>, 
+              (XSD 1.1) <code>http://www.w3.org/XML/XMLSchema/v1.1</code>, 
+              (RELAX NG 1.0) <code>http://relaxng.org/ns/structure/1.0</code>
+            </para>
           </listitem>
         </varlistentry>
       </variablelist>
