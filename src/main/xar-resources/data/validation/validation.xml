@@ -170,7 +170,7 @@
     <sect2>
       <title>JAXP</title>
 
-      <para>The JAXP validation functions are based on the validation capabilities of 
+      <para>The JAXP validation functions are based on the validation capabilities of
         the <link xlink:href="https://docs.oracle.com/javase/10/docs/api/javax/xml/parsers/package-summary.html" condition="_blank">
           <code>javax.xml.parsers</code>
         </link> API. The actual validation is performed by the <link xlink:href="http://xerces.apache.org/xerces2-j/" condition="_blank">Xerces2</link>
@@ -274,9 +274,7 @@
             <code>$language</code>
           </term>
           <listitem>
-            <para>
-              The namespace URI to designate a schema language. Depending on the 
-              <link xlink:href="https://docs.oracle.com/javase/10/docs/api/javax/xml/validation/SchemaFactory.html" condition="_blank">jaxv.SchemaFactory</link> implementation the following values are valid: 
+             <para>The namespace of the schema language as <code>xs:anyURI</code>. The following values are supported by the <link xlink:href="https://docs.oracle.com/javase/10/docs/api/javax/xml/validation/SchemaFactory.html" condition="_blank">jaxv.SchemaFactory</link>: 
             </para>
             <itemizedlist>
               <listitem> <para>For XSD 1.0 either <code>http://www.w3.org/2001/XMLSchema</code> or <code>http://www.w3.org/XML/XMLSchema/v1.0</code></para></listitem>
