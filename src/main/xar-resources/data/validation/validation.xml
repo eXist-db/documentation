@@ -119,11 +119,11 @@
           <code>xmldb:exist:///db/mycollection/catalog.xml</code> (note the 3 leading slashes, which
         implies localhost). Or use the shorter equivalent
         <code>/db/mycollection/catalog.xml</code>.</para>
-      <para>In the preceding example <code>${WEBAPP_HOME}</code> is substituted by a
+      <note><para>In the preceding example <code>${WEBAPP_HOME}</code> can be substituted by a
           <code>file://</code> URL pointing to the <code>webapp</code> directory of eXist (for
         instance <code>$EXIST_HOME/webapp/</code>) or the equivalent directory of a deployed WAR
         file when eXist is deployed in a servlet container (for instance
-          <code>${CATALINA_HOME}/webapps/exist/</code>)</para>
+          <code>${CATALINA_HOME}/webapps/exist/</code>)</para></note>
       <para>Here is an example of a catalog file:</para>
       <programlisting language="xml" xlink:href="listings/listing-3.xml"/>
     </sect2>
@@ -199,7 +199,7 @@
             <code>$instance</code>
           </term>
           <listitem>
-            <para>The XML instance document, referenced as document node, element node,
+            <para>The XML instance document, either as document node, element node,
                 <code>xs:anyURI</code> or as Java file object.</para>
           </listitem>
         </varlistentry>
@@ -220,7 +220,7 @@
               its values different resolvers will be used: </para>
             <itemizedlist>
               <listitem>
-                <para>When the empty sequence <code>()</code>, the catalog files defined in
+                <para>When passing an empty sequence <code>()</code>, the catalog files defined in
                     <code>conf.xml</code> are used.</para>
               </listitem>
               <listitem>
@@ -256,7 +256,7 @@
             <code>$instance</code>
           </term>
           <listitem>
-            <para>The XML instance document, referenced as document node , element node,
+            <para>The XML instance document either as document node, element node,
                 <code>xs:anyURI</code> or as Java file object.</para>
           </listitem>
         </varlistentry>
@@ -265,8 +265,8 @@
             <code>$grammars</code>
           </term>
           <listitem>
-            <para>One or more grammar files, referenced as document nodes , element nodes,
-                <code>xs:anyURI</code> or as Java file objects.</para>
+            <para>One or more grammar files either as document nodes, element nodes,
+                <code>xs:anyURI</code>, or as Java file objects.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -274,7 +274,7 @@
             <code>$language</code>
           </term>
           <listitem>
-             <para>The namespace of the schema language as <code>xs:anyURI</code>. The following values are supported by the <link xlink:href="https://docs.oracle.com/javase/10/docs/api/javax/xml/validation/SchemaFactory.html" condition="_blank">jaxv.SchemaFactory</link>: 
+             <para>The namespace of the schema language as <code>xs:anyURI</code>. The following values are supported by the <link xlink:href="https://docs.oracle.com/javase/10/docs/api/javax/xml/validation/SchemaFactory.html" condition="_blank"><code>jaxv.SchemaFactory</code></link>:
             </para>
             <itemizedlist>
               <listitem> <para>For XSD 1.0 either <code>http://www.w3.org/2001/XMLSchema</code> or <code>http://www.w3.org/XML/XMLSchema/v1.0</code></para></listitem>
@@ -292,7 +292,7 @@
       <title>Jing</title>
 
       <para>The Jing validation functions are based on James Clark's <link xlink:href="http://www.thaiopensource.com/relaxng/jing.html" condition="_blank">Jing</link> library. eXist uses the maintained version that is available via <link xlink:href="http://code.google.com/p/jing-trang/" condition="_blank">Google Code</link>.
-        The library relies on the <link xlink:href="http://www.thaiopensource.com/relaxng/api/jing/com/thaiopensource/validate/ValidationDriver.html" condition="_blank">com.thaiopensource.validate.ValidationDriver</link> which supports a
+        The library relies on the <link xlink:href="http://www.thaiopensource.com/relaxng/api/jing/com/thaiopensource/validate/ValidationDriver.html" condition="_blank"><code>com.thaiopensource.validate.ValidationDriver</code></link> which supports a
         wide range of grammar types: </para>
       <itemizedlist>
         <listitem>
@@ -316,8 +316,8 @@
             <code>$instance</code>
           </term>
           <listitem>
-            <para>The XML instance document, referenced as document node, element node,
-                <code>xs:anyURI</code> or as Java file object.</para>
+            <para>The XML instance document as document node, element node,
+                <code>xs:anyURI</code>, or as Java file object.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -325,12 +325,11 @@
             <code>$grammar</code>
           </term>
           <listitem>
-            <para>The grammar file, referenced as document node, element node, as
-                <code>xs:anyURI</code>, binary document (returned by <code>util:binary-doc()</code>
-              for <code>.rnc</code> files) or as Java file object.</para>
+            <para>The grammar file can be referenced either as document node, element node, <code>xs:anyURI</code>, binary document, or as Java file object.</para>
           </listitem>
         </varlistentry>
       </variablelist>
+      <note><para>You can use <code>util:binary-doc()</code> to pass <code>.rnc</code> files as binary document</para></note>
     </sect2>
   </sect1>
 
@@ -412,7 +411,7 @@
       </listitem>
       <listitem>
         <para>Tomcat has an long standing bug which makes it impossible to register a custom
-          protocol handler (object <link xlink:href="https://docs.oracle.com/javase/10/docs/api/java/net/URLStreamHandler.html" condition="_blank">URLStreamHandler</link>) to the JVM. The alternative is to register
+          protocol handler (object <link xlink:href="https://docs.oracle.com/javase/10/docs/api/java/net/URLStreamHandler.html" condition="_blank"><code>URLStreamHandler</code></link>) to the JVM. The alternative is to register
           the object by setting the system property <code>java.protocol.handler.pkgs</code> but this
           fails as well.</para>
         <para>As a result, the validation features are only partly useable in Tomcat. There are two
