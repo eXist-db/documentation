@@ -1,9 +1,10 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>XML Validation</title>
-    <date>1Q18</date>
+    <date>2Q18</date>
     <keywordset>
       <keyword>application-development</keyword>
     </keywordset>
@@ -169,7 +170,8 @@
     <sect2>
       <title>JAXP</title>
 
-      <para>The JAXP validation functions are based on the validation capabilities of the <link xlink:href="http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/parsers/package-summary.html" condition="_blank">
+      <para>The JAXP validation functions are based on the validation capabilities of 
+        the <link xlink:href="https://docs.oracle.com/javase/10/docs/api/javax/xml/parsers/package-summary.html" condition="_blank">
           <code>javax.xml.parsers</code>
         </link> API. The actual validation is performed by the <link xlink:href="http://xerces.apache.org/xerces2-j/" condition="_blank">Xerces2</link>
         library.</para>
@@ -241,7 +243,7 @@
     <sect2>
       <title>JAXV</title>
 
-      <para>The JAXV validation functions are based on the <link xlink:href="http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/validation/package-summary.html" condition="_blank">
+      <para>The JAXV validation functions are based on the <link xlink:href="https://docs.oracle.com/javase/10/docs/api/javax/xml/validation/package-summary.html" condition="_blank">
           <code>java.xml.validation</code>
         </link> API which has been introduced in Java 5 to provide a schema-language-independent
         interface to validation services. Although officially the specification allows use of
@@ -274,11 +276,13 @@
           <listitem>
             <para>
               The namespace URI to designate a schema language. Depending on the 
-              <code>jaxv.SchemaFactory</code> implementation the following values are valid: 
-              (XSD 1.0) <code>http://www.w3.org/2001/XMLSchema</code> or <code>http://www.w3.org/XML/XMLSchema/v1.0</code>, 
-              (XSD 1.1) <code>http://www.w3.org/XML/XMLSchema/v1.1</code>, 
-              (RELAX NG 1.0) <code>http://relaxng.org/ns/structure/1.0</code>
+              <link xlink:href="https://docs.oracle.com/javase/10/docs/api/javax/xml/validation/SchemaFactory.html" condition="_blank">jaxv.SchemaFactory</link> implementation the following values are valid: 
             </para>
+            <itemizedlist>
+              <listitem> <para>For XSD 1.0 either <code>http://www.w3.org/2001/XMLSchema</code> or <code>http://www.w3.org/XML/XMLSchema/v1.0</code></para></listitem>
+              <listitem> <para>For XSD 1.1 <code>http://www.w3.org/XML/XMLSchema/v1.1</code></para></listitem>
+              <listitem> <para>For RELAX NG 1.0 <code>http://relaxng.org/ns/structure/1.0</code></para></listitem>
+            </itemizedlist>
           </listitem>
         </varlistentry>
       </variablelist>
@@ -410,7 +414,7 @@
       </listitem>
       <listitem>
         <para>Tomcat has an long standing bug which makes it impossible to register a custom
-          protocol handler (object <link xlink:href="http://java.sun.com/j2se/1.5.0/docs/api/java/net/URLStreamHandler.html" condition="_blank">URLStreamHandler</link>) to the JVM. The alternative is to register
+          protocol handler (object <link xlink:href="https://docs.oracle.com/javase/10/docs/api/java/net/URLStreamHandler.html" condition="_blank">URLStreamHandler</link>) to the JVM. The alternative is to register
           the object by setting the system property <code>java.protocol.handler.pkgs</code> but this
           fails as well.</para>
         <para>As a result, the validation features are only partly useable in Tomcat. There are two
