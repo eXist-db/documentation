@@ -295,9 +295,15 @@
       supported by many systems, for instance Jenkins. </para>
     <para>For every XQuery module tested, <code>test:suite</code> creates a single <tag>testsuite</tag>
       element. The result of each test run is output as a <tag>testcase</tag> element. It will be
-      empty if the test passed. If the test failed, there will be a <tag>failure</tag> element
+      empty if the test passed. If the test failed (meaning that the test did not meet its assertions, 
+      or that it raised an <literal>fn:error</literal>), there will be a <tag>failure</tag> element
       containing the expected result of the function, and an <tag>output</tag> element with the
-      actual result. For example:</para>
+      actual result. In the case that the test resulted in an unexpected error that is not covered by 
+      <literal>fn:error</literal>, there will be an <tag>error</tag> element with the error type and 
+      message. The <tag>testsuite</tag> element will also contain the timestamp when the tests began, 
+      the duration of the tests, and a count of the number of tests, failed tests, pending tests, and 
+      tests that raised unexpected errors not covered by <literal>fn:error</literal>. Here is a sample 
+      showing a failed test:</para>
     <programlisting language="xml" xlink:href="listings/listing-8.xml"/>
   </sect1>
 </article>
