@@ -576,9 +576,17 @@
               condition="_blank">HTML ASCII Case-Insensitive Collation</link>.</para>
         </listitem>
       </varlistentry>
+      <varlistentry>
+        <term>
+          <code>http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind</code>
+        </term>
+        <listitem>
+          <para>This URI selects the Collation used by the XQTS (XQuery Test Suite) 3.1. It is not recommended to use this for general purposes.</para>
+        </listitem>
+      </varlistentry>
     </variablelist>
 
-    <para>In addition, eXist-db supports an implementation-specific URI:</para>
+    <para>In addition, eXist-db supports a legcacy implementation-specific collation. This should no longer be used, instead the Unicode Collation Algorithm (UCA) or Unicode Codepoint Collation should be used. For reference the legacy collation URI is:</para>
     <variablelist>
       <varlistentry>
         <term>
