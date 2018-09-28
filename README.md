@@ -1,5 +1,5 @@
 # eXist-db Documentation
-[![Build Status](https://travis-ci.org/eXist-db/documentation.svg?branch=master)](https://travis-ci.org/eXist-db/documentation)
+[![Build Status](https://travis-ci.com/eXist-db/documentation.svg?branch=master)](https://travis-ci.com/eXist-db/documentation)
 [![Docbook version](https://img.shields.io/badge/docbook-5.0-19a5a4.svg)](http://docbook.org/xml/5.0/)
 [![eXist-db version](https://img.shields.io/badge/eXist_db-4.3.0-blue.svg)](http://www.exist-db.org/exist/apps/homepage/index.html)
 
