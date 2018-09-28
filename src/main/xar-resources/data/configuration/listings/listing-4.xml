@@ -1,28 +1,43 @@
-<indexer caseSensitive="no" suppress-whitespace="both" index-depth="1" tokenizer="org.exist.storage.analysis.SimpleTokenizer" validation="no">
-
-	<modules>
-        <module id="ngram-index" class="org.exist.indexing.ngram.NGramIndex" file="ngram.dbx" n="3"/>
+<indexer caseSensitive="yes" index-depth="5" preserve-whitespace-mixed-content="no"
+    suppress-whitespace="none">
+    
+    <modules>
+        <module id="ngram-index" file="ngram.dbx" n="3" class="org.exist.indexing.ngram.NGramIndex"/>
+        
         <!--
-        <module id="spatial-index" class="org.exist.indexing.spatial.GMLHSQLIndex"
-            connectionTimeout="10000" flushAfter="300" />
-        -->
-		<!-- The full text index is always required and should
-			 not be disabled. We still have some dependencies on
-             this index in the database core. These will be removed
-             once the redesign has been completed. -->
-		<module id="ft-legacy-index" class="org.exist.fulltext.FTIndex"/>
+            <module id="spatial-index" connectionTimeout="10000" flushAfter="300" class="org.exist.indexing.spatial.GMLHSQLIndex"/>
+            -->
+        
+        <module id="lucene-index" buffer="32" class="org.exist.indexing.lucene.LuceneIndex" />
+        
+        <!--
+                The following index can be used to speed up 'order by' expressions
+                by pre-ordering a node set.
+            -->
+        <module id="sort-index"      class="org.exist.indexing.sort.SortIndex"/>
+        
+        <!-- 
+                New range index based on Apache Lucene. Replaces the old range index which is
+                hard-wired into eXist core.
+            -->
+        <module id="range-index"    class="org.exist.indexing.range.RangeIndex"/>
+        
+        <!--
+                 The following module is not really an index (though it sits 
+                 in the index pipeline). It gathers relevant statistics on the
+                 distribution of elements in the database, which can be used 
+                 by the query optimizer for additional optimizations. 
+            -->
+        <!--
+            <module id="index-stats" file="stats.dbx" class="org.exist.storage.statistics.IndexStatistics" />
+            -->
     </modules>
-
-    <stopwords file="stopword"/>
-
-	<!-- Default index configuration -->
+    
+    <!--
+            Default index settings. Default settings apply if there's no 
+            collection-specific configuration for a collection.
+        -->
     <index>
-        <fulltext default="all" attributes="false">
-            <exclude path="/auth"/>
-        </fulltext>
+        <!-- settings go here -->
     </index>
-
-    <entity-resolver>
-	    <catalog file="samples/xcatalog.xml"/>
-    </entity-resolver>
 </indexer>
