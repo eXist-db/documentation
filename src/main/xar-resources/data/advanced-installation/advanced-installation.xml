@@ -110,7 +110,7 @@
           </listitem>
           <listitem>
             <para><code>wrapper.plist.template</code> - Used on Mac systems to provide a list of
-              parameters to <code>launchd</code> daemon</para>
+              parameters to <code>launched</code> daemon</para>
           </listitem>
           <listitem>
             <para><code>wrapper.ping.timeout</code> YAJSW pings the application to determine if it
@@ -122,6 +122,24 @@
         </itemizedlist>
       <para> If your system supports <code>systemd</code> you can run the service wrapper as a non-privileged user. You will be notified on choosing
           <code>systemd</code> non-privileged when running the service wrapper installer and uninstaller.</para>
+
+          <sect3>
+            <title>Unattended Installation</title>
+            <para> The installation script will ask for certain parameters during the installation. In addition
+              to the properties described above, one can set two system variables to omit the interactive input.
+              This can be helpful when you need to install eXist as a service during a process where no interaction
+              is possible.</para>
+              <para> If the following variables are present, the installation will not ask for input: </para>
+              <itemizedlist>
+                <listitem><code>WRAPPER_UNATTENDED</code> should be non-zero length string<listitem>
+              </itemizedlist>
+              <para>Set either one of the following to determine the init system </para>
+              <itemizedlist>
+                <listitem><code>WRAPPER_USE_SYSTEMD</code> as a non-zero length string<listitem>
+                <listitem><code>WRAPPER_USE_SYSTEMV</code> as a non-zero length string<listitem>
+              </itemizedlist>
+          </sect3>
+
     </sect2>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
