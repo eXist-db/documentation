@@ -4,7 +4,7 @@
 <article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>XQSuite - Annotation-based Test Framework for XQuery</title>
-    <date>1Q18</date>
+    <date>4Q18</date>
     <keywordset>
       <keyword>application-development</keyword>
       <keyword>xquery</keyword>
@@ -164,6 +164,12 @@
         </listitem>
       </varlistentry>
       <varlistentry>
+        <term><code>%test:name</code></term>
+        <listitem>
+          <para>Povide a more descriptive name for your test than the XQuery function name, which is the default.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
         <term><code>%test:pending</code></term>
         <listitem>
           <para>Marks a test as <emphasis>pending</emphasis>, which means that it will not be
@@ -295,14 +301,14 @@
       supported by many systems, for instance Jenkins. </para>
     <para>For every XQuery module tested, <code>test:suite</code> creates a single <tag>testsuite</tag>
       element. The result of each test run is output as a <tag>testcase</tag> element. It will be
-      empty if the test passed. If the test failed (meaning that the test did not meet its assertions, 
+      empty if the test passed. If the test failed (meaning that the test did not meet its assertions,
       or that it raised an <literal>fn:error</literal>), there will be a <tag>failure</tag> element
       containing the expected result of the function, and an <tag>output</tag> element with the
-      actual result. In the case that the test resulted in an unexpected error that is not covered by 
-      <literal>fn:error</literal>, there will be an <tag>error</tag> element with the error type and 
-      message. The <tag>testsuite</tag> element will also contain the timestamp when the tests began, 
-      the duration of the tests, and a count of the number of tests, failed tests, pending tests, and 
-      tests that raised unexpected errors not covered by <literal>fn:error</literal>. Here is a sample 
+      actual result. In the case that the test resulted in an unexpected error that is not covered by
+      <literal>fn:error</literal>, there will be an <tag>error</tag> element with the error type and
+      message. The <tag>testsuite</tag> element will also contain the timestamp when the tests began,
+      the duration of the tests, and a count of the number of tests, failed tests, pending tests, and
+      tests that raised unexpected errors not covered by <literal>fn:error</literal>. Here is a sample
       showing a failed test:</para>
     <programlisting language="xml" xlink:href="listings/listing-8.xml"/>
   </sect1>
