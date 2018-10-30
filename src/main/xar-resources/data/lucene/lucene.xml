@@ -122,8 +122,8 @@
       <para>As a shortcut, you can use a <literal>match</literal> attribute with a wildcard:</para>
       <programlisting language="xml">&lt;text match="//SPEECH/*"/&gt;</programlisting>
       <para>This will create a separate index on each child element of SPEECH it encounters. Please note that the argument to match is a simple path
-        pattern, not a full XPath expression. It only allows <code>/</code> and <code>//</code> to denote child or descendant steps, plus the wildcard
-          <code>*</code> to match an arbitrary element.</para>
+        pattern, not a full XPath expression. For the time being, it only allows <code>/</code> and <code>//</code> to denote child or descendant steps;
+        the wildcard <code>*</code> to match an arbitrary element, plus matching a single attribute's value, e.g. <code>foo[@bar = 'xyz']</code></para>
       <para>As explained above, you have to figure out which parts of your document will likely be interesting as context for a full text query. The
         full text index works best if the context isn't too narrow. For example, if you have a document structure with section <tag>div</tag>s,
         headings and paragraphs, you would probably want to create an index on the <tag>div</tag>s and maybe on the headings, so the user can
