@@ -3,7 +3,7 @@
         schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>Full Text Index</title>
-    <date>1Q18</date>
+    <date>4Q18</date>
     <keywordset>
       <keyword>indexing</keyword>
     </keywordset>
@@ -506,15 +506,15 @@
     <para>The field indexes are not configured via <literal>collection.xconf</literal>. Instead we add fields programmatically from an XQuery (which
       could be run via a trigger):</para>
     <programlisting language="xquery" xlink:href="listings/listing-49.txt"/>
-    
+
     <para>The <literal>store</literal> attribute indicates that the fields content should be stored as a string. Without this attribute, the content
       will be indexed for search, but you won't be able to retrieve the contents. </para>
     <para>To get the contents of a field, use the <literal>ft:get-field</literal> function:</para>
     <programlisting language="xquery">ft:get-field("/db/demo/test.xml", "title")</programlisting>
-    
+
     <para>To query this index, use the <literal>ft:search</literal> function:</para>
     <programlisting language="xquery">ft:search("/db/demo/test.xml", "title:indexing and author:me")</programlisting>
-    
+
     <para>Custom field indexes are automatically deleted when their parent document is removed. If you want to update fields without removing the
       document, you need to delete the old fields first though. This can be done using the <literal>ft:remove-index</literal> function:</para>
     <programlisting language="xquery">ft:remove-index("/db/demo/test.xml")</programlisting>
