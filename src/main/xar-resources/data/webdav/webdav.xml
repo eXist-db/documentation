@@ -3,7 +3,7 @@
         schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>WebDAV</title>
-    <date>4Q2018</date>
+    <date>4Q18</date>
     <keywordset>
       <keyword>getting-started</keyword>
       <keyword>interfaces</keyword>
@@ -168,33 +168,28 @@
     
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
     
-    <sect2>
+    <sect2 xml:id="davfs2">
       <title>davfs2</title>
-      <para>Recent eXist versions present by default, through WebDAV, the size of XML documents as a multiple of internal pagesize. 
-        This approximated size is not managed correctly by davfs2. You can list XML files (<code>ls -l</code>) but you cannot 
-        view or edit them. All other file types (plain text files, images, etc) are working as expected with davfs2.   
-      </para>
-      <para>The following message is found in davfs2 logs (syslog/journalctl) :              
-        <errortext>Could not read response body: connection was closed by server</errortext>
+      <para>By default, non-XML files (plain text files, images, etc) are working as expected with davfs2.
+        Because eXist-db reports the size of XML documents as a multiple of the internal pagesize, you can list XML files 
+        (<code>ls -l</code>) but you cannot view or edit them. The davfs2 logs (syslog/journalctl) contain:              
+        <literal>Could not read response body: connection was closed by server</literal>
       </para>
       <para>
-        In order to access XML files stored in eXist from
-        a mounted directory in a filesystem thanks to dafvs2, you have to add the following additional Java parameters 
-        when starting eXist : </para>
-      
+        In order to access XML files stored in eXist from a mounted directory in a filesystem via dafvs2, 
+        have to add the following additional Java parameters when starting eXist:</para>    
       <itemizedlist>
         <listitem><para><literal>org.exist.webdav.PROPFIND_METHOD_XML_SIZE=EXACT</literal></para></listitem>
         <listitem><para><literal>org.exist.webdav.GET_METHOD_XML_SIZE=EXACT</literal></para></listitem>
-      </itemizedlist>
-      
-      <para>Please note that if eXist is installed as a service (systemd) the configuration has to be done in <filename>/tools/yajsw/conf/wrapper.conf</filename></para>
+      </itemizedlist>   
+      <para>If eXist is installed as a service (systemd) the configuration has to be done in <literal>/tools/yajsw/conf/wrapper.conf</literal></para>
       
       <programlisting xlink:href="listings/listing-2.txt"/>
       
-      <note><para><literal>NULL</literal> and <literal>APPROXIMATE</literal> values work for Oxygen and Cadaver but only <literal>EXACT</literal> can be used if davfs2 is needed.</para></note>   
+      <warning><para><literal>NULL</literal> and <literal>APPROXIMATE</literal> values work for Oxygen and Cadaver but only <literal>EXACT</literal> can be used with davfs2.</para></warning>   
       
-      <para>These changes won't be taken into account if you do not uninstall the service <emphasis role="bold">before</emphasis> 
-        modifying <filename>wrapper.conf</filename>. The service must then be reinstalled :                     
+      <para>You must first uninstall the service <emphasis role="bold">before</emphasis> 
+        modifying <literal>wrapper.conf</literal>, for changes to be applied when reinstalling:                     
       </para>
       
       <orderedlist>
@@ -214,7 +209,7 @@
         </listitem>
       </orderedlist>
       
-      <note><para>Tested on davfs2 1.4.7 on RHEL7.5 and 1.5.4 on Arch Linux.</para></note>
+      <note><title>Linux</title><para>Tested on davfs2 1.4.7 on RHEL7.5 and 1.5.4 on Arch Linux.</para></note>
       
     </sect2>
     
