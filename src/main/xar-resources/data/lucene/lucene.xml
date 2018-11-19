@@ -74,8 +74,8 @@
         (<code>match="..."</code>, see below). </para>
 
     <para>It is important make sure to <emphasis>choose the right context</emphasis> for an index, which has to be the same as in your query. To
-      better understand this, let's have a look at how the index creation is handled by eXist-db and Lucene. For example:</para>
-    <programlisting language="xml">&lt;text qname="SPEECH"/&gt;</programlisting>
+      better understand this, let's have a look at how the index creation is handled by eXist-db and Lucene. For example:
+      <tag>text qname="SPEECH"</tag></para>
     <para>This creates an index on <tag>SPEECH</tag> only. What is passed to Lucene is the string value of <tag>SPEECH</tag>, which also includes the
       text of all its descendant text nodes (<emphasis>except</emphasis> those filtered out by an optional <tag>ignore</tag>). </para>
     <para>Consider the fragment:</para>
@@ -99,7 +99,7 @@
 
     <para>Let's use a different example to illustrate this. Assume you have a document with encoded place names:</para>
 
-    <programlisting language="xml">&lt;p&gt;He loves &lt;placeName&gt;Paris&lt;/placeName&gt;.&lt;/p&gt;</programlisting>
+    <programlisting language="xml" xlink:href="listings/listing-10.txt"/>
     <para>For a general query you probably want to search through all paragraphs. However, you may also want to provide an advanced search option,
       which allows the user to restrict his/her queries to place names. To make this possible, simply define an index on <tag>placeName</tag>
       <emphasis>as well</emphasis>:</para>
@@ -120,10 +120,16 @@
         element:</para>
       <programlisting language="xml" xlink:href="listings/listing-14.txt"/>
       <para>As a shortcut, you can use a <literal>match</literal> attribute with a wildcard:</para>
-      <programlisting language="xml">&lt;text match="//SPEECH/*"/&gt;</programlisting>
+      <programlisting language="xml" xlink:href="listings/listing-15.txt"/>
       <para>This will create a separate index on each child element of SPEECH it encounters. Please note that the argument to match is a simple path
-        pattern, not a full XPath expression. For the time being, it only allows <code>/</code> and <code>//</code> to denote child or descendant steps;
-        the wildcard <code>*</code> to match an arbitrary element, plus matching a single attribute's value, e.g. <code>foo[@bar = 'xyz']</code></para>
+        pattern, not a full XPath expression. For the time being, it only allows:</para>
+      <itemizedlist>
+        <listitem><para><code>/</code> and <code>//</code> to denote child or descendant steps,</para></listitem>
+        <listitem>
+          <para><code>*</code> wildcard selector to match an arbitrary element,</para>
+        </listitem>
+        <listitem><para>matching a single attribute's value, e.g. <code>foo[@bar = 'xyz']</code></para></listitem>
+      </itemizedlist>
       <para>As explained above, you have to figure out which parts of your document will likely be interesting as context for a full text query. The
         full text index works best if the context isn't too narrow. For example, if you have a document structure with section <tag>div</tag>s,
         headings and paragraphs, you would probably want to create an index on the <tag>div</tag>s and maybe on the headings, so the user can
@@ -145,16 +151,16 @@
 
         <para>By default, eXist-db's indexer assumes that element boundaries break on a word or token. For example, if you have an element:</para>
 
-        <programlisting language="xml">&lt;size&gt;&lt;width&gt;12&lt;/width&gt;&lt;height&gt;8&lt;/height&gt;&lt;/size&gt;</programlisting>
+        <programlisting language="xml" xlink:href="listings/listing-16.txt"/>
         <para>You want <code>12</code> and <code>8</code> to be indexed as separate tokens, even though there's no whitespace between the elements.
           eXist-db will pass the content of the two elements to Lucene as separate strings and Lucene will see two tokens (instead of just
             <code>128</code>).</para>
         <para>However, you usually <emphasis>don't</emphasis> want this behaviour for mixed content nodes. For example:</para>
 
-        <programlisting language="xml">&lt;p&gt;This is &lt;b&gt;un&lt;/b&gt;clear.&lt;/p&gt;</programlisting>
+        <programlisting language="xml" xlink:href="listings/listing-17.txt"/>
         <para>In this case, you want <code>unclear</code> to be indexed as a single word. This can be done by telling eXist-db which nodes are inline
           nodes. The example configuration above uses:</para>
-        <programlisting language="xml">&lt;inline qname="b"/&gt;</programlisting>
+        <programlisting language="xml" xlink:href="listings/listing-18.txt"/>
         <para>The <tag>inline</tag> option can both be specified globally or per-index:</para>
         <programlisting language="xml" xlink:href="listings/listing-19.xml"/>
       </sect3>
@@ -166,7 +172,7 @@
 
         <programlisting language="xml" xlink:href="listings/listing-20.xml"/>
         <para>Use an <tag>ignore</tag> element in the collection configuration to have eXist-db ignore the note:</para>
-        <programlisting language="xml">&lt;ignore qname="note"/&gt;</programlisting>
+        <programlisting language="xml" xlink:href="listings/listing-21.txt"/>
         <para>Basically, <tag>ignore</tag> simply allows you to hide a chunk of text before Lucene sees it.</para>
         <para>Like the <tag>inline</tag> tag, <tag>ignore</tag> may appear both globally or within a single index definition.</para>
         <para>The <tag>ignore</tag> only applies to descendants of an indexed element. You can still create another index on the ignored element
@@ -292,7 +298,7 @@
 
       <para>Sometimes you want to define different Lucene indexes on the <emphasis>same set of elements</emphasis>, for instance to use a different
         analyzer. eXist-db allows to name a certain index using the <literal>field</literal> attribute:</para>
-      <programlisting language="xquery">&lt;text field="title" qname="title" analyzer="en"/&gt;</programlisting>
+      <programlisting language="xquery" xlink:href="listings/listing-33.txt"/>
       <para>Such an index is called <emphasis>named index</emphasis>. See <xref linkend="query-a-named-index"/> on how to query these indexes.</para>
     </sect2>
   </sect1>
@@ -352,7 +358,7 @@
           </term>
           <listitem>
             <para>Defines a single term to be searched in the index. If the root query element contains a sequence of term elements, wrap them in
-                <code>&lt;bool&gt;&lt;/bool&gt;</code> and they will be combined as in a boolean "or" query. For example: </para>
+              <tag>bool/</tag> and they will be combined as in a boolean "or" query. For example: </para>
             <programlisting language="xquery" xlink:href="listings/listing-38.txt"/>
             <para>This finds all <tag>SPEECH</tag> elements containing either <code>nation</code> or <code>miserable</code> or both.</para>
           </listitem>
