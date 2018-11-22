@@ -19,8 +19,30 @@
   <!-- ================================================================== -->
 
   <sect1 xml:id="int-test">
-    <para>blah</para>
-
-
+    <title>Introduction</title>
+    <para>Testing your code is good for you and the community.
+      There are three parts to the minimal sort of integration test decribed here.
+      Too many frameworks, please check their documentation, we'll focus on travis xqsuite and ant.
+      Examples: generator, gulp-exist, documentation.
+      based on experience.
+      This tests are minimal because they are a smoke test.
+      What is an integration test (smoke test)
+    </para>
+    <sect2 xml:id="ci-build">
+      <title>Building on a clean system</title>
+      <para>build on a clean system, with all targets, and multiple OS if necessary.</para>
+    </sect2>
+    <sect2 xml:id="ci-install">
+      <title>Install your app (or library) into a running exist</title>
+      <para>docker or node, but make it foward looking.</para>
+    </sect2>
+    <sect2 xml:id="ci-check">
+      <title>Access your app</title>
+      <para>Open index.html in headless browser</para>
+    </sect2>
+    <sect2 xml:id="ci-test">
+      <title>Run your testsuite</title>
+      <para>tests that aren't run continuously are no good to anyone.</para>
+    </sect2>
   </sect1>
 </article>
