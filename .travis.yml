@@ -11,6 +11,9 @@ env:
   - img=existdb/existdb:latest
   - img=existdb/existdb:release
 
+addons:
+  chrome: stable
+
 before_install:
   - docker pull $img
   - docker create  --name exist-ci -p 8080:8080 $img
@@ -26,6 +29,7 @@ before_script:
 
 script:
   - mvn validate
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost:8080/exist/apps/doc/documentation.xml &
 
 after_success:
   - docker ps
