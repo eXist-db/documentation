@@ -3,7 +3,7 @@
         schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>Known Issues when upgrading</title>
-    <date>1Q18</date>
+    <date>4Q18</date>
     <keywordset>
       <keyword>operations</keyword>
     </keywordset>
@@ -11,7 +11,19 @@
 
   <!-- ================================================================== -->
 
-  <para>This article lists the known incompatibilities when upgrading from an older version of eXist-db.</para>
+  <para>This article lists known incompatibilities when upgrading from an older version of eXist-db.</para>
+
+  <!-- ================================================================== -->
+  <sect1 xml:id="v4.5.0">
+    <title>Upgrading to 4.5.0</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>eXist-db v4.5.0 is not binary compatible with previous versions of eXist-db because of improvements to the on-disk journal format. Before upgrading to this version of eXist-db, you MUST perform a full backup and restore.</para>
+      </listitem>
+    </itemizedlist>
+
+  </sect1>
 
   <!-- ================================================================== -->
   <sect1 xml:id="v4.0.0">
@@ -24,7 +36,6 @@
     </itemizedlist>
 
   </sect1>
-  <!-- ================================================================== -->
   <sect1 xml:id="v3.0">
     <title>Upgrading to 3.0 stable</title>
 
