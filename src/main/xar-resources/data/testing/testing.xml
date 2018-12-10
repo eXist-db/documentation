@@ -1,0 +1,76 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+  <info>
+    <title>Testing</title>
+    <date>4Q18</date>
+    <keywordset>
+      <keyword>application-development</keyword>
+    </keywordset>
+  </info>
+
+  <!-- ================================================================== -->
+
+  <para>In this article we discuss the types of testing available in relation to eXist-db and its applications. It assumes readers have a basic understanding of XML and XQuery.</para>
+
+  <!-- ================================================================== -->
+
+  <sect1>
+    <title>Overview</title>
+
+
+    <para>Different kinds of tests play an essential role in maintain a high quality code base both for eXist-db itself, and for applications that interact with eXist-db either as deployed packages from the inside, or in the forms of external tools.</para>
+    <note>
+      <para>The test framework of eXist-db and its apps is under continuous development, with frequent changes to the softwares and services in use. Covering them all is not feasible in this article. So we recommend that you check our <link xlink:href="https://github.com/eXist-db" condition="_blank">Github repositories</link> and search for a system that is similar to yours, for further insipiration.</para>
+    </note>
+    <para>While the exact terminology varies between different sources, the following categories are all recogniced as distinct types of test, even when the terms might slightly vary.</para>
+    <orderedlist>
+      <listitem>
+        <para>
+          <emphasis>
+            <link xlink:href="validation">Validation</link>
+          </emphasis>: Xml comes with different means of validating and thus testing your data strucutures. When implementing a testsuite, you should consider how you can leverary these features native features first.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis>
+            <link xlink:href="xqsuite">Unit testing</link>
+          </emphasis>: these tests typically operate at the level of individual functions. eXist-db has its own unit testing framework for Xquery name XQsuite. It is prominenlty used in our bug reports. You can run multiple unit test tools to test, e.g. java, javascript, and Xquery code.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis>
+            <link xlink:href="integration-testing">integration testing</link>
+          </emphasis>: A (rewritten) range index which provides superior performance on large data sets.</para>
+      </listitem>
+      <listitem>
+        <para>
+          <emphasis>
+            (WIP) Performance and Stress testing
+          </emphasis>: Performance testing ensures that your code continous to function under heavy load, or with very little resources. Stress tests go one step further, by crashing your code on-purpose to ensure that it recovers gracefully. Practically speaking the difference between the two is very fluid.</para>
+      </listitem>
+    </orderedlist>
+    <para>There will never be a one size fits all solution to take care of all your testing needs. Writing good test takes time an planning. You can find out more about available options and their use cases in the articles linked above. The remainder of this article will discuss some general considerations for how to design your test-suite, without referencing a specifc implementation.</para>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1 xml:id="testselect">
+    <title>Deciding on the right type of test</title>
+
+    <para>Generally speaking, you should follow the sequence provided by the above list. Whatever, can be tested as part of your validation tests, should do so. If validation based testing isn't a good fit, go for unit tests, followed by integration and lastly performance tests. Not only are validation tests faster then most unit tests (which in turn are slower then integration tests and performance tests). They also are more easy to configure, and have a higher chance of providing you with the information that you need when a test fails.</para>
+    <sect2 xml:id="selectex">
+      <title>Selection example</title>
+    <para>To illustrate this lets take a theoretical example, imagine your code includes a online form where users pick a data that needs to be stored in the database. For the purpuse of this example it doesn't matter if this is text-input form, a calendar selector, or other means.</para>
+    <para>Provided that you are using eXist-db, we can assume that the date will be stored in some kind of xml file. By <emphasis>validating</emphasis> this xml file, and ensuring that it's content are of the correct datatype <code>xs:date</code> you can be sure that your data is what you expect it to be, and you can prevent your users from providing an input that is not a date.</para>
+    <para>You could also run a <emphasis>unit test</emphasis> on the function that takes the user input and stores it in the database. With validation already taken care of, you can focus your unit tests on corner cases, such as dates that are very unlikely, or that use a different date format. If don't take advantage of validation first, you would have to write many unit tests, that check what happens when the user types <literal>29.02.1983</literal> vs <literal>28.02.1983</literal>, and whole range of other possibilties.</para>
+    <para>This same process happens for the next type, <emphasis>integration testing</emphasis>. Without unit tests you would have to mock a large number of ways that users interact with your date form, from typos, to different browsers, or pointer devices. Instead, with both validation and unit tests in place, your integration tests should focus on the question if the form appears to working, that is can users see it (presumably in the browser), and interact with it in the way that you intended them to by clicking, typing, etc. Since you no longer have to worry about the contents, you can focus on the interaction.</para>
+    <para>Lastly, <emphasis>performance and stess tests</emphasis> would simply assume all of the above to be in place. They would check for problems that might occur, when large numbers of users select the same date simultaneously, or provide an invalid data, to ensure that your code is not crashing under heavy load.</para>
+    <para>This quick example should give you an idea on how to think about testing your code. Each type of test has its own reason for being, and requires your attention. A good performance test cannot substitue unit or integration tests. If you feel that your tests are not working well, because they frequently fail to show problems in your code, and when they do they don't make identifying the source of the problem easier, chances are that you are trying to test something with one type of test, that would be better suited to another type.</para>
+    </sect2>
+  </sect1>
+  <sect1 xml:id="testcoverage">
+    <title>How many tests do I need</title>
+    <para>The short answers is: the more the merrier. It is certainly possible to reach full test coverage for you code, meaning that every meaningful unit of code has a corresponding set of tests. While other programming languages offer automated means of analysing your code to indentify areas that aren't tested, such tools are unfortunately not very common for Xquery. The section on <link xlink:href="integration-testing" condition="_blank">integration testing</link> contains the definition of a minimal smoke test that the eXist-db community is using internally.</para>
+  </sect1>
+</article>
