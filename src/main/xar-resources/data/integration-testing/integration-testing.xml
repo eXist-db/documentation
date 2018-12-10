@@ -14,35 +14,46 @@
   <!-- ================================================================== -->
 
   <para>To ensure the long-term maintainability of an application, it is important to not only test its individual functions, but also the way the application interacts with other components of the exist-db environment. This artilce covers recommendations for configuring an automated test environment to perform integration test of eXist-db apps.</para>
-  <para>These recommendations apply to application developers of any level. However, it also defines the minimal requirements for authors who wish to publish their apps under the exist-db namespace. It assumes that you are familiar with the <link xlink:href="xqsuite">XQsuite framework</link> for unit-testing.</para>
+  <para>These recommendations apply to application developers of any level. It also defines the minimal requirements for authors who wish to publish their apps under the exist-db namespace. It assumes that you are familiar with the <link xlink:href="xqsuite">XQsuite framework</link> for unit-testing.</para>
 
   <!-- ================================================================== -->
 
   <sect1 xml:id="int-test">
     <title>Introduction</title>
-    <para>Testing your code is good for you and the community.
-      There are three parts to the minimal sort of integration test decribed here.
-      Too many frameworks, please check their documentation, we'll focus on travis xqsuite and ant.
-      Examples: generator, gulp-exist, documentation.
-      based on experience.
-      This tests are minimal because they are a smoke test.
-      What is an integration test (smoke test)
-    </para>
+    <para>It is possible to create an automated mininal testsuite with relatively little effort. Instead of post-poning the process it is often more efficient to take the need for testing into account in the earliest phases of development. This enables others whishing to extend your program with new features, by knowning that these don't break existing functions, and by allowing test only contributions to help you to gradually advance your test coverage. The following section will walk you trough the three main aspects of such a minimal test setup.</para>
     <sect2 xml:id="ci-build">
       <title>Building on a clean system</title>
-      <para>build on a clean system, with all targets, and multiple OS if necessary.</para>
+      <para>Before you start designing tests, you should start to automate your build process. This ensures that things don't only work on your system, and it can catch some common errors.</para>
+      <para>The examples in this article will use <link xlink:href="https://travis-ci.com" condition="_blank">travis-ci</link> as it is the most popular continual integration (ci) provider in the exist-db organization on Github, other popuar choices include <link xlink:href="https://www.appveyor.com" condition="_blank">appveyor</link>, <link xlink:href="https://jenkins.io" condition="_blank">jenkins</link>, <link xlink:href="https://circleci.com" condition="_blank">circl-ci</link>, … . A simple configuration that builds your application on a clean virtual machine, witout the risk of local hidden files interfering, looks like this:</para>
+      <programlisting xlink:href="listings/travis-1.txt"/>
+      <para>For travis the required name of such a configuration is <literal>.travis.yml</literal> for the correct way to create such a configuration file for your CI provider please consult their documantation. In all cases, since exist-db is written in Java, your app should be build on a system that comes with the Java, version required by eXist-db. Most providers will automatically detect your build tool and run the required command even if you don't specify it. In the above example, our app to be tested uses ant as a build tool, change <code>ant</code> to suite your needs, e.g. <code>maven clean package</code>, <code>npm install</code>, etc.</para>
+      <para>Depending on your the design of your app, you should make sure that all build targets and configurations are run by the ci service. If you use java code in your app, it makes sense to build with multiple java versions (e.g. by adding <code>- openjdk11</code>). It might be necessary to test building on on different operation systems. You can consult your ci services documentation for the list of options they support and for how to configure them.</para>
     </sect2>
     <sect2 xml:id="ci-install">
-      <title>Install your app (or library) into a running exist</title>
-      <para>docker or node, but make it foward looking.</para>
+      <title>Add a running eXist-db instance and install your app</title>
+      <para>The next step is to take the result of your automated build process and install it in a running eXist-db instance. We are going to use exist's <link xlink:href="https://github.com/eXist-db/docker-existdb" condition="_blank">docker images</link> for this, since it is supported by all CI providers, and it tends to be the fastest means of getting an instance up and running. Let's extend the file create in the previous section.</para>
+      <programlisting xlink:href="listings/travis-2.txt"/>
+      <para>The <literal>:release</literal> and <literal>:latest</literal> tags are specifically designed for use in ci environments. You can also specify exact version to use (e.g. <literal>:4.4.0</literal>), if you want to ensure backwards compatibility. But these two tags will ensure that whatever that your code is tests both with the most current stable release, and with upcoming changes. To actually install the app we have simply copied it into exist's <literal>autodeploy</literal> folder, which will make sure that any dependencies that you declared for your app, will also be installed. If you require more complex installation steps, you can find more examples and links in the <link xlink:href="https://github.com/eXist-db/docker-existdb" condition="_blank">docker-existdb readme</link>.</para>
+      <para> So far we have simply automated the basic steps of building and installing your app. This only catches the most basic and sever erros. While it is important to ensure that others can actually build and run your application, this is not a very realistic test of what users actually experience when they install your application. Before we can refine the way we imitate their process properly, we need to add the means of running actual tests within our ci environment.</para>
     </sect2>
-    <sect2 xml:id="ci-check">
-      <title>Access your app</title>
-      <para>Open index.html in headless browser</para>
+    <sect2 xml:id="ci-unit">
+      <title>Integrating unit tests into ci</title>
+      <para>Integration testing and unit testing go hand in hand, as one without the other does not work well. If you are writing an application, you already should have unit tests, that test the functional components of your code. Tests that are invisible to other contributers because they are hidden away, and have only every been run on the original authors system, are of very limited use. Instead, your unit tests should run whenever your code changes, and they should run on a neutral system. You unit tests must therefore be integrated into your automated build and testing pipeline. As with the previous options there are different test runners to do this work for you, such as <link xlink:href="https://junit.org/junit5/" condition="_blank">junit</link> for java, <link xlink:href="https://mochajs.org" condition="_blank">mocha</link> for javascript, <link xlink:href="xqsuite" condition="_blank">xQsuite</link>. To run these tests, we are going to leverate the support for running unit tests of our build system (e.g.: <code>npm test</code>, <code>mvm test</code>, …):</para>
+      <programlisting xlink:href="listings/travis-3.txt"/>
+      <para>Just as with the building example, many providers will execute this command automatically. But even in a simple case it helps others understand your code, and to find your tests, if you make the test command explicit. If you use more then one test runner, you can simply add additional test commands to the script parameter. Since exist is already running in the background withou our app installed, it is also possible to run your <literal>xqsuite</literal> unit tests. You can see how this is configured, for apps using our the <link xlink:href="https://github.com/eXist-db/generator-exist" condition="_blank">yeoman templates</link>.</para>
+      <para>How to right good unit tests is beyond the scope of this article. Whenever you are struggling with your integration test, you should however, ask yourself if what you are trying to achieve, might not be better served by creating unit tests. Whichever solution works best for you, you should not rely on integration tests alone, and your unit tests should be integrated into your ci system.</para>
     </sect2>
-    <sect2 xml:id="ci-test">
-      <title>Run your testsuite</title>
-      <para>tests that aren't run continuously are no good to anyone.</para>
+    <sect2 xml:id="ci-integration">
+      <title>Testing your app in a controlled context</title>
+      <para>As we have seen in the previous section unit tests are an important prerequiste for effective integration testing. The difference between the two is that unit tests excell at testing individual functions, and are quick to write and perform. Yet, they cannot capture the complex interaction between your code and that of the larger environment. Just search for <link xlink:href="https://www.google.com/search?hl=en&amp;q=2%20unit%20tests%200%20integration%20tests" condition="_blank">2 unit tests 0 integration tests</link> to see what I mean.</para>
+      <para>For eXist-db applications, integration test will typically involve a browser, as we are trying to mimick the way a user will typically interact with our application, so our examples will focus on these kinds of browser testing. The concept, however, is not restricted to browser based applications. If you look at the <link xlink:href="https://github.com/eXist-db/docker-existdb/blob/develop/.travis.yml" condition="_blank">test-suite</link> for building the docker images used in these example you'll find some shell based tests that move between unit and integration testing.</para>
+      <para>Common tools for browser testing include <link xlink:href="https://www.cypress.io" condition="_blank">cypress</link>, <link xlink:href="https://docs.seleniumhq.org" condition="_blank">Selenium</link>, and <link xlink:href="http://webdriver.io" condition="_blank">webdriver</link>. As before the choice is up to you, whichever you choose it should be clearely documented to your contributors know how to adjust test cases for new features and how to maintain your tests. In the following examples we will focus on cypress, as it does not require any additional steps for configuring a browser first.</para>
+      <para>As with your unit tests command, you can simply execute the cypress test command inside your ci test script.</para>
+      <programlisting xlink:href="listings/travis-4.txt"/>
+      <para>You write your tests in the same fashion as you would with mocha unit tests, however, you are now address the rendered document inside a browser instead of individual js or xquery functions.</para>
+      <programlisting xlink:href="listings/cypress.txt"/>
+      <para>The above example opens a page in the browser, logs in, and close the window it just opened. You can do many more things, but these kind of simple examples should give you a good starting point for creating your first integration tests. If there are any console errors or problems with rendering content cypress will create an error message and your tests will fail. To check the syntax of these commands, and to see many more examples please visit the <link xlink:href="https://docs.cypress.io/guides/core-concepts/writing-and-organizing-tests.html#Folder-Structure" condition="_blank">cypress documentation</link>.</para>
+      <para>Now that we have opened build our app on a clean system, executed its unit tests, and opened the start page of our freshly installed app in clean eXist-db instance, we have achieved a basic smoke test. (we switched it on and there was no smoke). Now proper testing can commence. Obviously you might want to visit multiple pages, or compare screenshots to avoid visual regressions, or compare images in multiple browsers. All of which are excellent ideas, and with these basics in place it might no longer seem so daunting a task. Depending on your own specific requirments I would encourage your to browse other repositories in addition to the documentation of your CI and test-suite vendors. Chances are someone already has created a solid test, for what you want to try. Even without full test coverage, a litte effort can go a long way.</para>
     </sect2>
   </sect1>
 </article>
