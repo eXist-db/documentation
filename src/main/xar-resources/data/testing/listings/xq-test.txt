@@ -1,0 +1,6 @@
+declare
+    %test:arg("input", '11.11.2010') %test:assertEquals('11.11.2010')
+    %test:arg("input", '5') %test:assertError()
+    function local:check-input($input as item()*) as xs:date {
+ $input cast as xs:date
+};
