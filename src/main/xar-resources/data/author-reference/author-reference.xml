@@ -969,8 +969,8 @@ but does not because its too simple)</programlisting>
           <term>Tags</term>
           <listitem>
             <para>A <tag>tag</tag> element surrounds its content with &lt; and &gt; and formats it
-              like code. Meant to make life easier: <code><![CDATA[&amp;lt;tag&amp;gt;xxx&amp;lt;/tag&amp;gt;]]></code> is the
-              shorter version of <code><![CDATA[&amp;lt;code&amp;gt;&amp;amp;lt;xxx&amp;amp;gt;&amp;lt;/code&amp;gt;]]></code>.</para>
+              like code. Meant to make life easier: <code><![CDATA[<tag>xxx</tag>]]></code> is the
+               shorter version of <code><![CDATA[<code>&lt;xxx&gt;</code>]]></code>.</para>
           </listitem>
         </varlistentry>
 
@@ -1010,7 +1010,7 @@ but does not because its too simple)</programlisting>
           <listitem>
             <para>Links to external sources are done with the <tag>link</tag> element. Place the
               target's full URI in the <code>xlink:href</code> attribute. For instance,
-                <code><![CDATA[&amp;lt;link xlink:href="http://exist-db.org/exist/apps/homepage/index.html"&amp;gt;]]></code>
+                <code><![CDATA[<link xlink:href="http://exist-db.org/exist/apps/homepage/index.html">]]></code>
               links to the <link xlink:href="http://exist-db.org/exist/apps/homepage/index.html" condition="_blank">eXist home page</link>.</para>
             <para>To open the link on a new page, add <code>condition="_blank"</code>.</para>
           </listitem>
@@ -1022,7 +1022,7 @@ but does not because its too simple)</programlisting>
             <para>To create a link to another article in this documentation set, also use the
                 <tag>link</tag> element. However, use the target's document name (without the
                 <code>.xml</code> extension) as the link address. For instance,
-                <code><![CDATA[&amp;lt;link xlink:href="documentation"&amp;gt;]]></code> links to the <link xlink:href="documentation">documentation home page</link>.</para>
+                <code><![CDATA[<link xlink:href="documentation">]]></code> links to the <link xlink:href="documentation">documentation home page</link>.</para>
           </listitem>
         </varlistentry>
 
