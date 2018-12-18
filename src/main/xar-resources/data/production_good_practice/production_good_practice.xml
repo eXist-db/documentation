@@ -251,10 +251,19 @@
           <listitem>
             <para>In order to ensure a secure environment, the <literal>external-general-entities</literal>, <literal>external-parameter-entities</literal>, 
             and <literal>secure-processing</literal> feature flags should be set in <literal>conf.xml</literal>:</para>
-            <programlisting language="xml">&lt;feature name="http://xml.org/sax/features/external-general-entities" value="false"/&gt;
+            <programlisting language="xml">
+                    
+                &lt;parser&gt;
+                        &lt;xml&gt;
+                            &lt;features&gt; 
+                &lt;feature name="http://xml.org/sax/features/external-general-entities" value="false"/&gt;
                 &lt;feature name="http://xml.org/sax/features/external-parameter-entities" value="false"/&gt;
                 &lt;feature name="http://javax.xml.XMLConstants/feature/secure-processing" value="true"/&gt;</programlisting>
-          </listitem>
+          &lt;/features&gt;
+                  &lt;/xml&gt; 
+                  &lt;/parser&gt; 
+                
+           </listitem>
         </varlistentry>
         <varlistentry>
           <term>REST server</term>
