@@ -234,7 +234,7 @@
         unlikely to require the WebDAV or SOAP Admin features for operation in a live environment.
         These and other services can be disabled easily.</para>
       <para>Means for anonymous users to execute arbitrary code require special attention. There are
-        two means of code execution in eXist, which make sense during development, but should be
+        three means of code execution in eXist, which make sense during development, but should be
         reconsidered for production systems:</para>
       <variablelist spacing="compact">
         <varlistentry>
@@ -247,22 +247,11 @@
           </listitem>
         </varlistentry>
         <varlistentry>
-          <term>Parser</term>
+          <term>XML external entities</term>
           <listitem>
             <para>In order to ensure a secure environment, the <literal>external-general-entities</literal>, <literal>external-parameter-entities</literal>, 
             and <literal>secure-processing</literal> feature flags should be set in <literal>conf.xml</literal>:</para>
-            <programlisting language="xml">
-                    
-                &lt;parser&gt;
-                        &lt;xml&gt;
-                            &lt;features&gt; 
-                &lt;feature name="http://xml.org/sax/features/external-general-entities" value="false"/&gt;
-                &lt;feature name="http://xml.org/sax/features/external-parameter-entities" value="false"/&gt;
-                &lt;feature name="http://javax.xml.XMLConstants/feature/secure-processing" value="true"/&gt;
-          &lt;/features&gt;
-                  &lt;/xml&gt; 
-                  &lt;/parser&gt; 
-           </programlisting>
+            <programlisting language="xml" xlink:href="listings/listing-3.xml"/>
            </listitem>
         </varlistentry>
         <varlistentry>
