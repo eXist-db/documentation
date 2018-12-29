@@ -74,11 +74,26 @@ declare %private function docbook:to-html($nodes as node()*) {
 (:============================================================================:)
 (:== DB5 HANDLING: ==:)
 
-declare %private function docbook:toc-db5($node as node()) {
-  let $uri-xsl := concat('xmldb:exist://', $config:app-root, '/modules/xsl/convert-db5-toc.xsl')
-  let $parameters as element(parameters)? := ()
-  return
-    transform:transform($node, $uri-xsl, $parameters)
+declare %private function docbook:toc-db5($node as node()) as element(ul) {
+  element ul {
+        attribute class {'toc'},
+        for $l1 in $node//db5:sect1
+        let $l2 := $l1/db5:sect2
+        return
+            element li {
+                element a {
+                    attribute href {'#' || id($l1)},
+                    $l1/db5:title/text()
+                },
+                if ($l2)
+                then (
+                element ul {
+                for $n in $l2
+                return
+                    element li {element a {attribute href {'#' || id($n)}, $n/db5:title/text()}}})
+                else ()
+            }
+    }
 };
 
 (:----------------------------------------------------------------------------:)
