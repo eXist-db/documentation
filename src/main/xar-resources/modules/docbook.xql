@@ -74,6 +74,7 @@ declare %private function docbook:to-html($nodes as node()*) {
 (:============================================================================:)
 (:== DB5 HANDLING: ==:)
 
+(: Will create the TOC for the DB5 document. Will only go two levels deep (deeper is not very useful for a TOC). :)
 declare %private function docbook:toc-db5($node as node()) as element(ul) {
   element ul {
         attribute class {'toc'},
@@ -82,7 +83,7 @@ declare %private function docbook:toc-db5($node as node()) as element(ul) {
         return
             element li {
                 element a {
-                    attribute href {'#' || id($l1)},
+                    attribute href {'#' || data($l1/@xml:id)},
                     $l1/db5:title/text()
                 },
                 if ($l2)
@@ -90,7 +91,7 @@ declare %private function docbook:toc-db5($node as node()) as element(ul) {
                 element ul {
                 for $n in $l2
                 return
-                    element li {element a {attribute href {'#' || id($n)}, $n/db5:title/text()}}})
+                    element li {element a {attribute href {'#' || data($n/@xml:id)}, $n/db5:title/text()}}})
                 else ()
             }
     }
