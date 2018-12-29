@@ -1,243 +1,297 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
-  <info>
-    <title>Range Index</title>
-    <date>1Q18</date>
-    <keywordset>
-      <keyword>indexing</keyword>
-    </keywordset>
-  </info>
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>Range Index</title>
+        <date>1Q18</date>
+        <keywordset>
+            <keyword>indexing</keyword>
+        </keywordset>
+    </info>
 
-  <!-- ================================================================== -->
+    <!-- ================================================================== -->
 
-  <para>eXist (version 2.2 and above) includes a super fast modularized range index based on Apache Lucene. This article describes eXist-db's range
-    index.</para>
-  <para>There is also an <link xlink:href="oldrangeindex">older version of the range index</link>, which is kept for compatibility reasons. Usage of
-    this range index is discouraged.</para>
+    <para>eXist (version 2.2 and above) includes a super fast modularized range index based on
+        Apache Lucene. This article describes eXist-db's range index.</para>
+    <para>There is also an <link xlink:href="oldrangeindex">older version of the range index</link>,
+        which is kept for compatibility reasons. Usage of this range index is discouraged.</para>
 
-  <!-- ================================================================== -->
+    <!-- ================================================================== -->
 
-  <sect1 xml:id="newrangeidx">
-    <title>Overview</title>
+    <sect1 xml:id="newrangeidx">
+        <title>Overview</title>
 
-    <para>Range indexes are extremely important in eXist-db. Without a proper index, evaluating a general comparison in an XPath filter expression
-      (like <code>//foo[baz = "xyz"]</code>) requires eXist to do a full scan over the context node set, checking the value of every node against the
-      argument. This is not only slow, it also limits concurrency due to necessary locking and consumes memory for loading each of the nodes. With a
-      well-defined index, queries will usually complete in a few milliseconds instead of seconds. The index allows the optimizer to rewrite the
-      expression and process the index lookup in advance, assuming that the number of <tag>baz</tag> elements with content <code>xyz</code> is much
-      smaller than the total number of elements.</para>
+        <para>Range indexes are extremely important in eXist-db. Without a proper index, evaluating
+            a general comparison in an XPath filter expression (like <code>//foo[baz =
+            "xyz"]</code>) requires eXist to do a full scan over the context node set, checking the
+            value of every node against the argument. This is not only slow, it also limits
+            concurrency due to necessary locking and consumes memory for loading each of the nodes.
+            With a well-defined index, queries will usually complete in a few milliseconds instead
+            of seconds. The index allows the optimizer to rewrite the expression and process the
+            index lookup in advance, assuming that the number of <tag>baz</tag> elements with
+            content <code>xyz</code> is much smaller than the total number of elements.</para>
 
-  </sect1>
+    </sect1>
 
-  <!-- ================================================================== -->
+    <!-- ================================================================== -->
 
-  <sect1>
-    <title>Index Configuration</title>
+    <sect1 xml:id="conf-idx">
+        <title>Index Configuration</title>
 
 
-    <para>To use the new range index, wrap the range index definitions into a range element:</para>
-    <programlisting language="xml" xlink:href="listings/listing-5.xml"/>
+        <para>To use the new range index, wrap the range index definitions into a range
+            element:</para>
+        <programlisting language="xml" xlink:href="listings/listing-5.xml"/>
 
-    <para>Store this definition and do a re-index. Index files are created in the <literal>webapp/WEB-INF/data/range directory</literal> (or wherever
-      you configured your data directory to be). </para>
-    <para>The indexes will be used automatically for general or value comparisons, as well as string functions like <code>fn:contains</code>,
-        <code>fn:starts-with</code>, <code>fn:ends-with</code>. </para>
-    <note>
-      <para>
-        <code>fn:matches</code> is currently not supported due to limitations in Lucene's regular expression handling. If you require fn:matches a
-        lot, consider using the <link xlink:href="oldrangeindex">old range index</link>.</para>
-    </note>
-    <para>Above configuration applies to documents using MODS, a standard for bibliographical metadata. The following XPath expressions use the
-      created indexes: </para>
+        <para>Store this definition and do a re-index. Index files are created in the
+            <literal>webapp/WEB-INF/data/range directory</literal> (or wherever you configured your
+            data directory to be). </para>
+        <para>The indexes will be used automatically for general or value comparisons, as well as
+            string functions like <code>fn:contains</code>, <code>fn:starts-with</code>,
+            <code>fn:ends-with</code>. </para>
+        <note>
+            <para> <code>fn:matches</code> is currently not supported due to limitations in Lucene's
+                regular expression handling. If you require fn:matches a lot, consider using the
+                <link xlink:href="oldrangeindex">old range index</link>.</para>
+        </note>
+        <para>Above configuration applies to documents using MODS, a standard for bibliographical
+            metadata. The following XPath expressions use the created indexes: </para>
 
-    <programlisting language="xquery" xlink:href="listings/listing-6.txt"/>
-  </sect1>
+        <programlisting language="xquery" xlink:href="listings/listing-6.txt"/>
+    </sect1>
 
-  <!-- ================================================================== -->
+    <!-- ================================================================== -->
 
-  <sect1>
-    <title>Configuration Features</title>
+    <sect1 xml:id="conf-feature">
+        <title>Configuration Features</title>
 
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <sect2>
-      <title>Case sensitive index</title>
+        <sect2 xml:id="case-sensitive">
+            <title>Case sensitive index</title>
 
-      <para> Add <code>case="no"</code> to create a case insensitive index on a string. </para>
-      <para>With a case insensitive index on <code>mods:namePart</code> a match will also be found if you query for "dennis ritchie" instead of
-        "Dennis Ritchie". </para>
-    </sect2>
+            <para> Add <code>case="no"</code> to create a case insensitive index on a string. </para>
+            <para>With a case insensitive index on <code>mods:namePart</code> a match will also be
+                found if you query for "dennis ritchie" instead of "Dennis Ritchie". </para>
+        </sect2>
 
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <sect2>
-      <title>Collations</title>
+        <sect2 xml:id="collation">
+            <title>Collations</title>
 
-      <para> A collation changes how strings are compared. For example, you can change the strength property of the collation to ignore diacritics,
-        accents or case. So to compare strings ignoring accents or case, you can define your index as follows: </para>
+            <para> A collation changes how strings are compared. For example, you can change the
+                strength property of the collation to ignore diacritics, accents or case. So to
+                compare strings ignoring accents or case, you can define your index as follows: </para>
 
-      <programlisting language="xml" xlink:href="listings/listing-7.txt"/>
-      <para> Please refer to the <link xlink:href="http://userguide.icu-project.org/collation/concepts" condition="_blank">ICU documentation</link> (which is used by eXist) for more information on collations, strength, etc. </para>
-    </sect2>
+            <programlisting language="xml" xlink:href="listings/listing-7.txt"/>
+            <para> Please refer to the <link condition="_blank"
+                xlink:href="http://userguide.icu-project.org/collation/concepts">ICU
+                documentation</link> (which is used by eXist) for more information on collations,
+                strength, etc. </para>
+        </sect2>
 
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <sect2>
-      <title>Combined indexes</title>
+        <sect2 xml:id="combined-idx">
+            <title>Combined indexes</title>
 
-      <para> If you know you will often use a certain combination of filters, you can combine the corresponding indexes into one to further reduce
-        query times. For example, the <tag>mods:name</tag> element has an attribute type which qualifies the name as being "personal", "corporate" or
-        another predefined value. </para>
-      <para>Assume you want to speed up a query like this:</para>
-      <programlisting language="xquery" xlink:href="listings/listing-8.txt"/>
-      <para>To do this you could create a combined index on <tag>mods:name</tag> as follows:</para>
-      <programlisting language="xml" xlink:href="listings/listing-9.xml"/>
+            <para> If you know you will often use a certain combination of filters, you can combine
+                the corresponding indexes into one to further reduce query times. For example, the
+                <tag>mods:name</tag> element has an attribute type which qualifies the name as being
+                "personal", "corporate" or another predefined value. </para>
+            <para>Assume you want to speed up a query like this:</para>
+            <programlisting language="xquery" xlink:href="listings/listing-8.txt"/>
+            <para>To do this you could create a combined index on <tag>mods:name</tag> as
+                follows:</para>
+            <programlisting language="xml" xlink:href="listings/listing-9.xml"/>
 
-      <para>This index will be used whenever the context of the filter expression is a <tag>mods:name</tag>. It filters on either or both:
-          <code>@type</code> and <tag>mods:namePart</tag>. Advantage: only one index lookup is required to evaluate such an expression, resulting in a
-        huge performance boost, in particular if the combination of filters does only match a few names out of a large set!</para>
-      <para>Note that all 3 attributes of the field element are required. The <code>name</code> you give to the field can be arbitrary, but it should
-        be unique within the index configuration document. The <code>match</code> attribute specifies the nodes to include in the field. It should be
-        a simple path relative to the context element. </para>
-      <para> You can skip the match attribute if you want to index the content of the context node itself. In this case, an additional attribute:
-          <code>nested="yes|no"</code> can be added to tell the indexer to skip the content of nested nodes to only index direct text children of the
-        context node.</para>
-      <para> The index is also used if you only query one of the defined fields, for instance: </para>
-      <programlisting language="xquery">//mods:mods[mods:name[mods:namePart = "Dennis Ritchie"]]</programlisting>
-      <para> It is important that the filter expression matches the index definition though, so the following will <emphasis>not</emphasis> be sped up
-        by the index: </para>
-      <programlisting language="xquery">//mods:mods[mods:name/mods:namePart = "Dennis Ritchie"]</programlisting>
-      <para>This is because the context of the filter expression here is <tag>mods:mods</tag>, not <tag>mods:name</tag>. </para>
-      <para>You can create as many combined indexes as you like, even if some of them refer to elements which are nested inside other elements having
-        a different index. For example, to index a complete MODS record, we could create one nested index on the root element: <tag>mods:mods</tag>,
-        and include all attributes or simple descendant elements we may want to query at the same time. <tag>mods:name</tag>, even though a child of
-          <tag>mods:mods</tag>, is a complex element, so we want it to have a separate index as shown above. We therefore define both indexes: </para>
+            <para>This index will be used whenever the context of the filter expression is a
+                <tag>mods:name</tag>. It filters on either or both: <code>@type</code> and
+                <tag>mods:namePart</tag>. Advantage: only one index lookup is required to evaluate
+                such an expression, resulting in a huge performance boost, in particular if the
+                combination of filters does only match a few names out of a large set!</para>
+            <para>Note that all 3 attributes of the field element are required. The
+                <code>name</code> you give to the field can be arbitrary, but it should be unique
+                within the index configuration document. The <code>match</code> attribute specifies
+                the nodes to include in the field. It should be a simple path relative to the
+                context element. </para>
+            <para> You can skip the match attribute if you want to index the content of the context
+                node itself. In this case, an additional attribute: <code>nested="yes|no"</code> can
+                be added to tell the indexer to skip the content of nested nodes to only index
+                direct text children of the context node.</para>
+            <para> The index is also used if you only query one of the defined fields, for instance: </para>
+            <programlisting language="xquery">//mods:mods[mods:name[mods:namePart = "Dennis Ritchie"]]</programlisting>
+            <para> It is important that the filter expression matches the index definition though,
+                so the following will <emphasis>not</emphasis> be sped up by the index: </para>
+            <programlisting language="xquery">//mods:mods[mods:name/mods:namePart = "Dennis Ritchie"]</programlisting>
+            <para>This is because the context of the filter expression here is <tag>mods:mods</tag>,
+                not <tag>mods:name</tag>. </para>
+            <para>You can create as many combined indexes as you like, even if some of them refer to
+                elements which are nested inside other elements having a different index. For
+                example, to index a complete MODS record, we could create one nested index on the
+                root element: <tag>mods:mods</tag>, and include all attributes or simple descendant
+                elements we may want to query at the same time. <tag>mods:name</tag>, even though a
+                child of <tag>mods:mods</tag>, is a complex element, so we want it to have a
+                separate index as shown above. We therefore define both indexes: </para>
 
-      <programlisting language="xml" xlink:href="listings/listing-12.xml"/>
-      <para> This allows more complex queries to be optimized, for instance: </para>
+            <programlisting language="xml" xlink:href="listings/listing-12.xml"/>
+            <para> This allows more complex queries to be optimized, for instance: </para>
 
-      <programlisting language="xquery" xlink:href="listings/listing-13.txt"/>
-      <para>In this case, the <tag>mods:dateIssued</tag> lookup will be done first, which presumably returns more hits than the name lookup. So, for
-        maximum performance it may still be faster to split the expression into two parts and do the name check first.</para>
-    </sect2>
+            <programlisting language="xquery" xlink:href="listings/listing-13.txt"/>
+            <para>In this case, the <tag>mods:dateIssued</tag> lookup will be done first, which
+                presumably returns more hits than the name lookup. So, for maximum performance it
+                may still be faster to split the expression into two parts and do the name check
+                first.</para>
+        </sect2>
 
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <sect2>
-      <title>Conditional combined indexes</title>
+        <sect2 xml:id="conditional">
+            <title>Conditional combined indexes</title>
 
-      <para>For combined indexes, you can specify conditions to restrict the values being indexed to those contained in elements that have an
-        attribute meeting certain criteria: </para>
+            <para>For combined indexes, you can specify conditions to restrict the values being
+                indexed to those contained in elements that have an attribute meeting certain
+                criteria: </para>
 
-      <programlisting language="xml" xlink:href="listings/listing-14.xml"/>
-      <para>This will only index the value of the <code>tei:term</code> element if it has an attribute named <code>type</code> with the value
-          <code>main</code>. Multiple conditions can be specified in an index definition, in which case all conditions need to match in order for the
-        value to be indexed.</para>
-      <para>In order to take advantage of query optimization for conditionally indexed fields, queries should be formulated like this:</para>
-      <programlisting>//tei:term[@type = "main"][. = "xyz"]</programlisting>
-      <para>This gets rewritten to a call to: </para>
-      <programlisting>range:field(("mainTerm"), "eq", "xyz")</programlisting>
-      <para>By default, condition matching is string-based and case-sensitive. </para>
-      <para>The following optional attributes can be specified on a <code>condition</code>: </para>
-      <variablelist spacing="compact">
-        <varlistentry>
-          <term><code>operator="eq|ne|lt|gt|le|ge|starts-with|ends-with|contains|matches"</code></term>
-          <listitem>
-            <para>Specifies the operator for the comparison. <code>matches</code> supports Java regular expressions.</para>
-            <para>Default is <code>eq</code>.</para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term><code>case="yes|no"</code></term>
-          <listitem>
-            <para>Turns case sensitivity on or off for string comparisons. </para>
-            <para>Default is <code>yes</code>.</para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term><code>numeric="yes|no"</code></term>
-          <listitem>
-            <para>Turns numeric comparison on or off for equality and ordinal comparisons (<code>eq, ne, lt, gt, le, ge</code>). When enabled, 01.0
-              will equal 1 and 2 will be less than 110 for example. The rewriter will respect the type of the value (string, numeric) when matching a
-              condition to a predicate. </para>
-            <para>Default is <code>off</code>.</para>
-          </listitem>
-        </varlistentry>
-      </variablelist>
-    </sect2>
-  </sect1>
+            <programlisting language="xml" xlink:href="listings/listing-14.xml"/>
+            <para>This will only index the value of the <code>tei:term</code> element if it has an
+                attribute named <code>type</code> with the value <code>main</code>. Multiple
+                conditions can be specified in an index definition, in which case all conditions
+                need to match in order for the value to be indexed.</para>
+            <para>In order to take advantage of query optimization for conditionally indexed fields,
+                queries should be formulated like this:</para>
+            <programlisting>//tei:term[@type = "main"][. = "xyz"]</programlisting>
+            <para>This gets rewritten to a call to: </para>
+            <programlisting>range:field(("mainTerm"), "eq", "xyz")</programlisting>
+            <para>By default, condition matching is string-based and case-sensitive. </para>
+            <para>The following optional attributes can be specified on a <code>condition</code>: </para>
+            <variablelist spacing="compact">
+                <varlistentry>
+                    <term><code>operator="eq|ne|lt|gt|le|ge|starts-with|ends-with|contains|matches"</code></term>
+                    <listitem>
+                        <para>Specifies the operator for the comparison. <code>matches</code>
+                            supports Java regular expressions.</para>
+                        <para>Default is <code>eq</code>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>case="yes|no"</code></term>
+                    <listitem>
+                        <para>Turns case sensitivity on or off for string comparisons. </para>
+                        <para>Default is <code>yes</code>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>numeric="yes|no"</code></term>
+                    <listitem>
+                        <para>Turns numeric comparison on or off for equality and ordinal
+                            comparisons (<code>eq, ne, lt, gt, le, ge</code>). When enabled, 01.0
+                            will equal 1 and 2 will be less than 110 for example. The rewriter will
+                            respect the type of the value (string, numeric) when matching a
+                            condition to a predicate. </para>
+                        <para>Default is <code>off</code>.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </sect2>
+    </sect1>
 
-  <!-- ================================================================== -->
+    <!-- ================================================================== -->
 
-  <sect1>
-    <title>Using Index Functions</title>
+    <sect1 xml:id="idx-functions">
+        <title>Using Index Functions</title>
 
-    <para>Internally the query optimizer will rewrite range lookup expressions into optimized function calls into the <code>range</code> module
-      (namespace <code>http://exist-db.org/xquery/range</code>). This happens transparently and you'll never see the function calls. However, for
-      debugging and testing it is sometimes useful to use the corresponding functions directly. There are two sets of functions: one for simple range
-      index lookups, and one for indexes on fields.</para>
-    <para>For example, assume the following index configuration:</para>
+        <para>Internally the query optimizer will rewrite range lookup expressions into optimized
+            function calls into the <code>range</code> module (namespace
+            <code>http://exist-db.org/xquery/range</code>). This happens transparently and you'll
+            never see the function calls. However, for debugging and testing it is sometimes useful
+            to use the corresponding functions directly. There are two sets of functions: one for
+            simple range index lookups, and one for indexes on fields.</para>
+        <para>For example, assume the following index configuration:</para>
 
-    <programlisting language="xml" xlink:href="listings/listing-17.xml"/>
-    <para>And the following query:</para>
-    <programlisting language="xquery">//SPEECH[SPEAKER="HAMLET"]</programlisting>
-    <para>This translates into:</para>
-    <programlisting language="xquery">//SPEECH[range:eq(SPEAKER, "HAMLET")]</programlisting>
+        <programlisting language="xml" xlink:href="listings/listing-17.xml"/>
+        <para>And the following query:</para>
+        <programlisting language="xquery">//SPEECH[SPEAKER="HAMLET"]</programlisting>
+        <para>This translates into:</para>
+        <programlisting language="xquery">//SPEECH[range:eq(SPEAKER, "HAMLET")]</programlisting>
 
-    <para>If the index is defined on an element with fields, the entire sub-expression, the context path and all its filters, is rewritten into a
-      single function call. For example:</para>
-    <programlisting language="xquery">collection("/db/apps/demo/data")//SPEECH[.//STAGEDIR = "Aside"]</programlisting>
-    <para>This is replaced with:</para>
-    <programlisting language="xquery">collection("/db/apps/demo/data")/range:field-eq("stagedir", "Aside")</programlisting>
-    <para>Because the index root is defined on <tag>SPEECH</tag>, the function will always return <tag>SPEECH</tag> elements.</para>
+        <para>If the index is defined on an element with fields, the entire sub-expression, the
+            context path and all its filters, is rewritten into a single function call. For
+            example:</para>
+        <programlisting language="xquery">collection("/db/apps/demo/data")//SPEECH[.//STAGEDIR = "Aside"]</programlisting>
+        <para>This is replaced with:</para>
+        <programlisting language="xquery">collection("/db/apps/demo/data")/range:field-eq("stagedir", "Aside")</programlisting>
+        <para>Because the index root is defined on <tag>SPEECH</tag>, the function will always
+            return <tag>SPEECH</tag> elements.</para>
 
-    <para>If multiple filters are used and each of them has a corresponding field definition, they are combined into one call:</para>
-    <programlisting language="xquery">collection("/db/apps/demo/data")/range:field-eq(("stagedir", "line"), "Aside", "what do you read, my lord?")</programlisting>
-    <para>Note that while the field names are specified in a sequence, we add one parameter for every value to look up. This way it is possible to
-      specify more than one value for each parameter by passing in a sequence.</para>
-    <para>Because different operators might be used inside the filters, the query engine will actually rewrite the expression to the following:</para>
-    <programlisting language="xquery">collection("/db/apps/demo/data")/range:field(("stagedir", "line"), ("eq", "eq"), "Aside", "what do you read, my lord?")</programlisting>
-    <para>This is not easy to read, but efficient. Users will normally not see this function call. However, it sometimes helps to know what the
-      optimizer is supposed to do and try it out explicitly.</para>
-  </sect1>
+        <para>If multiple filters are used and each of them has a corresponding field definition,
+            they are combined into one call:</para>
+        <programlisting language="xquery">collection("/db/apps/demo/data")/range:field-eq(("stagedir", "line"), "Aside", "what do you read, my lord?")</programlisting>
+        <para>Note that while the field names are specified in a sequence, we add one parameter for
+            every value to look up. This way it is possible to specify more than one value for each
+            parameter by passing in a sequence.</para>
+        <para>Because different operators might be used inside the filters, the query engine will
+            actually rewrite the expression to the following:</para>
+        <programlisting language="xquery">collection("/db/apps/demo/data")/range:field(("stagedir", "line"), ("eq", "eq"), "Aside", "what do you read, my lord?")</programlisting>
+        <para>This is not easy to read, but efficient. Users will normally not see this function
+            call. However, it sometimes helps to know what the optimizer is supposed to do and try
+            it out explicitly.</para>
+    </sect1>
 
-  <!-- ================================================================== -->
+    <!-- ================================================================== -->
 
-  <sect1 xml:id="comparison-range-index">
-    <title>Comparison with the old range index</title>
+    <sect1 xml:id="comparison-range-index">
+        <title>Comparison with the old range index</title>
 
-    <para>eXist also has an older version of the range index on board (see <link xlink:href="oldrangeindex">old range index</link>). Compared to this
-      newer version it has three main issues:</para>
-    <orderedlist>
-      <listitem>
-        <para> Index entries were organized by collection, resulting in an unfortunate dependency between collection size and update speed. In simple
-          words: updating or removing documents became slower as the collection grew. For a long time, the general recommendation was to split large
-          document sets into multiple, smaller sub-collections if update speed was an issue. </para>
-      </listitem>
-      <listitem>
-        <para> Queries on very frequent search strings were quite inefficient: for example, a query </para>
-        <programlisting language="xquery">//term[@type ="main"][. = "xyz"]</programlisting>
-        <para> could be quite slow despite an index being defined if <code>@type="main"</code> occurred very often. Unfortunately this is a common use
-          of attributes and to make it quick, you had to reformulate the query, e.g. by moving the non-selective step to the back: </para>
-        <programlisting language="xquery">//term[. = "xyz"][@type = "main"]</programlisting>
-      </listitem>
-      <listitem>
-        <para>Range indexes were baked into the core of eXist-db, making maintenance and bug fixing difficult. </para>
-      </listitem>
-    </orderedlist>
-    <para>The rewritten range index addresses both issues. First, indexes are now organized by document/node, so collection size does no longer matter
-      when updating an index entry. Concerning storage, the index is entirely based on Apache Lucene instead of the B+-tree which was previously used.
-      Most range indexes tend to be strings, so why not leave the indexing to a technology like Lucene, which is known to scale well and does a highly
-      efficient job on string processing? Since version 4, Lucene has added support for storing numeric data types and binary data into the index, so
-      it seemed to be a perfect match for our requirements. Lucene is integrated into eXist on a rather low level with direct access to the indexes. </para>
-    <para>To address the second issue, it is now possible to combine several fields to index into one index definition: </para>
-    <programlisting language="xquery">//term[@type = "main"] [. = "xyz"]</programlisting>
-    <para>This can now be evaluated with a single index lookup. </para>
-    <para>Finally, the new range index is implemented as a pluggable module: a separate component which is not required for the core of eXist-db to
-      work properly. For eXist, the index is a black box: it does not need to know what the index does. If the index is there, it will automatically
-      plug itself into the indexing pipeline as well as the query engine. If it is not, eXist will fall back to default (brute force) query
-      processing.</para>
-    <para>The old range index is still supported to allow existing applications to run unchanged.</para>
-  </sect1>
+        <para>eXist also has an older version of the range index on board (see <link
+            xlink:href="oldrangeindex">old range index</link>). Compared to this newer version it
+            has three main issues:</para>
+        <orderedlist>
+            <listitem>
+                <para> Index entries were organized by collection, resulting in an unfortunate
+                    dependency between collection size and update speed. In simple words: updating
+                    or removing documents became slower as the collection grew. For a long time, the
+                    general recommendation was to split large document sets into multiple, smaller
+                    sub-collections if update speed was an issue. </para>
+            </listitem>
+            <listitem>
+                <para> Queries on very frequent search strings were quite inefficient: for example,
+                    a query </para>
+                <programlisting language="xquery">//term[@type ="main"][. = "xyz"]</programlisting>
+                <para> could be quite slow despite an index being defined if
+                    <code>@type="main"</code> occurred very often. Unfortunately this is a common
+                    use of attributes and to make it quick, you had to reformulate the query, e.g.
+                    by moving the non-selective step to the back: </para>
+                <programlisting language="xquery">//term[. = "xyz"][@type = "main"]</programlisting>
+            </listitem>
+            <listitem>
+                <para>Range indexes were baked into the core of eXist-db, making maintenance and bug
+                    fixing difficult. </para>
+            </listitem>
+        </orderedlist>
+        <para>The rewritten range index addresses both issues. First, indexes are now organized by
+            document/node, so collection size does no longer matter when updating an index entry.
+            Concerning storage, the index is entirely based on Apache Lucene instead of the B+-tree
+            which was previously used. Most range indexes tend to be strings, so why not leave the
+            indexing to a technology like Lucene, which is known to scale well and does a highly
+            efficient job on string processing? Since version 4, Lucene has added support for
+            storing numeric data types and binary data into the index, so it seemed to be a perfect
+            match for our requirements. Lucene is integrated into eXist on a rather low level with
+            direct access to the indexes. </para>
+        <para>To address the second issue, it is now possible to combine several fields to index
+            into one index definition: </para>
+        <programlisting language="xquery">//term[@type = "main"] [. = "xyz"]</programlisting>
+        <para>This can now be evaluated with a single index lookup. </para>
+        <para>Finally, the new range index is implemented as a pluggable module: a separate
+            component which is not required for the core of eXist-db to work properly. For eXist,
+            the index is a black box: it does not need to know what the index does. If the index is
+            there, it will automatically plug itself into the indexing pipeline as well as the query
+            engine. If it is not, eXist will fall back to default (brute force) query
+            processing.</para>
+        <para>The old range index is still supported to allow existing applications to run
+            unchanged.</para>
+    </sect1>
 </article>
