@@ -1,4 +1,5 @@
 var assert = require('assert');
+// this is a dummy test js tests are wip
 describe('Array', function() {
   describe('#indexOf()', function() {
     it('should return -1 when the value is not present', function() {

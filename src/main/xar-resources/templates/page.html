@@ -3,9 +3,9 @@
         <title data-template="config:app-title">App Title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta data-template="config:app-meta"/>
-        <link rel="shortcut icon" href="$shared/resources/images/exist_icon_16x16.ico"/>
-        <link rel="stylesheet" type="text/css" href="$shared/resources/css/exist-2.2.css"/>
-        <link rel="stylesheet" type="text/css" href="resources/css/doc.css"/>
+        <link rel="shortcut icon" href="resources/images/exist_icon_16x16.ico"/>
+        <link rel="stylesheet" type="text/css" href="resources/styles/exist-2.2.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/styles/doc.css"/>
     </head>
     <body id="grey-top" class="site:expand-links?base=http://exist-db.org/">
         <div class="grey-bot">
@@ -30,7 +30,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Home</a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="{${dashboard.pkg.abbrev}}/index.html">Dashboard</a>
+                                        <a href="{dashboard}/index.html">Dashboard</a>
                                     </li>
                                     <li>
                                         <a href="http://exist-db.org">eXist-db.org</a>
@@ -41,41 +41,41 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Demo</a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="{${demo.pkg.abbrev}}/index.html">Overview</a>
+                                        <a href="{demo}/index.html">Overview</a>
                                     </li>
                                     <li>
-                                        <a href="{${demo.pkg.abbrev}}/examples/basic/basics.html">Basic XQuery Examples</a>
+                                        <a href="{demo}/examples/basic/basics.html">Basic XQuery Examples</a>
                                     </li>
                                     <li>
-                                        <a href="{${demo.pkg.abbrev}}/examples/basic/xquery3.html">XQuery 3.0 Examples</a>
+                                        <a href="{demo}/examples/basic/xquery3.html">XQuery 3.0 Examples</a>
                                     </li>
                                     <li>
-                                        <a href="{${demo.pkg.abbrev}}/examples/web/index.html">Web Examples</a>
+                                        <a href="{demo}/examples/web/index.html">Web Examples</a>
                                     </li>
                                     <li>
-                                        <a href="{${demo.pkg.abbrev}}/examples/urlrewriting/index.html">URL Rewriting</a>
+                                        <a href="{demo}/examples/urlrewriting/index.html">URL Rewriting</a>
                                     </li>
                                     <li>
-                                        <a href="{${demo.pkg.abbrev}}/examples/special/index.html">Special Features</a>
+                                        <a href="{demo}/examples/special/index.html">Special Features</a>
                                     </li>
                                     <li>
-                                        <a href="{${demo.pkg.abbrev}}/examples/templating/templates.html">Templating</a>
+                                        <a href="{demo}/examples/templating/templates.html">Templating</a>
                                     </li>
                                     <li>
-                                        <a href="{${demo.pkg.abbrev}}/cex-demo.html">Content Extraction</a>
+                                        <a href="{demo}/cex-demo.html">Content Extraction</a>
                                     </li>
                                     <li>
-                                        <a href="{${demo.pkg.abbrev}}/examples/tests/test.html">Unit Testing</a>
+                                        <a href="{demo}/examples/tests/test.html">Unit Testing</a>
                                     </li>
                                     <li>
-                                        <a href="{${demo.pkg.abbrev}}/examples/contacts/html/home.html?browseContacts">RestXQ and
+                                        <a href="{demo}/examples/contacts/html/home.html?browseContacts">RestXQ and
                                             AngularJS</a>
                                     </li>
                                     <li>
-                                        <a href="{${demo.pkg.abbrev}}/examples/xforms/">XForms and RestXQ</a>
+                                        <a href="{demo}/examples/xforms/">XForms and RestXQ</a>
                                     </li>
                                     <li>
-                                        <a href="{${demo.pkg.abbrev}}/examples/contacts/html/home.html">Contacts RestXQ Demo</a>
+                                        <a href="{demo}/examples/contacts/html/home.html">Contacts RestXQ Demo</a>
                                     </li>
                                 </ul>
                             </li>
@@ -86,7 +86,7 @@
                                         <a href="documentation.xml">Documentation</a>
                                     </li>
                                     <li>
-                                        <a href="{${fundocs.pkg.abbrev}}/index.html">XQuery Functions</a>
+                                        <a href="{fundocs}/index.html">XQuery Functions</a>
                                     </li>
                                     <li>
                                         <a href="getting-help.xml">Get Support</a>
@@ -103,7 +103,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Development</a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="{${exide.pkg.abbrev}}/index.html">eXide</a>
+                                        <a href="{eXide}/index.html">eXide</a>
                                     </li>
                                     <li>
                                         <a href="http://exist-db.org/api/index.html">Javadocs</a>
@@ -124,13 +124,13 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration</a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="{${dashboard.pkg.abbrev}}/index.html">Dashboard</a>
+                                        <a href="{dashboard}/index.html">Dashboard</a>
                                     </li>
                                     <li>
                                         <a href="/webstart/exist.jnlp">Webstart Client</a>
                                     </li>
                                     <li>
-                                        <a href="{${monex.pkg.abbrev}}/">Monitoring and Profiling</a>
+                                        <a href="{monex}/">Monitoring and Profiling</a>
                                     </li>
                                 </ul>
                             </li>
@@ -162,7 +162,7 @@
                         <a href="documentation.xml">Documentation</a>
                     </li>
                     <li>
-                        <a href="{${demo.pkg.abbrev}}/index.html">Demo</a>
+                        <a href="{demo}/index.html">Demo</a>
                     </li>
                     <li class="hidden-xs-inline">
                         <a href="/status">Status</a>
@@ -176,8 +176,8 @@
                 </div>
             </div>
         </div>
-        <script type="text/javascript" src="$shared/resources/scripts/jquery/jquery-1.7.1.min.js"/>
-        <script type="text/javascript" src="$shared/resources/scripts/bootstrap-3.0.3.min.js"/>
+        <script type="text/javascript" src="resources/scripts/jquery.min.js"/>
+        <script type="text/javascript" src="resources/scripts/bootstrap.min.js"/>
         <script type="text/javascript" src="$shared/resources/scripts/ace/ace.js"/>
         <script type="text/javascript" src="$shared/resources/scripts/ace/mode-javascript.js"/>
         <script type="text/javascript" src="$shared/resources/scripts/ace/mode-text.js"/>
