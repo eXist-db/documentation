@@ -20,6 +20,34 @@
   <!-- ================================================================== -->
 
   <sect1>
+    <title>Introduction</title>
+    <para>When designing web applications, a common rule is to provide meaningful URIs to the user. Internally an application usually combines XQuery modules,
+      HTML files, data and other resources, organized into a hierarchical structure. Direct links to such deeply nested resources would result in very long URIs. You may not want to expose those structures to the users, but provide
+      short and human-readable URIs instead.</para>
+    <para>Let's contemplate the following scenario: the XML documents your app should display through a web page are contained in a sub-collection
+      called <code>data</code>. For example, the document you are currently reading resides in <code>data/urlrewrite.xml</code> within the documentation collection. The direct URL pointing to this document would thus be <code>/exist/apps/doc/data/urlrewrite.xml</code>. We do not want to show the user the raw XML though. Instead users should get a properly formatted HTML version of the text, accessible through a simple URL like <code>/exist/apps/doc/urlrewrite</code>.</para>
+    <para>To achieve this we need a mechanism to map or rewrite a given URL to an application specific endpoint. So in the simplest case, calling
+      <code>/exist/apps/doc/urlrewrite</code> would trigger an XQuery which is able to locate the source document, transform it into HTML and return the result. In eXist this mapping is done through a special XQuery named <literal>controller.xql</literal>, which is called at the start of the request processing.</para>
+    <para><literal>controller.xql</literal> is invoked for all URL paths targeting the collection it resides in. It is supposed to return an
+      XML fragment describing how the request is to be further processed. To do this, <literal>controller.xql</literal> has access to a number
+      of variables pre-filled with details about the request. One of those variables is <literal>$exist:resource</literal>, containing the name of the resource (without path components) the request tries to access. Another one is <literal>$exist:controller</literal> which points to the collection the <literal>controller.xql</literal> is located in.</para>
+    <para>For example, one may want to direct all requests to <literal>/exist/apps/doc/{resource}</literal> to an XQuery, <literal>transform.xql</literal>, which is responsible for converting the XML content into HTML:</para>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-1.txt"/>
+    <para>This example controller returns a simple <tag>dispatch</tag> fragment only. This fragment will be passed back to the URL rewriting framework once the controller XQuery has been executed. The <tag>forward</tag> element instructs the framework to call the URL <literal>modules/transform.xql</literal> relative to the collection in which the controller resides. It adds a request parameter, named <literal>doc</literal>, which translates the requested resource into an actual document path to be transformed by <literal>modules/transform.xql</literal>.</para>
+    <para>Real world controllers are typically more complicated and may contain arbitrary XQuery code to distinguish between different scenarios. Basically, the URL rewriting framework allows you to turn simple requests into complex processing pipelines, involving any number of steps. For example, let us split above <tag>dispatch</tag> fragment into a pipeline involving two steps:</para>
+    <orderedlist>
+      <listitem>
+        <para>load the resource to be transformed</para>
+      </listitem>
+      <listitem>
+        <para>pass the content of the resource to <literal>modules/transform.xql</literal></para>
+      </listitem>
+    </orderedlist>
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-2.txt"/>
+    <para>Every <tag>dispatch</tag> fragment must contain at least one step, followed by an optional <tag>view</tag> element grouping any number of follow up steps. In the example, the first <tag>forward</tag> step simply loads the XML document requested and returns its content. The output of the first step is passed to the second step via the HTTP request (and can be accessed via the XQuery function <code>request:get-data()</code>).</para>
+  </sect1>
+  
+  <sect1>
     <title>Basics</title>
 
     <para>URL rewriting is done by a standard Java servlet filter called
