@@ -110,6 +110,16 @@
             <phase>generate-resources</phase>
           </execution>
           <execution>
+            <id>npm version bump</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <!-- Optional configuration which provides for running any npm command -->
+            <configuration>
+              <arguments>version --no-git-tag-version --allow-same-version=true ${project.version}</arguments>
+            </configuration>
+          </execution>
+          <execution>
             <id>npm install</id>
             <goals>
               <goal>npm</goal>
