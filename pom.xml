@@ -129,6 +129,26 @@
               <arguments>ci</arguments>
             </configuration>
           </execution>
+          <!-- Build highlight.js -->
+          <execution>
+            <id>highlight install</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>explore highlight.js -- npm install</arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>highlight pack</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <!-- Optional configuration which provides for running any npm command -->
+            <configuration>
+              <arguments>explore highlight.js -- node tools/build.js</arguments>
+            </configuration>
+          </execution>
           <execution>
             <id>copy vendor resources</id>
             <goals>

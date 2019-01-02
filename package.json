@@ -3,7 +3,7 @@
   "version": "4.1.1",
   "description": "Documentation package for eXist-db",
   "scripts": {
-    "copy": "cpx node_modules/bootstrap/dist/js/bootstrap.min.js src/main/xar-resources/resources/scripts && cpx node_modules/jquery/dist/jquery.min.js src/main/xar-resources/resources/scripts && cpx node_modules/bootstrap/dist/css/bootstrap.min.css src/main/xar-resources/resources/styles && cpx node_modules/bootstrap/dist/css/bootstrap.min.css.map src/main/xar-resources/resources/styles && cp node_modules/@neos21/**/dist/fonts/* src/main/xar-resources/resources/fonts",
+    "copy": "cpx node_modules/bootstrap/dist/js/bootstrap.min.js src/main/xar-resources/resources/scripts && cpx node_modules/jquery/dist/jquery.min.js src/main/xar-resources/resources/scripts && cpx node_modules/highlight.js/build/highlight.pack.js src/main/xar-resources/resources/scripts && cpx node_modules/bootstrap/dist/css/bootstrap.min.css src/main/xar-resources/resources/styles && cpx node_modules/bootstrap/dist/css/bootstrap.min.css.map src/main/xar-resources/resources/styles && cpx node_modules/highlight.js/src/styles/atom-one-dark.css src/main/xar-resources/resources/styles",
     "test": "mocha src/test/mocha/ --recursive --exit"
   },
   "repository": {
@@ -28,9 +28,8 @@
     "mocha": "^6.1.4"
   },
   "dependencies": {
-    "@neos21/bootstrap3-glyphicons": "^1.0.3",
-    "ace": "git+https://github.com/ajaxorg/ace.git",
-    "bootstrap": "^3.4.1",
-    "jquery": "^3.4.1"
+    "bootstrap": "^3.4.0",
+    "highlight.js": "git+https://github.com/duncdrum/highlight.js.git#rebase-2019",
+    "jquery": "^3.3.1"
   }
 }
