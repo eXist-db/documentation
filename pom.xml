@@ -48,7 +48,8 @@
     <project.build.source>1.8</project.build.source>
     <project.build.target>1.8</project.build.target>
 
-    <exist.version>4.7.0</exist.version>
+    <exist.version>4.6.1</exist.version>
+    <node.version>v11.6.0</node.version>
 
     <package-name>http://exist-db.org/apps/doc</package-name>
   </properties>
@@ -114,7 +115,6 @@
             <goals>
               <goal>npm</goal>
             </goals>
-            <!-- Optional configuration which provides for running any npm command -->
             <configuration>
               <arguments>version --no-git-tag-version --allow-same-version=true ${project.version}</arguments>
             </configuration>
@@ -126,7 +126,7 @@
             </goals>
             <!-- Optional configuration which provides for running any npm command -->
             <configuration>
-              <arguments>install</arguments>
+              <arguments>ci</arguments>
             </configuration>
           </execution>
           <execution>
@@ -139,7 +139,7 @@
             </configuration>
           </execution>
           <execution>
-            <id>moacha tests</id>
+            <id>mocha tests</id>
             <goals>
               <goal>npm</goal>
             </goals>
@@ -150,7 +150,7 @@
           </execution>
         </executions>
         <configuration>
-          <nodeVersion>v11.6.0</nodeVersion>
+          <nodeVersion>${node.version}</nodeVersion>
         </configuration>
       </plugin>
       <plugin>
