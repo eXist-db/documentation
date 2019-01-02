@@ -17,7 +17,7 @@
 
     <para>This article describes the conventions for writing articles for the eXist-db documentation
         set. The eXist-db documentation set is (since beginning 2018) based on a subset of the
-        Docbook 5 content model. If you want to contribute an article (please do) it must conform to
+        DocBook 5 content model. If you want to contribute an article (please do) it must conform to
         the standards described here.</para>
 
     <!-- ================================================================== -->
@@ -161,8 +161,8 @@ but does not because its too simple)</programlisting>
     <sect1 xml:id="tech">
         <title>Technical guidelines</title>
 
-        <para>More information about Docbook itself can be found on the <link condition="_blank"
-            xlink:href="http://docbook.org/">official Docbook site</link>.</para>
+        <para>More information about DocBook itself can be found on the <link condition="_blank"
+            xlink:href="http://docbook.org/">official DocBook site</link>.</para>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
@@ -344,7 +344,7 @@ but does not because its too simple)</programlisting>
         <sect2 xml:id="block">
             <title>Supported block elements</title>
 
-            <para>The following Docbook 5 block level elements are supported for the eXist-db
+            <para>The following DocBook 5 block level elements are supported for the eXist-db
                 documentation set. Unsupported elements will be flagged when the content is rendered
                 (you'll see a bold red error message in the middle of your story).</para>
 
@@ -470,7 +470,7 @@ but does not because its too simple)</programlisting>
                     <listitem>
                         <para>Use <tag>figure</tag> or <tag>informalfigure</tag> to add an asset.
                             The effect of both elements is almost the same, the only difference is
-                            that an informal figure has no title. Docbook prescribes an elaborate
+                            that an informal figure has no title. DocBook prescribes an elaborate
                             XML construction, here is an example:</para>
                         <programlisting language="xml" xlink:href="listings/figure.xml"/>
                         <para>This produces:</para>
@@ -597,7 +597,7 @@ but does not because its too simple)</programlisting>
                     <term>Figures</term>
                     <listitem>
                         <para>Use the <tag>inlinemediaobject</tag> to add an asset inline in the
-                            text. Docbook prescribes an elaborate XML construction, here is an
+                            text. DocBook prescribes an elaborate XML construction, here is an
                             example of a paragraph with an inline figure:</para>
                         <programlisting language="xml" xlink:href="listings/inlinefigure.xml"/>
                         <para>This produces:</para>
