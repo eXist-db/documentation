@@ -1,0 +1,27 @@
+describe('The dashboard', function() {
+  it('should load', function() {
+    // Go to Dashboard
+    cy.visit('/dashboard/index.html')
+  })
+  // Click the login button
+  describe('login', function() {
+    before(function() {
+      cy.get('#user_label').click()
+
+      cy.get('#dijit_form_ValidationTextBox_0').type('admin')
+
+      cy.get('#dijit_form_Button_0_label').click()
+    })
+
+    // check if Collection browser is there
+    it('should see Collection Browser', function() {
+      // click Collection Browser
+      cy.contains('Collections').click()
+
+      // more tests go here …
+
+      // close the window
+      cy.get('#inlineClose')
+    })
+  })
+})

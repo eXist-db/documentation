@@ -1,4 +1,6 @@
-<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
 
     <!-- ================================================================== -->
 
@@ -15,7 +17,7 @@
 
     <para>This article describes the conventions for writing articles for the eXist-db documentation
         set. The eXist-db documentation set is (since beginning 2018) based on a subset of the
-        Docbook 5 content model. If you want to contribute an article (please do) it must conform to
+        DocBook 5 content model. If you want to contribute an article (please do) it must conform to
         the standards described here.</para>
 
     <!-- ================================================================== -->
@@ -133,7 +135,8 @@ but does not because its too simple)</programlisting>
                 <para>Somehow there seems to be a preference among eXist-db's documentation writers
                     for the word "thus" when "therefore" is meant. Thus is almost always wrong in
                     this kind of prose, so please default to therefore. If you want to know more
-                    read on <link condition="_blank" xlink:href="https://painintheenglish.com/case/4452/">here</link>.</para>
+                    read on <link condition="_blank"
+                    xlink:href="https://painintheenglish.com/case/4452/">here</link>.</para>
             </sect3>
 
             <sect3 xml:id="java">
@@ -158,7 +161,8 @@ but does not because its too simple)</programlisting>
     <sect1 xml:id="tech">
         <title>Technical guidelines</title>
 
-        <para>More information about Docbook itself can be found on the <link condition="_blank" xlink:href="http://docbook.org/">official Docbook site</link>.</para>
+        <para>More information about DocBook itself can be found on the <link condition="_blank"
+            xlink:href="http://docbook.org/">official DocBook site</link>.</para>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
@@ -236,7 +240,8 @@ but does not because its too simple)</programlisting>
                         1Q18.</para>
                 </listitem>
                 <listitem>
-                    <para>We use keywords to mark an article for certain subject areas. See <xref linkend="keyword-usage"/>.</para>
+                    <para>We use keywords to mark an article for certain subject areas. See <xref
+                        linkend="keyword-usage"/>.</para>
                 </listitem>
                 <listitem>
                     <para>You can add more information in <tag>info</tag> to your heart's desire but
@@ -307,6 +312,11 @@ but does not because its too simple)</programlisting>
                                 </entry>
                             </row>
                             <row>
+                                <entry> <para> <code>testing</code> </para> </entry>
+                                <entry> <para>Information related to testing eXist-db or its
+                                    applications.</para> </entry>
+                            </row>
+                            <row>
                                 <entry> <para> <code>xquery</code> </para> </entry>
                                 <entry> <para>Information related to XQuery (or XPath) in general or
                                     eXist-db's specific features of the language.</para> </entry>
@@ -318,7 +328,8 @@ but does not because its too simple)</programlisting>
                 <warning>
                     <para>Tables like the one above tend to get outdated sooner or later (because
                         somebody adds/deletes a keyword and forgets to update it). To see all the
-                        keywords actually in use, look at the index-by-subject section of the <link xlink:href="documentation">main documentation page</link>.</para>
+                        keywords actually in use, look at the index-by-subject section of the <link
+                        xlink:href="documentation">main documentation page</link>.</para>
                     <para>Watch out: For legibility reasons the keywords there are presented
                         <emphasis>capitalized</emphasis>. Remember that in the article documents the
                         keywords must be stated in <emphasis>lower-case</emphasis>!</para>
@@ -333,7 +344,7 @@ but does not because its too simple)</programlisting>
         <sect2 xml:id="block">
             <title>Supported block elements</title>
 
-            <para>The following Docbook 5 block level elements are supported for the eXist-db
+            <para>The following DocBook 5 block level elements are supported for the eXist-db
                 documentation set. Unsupported elements will be flagged when the content is rendered
                 (you'll see a bold red error message in the middle of your story).</para>
 
@@ -459,7 +470,7 @@ but does not because its too simple)</programlisting>
                     <listitem>
                         <para>Use <tag>figure</tag> or <tag>informalfigure</tag> to add an asset.
                             The effect of both elements is almost the same, the only difference is
-                            that an informal figure has no title. Docbook prescribes an elaborate
+                            that an informal figure has no title. DocBook prescribes an elaborate
                             XML construction, here is an example:</para>
                         <programlisting language="xml" xlink:href="listings/figure.xml"/>
                         <para>This produces:</para>
@@ -539,10 +550,12 @@ but does not because its too simple)</programlisting>
                                     emphasis</emphasis>.</para>
                             </listitem>
                             <listitem>
-                                <para>Use <code>role="underline"</code> for <emphasis role="underline">underlined emphasis</emphasis>.</para>
+                                <para>Use <code>role="underline"</code> for <emphasis
+                                    role="underline">underlined emphasis</emphasis>.</para>
                             </listitem>
                             <listitem>
-                                <para>Use <code>role="italic"</code> for <emphasis role="italic">italic emphasis</emphasis>. This looks the same as no
+                                <para>Use <code>role="italic"</code> for <emphasis role="italic"
+                                    >italic emphasis</emphasis>. This looks the same as no
                                     <code>role</code> attribute but produces an <tag>i</tag> instead
                                     of an <tag>em</tag>.</para>
                             </listitem>
@@ -575,9 +588,8 @@ but does not because its too simple)</programlisting>
                     <listitem>
                         <para>A <tag>tag</tag> element surrounds its content with &lt; and &gt; and
                             formats it like code. Meant to make life easier:
-                            <code><![CDATA[&amp;lt;tag&amp;gt;xxx&amp;lt;/tag&amp;gt;]]></code> is the shorter
-                            version of
-                            <code><![CDATA[&amp;lt;code&amp;gt;&amp;amp;lt;xxx&amp;amp;gt;&amp;lt;/code&amp;gt;]]></code>.</para>
+                            <code><![CDATA[<tag>xxx</tag>]]></code> is the shorter version of
+                            <code><![CDATA[<code>&lt;xxx&gt;</code>]]></code>.</para>
                     </listitem>
                 </varlistentry>
 
@@ -585,7 +597,7 @@ but does not because its too simple)</programlisting>
                     <term>Figures</term>
                     <listitem>
                         <para>Use the <tag>inlinemediaobject</tag> to add an asset inline in the
-                            text. Docbook prescribes an elaborate XML construction, here is an
+                            text. DocBook prescribes an elaborate XML construction, here is an
                             example of a paragraph with an inline figure:</para>
                         <programlisting language="xml" xlink:href="listings/inlinefigure.xml"/>
                         <para>This produces:</para>
@@ -622,7 +634,8 @@ but does not because its too simple)</programlisting>
                             Place the target's full URI in the <code>xlink:href</code> attribute.
                             For instance,
                             <code><![CDATA[&amp;lt;link xlink:href="http://exist-db.org/exist/apps/homepage/index.html"&amp;gt;]]></code>
-                            links to the <link condition="_blank" xlink:href="http://exist-db.org/exist/apps/homepage/index.html">eXist
+                            links to the <link condition="_blank"
+                            xlink:href="http://exist-db.org/exist/apps/homepage/index.html">eXist
                             home page</link>.</para>
                         <para>To open the link on a new page, add
                             <code>condition="_blank"</code>.</para>
@@ -636,8 +649,8 @@ but does not because its too simple)</programlisting>
                             use the <tag>link</tag> element. However, use the target's document name
                             (without the <code>.xml</code> extension) as the link address. For
                             instance,
-                            <code><![CDATA[&amp;lt;link xlink:href="documentation"&amp;gt;]]></code> links
-                            to the <link xlink:href="documentation">documentation home
+                            <code><![CDATA[&amp;lt;link xlink:href="documentation"&amp;gt;]]></code>
+                            links to the <link xlink:href="documentation">documentation home
                             page</link>.</para>
                     </listitem>
                 </varlistentry>
@@ -651,7 +664,8 @@ but does not because its too simple)</programlisting>
         <sect2 xml:id="index">
             <title>Generating indexes</title>
 
-            <para>Indexes can be automagicly generated. For examples have a look at the <link xlink:href="documentation">documentation home page</link>. There are three
+            <para>Indexes can be automagicly generated. For examples have a look at the <link
+                xlink:href="documentation">documentation home page</link>. There are three
                 variations:</para>
             <variablelist>
                 <varlistentry>
@@ -675,7 +689,8 @@ but does not because its too simple)</programlisting>
                     <listitem>
                         <para>Add a <code>role="indexonkeyword:somekeyword"</code> attribute to a
                             <tag>para</tag> element to generate a list of articles with this
-                            specific keyword (as specified in the <tag>info</tag> element, see <xref linkend="keyword-usage"/>).</para>
+                            specific keyword (as specified in the <tag>info</tag> element, see <xref
+                            linkend="keyword-usage"/>).</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
