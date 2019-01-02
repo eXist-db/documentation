@@ -1,4 +1,6 @@
-<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Documentation</title>
         <date>1Q18</date>
@@ -28,11 +30,13 @@
                 <term>Screencasts</term>
                 <listitem>
                     <para>For the first steps with your freshly installed eXist-db, watch the
-                        screencasts available on the <link condition="_blank" xlink:href="http://exist-db.org">eXist-db homepage</link> </para>
+                        screencasts available on the <link condition="_blank"
+                        xlink:href="http://exist-db.org">eXist-db homepage</link> </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term> <link condition="_blank" xlink:href="http://shop.oreilly.com/product/0636920026525.do">eXist-db
+                <term> <link condition="_blank"
+                    xlink:href="http://shop.oreilly.com/product/0636920026525.do">eXist-db
                     Book</link> </term>
                 <listitem>
                     <para>There is a whole book about eXist-db, written for both the novice
@@ -81,7 +85,8 @@
             <varlistentry>
                 <term> <link xlink:href="oxygen">How to use oXygen together with eXist-db</link> </term>
                 <listitem>
-                    <para>If you're using <link condition="_blank" xlink:href="http://oxygenxml.com/">oXygen</link>, this article describes how
+                    <para>If you're using <link condition="_blank"
+                        xlink:href="http://oxygenxml.com/">oXygen</link>, this article describes how
                         to make the most of it in combination with eXIst-db.</para>
                 </listitem>
             </varlistentry>
@@ -101,7 +106,8 @@
     <sect1 xml:id="xq">
         <title>XQuery</title>
         <para>eXist-db's main programming language is XQuery. This documentation set does not
-            contain a full introduction to XQuery. For this read the excellent <link xlink:href="http://shop.oreilly.com/product/0636920035589.do">book about XQuery by
+            contain a full introduction to XQuery. For this read the excellent <link
+            xlink:href="http://shop.oreilly.com/product/0636920035589.do">book about XQuery by
             Priscilla Walmsley</link>. The XQuery related articles below discuss specific eXist-db
             related details or shed light on some of the lesser known features of the
             language.</para>
@@ -144,7 +150,7 @@
             <varlistentry>
                 <term> <link xlink:href="xqsuite">XQsuite</link> </term>
                 <listitem>
-                    <para>This is an annotation based framework that allows you to add tests to
+                    <para>This is an annotation-based framework that allows you to add tests to
                         XQuery functions and execute them.</para>
                 </listitem>
             </varlistentry>
@@ -165,7 +171,8 @@
                 <term> <link xlink:href="development-starter">Getting Started with Web Application
                     Development</link> </term>
                 <listitem>
-                    <para>This will help you build a basic web application using the built-in <link xlink:href="templating.xml">HTML templating framework</link>.</para>
+                    <para>This will help you build a basic web application using the built-in <link
+                        xlink:href="templating.xml">HTML templating framework</link>.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -229,6 +236,35 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
+                <term> <link xlink:href="testing">Testing and Validation</link> </term>
+                <listitem>
+                    <para>This will provide you with an overview of testing eXist-db and its
+                        applications. More about testing in:</para>
+                    <variablelist>
+                        <varlistentry>
+                            <term> <link xlink:href="validation">XML Validation</link> </term>
+                            <listitem>
+                                <para>Explains how to do XML validation in eXist-db.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term> <link xlink:href="xqsuite">XQsuite</link> </term>
+                            <listitem>
+                                <para>This is an annotation-based framework that allows you to add
+                                    unit tests to XQuery functions and execute them.</para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term> <link xlink:href="integration-testing">Integration testing</link> </term>
+                            <listitem>
+                                <para>Provides information on how to configure automated test
+                                    pipelines, and recommends minimal test configurations.</para>
+                            </listitem>
+                        </varlistentry>
+                    </variablelist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
                 <term> <link xlink:href="xinclude">XInclude Support</link> </term>
                 <listitem>
                     <para>Explains how to use XInclude in eXist-db.</para>
@@ -283,26 +319,6 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term> <link xlink:href="devguide_rest">REST-Style Web API</link> </term>
-                <listitem>
-                    <para>Explains how to use eXist-db's REST interface, a useful tool in building
-                        applications.</para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term> <link xlink:href="validation">XML Validation</link> </term>
-                <listitem>
-                    <para>Explains how to do XML validation in eXist-db.</para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term> <link xlink:href="http-request-session">HTTP Request/Session</link> </term>
-                <listitem>
-                    <para>Provides information about the functions available working with HTTP
-                        requests and sessions.</para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
                 <term> <link xlink:href="xforms">XForms Introduction</link> </term>
                 <listitem>
                     <para>Introduces the bright shiny world of XForms inside eXist-db to you.</para>
@@ -325,13 +341,6 @@
                 <term> <link xlink:href="versioning">Versioning Extension</link> </term>
                 <listitem>
                     <para>Explains how to use the built-in versioning system of eXist-db.</para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term> <link xlink:href="xqsuite">XQsuite</link> </term>
-                <listitem>
-                    <para>This is an annotation based framework that allows you to add tests to
-                        XQuery functions and execute them.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
