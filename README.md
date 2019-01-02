@@ -38,5 +38,8 @@ Should you encounter documentation for features that are deprecated in the minim
 
 3.  Install this file via the Dashboard > Package Manager.
 
+## (WIP) Testing
+Tests are executed locally by maven or on travis. To validate xml files run `mvn validate`, to run the javascript tests `mvn test` (xQsuite coming soon). We do **not** support testing via node alone, aka `npm test`, use the maven command instead.
+
 ## License
 LGPLv2.1 [eXist-db.org](http://exist-db.org/exist/apps/homepage/index.html)
