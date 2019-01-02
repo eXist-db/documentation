@@ -27,31 +27,31 @@
         <para>
           <emphasis>
             <link xlink:href="validation">Validation:</link>
-          </emphasis>Xml comes with different means of validating and thus testing your data strucutures. When implementing a testsuite, you should first consider how your code can leverage
-          these native features via strong typing and schema based validation.</para>
+          </emphasis>XML comes with different means of validating and thus testing your data strucutures. When implementing a testsuite, you should first consider how your code can leverage
+          these native features via strong typing and schema-based validation.</para>
       </listitem>
       <listitem>
         <para>
           <emphasis>
             <link xlink:href="xqsuite">Unit testing:</link>
-          </emphasis>These tests typically operate at the level of individual functions. eXist-db has its own unit testing framework for Xquery named <link xlink:href="xqsuite">xQsuite</link>. It is prominenlty
-          used in our bug reports and <link xlink:href="https://github.com/eXist-db/exist/tree/develop/test/src/xquery">source-code repo</link>. Typicall applications will need to run multiple unit test tools to test, e.g. java, javascript, and Xquery code.</para>
+          </emphasis>These tests typically operate at the level of individual functions. eXist-db has its own unit testing framework for Xquery named <link xlink:href="xqsuite">XQSuite</link>. It is prominently
+          used in our bug reports and <link xlink:href="https://github.com/eXist-db/exist/tree/develop/test/src/xquery">source-code repo</link>. Most applications will need to run multiple unit test tools to test, e.g. Java, JavaScript, and Xquery code.</para>
       </listitem>
       <listitem>
         <para>
           <emphasis>
             <link xlink:href="integration-testing">Integration testing:</link>
-          </emphasis>Here we look at your programm as a whole, similar to how a user would interact with it, by simulating user input and running you programm not in isolation but in
+          </emphasis>Here we look at your programm as a whole, similar to how a user would interact with it, by simulating user input and running you program not in isolation but in
           concert with different applications.</para>
       </listitem>
       <listitem>
         <para>
-          <emphasis> <link xlink:href="https://github.com/eXist-db/e2e-exist">(WIP) Performance and Stress testing:</link> </emphasis>Performance testing ensures that your code continous to function under heavy load, or with very little
+          <emphasis> <link xlink:href="https://github.com/eXist-db/e2e-exist">(WIP) Performance and Stress testing:</link> </emphasis>Performance testing ensures that your code keeps running under heavy load, or with very little
           resources. Stress tests go one step further by purposfully crashing your application to ensure that it recovers gracefully. Practically speaking, the difference between
           the two is fluid.</para>
       </listitem>
     </orderedlist>
-    <para>When running these different tests in concert, we usually speak of end-to-end testing (e2e). There will never be a one size fits all solution to take care of all your testing needs. Writing good testsuites takes time an planning. You can find out more about available
+    <para>When running these different tests in concert, we usually speak of end-to-end testing (e2e). There will never be a one-size-fits-all solution to take care of all your testing needs. Writing good testsuites takes time and planning. You can find out more about available
       options and their use cases in the articles linked above. The remainder of this article will discuss some general considerations for how to design your testsuite, without
       referencing a specifc implementation. The listings use pseudo-code to focus on relevant lines. Pseudo-code is not intended to be executable, so it won't run if you copy-paste it into e.g. eXide. For working code, please consult the articles links throughout.</para>
   </sect1>
@@ -59,12 +59,12 @@
   <sect1 xml:id="test-select">
     <title>Picking a Type</title>
     <para>Generally speaking, you should follow the sequence provided above. Whatever can be tested as part of your validation tests, is best tested there. When validation testing
-      isn't a good fit, go for unit tests, followed by integration and lastly performance tests. The reasons for this are twofold: On the one hand, validation tests tend to be
-      faster than unit tests, which in turn are slower then integration tests and performance tests. On the other hand, each type tends to be more easy to configure, with a higher
+      isn't a good fit, go for unit tests, followed by integration and lastly performance tests. The reasons for this are twofold: on the one hand, validation tests tend to be
+      faster than unit tests, which in turn are slower then integration tests and performance tests. On the other hand, each type tends to be easier to configure, with a higher
       chance of providing you with the information that you need when a test fails.</para>
     <sect2 xml:id="ex-select">
       <title>Selection Example</title>
-      <para>To illustrate this, lets take a theoretical example: imagine your code includes an online form where users submit a date that needs to be stored in the database. For
+      <para>To illustrate this, let's take a theoretical example: imagine your code includes an online form where users submit a date that needs to be stored in the database. For
         the purpuse of this example it doesn't matter if this is text-input form, a calendar selector, or other form. Provided that you are using eXist-db, we assume that the date
         will be stored in some kind of xml file.</para>
       <example>
@@ -83,10 +83,10 @@
         <title>Using native types</title>
         <programlisting language="xquery" xlink:href="listings/valid.txt"/>
       </example>
-      <para>To check that your <literal>local:check-input</literal> function is working as expected, you can define a few <emphasis>unit test</emphasis> Typically, such a test
-        would include some corner cases like BCE dates, leap years, or dates in foreign date formats, as well as a basic test date that should simply store in the db.</para>
+      <para>To check that your <literal>local:check-input</literal> function is working as expected, you can define a few <emphasis>unit tests.</emphasis> Typically, such tests
+        would include corner cases like BCE dates, leap years, or dates in foreign date formats, as well as a basic test date that should simply store in the db.</para>
       <example>
-        <title>testing corner cases</title>
+        <title>Testing Corner Cases</title>
         <programlisting language="xquery" xlink:href="listings/xq-test.txt"/>
         <para>For in-depth examples of unit testing in xQuery please see the examples in the <link condition="_blank" xlink:href="xqsuite">xQsuite article</link></para>
       </example>
@@ -113,6 +113,6 @@
   <sect1 xml:id="coverage">
     <title>Test Coverage</title>
     <para>Ideally, we would always achieve full test coverage for our code. So that every meaningful unit of code has a corresponding set of tests. While other programming
-      languages offer automated means of analysing your code to indentify areas that aren't tested, such tools are unfortunately not very common for Xquery. How much testing is necessary for you to ship with confidence, rests on each developer. For apps published under the exist-db namespace, we have outlined a set of minimum requirementes (more is obviously desirable) which are featured in the section on <link condition="_blank" xlink:href="integration-testing">integration testing</link>.</para>
+      languages offer automated means of analysing your code to indentify areas that aren't tested, such tools are unfortunately not very common for Xquery. How much testing is necessary for you to ship with confidence, rests on each developer. For apps published under the eXist-db namespace, we have outlined a set of minimum requirementes (more is obviously desirable) which are featured in the section on <link condition="_blank" xlink:href="integration-testing">integration testing</link>.</para>
   </sect1>
 </article>
