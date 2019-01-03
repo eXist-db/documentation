@@ -53,26 +53,26 @@
     <package-name>http://exist-db.org/apps/doc</package-name>
   </properties>
 
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-changes-plugin</artifactId>
-        <version>2.12.1</version>
-        <configuration>
-          <onlyCurrentVersion>true</onlyCurrentVersion>
-          <columnNames>Type, Summary</columnNames>
-        </configuration>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>github-report</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-    </plugins>
-  </reporting>
+  <dependencies>
+    <!-- test dependencies -->
+    <dependency>
+      <groupId>org.exist-db</groupId>
+      <artifactId>exist-testkit</artifactId>
+      <version>${exist.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.exist-db</groupId>
+      <artifactId>exist-optional</artifactId>
+      <version>${exist.version}</version>
+      <scope>test</scope>  <!-- needed for test runtime -->
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
   <build>
     <resources>
@@ -93,6 +93,21 @@
         </excludes>
       </resource>
     </resources>
+
+    <!--
+         Makes the XQuery files of the app available
+         on the Java classpath for XSuite during tests.
+    -->
+    <testResources>
+      <testResource>
+        <directory>src/main/xar-resources</directory>
+        <filtering>false</filtering>
+        <targetPath>xquery/</targetPath>
+        <includes>
+          <include>modules/**</include>
+        </includes>
+      </testResource>
+    </testResources>
 
     <plugins>
       <plugin>
@@ -218,6 +233,27 @@
       </plugin>
     </plugins>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-changes-plugin</artifactId>
+        <version>2.12.1</version>
+        <configuration>
+          <onlyCurrentVersion>true</onlyCurrentVersion>
+          <columnNames>Type, Summary</columnNames>
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>github-report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
 
   <repositories>
     <repository>
