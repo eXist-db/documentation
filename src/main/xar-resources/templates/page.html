@@ -19,138 +19,76 @@
         </div>
       </div>
     </div>
-    <nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-dark bg-dark navbar-expand-md" role="navigation">
       <div class="container">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse-1">
           <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar" />
-          <span class="icon-bar" />
-          <span class="icon-bar" />
         </button>
         <div class="navbar-collapse collapse" id="navbar-collapse-1">
-          <ul class="nav navbar-nav">
-            <li class="dropdown" id="about">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Home</a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="{${dashboard.pkg.abbrev}}/index.html">Dashboard</a>
-                </li>
-                <li>
-                  <a href="http://exist-db.org">eXist-db.org</a>
-                </li>
-              </ul>
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown" id="about">
+              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Home</a>
+              <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{${dashboard.pkg.abbrev}}/index.html">Dashboard</a>
+                  <a class="dropdown-item" href="http://exist-db.org">eXist-db.org</a>
+              </div>
             </li>
-            <li class="dropdown" id="demo">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Demo</a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="{${demo.pkg.abbrev}}/index.html">Overview</a>
-                </li>
-                <li>
-                  <a href="{${demo.pkg.abbrev}}/examples/basic/basics.html">Basic XQuery Examples</a>
-                </li>
-                <li>
-                  <a href="{${demo.pkg.abbrev}}/examples/basic/xquery3.html">XQuery 3.0 Examples</a>
-                </li>
-                <li>
-                  <a href="{${demo.pkg.abbrev}}/examples/web/index.html">Web Examples</a>
-                </li>
-                <li>
-                  <a href="{${demo.pkg.abbrev}}/examples/urlrewriting/index.html">URL Rewriting</a>
-                </li>
-                <li>
-                  <a href="{${demo.pkg.abbrev}}/examples/special/index.html">Special Features</a>
-                </li>
-                <li>
-                  <a href="{${demo.pkg.abbrev}}/examples/templating/templates.html">Templating</a>
-                </li>
-                <li>
-                  <a href="{${demo.pkg.abbrev}}/cex-demo.html">Content Extraction</a>
-                </li>
-                <li>
-                  <a href="{${demo.pkg.abbrev}}/examples/tests/test.html">Unit Testing</a>
-                </li>
-                <li>
-                  <a href="{${demo.pkg.abbrev}}/examples/contacts/html/home.html?browseContacts">RestXQ and
+            <li class="nav-item dropdown" id="demo">
+              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Demo</a>
+              <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{${demo.pkg.abbrev}}/index.html">Overview</a>
+                  <a class="dropdown-item" href="{${demo.pkg.abbrev}}/examples/basic/basics.html">Basic XQuery Examples</a>
+                  <a class="dropdown-item" href="{${demo.pkg.abbrev}}/examples/basic/xquery3.html">XQuery 3.0 Examples</a>
+                  <a class="dropdown-item" href="{${demo.pkg.abbrev}}/examples/web/index.html">Web Examples</a>
+                  <a class="dropdown-item" href="{${demo.pkg.abbrev}}/examples/urlrewriting/index.html">URL Rewriting</a>
+                  <a class="dropdown-item" href="{${demo.pkg.abbrev}}/examples/special/index.html">Special Features</a>
+                  <a class="dropdown-item" href="{${demo.pkg.abbrev}}/examples/templating/templates.html">Templating</a>
+                  <a class="dropdown-item" href="{${demo.pkg.abbrev}}/cex-demo.html">Content Extraction</a>
+                  <a class="dropdown-item" href="{${demo.pkg.abbrev}}/examples/tests/test.html">Unit Testing</a>
+                  <a class="dropdown-item" href="{${demo.pkg.abbrev}}/examples/contacts/html/home.html?browseContacts">RestXQ and
                     AngularJS</a>
-                </li>
-                <li>
-                  <a href="{${demo.pkg.abbrev}}/examples/xforms/">XForms and RestXQ</a>
-                </li>
-                <li>
-                  <a href="{${demo.pkg.abbrev}}/examples/contacts/html/home.html">Contacts RestXQ Demo</a>
-                </li>
-              </ul>
+                  <a class="dropdown-item" href="{${demo.pkg.abbrev}}/examples/xforms/">XForms and RestXQ</a>
+                  <a class="dropdown-item" href="{${demo.pkg.abbrev}}/examples/contacts/html/home.html">Contacts RestXQ Demo</a>
+              </div>
             </li>
-            <li class="dropdown" id="documentation">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation</a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="documentation.xml">Documentation</a>
-                </li>
-                <li>
-                  <a href="diagnostics.html">diagnostics</a>
-                </li>
-                <li>
-                  <a href="editorial-view.html">editorial</a>
-                </li>
-                <li>
-                  <a href="author-reference.xml">author guidelines</a>
-                </li>
-                <li>
-                  <a href="getting-help.xml">Get Support</a>
-                </li>
-                <li role="separator" class="divider"></li>   
-                <li>
-                  <a href="{${fundocs.pkg.abbrev}}/index.html">XQuery Functions</a>
-                </li>
-                <li role="separator" class="divider"></li>
-                <li>
-                  <a href="http://exist-db.org/exist/apps/wiki/">News / Wiki</a>
-                </li>
-                <li>
-                  <a href="http://en.wikibooks.org/wiki/XQuery">XQuery Wikibook</a>
-                </li>
-              </ul>
+            <li class="nav-item dropdown" id="documentation">
+              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Documentation</a>
+              <div class="dropdown-menu">
+                  <a class="nav-link dropdown-item" href="documentation.xml">Documentation</a>
+                  <a class="dropdown-item" href="author-reference.xml">author guidelines</a>
+                  <a class="dropdown-item" href="getting-help.xml">Get Support</a>
+                <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{${fundocs.pkg.abbrev}}/index.html">XQuery Functions</a>
+                <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="http://exist-db.org/exist/apps/wiki/">News / Wiki</a>
+                  <a class="dropdown-item" href="http://en.wikibooks.org/wiki/XQuery">XQuery Wikibook</a>
+              </div>
             </li>
-            <li class="dropdown" id="development">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Development</a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="{${exide.pkg.abbrev}}/index.html">eXide</a>
-                </li>
-                <li>
-                  <a href="http://exist-db.org/api/index.html">Javadocs</a>
-                </li>
-                <li>
-                  <a href="https://github.com/eXist-db/exist/issues">Bug Tracker</a>
-                </li>
-                <li>
-                  <a href="https://github.com/eXist-db/exist">Source code</a>
-                </li>
-                <li>
-                  <a href="https://github.com/eXist-db/exist#contributing-to-exist">Submit
-                    Patches</a>
-                </li>
-              </ul>
+            <li class="nav-item dropdown" id="development">
+              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Development</a>
+              <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{${exide.pkg.abbrev}}/index.html">eXide</a>
+                  <a class="dropdown-item" href="http://exist-db.org/api/index.html">Javadocs</a>
+                  <a class="dropdown-item" href="https://github.com/eXist-db/exist/issues">Bug Tracker</a>
+                  <a class="dropdown-item" href="https://github.com/eXist-db/exist">Source code</a>
+                  <a class="dropdown-item" href="https://github.com/eXist-db/exist#contributing-to-exist">Submit Patches</a>
+                <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="diagnostics.html">Documentation Diagnostics</a>
+                  <a class="dropdown-item" href="editorial-view.html">Documentation Editorial</a>
+              </div>
             </li>
-            <li class="dropdown" id="administration">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration</a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="{${dashboard.pkg.abbrev}}/index.html">Dashboard</a>
-                </li>
-                <li>
-                  <a href="/webstart/exist.jnlp">Webstart Client</a>
-                </li>
-                <li>
-                  <a href="{${monex.pkg.abbrev}}/">Monitoring and Profiling</a>
-                </li>
-              </ul>
+            <li class="nav-item dropdown" id="administration">
+              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Administration</a>
+              <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{${dashboard.pkg.abbrev}}/index.html">Dashboard</a>
+                  <a class="dropdown-item" href="/webstart/exist.jnlp">Webstart Client</a>
+                  <a class="dropdown-item" href="{${monex.pkg.abbrev}}/">Monitoring and Profiling</a>
+              </div>
             </li>
           </ul>
-          <form class="navbar-form navbar-right form-group" role="search" action="search.html" method="GET">
-            <input type="text" name="q" class="search-query form-control" placeholder="Search Documentation" />
+          <form class="form-inline" role="search" action="search.html" method="GET">
+            <input type="text" name="q" class="search-query form-control mr-sm-2" placeholder="Search Documentation" />
+            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
           </form>
         </div>
       </div>
@@ -178,14 +116,14 @@
         <li>
           <a href="{${demo.pkg.abbrev}}/index.html">Demo</a>
         </li>
-        <li class="hidden-xs-inline">
+        <li class="d-inline d-hidden-s">
           <a href="/status">Status</a>
         </li>
         <li>
           <a href="legal.xml">Legal</a>
         </li>
       </ul>
-      <div id="copyright" class="hidden-xs">
+      <div id="copyright" class="d-inline d-hidden-s">
         <p>Copyright eXist-db Project 2014</p>
       </div>
     </div>
