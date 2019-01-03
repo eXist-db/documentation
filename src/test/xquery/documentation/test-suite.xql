@@ -8,9 +8,12 @@ xquery version "3.1";
 
 module namespace tests = "http://exist-db.org/xquery/documentation/tests";
 
-import module namespace docbook = "http://docbook.org/ns/docbook" at "docbook.xql";
-import module namespace config = "http://exist-db.org/xquery/apps/config" at "config.xqm";
-import module namespace diag = "http://exist-db.org/xquery/diagnostics" at "diagnostics.xql";
+import module namespace docbook = "http://docbook.org/ns/docbook"
+        at "resource:modules/docbook.xql";
+import module namespace config = "http://exist-db.org/xquery/apps/config"
+        at "resource:modules/config.xql";
+import module namespace diag = "http://exist-db.org/xquery/diagnostics"
+        at "resource:modules/diagnostics.xql";
 
 declare namespace test = "http://exist-db.org/xquery/xqsuite";
 declare namespace db5 = "http://docbook.org/ns/docbook";

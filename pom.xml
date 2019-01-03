@@ -78,6 +78,30 @@
     </plugins>
   </reporting>
 
+  <dependencies>
+    <!-- test dependencies -->
+    <dependency>
+      <groupId>org.exist-db</groupId>
+      <artifactId>exist-core</artifactId>
+      <version>${exist.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <!--
+          Needed by the documentation app under test
+      -->
+      <groupId>org.exist-db</groupId>
+      <artifactId>exist-index-lucene</artifactId>
+      <version>${exist.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
   <build>
     <resources>
       <resource>
@@ -97,6 +121,17 @@
         </excludes>
       </resource>
     </resources>
+
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>false</filtering>
+      </testResource>
+      <testResource>
+        <directory>src/test/resources-filtered</directory>
+        <filtering>true</filtering>
+      </testResource>
+    </testResources>
 
     <pluginManagement>
       <plugins>
@@ -263,6 +298,16 @@
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M7</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>3.0.0-M7</version>
+      </plugin>
+      <plugin>
         <groupId>ro.kuberam.maven.plugins</groupId>
         <artifactId>kuberam-expath-plugin</artifactId>
         <executions>
@@ -309,7 +354,7 @@
         <executions>
           <execution>
             <id>prepare-autodeploy-deps</id>
-            <phase>pre-integration-test</phase>
+            <phase>generate-test-resources</phase>
             <goals>
               <goal>resolve</goal>
             </goals>
@@ -471,7 +516,7 @@
   <pluginRepositories>
     <pluginRepository>
       <id>clojars.org</id>
-      <url>http://clojars.org/repo</url>
+      <url>https://clojars.org/repo</url>
     </pluginRepository>
   </pluginRepositories>
 
