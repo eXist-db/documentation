@@ -20,10 +20,10 @@
     <para>The primary goal of an upgrade is to migrate your eXist application to a new version,
       while preserving the contents of your database.</para>
     <para>Before embarking on an upgrade, you should first review the new version's release notes
-      (see the <link xlink:href="http://exist-db.org/exist/apps/wiki/blogs/eXist/" condition="_blank">eXist
-        Developer's Blog</link> for an archive of all past release notes). The release notes
-      introduce the new version's features, improvements and bug fixes. They can also outline any
-      new requirements (for instance the required version of Java). </para>
+      (see the <link xlink:href="http://exist-db.org/exist/apps/wiki/blogs/eXist/"
+        condition="_blank">eXist Developer's Blog</link> for an archive of all past release notes).
+      The release notes introduce the new version's features, improvements and bug fixes. They can
+      also outline any new requirements (for instance the required version of Java). </para>
     <para>For the purpose of this guide, the most important item in the release notes is whether the
       new version is <emphasis>binary-compatible</emphasis> with the previous version or not. Pay
       close attention to these notes, as they will tell you which upgrade route to follow.</para>
@@ -176,6 +176,9 @@
     <para>If a non-incremental upgrade across multiple non-compatible releases is necessary,
       for instance from 1.4 to 3.6, we strongly recommend to first check past release notes to understand
       how breaking changes might affect you.</para>
+    <important><para>Note, database backups from eXist-db 2.2 and earlier are not compatible with eXist-db
+      5.0.0+. If you wish to migrate to eXist-db version 5.0.0+ from version 2.2 or earlier, you
+      should first upgrade (incrementally if nessecary) to the latest 4.x.x version.</para></important>
     <table xml:id="old-news">
       <title>Notes on previous releases</title>
       <tgroup cols="2">
