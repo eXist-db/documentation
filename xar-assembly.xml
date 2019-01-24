@@ -14,10 +14,20 @@
   <category id="apps">Applications</category>
   <category id="doc">Documentation</category>
   <dependency processor="http://exist-db.org" semver-min="${exist.version}"/>
-  <dependency package="http://exist-db.org/apps/shared" semver-min="0.4.2"/>
+  <dependency package="http://exist-db.org/apps/shared" semver-min="0.8.0"/>
   <prepare>pre-install.xql</prepare>
   <note>Note for users of eXist 2.x: When upgrading, please make sure you also updated the shared-resources package to > 0.4.0.</note>
   <changelog>
+    <change version="4.1.0">
+      <ul xmlns="http://www.w3.org/1999/xhtml">
+        <li>advanced-installation: new instructions for unattended installation</li>
+        <li>incompatibilities: add long-jump upgrade instructions</li>
+        <li>production-good-practices: add parser description</li>
+        <li>integration-testing: new article about best practices for testing exist-db apps</li>
+        <li>testing: new article introducing various approaches to automated code tests</li>
+        <li>app updates and code changes</li>
+      </ul>
+    </change>
     <change version="4.0.4">
       <ul xmlns="http://www.w3.org/1999/xhtml">
         <li>more emphatically support openJDK</li>
