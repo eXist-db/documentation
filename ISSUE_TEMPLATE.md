@@ -7,5 +7,5 @@
 
 
 ### Please provide the following
-*   exist-db version: `4.3.0`
-*   documentation version: `4.0.3`
+*   exist-db version: `4.6.1`
+*   documentation version: `4.1.1`
