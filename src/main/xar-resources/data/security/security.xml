@@ -688,60 +688,7 @@
                             after first authentication.</para>
                     </listitem>
                 </itemizedlist>
-            </sect3>
-
-            <sect3 xml:id="oauth-realm">
-                <title>OAuth Realm</title>
-
-                <para>Due to the variation in implementations across OAuth providers,
-                    provider-specific Java libraries are necessary. eXist-db currently supports only
-                    Facebook and Google for OAuth authentication (see <link condition="_blank"
-                    xlink:href="http://developers.facebook.com/docs/authentication/">Facebook
-                    Authentication</link> and <link condition="_blank"
-                    xlink:href="https://developers.google.com/accounts/docs/OAuth2">Google's OAuth
-                    documentation</link>.</para>
-                <para>The OAuth Realm is not enabled by default. To enable it, set the
-                    <literal>include.feature.security.oauth</literal> property to
-                    <literal>true</literal> in <literal>extensions/local.build.properties</literal>.
-                    Then <link xlink:href="exist-building">rebuild eXist-db</link>. After this, edit
-                    <code>web.xml</code> and <code>controller-config.xml</code> to enable the
-                    <code>OAuthServlet</code>. After restarting eXist-db, add a <tag>realm</tag>
-                    element for OAuth to <literal>/db/system/security/config.xml</literal>. For
-                    example:</para>
-                <programlisting language="xml" xlink:href="listings/listing-6.xml"/>
-
-                <itemizedlist>
-                    <listitem>
-                        <para>Valid values for the service element's <code>provider</code> attribute
-                            are <code>facebook</code> and <code>google</code>. </para>
-                    </listitem>
-                    <listitem>
-                        <para>The <code>name</code> attribute must be a unique name for the
-                            application.</para>
-                        <para>The <code>key</code> and <code>secret</code> attribute values must be
-                            provided by the OAuth provider.</para>
-                    </listitem>
-                </itemizedlist>
-            </sect3>
-
-            <sect3 xml:id="openid-realm">
-                <title>OpenID Realm</title>
-
-                <para> <link condition="_blank" xlink:href="http://openid.net/">OpenID</link> is an
-                    authentication mechanism where the identity of the user is maintained by trusted
-                    external providers. This takes the burden in maintaining and securing passwords
-                    for users from the eXist-db database to the Identity Provider (IdP). </para>
-                <para> By default, the OpenID service is not built and therefore not enabled. To
-                    recompile the source with OpenID enabled, edit the file
-                    <code>local.build.properties</code> in the <literal>extensions</literal>
-                    directory and change the <code>include.feature.security.openid</code> property
-                    from <literal>false</literal> to <literal>true</literal>. Then <link
-                    xlink:href="exist-building">rebuild eXist-db</link>.</para>
-                <para> This extension compiles into
-                    <code>lib/extensions/exist-security-openid.jar</code>. Running eXist-db with
-                    that <code>.jar</code> should enable the extension. To disable the service,
-                    remove the <code>.jar</code> and restart eXist-db.</para>
-            </sect3>
+            </sect3>          
 
         </sect2>
 

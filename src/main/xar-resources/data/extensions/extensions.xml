@@ -115,51 +115,6 @@
                 </listitem>
             </itemizedlist>
         </sect2>
-        <sect2 xml:id="module_context">
-            <title>Context Module</title>
-            <para>Provides access to XQuery contexts, local attributes and foreign contexts for
-                simple inter-XQuery communication. This extension is experimental at this time and
-                has side effects (eg. not purely functional in nature). Use at own risk! </para>
-            <itemizedlist>
-                <listitem>
-                    <para>Creator: Andrzej Taramina</para>
-                </listitem>
-                <listitem>
-                    <para>Licence: LGPL</para>
-                </listitem>
-                <listitem>
-                    <para>Status: experimental</para>
-                </listitem>
-                <listitem>
-                    <para>Class: <code>org.exist.xquery.modules.context.ContextModule</code> </para>
-                </listitem>
-                <listitem>
-                    <para>Namespace: <code>http://exist-db.org/xquery/context</code> </para>
-                </listitem>
-            </itemizedlist>
-        </sect2>
-        <sect2 xml:id="module_datetime">
-            <title>Date Time Module</title>
-            <para>Provides additional operations on date and time types</para>
-            <itemizedlist>
-                <listitem>
-                    <para>Creator: Adam Retter</para>
-                </listitem>
-                <listitem>
-                    <para>Licence: LGPL</para>
-                </listitem>
-                <listitem>
-                    <para>Status: production</para>
-                </listitem>
-                <listitem>
-                    <para>Class: <code>org.exist.xquery.modules.datetime.DateTimeModule</code>
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>Namespace: <code>http://exist-db.org/xquery/datetime</code> </para>
-                </listitem>
-            </itemizedlist>
-        </sect2>
         <sect2 xml:id="module_exi">
             <title>EXI Module</title>
             <para>Provides additional operations to encode and decode Efficient XML Interchange
@@ -202,30 +157,6 @@
                 </listitem>
                 <listitem>
                     <para>Namespace: <code>http://exist-db.org/xquery/file</code> </para>
-                </listitem>
-            </itemizedlist>
-        </sect2>
-        <sect2 xml:id="module_httpclient">
-            <title>HTTP Client Module</title>
-            <para>Functions for performing HTTP requests</para>
-            <itemizedlist>
-                <listitem>
-                    <para>Creator: Adam Retter and Andrzej Taramina</para>
-                </listitem>
-                <listitem>
-                    <para>Licence: LGPL Features</para>
-                </listitem>
-                <listitem>
-                    <para>Used: NekoHTML</para>
-                </listitem>
-                <listitem>
-                    <para>Status: production</para>
-                </listitem>
-                <listitem>
-                    <para>Class: <code>org.exist.xquery.modules.http.HTTPClientModule</code> </para>
-                </listitem>
-                <listitem>
-                    <para>Namespace: <code>http://exist-db.org/xquery/httpclient</code> </para>
                 </listitem>
             </itemizedlist>
         </sect2>
@@ -303,27 +234,6 @@
                 </listitem>
                 <listitem>
                     <para>Namespace: <code>http://exist-db.org/xquery/mail</code> </para>
-                </listitem>
-            </itemizedlist>
-        </sect2>
-        <sect2 xml:id="module_math">
-            <title>Math Module</title>
-            <para>This module provides mathematical functions from the java Math class.</para>
-            <itemizedlist>
-                <listitem>
-                    <para>Creator: Dannes Wessels</para>
-                </listitem>
-                <listitem>
-                    <para>Licence: LGPL</para>
-                </listitem>
-                <listitem>
-                    <para>Status: production</para>
-                </listitem>
-                <listitem>
-                    <para>Class: <code>org.exist.xquery.modules.math.MathModule</code> </para>
-                </listitem>
-                <listitem>
-                    <para>Namespace: <code>http://exist-db.org/xquery/math</code> </para>
                 </listitem>
             </itemizedlist>
         </sect2>
@@ -494,7 +404,7 @@
                     <para>Namespace: <code>http://exist-db.org/xquery/xslfo</code> </para>
                 </listitem>
             </itemizedlist>
-        </sect2>        
+        </sect2>
         <sect2 xml:id="module_xmlcalabash">
             <title>XML Calabash Module</title>
             <para>This module provides simple integration with XML Calabash XProc engine.</para>
