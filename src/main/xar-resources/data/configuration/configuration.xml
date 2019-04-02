@@ -22,28 +22,8 @@
         <title>Main configuration file</title>
 
         <para>The main configuration file for <literal>eXist-db</literal> is called
-            <literal>conf.xml</literal>, which is loaded from different directories depending on the
-            server set-up (see <link xlink:href="deployment">Server Deployment</link> for more
-            information). Specifically:</para>
-        <itemizedlist>
-            <listitem>
-                <para>If you installed the standalone eXist-db distribution with the installer, the
-                    <literal>conf.xml</literal> file located in the root directory of the
-                    distribution (as specified by the system property
-                    <literal>exist.home</literal>).</para>
-                <para/>
-            </listitem>
-            <listitem>
-                <para>If eXist-db is installed as a web application (packaged in a
-                    <literal>.war</literal> file) in a servlet engine like tomcat, <literal>
-                    conf.xml</literal> is read from the <literal>WEB-INF</literal> directory of the
-                    web application.</para>
-                <para>eXist-db normally has no access to files outside the context in which it is
-                    running when it is deployed as part of a web application. Therefore, when eXist
-                    is deployed in this way, the configuration is read from the
-                    <literal>WEB-INF</literal> directory.</para>
-            </listitem>
-        </itemizedlist>
+            <literal>conf.xml</literal>, which is loaded the root directory of the
+            distribution (as specified by the system property <literal>exist.home</literal>).</para>
 
         <para>The configuration file <literal>conf.xml</literal> is divided into eleven
             sections:</para>

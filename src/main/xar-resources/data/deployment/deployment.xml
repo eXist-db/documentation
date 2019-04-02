@@ -143,52 +143,6 @@
 
     <!-- ================================================================== -->
 
-    <sect1 xml:id="deploy-servlet">
-        <title>Deploying in a Servlet Container</title>
-
-        <para>The standard distribution by default launches eXist-db as a web application deployed
-            in a <link condition="_blank" xlink:href="http://eclipse.org/jetty/">Jetty</link>
-            servlet container.</para>
-        <para>The Jetty configuration can be found in
-            <literal>tools/jetty/webapps/exist-webapp-context.xml</literal>. It defines a single web
-            application context value <literal>&lt;Set
-            name="contextPath"&gt;/exist&lt;/Set&gt;</literal>, mapped to the
-            <literal>webapp</literal> directory. This value can be set to either
-            <literal>/exist</literal> or <literal>/</literal>. Users modifying this value should
-            subsequently remove the <literal>portal</literal> folder at <literal>
-            /tools/jetty/webapps</literal>, which contains the default exist-db splashscreen
-            displayed during certain redirects.</para>
-        <para>Jetty is small, efficient and stable, so there is no need to switch to a different
-            servlet engine unless your server setup requires this. However, it is not difficult to
-            deploy eXist in a different servlet container, e.g. Apache's Tomcat.</para>
-        <para>We usually provide a <literal>.war</literal> web archive for all major releases. You
-            may either download that or, if you already installed the standard distribution, build a
-            <code>.war</code> archive yourself. For details on how to do this, see <link xlink:href="exist-building">Building eXist-db</link> </para>
-        <para>To install the <code>.war</code>, just copy it into the corresponding folder below
-            your servlet engine installation (usually <literal>webapps</literal>) and rename it to
-            <literal>exist.war</literal>. The servlet engine will normally unpack the file when you
-            restart the server. To have better control of where the file is unpacked, you can also
-            create a directory <literal>exist</literal> below the <literal>webapps</literal> folder
-            and manually extract the <code>.war</code> there. For instance:</para>
-        <programlisting>jar xfv exist.war</programlisting>
-        <important>
-            <para>Please remember that the <literal>data</literal> and <literal>log</literal>
-                directories need to be writable!</para>
-        </important>
-
-        <para>There are a few differences between the standard distribution and the
-            <code>.war</code> install. In particular, the configuration files are found in the
-            <literal>WEB-INF</literal> directory, including the important files
-            <literal>conf.xml</literal> (eXist configuration) and <literal>log4j.xml</literal>
-            (logging). The example data is in <literal>samples</literal>.</para>
-        <para>To start the <link xlink:href="java-admin-client">Java Admin Client</link>, use the
-            following command (from within <literal>exist</literal> web application's root
-            directory):</para>
-        <programlisting>java -jar WEB-INF/lib/start.jar client -ls</programlisting>
-    </sect1>
-
-    <!-- ================================================================== -->
-
     <sect1 xml:id="run-stand-alone">
         <title>Running as a Stand-alone Server</title>
 
