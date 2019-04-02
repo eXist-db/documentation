@@ -12,38 +12,7 @@
   </info>
   <!-- ================================================================== -->
 
-  <para>This article will tell you how to build a Java <code>.war</code> or <code>.jar</code> file for eXist-db. If you are building exist-db from source, please also check the <link xlink:href="https://github.com/eXist-db/exist/blob/develop/BUILD.md">build instructions</link> in the source-code repo.</para>
-
-  <!-- ================================================================== -->
-
-  <sect1 xml:id="war">
-    <title>Building a <code>.war</code> file from the Standard Distribution</title>
-
-    <para>If you would like to deploy eXist-db into an existing servlet engine (e.g. tomcat), you will need a <literal>.war</literal> file. We no
-      longer distribute a <literal>.war</literal> build, but it is easy to create one from the standard distribution by
-        <emphasis>repackaging</emphasis> (not building) it:</para>
-    <orderedlist>
-      <listitem>
-        <para>
-          <emphasis role="bold">Install the standard distribution</emphasis>
-        </para>
-        <para>Get a standard distribution from eXist-db <link xlink:href="http://exist-db.org/exist/apps/homepage/index.html#download" condition="_blank">download
-            page</link>. Install it into a directory of your choice. Make sure you include the <emphasis>source package</emphasis>.</para>
-      </listitem>
-      <listitem>
-        <para>
-          <emphasis role="bold">Generate the WAR</emphasis>
-        </para>
-        <para>Open a command line prompt and change to the directory where you just installed eXist-db. Call</para>
-        <programlisting>build.sh dist-war</programlisting>
-        <para>or</para>
-        <programlisting>build.bat dist-war</programlisting>
-        <para>once. This will generate a <literal>.war</literal> archive into directory <literal>dist</literal>.</para>
-      </listitem>
-    </orderedlist>
-    <para>Note that generating a <code>.war</code> archive does only repackage the files in the distribution. So if the distribution worked properly
-      for you, the <code>.war</code> should as well. You don't need to recompile eXist-db or sign any jars.</para>
-  </sect1>
+  <para>This article will tell you how to build a Java <code>.jar</code> file for eXist-db. If you are building exist-db from source, please also check the <link xlink:href="https://github.com/eXist-db/exist/blob/develop/BUILD.md">build instructions</link> in the source-code repo.</para>
 
   <!-- ================================================================== -->
 
@@ -92,11 +61,11 @@
     <title>Using the Build System</title>
 
     <para>You can rebuild all eXist-db packages from the standard distribution or the GitHub repository. You can even create a new distribution from
-      the one you installed. For example, assume you installed eXist using the installer GUI, but you need to have an exist.war package for deployment
-      within a different servlet engine. Just call the main build script (<literal>build.sh</literal> or <literal>build.bat</literal>) and pass it the
-      target <literal>dist-war</literal>:</para>
-    <programlisting>build.sh dist-war</programlisting>
-    <para>This will create a fresh <literal>.war</literal> archive in the <literal>dist</literal> directory.</para>
+      the one you installed. For example, assume you installed eXist using the installer GUI, but you need to have a <literal>.tar.bz2</literal> package for deployment
+      to a server. Just call the main build script (<literal>build.sh</literal> or <literal>build.bat</literal>) and pass it the
+      target <literal>dist-bz2</literal>:</para>
+    <programlisting>build.sh dist-bz2</programlisting>
+    <para>This will create a fresh <literal>.tar.bz2</literal> archive in the <literal>dist</literal> directory.</para>
     <note>
       <para>To be able to use the build system, you need to include the "source" module when selecting installable packages in the installer
         GUI.</para>
@@ -181,18 +150,34 @@
           </row>
           <row>
             <entry>
-              <para>dist-tgz</para>
+              <para>dist-dir</para>
             </entry>
             <entry>
-              <para>Packages eXist-db into a <literal>.tgz</literal> file.</para>
+              <para>Packages eXist-db into a directory.</para>
             </entry>
           </row>
           <row>
             <entry>
-              <para>dist-war</para>
+              <para>dist-bz2</para>
             </entry>
             <entry>
-              <para>Packages eXist-db into a <literal>.war</literal> file for deployment within a servlet engine.</para>
+              <para>Packages eXist-db into a <literal>.tar.bz2</literal> file.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>dist-tar</para>
+            </entry>
+            <entry>
+              <para>Packages eXist-db into a <literal>.tar</literal> file.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>dist-tgz</para>
+            </entry>
+            <entry>
+              <para>Packages eXist-db into a <literal>.tgz</literal> file.</para>
             </entry>
           </row>
           <row>

@@ -422,29 +422,6 @@
                 <para>To avoid potential deadlocking it is considered good practice to store XML
                     instance documents and grammar documents in separate collections.</para>
             </listitem>
-            <listitem>
-                <para>Tomcat has an long standing bug which makes it impossible to register a custom
-                    protocol handler (object <link condition="_blank"
-                    xlink:href="https://docs.oracle.com/javase/10/docs/api/java/net/URLStreamHandler.html"
-                    ><code>URLStreamHandler</code></link>) to the JVM. The alternative is to
-                    register the object by setting the system property
-                    <code>java.protocol.handler.pkgs</code> but this fails as well.</para>
-                <para>As a result, the validation features are only partly useable in Tomcat. There
-                    are two alternatives: (1) switch to a recent version of Jetty, or (2) use
-                    absolute URLs pointing the REST interface, e.g.
-                    <code>http://localhost:8080/exist/rest/db/mycollection/schema.xsd</code>.</para>
-            </listitem>
-            <listitem>
-                <para>eXist relies heavily on features provided by the Xerces XML parser. Out of the
-                    box the eXist izPack installer provides all required <code>.jar</code> files.
-                    However, when eXist is installed in for instance Tomcat, the required parser
-                    libraries need to be copied manually from the eXist <code>lib/endorsed</code>
-                    directory into the server <link condition="_blank"
-                    xlink:href="http://tomcat.apache.org/tomcat-5.5-doc/class-loader-howto.html"
-                    >endorsed</link> directory.</para>
-                <para>Required endorsed files: <code>resolver-*.jar xalan-*.jar serializer-*.jar
-                    xercesImpl-*.jar</code> </para>
-            </listitem>
 
             <listitem>
                 <para>The explicit validation is performed by <link condition="_blank"
