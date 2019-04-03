@@ -181,7 +181,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><code>%test:pending</code></term>
+                <term><code>%test:pending($reason)</code></term>
                 <listitem>
                     <para>Marks a test as <emphasis>pending</emphasis>, which means that it will not
                         be executed as part of the test suite. This can be useful when you want to
@@ -207,6 +207,12 @@
                         in the same XQuery module are run. Use these functions to upload data,
                         create indexes, users or prepare anything else needed for the tests to run.
                     </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><code>%test:user($username, $password)</code></term>
+                <listitem>
+                    <para>Executes the test function as a specific user.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
