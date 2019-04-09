@@ -1,0 +1,7 @@
+let $options := map { 
+    "facets": map { 
+        "keyword": ("indexing", "facets")
+    }
+}
+return
+    collection("/db/articles")//db:article[ft:query(., "xml", $options)]
