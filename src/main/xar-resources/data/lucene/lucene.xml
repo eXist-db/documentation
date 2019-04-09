@@ -482,23 +482,37 @@
                 xlink:href="kwic.xml">KWIC</link> module.</para>
         <sect2 xml:id="query-fields">
             <title>Querying Fields</title>
-            <para>If fields are associated with the indexed parent node (see <link linkend="facets-and-fields">above</link>), they can be queried with ft:query
-                by prefixing parts of the query expression with the field name following by a colon (':'). This is described in the documentation for Lucene's
-                default query syntax. For example, the following expression searches for a docbook article containing the terms "xml" in the text and "xquery language" in the title:</para>
+            <para>Fields associated with the indexed parent node (see <link
+                    linkend="facets-and-fields">above</link>) can be queried with
+                    <literal>ft:query</literal> by prefixing parts of the query expression with the
+                field name followed by a colon (':') as described in the documentation for Lucene's
+                default query syntax. For example, the following expression searches for a docbook
+                article containing the terms "xml" in the text and "xquery language" in the
+                title:</para>
             <programlisting language="xquery" xlink:href="listings/listing-53.txt"/>
-            <para>Note how subexpressions can be grouped with parenthesis to make clear to which field they apply.</para>
+            <para>Note how subexpressions can be grouped with parentheses to clearly state to which
+                field they apply.</para>
         </sect2>
         <sect2 xml:id="retrieve-fields">
             <title>Retrieving Field Content</title>
-            <para>You can retrieve the content of a field for display to the user or sorting using the <literal>ft:field</literal> function. However, fields
-                are always bound to the result of a full text query, so you cannot retrieve them without calling <literal>ft:query</literal> first. Also,
-                keeping track of fields can be expensive, so <literal>ft:query</literal> needs to be told which fields should be made available via the query
-                result. The third parameter to ft:query supports an option <literal>fields</literal> listing the names of the fields to be provided. The values of
-                the associated field can then be retrieved for each item in the query result using <literal>ft:field</literal>.</para>
-            <para>One of the most common uses for retrieving field contents will be for sorting the results of a query:</para>
+            <para>You can retrieve the content of a field for display or sorting purposes using the
+                    <literal>ft:field</literal> function. However, fields are always bound to the
+                result of a full text query, so you cannot retrieve them without calling
+                    <literal>ft:query</literal> first. Also, keeping track of fields can be
+                expensive, so <literal>ft:query</literal> needs to be explicitly passed a parameter
+                specifying which fields should be made available via the query result. The third,
+                optional, parameter to <literal>ft:query</literal> supports a
+                    <literal>fields</literal> option listing the names of the fields to be provided.
+                The values of the associated field can then be retrieved for each item in the query
+                result using <literal>ft:field</literal>.</para>
+            <para>One of the most common uses for retrieving field contents will be for sorting the
+                results of a query. The <code>order by</code> in the example below sorts results by
+                title first and then by author.</para>
             <programlisting language="xquery" xlink:href="listings/listing-54.txt"/>
-            <para>The <code>order by</code> sorts results by title first, then author. Note that if you wanted to view all articles in the collection without
-                specifying a query string, you could pass in an empty sequence for this:</para>
+            <para>Note that even though fields are only available with the results of the ft:query,
+                it is still possible to use them for sorting and displaying the whole available data
+                set. For example, to view all articles in the collection you could pass in an empty
+                sequence in place of the query string like this:</para>
             <programlisting language="xquery" xlink:href="listings/listing-55.txt"/>
         </sect2>
         <sect2 xml:id="describe">
