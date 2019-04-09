@@ -375,25 +375,36 @@
                 <varlistentry>
                     <term>facet</term>
                     <listitem>
-                        <para>a facet defines a concept or information item by which the indexed items can be grouped. Typical facets would be categories taken
-                            from some pre-defined taxonomy, languages, dates, places or names occurring in a text corpus. The goal is to enable users to "drill
-                            down" into a potentially large result set by selecting from a list of facets displayed to them. For example, if you shop for a
-                            laptop, you are often presented with a list of facets by which you may restrict your result by CPU type, memory or screen size etc.
-                            As you select facets, the result set will become smaller and smaller.</para>
-                        <para>Facets are always pre-defined at indexing time, so the drill down is very fast. They are not meant to be searched directly though:
-                            the assumption always is that the user selects one or more facets from a list of pre-defined values.</para>
+                        <para>a facet defines a concept or information item by which the indexed
+                            items can be grouped. Typical facets would be categories taken from some
+                            pre-defined taxonomy, languages, dates, places or names occurring in a
+                            text corpus. The goal is to enable users to "drill down" into a
+                            potentially large result set by selecting from a list of facets
+                            displayed to them. For example, if you shop for a laptop, you are often
+                            presented with a list of facets with which you may restrict your result
+                            by CPU type, memory or screen size etc. As you select facets, the result
+                            set will become smaller and smaller.</para>
+                        <para>Facets are always pre-defined at indexing time, so the drill down is
+                            very fast. They are meant for refining other queries, the assumption
+                            always is that the user selects one or more facets from a list of facet
+                            values associated with the current query results.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term>field</term>
                     <listitem>
-                        <para>a field contains additional, searchable content attached to an indexed parent node. In many cases fields will contain constructed
-                            content which is not directly found in the indexed XML or requires costly computation. For example, determining publication dates or
-                            author names for a set of articles may require some pre-processing which may be too expensive at query time. A field allows you to
-                            pre-compute those information items at indexing time.</para>
-                        <para>Fields can be queried in the same expression as the parent node, resulting in fast response times. Their content can optionally be
-                            stored to speed up display or sorting. Fields may also use a different analyzer than the parent node, allowing multiple languages to
-                            be handled separately.</para>
+                        <para>a field contains additional, searchable content attached to an indexed
+                            parent node. In many cases fields will contain constructed content which
+                            is not directly found in the indexed XML or requires costly computation.
+                            For example, determining publication dates or author names for a set of
+                            articles may require some pre-processing which may be too expensive at
+                            query time. A field allows you to pre-compute those information items at
+                            indexing time.</para>
+                        <para>Fields can be queried in the same expression as the parent node,
+                            resulting in fast response times. Their content can optionally be stored
+                            to speed up display or sorting. Fields may also use a different analyzer
+                            than the parent node, which allows e.g. multiple languages to be handled
+                            separately.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -409,8 +420,10 @@
                     values associated with this facet dimension are determined by the <option>expression</option> attribute: it may contain an arbitary XQuery
                     expression rooted in the parent node being indexed. In the example the parent will be a <tag>db:article</tag> element, so the context item
                     for the expression is set to this element.</para>
-                <para>The expression is evaluated and for each result item, a facet value is added to the dimension using the string value of the item. If the
-                    expression returns the empty sequence, the corresponding facet will be empty as well for the current parent node.</para>
+                <para>The expression is evaluated and for each result item, a facet value is added
+                    to the dimension using the string value of the item. If the expression returns
+                    the empty sequence  for the current parent node, the corresponding facet will be
+                    empty as well.</para>
                 <para>A facet can also be defined to be hierarchical. A typical example would be a date, which consists of a year, month and day component. By
                     indexing the single components as separate parts of a hierarchical facet, we enable the user to drill down by year first, then by month and
                     finally by day. Let's assume each of our docbook articles has a <tag>pubdate</tag> containing a date in <option>xs:date</option>
@@ -424,15 +437,23 @@
                 <para>A field does not need to define an <tag>expression</tag> attribute though: if no expression is given, the field's content will be taken
                     from the parent element. This makes sense e.g. if you would like to index a node twice, e.g. using a different analyzer. Or you can specify
                         <option>index="no"</option> on the parent element and index its content with an explicit field.</para>
-                <para>A field may use a different analyzer than the one used to index the parent content. Analyzers are referenced through attribute analyzer as
-                    described <link linkend="analyzer">above</link>.</para>
-                <para>Fields may also declare a type attribute: supported values are atomic types like <option>xs:date</option>, <option>xs:dateTime</option>,
-                        <option>xs:time</option>, <option>xs:integer</option>, <option>xs:decimal</option> and their sub-types. Defining a type is important
-                    with respect to sorting (see below), e.g. to get dates in correct order. Typed fields can also be retrieved into corresponding XQuery atomic
-                    values, so no additional casting is necessary. However, typed fields cannot be queried using Lucene's default query parser.</para>
-                <para>By default the complete content of a field is stored in the Lucene index, allowing later fast retrieval of the content using
-                        <function>ft:field</function>. You can disable storing the content by adding attribute <option>store="no"</option>. The field will be
-                    still indexed and available for queries though.</para>
+                <para>A field may use a different analyzer than the one used to index the parent
+                    content. Analyzers are referenced through <option>analyzer</option> attribute as described <link
+                        linkend="analyzer">above</link>.</para>
+                <para>Fields may also declare a <option>type</option> attribute: supported values
+                    are atomic types like <option>xs:date</option>, <option>xs:dateTime</option>,
+                        <option>xs:time</option>, <option>xs:integer</option>,
+                        <option>xs:decimal</option> and their sub-types. Defining a type is
+                    important with respect to sorting (see below), e.g. to get dates in the correct
+                    order. Typed fields can also be retrieved into corresponding XQuery atomic
+                    values, so no additional casting is necessary. However, typed fields cannot be
+                    queried using Lucene's default query parser, only retrieved with
+                        <literal>ft:field</literal>.</para>
+                <para>By default the complete content of a field is stored in the Lucene index,
+                    allowing later fast retrieval of the content using
+                    <function>ft:field</function>. You can disable storing the content by adding
+                    attribute <option>store="no"</option>. The field will still be indexed and
+                    available for queries though.</para>
             </sect3>
         </sect2>
     </sect1>
@@ -676,6 +697,10 @@
             extracted from for instance a PDF to the binary document. It works equally well for XML
             documents though and is an efficient method to attach computed fields to a document,
             containing information which does not exist in the XML as such.</para>
+        <note>
+            <para>With the advent of <xref linkend="facets-and-fields"/>) functionality it is
+                recommended to use these instead of constructed fields.</para>
+        </note>
         <para>The field indexes are not configured via <literal>collection.xconf</literal>. Instead
             we add fields programmatically from an XQuery (which could be run via a trigger):</para>
         <programlisting language="xquery" xlink:href="listings/listing-49.txt"/>
