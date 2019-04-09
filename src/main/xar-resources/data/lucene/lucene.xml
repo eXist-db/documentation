@@ -537,32 +537,45 @@
         </sect2>
         <sect2>
             <title>Displaying Facet Counts</title>
-            <para>If facets are associated with an indexed parent element, it is possible to retrieve facet counts for the query result. This is a map
-                containing an entry for each facet value occurring in one or more items of the query result. The map links the facet value given as key to a
-                positive count corresponding to the number of times the value occurs in the result set. Note that the facet counts are the same for all nodes in
-                the same query result. Values with zero count are never shown.</para>
+            <para>Facet counts for the query result can be retrieved if facets are associated with
+                an indexed parent element. Facet counts for a particular dimension are available as
+                a map containing an entry for each facet value occurring in one or more items of the
+                query result. The map links the facet value given as a map key with a positive count
+                corresponding to the number of times the value occurs in the result set. Facet
+                values with zero count are never included.</para>
             <para>For example, we may use the following query to display the facet counts for the "keyword" dimension in our set of docbook articles:</para>
             <programlisting language="xquery" xlink:href="listings/listing-56.txt"/>
-            <para>Function <literal>ft:facets</literal> expects a single node belonging to a result set obtained from a call to <literal>ft:query</literal>.
-                Because facet counts are the same for all items in the result set, it does not matter which node is passed in. The second parameter specifies
-                the dimension for which facet counts should be retrieved. The third parameter should be either empty or a positive integer denoting the maximum
-                number of facets to show. If this is smaller than the total number of facets, only those with the highest counts are returned. Passing an empty
-                sequence means that all facet value counts should be shown. Please note that facets with a zero occurrence count (i.e. facets not appearing
-                anywhere in the result) are never returned.</para>
-            <para>For hierarchical facets only the top-most facet value in the hierarchy will be returned by default. For example, if you indexed a date facet
-                with separate year, month and day component, a call to <code>ft:facets($node, "date", ())</code> will return facet counts for years only. To
-                also get counts for months, you have to call <literal>ft:facets</literal> again, passing in the year for which sub-facet counts should be
-                retrieved. To get days, you also need to specify month and so on. <code>ft:facets($node, "date", (), ("2018", "06"))</code> will thus return
-                facet counts for all days in June 2018.</para>
+            <para>Function <literal>ft:facets</literal> expects a single node belonging to a result
+                set obtained from a call to <literal>ft:query</literal>. Note that it does not
+                matter which node is passed in because facet counts are the same for all items in
+                the result set. Second parameter of <literal>ft:facets</literal> specifies the
+                dimension for which facet counts should be retrieved. The third parameter should be
+                either empty sequence or a positive integer denoting the maximum number of facets to
+                show. In the case it is smaller than the total number of facets, only those with the
+                highest counts are returned. Passing an empty sequence means that all facet value
+                counts should be shown. Please note that facets with a zero occurrence count (i.e.
+                facets not appearing anywhere in the result) are never returned.</para>
+            <para>For hierarchical facets only the top-most facet value in the hierarchy will be
+                returned by default. For example, if you indexed a date facet with separate year,
+                month and day component, a call to <code>ft:facets($node, "date", ())</code> will
+                return facet counts for years only. To also get counts for months, you have to call
+                    <literal>ft:facets</literal> with a fourth parameter, passing in the year for
+                which sub-facet counts should be retrieved. To get days, you also need to specify
+                month and so on. <code>ft:facets($node, "date", (), ("2018", "06"))</code> will thus
+                return facet counts for all days in June 2018.</para>
         </sect2>
         <sect2>
             <title>Refining a Query with Facets</title>
-            <para>The main purpose of facets is to drill down into a query result, limiting it to those items which have a certain facet assigned. To drill down
-                by a given facet dimension and value, pass a key "facets" in the options map given in the third parameter of <literal>ft:query</literal>:</para>
+            <para>The main purpose of facets is to quickly narrow down a query result, limiting it
+                to only items which match a certain facet value. To drill down by a given facet
+                dimension and value, pass a key "facets" in the options map given in the third
+                parameter of <literal>ft:query</literal>:</para>
             <programlisting language="xquery" xlink:href="listings/listing-57.txt"/>
-            <para>If you specify more than one value for one facet dimension, they will be or'ed together, thus returning elements matching either facet value
-                in the dimension. If you specify multiple dimensions, they are treated as an <literal>and</literal>, limiting the result to elements matching
-                both dimensions.</para>
+            <para>If you specify more than one value for one facet dimension, these will be linked
+                together with a logical <literal>or</literal>, thus returning elements matching any
+                of the alternative facet values for that dimension. If you specify multiple
+                dimensions, they are treated as an <literal>and</literal>, limiting the result to
+                elements matching both dimensions.</para>
         </sect2>
         <sect2 xml:id="describe">
             <title>Describing Queries in XML</title>
