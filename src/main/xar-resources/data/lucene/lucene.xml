@@ -440,7 +440,7 @@
                 <para>A field may use a different analyzer than the one used to index the parent
                     content. Analyzers are referenced through <code>analyzer</code> attribute as described <link
                         linkend="analyzer">above</link>.</para>
-                <para>Fields may also declare a <code>type</code> attribute: supported values
+                <para><emphasis role="bold">Typed fields</emphasis>: fields may also declare a <code>type</code> attribute: supported values
                     are atomic types like <code>xs:date</code>, <code>xs:dateTime</code>,
                         <code>xs:time</code>, <code>xs:integer</code>,
                         <code>xs:decimal</code> and their sub-types. Defining a type is
@@ -449,11 +449,31 @@
                     values, so no additional casting is necessary. However, typed fields cannot be
                     queried using Lucene's default query parser, only retrieved with
                         <literal>ft:field</literal>.</para>
-                <para>By default the complete content of a field is stored in the Lucene index,
+                <para><emphasis role="bold">Storing fields</emphasis>: By default the complete content of a field is stored in the Lucene index,
                     allowing later fast retrieval of the content using
-                    <function>ft:field</function>. You can disable storing the content by adding
+                    <literal>ft:field</literal>. You can disable storing the content by adding
                     attribute <code>store="no"</code>. The field will still be indexed and
                     available for queries though.</para>
+                    
+                <para><emphasis role="bold">Importing external modules</emphasis>: as can be seen in the field definition for "author" above, expressions can easily become quite verbose, so writing them into an attribute
+                    is not convenient. It is thus also possible to import one or more XQuery modules into the index configuration and use the functions declared
+                    in the module:</para>
+                <programlisting language="xml" xlink:href="listings/listing-58.xml"></programlisting>
+                <para>In this example we extract the code for computing the author field into a function <literal>idx:authors</literal> located in an XQuery
+                    module, <literal>module.xql</literal>. Note that we're using a relative import path for the module in the <literal>at</literal> attribute.
+                    The path will be resolved relative to the collection to which the collection configuration applies (not where the collection configuration
+                    itself is stored). It is also important that the module and all dependencies it imports is stored <emphasis>before</emphasis> the collection
+                    configuration is saved and indexing starts.</para>
+                <para><emphasis role="bold">Conditions</emphasis>: sometimes you may want to create a field only if a certain condition is met. For this
+                    purpose, an additional attribute <literal>if</literal> may be added, containing an XPath expression. If the expression evaluates to an
+                    effective boolean value of <literal>true</literal>, the field will be created. Otherwise it is skipped.</para>
+                <para>Conditions are useful to e.g. distinguish between different languages and apply an appropriate analyzer to each. Let's assume our docbook
+                    articles may have both, a German and English version. The language is indicated by the <code>@xml:lang</code> attribute on the top-level
+                        <tag>section</tag> element. We thus create a separate field for each language and connect it to the analyzer appropriate for the
+                    language:</para>
+                <programlisting language="xml" xlink:href="listings/listing-59.xml"></programlisting>
+                <para>Note that we skip indexing the parent <tag>article</tag> element with <code>index="no"</code> because we do not want a default index, but
+                    rather a separate field for each language, so we can target them in queries explicitely.</para>
             </sect3>
         </sect2>
     </sect1>
