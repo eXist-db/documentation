@@ -534,6 +534,11 @@
                 set. For example, to view all articles in the collection you could pass in an empty
                 sequence in place of the query string like this:</para>
             <programlisting language="xquery" xlink:href="listings/listing-55.txt"/>
+            <para><emphasis role="bold">Typed fields</emphasis>: If you declared a different type than <literal>xs:string</literal> on a field, you should
+                remember to use the 3-parameter variant of <literal>ft:field</literal> and pass in the name of the desired target type as 3rd parameter. Reason:
+                lucene basically stores all non-text data types as numbers and eXist has no way to figure out the original type of the field. So if you defined
+                a field with type <literal>xs:date</literal>, make sure to retrieve it with <literal>ft:field($node, "date", "xs:date")</literal>, otherwise all
+                you get is a number.</para>
         </sect2>
         <sect2>
             <title>Displaying Facet Counts</title>
