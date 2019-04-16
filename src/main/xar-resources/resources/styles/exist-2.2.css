@@ -50,7 +50,7 @@
 }
 .content code {
   font-size: .92em;
-  background-color: transparent;
+  background-color: inherit;
   border: 0;
   color: inherit;
 }
@@ -89,11 +89,11 @@
   margin-bottom: .4em;
 }
 .content dl.wide dt {
-  width: 260px;
+  width: 25em;
   word-wrap: break-word;
 }
 .content dl.wide dd {
-  margin-left: 270px;
+  margin-left: 1.5em;
 }
 #content .content dt {
   font-weight: bold;
@@ -142,14 +142,14 @@
   padding: 10px 10px;
   border: 1px solid #707070;
 }
-.content .dl-horizontal dd {
+/* .content .dl-horizontal dd {
   margin-left: 150px;
 }
 .content .dl-horizontal dt {
   text-align: left;
   width: 140px;
   word-wrap: break-word;
-}
+} */
 /* ---------------------------------------- LAYOUT ---------------------------------------- */
 body {
   color: #222;
@@ -253,7 +253,7 @@ body {
   background-size: 100% 100%;
 }
 /* ---------------------------------------- NAVBAR ---------------------------------------- */
-.navbar-default {
+/* .navbar-default {
   height: 60px;
   background: transparent;
   border: 0;
@@ -364,7 +364,7 @@ body {
 #navigation .actions {
   float: right;
   margin: 8px 0 8px 0;
-}
+} */
 /* ---------------------------------------- GENERAL STYLES ---------------------------------------- */
 h1 {
   font-size: 1.75em;
@@ -416,7 +416,7 @@ a:hover {
 }
 .code {
   font: 14px/20px "Ubuntu Mono", Menlo, Consolas, "Courier New", Courier, monospace;
-  background: #444444 url(../images/noise.png);
+  /* background: #444444 url(../images/noise.png); */
   padding: 8.5px;
   width: 100%;
   margin: 18px 0 18px;
@@ -466,4 +466,8 @@ input:required:valid {
 }
 .hidden {
   display: none;
+}
+
+.row {
+  margin-left: 0rem;
 }

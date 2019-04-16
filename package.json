@@ -1,6 +1,6 @@
 {
   "name": "exist-documentation",
-  "version": "4.1.1",
+  "version": "4.1.3-SNAPSHOT",
   "description": "Documentation package for eXist-db",
   "scripts": {
     "copy": "cpx -C node_modules/bootstrap/dist/js/bootstrap.min.js.* src/main/xar-resources/resources/scripts && cpx node_modules/jquery/dist/jquery.min.js src/main/xar-resources/resources/scripts && cpx node_modules/highlight.js/build/highlight.pack.js src/main/xar-resources/resources/scripts && cpx node_modules/bootstrap/dist/css/bootstrap.min.css.* src/main/xar-resources/resources/styles && cpx node_modules/highlight.js/src/styles/atom-one-dark.css src/main/xar-resources/resources/styles",
@@ -30,6 +30,7 @@
   "dependencies": {
     "bootstrap": "^4.2.1",
     "highlight.js": "git+https://github.com/duncdrum/highlight.js.git#rebase-2019",
-    "jquery": "^3.3.1"
+    "jquery": "^3.3.1",
+    "popper.js": "^1.15.0"
   }
 }
