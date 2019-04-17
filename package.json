@@ -3,7 +3,6 @@
   "version": "4.1.3-SNAPSHOT",
   "description": "Documentation package for eXist-db",
   "scripts": {
-    "copy": "cp -C node_modules/bootstrap/dist/js/bootstrap.min.js.* src/main/xar-resources/resources/scripts && cpx node_modules/jquery/dist/jquery.min.js src/main/xar-resources/resources/scripts && cpx node_modules/highlight.js/build/highlight.pack.js src/main/xar-resources/resources/scripts && cpx node_modules/bootstrap/dist/css/bootstrap.min.css.* src/main/xar-resources/resources/styles && cpx node_modules/highlight.js/src/styles/atom-one-dark.css src/main/xar-resources/resources/styles",
     "test": "mocha src/test/mocha/ --recursive --exit"
   },
   "repository": {
@@ -24,7 +23,21 @@
   },
   "homepage": "https://github.com/eXist-db/documentation#readme",
   "devDependencies": {
+    "acorn": "^6.1.1",
+    "del": "^4.1.0",
     "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssnano": "^2.1.3",
+    "gulp-flatmap": "^1.0.2",
+    "gulp-header": "^2.0.7",
+    "gulp-optimize-js": "^1.1.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-standard": "^12.0.0",
+    "gulp-svgmin": "^2.2.0",
+    "gulp-uglify": "^3.0.2",
+    "lazypipe": "^1.0.2",
     "mocha": "^6.1.3"
   },
   "dependencies": {
