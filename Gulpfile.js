@@ -96,6 +96,7 @@ var optimizejs = require('gulp-optimize-js')
 var sass = require('gulp-sass')
 var prefix = require('gulp-autoprefixer')
 var minify = require('gulp-cssnano')
+var sourcemaps = require('gulp-sourcemaps')
 
 // SVGs
 var svgmin = require('gulp-svgmin')
@@ -199,6 +200,7 @@ var buildStyles = function(done) {
 
   // Run tasks on all Sass files
   src(paths.styles.input)
+    .pipe(sourcemaps.init())
     .pipe(sass({
       outputStyle: 'expanded',
       sourceComments: true
@@ -208,10 +210,11 @@ var buildStyles = function(done) {
       cascade: true,
       remove: true
     }))
-    .pipe(header(banner.full, {
-      package: pkg
-    }))
-    .pipe(dest(paths.styles.output))
+    // Uncomment if you want the non minified files
+    // .pipe(header(banner.full, {
+    //   package: pkg
+    // }))
+    // .pipe(dest(paths.styles.output))
     .pipe(rename({
       suffix: '.min'
     }))
@@ -223,6 +226,7 @@ var buildStyles = function(done) {
     .pipe(header(banner.min, {
       package: pkg
     }))
+    .pipe(sourcemaps.write('.'))
     .pipe(dest(paths.styles.output))
 
   // Signal completion
