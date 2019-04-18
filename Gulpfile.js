@@ -261,7 +261,9 @@ var vendorFiles = function(done) {
   src(['node_modules/bootstrap/dist/css/bootstrap.min.*', 'node_modules/highlight.js/styles/atom-one-dark.css'])
     .pipe(dest(paths.styles.output))
 
-  // TODO copy and install vendor fonts
+  // copy vendor fonts
+  src('node_modules/@neos21/bootstrap3-glyphicons/dist/fonts/*')
+    .pipe(dest(paths.fonts.output))
   // Signal completion
   done()
 }
