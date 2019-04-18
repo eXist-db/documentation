@@ -27,7 +27,7 @@ var paths = {
     output: 'src/main/xar-resources/resources/scripts/'
   },
   styles: {
-    input: 'src/main/frontend/css/**',
+    input: 'src/main/frontend/sass/*.{scss,sass}',
     output: 'src/main/xar-resources/resources/styles/'
   },
   svgs: {
@@ -287,10 +287,10 @@ var buildPack = function(done) {
 
   // build highlight pack
   // see https://highlightjs.readthedocs.io/en/latest/building-testing.html
-  // TODO currently building is bugged
+  // TODO currently building is bugged when using npm
   let command = 'cd node_modules/highlight.js'
                     + ' && npm install'
-                    + ' && node tools/build :common xquery'
+                    + ' && node tools/build Apache CSS HTTP JavaScript Bash Makefile PHP Diff JSON Markdown Perl SQL HTML Java Nginx Shell Properties Less SCSS Puppet Dockerfile xquery'
 
   exec(command, (err, stdout, stderr)=> {
     console.log(stderr)

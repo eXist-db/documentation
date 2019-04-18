@@ -1,28 +1,42 @@
-@import url('bootstrap.min.css');
-@charset "utf-8";
+/*!
+ * exist-documentation v4.1.3-SNAPSHOT
+ * Documentation package for eXist-db
+ * (c) 2019 
+ * LGPL-2.1-only License
+ * git+https://github.com/eXist-db/documentation.git
+ */
+
+@import url("bootstrap.min.css");
 /* ---------------------------------------- FONTS ---------------------------------------- */
 @font-face {
   font-family: 'QuicksandBook';
-  src: url('../fonts/Quicksand_Book-webfont.eot');
-  src: url('../fonts/Quicksand_Book-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/Quicksand_Book-webfont.woff') format('woff'), url('../fonts/Quicksand_Book-webfont.ttf') format('truetype'), url('Quicksand_Book-webfont.svg#QuicksandBook') format('svg');
+  src: url("../fonts/Quicksand_Book-webfont.eot");
+  src: url("../fonts/Quicksand_Book-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/Quicksand_Book-webfont.woff") format("woff"), url("../fonts/Quicksand_Book-webfont.ttf") format("truetype"), url("Quicksand_Book-webfont.svg#QuicksandBook") format("svg");
   font-weight: normal;
   font-style: normal;
 }
-/* ---------------------------------------- VARIABLES ---------------------------------------- */
+
 /* ------------------------------------ Documentation styles ---------------------------------- */
+/* line 1, src/main/frontend/sass/_variables.scss */
 .content {
   font: 16px/24px Georgia, "Times New Roman", Times, serif;
   color: #555;
 }
+
+/* line 4, src/main/frontend/sass/_variables.scss */
 .content section {
   clear: both;
 }
+
+/* line 7, src/main/frontend/sass/_variables.scss */
 .content h1 {
   font-family: "QuicksandBook", "Arial", Helvetica, sans-serif;
   font-size: 1.75em;
   font-weight: bold;
   margin: .8em 0 0 0;
 }
+
+/* line 13, src/main/frontend/sass/_variables.scss */
 .content h2 {
   color: #0083cb;
   font-family: "QuicksandBook", "Arial", Helvetica, sans-serif;
@@ -31,33 +45,53 @@
   margin: .3em 0 0;
   padding: 10px 0 5px;
 }
+
+/* line 21, src/main/frontend/sass/_variables.scss */
 .content h3 {
   font-size: 1em;
   font-weight: bold;
 }
+
+/* line 25, src/main/frontend/sass/_variables.scss */
 .content table {
   margin: .5em 1em;
 }
-.content td,
+
+/* line 28, src/main/frontend/sass/_variables.scss */
+.content td {
+  padding: 6px 4px;
+}
+
+/* line 33, src/main/frontend/sass/_variables.scss */
 .entry th {
   padding: 6px 4px;
 }
+
+/* line 38, src/main/frontend/sass/_variables.scss */
 .content .strong {
   font-weight: bold;
 }
+
+/* line 41, src/main/frontend/sass/_variables.scss */
 .content em {
   font-style: italic;
 }
+
+/* line 44, src/main/frontend/sass/_variables.scss */
 .content code {
   font-size: .92em;
   background-color: inherit;
   border: 0;
   color: inherit;
 }
+
+/* line 50, src/main/frontend/sass/_variables.scss */
 .content .option {
   font-weight: bold;
   font-style: italic;
 }
+
+/* line 54, src/main/frontend/sass/_variables.scss */
 .content blockquote {
   font-style: italic;
   text-align: justify;
@@ -66,6 +100,8 @@
   background: #FFF;
   margin: 5px 0 10px;
 }
+
+/* line 61, src/main/frontend/sass/_variables.scss */
 .content blockquote h3 {
   padding: 0;
   border: 0;
@@ -73,105 +109,139 @@
   font-size: 12px;
   color: #0083cb;
 }
+
+/* line 68, src/main/frontend/sass/_variables.scss */
 .content blockquote p {
   padding: 0 0 10px;
 }
-.content ul,
-.content ol {
+
+/* line 72, src/main/frontend/sass/_variables.scss */
+.content ul, .content ol {
   margin: 0 1.5em;
 }
+
+/* line 75, src/main/frontend/sass/_variables.scss */
 .content ul li {
   list-style: disc;
   margin-bottom: .4em;
 }
+
+/* line 79, src/main/frontend/sass/_variables.scss */
 .content ol li {
   list-style: decimal;
   margin-bottom: .4em;
 }
+
+/* line 84, src/main/frontend/sass/_variables.scss */
 .content dl.wide dt {
   width: 25em;
   word-wrap: break-word;
 }
+
+/* line 88, src/main/frontend/sass/_variables.scss */
 .content dl.wide dd {
   margin-left: 1.5em;
 }
+
+/* line 94, src/main/frontend/sass/_variables.scss */
 #content .content dt {
   font-weight: bold;
   word-wrap: break-word;
 }
+
+/* line 100, src/main/frontend/sass/_variables.scss */
 .content img {
   margin: 8px auto;
   max-width: 100%;
 }
+
+/* line 104, src/main/frontend/sass/_variables.scss */
 .content td img {
   max-width: inherit;
 }
+
+/* line 107, src/main/frontend/sass/_variables.scss */
 .content figure {
   margin: 0 1em 1em 1em;
 }
+
+/* line 109, src/main/frontend/sass/_variables.scss */
 .content figure.float-left {
   float: left;
   margin-right: 1em;
   width: 50%;
   display: inline-block;
 }
+
+/* line 115, src/main/frontend/sass/_variables.scss */
 .content figure.float-right {
   float: right;
   margin-left: 1em;
   width: 50%;
   display: inline-block;
 }
+
+/* line 122, src/main/frontend/sass/_variables.scss */
 .content .img-float-left {
   float: left;
   margin-right: 10px;
 }
+
+/* line 126, src/main/frontend/sass/_variables.scss */
 .content .img-float-right {
   float: right;
   width: inherit;
   margin-left: 10px;
 }
+
+/* line 131, src/main/frontend/sass/_variables.scss */
 .content pre.prettyprint {
   padding: 10px 16px;
   margin-bottom: .85em;
 }
+
+/* line 135, src/main/frontend/sass/_variables.scss */
 .content .guimenuitem {
   background: #fef8c4;
 }
+
+/* line 138, src/main/frontend/sass/_variables.scss */
 .content .example {
   margin: .25em 0 .25em 1em;
   padding: 10px 10px;
   border: 1px solid #707070;
 }
-/* .content .dl-horizontal dd {
-  margin-left: 150px;
-}
-.content .dl-horizontal dt {
-  text-align: left;
-  width: 140px;
-  word-wrap: break-word;
-} */
-/* ---------------------------------------- LAYOUT ---------------------------------------- */
+
+/* line 1, src/main/frontend/sass/_layout.scss */
 body {
   color: #222;
   background: url(../images/body.gif) repeat 50% 100%;
 }
+
+/* line 6, src/main/frontend/sass/_layout.scss */
 .grey-bot {
   /* background: url(../images/body-base.gif) repeat-x 50% 100%;*/
   padding-bottom: 2em;
 }
+
+/* line 11, src/main/frontend/sass/_layout.scss */
 #container {
   margin: 0 auto 30px auto;
 }
+
 @media (min-width: 767px) {
+  /* line 16, src/main/frontend/sass/_layout.scss */
   #grey-top {
     background: #f3f3f3 url(../images/horizontal.gif) repeat-x 50% 0;
     height: 100%;
     position: relative;
   }
+  /* line 21, src/main/frontend/sass/_layout.scss */
   #header {
     background: #f3f3f3 url(../images/header.gif) top right no-repeat;
     width: 100%;
   }
+  /* line 24, src/main/frontend/sass/_layout.scss */
   #header a#logo {
     background: url(../images/existdb.png) center left no-repeat;
     display: block;
@@ -182,22 +252,31 @@ body {
     margin: 10px 0;
   }
 }
+
 @media (max-width: 767px) {
+  /* line 37, src/main/frontend/sass/_layout.scss */
   #grey-top {
     background: #f3f3f3;
     height: 100%;
   }
+  /* line 41, src/main/frontend/sass/_layout.scss */
   #header {
     display: none;
   }
 }
+
+/* line 46, src/main/frontend/sass/_layout.scss */
 .navbar .container {
   padding-left: 0;
   padding-right: 0;
 }
+
+/* line 51, src/main/frontend/sass/_layout.scss */
 #content {
   min-height: 600px;
 }
+
+/* line 55, src/main/frontend/sass/_layout.scss */
 #sourceforge {
   background: url(../images/sourceforge.gif) no-repeat 50%;
   width: 130px;
@@ -207,6 +286,8 @@ body {
   text-indent: -999em;
   overflow: hidden;
 }
+
+/* line 65, src/main/frontend/sass/_layout.scss */
 #footer {
   clear: both;
   margin: 0 auto;
@@ -214,35 +295,51 @@ body {
   color: #222;
   background: url(../images/body.gif) repeat 50% 100%;
 }
+
+/* line 71, src/main/frontend/sass/_layout.scss */
 #footer .container {
   padding-left: 0;
   padding-right: 0;
 }
+
+/* line 75, src/main/frontend/sass/_layout.scss */
 #footer ul {
   float: left;
   margin: 0 0 0 -4px;
   padding: 1em 1em 1em 0;
 }
+
+/* line 79, src/main/frontend/sass/_layout.scss */
 #footer ul li {
   display: inline;
 }
+
+/* line 81, src/main/frontend/sass/_layout.scss */
 #footer ul li a {
   padding: 2px 4px;
   color: #ffcb05;
 }
+
+/* line 84, src/main/frontend/sass/_layout.scss */
 #footer ul li a:hover {
   background: #333;
 }
+
+/* line 92, src/main/frontend/sass/_layout.scss */
 #copyright {
   float: right;
   width: 240px;
   text-align: right;
   padding-top: 1em;
 }
+
+/* line 97, src/main/frontend/sass/_layout.scss */
 #copyright p {
   padding: 0;
   color: #F3F3F3;
 }
+
+/* line 103, src/main/frontend/sass/_layout.scss */
 #poweredby {
   float: right;
   width: 120px;
@@ -252,120 +349,8 @@ body {
   background: url(../images/powered-by.svg) no-repeat 50%;
   background-size: 100% 100%;
 }
-/* ---------------------------------------- NAVBAR ---------------------------------------- */
-/* .navbar-default {
-  height: 60px;
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-}
-.navbar .nav > li > a {
-  color: #FFF;
-  text-align: center;
-  font: 1.2em/1em "QuicksandBook", "Arial", Helvetica, sans-serif;
-  padding: 18px 0;
-  text-shadow: none;
-}
-.navbar .nav > li > a:hover {
-  color: #ffcb05;
-}
-.navbar .nav > li > .dropdown-menu:before,
-.navbar .nav > li > .dropdown-menu:after {
-  display: none;
-}
-@media (max-width: 767px) {
-  .navbar-default {
-    height: auto;
-    margin-bottom: 20px;
-    background: url(../images/existdb-web.svg) center left no-repeat;
-    border-bottom: 10px solid #2e2e2e;
-  }
-  .navbar-collapse.in {
-    z-index: 1000;
-    position: absolute;
-    left: 10px;
-    right: 10px;
-    background-color: #fafafa;
-    background-image: linear-gradient(to bottom, #ffffff, #f2f2f2);
-    background-repeat: repeat-x;
-    border: 1px solid #d4d4d4;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    border-radius: 4px;
-    -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-  }
-  .navbar .nav > li > a {
-    padding: 9px 15px;
-    color: #777;
-  }
-  #sidebar {
-    display: none;
-  }
-  #about {
-    display: none;
-  }
-}
-@media (min-width: 767px) {
-  .navbar .nav li.dropdown.open > .dropdown-toggle {
-    background-color: transparent;
-    color: #ffcb05;
-  }
-  .navbar-nav > li > .dropdown-menu {
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
-  }
-  .nav > li {
-    height: 52px;
-    min-width: 150px;
-    vertical-align: middle;
-    background: url(../images/bgmenu.gif) no-repeat top center;
-  }
-  .nav .open {
-    background: url(../images/bgmenuhi.gif) no-repeat top center;
-  }
-  .dropdown-menu {
-    background: #0083cb;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    color: #FFF;
-    margin: 0;
-    border: 0;
-  }
-  .dropdown-menu > li > a {
-    color: #FFF;
-    font-size: 0.92em;
-    text-align: center;
-  }
-  .dropdown-menu > li > a:hover {
-    background: #222;
-    color: #ffcb05;
-  }
-}
-.navbar li#about {
-  display: none;
-}
-@media (min-width: 992px) {
-  .navbar li#about {
-    display: inline-block;
-  }
-}
-.navbar-search input {
-  margin-top: 4px;
-}
-.navbar-right,
-.navbar-right .search-query {
-  float: right;
-}
-#navigation .actions {
-  float: right;
-  margin: 8px 0 8px 0;
-} */
-/* ---------------------------------------- GENERAL STYLES ---------------------------------------- */
+
+/* line 1, src/main/frontend/sass/_general.scss */
 h1 {
   font-size: 1.75em;
   font-weight: bold;
@@ -375,6 +360,8 @@ h1 {
   font-family: "QuicksandBook", "Arial", Helvetica, sans-serif;
   color: #0083cb;
 }
+
+/* line 11, src/main/frontend/sass/_general.scss */
 h2 {
   font-size: 1.2em;
   padding: 10px 0;
@@ -382,38 +369,54 @@ h2 {
   font-family: "QuicksandBook", "Arial", Helvetica, sans-serif;
   letter-spacing: 1px;
 }
+
+/* line 19, src/main/frontend/sass/_general.scss */
 h3 {
   font-size: 1.2em;
   padding: 10px 0 5px;
   margin: 0 0 5px;
   font-weight: bold;
 }
+
+/* line 26, src/main/frontend/sass/_general.scss */
 h4 {
   font-size: 1.0em;
   padding: 10px 0;
   font-style: italic;
   font-weight: normal;
 }
+
+/* line 33, src/main/frontend/sass/_general.scss */
 h5 {
   font-size: 1.0em;
   padding: 10px 0;
   font-weight: normal;
 }
+
+/* line 39, src/main/frontend/sass/_general.scss */
 a {
   color: #0083cb;
   text-decoration: none;
 }
+
+/* line 42, src/main/frontend/sass/_general.scss */
 a:hover {
   color: #ffcb05;
 }
+
+/* line 47, src/main/frontend/sass/_general.scss */
 .clear {
   clear: both;
 }
+
+/* line 51, src/main/frontend/sass/_general.scss */
 .imgborder {
   border: 1px solid #CCC;
   padding: 3px;
   margin: 3px;
 }
+
+/* line 57, src/main/frontend/sass/_general.scss */
 .code {
   font: 14px/20px "Ubuntu Mono", Menlo, Consolas, "Courier New", Courier, monospace;
   /* background: #444444 url(../images/noise.png); */
@@ -422,33 +425,46 @@ a:hover {
   margin: 18px 0 18px;
   overflow-x: auto;
 }
+
+/* line 64, src/main/frontend/sass/_general.scss */
 .code a {
   padding: 4px;
   border: 1px solid #C7C7C7;
 }
+
+/* line 70, src/main/frontend/sass/_general.scss */
 figure img {
   display: block;
 }
+
+/* line 74, src/main/frontend/sass/_general.scss */
 figcaption {
   font-size: .85em;
   text-align: center;
 }
+
+/* line 79, src/main/frontend/sass/_general.scss */
 form {
   margin: 20px 0;
 }
-input:required:invalid,
-fieldset input:focus:invalid {
-  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAwBQTFRFvy8atzQfvzEWvDEXuzEZujIbuzEdvzAZvTAbvjAcvDAdvTIdrzcnszQisTQltTIitzQgtjUhsTssuDEguTIgujQgvD0nqkAutkM2tko5u0c4ul5Qwi8Zwy8awC8bxS4ZxiwcwTEZwDEawTAbwDAcwDEdwzIexjAaxTIZyDAbyjAcyTMdzzEazjEbzzAe0TIb0zMd0zQb1DIc1TQb1TQc1jYc1jYd1zgc2jQb2DUd2TQe2zYc3DUc3jgbxzYh1j4m4DYZ5jcZ5zYb5jYc5Dga5Dgd6TYf7Dcd7zce6zgZ6Dga7Dse7j0e8jcd8zYe8DYf8Tkb8zgd8joc8Toe8Dwf9jkb9Doc4zki5j4n6T0h7jghxkIsx0MuzUUt00Ep2kIt1kg13VE97EEm6Ugu4E064FQ98UIn8kMo80Mp90Ep9UMq3VpD3F1KxmdZw2haw2hbxGhaxGhbwW1hwHdpxndp2H1u4FlH4mVT63Jb9mZO92ZP9WhN+GVN+2RQ4HVlvIB13odx4oNv5IZy54h29o55+4p6+4t7+Y14/Yl6yI+Ew5aPxpuTxqCXyaWe3baq5JSI65CB7pKC9JKK66WX6rGb57ut6rOo7res5b6767yz+62i+q6j/qug/a2i87Cl9rGh9rOq8b+19L+z+L2x48G48MO68sa/8ci96tDK8sbB/crE/crF/srG+87K/svJ/M3I99bR99fS+9bV+93Z8ebe+OHd+eXd/OTd8ebh9e3m9u3r+ufl/eXj/ubg/ufh/efi/ufj/uXk+ujj++nl+uvl+urm/ejh++7q+u/r+vDu+vLt/PDv/fPv/vTy+/j3/Pj0//j2//n3/vv0/vr1/vv2/fr3+/39+/79/vr4/vv6/v37/f77/v38/v39/f78/f79AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOe7jtQAAABl0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuODc7gF0AAAEbSURBVChTARAB7/4A1rmNdG5xb3BwcG5tc4y43QC6isjT0NDR1djY1NLTzIu4AImVvL/Gxsa+vr7BwL29qX8AGp6rqrPDsqyurbu8r6ujFwALg5ybotjLoJqw37GfnZEOAAlsiIaEp9qmk8/FkoWHdw8AIj98eX14tc601ZB7eXpfEQAjNGJoaWd+z9uWY2pmZjYQACEzQlJUVWvK149MVlNKORUAIzFDSFBYodnJx3ZRTkEzAQAkLUBHS4HYmXXVpVhPPS8NAAInNUVkwsRlWZfVgEQ6KA8AFh0uN5TNgk1aYba3YCwHDAByAyArW11XRklGXlw+HwAbAKgSBRwpMDo8OzgyKh4EFaQA3pgZEwYIJCYmJQgKFBiO3JMVcr8Z+l4TAAAAAElFTkSuQmCC');
+
+/* line 83, src/main/frontend/sass/_general.scss */
+input:required:invalid, fieldset input:focus:invalid {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAwBQTFRFvy8atzQfvzEWvDEXuzEZujIbuzEdvzAZvTAbvjAcvDAdvTIdrzcnszQisTQltTIitzQgtjUhsTssuDEguTIgujQgvD0nqkAutkM2tko5u0c4ul5Qwi8Zwy8awC8bxS4ZxiwcwTEZwDEawTAbwDAcwDEdwzIexjAaxTIZyDAbyjAcyTMdzzEazjEbzzAe0TIb0zMd0zQb1DIc1TQb1TQc1jYc1jYd1zgc2jQb2DUd2TQe2zYc3DUc3jgbxzYh1j4m4DYZ5jcZ5zYb5jYc5Dga5Dgd6TYf7Dcd7zce6zgZ6Dga7Dse7j0e8jcd8zYe8DYf8Tkb8zgd8joc8Toe8Dwf9jkb9Doc4zki5j4n6T0h7jghxkIsx0MuzUUt00Ep2kIt1kg13VE97EEm6Ugu4E064FQ98UIn8kMo80Mp90Ep9UMq3VpD3F1KxmdZw2haw2hbxGhaxGhbwW1hwHdpxndp2H1u4FlH4mVT63Jb9mZO92ZP9WhN+GVN+2RQ4HVlvIB13odx4oNv5IZy54h29o55+4p6+4t7+Y14/Yl6yI+Ew5aPxpuTxqCXyaWe3baq5JSI65CB7pKC9JKK66WX6rGb57ut6rOo7res5b6767yz+62i+q6j/qug/a2i87Cl9rGh9rOq8b+19L+z+L2x48G48MO68sa/8ci96tDK8sbB/crE/crF/srG+87K/svJ/M3I99bR99fS+9bV+93Z8ebe+OHd+eXd/OTd8ebh9e3m9u3r+ufl/eXj/ubg/ufh/efi/ufj/uXk+ujj++nl+uvl+urm/ejh++7q+u/r+vDu+vLt/PDv/fPv/vTy+/j3/Pj0//j2//n3/vv0/vr1/vv2/fr3+/39+/79/vr4/vv6/v37/f77/v38/v39/f78/f79AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOe7jtQAAABl0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuODc7gF0AAAEbSURBVChTARAB7/4A1rmNdG5xb3BwcG5tc4y43QC6isjT0NDR1djY1NLTzIu4AImVvL/Gxsa+vr7BwL29qX8AGp6rqrPDsqyurbu8r6ujFwALg5ybotjLoJqw37GfnZEOAAlsiIaEp9qmk8/FkoWHdw8AIj98eX14tc601ZB7eXpfEQAjNGJoaWd+z9uWY2pmZjYQACEzQlJUVWvK149MVlNKORUAIzFDSFBYodnJx3ZRTkEzAQAkLUBHS4HYmXXVpVhPPS8NAAInNUVkwsRlWZfVgEQ6KA8AFh0uN5TNgk1aYba3YCwHDAByAyArW11XRklGXlw+HwAbAKgSBRwpMDo8OzgyKh4EFaQA3pgZEwYIJCYmJQgKFBiO3JMVcr8Z+l4TAAAAAElFTkSuQmCC");
   background-position: right;
   background-repeat: no-repeat;
   -moz-box-shadow: none;
 }
+
+/* line 90, src/main/frontend/sass/_general.scss */
 input:required:valid {
-  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAwBQTFRFU6E8UqA9U6A+U6A/VaA+VqA/V6I+WKM7WKA/WaI8WqI9WaQ+XaQ6XKQ8Zac9Z6w2Y6k6Z6w6aKo8bK45bq46d7M5fbU6fLY6frY8f7k5U59AU59BVJ9AU6BAUaBBVaBAVKFBVKBCX6JNXqZOYalRZqhSa6pfbapcb6pdbKpfcalbc6pbdKpccqdieKxofK9vf69xgLc5gLY9hrw3gLg4gLg5g7o4g7o5hLs4hLo5hLo6hbs8iL46jb1Ti7d+kMM0k8UwksU0lsQ2nskwnsgynsgzpswvqc8voMc8oMkyocozo8wzpMowpcs7rM8wrtEwrtA1ss8+sNIvtNMtttUuttYtt9Yvu9cuutgrvdkqvdksvNgtvdkvv9svsNM1ttI2utY0vdkxvtowvtsyv9ozvtg1vdwzv9k4vtg6lMRTrs5HtNNMps53rNN+wdhJwtlNw9hWyNxVx9tszd9iyuJPxeBRxuJQyuFTyuJQyuNRyuBW0eNz1OR91eR/1ut31+p41+p62Ot22Op42Op6lb6InsKRnsSUocKVrseir82mr82nrc6kr82oscWltMeusMiisM2msMyoss6r2+mNw+KgyueiyeSy1eq34/Gd4/Ce4/Cf4vKe4+2l5e6j4Oys5u+44/Cg5fCr5vGt6PC16fO26vO87ve/7fi87vi97vi/0uHO2+jW2unX6/TD7vfA7/jH8PbB8vbH8PbK9/rT9vrY9vrc9/vd+/3c+P7c+f7d+P7e6PDk6fTm6/Xo7/fr9ffh+vvl+P3g+f3h+fzi/f7m+/zq/f7s8vrx+f3x+v7w/f7x/v7y/v/z/v/0/v73/v75/v38/f7+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAnz0KZQAAABl0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuODc7gF0AAAEbSURBVChTARAB7/4A0aqNkImJioyMjImLkY6r0QCsj8nLzMzMzMzMzczLyIi7AD6Xwbe5urq6urq4wsHAlocAIpWwp6apqa6urqiyw6+ULgAhbZibmpqZmqCgorakmWwmAARpf4B/f4OBg5O0oYJ+PScACjt2eXR4eHhzsaN6d3UyKgALOF5mYl1jZ5yzb2JkUDUsAAs3RmBxZVx7xnxhWVZMMSsABhdKcsSdcLWyaFpYUkQVKAAgFEJrn8q/zn1aW1RHPxEpAB8MNklRns/FbldVT0U0BykAJQISPEVqraVfU05DMw4AMACFGwUPOkBITUtEQRkQHBqSAL0tHQEMFBg5NxYTDQEeL8cA0LyEIx4DCAoJHxwdJIa+0S+PbKi6PdJ5AAAAAElFTkSuQmCC');
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAAwBQTFRFU6E8UqA9U6A+U6A/VaA+VqA/V6I+WKM7WKA/WaI8WqI9WaQ+XaQ6XKQ8Zac9Z6w2Y6k6Z6w6aKo8bK45bq46d7M5fbU6fLY6frY8f7k5U59AU59BVJ9AU6BAUaBBVaBAVKFBVKBCX6JNXqZOYalRZqhSa6pfbapcb6pdbKpfcalbc6pbdKpccqdieKxofK9vf69xgLc5gLY9hrw3gLg4gLg5g7o4g7o5hLs4hLo5hLo6hbs8iL46jb1Ti7d+kMM0k8UwksU0lsQ2nskwnsgynsgzpswvqc8voMc8oMkyocozo8wzpMowpcs7rM8wrtEwrtA1ss8+sNIvtNMtttUuttYtt9Yvu9cuutgrvdkqvdksvNgtvdkvv9svsNM1ttI2utY0vdkxvtowvtsyv9ozvtg1vdwzv9k4vtg6lMRTrs5HtNNMps53rNN+wdhJwtlNw9hWyNxVx9tszd9iyuJPxeBRxuJQyuFTyuJQyuNRyuBW0eNz1OR91eR/1ut31+p41+p62Ot22Op42Op6lb6InsKRnsSUocKVrseir82mr82nrc6kr82oscWltMeusMiisM2msMyoss6r2+mNw+KgyueiyeSy1eq34/Gd4/Ce4/Cf4vKe4+2l5e6j4Oys5u+44/Cg5fCr5vGt6PC16fO26vO87ve/7fi87vi97vi/0uHO2+jW2unX6/TD7vfA7/jH8PbB8vbH8PbK9/rT9vrY9vrc9/vd+/3c+P7c+f7d+P7e6PDk6fTm6/Xo7/fr9ffh+vvl+P3g+f3h+fzi/f7m+/zq/f7s8vrx+f3x+v7w/f7x/v7y/v/z/v/0/v73/v75/v38/f7+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAnz0KZQAAABl0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuODc7gF0AAAEbSURBVChTARAB7/4A0aqNkImJioyMjImLkY6r0QCsj8nLzMzMzMzMzczLyIi7AD6Xwbe5urq6urq4wsHAlocAIpWwp6apqa6urqiyw6+ULgAhbZibmpqZmqCgorakmWwmAARpf4B/f4OBg5O0oYJ+PScACjt2eXR4eHhzsaN6d3UyKgALOF5mYl1jZ5yzb2JkUDUsAAs3RmBxZVx7xnxhWVZMMSsABhdKcsSdcLWyaFpYUkQVKAAgFEJrn8q/zn1aW1RHPxEpAB8MNklRns/FbldVT0U0BykAJQISPEVqraVfU05DMw4AMACFGwUPOkBITUtEQRkQHBqSAL0tHQEMFBg5NxYTDQEeL8cA0LyEIx4DCAoJHxwdJIa+0S+PbKi6PdJ5AAAAAElFTkSuQmCC");
   background-position: right;
   background-repeat: no-repeat;
   -moz-box-shadow: none;
 }
+
+/* line 97, src/main/frontend/sass/_general.scss */
 .error {
   font-family: "Ubuntu Mono", Menlo, Consolas, "Courier New", Courier, monospace;
   font-size: 112%;
@@ -456,18 +472,25 @@ input:required:valid {
   width: 100%;
   overflow: auto;
 }
+
+/* line 105, src/main/frontend/sass/_general.scss */
 .warning {
   border: 1px dotted red;
   padding: 0 10px;
   margin: 10px 0;
 }
+
+/* line 111, src/main/frontend/sass/_general.scss */
 .hi {
   background: #FFED3D;
 }
+
+/* line 115, src/main/frontend/sass/_general.scss */
 .hidden {
   display: none;
 }
 
+/* line 22, src/main/frontend/sass/exist-2.2.scss */
 .row {
   margin-left: 0rem;
 }
