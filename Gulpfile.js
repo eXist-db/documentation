@@ -258,7 +258,7 @@ var vendorFiles = function(done) {
 
 
   // copy vendor scripts
-  src(['node_modules/bootstrap/dist/js/bootstrap.min.*', 'node_modules/jquery/dist/jquery.min.*'])
+  src(['node_modules/bootstrap/dist/js/bootstrap.min.*', 'node_modules/jquery/dist/jquery.slim.min.*'])
   .pipe(dest(paths.scripts.output))
 
   // copy vendor Styles
