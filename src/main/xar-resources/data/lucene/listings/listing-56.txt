@@ -1,5 +1,5 @@
 let $result := collection("/db/articles")//db:article[ft:query(., "xml")]
-let $facets := ft:facets(head($result), "keyword", ())
+let $facets := ft:facets($result, "keyword", ())
 return
     <table>
     {
