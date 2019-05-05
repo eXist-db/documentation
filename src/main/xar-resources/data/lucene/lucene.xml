@@ -550,16 +550,12 @@
                 values with zero count are never included.</para>
             <para>For example, we may use the following query to display the facet counts for the "keyword" dimension in our set of docbook articles:</para>
             <programlisting language="xquery" xlink:href="listings/listing-56.txt"/>
-            <para>Function <literal>ft:facets</literal> expects a single node belonging to a result
-                set obtained from a call to <literal>ft:query</literal>. Note that it does not
-                matter which node is passed in because facet counts are the same for all items in
-                the result set. Second parameter of <literal>ft:facets</literal> specifies the
-                dimension for which facet counts should be retrieved. The third parameter should be
-                either empty sequence or a positive integer denoting the maximum number of facets to
-                show. In the case it is smaller than the total number of facets, only those with the
-                highest counts are returned. Passing an empty sequence means that all facet value
-                counts should be shown. Please note that facets with a zero occurrence count (i.e.
-                facets not appearing anywhere in the result) are never returned.</para>
+            <para>Function <literal>ft:facets</literal> expects a sequence of nodes belonging to a result set obtained from one or more calls to
+                    <literal>ft:query</literal>. If the sequence was combined from multiple expressions calling <literal>ft:query</literal>, the facet counts
+                will be merged. Second parameter of <literal>ft:facets</literal> specifies the dimension for which facet counts should be retrieved. The third
+                parameter should be either empty sequence or a positive integer denoting the maximum number of facets to show. In the case it is smaller than
+                the total number of facets, only those with the highest counts are returned. Passing an empty sequence means that all facet value counts should
+                be shown. Please note that facets with a zero occurrence count (i.e. facets not appearing anywhere in the result) are never returned.</para>
             <para>For hierarchical facets only the top-most facet value in the hierarchy will be
                 returned by default. For example, if you indexed a date facet with separate year,
                 month and day component, a call to <code>ft:facets($node, "date", ())</code> will
