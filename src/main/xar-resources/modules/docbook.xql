@@ -1,6 +1,5 @@
 xquery version "3.0";
 
-(:============================================================================:)
 (:== SETUP: ==:)
 
 module namespace docbook="http://docbook.org/ns/docbook";
@@ -14,7 +13,6 @@ declare namespace db5="http://docbook.org/ns/docbook";
 declare variable $docbook:INLINE :=
     ("filename", "classname", "methodname", "option", "command", "parameter", "guimenu", "guimenuitem", "guibutton", "function", "envar");
 
-(:============================================================================:)
 (: PUBLIC INTERAFCE: :)
 
 (:~
@@ -39,16 +37,12 @@ function docbook:load($node as node(), $model as map(*), $q as xs:string?, $doc 
             <p>Document not found: {$path}!</p>
 };
 
-(:----------------------------------------------------------------------------:)
-
 (:~
  : Transform the docbook fragment given in $model.
  :)
 declare %public function docbook:to-html($node as node(), $model as map(*)) {
     docbook:to-html($model("doc"))
 };
-
-(:----------------------------------------------------------------------------:)
 
 (:~
  : Generate a table of contents.
@@ -62,16 +56,14 @@ declare %public function docbook:toc($node as node(), $model as map(*)) {
     </div>
 };
 
-(:============================================================================:)
 (:== GENERIC DISPATCHER FUNCTIONS BETWEEN DB4/DB5: ==:)
 
 declare %private function docbook:to-html($nodes as node()*) {
   for $node in $nodes
   return
-    docbook:to-html-db5($node)    
+    docbook:to-html-db5($node)
 };
 
-(:============================================================================:)
 (:== DB5 HANDLING: ==:)
 
 (: Will create the TOC for the DB5 document. Will only go two levels deep (deeper is not very useful for a TOC). :)
@@ -96,8 +88,6 @@ declare %private function docbook:toc-db5($node as node()) as element(ul) {
             }
     }
 };
-
-(:----------------------------------------------------------------------------:)
 
 declare %private function docbook:to-html-db5($node as node()) {
   let $uri-reative-from-app as xs:string := replace($config:app-root, '/db/', '/')

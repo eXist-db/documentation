@@ -32,8 +32,7 @@
         <link condition="_blank" xlink:href="https://jenkins.io">Jenkins</link>, and
         <link condition="_blank" xlink:href="https://circleci.com">CircleCI</link>.</para>
       <para>CI services typically require a small configuration file, instructing the service how to run your code on a clean virtual machine, without the risk of local files interfering. For Travis the required name of such a file is
-        <literal>.travis.yml</literal>,
-        and in its simplest form it would look like this:</para>
+        <literal>.travis.yml</literal>, and in its simplest form it would look like this:</para>
       <programlisting language="yaml" xlink:href="listings/travis-1.txt"/>
       <para>For the correct way to create such a configuration file for other CI services please consult their documentation. In all cases, since eXist-db is written in Java, your app should be built on a system that comes with the minimal Java version
         required by eXist-db.</para>

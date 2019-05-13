@@ -19,7 +19,7 @@ declare variable $dq:CHARS_SUMMARY := 1000;
 declare variable $dq:CHARS_KWIC := 80;
 
 (:~
-    Templating function: process the query.
+: Templating function: process the query.
 :)
 declare
     %public
@@ -68,7 +68,7 @@ function dq:do-query($context as node()*, $query as xs:string?, $field as xs:str
 };
 
 (:~
-	Display the query results.
+: Display the query results.
 :)
 declare
     %private
@@ -106,7 +106,7 @@ function dq:print-results($hits as element()*, $search-params as map(xs:string, 
 };
 
 (:~
-	Print the hierarchical context of a hit.
+: Print the hierarchical context of a hit.
 :)
 declare
     %private
@@ -127,8 +127,8 @@ function dq:print-headings($hit as element(), $search-params as map(xs:string, x
 
 
 (:~
-	Display the hits: this function iterates through all hits and calls
-	kwic:summarize to print out a summary of each match.
+: Display the hits: this function iterates through all hits and calls
+: kwic:summarize to print out a summary of each match.
 :)
 declare
     %private
