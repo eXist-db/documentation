@@ -27,6 +27,7 @@ before_script:
 script:
   - mvn validate
   - mvn test
+  - npm run cypress
 
 after_success:
   - docker ps
