@@ -162,14 +162,14 @@
             </listitem>
             <listitem>
                 <para>System global, by editing
-                    <literal>$EXIST_HOME/webapp/WEB-INF/betterform-config.xml</literal>: </para>
+                        <literal>$EXIST_HOME/etc/webapp/WEB-INF/betterform-config.xml</literal>: </para>
                 <programlisting language="xml">&lt;property name="filter.ignoreResponseBody" value="false"&gt;</programlisting>
                 <para>Change the value of the property <literal>filter.ignoreResponseBody</literal>
                     to <literal>true</literal> and restart eXist-db. </para>
             </listitem>
             <listitem>
                 <para>By removing the configuration for XFormsFilter in
-                    <literal>$EXIST_HOME/webapp/WEB-INF/web.xml</literal>. By commenting the
+                        <literal>$EXIST_HOME/etc/webapp/WEB-INF/web.xml</literal>. By commenting the
                     filter-mapping XForms processing will be disabled. However note that betterFORM
                     still get loaded on the classpath.</para>
             </listitem>

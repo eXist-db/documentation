@@ -272,9 +272,9 @@
     <para> When retrieving an XML document via the WebDAV interface, the default serialization
       settings as defined in <link xlink:href="configuration.xml#conf.xml">conf.xml</link> are used. It is however possible to
       define custom serialization settings specific for the WebDAV interface. </para>
-    <para> Copy the file <literal>extensions/webdav/webdav.properties</literal> into
-      <literal>$EXIST_HOME</literal> directory and uncomment/modify the parameters. Changes in
-      this file requires a restart of eXist-db. </para>
+    <para> Copy the file <literal>extensions/webdav/src/main/resources/webdav.properties</literal>
+      into <literal>$EXIST_HOME/etc</literal> directory and uncomment/modify the parameters. Changes
+      in this file requires a restart of eXist-db. </para>
     
     <programlisting language="xml" xlink:href="listings/listing-1.txt"/>
   </sect1>

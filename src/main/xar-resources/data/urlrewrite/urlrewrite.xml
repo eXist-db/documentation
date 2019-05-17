@@ -243,7 +243,7 @@
         <para>This means that paths starting with <literal>/tools</literal> will be mapped to the
             collection hierarchy below <literal>/db/www</literal>. Everything else is handled by the
             catch all pattern pointing to the root directory of the webapp (by default corresponding
-            to <literal>EXIST_HOME/webapp</literal>). For example, the URI</para>
+            to <literal>$EXIST_HOME/etc/webapp</literal>). For example, the URI</para>
         <programlisting>http://localhost:8080/exist/tools/admin/admin.xql</programlisting>
         <para>will be handled by the controller stored in database collection
             <literal>/db/www/admin/</literal> (if there is one) or will directly resolve to

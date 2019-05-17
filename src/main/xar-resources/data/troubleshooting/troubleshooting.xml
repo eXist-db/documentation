@@ -76,13 +76,9 @@
                 <para>Make sure eXist-db is not running</para>
             </listitem>
             <listitem>
-                <para>If you installed the source code (and therefore the development tools), call
-                    <code>ant</code> as follows:</para>
-                <programlisting>build.sh clean-default-data-dir</programlisting>
-                <para>If you do not have <code>build.sh</code> (or <code>build.bat</code>), you may
-                    can manually remove the contents of your data directory. </para>
-                <para>The default data directory is
-                    <literal>$EXIST_HOME/webapp/WEB-INF/data</literal> </para>
+                <para>Manually remove the contents of your data directory. </para>
+                <para>The default data directory is <literal>$EXIST_HOME/data</literal>
+                </para>
             </listitem>
         </orderedlist>
     </sect1>
@@ -90,14 +86,11 @@
     <!-- ================================================================== -->
 
     <sect1 xml:id="environmental-variables">
-        <title><code>JAVA_HOME</code> and <code>EXIST_HOME</code> Environmental Variables</title>
+        <title><code>JAVA_HOME</code> Environment Variable</title>
 
-        <para>When using one of the shell or batch scripts, eXist-db can fail to start up properly
-            if either of the two key environmental variables <literal>JAVA_HOME</literal> and/or
-            <literal>EXIST_HOME</literal> are not set properly. Both variables are used in the
-            <literal>startup.bat</literal> and <literal>startup.sh</literal> scripts and have to be
-            set correctly before the scripts are run (you can of course also insert the lines
-            required in the beginning of the scripts themselves).</para>
+        <para>When using one of the shell or batch scripts, eXist-db may fail to start up properly
+            if the environment variable<literal>JAVA_HOME</literal> is not set properly. The
+            variable us used by all scripts in <literal>$EXIST_HOME/bin</literal>.</para>
         <variablelist>
             <varlistentry>
                 <term><literal>JAVA_HOME</literal></term>
@@ -108,8 +101,8 @@
                             <term>Windows</term>
                             <listitem>
                                 <para><link condition="_blank"
-                                    xlink:href="http://confluence.atlassian.com/display/DOC/Setting+the+JAVA_HOME+Variable+in+Windows"
-                                    >Setting <code>JAVA_HOME</code> on Windows</link></para>
+                                        xlink:href="http://confluence.atlassian.com/display/DOC/Setting+the+JAVA_HOME+Variable+in+Windows"
+                                        >Setting <code>JAVA_HOME</code> on Windows</link></para>
                                 <para/>
                             </listitem>
                         </varlistentry>
@@ -117,54 +110,22 @@
                             <term>Linux</term>
                             <listitem>
                                 <para><link condition="_blank"
-                                    xlink:href="http://www.cyberciti.biz/faq/linux-unix-set-java_home-path-variable/"
-                                    >Setting <code>JAVA_HOME</code> on Linux</link></para>
+                                        xlink:href="http://www.cyberciti.biz/faq/linux-unix-set-java_home-path-variable/"
+                                        >Setting <code>JAVA_HOME</code> on Linux</link></para>
                             </listitem>
                         </varlistentry>
                         <varlistentry>
                             <term>macOS</term>
                             <listitem>
                                 <para><link
-                                    xlink:href="http://osxdaily.com/2015/07/28/set-enviornment-variables-mac-os-x/"
-                                    >Setting <code>JAVA_HOME</code> on macOS</link></para>
+                                        xlink:href="http://osxdaily.com/2015/07/28/set-enviornment-variables-mac-os-x/"
+                                        >Setting <code>JAVA_HOME</code> on macOS</link></para>
                             </listitem>
                         </varlistentry>
                     </variablelist>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term><literal>EXIST_HOME</literal></term>
-                <listitem>
-                    <para>This must point to the directory that contains eXist-db's configuration
-                        file <literal>conf.xml</literal>. For example, if the
-                        <literal>EXIST_HOME</literal> path is <literal>C:\Program
-                        Files\eXist</literal>, the server will look for <literal>C:\Program
-                        Files\eXist\conf.xml</literal>. </para>
-                    <para>You can set <code>EXIST_HOME</code> in the same way that you set
-                        <code>JAVA_HOME</code>.</para>
-                    <para>On macOS, depending on how you installed eXist, you would open a terminal
-                        and enter either: </para>
-                    <variablelist>
-                        <varlistentry>
-                            <term>for JAR based installs</term>
-                            <listitem>
-                                <programlisting>export EXIST_HOME=/Applications/eXist</programlisting>
-                            </listitem>
-                        </varlistentry>
-                        <varlistentry>
-                            <term>for DMG and homebrew installs</term>
-                            <listitem>
-                                <programlisting>export EXIST_HOME=/Applications/eXist-db.app/Contents/Resources/eXist-db</programlisting>
-                            </listitem>
-                        </varlistentry>
-                    </variablelist>
-                    <para>.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
-
-        <para>Ensure that you have "write" permissions for the <literal>data</literal> directory
-            (located by default in <literal>webapp/WEB-INF/</literal>).</para>
     </sect1>
 
     <!-- ================================================================== -->
@@ -177,23 +138,19 @@
             service occupies these ports, you cannot start up eXist-db unless you shut down the
             service in question or make eXist-db use another port.</para>
         <para>To see whether this is the case, enter <link condition="_blank"
-            xlink:href="http://localhost:8080/">http://localhost:8080/</link> in your browser. To
-            make eXist-db use another port, open <literal>/tools/jetty/etc/jetty-http.xml</literal>
-            and change the value <code>8080</code> to a port number that is not used (for instance
+                xlink:href="http://localhost:8080/">http://localhost:8080/</link> in your browser.
+            To make eXist-db use another port, open
+                <literal>$EXIST_HOME/etc/jetty/jetty-http.xml</literal> and change the value
+                <code>8080</code> to a port number that is not used (for instance
             <code>8899</code>):</para>
         <programlisting language="xml" xlink:href="listings/listing-6.xml"/>
 
         <para>eXist-db uses port 8443 for confidential communication. Another service may be using
             this port. To make eXist-db use another port, open the file
-            <literal>/tools/jetty/etc/jetty-ssl.xml</literal> and change the value <code>8443</code>
-            in to a port number that is not used (for instance <code>8444</code>):</para>
+                <literal>$EXIST_HOME/etc/jetty/jetty-ssl.xml</literal> and change the value
+                <code>8443</code> in to a port number that is not used (for instance
+                <code>8444</code>):</para>
         <programlisting language="xml" xlink:href="listings/listing-8.xml"/>
-        <para>If these changes do not launch eXist-db try the following: Change to the directory
-            where you installed eXist-db and enter the following command:</para>
-        <programlisting>java -Xmx1024M -Djava.endorsed.dirs=lib/endorsed -jar start.jar jetty</programlisting>
-        <para>If you have problems running the shell/batch scripts, read the section about <link
-            xlink:href="advanced-installation.xml#bin-executables">alternative
-            scripts</link>.</para>
     </sect1>
 
     <!-- ================================================================== -->
@@ -207,11 +164,7 @@
         <itemizedlist>
             <listitem>
                 <para> By default, this output is written to the directory
-                    <literal>webapp/WEB-INF/logs</literal></para>
-            </listitem>
-            <listitem>
-                <para>If you are running eXist as a service, check the directory
-                    <literal>tools/yajsw/logs</literal></para>
+                        <literal>$EXIST_HOME/logs</literal></para>
             </listitem>
         </itemizedlist>
         <para>The main log files for eXist are <literal>exist.log</literal> and

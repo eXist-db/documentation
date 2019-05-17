@@ -160,7 +160,7 @@
             <para>eXist-db can also create <emphasis>incremental backups</emphasis>, meaning only
                 resources which were modified since the last backup are backed up.</para>
             <para>All backups will be stored in ZIP format. The default storage directory is
-                <literal>webapp/WEB-INF/data/export/</literal>. You can configure a different
+                <literal>$EXIST_HOME/data/export/</literal>. You can configure a different
                 directory in the configuration file <literal>conf.xml</literal>.</para>
         </sect2>
 
@@ -170,7 +170,7 @@
             <para>You can use eXist-db's <link xlink:href="configuration">scheduler</link> to
                 schedule server-side backup and consistency check tasks. To do this, add the
                 following definition to the scheduler section in the configuration file
-                <literal>conf.xml</literal></para>
+                <literal>$EXIST_HOME/etc/conf.xml</literal></para>
 
 
             <example>
@@ -423,9 +423,9 @@
                     <para>Stop the running eXist database instance</para>
                 </listitem>
                 <listitem>
-                    <para>Change into directory <literal>EXIST_HOME/webapp/WEB-INF/data</literal> or
+                    <para>Change into directory <literal>$EXIST_HOME/data</literal> or
                         another directory you specified as data directory in the configuration
-                        (<code>conf.xml</code>).</para>
+                        (<code>$EXIST_HOME/etc/conf.xml</code>).</para>
                 </listitem>
                 <listitem>
                     <para>Remove all <literal>.dbx</literal>, <literal>.lck</literal> and

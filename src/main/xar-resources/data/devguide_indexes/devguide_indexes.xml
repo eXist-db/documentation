@@ -310,8 +310,8 @@
                 index.</para>
             <programlisting>void configure(BrokerPool pool, String dataDir, Element config)</programlisting>
             <para>Notifies the <literal>Index</literal> a data directory (normally
-                <literal>${EXIST_HOME}/webapp/WEB-INF/data</literal>) and the configuration element
-                in which it is declared.</para>
+                    <literal>${EXIST_HOME}/data</literal>) and the configuration element in which it
+                is declared.</para>
             <programlisting>void open()</programlisting>
             <para>Method that is executed when the <literal>Index</literal> is opened, whatever it
                 means. Consider this method as an initialization and allocate the necessary
@@ -1327,36 +1327,7 @@
                 few of its features will be demonstrated, but we will explain again what happens
                 under the hood.</para>
             <para>The first step is to make sure to have a recent enough release version of eXist:
-                4.7.0 or later.</para>
-            <para>Then, you have to prepare eXist to build the spatial index library. To do that, go
-                into the <literal>${EXIST_HOME}/extensions/indexes</literal> directory and, if
-                necessary, copy <literal>build.properties</literal> to a new file,
-                <literal>local.properties</literal>.</para>
-            <para>Open this file and check that <literal>include.index.spatial</literal> is set to
-                <literal>true</literal>.</para>
-            <para>Invoke <literal>build.bat clean</literal> or <literal>build.sh clean</literal>,
-                depending on your platform, from a command line. This will generate
-                <literal>${EXIST_HOME}/extensions/indexes/build.xml</literal>, which is needed by
-                the modularized indexes infrastructure.</para>
-            <para>Invoke <literal>build.bat extension-indexes</literal> or <literal>build.sh
-                extension-indexes</literal>, depending on your platform, from a command line.</para>
-            <para>If necessary, the required external (large) libraries will be downloaded into the
-                    <literal>${EXIST_HOME}/extensions/indexes/spatial/lib</literal> directory. Most
-                of them have a <literal>gt2-*.jar</literal> name. Make sure to make them available
-                in your application's classpath !</para>
-            <note>
-                <para>If you are behind a proxy, do not forget to change the settings in
-                        <literal>${EXIST_HOME}/build.properties</literal>.</para>
-            </note>
-            <para>A file named <literal>exist-spatial-module.jar</literal> should be generated into
-                the <literal>${EXIST_HOME}/lib/extensions</literal> directory.</para>
-            <para>Enable the spatial index and the spatial module in
-                <literal>${EXIST_HOME}/conf.xml</literal> if it is not already done.</para>
-            <para>The spatial index:</para>
-            <programlisting language="xml" xlink:href="listings/listing-120.xml"/>
-            <para>The spatial module:</para>
-            <programlisting language="xml" xlink:href="listings/listing-121.xml"/>
-            <para>This concludes the prerequisites for running the test.</para>
+                4.7.0 or later, and Java 8. </para>
             <para>Our demonstration file is taken from the <link
                 xlink:href="http://www.ordnancesurvey.co.uk/oswebsite/">Ordnance Survey of
                 Great-Britain's WWW site</link> which offers <link
@@ -1369,12 +1340,12 @@
                     (<literal>port-talbot.gml</literal>) this will allow eXist to recognise it as an
                 XML file.</para>
             <note>
-                <para>If you have previously executed <literal>build test</literal>, the file should
+                <para>If you have previously executed <literal>mvn test</literal>, the file should
                     have been downloaded and gunzipped for you in
-                        <literal>${EXIST_HOME}/extensions/indexes/spatial/src/test/resources</literal>.</para>
+                        <literal>$EXIST_HOME/extensions/indexes/spatial/target/test-classes</literal>.</para>
             </note>
             <para>Since this file refers to an OSGB-hosted schema, we will need to bypass validation
-                in <literal>${EXIST_HOME}/conf.xml</literal>.</para>
+                in <literal>${EXIST_HOME}/etc/conf.xml</literal>.</para>
             <para>Make sure the mode value is set like this:</para>
             <programlisting>&lt;validation mode="no"&gt;</programlisting>
             <para>We are now ready to start the demonstration and we will use the interactive client
@@ -1424,12 +1395,11 @@
                 </mediaobject>
             </informalfigure>
             <para>If you want to have a look at the spatial index HSQLDB, which, if you are using
-                the default data-dir, is in
-                <literal>${EXIST_HOME}/webapp/WEB-INF/data/spatial_index.*</literal> there is a
-                dedicated script file in
-                <literal>${EXIST_HOME}/extensions/indexes/spatial/</literal>. to launch HSQL's GUI
-                client: Use either <literal>hsql.bat</literal> or <literal>hsql.sh
-                [data-dir]</literal> (you only need to supply data-dir if it is not the default
+                the default data-dir, is in <literal>${EXIST_HOME}/data/spatial_index.*</literal>
+                there is a dedicated script file in
+                    <literal>${EXIST_HOME}/extensions/indexes/spatial/</literal>. to launch HSQL's
+                GUI client: Use either <literal>hsql.bat</literal> or <literal>hsql.sh
+                    [data-dir]</literal> (you only need to supply data-dir if it is not the default
                 one).</para>
             <para>If the SQL command <literal>SELECT * FROM SPATIAL_INDEX_V1;</literal> is executed,
                 the result window shows that <literal>21961</literal> geometries have been indexed.</para>

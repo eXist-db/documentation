@@ -588,7 +588,8 @@
             <literal>java.text.RuleBasedCollator</literal>. For example:</para>
         <programlisting language="xquery" xlink:href="listings/listing-30.txt"/>
         <para>The <code>.jar</code> with the <code>.class</code> file(s) of the collator needs to be
-            in <literal>${EXIST_HOME}/lib/user</literal> </para>
+            placed in <literal>${EXIST_HOME}/lib</literal> and added to the appropriate classpath
+            config file in <literal>${EXIST_HOME}/etc</literal>, for standard server deployments this is <literal>${EXIST_HOME}/etc/startup.xml</literal>.</para>
 
     </sect1>
 

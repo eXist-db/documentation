@@ -154,8 +154,9 @@
         <orderedlist>
             <listitem>
                 <para>Acquire a logger: </para>
-                <programlisting language="java">import org.apache.Log4j.Logger;
-… private Logger logger = Logger.getLogger("xx.method.server.httpgw");</programlisting>
+                <programlisting language="java">import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+… private Logger logger = LogManager.getLogger("xx.method.server.httpgw");</programlisting>
                 <para>Remarks:</para>
                 <itemizedlist>
                     <listitem>
@@ -277,7 +278,8 @@
     <sect1 xml:id="config">
         <title>Configuring Log4j</title>
 
-        <para>The <code>Log4j.xml</code> configuration file controls Log4j’s behavior. </para>
+        <para>The <code>$EXIST_HOME/etc/log4j2.xml</code> configuration file controls Log4j’s
+            behavior. </para>
 
         <para>It is used mainly to set a given level of log output for loggers. Without such
             configuration only ERROR and FATAL log events will show up. Therefore you have to change
@@ -511,17 +513,6 @@
                             logging. </para>
                         <para>There is a re-usable utility for just this purpose,
                             <code>xx.jmx.core.AttributeListWrapper</code>. </para>
-                    </listitem>
-                </varlistentry>
-
-                <varlistentry>
-                    <term>Don’t be afraid to use Log4j in any tier or JVM</term>
-                    <listitem>
-                        <para>Log4j currently is not included in the client jar set. The only reason
-                            for this is that currently no clients use Log4j. However, if the
-                            <code>log4j.jar</code> is needed in the client simply include it in the
-                            client's jar set. Java’s Pack200 technology reduces jars to 25% their
-                            original size on average.</para>
                     </listitem>
                 </varlistentry>
 
