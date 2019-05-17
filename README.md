@@ -44,9 +44,9 @@ Should you encounter documentation for features that are deprecated in the minim
 The full test-suite consists of validation, unit, and integration tests, it runs automatically on travis. To be able to run integration tests locally, contributors should run `npm i` to download and install [cypress.js](https://www.cypress.io). This is only required once. To execute the tests run the following commands:          
 -   To validate xml files run `mvn validate`,
 -   to run the javascript tests `mvn test` (xQsuite coming soon). We do **not** support testing via node alone, aka `npm test`, use the maven command instead.
--   To run the Integrations tests `npm run cypress`.
+-   To run the Integrations tests, however, use `npm run cypress`.
 
-Both unit and integration tests, expect a running instance of exist with a copy of the documentation app installed reachable at `localhost:8080` and an empty admin password. 
+Both unit and integration tests, expect a running instance of exist with a copy of the documentation app installed reachable at `localhost:8080` and an empty admin password. It might be necessary to skip test execution during building from time to time, use: `mvn clean package -DskipTests`.
 
 ## License
 LGPLv2.1 [eXist-db.org](http://exist-db.org/exist/apps/homepage/index.html)
