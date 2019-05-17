@@ -1,4 +1,4 @@
-Wolfgangs-MacBook-Air:eXist wolf$ java -jar installer/eXist-db-setup-2.0RC2-rev17974.jar -console
+Wolfgangs-MacBook-Air:eXist wolf$ java -jar exist-installer/target/exist-installer-5.0.0-RC8-SNAPSHOT.jar
 Select target path [/Users/wolf/Source/trunk/eXist] 
 /Applications/eXist/
 press 1 to continue, 2 to quit, 3 to redisplay
@@ -40,12 +40,12 @@ press 1 to continue, 2 to quit, 3 to redisplay
 [ Starting processing ]
 Starting process Setting admin password ... (1/1)
 --- Starting embedded database instance ---
-File lock last access timestamp: 30.12.2012 /Applications/eXist/webapp/WEB-INF/data/dbx_dir.lck
-Found a stale lockfile. Trying to remove it:  /Applications/eXist/webapp/WEB-INF/data/dbx_dir.lck
-File lock last access timestamp: 30.12.2012 /Applications/eXist/webapp/WEB-INF/data/journal.lck
-Found a stale lockfile. Trying to remove it:  /Applications/eXist/webapp/WEB-INF/data/journal.lck
+File lock last access timestamp: 30.12.2012 /Applications/eXist/data/dbx_dir.lck
+Found a stale lockfile. Trying to remove it:  /Applications/eXist/data/dbx_dir.lck
+File lock last access timestamp: 30.12.2012 /Applications/eXist/data/journal.lck
+Found a stale lockfile. Trying to remove it:  /Applications/eXist/data/journal.lck
 Dez 30, 2012 10:13:26 PM org.expath.pkg.repo.util.Logger info
-INFO: Create a new repository with storage: File system storage in /Applications/eXist/webapp/WEB-INF/expathrepo
+INFO: Create a new repository with storage: File system storage in /Applications/eXist/data/expathrepo
 Setting admin user password...
 --- Initialization complete. Shutdown embedded database instance ---
 [ Console installation done ]

@@ -27,12 +27,12 @@
             eXist-db database, its internal API, the context of the executing XQuery and the HTTP
             Session (if appropriate).</para>
         <para>The source code for extension modules should be placed in their own folder inside
-            <literal>$EXIST_HOME/extensions/modules/src/org/exist/xquery/modules</literal>. They may
-            then be compiled in place using either <literal>$EXIST_HOME/build.sh
-            extension-modules</literal> or <literal>%EXIST_HOME%\build.bat
-            extension-modules</literal> depending on the platform.</para>
+                <literal>$EXIST_HOME/extensions/modules/*/src/main/java/org/exist/xquery/modules/*</literal>.
+            They may then be added to <literal>$EXIST_HOME/extensions/modules/pom.xml</literal> and
+            compiled in place using <literal>mvn compile</literal>.</para>
         <para>Modules associated to modularized indexes must be placed in the
-            <literal>$EXIST_HOME/extensions/indexes/*/xquery/modules/*</literal> hierarchy. They
+                <literal>$EXIST_HOME/extensions/indexes/*/xquery/modules/*</literal> hierarchy. They
+            may then be added to <literal>$EXIST_HOME/extensions/indexes/pom.xml</literal>. They
             will be compiled automatically by the standard build targets or as indicated
             above.</para>
         <para>eXist-db must also be told which modules to load, this is done in
@@ -65,10 +65,12 @@
                     <para>Status: production</para>
                 </listitem>
                 <listitem>
-                    <para>Class: <code>org.exist.xquery.modules.example.ExampleModule</code> </para>
+                    <para>Class: <code>org.exist.xquery.modules.example.ExampleModule</code>
+                    </para>
                 </listitem>
                 <listitem>
-                    <para>Namespace: <code>http://exist-db.org/xquery/examples</code> </para>
+                    <para>Namespace: <code>http://exist-db.org/xquery/examples</code>
+                    </para>
                 </listitem>
             </itemizedlist>
         </sect2>
@@ -86,10 +88,12 @@
                     <para>Status: production</para>
                 </listitem>
                 <listitem>
-                    <para>Class: <code>org.exist.xquery.modules.cache.CacheModule</code> </para>
+                    <para>Class: <code>org.exist.xquery.modules.cache.CacheModule</code>
+                    </para>
                 </listitem>
                 <listitem>
-                    <para>Namespace: <code>http://exist-db.org/xquery/cache</code> </para>
+                    <para>Namespace: <code>http://exist-db.org/xquery/cache</code>
+                    </para>
                 </listitem>
             </itemizedlist>
         </sect2>
@@ -111,7 +115,8 @@
                     </para>
                 </listitem>
                 <listitem>
-                    <para>Namespace: <code>http://exist-db.org/xquery/compression</code> </para>
+                    <para>Namespace: <code>http://exist-db.org/xquery/compression</code>
+                    </para>
                 </listitem>
             </itemizedlist>
         </sect2>
@@ -130,10 +135,12 @@
                     <para>Status: production</para>
                 </listitem>
                 <listitem>
-                    <para>Class: <code>org.exist.xquery.modules.exi.EXIModule</code> </para>
+                    <para>Class: <code>org.exist.xquery.modules.exi.EXIModule</code>
+                    </para>
                 </listitem>
                 <listitem>
-                    <para>Namespace: <code>http://exist-db.org/xquery/exi</code> </para>
+                    <para>Namespace: <code>http://exist-db.org/xquery/exi</code>
+                    </para>
                 </listitem>
             </itemizedlist>
         </sect2>
@@ -153,10 +160,12 @@
                     <para>Status: production</para>
                 </listitem>
                 <listitem>
-                    <para>Class: <code>org.exist.xquery.modules.file.FileModule</code> </para>
+                    <para>Class: <code>org.exist.xquery.modules.file.FileModule</code>
+                    </para>
                 </listitem>
                 <listitem>
-                    <para>Namespace: <code>http://exist-db.org/xquery/file</code> </para>
+                    <para>Namespace: <code>http://exist-db.org/xquery/file</code>
+                    </para>
                 </listitem>
             </itemizedlist>
         </sect2>
@@ -178,10 +187,12 @@
                     <para>Status: production</para>
                 </listitem>
                 <listitem>
-                    <para>Class: <code>org.exist.xquery.modules.image.ImageModule</code> </para>
+                    <para>Class: <code>org.exist.xquery.modules.image.ImageModule</code>
+                    </para>
                 </listitem>
                 <listitem>
-                    <para>Namespace: <code>http://exist-db.org/xquery/image</code> </para>
+                    <para>Namespace: <code>http://exist-db.org/xquery/image</code>
+                    </para>
                 </listitem>
             </itemizedlist>
         </sect2>
@@ -190,10 +201,6 @@
             <para> This extension module allows you to access and manipulate JNDI-based directories,
                 such as LDAP, using XQuery functions. It can be very useful if you want to
                 integration and LDAP directory into an eXist-db/XQuery based application.</para>
-            <para>To compile it, set the parameter <code>include.module.jndi = true</code> in
-                <code>$EXIST_HOME/extensions/local.build.properties</code> file (create it if
-                missing). Then, to enable it, edit the appropriate module entry in
-                <code>conf.xml</code>.</para>
             <itemizedlist>
                 <listitem>
                     <para>Creator: Andrzej Taramina</para>
@@ -205,10 +212,12 @@
                     <para>Status: production</para>
                 </listitem>
                 <listitem>
-                    <para>Class: <code>org.exist.xquery.modules.jndi.JNDIModule</code> </para>
+                    <para>Class: <code>org.exist.xquery.modules.jndi.JNDIModule</code>
+                    </para>
                 </listitem>
                 <listitem>
-                    <para>Namespace: <code>http://exist-db.org/xquery/jndi</code> </para>
+                    <para>Namespace: <code>http://exist-db.org/xquery/jndi</code>
+                    </para>
                 </listitem>
             </itemizedlist>
         </sect2>
@@ -230,10 +239,12 @@
                     <para>Status: production</para>
                 </listitem>
                 <listitem>
-                    <para>Class: <code>org.exist.xquery.modules.mail.MailModule</code> </para>
+                    <para>Class: <code>org.exist.xquery.modules.mail.MailModule</code>
+                    </para>
                 </listitem>
                 <listitem>
-                    <para>Namespace: <code>http://exist-db.org/xquery/mail</code> </para>
+                    <para>Namespace: <code>http://exist-db.org/xquery/mail</code>
+                    </para>
                 </listitem>
             </itemizedlist>
         </sect2>
@@ -254,10 +265,12 @@
                     <para>Status: production</para>
                 </listitem>
                 <listitem>
-                    <para>Class: <code>org.exist.xquery.modules.oracle.OracleModule</code> </para>
+                    <para>Class: <code>org.exist.xquery.modules.oracle.OracleModule</code>
+                    </para>
                 </listitem>
                 <listitem>
-                    <para>Namespace: <code>http://exist-db.org/xquery/oracle</code> </para>
+                    <para>Namespace: <code>http://exist-db.org/xquery/oracle</code>
+                    </para>
                 </listitem>
             </itemizedlist>
         </sect2>
@@ -280,7 +293,8 @@
                     </para>
                 </listitem>
                 <listitem>
-                    <para>Namespace: <code>http://exist-db.org/xquery/scheduler</code> </para>
+                    <para>Namespace: <code>http://exist-db.org/xquery/scheduler</code>
+                    </para>
                 </listitem>
             </itemizedlist>
         </sect2>
@@ -303,16 +317,17 @@
                     </para>
                 </listitem>
                 <listitem>
-                    <para>Namespace: <code>http://exist-db.org/xquery/simple-ql</code> </para>
+                    <para>Namespace: <code>http://exist-db.org/xquery/simple-ql</code>
+                    </para>
                 </listitem>
             </itemizedlist>
         </sect2>
         <sect2 xml:id="module_spatial">
             <title>Spatial module</title>
             <para>Various functions for <link
-                xlink:href="http://www.opengeospatial.org/standards/gml">GML</link> geometries,
+                    xlink:href="http://www.opengeospatial.org/standards/gml">GML</link> geometries,
                 whether indexed or not. More information about the design is available <link
-                xlink:href="devguide_indexes.xml">here</link>.</para>
+                    xlink:href="devguide_indexes.xml">here</link>.</para>
             <itemizedlist>
                 <listitem>
                     <para>Creator: Pierrick Brihaye</para>
@@ -324,10 +339,12 @@
                     <para>Status: experimental</para>
                 </listitem>
                 <listitem>
-                    <para>Class: <code>org.exist.xquery.modules.spatial.SpatialModule</code> </para>
+                    <para>Class: <code>org.exist.xquery.modules.spatial.SpatialModule</code>
+                    </para>
                 </listitem>
                 <listitem>
-                    <para>Namespace: <code>http://exist-db.org/xquery/spatial</code> </para>
+                    <para>Namespace: <code>http://exist-db.org/xquery/spatial</code>
+                    </para>
                 </listitem>
             </itemizedlist>
         </sect2>
@@ -349,10 +366,12 @@
                     <para>Status: production</para>
                 </listitem>
                 <listitem>
-                    <para>Class: <code>org.exist.xquery.modules.sql.SQLModule</code> </para>
+                    <para>Class: <code>org.exist.xquery.modules.sql.SQLModule</code>
+                    </para>
                 </listitem>
                 <listitem>
-                    <para>Namespace: <code>http://exist-db.org/xquery/sql</code> </para>
+                    <para>Namespace: <code>http://exist-db.org/xquery/sql</code>
+                    </para>
                 </listitem>
             </itemizedlist>
         </sect2>
@@ -374,10 +393,12 @@
                     <para>Status: production</para>
                 </listitem>
                 <listitem>
-                    <para>Class: <code>org.exist.xquery.modules.xmldiff.XmlDiffModule</code> </para>
+                    <para>Class: <code>org.exist.xquery.modules.xmldiff.XmlDiffModule</code>
+                    </para>
                 </listitem>
                 <listitem>
-                    <para>Namespace: <code>http://exist-db.org/xquery/xmldiff</code> </para>
+                    <para>Namespace: <code>http://exist-db.org/xquery/xmldiff</code>
+                    </para>
                 </listitem>
             </itemizedlist>
         </sect2>
@@ -398,28 +419,12 @@
                     <para>Status: production</para>
                 </listitem>
                 <listitem>
-                    <para>Class: <code>org.exist.xquery.modules.xslfo.XSLFOModule</code> </para>
+                    <para>Class: <code>org.exist.xquery.modules.xslfo.XSLFOModule</code>
+                    </para>
                 </listitem>
                 <listitem>
-                    <para>Namespace: <code>http://exist-db.org/xquery/xslfo</code> </para>
-                </listitem>
-            </itemizedlist>
-        </sect2>
-        <sect2 xml:id="module_xmlcalabash">
-            <title>XML Calabash Module</title>
-            <para>This module provides simple integration with XML Calabash XProc engine.</para>
-            <itemizedlist>
-                <listitem>
-                    <para>Creator: James Fuller</para>
-                </listitem>
-                <listitem>
-                    <para>Licence: MPL v1.1</para>
-                </listitem>
-                <listitem>
-                    <para>Class: <code>org.exist.xquery.modules.xmlcalabash</code> </para>
-                </listitem>
-                <listitem>
-                    <para>Namespace: <code>http://xmlcalabash.com</code> </para>
+                    <para>Namespace: <code>http://exist-db.org/xquery/xslfo</code>
+                    </para>
                 </listitem>
             </itemizedlist>
         </sect2>

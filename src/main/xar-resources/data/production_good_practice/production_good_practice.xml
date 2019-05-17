@@ -276,7 +276,7 @@
                         <para>We recommend to prevent eXist's REST server from directly receiving
                             web requests, and use URL Rewriting <emphasis>only</emphasis> to control
                             code execution. The REST server feature is enabled by default in
-                            <literal>$EXIST_HOME/webapp/WEB-INF/web.xml</literal>. Changing the
+                            <literal>$EXIST_HOME/etc/webapp/WEB-INF/web.xml</literal>. Changing the
                             <code>param-value</code> to <code>true</code>, allows you to filter
                             request via your own XQuery controller.</para>
                         <programlisting language="xml" xlink:href="listings/listing-4.xml"/>
@@ -288,7 +288,7 @@
                                 <listitem>
                                     <para>We recommend to restrict the REST servers ability to
                                         execute XQuery code to authenticated users, by modifying:
-                                        <literal>$EXIST_HOME/webapp/WEB-INF/web.xml</literal>:</para>
+                                        <literal>$EXIST_HOME/etc/webapp/WEB-INF/web.xml</literal>:</para>
                                     <programlisting language="xml" xlink:href="listings/listing-5.xml"/>
                                 </listitem>
                             </varlistentry>
@@ -297,7 +297,7 @@
                                 <listitem>
                                     <para>In addition, we recommend to restrict the REST servers
                                         ability to execute XUpdate statements. Simply modify
-                                        <literal>$EXIST_HOME/webapp/WEB-INF/web.xml</literal>by
+                                        <literal>$EXIST_HOME/etc/webapp/WEB-INF/web.xml</literal>by
                                         changing the <code>param-value</code> from
                                         <code>enabled</code> to <code>disabled</code>:</para>
                                     <programlisting language="xml" xlink:href="listings/listing-6.xml"/>
@@ -446,8 +446,8 @@
                 of resources from the server to the client, hopefully resulting in a faster
                 experience for the end-user.</para>
             <para>GZip Compression can be enabled in <code>web.xml</code>, which can be found in
-                either <code>$EXIST_HOME/webapp/WEB-INF/web.xml</code> for default deployments or
-                <code>$EXIST_HOME/tools/jetty/etc/standalone/WEB-INF/web.xml</code> for standalone
+                either <code>$EXIST_HOME/etc/webapp/WEB-INF/web.xml</code> for default deployments or
+                <code>$EXIST_HOME/etc/jetty/standalone/WEB-INF/web.xml</code> for standalone
                 deployments.</para>
         </sect2>
     </sect1>

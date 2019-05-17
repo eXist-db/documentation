@@ -17,9 +17,9 @@
     <!-- ================================================================== -->
 
     <para>eXist-db provides a library for the <link xlink:href="http://ant.apache.org"
-        ><code>Ant</code></link> build tool to automate common system administration and operation
-        tasks, like backup/restore or importing files. <code>Ant</code> is included in the eXist-db
-        distribution (only if you've installed the eXist-db source code).</para>
+                ><code>Ant</code></link> build tool to automate common system administration and
+        operation tasks, like backup/restore or importing files. The latest version of eXist-db's
+        Ant Tasks can be found on Maven Central as the artifact <link xlink:href="https://search.maven.org/search?q=g:org.exist-db%20AND%20a:exist-ant">exist-ant</link>.</para>
 
     <!-- ================================================================== -->
 
@@ -35,21 +35,10 @@
                 <programlisting>&lt;project xmlns:xdb="http://exist-db.org/ant" … &gt;</programlisting>
             </listitem>
             <listitem>
-                <para>Import the eXist-db tasks by adding the following code:</para>
+                <para>Import the eXist-db tasks with Ivy and then add the following code:</para>
                 <programlisting language="xml" xlink:href="listings/listing-1.xml"/>
             </listitem>
-            <listitem>
-                <para>Setup the <code>classpath</code> (the property <code>${server.dir}</code> must
-                    point to the eXist-db installation directory):</para>
-                <programlisting language="xml" xlink:href="listings/listing-2.xml"/>
-            </listitem>
         </itemizedlist>
-
-        <note>
-            <para>For a working example have a look into the file
-                <literal>webapp/xqts/build.xml</literal>, which is used to prepare the database for
-                running the xquery test suite.</para>
-        </note>
 
     </sect1>
 
@@ -848,7 +837,8 @@
             eXist-db (remote or local).</para>
         <para>Supply your own values for the source and target <code>user</code>, <code>pass</code>,
             and <code>url</code> properties. You can find this Ant script under the
-            <code>samples/ant</code> directory.</para>
+                <code>$EXIST_HOME/exist-samples/src/main/resources/org/exist/samples/ant</code>
+            directory.</para>
         <programlisting language="xml" xlink:href="listings/listing-37.xml"/>
     </sect1>
 
