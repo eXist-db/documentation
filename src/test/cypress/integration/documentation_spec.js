@@ -60,7 +60,7 @@ context('Documentation', () => {
         cy.get('.navbar')
           .find('#documentation')
           .click()
-          .contains('author guidelines')
+          .contains('Author Guidelines')
           .click()
           .url()
           .should('include', 'author-reference.xml')
