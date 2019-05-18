@@ -30,34 +30,10 @@
                     <guimenuitem>Open Java Admin Client</guimenuitem> menu entry.</para>
             </listitem>
             <listitem>
-                <para>You can download its Java WebStart file <code>exist.jnlp</code> via your web
-                    browser. Once the download has completed, double-click it to launch the client: </para>
-                <para> <link xlink:href="/webstart/exist.jnlp"> <inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="assets/webstart.small.jpg"/>
-                    </imageobject>
-                    </inlinemediaobject> </link> </para>
-                <para>You can also find a link to download the Java WebStart file on the
-                    dashboard.</para>
-                <note>
-                    <para>If you built eXist-db from source rather than using the downloadable
-                        installer, the Java WebStart function will not work unless you sign the
-                        jars. To do so, enter the following on your command line from the eXist
-                        directory: </para>
-                    <programlisting>build.bat -f build/scripts/jarsigner.xml (DOS/Windows)</programlisting>
-                    <programlisting>build.sh -f build/scripts/jarsigner.xml  (Unix)</programlisting>
-                </note>
-            </listitem>
-            <listitem>
                 <para>Enter the following on your command line from the eXist installation directory
                     (with the <code>JAVA_HOME</code> environment variable set correctly):</para>
                 <programlisting>bin\client.bat (DOS/Windows)</programlisting>
                 <programlisting>bin/client.sh (Unix)</programlisting>
-            </listitem>
-            <listitem>
-                <para>Or enter the following on the command line (again from the eXist installation
-                    directory):</para>
-                <programlisting>java -jar start.jar client</programlisting>
             </listitem>
         </itemizedlist>
     </sect1>

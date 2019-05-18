@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Basic Installation</title>
-        <date>3Q18</date>
+        <date>2Q19</date>
         <keywordset>
             <keyword>installation</keyword>
             <keyword>getting-started</keyword>
@@ -303,14 +303,13 @@
                 </listitem>
                 <listitem>
                     <para>Change (<code>cd</code>) to the directory where you installed eXist-db
-                        (for instance, <literal>/usr/local/lib/exist/</literal> for Linux,
-                        <literal>/Applications/eXist/</literal> for Mac, or <literal>C:\Program
-                        Files\eXist</literal> for Windows).</para>
+                        (for instance, <literal>/opt/exist/</literal> for Linux,
+                        <literal>/Applications/eXist/</literal> for Mac, or <literal>C:\eXist</literal> for Windows).</para>
                 </listitem>
                 <listitem>
-                    <para>Simply calling <literal>start.jar</literal> will start eXist-db via the
+                    <para>Simply calling <literal>launcher.sh</literal> or <literal>launcher.bat</literal> will start eXist-db via the
                         desktop launcher:</para>
-                    <programlisting>java -jar start.jar</programlisting>
+                    <programlisting>$EXIST_HOME\bin\launcher.sh</programlisting>
 
                 </listitem>
             </orderedlist>
@@ -385,11 +384,6 @@
                     admin account's credentials:</para>
                 <programlisting>bin/shutdown.sh -u admin -p youradminpassword</programlisting>
                 <programlisting>bin/shutdown.bat -u admin -p youradminpassword</programlisting>
-            </listitem>
-            <listitem>
-                <para>From the command line, run the following Java command, using your admin
-                    account's credentials:</para>
-                <programlisting>java -jar start.jar shutdown -u admin -p youradminpassword</programlisting>
             </listitem>
             <listitem>
                 <para>From the <link xlink:href="java-admin-client">Java Admin Client</link>: select
