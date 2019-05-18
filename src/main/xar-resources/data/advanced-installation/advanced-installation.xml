@@ -197,7 +197,6 @@
             <varlistentry>
                 <term> <code>startup.sh</code> (Unix) / <code>startup.bat</code> (Windows)</term>
                 <listitem>
-                    <programlisting>java -jar start.jar jetty</programlisting>
                     <para>Starts the included Jetty web server at port 8080. eXist runs as a web
                         application, located at <link xlink:href="http://localhost:8080/exist/"
                         >http://localhost:8080/exist/</link>. </para>
@@ -206,7 +205,7 @@
             <varlistentry>
                 <term> <code>shutdown.sh</code> (Unix) / <code>shutdown.bat</code> (Windows)</term>
                 <listitem>
-                    <programlisting>java -jar start.jar shutdown -p youradminpassword</programlisting>
+                    <programlisting>shutdown.sh -p youradminpassword</programlisting>
                     <para>Closes the running instance of eXist. If eXist has been started with
                         <literal>startup.sh</literal>, calling <literal>shutdown.sh</literal> will
                         also stop the Jetty web server. Otherwise, only the database is stopped by
@@ -216,21 +215,10 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term> <code>server.sh</code> (Unix) / <code>server.bat</code> (Windows)</term>
-                <listitem>
-                    <programlisting>java -jar start.jar standalone</programlisting>
-                    <para>Launches eXist as a stand-alone server process. In this setup, eXist is
-                        only accessible through the XMLRPC and the built-in HTTP interface.</para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
                 <term> <code>client.sh</code> (Unix) / <code>client.bat</code> (Windows)</term>
                 <listitem>
-                    <programlisting>java -jar start.jar client</programlisting>
                     <para>Launches the <link xlink:href="java-admin-client">Java Admin
-                        Client</link>. This application is also launched if no application is
-                        selected on the command-line, like this:</para>
-                    <programlisting>java -jar start.jar</programlisting>
+                        Client</link>.</para>
                 </listitem>
             </varlistentry>
         </variablelist>

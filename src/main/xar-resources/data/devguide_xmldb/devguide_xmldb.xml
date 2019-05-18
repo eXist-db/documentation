@@ -3,7 +3,7 @@
         schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
     <info>
         <title>Writing Java Applications with the XML:DB API</title>
-        <date>1Q18</date>
+        <date>2Q19</date>
         <keywordset>
             <keyword>java-development</keyword>
         </keywordset>
@@ -21,9 +21,10 @@
         <title>Introduction</title>
 
         <para>The preferred way to work with eXist-db when developing Java applications is to use
-            the XML:DB API. eXist-db's implementation of the XML:DB standards follows the XIndice
-            implementation, and conforms to the latest working drafts put forth by the <link xlink:href="http://xmldb-org.sourceforge.net/xapi/">XML:DB Initiative</link>. For more
-            information, refer to the Javadocs for this API.</para>
+            the XML:DB API. eXist-db's implementation of the XML:DB standard conforms to the latest
+            working drafts put forth by the <link
+                xlink:href="https://github.com/xmldb-org/xmldb-api">XML:DB Initiative</link>. For
+            more information, refer to the Javadocs for this API.</para>
         <para>The basic components employed by the XML:DB API are <emphasis>drivers</emphasis>,
             <emphasis>collections</emphasis>, <emphasis>resources</emphasis> and
             <emphasis>services</emphasis>.</para>
@@ -37,11 +38,10 @@
             document or a document fragment, selected by a previously executed XPath query.</para>
         <para>Finally, <emphasis>services</emphasis> are requested for special tasks such as
             querying a collection with XPath, or managing a collection.</para>
-        <para>There are several XML:DB examples provided in eXist's <literal>samples</literal>
-            directory . To start an example, use the <literal>start.jar</literal> jar file and pass
-            the name of the example class as the first parameter, for instance:</para>
-        <programlisting xlink:href="listings/listing-1.txt"/>
-
+        <para>There are also several XML:DB examples provided in the
+            <link xlink:href="https://github.com/eXist-book/book-code/tree/master/chapters/integration">sample code</link>
+            that accompanies the Integration chapter of the <link xlink:href="http://shop.oreilly.com/product/0636920026525.do">eXist-db book</link>.
+        </para>
     </sect1>
 
     <!-- ================================================================== -->
@@ -49,8 +49,10 @@
     <sect1 xml:id="use-xmldb">
         <title>Using the XML:DB API</title>
 
-        <para>Programming with the XML:DB API is straightforward. You will find some code examples
-            in the <literal>samples/org/exist/examples/xmldb</literal> directory.</para>
+        <para>For working with eXist-db via XML:DB API, you will need two dependencies, one for the XML:DB API
+        and one for eXist-db's implementation of the API. These dependencies are available from Maven and should
+        be added to your Maven <literal>pom.xml</literal> or project's dependency tool like so:</para>
+        <programlisting language="xml" xlink:href="listings/listing-1.txt"/>
         <para>In the following simple example, a document is retrieved from the eXist server and
             printed to standard output.</para>
 
@@ -156,7 +158,10 @@
     <sect1 xml:id="extend-xmldb">
         <title>Extensions to XML:DB</title>
 
-        <para>eXist provides extensions on top of the XML:DB specification.</para>
+        <para>eXist provides extensions on top of the XML:DB specification.
+            If you wish to use these extensions, you should make sure that the scope for your <literal>exist-core</literal>
+            dependency is set to <literal>compile</literal>.
+        </para>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
