@@ -1,3 +1,4 @@
+/* global cy */
 /// <reference types="cypress" />
 
 // This is very slow and therefore skipped. Once diagnostics are re-written
@@ -6,8 +7,7 @@
 
 context.skip('Diagnostics', () => {
   before(() => {
-    cy.visit('/diagnostics.html', {responseTimeout: 60000})
-
+    cy.visit('/diagnostics.html', { responseTimeout: 60000 })
   })
   it('should not find dead links', () => {
     cy.get('h1')

@@ -1,3 +1,4 @@
+/* global cy */
 /// <reference types="cypress" />
 
 context('Documentation', () => {
@@ -28,7 +29,6 @@ context('Documentation', () => {
           .parents('section')
           .contains('Integration Testing')
       })
-
     })
 
     it('should have ToC links', () => {
