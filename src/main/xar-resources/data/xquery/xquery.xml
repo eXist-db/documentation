@@ -27,15 +27,15 @@
     <sect1 xml:id="current-status-of-xquery-support">
         <title>Current Status of XQuery Support</title>
 
-        <para>eXist-db implements <link condition="_blank" xlink:href="http://www.w3.org/TR/xquery/"
+        <para>eXist-db implements <link condition="_blank" xlink:href="https://www.w3.org/TR/xquery/"
             >XQuery 3.1: An XML Query Language</link> and <link condition="_blank"
-            xlink:href="http://www.w3.org/TR/xpath-functions/">"XPath and XQuery Functions and
+            xlink:href="https://www.w3.org/TR/xpath-functions/">"XPath and XQuery Functions and
             Operators 3.1"</link>, with the exception of certain <link
             xlink:href="#unsupported-features">unsupported features and functions</link>. For
             complete documentation on functions in eXist-db, see <link condition="_blank"
             xlink:href="/exist/apps/fundocs">XQuery Function Documentation</link>.</para>
         <para>eXist-db's XQuery implementation has been tested against the official <link
-            condition="_blank" xlink:href="http://dev.w3.org/2006/xquery-test-suite/">XML Query Test
+            condition="_blank" xlink:href="https://dev.w3.org/2006/xquery-test-suite/">XML Query Test
             Suite (XQTS)</link>. An updated test suite runner to test conformance against the
             official <link condition="_blank" xlink:href="https://dev.w3.org/2011/QT3-test-suite/"
             >XQuery/XPath/XSLT 3.* Test Suite (QT3)</link> is being planned.</para>
@@ -67,11 +67,11 @@
             <itemizedlist>
                 <listitem>
                     <para> <link condition="_blank"
-                        xlink:href="http://www.w3.org/TR/xquery/#id-schema-import-feature">schema
+                        xlink:href="https://www.w3.org/TR/xquery/#id-schema-import-feature">schema
                         import</link> and <link condition="_blank"
-                        xlink:href="http://www.w3.org/TR/xquery/#id-schema-validation-feature"
+                        xlink:href="https://www.w3.org/TR/xquery/#id-schema-validation-feature"
                         >schema validation features</link> (defined as <link condition="_blank"
-                        xlink:href="http://www.w3.org/TR/xquery/#id-conform-optional-features"
+                        xlink:href="https://www.w3.org/TR/xquery/#id-conform-optional-features"
                         >optional</link> in the XQuery specification). Instead, eXist-db provides a
                         <link condition="_blank"
                         xlink:href="/exist/apps/fundocs/view.html?uri=http://exist-db.org/xquery/validation"
@@ -356,7 +356,7 @@
 
         <para>eXist-db supports calls to arbitrary Java methods from within XQuery. The binding
             mechanism follows the short-cut technique introduced by <link condition="_blank"
-            xlink:href="http://saxon.sf.net">Saxon</link>.</para>
+            xlink:href="http://saxon.sourceforge.net/">Saxon</link>.</para>
         <para>The class of the external function is identified by the namespace URI of the function
             call. This namespace URI must start with the prefix <literal>java:</literal>, followed
             by the fully qualified class name of the class. For example, the following code snippet
@@ -599,7 +599,7 @@
         <title>Serialization</title>
 
         <para>Serialization is the transformation of query results into a binary stream. eXist-db
-            implements the <link condition="_blank" xlink:href="http://www.w3.org/TR/xquery/">"XSLT
+            implements the <link condition="_blank" xlink:href="https://www.w3.org/TR/xquery/">"XSLT
             and XQuery Serialization 3.1"</link> specification. For example, the following
             serialization declaration instructs eXist-db to serialize query results as JSON and to
             supply a JSON media-type:</para>
@@ -804,7 +804,7 @@
                     <term> <code>declare option exist:implicit-timezone "duration";</code> </term>
                     <listitem>
                         <para>Specifies the <link condition="_blank"
-                            xlink:href="http://www.w3.org/TR/xquery/#dt-timezone">implicit
+                            xlink:href="https://www.w3.org/TR/xquery/#dt-timezone">implicit
                             timezone</link> for the XQuery context.</para>
                     </listitem>
                 </varlistentry>
@@ -812,7 +812,7 @@
                     <term> <code>declare option exist:current-dateTime "dateTime";</code> </term>
                     <listitem>
                         <para>Specifies the <link condition="_blank"
-                            xlink:href="http://www.w3.org/TR/xquery/#GLdt-date-time">current
+                            xlink:href="https://www.w3.org/TR/xquery/#GLdt-date-time">current
                             dateTime</link> for the XQuery context.</para>
                     </listitem>
                 </varlistentry>
