@@ -589,7 +589,7 @@ but does not because its too simple)</programlisting>
                         <para>A <tag>tag</tag> element surrounds its content with &lt; and &gt; and
                             formats it like code. Meant to make life easier:
                             <code><![CDATA[<tag>xxx</tag>]]></code> is the shorter version of
-                            <code><![CDATA[<code>&lt;xxx&gt;</code>]]></code>.</para>
+                            <code><![CDATA[<code><xxx></code>]]></code>.</para>
                     </listitem>
                 </varlistentry>
 
@@ -649,7 +649,7 @@ but does not because its too simple)</programlisting>
                             use the <tag>link</tag> element. However, use the target's document name
                             (without the <code>.xml</code> extension) as the link address. For
                             instance,
-                            <code><![CDATA[&amp;lt;link xlink:href="documentation"&amp;gt;]]></code>
+                            <tag>link xlink:href="documentation"</tag>
                             links to the <link xlink:href="documentation">documentation home
                             page</link>.</para>
                     </listitem>
