@@ -19,7 +19,7 @@
     <sect1 xml:id="intro">
         <title>Introduction</title>
 
-        <para>The full text index module is based on <link condition="_blank" xlink:href="http://lucene.apache.org">Apache Lucene</link>. </para>
+        <para>The full text index module is based on <link condition="_blank" xlink:href="https://lucene.apache.org">Apache Lucene</link>. </para>
         <para>The full-text index module is tightly integrated with eXist-db's <emphasis>modularized
             indexing architecture</emphasis>: the index behaves like a plug-in which adds itself to
             the database's index pipelines. Once configured, the index will be notified of relevant
@@ -43,7 +43,7 @@
                 >Lucene Javadocs</link>.</para>
 
         <para>Like other indexes, you create a Lucene index by configuring it in a
-            <literal>collection.xconf</literal> document as explained in <link xlink:href="indexing.xml#idxconf">documentation</link>. For example:</para>
+            <literal>collection.xconf</literal> document as explained in <link xlink:href="indexing#idxconf">documentation</link>. For example:</para>
 
         <example>
             <title>collection.xconf for version 2.2</title>
@@ -146,7 +146,7 @@
                 back to the section.</para>
             <para>If you query a larger context, you can use the <link xlink:href="kwic">KWIC</link>
                 module to show the user text <emphasis>surrounding</emphasis> each match. Or you can
-                ask eXist-db to <link xlink:href="kwic.xml#highlight">highlight each match</link>
+                ask eXist-db to <link xlink:href="kwic#highlight">highlight each match</link>
                 with an <tag>exist:match</tag> tag, which you can later use to locate the matches
                 within the text.</para>
         </sect2>
@@ -281,11 +281,11 @@
 
             <programlisting language="xml" xlink:href="listings/listing-29.xml"/>
 
-            <para>In the example above, we define that Lucene's <link condition="_blank" xlink:href="http://lucene.apache.org/core/4_10_4/analyzers-common/org/apache/lucene/analysis/standard/StandardAnalyzer.html">StandardAnalyzer</link> should be used by default (the <tag>analyzer</tag> element
+            <para>In the example above, we define that Lucene's <link condition="_blank" xlink:href="https://lucene.apache.org/core/4_10_4/analyzers-common/org/apache/lucene/analysis/standard/StandardAnalyzer.html">StandardAnalyzer</link> should be used by default (the <tag>analyzer</tag> element
                 without <literal>id</literal> attribute). We provide an additional analyzer and
                 assign it the id <literal>ws</literal>, by which the analyzer can be referenced in
                 the actual index definitions.</para>
-            <para>The <link condition="_blank" xlink:href="http://lucene.apache.org/core/4_10_4/analyzers-common/org/apache/lucene/analysis/core/WhitespaceAnalyzer.html">whitespace analyzer</link> is the most basic one. As the name implies, it tokenizes
+            <para>The <link condition="_blank" xlink:href="https://lucene.apache.org/core/4_10_4/analyzers-common/org/apache/lucene/analysis/core/WhitespaceAnalyzer.html">whitespace analyzer</link> is the most basic one. As the name implies, it tokenizes
                 the text at white space characters, but treats all other characters - including
                 punctuation - as part of the token. The tokens are not converted to lower case and
                 there's no stopword filter applied.</para>
@@ -320,7 +320,7 @@
                         <para><code>java.lang.reflect.Field</code></para>
                     </listitem>
                 </itemizedlist>
-                <para> The value <link condition="_blank" xlink:href="http://lucene.apache.org/core/4_10_4/core/org/apache/lucene/util/Version.html#LUCENE_CURRENT">Version#LUCENE_CURRENT</link> is always added as first parameter for the
+                <para> The value <link condition="_blank" xlink:href="https://lucene.apache.org/core/4_10_4/core/org/apache/lucene/util/Version.html#LUCENE_CURRENT">Version#LUCENE_CURRENT</link> is always added as first parameter for the
                     analyzer constructor (a fallback mechanism is present for older analyzers). The
                     previously valid values <code>java.io.File</code> and <code>java.util.Set</code>
                     can not be used since Lucene 4.</para>
