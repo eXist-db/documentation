@@ -49,7 +49,7 @@
       </listitem>
       <listitem>
         <para>Create a
-          <link xlink:href="backup.xml">backup</link>
+          <link xlink:href="backup">backup</link>
           of the data from your existing installation.</para>
       </listitem>
       <listitem>
@@ -61,7 +61,7 @@
         <para>Remove the still <emphasis>empty</emphasis>
           <code>data</code> directory from the new installation. By default the data directory is
           located at <code>$EXIST_HOME/data</code>. If you are not sure where the data directory is,
-          check the main logfile <link xlink:href="troubleshooting.xml#logs">
+          check the main logfile <link xlink:href="troubleshooting#logs">
             <code>exist.log</code>
           </link>, searching for entries after start-up pertaining to <code>DATA_DIR</code>. </para>
       </listitem>
@@ -72,7 +72,7 @@
         <para>Start the new eXist instance.</para>
       </listitem>
       <listitem>
-        <para>Check the <link xlink:href="troubleshooting.xml#logs">
+        <para>Check the <link xlink:href="troubleshooting#logs">
             <code>exist.log</code>
           </link>
           for any errors during startup.</para>
@@ -141,7 +141,7 @@
           Always install the new version into a fresh new directory.</para>
       </listitem>
       <listitem>
-        <para>Perform a full <link xlink:href="backup.xml#restore">restore</link> of the backup onto the new version of
+        <para>Perform a full <link xlink:href="backup#restore">restore</link> of the backup onto the new version of
           eXist.</para>
       </listitem>
     </orderedlist>
@@ -153,7 +153,7 @@
     <title>Upgrading from Source</title>
     <para>The following steps only apply to users who wish to upgrade eXist instances that were
       built from (modified) source code, instead of from the provided installers.</para>
-    <para>Before attempting to upgrade always perform a <link xlink:href="backup.xml">full
+    <para>Before attempting to upgrade always perform a <link xlink:href="backup">full
         backup</link>. Stop eXist after the backup has been generated.</para>
     <orderedlist><listitem><para>Determine which files contain local modification and would be in conflict with updated files
           from the new version of exist-db, by running <code>git status</code> inside the local
@@ -198,11 +198,11 @@
         <tbody>
           <row>
             <entry>
-              <para>latest</para>
+              <para>Latest</para>
             </entry>
             <entry>
               <para>
-                <link xlink:href="http://exist-db.org/exist/apps/wiki/blogs/eXist/">release notes</link>
+                <link xlink:href="https://exist-db.org/exist/apps/wiki/blogs/eXist/">Release notes</link>
               </para>
             </entry>
           </row>
@@ -212,7 +212,7 @@
             </entry>
             <entry>
               <para>
-                <link xlink:href="incompatibilities.xml#v4.5.0">special notes</link>
+                <link xlink:href="incompatibilities#v4.5.0">Special notes</link>
               </para>
             </entry>
           </row>
@@ -222,7 +222,7 @@
             </entry>
             <entry>
               <para>
-                <link xlink:href="incompatibilities.xml#v3.0">special notes</link>
+                <link xlink:href="incompatibilities#v3.0">Special notes</link>
               </para>
             </entry>
           </row>
@@ -232,7 +232,7 @@
             </entry>
             <entry>
               <para>
-                <link xlink:href="incompatibilities.xml#v2.2">special notes</link>
+                <link xlink:href="incompatibilities#v2.2">Special notes</link>
               </para>
             </entry>
           </row>
@@ -242,7 +242,7 @@
             </entry>
             <entry>
               <para>
-                <link xlink:href="incompatibilities.xml#v2.0">special notes</link>
+                <link xlink:href="incompatibilities#v2.0">Special notes</link>
               </para>
             </entry>
           </row>
@@ -252,7 +252,7 @@
             </entry>
             <entry>
               <para>
-                <link xlink:href="incompatibilities.xml#v1.4">special notes</link>
+                <link xlink:href="incompatibilities#v1.4">Special notes</link>
               </para>
             </entry>
           </row>

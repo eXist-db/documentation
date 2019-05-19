@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Known Issues when upgrading</title>
-        <date>4Q18</date>
+        <date>2Q19</date>
         <keywordset>
             <keyword>operations</keyword>
         </keywordset>
@@ -115,7 +115,7 @@
                 <para>2.2 introduces a <emphasis>new range index module</emphasis>. Old index
                     definitions will still work though as we made sure to keep backwards compatible.
                     If you would like to upgrade to the new index, check its <link
-                    xlink:href="newrangeindex.xml">documentation</link>.</para>
+                    xlink:href="newrangeindex">documentation</link>.</para>
             </listitem>
             <listitem>
                 <para>The XQuery engine has been updated to support the changed syntax for
@@ -267,7 +267,7 @@
                         <para>The previous <literal>auto</literal> setting was apparently too
                             confusing for new users who did not know what to do if eXist-db refused
                             to store a document due to failing validation. If you are familiar with
-                            <link xlink:href="validation.xml">validation</link>, the use of catalog
+                            <link xlink:href="validation">validation</link>, the use of catalog
                             files and the like, feel free to set the default back to
                             <literal>auto</literal> or <literal>yes</literal>.</para>
                     </listitem>
@@ -277,7 +277,7 @@
                     <listitem>
                         <para>eXist-db does no longer require Cocoon for viewing documentation and
                             samples. Cocoon has been largely replaced by eXist-db's own <link
-                            xlink:href="urlrewrite.xml">URL rewriting and MVC
+                            xlink:href="urlrewrite">URL rewriting and MVC
                             framework</link>.</para>
                         <para>Consequently, we now limit Cocoon to one directory of the web
                             application (<literal>webapp/cocoon</literal>) and moved all the Cocoon

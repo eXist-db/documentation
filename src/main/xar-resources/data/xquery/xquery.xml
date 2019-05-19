@@ -190,10 +190,10 @@
     <sect1 xml:id="full-text">
         <title>Full Text Search</title>
 
-        <para>eXist-db has an implementation-specific <link xlink:href="lucene.xml">Full Text Search
+        <para>eXist-db has an implementation-specific <link xlink:href="lucene">Full Text Search
             facility</link>, built on the <link condition="_blank"
             xlink:href="https://lucene.apache.org/">Apache Lucene</link> library (see the full
-            documentation on <link xlink:href="indexing.xml">indexing</link> in eXist-db). eXist-db
+            documentation on <link xlink:href="indexing">indexing</link> in eXist-db). eXist-db
             does not currently support the official W3C <link condition="_blank"
             xlink:href="https://www.w3.org/TR/xpath-full-text/">"XQuery and XPath Full Text
             3.0"</link> specification.</para>
@@ -205,7 +205,7 @@
     <sect1 xml:id="update">
         <title>XQuery Update</title>
 
-        <para>eXist-db has an implementation-specific <link xlink:href="update_ext.xml">XQuery
+        <para>eXist-db has an implementation-specific <link xlink:href="update_ext">XQuery
             Update facility</link>, which predates the development of the official W3C XQuery Update
             facility. eXist-db does currently not support the official <link
             xlink:href="https://www.w3.org/TR/xquery-update/">"XQuery Update Facility 3.0"</link>
@@ -228,7 +228,7 @@
             whether the module is implemented in Java or XQuery. For modules implemented in Java,
             the documentation is taken directly from the signature provided by the class
             implementing the <literal>Function</literal> interface. For modules implemented in
-            XQuery, the function descriptions are taken from <link xlink:href="xqdoc.xml"
+            XQuery, the function descriptions are taken from <link xlink:href="xqdoc"
             >XQDoc-formatted comments and annotations</link>.</para>
     </sect1>
 
@@ -237,7 +237,7 @@
     <sect1 xml:id="module-system">
         <title>The Module System</title>
 
-        <para>eXist-db supports the creation of <link xlink:href="development-starter.xml">web
+        <para>eXist-db supports the creation of <link xlink:href="development-starter">web
             applications in XQuery</link>. This can result in complex XQuery scripts, consisting of
             several thousand lines of code. Packaging related functions in modules is therefore an
             important feature. eXist-db allows modules to be imported from a variety of
@@ -325,7 +325,7 @@
 
             <para>The eXist-db package repository makes it easy to manage and deploy external
                 packages (<code>.xar</code> archives) containing Java or XQuery libraries and even
-                full eXist-db applications. See the <link xlink:href="repo.xml">Package
+                full eXist-db applications. See the <link xlink:href="repo">Package
                 Repository</link> documentation.</para>
         </sect2>
 
@@ -430,9 +430,9 @@
             <note>
                 <para>Besides the basic methods for creating a Java-based XQuery module described
                     here, eXist-db provides a pluggable module interface that allows extension
-                    modules to be easily developed in Java. See <link xlink:href="extensions.xml"
+                    modules to be easily developed in Java. See <link xlink:href="extensions"
                     >XQuery Extension Modules</link> for the full documentation on this eXist-db
-                    development best practice. Also, see the <link xlink:href="repo.xml">Package
+                    development best practice. Also, see the <link xlink:href="repo">Package
                     Repository</link> documentation for information on distributing and deploying
                     XQuery and Java libraries for eXist-db.</para>
             </note>
@@ -920,7 +920,7 @@
             <title>Packaging System</title>
             <para>eXist-db implements the <link xlink:href="http://expath.org/spec/pkg">Packaging
                 System</link>, an EXPath community specification for library and application
-                packages. See the <link xlink:href="repo.xml">Package Repository</link>
+                packages. See the <link xlink:href="repo">Package Repository</link>
                 documentation.</para>
         </sect2>
 
