@@ -311,25 +311,15 @@
             <para>Further considerations for a live environment:</para>
             <variablelist spacing="compact">
                 <varlistentry>
-                    <term>Standalone mode</term>
-                    <listitem>
-                        <para>eXist-db can be operated in a cut-down standalone mode (see
-                            <code>server.(sh|bat)</code>). This provides just the core services from
-                            the database (no webapp file system access and no documentation). The
-                            entire application has to be stored in the database and is served from
-                            there. This is an ideal starting place for a production system.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
                     <term>Services</term>
                     <listitem>
                         <para>eXist-db provides services for accessing the database. You should
                             reduce these to the absolute minimum you need for your production
-                            application. If you are operating in standalone mode, this is done via
-                            <code>server.xml</code>, otherwise <code>webapp/WEB-INF/web.xm</code>l.
+                            application.This is done via
+                            <code>etc/webapp/WEB-INF/web.xml</code>.
                             You should look at each configured service, servlet or filter and ask
-                            yoursel: do we use this? Most production environments are unlikely to
-                            need WebDAV or SOAP Admin (Axis).</para>
+                            yourself: do we use this? Most production environments are unlikely to
+                            need WebDAV.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -337,7 +327,7 @@
                     <listitem>
                         <para>eXist-db loads several XQuery and Index extension modules by default.
                             You should modify the <tag>builtin-modules</tag> section of
-                            <literal>conf.xml</literal> and <emphasis>only</emphasis> load what you
+                            <literal>etc/conf.xml</literal> and <emphasis>only</emphasis> load what you
                             need for your application.</para>
                     </listitem>
                 </varlistentry>
@@ -357,15 +347,15 @@
                     <listitem>
                         <para>However you decide to deploy and start eXist, please ensure that you
                             allocate enough maximum memory to eXist-db uwing the Java
-                            <code>-Xmx</code> setting. See <code>backup.sh</code> and
-                            <code>startup.sh</code>.</para>
+                            <code>-Xmx</code> setting. See <code>bin/backup.sh</code> and
+                            <code>bin/startup.sh</code>.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><code>cacheSize</code> and <code>collectionCache</code></term>
                     <listitem>
                         <para>These two settings in <tag>db-connection</tag> of
-                            <literal>conf.xml</literal> should be adjusted appropriately based on
+                            <literal>etc/conf.xml</literal> should be adjusted appropriately based on
                             your <code>-Xmx</code> setting (see above). See the <link
                             xlink:href="tuning">tuning guide</link> for advice on sensible
                             values.</para>
@@ -389,7 +379,7 @@
 
             <para>Keeping the eXist-db application, data and journal on separate disks, connected to
                 different I/O channels, can have a positive impact on performance. The location of
-                the data files and journals can be changed in <literal>conf.xml</literal>.</para>
+                the data files and journals can be changed in <literal>etc/conf.xml</literal>.</para>
         </sect2>
     </sect1>
 
