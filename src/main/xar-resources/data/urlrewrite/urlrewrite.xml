@@ -29,7 +29,7 @@
             forward them to the appropriate handlers, which are again standard servlets. In fact,
             there's nothing eXist-specific to the servlet filter, except that it uses XQuery scripts
             to configure the forwarding and URL rewriting. Like any other servlet filter, it is
-            configured in <literal>webapp/WEB-INF/web.xml</literal>.</para>
+            configured in <literal>etc/webapp/WEB-INF/web.xml</literal>.</para>
         <para>A controller XQuery is executed once for every requests. It must return an XML
             fragment, which tells the servlet filter how to proceed with the request. The returned
             XML fragment can range from simply define forwarding up to describing complex pipelines
@@ -215,7 +215,7 @@
             you may want to keep the main webapp within the file system, while some tools and
             scripts should be served from a database collection. This can be done by configuring two
             roots within the <literal>controller-config.xml</literal> file in
-            <literal>webapp/WEB-INF</literal>. <literal>controller-config.xml</literal> defines the
+            <literal>etc/webapp/WEB-INF</literal>. <literal>controller-config.xml</literal> defines the
             base mappings used by XQueryURLRewrite. </para>
         <para>It basically has two components:</para>
         <itemizedlist>

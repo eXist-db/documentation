@@ -46,25 +46,6 @@
             background service which is automatically launched during system start-up. This can be
             convenient, especially for servers. eXist-db continues to run even after users have
             logged off.</para>
-        <para>eXist-db comes with pre-configured scripts that use <link condition="_blank"
-            xlink:href="http://yajsw.sourceforge.net/">YAJSW (Yet Another Java Service
-            Wrapper)</link> to handle the setup procedure. The scripts for this are contained in the
-            directory <literal>tools/yajsw</literal>. </para>
-        <para>Out of the box the following mainstream platforms are supported:</para>
-        <itemizedlist>
-            <listitem>
-                <para>Windows x86 (32bit/64bit)</para>
-            </listitem>
-            <listitem>
-                <para>Linux x86 (32bit/64bit) &amp; IA (64bit) </para>
-            </listitem>
-            <listitem>
-                <para>macOS x86 (32bit/64bit) </para>
-            </listitem>
-            <listitem>
-                <para>Solaris x86 (32bit/64bit) &amp; SPARC (32bit/64bit)</para>
-            </listitem>
-        </itemizedlist>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
@@ -81,10 +62,6 @@
                     <para>Choose <guimenuitem>Install eXist-db as Service</guimenuitem> from
                         eXist-db's entry in the Windows start menu.</para>
                 </listitem>
-                <listitem>
-                    <para>Run <literal>tools/yajsw/bin/installService.bat</literal> from the command
-                        line.</para>
-                </listitem>
             </itemizedlist>
             <para>Installing eXist-db as a service on Windows requires full administrator
                 rights.</para>
@@ -98,9 +75,6 @@
                     </imageobject>
                 </mediaobject>
             </informalfigure>
-            <para>Launch it via the service manager (as shown in the screenshot above) or from the
-                command line:</para>
-            <programlisting>tools\yaysw\bin\startService.bat</programlisting>
         </sect2>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -109,7 +83,7 @@
             <title>Unix/Linux</title>
 
             <para>The scripts for running eXist-db as a service for Unix and Linux based system
-                (among which MacOS)can be found in the <literal>tools/yajsw/bin/</literal>
+                (among which MacOS) can be found in the <literal>tools/serviced/</literal>
                 sub-directory.</para>
             <para>Run the following command to get eXist-db started during initialization of the
                 system:</para>
@@ -168,17 +142,6 @@
             </sect3>
 
         </sect2>
-
-        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-        <sect2 xml:id="other">
-            <title>Other platforms</title>
-
-            <para>Support for additional platforms can be bootstrapped by looking at templates in
-                the <code>tools/yajsw/templates</code> sub-directory. Consult the <link
-                condition="_blank" xlink:href="http://yajsw.sourceforge.net/">YAJSW
-                documentation</link> for more information.</para>
-        </sect2>
     </sect1>
 
     <!-- ================================================================== -->
@@ -187,8 +150,8 @@
         <title>Alternatives for scripts in the bin Directory</title>
 
         <para>Included in the distribution are a number of useful <literal>.sh</literal> (Unix
-            Shell) and <literal>.bat</literal> (DOS batch) programs located in the
-            <literal>bin</literal> sub-directory. Their names speak for themselves.</para>
+            Shell) and <literal>.bat</literal> (Windows batch) programs located in the
+                <literal>bin</literal> sub-directory. Their names speak for themselves.</para>
         <para>However, if you find that programs do not launch, you can try to manually launch them
             on the command-line without the scripting wrapper. This often provides useful debugging
             information.</para>

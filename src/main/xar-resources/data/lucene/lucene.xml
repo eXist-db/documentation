@@ -32,41 +32,15 @@
 
     <!-- ================================================================== -->
 
-    <sect1 xml:id="enable">
-        <title>Enabling the Lucene Module</title>
-
-        <para>The Lucene full text index is enabled by default (since eXist-db version 1.4). In case
-            it is not enabled in your installation, here's how to get it up and running:</para>
-        <orderedlist>
-            <listitem>
-                <para>Enable it according to the instructions in the article on <link condition="_blank" xlink:href="indexing.xml#moduleconf">index
-                    modules</link>.</para>
-            </listitem>
-            <listitem>
-                <para>Then <emphasis>(re-)build eXist-db</emphasis> using the provided
-                    <literal>build.sh</literal> or <literal>build.bat</literal> script. The build
-                    process downloads the required Lucene jars automatically. If everything builds
-                    ok, you'll find a jar <literal>exist-lucene-module.jar</literal> in the
-                    <literal>lib/extensions</literal> directory.</para>
-            </listitem>
-            <listitem>
-                <para>Edit the main configuration file, <literal>conf.xml</literal> and un-comment
-                    the Lucene-related section:</para>
-                <programlisting language="xml" xlink:href="listings/listing-1.xml"/>
-            </listitem>
-        </orderedlist>
-
-        <para>The index has a single configuration parameter on the
-            <tag>modules</tag><code>/</code><tag>module</tag> element called <code>buffer</code>. It
-            defines the amount of memory (in megabytes) Lucene will use for buffering index entries
-            before they are written to disk. See the <link condition="_blank" xlink:href="http://lucene.apache.org/core/4_10_4/core/org/apache/lucene/index/IndexWriterConfig.html#setRAMBufferSizeMB(double)">Lucene Javadocs</link>.</para>
-
-    </sect1>
-
-    <!-- ================================================================== -->
-
     <sect1 xml:id="config">
         <title>Configuring the Index</title>
+        <para>The index has a single configuration parameter on the
+                <tag>modules</tag><code>/</code><tag>module</tag> element called
+            <code>buffer</code>. It defines the amount of memory (in megabytes) Lucene will use for
+            buffering index entries before they are written to disk. See the <link
+                condition="_blank"
+                xlink:href="http://lucene.apache.org/core/4_10_4/core/org/apache/lucene/index/IndexWriterConfig.html#setRAMBufferSizeMB(double)"
+                >Lucene Javadocs</link>.</para>
 
         <para>Like other indexes, you create a Lucene index by configuring it in a
             <literal>collection.xconf</literal> document as explained in <link xlink:href="indexing.xml#idxconf">documentation</link>. For example:</para>
