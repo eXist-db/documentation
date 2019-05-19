@@ -4,7 +4,7 @@
 
     <info>
         <title>Creating CRUDS applications with XRX in eXist</title>
-        <date>1Q18</date>
+        <date>2Q19</date>
         <keywordset>
             <keyword>getting-started</keyword>
             <keyword>application-development</keyword>
@@ -235,7 +235,8 @@
                     interchange of applications, the EXPath Community has created a specification
                     for application metadata, called EXPath Packaging System. eXist supports and
                     extends this module. This tutorial will not cover this file's structure, but you
-                    can learn more about this by reading <link xlink:href="https://exist-db.org/exist/apps/doc/repo.xml"/>. </para>
+                    can learn more about this by reading about the <link xlink:href="repo">Package 
+                        Repository</link>. </para>
             </listitem>
         </orderedlist>
         <para>You are always free to change the names of the collection or the queries, but as
@@ -400,7 +401,7 @@
                 also creates a Lucene full text index for all words in the term name, term
                 definition and term publish-status-code. (By using the repo.xml Deployment
                 Descriptor's "prepare" field, you can automate the installation of this
-                collection.xconf file into the target location; see <link xlink:href="https://exist-db.org/exist/apps/doc/repo.xml#D1.4.10"/>.)</para>
+                collection.xconf file into the target location; see <link xlink:href="repo#D1.4.10"/>.)</para>
         </sect2>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -709,7 +710,7 @@
                 <para>Create an XQuery module to centralize some of the common code and reduce
                     duplication and then reference these functions in each of your queries. For
                     example, you could put the HTML boilerplate into a style module. You could also
-                    explore eXist's HTML templating module; see <link xlink:href="https://exist-db.org/exist/apps/doc/templating.xml"/>.</para>
+                    explore eXist's <link xlink:href="templating">HTML templating module</link>.</para>
             </listitem>
             <listitem>
                 <para>Change the <code>list-items.xq</code> to use HTML tables to view each
@@ -769,7 +770,7 @@
             <listitem>
                 <para>Modify the collection configuration file for the
                     <code>/db/apps/terms/data</code> collection to enable versioning when items are
-                    updated. See <link xlink:href="https://exist-db.org/exist/apps/doc/versioning.xml"/>.</para>
+                    updated. See <link xlink:href="versioning">Versioning Extensions</link>.</para>
             </listitem>
         </orderedlist>
     </sect1>
