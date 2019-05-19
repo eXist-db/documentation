@@ -25,18 +25,18 @@
         <para>XQuery is unique in the development stack: It replaces both SQL and the traditional
             software layers that convert SQL into presentation formats such as HTML, PDF and ePub.
             XQuery can both retrieve information from your database and format it for presentation. </para>
-        <para>Learning how to select basic data from an XML document can be learned in just a few
+        <para>Learning how to select basic data from an XML document can be accomplished in just a few
             hours, especially if you are already familiar with SQL and other functional programming
-            languages. Learning how to create custom XQuery functions, how to design XQuery modules
+            languages. Learning how to create custom XQuery functions, how to design XQuery modules,
             and how to execute unit tests on XQuery takes considerably longer.</para>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
+        
         <sect2 xml:id="learning-example">
             <title>Learning by Example</title>
 
             <para>Many people find that they learn a new language best by reading and trying small
-                examples of code. One of the ideal locations for this is the <link condition="_blank" xlink:href="http://en.wikibooks.org/wiki/XQuery#Beginning_Examples">XQuery Wikibook
+                examples of code. One of the ideal locations for this is the <link condition="_blank" xlink:href="https://en.wikibooks.org/wiki/XQuery#Beginning_Examples">XQuery Wikibook
                 Beginning Examples</link>. These examples are all designed and tested to work with
                 eXist. Please let us know if there are specific examples you would like to
                 see.</para>
@@ -56,12 +56,12 @@
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
         <sect2 xml:id="learning-flowr">
-            <title>Learning FLOWR statements</title>
+            <title>Learning FLWOR statements</title>
 
-            <para>Iteration in XQuery uses parallel programming statements called FLOWR (For, Let,
-                Order by, Where, Return). Each loop of a FLOWR statement is performed in a separate
+            <para>Iteration in XQuery uses parallel programming statements called FLWOR (For, Let,
+                Where, Order by, Return). Each loop of a FLWOR statement is performed in a separate
                 thread of execution. As a result you cannot use the output of any computation in a
-                FLOWR loop as input for the next iteration. This concept can be difficult to learn
+                FLWOR loop as input for the next iteration. This concept can be difficult to learn
                 if you have never used parallel programming systems.</para>
         </sect2>
 
@@ -132,6 +132,21 @@
                 <code>xmldb:</code>, all the functions of the XMLDB module will automatically appear
                 in a drop-down list. As you continue to type or select a function the parameters and
                 types are also shown. This becomes an important time-saver!</para>
+        </sect2>
+        
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        
+        <sect2 xml:id="other-resources">
+            <title>Other Resources</title>
+            
+            <para>See Priscilla Walmsley's book, <link
+                xlink:href="http://shop.oreilly.com/product/0636920035589.do" condition="_blank"
+                    >XQuery</link> on the XQuery language, Adam Retter and Erik Siegel's book, <link
+                    xlink:href="http://shop.oreilly.com/product/0636920026525.do"
+                    condition="_blank">eXist: a NoSQL Document Database and Application
+                    Platform</link>, on XQuery application development, and the <link
+                    xlink:href="https://github.com/joewiz/learn-xquery" condition="_blank">Learning
+                    XQuery</link> list.</para>
         </sect2>
 
     </sect1>
