@@ -12,7 +12,6 @@ declare namespace test = "http://exist-db.org/xquery/xqsuite";
 import module namespace docbook = "http://docbook.org/ns/docbook" at "docbook.xql";
 import module namespace config = "http://exist-db.org/xquery/apps/config" at "config.xqm";
 import module namespace diag = "http://exist-db.org/xquery/diagnostics" at "diagnostics.xql";
-import module namespace rvds = "http://exist-db.org/xquery/rvd-support" at "rvd-support.xql";
 
 declare namespace db5 = "http://docbook.org/ns/docbook";
 
