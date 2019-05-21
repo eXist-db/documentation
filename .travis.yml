@@ -11,12 +11,16 @@ env:
   - img=existdb/existdb:latest
   - img=existdb/existdb:release
 
+cache:
+  directories:
+  - $HOME/.m2
+
 before_install:
   - docker pull $img
   - docker create  --name exist-ci -p 8080:8080 $img
 
 install:
-  - mvn clean package
+  - mvn clean package -DskipTests -q
 
 before_script:
   - docker cp ./target/exist-documentation-*.xar exist-ci:exist/autodeploy
@@ -27,6 +31,7 @@ before_script:
 script:
   - mvn validate
   - mvn test
+  - npm run cypress
 
 after_success:
   - docker ps
