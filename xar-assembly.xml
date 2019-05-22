@@ -17,6 +17,18 @@
   <dependency package="http://exist-db.org/apps/shared" semver-min="0.8.2"/>
   <prepare>pre-install.xql</prepare>
   <changelog>
+    <change version="4.2.0">
+      <ul xmlns="http://www.w3.org/1999/xhtml">
+        <li>removed deprecated extensions</li>
+        <li>removed war guide</li>
+        <li>updates to indexing guide</li>
+        <li>add previously undocumented xqSuite annotations</li>
+        <li>update Bootsrap, Jquery, switch to highlight, many minor bumps</li>
+        <li>integrate frontend tooling in build process via maven plugin</li>
+        <li>add integration tests, and execute XQsuite test during build</li>
+        <li>fix outdated syntax in xmlrpc article</li>
+      </ul>
+    </change>
     <change version="4.1.2">
       <ul xmlns="http://www.w3.org/1999/xhtml">
         <li>removed mentions of xprocq</li>
