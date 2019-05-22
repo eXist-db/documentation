@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>HTML Templating Module</title>
-        <date>1Q18</date>
+        <date>2Q19</date>
         <keywordset>
             <keyword>application-development</keyword>
         </keywordset>
@@ -274,7 +274,7 @@
             and configures the URL rewriting to call this for any path ending in
             <literal>.html</literal>. Using eXide is therefore the easiest way to get started with
             the templating framework. </para>
-        <para>Please consult the <link xlink:href="development-starter.xml">Getting Started with Web
+        <para>Please consult the <link xlink:href="development-starter">Getting Started with Web
             Application Development</link> guide.</para>
     </sect1>
 
@@ -289,7 +289,7 @@
             xlink:href="https://github.com/eXist-db/shared-resources">shared-resources</link>
             application also exports the module. This will always be the latest version. You could
             therefore define a dependency on the shared-resources app (see the <link
-            xlink:href="repo.xml">packaging documentation</link>). You can now just import the
+            xlink:href="repo">packaging documentation</link>). You can now just import the
             module by its namespace URI, but without specifying a location:</para>
         <programlisting language="xquery">import module namespace templates="http://exist-db.org/xquery/templates";</programlisting>
         <para>The documentation and demo applications all read the templating module from

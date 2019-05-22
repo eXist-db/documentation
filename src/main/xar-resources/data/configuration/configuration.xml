@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Application Server Configuration</title>
-        <date>1Q18</date>
+        <date>2Q19</date>
         <keywordset>
             <keyword>operations</keyword>
         </keywordset>
@@ -423,7 +423,7 @@
                 <title> <tag>db-connection</tag>/<tag>default-permissions</tag> element</title>
 
                 <para>Specifies the default permissions for all resources and collections in eXist
-                    (see <link xlink:href="security.xml"> User Authentication and Access
+                    (see <link xlink:href="security">User Authentication and Access
                     Control</link>). When this is not configured, the default <literal>mod</literal>
                     (similar to the Unix <code>chmod</code> command) is set to
                     <literal>0775</literal> in the <literal>resources</literal> and
@@ -463,7 +463,7 @@
                                     workaround, which will be removed in the future. Please use the
                                     n-gram or full-text indexes for case-insensitive queries or - if
                                     that is impossible - specify a <link
-                                    xlink:href="xquery.xml#collations">collation</link>.</para>
+                                    xlink:href="xquery#collations">collation</link>.</para>
                             </warning>
                         </listitem>
                     </varlistentry>
@@ -574,7 +574,7 @@
                     <literal>class</literal> and <literal>id</literal>. The other attributes, as
                     well as any nested elements, are specific to the index implementation. Detailed
                     information is available in the article on <link
-                    xlink:href="indexing.xml#moduleconf">Configuring Database Indexes</link>.</para>
+                    xlink:href="indexing#moduleconf">Configuring Database Indexes</link>.</para>
             </sect3>
 
             <sect3 xml:id="indexer-stopwords">
@@ -594,7 +594,7 @@
                 <para>Configuring indexes via the default settings is <emphasis>not</emphasis>
                     recommended. If you need a global collection configuration, store one for the
                     root collection <literal>/db</literal>. For more information, see <link
-                    xlink:href="indexing.xml">Configuring Indexes</link>.</para>
+                    xlink:href="indexing">Configuring Indexes</link>.</para>
             </sect3>
         </sect2>
 
@@ -735,7 +735,7 @@
             <para>The serializer is responsible for serializing XML documents or document fragments
                 back into XML. This configuration element defines default settings for various
                 parameters, which can also be specified programmatically. All settings can be
-                overwritten by XQuery <link xlink:href="xquery.xml#serialization">serialization
+                overwritten by XQuery <link xlink:href="xquery#serialization">serialization
                 options</link>.</para>
             <sect3 xml:id="serializer-att">
                 <title> <tag>serializer</tag> attributes</title>
@@ -821,7 +821,7 @@
                 catalog files. Catalog files are used to locate DTDs, schemas and resolve external
                 entities in general.</para>
             <para>Please refer to the corresponding documentation on <link
-                xlink:href="validation.xml">XML Validation</link>.</para>
+                xlink:href="validation">XML Validation</link>.</para>
         </sect2>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -990,7 +990,7 @@
                     which must point to the XQuery source code of the module, for instance:</para>
                 <programlisting language="xml"><![CDATA[&amp;lt;module uri="http://exist-db.org/xquery/kwic" src="resource:org/exist/xquery/lib/kwic.xql"/&amp;gt;]]></programlisting>
                 <para>For the <code>src</code> attribute, eXist understands the <link
-                    xlink:href="xquery.xml#module-system">same types of URIs</link> as in an
+                    xlink:href="xquery#module-system">same types of URIs</link> as in an
                     ordinary XQuery import statement.</para>
             </sect3>
         </sect2>

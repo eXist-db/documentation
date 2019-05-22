@@ -42,7 +42,7 @@
             <para>eXist-db will require a restart to load any new modules added. </para>
         </note>
         <para>Once a Module is configured and loaded eXist-db will display the module and its
-            function definitions as part of the <link xlink:href="{fundocs}">function library</link>
+            function definitions as part of the <link xlink:href="{${fundocs.pkg.abbrev}}">function library</link>
             page or through <literal>util:decribe-function()</literal>.</para>
     </sect1>
 
@@ -325,9 +325,9 @@
         <sect2 xml:id="module_spatial">
             <title>Spatial module</title>
             <para>Various functions for <link
-                    xlink:href="http://www.opengeospatial.org/standards/gml">GML</link> geometries,
-                whether indexed or not. More information about the design is available <link
-                    xlink:href="devguide_indexes.xml">here</link>.</para>
+                    xlink:href="https://www.opengeospatial.org/standards/gml">GML</link> geometries,
+                whether indexed or not. More information about the design is available in the <link
+                    xlink:href="devguide_indexes">Developer's Guide to Modularized Indexes</link>.</para>
             <itemizedlist>
                 <listitem>
                     <para>Creator: Pierrick Brihaye</para>

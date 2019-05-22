@@ -65,7 +65,7 @@
                 <listitem>
                     <para>A spatial index that stores some of the geometric characteristics of <link
                             condition="_blank"
-                            xlink:href="http://www.opengeospatial.org/standards/gml">Geography
+                            xlink:href="https://www.opengeospatial.org/standards/gml">Geography
                             Markup Language</link> geometries (tested against GML version 2.1.2).
                         For instance:</para>
                     <programlisting language="xml" xlink:href="listings/listing-1.xml"/>
@@ -74,19 +74,19 @@
                     <itemizedlist>
                         <listitem>
                             <para>The <link condition="_blank"
-                                xlink:href="http://en.wikipedia.org/wiki/Spatial_referencing_systems"
+                                xlink:href="https://en.wikipedia.org/wiki/Spatial_referencing_systems"
                                 >spatial referencing system</link> (<literal>osgb:BNG</literal> for
                                 this polygon)</para>
                         </listitem>
                         <listitem>
                             <para>The polygon itself, stored in a binary form (<link
                                 condition="_blank"
-                                xlink:href="http://en.wikipedia.org/wiki/Well-known_text">Well-Known
+                                xlink:href="https://en.wikipedia.org/wiki/Well-known_text">Well-Known
                                 Binary</link>)</para>
                         </listitem>
                         <listitem>
                             <para>The coordinates of its <link condition="_blank"
-                                xlink:href="http://en.wikipedia.org/wiki/Minimum_bounding_rectangle"
+                                xlink:href="https://en.wikipedia.org/wiki/Minimum_bounding_rectangle"
                                 >bounding box</link> </para>
                         </listitem>
                     </itemizedlist>
@@ -730,7 +730,7 @@
                             <entry> <para>WKT</para> </entry>
                             <entry> <para>VARCHAR</para> </entry>
                             <entry> <para>The <link
-                                xlink:href="http://de.wikipedia.org/wiki/Well_Known_Text">Well-Known
+                                xlink:href="https://de.wikipedia.org/wiki/Well_Known_Text">Well-Known
                                 Text</link> representation of the geometry</para> </entry>
                             <entry/>
                         </row>
@@ -788,7 +788,7 @@
                             <entry> <para>VARCHAR</para> </entry>
                             <entry> <para>The WKT representation of the geometry</para> </entry>
                             <entry> <para>In the <link
-                                xlink:href="http://en.wikipedia.org/wiki/EPSG:4326">epsg:4326</link>
+                                xlink:href="https://en.wikipedia.org/wiki/EPSG:4326">epsg:4326</link>
                                 SRS</para> </entry>
                         </row>
                         <row>
@@ -963,7 +963,7 @@
                 GML parsing. It is <literal>null</literal> if the geometry is topologically not well
                 formed. This latter case is maybe a too restrictive feature of Geotools parser which
                 also throws <literal>NullPointerException</literal>s (!) if the GML is somehow not
-                well-formed. See <link xlink:href="http://jira.codehaus.org/browse/GEOT-742"
+                well-formed. See <link xlink:href="https://osgeo-org.atlassian.net/browse/GEOT-742"
                 >GEOT-742</link> for more information on this issue.</para>
             <para> <literal>documentDeleted</literal> is a flag indicating that the current document
                 has been deleted and that we don't have to process it any more. Remember that
@@ -1076,13 +1076,13 @@
                 <literal>org.geotools.gml.producer.GeometryTransformer</literal> which needs some
                 polishing because, despite it is called a transformer, it doesn't cope easily with a
                 <literal>Handler</literal> and returns a... <literal>String</literal> ! See <link
-                xlink:href="http://codehaus01a.managed.contegix.com/browse/GEOT-1315"
+                    xlink:href="https://osgeo-org.atlassian.net/browse/GEOT-1315"
                 >GEOT-1315</link>.</para>
             <para>The last method is also a utility method:</para>
             <programlisting xlink:href="listings/listing-98.txt"/>
             <para>It implements a workaround for our test file SRS which isn't yet known by Geotools
                 libraries (see <link
-                xlink:href="http://codehaus01a.managed.contegix.com/browse/GEOT-1307"
+                    xlink:href="https://osgeo-org.atlassian.net/browse/GEOT-1307"
                 >GEOT-1307</link>), then it tries to get the transformation from our cache. If it
                 doesn't succeed, it tries to find one in the libraries that are in the CLASSPATH.
                 Should those libraries lack the Bursa-Wolf parameters, it will make another attempt
@@ -1260,7 +1260,7 @@
                 operates in the <literal>http://exist-db.org/xquery/spatial</literal> namespace
                 (whose default prefix is <literal>spatial</literal>).</para>
             <para>The functions signatures are documented together with the functions themselves in
-                <link xlink:href="http://demo.exist-db.org/xquery/functions.xq">this page</link>.
+                <link xlink:href="{${fundocs.pkg.abbrev}}">the XQuery function documentation</link>.
                 Here we will only look at their <literal>eval()</literal> methods.</para>
             <para>The first functions set we will describe is
                 <literal>org.exist.xquery.modules.spatial.FunSpatialSearch</literal>, which performs
@@ -1386,7 +1386,7 @@
                 seconds, including some default fulltext indexing. Let's close the upload window and
                 quit the interactive client.</para>
             <para>Let's look our our GML file looks like on GML Viewer, a free viewer provided by
-                <link xlink:href="http://www.snowflakesoftware.co.uk/products/gmlviewer/index.htm"
+                <link xlink:href="https://wiki.snowflakesoftware.com/display/GV50DOC"
                 >Snowflake software</link>:</para>
             <informalfigure>
                 <mediaobject>

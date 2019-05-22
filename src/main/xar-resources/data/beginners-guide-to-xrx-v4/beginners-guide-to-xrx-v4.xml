@@ -4,7 +4,7 @@
 
     <info>
         <title>Creating CRUDS applications with XRX in eXist</title>
-        <date>1Q18</date>
+        <date>2Q19</date>
         <keywordset>
             <keyword>getting-started</keyword>
             <keyword>application-development</keyword>
@@ -57,7 +57,7 @@
             <para>To use this guide you will need to have following tools in place: </para>
             <orderedlist>
                 <listitem>
-                    <para> <emphasis role="bold">eXist</emphasis>: You will need to have <link xlink:href="http://exist-db.org">eXist</link> running on your local system.
+                    <para> <emphasis role="bold">eXist</emphasis>: You will need to have <link xlink:href="https://exist-db.org">eXist</link> running on your local system.
                         By default eXist runs on port <code>8080</code> so that when you set your
                         web browser to <link xlink:href="http://localhost:8080/exist/">http://localhost:8080/exist/</link> you should see the eXist homepage come
                         up.</para>
@@ -101,7 +101,7 @@
             <para>This example will use the following terms and concepts:</para>
             <para> <emphasis role="bold">XRX</emphasis> is the name of the web application
                 architecture that we are introducing in this guide. The term XRX comes from the
-                combination of XForms, REST, and XQuery. The term was <link xlink:href="http://archive.oreilly.com/pub/post/xrx_a_simple_elegant_disruptiv_1.html">coined</link> by Dan McCreary. XForms are used in the client (web browser), REST is
+                combination of XForms, REST, and XQuery. The term was <link xlink:href="https://web.archive.org/web/20171224124316/http://archive.oreilly.com/pub/post/xrx_a_simple_elegant_disruptiv_1.html">coined</link> by Dan McCreary. XForms are used in the client (web browser), REST is
                 the interface between the client and the server, and XQuery is the server language.
                 Two of the most significant advantages of XRX over other architectures are: (1) it
                 does not require users to translate data into Java or .Net objects, and (2) it does
@@ -235,7 +235,8 @@
                     interchange of applications, the EXPath Community has created a specification
                     for application metadata, called EXPath Packaging System. eXist supports and
                     extends this module. This tutorial will not cover this file's structure, but you
-                    can learn more about this by reading <link xlink:href="https://exist-db.org/exist/apps/doc/repo.xml"/>. </para>
+                    can learn more about this by reading about the <link xlink:href="repo">Package 
+                        Repository</link>. </para>
             </listitem>
         </orderedlist>
         <para>You are always free to change the names of the collection or the queries, but as
@@ -400,7 +401,7 @@
                 also creates a Lucene full text index for all words in the term name, term
                 definition and term publish-status-code. (By using the repo.xml Deployment
                 Descriptor's "prepare" field, you can automate the installation of this
-                collection.xconf file into the target location; see <link xlink:href="https://exist-db.org/exist/apps/doc/repo.xml#D1.4.10"/>.)</para>
+                collection.xconf file into the target location; see <link xlink:href="repo#D1.4.10"/>.)</para>
         </sect2>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -585,7 +586,7 @@
                 allows users to enter multi-line descriptions for definitions of terms. The last
                 control is the <tag>xf:select1</tag> control that allows the user to select one
                 value from a list of values. (For a complete discussion of the XForms controls we
-                suggest you use the XForms Wikibook at <link xlink:href="http://en.wikibooks.org/wiki/XForms">http://en.wikibooks.org/wiki/XForms</link>. The Input Form Controls section goes
+                suggest you use the XForms Wikibook at <link xlink:href="https://en.wikibooks.org/wiki/XForms">http://en.wikibooks.org/wiki/XForms</link>. The Input Form Controls section goes
                 through each of the controls in the XForms specification. In addition to the
                 standard controls there are other controls that can also be integrated directly into
                 XForms, such as rich-text editors.)</para>
@@ -709,7 +710,7 @@
                 <para>Create an XQuery module to centralize some of the common code and reduce
                     duplication and then reference these functions in each of your queries. For
                     example, you could put the HTML boilerplate into a style module. You could also
-                    explore eXist's HTML templating module; see <link xlink:href="https://exist-db.org/exist/apps/doc/templating.xml"/>.</para>
+                    explore eXist's <link xlink:href="templating">HTML templating module</link>.</para>
             </listitem>
             <listitem>
                 <para>Change the <code>list-items.xq</code> to use HTML tables to view each
@@ -769,7 +770,7 @@
             <listitem>
                 <para>Modify the collection configuration file for the
                     <code>/db/apps/terms/data</code> collection to enable versioning when items are
-                    updated. See <link xlink:href="https://exist-db.org/exist/apps/doc/versioning.xml"/>.</para>
+                    updated. See <link xlink:href="versioning">Versioning Extensions</link>.</para>
             </listitem>
         </orderedlist>
     </sect1>
@@ -785,22 +786,22 @@
         <para>Wiki Books:</para>
         <itemizedlist>
             <listitem>
-                <para> <link xlink:href="http://en.wikibooks.org/wiki/XForms">XForms Wikibook</link> </para>
+                <para> <link xlink:href="https://en.wikibooks.org/wiki/XForms">XForms Wikibook</link> </para>
                 <para>Dan McCreary</para>
             </listitem>
             <listitem>
-                <para> <link xlink:href="http://en.wikibooks.org/wiki/XRX">XRX Wikibook</link> </para>
+                <para> <link xlink:href="https://en.wikibooks.org/wiki/XRX">XRX Wikibook</link> </para>
                 <para>Dan McCreary</para>
             </listitem>
             <listitem>
-                <para> <link xlink:href="http://en.wikibooks.org/wiki/XQuery">XQuery Wikibook</link> </para>
+                <para> <link xlink:href="https://en.wikibooks.org/wiki/XQuery">XQuery Wikibook</link> </para>
                 <para>Chris Wallace; Dan McCreary</para>
             </listitem>
         </itemizedlist>
         <para>Articles:</para>
         <itemizedlist>
             <listitem>
-                <para> <link xlink:href="http://en.wikipedia.org/wiki/XRX_%28web_application_architecture%29">XRX (web application architecture)</link> </para>
+                <para> <link xlink:href="https://en.wikipedia.org/wiki/XRX_%28web_application_architecture%29">XRX (web application architecture)</link> </para>
             </listitem>
             <listitem>
                 <para> <link xlink:href="http://news.oreilly.com/2008/07/xrx-xqueries-in-exist.html">XRX: XQueries in eXist</link> </para>

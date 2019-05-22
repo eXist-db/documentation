@@ -6,7 +6,7 @@
 
     <info>
         <title>Author Reference</title>
-        <date>1Q18</date>
+        <date>2Q19</date>
         <keywordset>
             <keyword>authoring</keyword>
             <keyword>exist</keyword>
@@ -162,7 +162,7 @@ but does not because its too simple)</programlisting>
         <title>Technical guidelines</title>
 
         <para>More information about DocBook itself can be found on the <link condition="_blank"
-            xlink:href="http://docbook.org/">official DocBook site</link>.</para>
+            xlink:href="https://docbook.org/">official DocBook site</link>.</para>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
@@ -589,7 +589,7 @@ but does not because its too simple)</programlisting>
                         <para>A <tag>tag</tag> element surrounds its content with &lt; and &gt; and
                             formats it like code. Meant to make life easier:
                             <code><![CDATA[<tag>xxx</tag>]]></code> is the shorter version of
-                            <code><![CDATA[<code>&lt;xxx&gt;</code>]]></code>.</para>
+                            <code><![CDATA[<code><xxx></code>]]></code>.</para>
                     </listitem>
                 </varlistentry>
 
@@ -633,9 +633,9 @@ but does not because its too simple)</programlisting>
                         <para>Links to external sources are done with the <tag>link</tag> element.
                             Place the target's full URI in the <code>xlink:href</code> attribute.
                             For instance,
-                            <code><![CDATA[&amp;lt;link xlink:href="http://exist-db.org/exist/apps/homepage/index.html"&amp;gt;]]></code>
+                            <tag>link xlink:href="https://exist-db.org/exist/apps/homepage/index.html"</tag>
                             links to the <link condition="_blank"
-                            xlink:href="http://exist-db.org/exist/apps/homepage/index.html">eXist
+                            xlink:href="https://exist-db.org/exist/apps/homepage/index.html">eXist
                             home page</link>.</para>
                         <para>To open the link on a new page, add
                             <code>condition="_blank"</code>.</para>
@@ -649,7 +649,7 @@ but does not because its too simple)</programlisting>
                             use the <tag>link</tag> element. However, use the target's document name
                             (without the <code>.xml</code> extension) as the link address. For
                             instance,
-                            <code><![CDATA[&amp;lt;link xlink:href="documentation"&amp;gt;]]></code>
+                            <tag>link xlink:href="documentation"</tag>
                             links to the <link xlink:href="documentation">documentation home
                             page</link>.</para>
                     </listitem>
