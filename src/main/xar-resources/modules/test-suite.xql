@@ -42,10 +42,12 @@ function tests:orphan-listing() {
   let $report := diag:diagnose(<root/>, map{1: 1})
   let $error := $report//ul//span[. eq '*ERROR* ']
   let $error-msg := count($error)
-  let $art := $error/ancestor::li/h3/code/string()
-  let $list :=  $error/ancestor::tr//code[1]/string()
+  let $list :=  $error/ancestor::tr//code[1]
   return
     if ($error-msg > 0)
-    then ( $list || ' is missing in ' || $art )
+    then (
+      for $l in $list
+      return
+        $l || ' is missing in ' || $l/ancestor::li/h3/code)
     else ()
 };

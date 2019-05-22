@@ -514,7 +514,7 @@
                 a field with type <literal>xs:date</literal>, make sure to retrieve it with <literal>ft:field($node, "date", "xs:date")</literal>, otherwise all
                 you get is a number.</para>
         </sect2>
-        <sect2>
+        <sect2 xml:id="display-facets">
             <title>Displaying Facet Counts</title>
             <para>Facet counts for the query result can be retrieved if facets are associated with
                 an indexed parent element. Facet counts for a particular dimension are available as
@@ -539,7 +539,7 @@
                 month and so on. <code>ft:facets($node, "date", (), ("2018", "06"))</code> will thus
                 return facet counts for all days in June 2018.</para>
         </sect2>
-        <sect2>
+        <sect2 xml:id="refine-facets">
             <title>Refining a Query with Facets</title>
             <para>The main purpose of facets is to quickly narrow down a query result, limiting it
                 to only items which match a certain facet value. To drill down by a given facet
