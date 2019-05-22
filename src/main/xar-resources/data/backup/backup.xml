@@ -6,7 +6,7 @@
 
     <info>
         <title>Database Backup and Restore</title>
-        <date>1Q18</date>
+        <date>2Q19</date>
         <keywordset>
             <keyword>operations</keyword>
         </keywordset>
@@ -160,7 +160,7 @@
             <para>eXist-db can also create <emphasis>incremental backups</emphasis>, meaning only
                 resources which were modified since the last backup are backed up.</para>
             <para>All backups will be stored in ZIP format. The default storage directory is
-                <literal>webapp/WEB-INF/data/export/</literal>. You can configure a different
+                <literal>$EXIST_HOME/data/export/</literal>. You can configure a different
                 directory in the configuration file <literal>conf.xml</literal>.</para>
         </sect2>
 
@@ -170,7 +170,7 @@
             <para>You can use eXist-db's <link xlink:href="configuration">scheduler</link> to
                 schedule server-side backup and consistency check tasks. To do this, add the
                 following definition to the scheduler section in the configuration file
-                <literal>conf.xml</literal></para>
+                <literal>$EXIST_HOME/etc/conf.xml</literal></para>
 
 
             <example>
@@ -309,7 +309,16 @@
 
                 <para>eXist also includes a command-line JMX client. Call it with parameter
                     <literal>-s</literal> to see the latest consistency report:</para>
-                <programlisting>java -jar start.jar org.exist.management.client.JMXClient -s</programlisting>
+                <itemizedlist>
+                    <listitem>
+                        <para>Unix/Linux:</para>
+                        <programlisting>$EXIST_HOME/bin/jmxclient.sh -s</programlisting>
+                    </listitem>
+                    <listitem>
+                        <para>Windows:</para>
+                        <programlisting>$EXIST_HOME\bin\jmxclient.bat -s</programlisting>
+                    </listitem>
+                </itemizedlist>
                 <para>This may produce output as shown below:</para>
                 <programlisting xlink:href="listings/listing-6.txt"/>
                 <para>You can also subscribe to the notifications made available by the SanityReport
@@ -423,9 +432,9 @@
                     <para>Stop the running eXist database instance</para>
                 </listitem>
                 <listitem>
-                    <para>Change into directory <literal>EXIST_HOME/webapp/WEB-INF/data</literal> or
+                    <para>Change into directory <literal>$EXIST_HOME/data</literal> or
                         another directory you specified as data directory in the configuration
-                        (<code>conf.xml</code>).</para>
+                        (<code>$EXIST_HOME/etc/conf.xml</code>).</para>
                 </listitem>
                 <listitem>
                     <para>Remove all <literal>.dbx</literal>, <literal>.lck</literal> and
@@ -550,7 +559,16 @@
         <para>This tool needs direct access to the database files, so you must stop the running
             database instance first if it is active.</para>
         <para>Use the following command line to start the utility as a GUI:</para>
-        <programlisting>java -jar start.jar org.exist.backup.ExportGUI</programlisting>
+        <itemizedlist>
+            <listitem>
+                <para>Unix/Linux:</para>
+                <programlisting>$EXIST_HOME/bin/export-gui.sh</programlisting>
+            </listitem>
+            <listitem>
+                <para>Windows:</para>
+                <programlisting>$EXIST_HOME\bin\export-gui.bat</programlisting>
+            </listitem>
+        </itemizedlist>
         <informalfigure>
             <mediaobject>
                 <imageobject>
@@ -564,7 +582,16 @@
             consistency check <emphasis>and</emphasis> a full backup.</para>
         <para>On a headless system use the command-line version instead (The <literal>-h</literal>
             parameter will get you a list of possible options):</para>
-        <programlisting>java -jar start.jar org.exist.backup.ExportMain</programlisting>
+        <itemizedlist>
+            <listitem>
+                <para>Unix/Linux:</para>
+                <programlisting>$EXIST_HOME/bin/export.sh</programlisting>
+            </listitem>
+            <listitem>
+                <para>Windows:</para>
+                <programlisting>$EXIST_HOME\bin\export.bat</programlisting>
+            </listitem>
+        </itemizedlist>
     </sect1>
 
     <sect1 xml:id="standalone">

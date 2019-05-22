@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Extracting Content from Binary Files</title>
-        <date>1Q18</date>
+        <date>2Q19</date>
         <keywordset>
             <keyword>application-development</keyword>
         </keywordset>
@@ -20,20 +20,6 @@
     <para>The Content Extraction is built on the <link xlink:href="http://tika.apache.org/">Apache
         Tika</link> library. Tika understands a large variety of formats, ranging from PDF documents
         to spreadsheets and image metadata.</para>
-
-    <!-- ================================================================== -->
-
-    <sect1 xml:id="enable">
-        <title>Enabling the Content Extraction Module</title>
-
-        <para>To enable the content extraction module, edit
-            <code>$EXIST_HOME/extensions/build.properties</code> and set the
-            <code>include.feature.contentextraction</code> property to true:</para>
-        <programlisting xlink:href="listings/listing-1.txt"/>
-        <para>Next, run <code>bin/build.sh</code> or <code>bin/build.bat</code> to build the module.
-            You should see in the output the various libraries from the Tika project downloaded and
-            installed.</para>
-    </sect1>
 
     <!-- ================================================================== -->
 

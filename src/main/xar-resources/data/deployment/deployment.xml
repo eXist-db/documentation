@@ -3,7 +3,7 @@
         schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
     <info>
         <title>Database Deployment</title>
-        <date>1Q18</date>
+        <date>2Q19</date>
         <keywordset>
             <keyword>operations</keyword>
             <keyword>java-development</keyword>
@@ -350,7 +350,7 @@
             <para>If your database is running in stand-alone mode, you must specify a different
                 server URI. For instance, to stop eXist when running in stand-alone mode, listening
                 on port <literal>8088</literal>, use:</para>
-            <programlisting>java -jar start.jar shutdown --uri=xmldb:exist://localhost:8088/xmlrpc</programlisting>
+            <programlisting>$EXIST_HOME/bin/shutdown.sh --uri=xmldb:exist://localhost:8088/xmlrpc</programlisting>
         </sect2>
     </sect1>
 

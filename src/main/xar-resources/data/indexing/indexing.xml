@@ -3,7 +3,7 @@
         schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
     <info>
         <title>Configuring Database Indexes</title>
-        <date>1Q18</date>
+        <date>2Q19</date>
         <keywordset>
             <keyword>application-development</keyword>
         </keywordset>
@@ -286,37 +286,8 @@
 
     <sect1 xml:id="moduleconf">
         <title>Enabling Index Modules</title>
-
-        <para>While some indexes (n-gram, full text) are already pre-build in the standard eXist-db
-            distribution, other modules may need to be enabled first. For example, the spatial index
-            depends on external libraries which do not ship with eXist-db. However, as an example,
-            enabling the spatial index is a simple process:</para>
-        <orderedlist>
-            <listitem>
-                <para>Copy the properties file
-                    <literal>extensions/indexes/build.properties</literal> and store it as
-                    <literal>local.build.properties</literal> in the same directory (if it does not
-                    already exist).</para>
-            </listitem>
-            <listitem>
-                <para>Edit <literal>extensions/indexes/local.build.properties</literal>:</para>
-
-                <programlisting xlink:href="listings/listing-5.txt"/>
-                <para>To include a spatial index, change the corresponding property to
-                    "true".</para>
-            </listitem>
-            <listitem>
-                <para>Call the Ant build system once to regenerate the eXist-db libraries using
-                    <code>build.sh</code> or <code>build.bat</code>.</para>
-            </listitem>
-        </orderedlist>
-        <para>The build process should create a <code>.jar</code> file for every index
-            implementation in directory <literal>lib/extensions</literal>. For example, the spatial
-            index is packaged into the <code>.jar</code>
-            <literal>exist-spatial-module.jar</literal>.</para>
-        <para>Once the index module has been built, it can be announced to eXist-db. To activate an
-            index plug-in, it needs to be added to the <tag>modules</tag> section within the global
-            configuration file <literal>conf.xml</literal>:</para>
+        <para> To activate an index plug-in, it needs to be added to the <tag>modules</tag> section
+            within the global configuration file <literal>conf.xml</literal>:</para>
 
         <programlisting language="xml" xlink:href="listings/listing-8.xml"/>
 
