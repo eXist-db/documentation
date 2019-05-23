@@ -58,9 +58,9 @@ context('Documentation', () => {
 
       it('should reference author guidelines', () => {
         cy.get('.navbar')
-          .find('#documentation')
+          .find('#development')
           .click()
-          .contains('Author Guidelines')
+          .contains('Author Reference')
           .click()
           .url()
           .should('include', 'author-reference.xml')
