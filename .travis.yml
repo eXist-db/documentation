@@ -13,9 +13,8 @@ services:
   - docker
 
 env:
-  # Deactivated for RC releases beween 4.7.1 and 5.0.0
-  # - img=existdb/existdb:latest
-  - img=existdb/existdb:release
+  - img=existdb/existdb:latest
+  # - img=existdb/existdb:release
 
 cache:
   directories:
