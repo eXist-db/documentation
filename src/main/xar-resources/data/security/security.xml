@@ -15,10 +15,10 @@
     <para>This article discusses eXist-db's security features and how to manage authentication,
         users, groups, passwords, permissions and access controls. </para>
     <para>eXist-db's security infrastructure is built on a Unix permissions model (see <xref
-        linkend="unix-model"/>), which we have extended with <xref linkend="ACLs"/>. The security
-        infrastructure is very flexible and extensible, which enables the more advanced user, to
-        provide custom <xref linkend="authentication-realms"/> to enable different authentication
-        models.</para>
+            linkend="unix-model"/>), which we have extended with <xref linkend="ACLs"/>. As far as
+        possible we try and adhere to the POSIX standard. The security infrastructure is very
+        flexible and extensible, which enables the more advanced user, to provide custom <xref
+            linkend="authentication-realms"/> to enable different authentication models.</para>
     <para>As well as the mechanisms described in this article, you should also note the presence of
         the <link
             xlink:href="{${fundocs.pkg.abbrev}}/view.html?uri=http://exist-db.org/xquery/securitymanager"
@@ -143,6 +143,84 @@
         </itemizedlist>
 
 
+    </sect1>
+
+    <!-- ================================================================== -->
+    
+    <sect1 xml:id="system-accounts-groups">
+        <title>System Accounts and Groups</title>
+        <para>eXist-db has several built-in accounts which ensure the correct functioning of the system. These accounts and groups cannot be removed, however the <code>admin</code> and <code>guest</code>
+            accounts can be disabled if required.</para>
+        <sect2 xml:id="system-users">
+            <title>System Accounts</title>
+            <informaltable>
+                <tgroup cols="2">
+                    <thead>
+                        <row>
+                            <entry><para>Name</para></entry>
+                            <entry><para>Description</para></entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry><para>SYSTEM</para></entry>
+                            <entry>
+                                <para>This is a DBA account under which the database executes internal privileged opertaions.</para>
+                                <para>This account is not exported during backups.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><para>admin</para></entry>
+                            <entry><para>This is the default <code>DBA</code> account.</para></entry>
+                        </row>
+                        <row>
+                            <entry><para>guest</para></entry>
+                            <entry><para>This is the account under which operations by un-authenticated users will be executed, for example users connecting to the REST Server without authenticating.</para></entry>
+                        </row>
+                        <row>
+                            <entry><para>nobody</para></entry>
+                            <entry>
+                                <para>This is an internal account and should not be used directly.</para>
+                                <para>This account is not exported during backups.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </sect2>
+        <sect2 xml:id="system-groups">
+            <title>System Groups</title>
+            <informaltable>
+                <tgroup cols="2">
+                    <thead>
+                        <row>
+                            <entry><para>Name</para></entry>
+                            <entry><para>Description</para></entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry><para>DBA</para></entry>
+                            <entry>
+                                <para>This is the DBA group, all DBA users should be members of this group.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><para>guest</para></entry>
+                            <entry><para>This is the <emphasis>primary group</emphasis> of the <code>guest</code>.</para></entry>
+                        </row>
+                        <row>
+                            <entry><para>nogroup</para></entry>
+                            <entry>
+                                <para>This is an internal group and should not be used directly. In the case that users without a
+                                    <emphasis>primary group</emphasis> are imported from an older eXist-db backup, the users will be restored with this as their primary group.</para>
+                                <para>This group is not exported during backups.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </sect2>
     </sect1>
 
     <!-- ================================================================== -->
@@ -639,8 +717,8 @@
                 <programlisting language="xml" xlink:href="listings/listing-4.xml"/>
 
                 <para>As you can see, eXist-db does not store passwords in the clear. It stores
-                    hashed values of the passwords (in base64 encoding), using the
-                    <emphasis>RIPEMD-160</emphasis> cryptographic hashing algorithm. </para>
+                    hashed values of the passwords (in Base64 encoding), using the
+                        <emphasis>RIPEMD-160</emphasis> cryptographic hashing algorithm. </para>
                 <para>Whenever a user supplies account credentials for authentication, the database
                     applies RIPEMD-160 hash to the password and compares it to the hash stored in
                     the user's account document. Storing hashes of passwords is a best practice in
