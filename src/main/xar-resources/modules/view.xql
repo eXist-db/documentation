@@ -13,8 +13,8 @@ import module namespace diag="http://exist-db.org/xquery/diagnostics" at "diagno
 declare option exist:serialize "method=html5 media-type=text/html";
 
 let $config := map {
-    $templates:CONFIG_APP_ROOT := $config:app-root,
-    $templates:CONFIG_STOP_ON_ERROR := true()
+    $templates:CONFIG_APP_ROOT : $config:app-root,
+    $templates:CONFIG_STOP_ON_ERROR : true()
 }
 let $lookup := function($functionName as xs:string, $arity as xs:int) {
     try {
