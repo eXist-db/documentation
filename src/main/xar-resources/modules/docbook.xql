@@ -32,7 +32,7 @@ function docbook:load($node as node(), $model as map(*), $q as xs:string?, $doc 
                 else
                     $context
             return
-                map { "doc" := util:expand($data/*, "add-exist-id=all") }
+                map { "doc": util:expand($data/*, "add-exist-id=all") }
         else
             <p>Document not found: {$path}!</p>
 };
