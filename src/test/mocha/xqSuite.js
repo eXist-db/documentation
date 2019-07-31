@@ -6,7 +6,7 @@ var client = supertest.agent('http://localhost:8080')
 describe('running XQsuite test …', function () {
   this.timeout(60000)
   this.slow(45000)
-  let runner = '/exist/rest/db/apps/doc/modules/test-runner.xql'
+  const runner = '/exist/rest/db/apps/doc/modules/test-runner.xql'
 
   it('returns 0 errors or failures', function (done) {
     client
