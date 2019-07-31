@@ -109,13 +109,14 @@
               <goal>install-node-and-npm</goal>
             </goals>
             <!-- optional: default phase is "generate-resources" -->
-            <phase>generate-resources</phase>
+            <phase>compile</phase>
           </execution>
           <execution>
             <id>npm version bump</id>
             <goals>
               <goal>npm</goal>
             </goals>
+            <phase>compile</phase>
             <configuration>
               <arguments>version --no-git-tag-version --allow-same-version=true ${project.version}</arguments>
             </configuration>
@@ -125,6 +126,7 @@
             <goals>
               <goal>npm</goal>
             </goals>
+            <phase>compile</phase>
             <!-- Optional configuration which provides for running any npm command -->
             <configuration>
               <arguments>ci</arguments>
@@ -135,6 +137,7 @@
             <goals>
               <goal>gulp</goal>
             </goals>
+            <phase>compile</phase>
           </execution>
           <execution>
             <id>mocha tests</id>
