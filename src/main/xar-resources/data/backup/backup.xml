@@ -469,8 +469,9 @@
 
                 </listitem>
                 <listitem>
-                    <para>A second dialog box will prompt you for an admin password to use for the
-                        restore process.</para>
+                    <para>A second dialog box will prompt you for an admin password to use for the restore process. You may also request that newer versions of
+                        application packages already installed in the database should be overwritten by those contained in the backup. This is normally not
+                        desirable, but you can check the checkbox if you still wish to do so.</para>
                 </listitem>
                 <listitem>
                     <para>If the restore was accepted, a progress dialog box will display the
@@ -496,6 +497,9 @@
                 <literal>__contents__.xml</literal> file to restore. For example:</para>
 
             <programlisting xlink:href="listings/listing-10.txt"/>
+            <para>The restore process compares app packages contained in the backup with those already installed in the database. By default, older versions of
+                an application package contained in the backup will not be restored if a newer version is installed in the database. To change this behavior and
+                enforce an overwrite, pass parameter <literal>--overwrite</literal>.</para>
         </sect2>
 
         <sect2 xml:id="repair">
