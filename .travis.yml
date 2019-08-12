@@ -36,7 +36,7 @@ before_script:
 script:
   - mvn validate
   - mvn test
-  - npm run cypress -- --record --key $CYPRESS_KEY
+  - npm run cypress -- --record
 
 after_success:
   - docker ps
