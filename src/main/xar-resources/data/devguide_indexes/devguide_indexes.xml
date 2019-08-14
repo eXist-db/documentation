@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Developer's Guide to Modularized Indexes</title>
-        <date>1Q19</date>
+        <date>2Q19</date>
         <keywordset>
             <keyword>java-development</keyword>
             <keyword>indexes</keyword>
@@ -65,7 +65,7 @@
                 <listitem>
                     <para>A spatial index that stores some of the geometric characteristics of <link
                             condition="_blank"
-                            xlink:href="http://www.opengeospatial.org/standards/gml">Geography
+                            xlink:href="https://www.opengeospatial.org/standards/gml">Geography
                             Markup Language</link> geometries (tested against GML version 2.1.2).
                         For instance:</para>
                     <programlisting language="xml" xlink:href="listings/listing-1.xml"/>
@@ -74,19 +74,19 @@
                     <itemizedlist>
                         <listitem>
                             <para>The <link condition="_blank"
-                                xlink:href="http://en.wikipedia.org/wiki/Spatial_referencing_systems"
+                                xlink:href="https://en.wikipedia.org/wiki/Spatial_referencing_systems"
                                 >spatial referencing system</link> (<literal>osgb:BNG</literal> for
                                 this polygon)</para>
                         </listitem>
                         <listitem>
                             <para>The polygon itself, stored in a binary form (<link
                                 condition="_blank"
-                                xlink:href="http://en.wikipedia.org/wiki/Well-known_text">Well-Known
+                                xlink:href="https://en.wikipedia.org/wiki/Well-known_text">Well-Known
                                 Binary</link>)</para>
                         </listitem>
                         <listitem>
                             <para>The coordinates of its <link condition="_blank"
-                                xlink:href="http://en.wikipedia.org/wiki/Minimum_bounding_rectangle"
+                                xlink:href="https://en.wikipedia.org/wiki/Minimum_bounding_rectangle"
                                 >bounding box</link> </para>
                         </listitem>
                     </itemizedlist>
@@ -310,8 +310,8 @@
                 index.</para>
             <programlisting>void configure(BrokerPool pool, String dataDir, Element config)</programlisting>
             <para>Notifies the <literal>Index</literal> a data directory (normally
-                <literal>${EXIST_HOME}/webapp/WEB-INF/data</literal>) and the configuration element
-                in which it is declared.</para>
+                    <literal>${EXIST_HOME}/data</literal>) and the configuration element in which it
+                is declared.</para>
             <programlisting>void open()</programlisting>
             <para>Method that is executed when the <literal>Index</literal> is opened, whatever it
                 means. Consider this method as an initialization and allocate the necessary
@@ -429,8 +429,9 @@
             <para>Returns an array of <literal>org.exist.dom.DocumentImpl.Occurrences</literal> that
                 is an <emphasis>ordered</emphasis> list of the index entries, in a textual form,
                 associated with the number of occurences for the entries and a list of the documents
-                containing them. <note><para>For some indexes, the concept of ordered or textual occurrences
-                might not be meaningful.</para></note></para>
+                containing them.</para>
+                <note><para>For some indexes, the concept of ordered or textual occurrences
+                might not be meaningful.</para></note>
         </sect2>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -520,10 +521,10 @@
             the <literal>Index</literal>es and <literal>org.exist.xquery.*</literal> for their
             associated <literal>Module</literal>s. There is also a dedicated location for required
             external libraries and for the test cases. The build system should normally be able to
-            download the required libraries and build all the files automatically, in particular the
-                <literal>extension-modules</literal> Ant target, and even launch the tests provided
-            that the DB's configuration file declares the <literal>Index</literal>es (see above) and
-            their associated <literal>Module</literal>s (see below).</para>
+            download the required libraries and build all the files automatically, and even launch
+            the tests provided that the DB's configuration file declares the
+                <literal>Index</literal>es (see above) and their associated
+                <literal>Module</literal>s (see below).</para>
         <para>The described spatial <literal>Index</literal> heavily relies on the excellent open
             source librairies provided by the <link xlink:href="http://geotools.codehaus.org/"
             >Geotools</link> project. We have experienced a few problems that will be mentioned
@@ -729,7 +730,7 @@
                             <entry> <para>WKT</para> </entry>
                             <entry> <para>VARCHAR</para> </entry>
                             <entry> <para>The <link
-                                xlink:href="http://de.wikipedia.org/wiki/Well_Known_Text">Well-Known
+                                xlink:href="https://de.wikipedia.org/wiki/Well_Known_Text">Well-Known
                                 Text</link> representation of the geometry</para> </entry>
                             <entry/>
                         </row>
@@ -787,7 +788,7 @@
                             <entry> <para>VARCHAR</para> </entry>
                             <entry> <para>The WKT representation of the geometry</para> </entry>
                             <entry> <para>In the <link
-                                xlink:href="http://en.wikipedia.org/wiki/EPSG:4326">epsg:4326</link>
+                                xlink:href="https://en.wikipedia.org/wiki/EPSG:4326">epsg:4326</link>
                                 SRS</para> </entry>
                         </row>
                         <row>
@@ -962,7 +963,7 @@
                 GML parsing. It is <literal>null</literal> if the geometry is topologically not well
                 formed. This latter case is maybe a too restrictive feature of Geotools parser which
                 also throws <literal>NullPointerException</literal>s (!) if the GML is somehow not
-                well-formed. See <link xlink:href="http://jira.codehaus.org/browse/GEOT-742"
+                well-formed. See <link xlink:href="https://osgeo-org.atlassian.net/browse/GEOT-742"
                 >GEOT-742</link> for more information on this issue.</para>
             <para> <literal>documentDeleted</literal> is a flag indicating that the current document
                 has been deleted and that we don't have to process it any more. Remember that
@@ -1075,13 +1076,13 @@
                 <literal>org.geotools.gml.producer.GeometryTransformer</literal> which needs some
                 polishing because, despite it is called a transformer, it doesn't cope easily with a
                 <literal>Handler</literal> and returns a... <literal>String</literal> ! See <link
-                xlink:href="http://codehaus01a.managed.contegix.com/browse/GEOT-1315"
+                    xlink:href="https://osgeo-org.atlassian.net/browse/GEOT-1315"
                 >GEOT-1315</link>.</para>
             <para>The last method is also a utility method:</para>
             <programlisting xlink:href="listings/listing-98.txt"/>
             <para>It implements a workaround for our test file SRS which isn't yet known by Geotools
                 libraries (see <link
-                xlink:href="http://codehaus01a.managed.contegix.com/browse/GEOT-1307"
+                    xlink:href="https://osgeo-org.atlassian.net/browse/GEOT-1307"
                 >GEOT-1307</link>), then it tries to get the transformation from our cache. If it
                 doesn't succeed, it tries to find one in the libraries that are in the CLASSPATH.
                 Should those libraries lack the Bursa-Wolf parameters, it will make another attempt
@@ -1259,7 +1260,7 @@
                 operates in the <literal>http://exist-db.org/xquery/spatial</literal> namespace
                 (whose default prefix is <literal>spatial</literal>).</para>
             <para>The functions signatures are documented together with the functions themselves in
-                <link xlink:href="http://demo.exist-db.org/xquery/functions.xq">this page</link>.
+                <link xlink:href="{${fundocs.pkg.abbrev}}">the XQuery function documentation</link>.
                 Here we will only look at their <literal>eval()</literal> methods.</para>
             <para>The first functions set we will describe is
                 <literal>org.exist.xquery.modules.spatial.FunSpatialSearch</literal>, which performs
@@ -1327,36 +1328,7 @@
                 few of its features will be demonstrated, but we will explain again what happens
                 under the hood.</para>
             <para>The first step is to make sure to have a recent enough release version of eXist:
-                4.7.0 or later.</para>
-            <para>Then, you have to prepare eXist to build the spatial index library. To do that, go
-                into the <literal>${EXIST_HOME}/extensions/indexes</literal> directory and, if
-                necessary, copy <literal>build.properties</literal> to a new file,
-                <literal>local.properties</literal>.</para>
-            <para>Open this file and check that <literal>include.index.spatial</literal> is set to
-                <literal>true</literal>.</para>
-            <para>Invoke <literal>build.bat clean</literal> or <literal>build.sh clean</literal>,
-                depending on your platform, from a command line. This will generate
-                <literal>${EXIST_HOME}/extensions/indexes/build.xml</literal>, which is needed by
-                the modularized indexes infrastructure.</para>
-            <para>Invoke <literal>build.bat extension-indexes</literal> or <literal>build.sh
-                extension-indexes</literal>, depending on your platform, from a command line.</para>
-            <para>If necessary, the required external (large) libraries will be downloaded into the
-                    <literal>${EXIST_HOME}/extensions/indexes/spatial/lib</literal> directory. Most
-                of them have a <literal>gt2-*.jar</literal> name. Make sure to make them available
-                in your application's classpath !</para>
-            <note>
-                <para>If you are behind a proxy, do not forget to change the settings in
-                        <literal>${EXIST_HOME}/build.properties</literal>.</para>
-            </note>
-            <para>A file named <literal>exist-spatial-module.jar</literal> should be generated into
-                the <literal>${EXIST_HOME}/lib/extensions</literal> directory.</para>
-            <para>Enable the spatial index and the spatial module in
-                <literal>${EXIST_HOME}/conf.xml</literal> if it is not already done.</para>
-            <para>The spatial index:</para>
-            <programlisting language="xml" xlink:href="listings/listing-120.xml"/>
-            <para>The spatial module:</para>
-            <programlisting language="xml" xlink:href="listings/listing-121.xml"/>
-            <para>This concludes the prerequisites for running the test.</para>
+                4.7.0 or later, and Java 8. </para>
             <para>Our demonstration file is taken from the <link
                 xlink:href="http://www.ordnancesurvey.co.uk/oswebsite/">Ordnance Survey of
                 Great-Britain's WWW site</link> which offers <link
@@ -1369,12 +1341,12 @@
                     (<literal>port-talbot.gml</literal>) this will allow eXist to recognise it as an
                 XML file.</para>
             <note>
-                <para>If you have previously executed <literal>build test</literal>, the file should
+                <para>If you have previously executed <literal>mvn test</literal>, the file should
                     have been downloaded and gunzipped for you in
-                        <literal>${EXIST_HOME}/extensions/indexes/spatial/src/test/resources</literal>.</para>
+                        <literal>$EXIST_HOME/extensions/indexes/spatial/target/test-classes</literal>.</para>
             </note>
             <para>Since this file refers to an OSGB-hosted schema, we will need to bypass validation
-                in <literal>${EXIST_HOME}/conf.xml</literal>.</para>
+                in <literal>${EXIST_HOME}/etc/conf.xml</literal>.</para>
             <para>Make sure the mode value is set like this:</para>
             <programlisting>&lt;validation mode="no"&gt;</programlisting>
             <para>We are now ready to start the demonstration and we will use the interactive client
@@ -1414,7 +1386,7 @@
                 seconds, including some default fulltext indexing. Let's close the upload window and
                 quit the interactive client.</para>
             <para>Let's look our our GML file looks like on GML Viewer, a free viewer provided by
-                <link xlink:href="http://www.snowflakesoftware.co.uk/products/gmlviewer/index.htm"
+                <link xlink:href="https://wiki.snowflakesoftware.com/display/GV50DOC"
                 >Snowflake software</link>:</para>
             <informalfigure>
                 <mediaobject>
@@ -1424,12 +1396,11 @@
                 </mediaobject>
             </informalfigure>
             <para>If you want to have a look at the spatial index HSQLDB, which, if you are using
-                the default data-dir, is in
-                <literal>${EXIST_HOME}/webapp/WEB-INF/data/spatial_index.*</literal> there is a
-                dedicated script file in
-                <literal>${EXIST_HOME}/extensions/indexes/spatial/</literal>. to launch HSQL's GUI
-                client: Use either <literal>hsql.bat</literal> or <literal>hsql.sh
-                [data-dir]</literal> (you only need to supply data-dir if it is not the default
+                the default data-dir, is in <literal>${EXIST_HOME}/data/spatial_index.*</literal>
+                there is a dedicated script file in
+                    <literal>${EXIST_HOME}/extensions/indexes/spatial/</literal>. to launch HSQL's
+                GUI client: Use either <literal>hsql.bat</literal> or <literal>hsql.sh
+                    [data-dir]</literal> (you only need to supply data-dir if it is not the default
                 one).</para>
             <para>If the SQL command <literal>SELECT * FROM SPATIAL_INDEX_V1;</literal> is executed,
                 the result window shows that <literal>21961</literal> geometries have been indexed.</para>

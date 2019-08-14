@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <index xmlns:db="http://docbook.org/ns/docbook" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+        <lucene>
+            <text qname="db:article">
+                <facet dimension="keyword" expression="db:info/db:keywordset/db:keyword"/>
+                <field name="title" expression="db:info/db:title"/>
+                <field name="author" expression="for $au in db:info/db:author string-join(($au/db:personname/db:firstname, $au/db:personname/db:surname), ' ')"/>
+            </text>
+        </lucene>
+    </index>
+</collection>

@@ -3,7 +3,7 @@
         schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
     <info>
         <title>Log4j Logging Guide</title>
-        <date>1Q18</date>
+        <date>2Q19</date>
         <keywordset>
             <keyword>java-development</keyword>
         </keywordset>
@@ -11,7 +11,7 @@
 
     <!-- ================================================================== -->
 
-    <para>This article explains how to add logging to eXist-db using <link xlink:href="http://logging.apache.org/log4j/">Log4j</link> in Java code.</para>
+    <para>This article explains how to add logging to eXist-db using <link xlink:href="https://logging.apache.org/log4j/">Log4j</link> in Java code.</para>
 
     <!-- ================================================================== -->
 
@@ -29,7 +29,7 @@
         <para>A big issue with the use of the logging system in troubleshooting is that it requires
             a <emphasis>restart</emphasis> for changes to the log configuration. Customers are often
             extremely reluctant to restart their production servers.</para>
-        <para>To amend these problems <link xlink:href="http://logging.apache.org/log4j/">Log4j</link> is introduced. Log4j is the most powerful Java-based logging library
+        <para>To amend these problems <link xlink:href="https://logging.apache.org/log4j/">Log4j</link> is introduced. Log4j is the most powerful Java-based logging library
             available today and is used by most of the application servers on the market.</para>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -113,13 +113,13 @@
                     <listitem>
                         <para>Various free and commercial products provide specialized viewing
                             capabilities for Log4j logs. Apache provides a very useful Log4j log
-                            viewer <link xlink:href="http://logging.apache.org/log4j/docs/chainsaw.html">Chainsaw</link>.</para>
+                            viewer <link xlink:href="https://logging.apache.org/chainsaw">Chainsaw</link>.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
 
 
-            <para>For more information visit the <link xlink:href="http://logging.apache.org/log4j/">Log4j website</link> website. </para>
+            <para>For more information visit the <link xlink:href="https://logging.apache.org/log4j/">Log4j website</link> website. </para>
 
             <note>
                 <para>Java 1.4 and higher’s <code>java.util.logging</code> API is very similar to
@@ -154,8 +154,9 @@
         <orderedlist>
             <listitem>
                 <para>Acquire a logger: </para>
-                <programlisting language="java">import org.apache.Log4j.Logger;
-… private Logger logger = Logger.getLogger("xx.method.server.httpgw");</programlisting>
+                <programlisting language="java">import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+… private Logger logger = LogManager.getLogger("xx.method.server.httpgw");</programlisting>
                 <para>Remarks:</para>
                 <itemizedlist>
                     <listitem>
@@ -277,7 +278,8 @@
     <sect1 xml:id="config">
         <title>Configuring Log4j</title>
 
-        <para>The <code>Log4j.xml</code> configuration file controls Log4j’s behavior. </para>
+        <para>The <code>$EXIST_HOME/etc/log4j2.xml</code> configuration file controls Log4j’s
+            behavior. </para>
 
         <para>It is used mainly to set a given level of log output for loggers. Without such
             configuration only ERROR and FATAL log events will show up. Therefore you have to change
@@ -511,17 +513,6 @@
                             logging. </para>
                         <para>There is a re-usable utility for just this purpose,
                             <code>xx.jmx.core.AttributeListWrapper</code>. </para>
-                    </listitem>
-                </varlistentry>
-
-                <varlistentry>
-                    <term>Don’t be afraid to use Log4j in any tier or JVM</term>
-                    <listitem>
-                        <para>Log4j currently is not included in the client jar set. The only reason
-                            for this is that currently no clients use Log4j. However, if the
-                            <code>log4j.jar</code> is needed in the client simply include it in the
-                            client's jar set. Java’s Pack200 technology reduces jars to 25% their
-                            original size on average.</para>
                     </listitem>
                 </varlistentry>
 

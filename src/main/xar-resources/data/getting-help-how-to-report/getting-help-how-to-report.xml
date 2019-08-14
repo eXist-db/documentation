@@ -3,7 +3,7 @@
         schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
     <info>
         <title>How to report issues</title>
-        <date>1Q18</date>
+        <date>2Q19</date>
         <keywordset>
             <keyword>getting-started</keyword>
         </keywordset>
@@ -48,14 +48,12 @@
                 </listitem>
                 <listitem>
                     <para>Include relevant <emphasis role="bold">parts</emphasis> of the logfile
-                        (<literal>webapp/WEB-INF/logs/exist.log</literal> and
-                        <literal>tools/yajsw/logs/wrapper.log</literal>)</para>
+                        (<literal>logs/exist.log</literal>).</para>
                 </listitem>
                 <listitem>
                     <para>Mention the changes made in the configuration files, for instance
-                        <literal>conf.xml</literal>, <literal>vm.properties</literal>,
-                        <literal>tools/yajsw/conf/wrapper.conf</literal> and
-                        <literal>tools/jetty/etc/jetty.xml</literal>.</para>
+                        <literal>etc/conf.xml</literal>, <literal>etc/launcher.properties</literal>,
+                        and <literal>etc/jetty/jetty.xml</literal>.</para>
                 </listitem>
             </itemizedlist>
 
@@ -77,7 +75,7 @@
                 </listitem>
                 <listitem>
                     <para>Check if the issue has been solved in the latest version of eXist-db; For
-                        this the web based tool <link xlink:href="http://exist-db.org/exist/apps/eXide/index.html">eXide</link>
+                        this the web based tool <link xlink:href="https://exist-db.org/exist/apps/eXide/index.html">eXide</link>
                         can be used.</para>
                 </listitem>
                 <listitem>

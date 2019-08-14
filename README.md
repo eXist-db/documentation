@@ -48,5 +48,7 @@ The full test-suite consists of validation, unit, and integration tests, it runs
 
 Both unit and integration tests, expect a running instance of exist with a copy of the documentation app installed reachable at `localhost:8080` and an empty admin password. It might be necessary to skip test execution during building from time to time, use: `mvn clean package -DskipTests`.
 
+You can view recordings of the previous integration test runs on our [Cypress Dashboard](https://dashboard.cypress.io/#/projects/h8zx19/runs)
+
 ## License
 LGPLv2.1 [eXist-db.org](http://exist-db.org/exist/apps/homepage/index.html)

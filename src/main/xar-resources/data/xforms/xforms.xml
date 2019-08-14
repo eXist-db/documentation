@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>XForms Introduction</title>
-        <date>1Q18</date>
+        <date>2Q19</date>
         <keywordset>
             <keyword>application-development</keyword>
         </keywordset>
@@ -63,7 +63,7 @@
             <para>betterFORM can also be configured to listen for a certain collection in the
                 database only or to fetch documents from the filesystem (from a directory below the
                 <code>webapp</code> directory). This can be done by changing the filter mapping in
-                <code>webapp/WEB-INF/web.xml</code>:</para>
+                <code>etc/webapp/WEB-INF/web.xml</code>:</para>
 
             <programlisting language="xml" xlink:href="listings/listing-1.txt"/>
         </sect2>
@@ -162,14 +162,14 @@
             </listitem>
             <listitem>
                 <para>System global, by editing
-                    <literal>$EXIST_HOME/webapp/WEB-INF/betterform-config.xml</literal>: </para>
+                        <literal>$EXIST_HOME/etc/webapp/WEB-INF/betterform-config.xml</literal>: </para>
                 <programlisting language="xml">&lt;property name="filter.ignoreResponseBody" value="false"&gt;</programlisting>
                 <para>Change the value of the property <literal>filter.ignoreResponseBody</literal>
                     to <literal>true</literal> and restart eXist-db. </para>
             </listitem>
             <listitem>
                 <para>By removing the configuration for XFormsFilter in
-                    <literal>$EXIST_HOME/webapp/WEB-INF/web.xml</literal>. By commenting the
+                        <literal>$EXIST_HOME/etc/webapp/WEB-INF/web.xml</literal>. By commenting the
                     filter-mapping XForms processing will be disabled. However note that betterFORM
                     still get loaded on the classpath.</para>
             </listitem>
@@ -232,7 +232,7 @@
 
             <itemizedlist>
                 <listitem>
-                    <para> <link condition="_blank" xlink:href="http://www.w3.org/TR/xforms/">XForms
+                    <para> <link condition="_blank" xlink:href="https://www.w3.org/TR/xforms/">XForms
                         v1.1 (W3C Recommendation)</link> </para>
                 </listitem>
             </itemizedlist>
@@ -266,16 +266,16 @@
                         >betterFORM coverage</link> of W3C XForms 1.1 Test Suite</para>
                 </listitem>
                 <listitem>
-                    <para> <link condition="_blank" xlink:href="http://en.wikibooks.org/wiki/XForms"
+                    <para> <link condition="_blank" xlink:href="https://en.wikibooks.org/wiki/XForms"
                         >XForms Wikibook</link> is a useful place to learn XForms</para>
                 </listitem>
                 <listitem>
-                    <para> <link condition="_blank" xlink:href="http://en.wikibooks.org/wiki/XRX"
+                    <para> <link condition="_blank" xlink:href="https://en.wikibooks.org/wiki/XRX"
                         >XRX Wikibook</link> about XML application building</para>
                 </listitem>
                 <listitem>
                     <para> <link condition="_blank"
-                        xlink:href="http://en.wikibooks.org/wiki/XSLTForms">XSLTForms
+                        xlink:href="https://en.wikibooks.org/wiki/XSLTForms">XSLTForms
                         Wikibook</link> provides specific information on XSLTForms</para>
                 </listitem>
                 <listitem>

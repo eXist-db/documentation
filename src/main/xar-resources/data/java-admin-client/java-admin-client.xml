@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Java Admin Client</title>
-        <date>1Q18</date>
+        <date>2Q19</date>
         <keywordset>
             <keyword>operations</keyword>
         </keywordset>
@@ -30,34 +30,10 @@
                     <guimenuitem>Open Java Admin Client</guimenuitem> menu entry.</para>
             </listitem>
             <listitem>
-                <para>You can download its Java WebStart file <code>exist.jnlp</code> via your web
-                    browser. Once the download has completed, double-click it to launch the client: </para>
-                <para> <link xlink:href="/webstart/exist.jnlp"> <inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="assets/webstart.small.jpg"/>
-                    </imageobject>
-                    </inlinemediaobject> </link> </para>
-                <para>You can also find a link to download the Java WebStart file on the
-                    dashboard.</para>
-                <note>
-                    <para>If you built eXist-db from source rather than using the downloadable
-                        installer, the Java WebStart function will not work unless you sign the
-                        jars. To do so, enter the following on your command line from the eXist
-                        directory: </para>
-                    <programlisting>build.bat -f build/scripts/jarsigner.xml (DOS/Windows)</programlisting>
-                    <programlisting>build.sh -f build/scripts/jarsigner.xml  (Unix)</programlisting>
-                </note>
-            </listitem>
-            <listitem>
                 <para>Enter the following on your command line from the eXist installation directory
                     (with the <code>JAVA_HOME</code> environment variable set correctly):</para>
                 <programlisting>bin\client.bat (DOS/Windows)</programlisting>
                 <programlisting>bin/client.sh (Unix)</programlisting>
-            </listitem>
-            <listitem>
-                <para>Or enter the following on the command line (again from the eXist installation
-                    directory):</para>
-                <programlisting>java -jar start.jar client</programlisting>
             </listitem>
         </itemizedlist>
     </sect1>
@@ -244,10 +220,9 @@
                 <para>If you ever run into problems while experimenting with eXist-db and your
                     database files get corrupt: just remove the data files created by eXist-db and
                     everything should work again. The data files all end with
-                    <literal>.dbx</literal>. You will either find them in directory
-                    <literal>webapp/WEB-INF/data</literal> or <literal>WEB-INF/data</literal>,
-                    depending on your installation. It is ok to backup those data-files to be able
-                    to restore them in case of a database corruption.</para>
+                        <literal>.dbx</literal>. You will find them in directory
+                        <literal>$EXIST_HOME/data</literal>. It is ok to backup those data-files to
+                    be able to restore them in case of a database corruption.</para>
             </note>
         </sect2>
 
@@ -278,7 +253,7 @@
                 therefore work with remote as well as embedded database instances. The correct
                 database instance is determined through the XML:DB base URI as specified in the
                 properties file or through command-line options. The <link
-                xlink:href="deployment.xml">deployment</link> article describes how different
+                xlink:href="deployment">deployment</link> article describes how different
                 servers are addressed using the XML:DB URI.</para>
             <para>The XML:DB base URI used by the client for connections is defined by the
                 <literal>uri=</literal> property. By default, this is set to
@@ -310,9 +285,9 @@
                     <para>This is equivalent to the <literal>-ouri=xmldb:exist://</literal> option
                         shown above.</para>
                     <para>When launching the client with option <literal>-l</literal> or
-                        <literal>-ouri=xmldb:exist://</literal> the configuration for the database
-                        instance is read from <literal>conf.xml</literal> located in
-                        <code>EXIST_HOME</code>.</para>
+                            <literal>-ouri=xmldb:exist://</literal> the configuration for the
+                        database instance is read from <literal>conf.xml</literal> located in
+                            <code>$EXIST_HOME/etc</code>.</para>
                     <para>Use the <code>-C</code> parameter to specify an alternate database
                         location. For instance:</para>
                     <programlisting>bin/client.sh -C /home/exist/test/conf.xml</programlisting>
