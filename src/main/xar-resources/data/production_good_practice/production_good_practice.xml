@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Production Use - Good Practice</title>
-        <date>2Q19</date>
+        <date>3Q19</date>
         <keywordset>
             <keyword>operations</keyword>
         </keywordset>
@@ -380,6 +380,9 @@
             <para>Keeping the eXist-db application, data and journal on separate disks, connected to
                 different I/O channels, can have a positive impact on performance. The location of
                 the data files and journals can be changed in <literal>etc/conf.xml</literal>.</para>
+			<para>In addition to gain the absolute best performance, for eXist-db 5.0.0 or newer, it
+                may be beneficial to disable Lock Event Tracking in the Lock Table. The Lock Table
+                can be disabled in the <literal>etc/conf.xml</literal> configuration file.</para>
         </sect2>
     </sect1>
 
