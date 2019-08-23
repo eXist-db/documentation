@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Application Server Configuration</title>
-        <date>2Q19</date>
+        <date>3Q19</date>
         <keywordset>
             <keyword>operations</keyword>
         </keywordset>
@@ -32,6 +32,12 @@
                 <term> <tag>db-connection</tag> </term>
                 <listitem>
                     <para>Configures the storage back-end.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <tag>lock-manager</tag> </term>
+                <listitem>
+                    <para>Configures the Lock Manager.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -430,6 +436,27 @@
                     <literal>collections</literal> attributes. A different default value may be set
                     for a database instance. Local overrides are also possible.</para>
             </sect3>
+        </sect2>
+
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <sect2 xml:id="lock-manager">
+            <title> <tag>lock-manager</tag> element</title>
+            <para>This element contains settings for eXist-db's Lock Manager and Lock Table. The majority
+                of these Lock Manager settings should not be modified unless otherwise suggested by eXist-db Core Development Team.</para>
+            <variablelist spacing="compact">
+                <varlistentry>
+                    <term> <code>lock-table/@disabled</code> </term>
+                    <listitem>
+                        <para>Disables the database Lock Table which tracks database locks. The Lock Table is enabled by default
+                            and allows reporting on database locking via JMX.</para>
+                        <para>Tracking locks via the Lock Table imposes a small overhead per-Lock. Once users
+                            have finished testing their system to ensure correct operation, they may wish to disable
+                            this in production to ensure the absolute best performance.</para>
+                        <note><para>Unless nessecary, it is recommened to leave this enabled.</para></note>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
         </sect2>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
