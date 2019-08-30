@@ -9,7 +9,7 @@ This repository contains the official documentation for the [eXist-db native XML
 
 ## Dependencies
 -   [Maven](https://maven.apache.org): 3.6
--   [eXist-db](http://exist-db.org): 4.7.0
+-   [eXist-db](http://exist-db.org): 5.0.0
 
 ## Installation
 -   The default eXist-db installer includes the documentation app. Just go to your eXist server's Dashboard and select Documentation.
