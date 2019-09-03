@@ -1,7 +1,7 @@
 # eXist-db Documentation
 [![Build Status](https://travis-ci.com/eXist-db/documentation.svg?branch=master)](https://travis-ci.com/eXist-db/documentation)
 [![Docbook version](https://img.shields.io/badge/docbook-5.0-19a5a4.svg)](http://docbook.org/xml/5.0/)
-[![eXist-db version](https://img.shields.io/badge/eXist_db-4.7.0-blue.svg)](http://www.exist-db.org/exist/apps/homepage/index.html)
+[![eXist-db version](https://img.shields.io/badge/eXist_db-5.0.0-blue.svg)](http://www.exist-db.org/exist/apps/homepage/index.html)
 
 <img src="src/main/xar-resources/icon.png" align="left" width="15%"/>
 
