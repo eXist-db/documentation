@@ -14,7 +14,8 @@ services:
 
 env:
   - img=existdb/existdb:latest
-  - img=existdb/existdb:release
+  # No need to check for backwards compatibility
+  # - img=existdb/existdb:release
 
 cache:
   directories:
