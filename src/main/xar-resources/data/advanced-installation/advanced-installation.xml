@@ -81,66 +81,66 @@
 
         <sect2 xml:id="linux">
             <title>Unix/Linux</title>
-
-            <para>The scripts for running eXist-db as a service for Unix and Linux based system
-                (among which MacOS) can be found in the <literal>tools/serviced/</literal>
-                sub-directory.</para>
-            <para>Run the following command to get eXist-db started during initialization of the
-                system:</para>
-            <programlisting>tools/yajsw/bin/installDaemon.sh</programlisting>
-            <para> This works for MacOS and many Linux distributions.</para>
-            <para>It might be required to set some variables for the specific system. Complete
-                documentation of the configuraiton settings YAJSW can be found at the <link
-                xlink:href="http://yajsw.sourceforge.net/YAJSW%20Configuration%20Parameters.html"
-                >YAJSW website</link>. Below is a list of some important settings: </para>
+            <para> If your system supports <code>systemd</code> you can run the service wrapper as a
+                non-privileged user.</para>
+            <para>Begin by creating a new user in your system which is being created specifically to run eXist-db as a service.
+                You can do this by typing the following command: 
+                <programlisting>sudo adduser --system --shell /sbin/nologin --comment "eXist-db Service Account" existdb</programlisting>
+                    This command creates a new system user named "existdb" which does not need to login in order to run a service. 
+                    In order for this new system user to be able to run eXist-db, we need to change the permission of eXist-db to 
+                    match this new user. You so by navigating to your $EXIST_HOME folder and typing the following two commands:
+                    <literal>sudo chown -R existdb exist-5.0.0</literal>
+                    <literal>sudo chgrp -R existdb exist-5.0.0</literal>
+                    These two commmands modify the ownership and group permissions recursively throughout the whole eXist-db project 
+                    to your new existdb system user. Now only this user can run eXist-db.
+                    Next, navigate to the <literal>/etc/systemd/system</literal>
+                    sub-directory. Once there, one can create an exist-db.service file which contains the following information at
+                    a minimum:</para>
+            <para>
+                <programlisting>
+                    [Unit]
+                    Description=eXist-db 5.0.0 Server
+                    Documentation=
+                    After=syslog.target
+                    
+                    [Service]
+                    Type=simple
+                    User=existdb
+                    Group=existdb
+                    ExecStart=/path/to/exist-5.0.0/bin/startup.sh
+                    
+                    [Install]
+                    WantedBy=multi-user.target
+                </programlisting>
+            </para> 
+            <para>Once this file is created and store in this location, you need to update the permissions 
+                Give ownership of this file to the exist user by using the following commands      
+                <programlisting>sudo chown existdb exist-db.service</programlisting>
+                <programlisting>sudo chgrp existdb exist-db.service</programlisting>
+            </para>
             <itemizedlist>
                 <listitem>
-                    <para><code>wrapper.app.account</code> - Allows eXist to be run as a specific
-                        user</para>
+                    <para><code>sudo systemctl start exist-db.service</code> - Enter command to start eXist-db</para>
                 </listitem>
                 <listitem>
-                    <para><code>wrapper.plist.template</code> - Used on Mac systems to provide a
-                        list of parameters to <code>launchd</code> daemon</para>
+                    <para><code>sudo systemctl stop exist-db.service</code> - Enter command to stop eXist-db</para>
                 </listitem>
                 <listitem>
-                    <para><code>wrapper.ping.timeout</code> YAJSW pings the application to determine
-                        if it has entered and unresponsive state. The ping timeout parameters sets
-                        the limit on how long YAJSW will wait. If you have long running queries you
-                        may find that you need to increase the value of this parameter to prevent
-                        YAJSW from restarting eXist. The parameter value is in seconds and the
-                        default value is 30.</para>
+                    <para><code>sudo systemctl enable exist-db.service</code> - Enter command to enable eXist-db to automatically start running after a reboot of your system</para>
+                </listitem>
+                <listitem>
+                    <para><code>sudo systemctl disable exist-db.service</code> - Enter commande to disable eXist-db from automatically starting after a reboot of your system</para>
+                </listitem>
+                <listitem>
+                    <para><code>sudo systemctl restart exist-db.service</code> - Enter command to restart eXist-db</para>
+                </listitem>
+                <listitem>
+                    <para><code>systemctl status exist-db</code> - Enter command to check the status of eXist-db</para>
+                </listitem>
+                <listitem>
+                    <para><code>journalctl</code> - Run the following command to check systemd journal:</para>
                 </listitem>
             </itemizedlist>
-            <para> If your system supports <code>systemd</code> you can run the service wrapper as a
-                non-privileged user. You will be notified on choosing <code>systemd</code>
-                non-privileged when running the service wrapper installer and uninstaller.</para>
-
-            <sect3 xml:id="unattended">
-                <title>Unattended Installation</title>
-                <para> The installation script will ask for certain parameters during the
-                    installation. In addition to the properties described above, one can set two
-                    system variables to omit the interactive input. This can be helpful when you
-                    need to install eXist as a service during a process where no interaction is
-                    possible.</para>
-                <para> If the following variables are present, the installation will not ask for
-                    input: </para>
-                <itemizedlist>
-                    <listitem>
-                        <para><code>WRAPPER_UNATTENDED</code> should be non-zero length
-                            string</para>
-                    </listitem>
-                </itemizedlist>
-                <para>Set either one of the following to determine the init system </para>
-                <itemizedlist>
-                    <listitem>
-                        <para><code>WRAPPER_USE_SYSTEMD</code> as a non-zero length string</para>
-                    </listitem>
-                    <listitem>
-                        <para><code>WRAPPER_USE_SYSTEMV</code> as a non-zero length string</para>
-                    </listitem>
-                </itemizedlist>
-            </sect3>
-
         </sect2>
     </sect1>
 
