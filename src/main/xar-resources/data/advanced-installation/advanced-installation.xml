@@ -8,7 +8,7 @@
 
     <info>
         <title>Advanced Installation Methods</title>
-        <date>2Q19</date>
+        <date>4Q19</date>
         <keywordset>
             <keyword>installation</keyword>
             <keyword>operations</keyword>
@@ -84,40 +84,22 @@
             <para> If your system supports <code>systemd</code> you can run the service wrapper as a
                 non-privileged user.</para>
             <para>Begin by creating a new user in your system which is being created specifically to run eXist-db as a service.
-                You can do this by typing the following command: 
+                You can do this by typing the following command:</para>
                 <programlisting>sudo adduser --system --shell /sbin/nologin --comment "eXist-db Service Account" existdb</programlisting>
-                    This command creates a new system user named "existdb" which does not need to login in order to run a service. 
-                    In order for this new system user to be able to run eXist-db, we need to change the permission of eXist-db to 
-                    match this new user. You so by navigating to your $EXIST_HOME folder and typing the following two commands:
-                    <literal>sudo chown -R existdb exist-5.0.0</literal>
-                    <literal>sudo chgrp -R existdb exist-5.0.0</literal>
-                    These two commmands modify the ownership and group permissions recursively throughout the whole eXist-db project 
+                    <para>This command creates a new system user named "existdb" which does not need to login in order to run a service.
+                    In order for this new system user to be able to run eXist-db, we need to change the permission of eXist-db to
+                    match this new user. You do so by navigating to your <literal>$EXIST_HOME</literal> folder and typing the following two commands:</para>
+                    <programlisting xlink:href="listings/listing-3.txt"/>
+                    <para>These two commmands modify the ownership and group permissions recursively throughout the whole eXist-db project
                     to your new existdb system user. Now only this user can run eXist-db.
                     Next, navigate to the <literal>/etc/systemd/system</literal>
-                    sub-directory. Once there, one can create an exist-db.service file which contains the following information at
+                    sub-directory. Once there, create an exist-db.service file which contains the following information at
                     a minimum:</para>
-            <para>
-                <programlisting>
-                    [Unit]
-                    Description=eXist-db 5.0.0 Server
-                    Documentation=
-                    After=syslog.target
-                    
-                    [Service]
-                    Type=simple
-                    User=existdb
-                    Group=existdb
-                    ExecStart=/path/to/exist-5.0.0/bin/startup.sh
-                    
-                    [Install]
-                    WantedBy=multi-user.target
-                </programlisting>
-            </para> 
-            <para>Once this file is created and store in this location, you need to update the permissions 
-                Give ownership of this file to the exist user by using the following commands      
-                <programlisting>sudo chown existdb exist-db.service</programlisting>
-                <programlisting>sudo chgrp existdb exist-db.service</programlisting>
-            </para>
+                <programlisting xlink:href="listings/listing-4.txt"/>
+            <para>Once this file is stored in this location, you need to update permissions.
+                Give ownership of this file to the exist user by using the following commands:</para>
+              <programlisting xlink:href="listings/listing-5.txt"/>
+            <para>Below is a list of common commands to interact with the newly created and configured service:</para>  
             <itemizedlist>
                 <listitem>
                     <para><code>sudo systemctl start exist-db.service</code> - Enter command to start eXist-db</para>
