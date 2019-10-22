@@ -464,7 +464,7 @@
             functions. <code>repo:install-and-deploy</code> downloads the specified package from a
             public repository. For example, one can install the eXist-db demo apps using the
             following call:</para>
-        <programlisting language="xquery">repo:install-and-deploy("http://exist-db.org/apps/demo", "0.2.2", "http://demo.exist-db.org/exist/apps/public-repo/modules/find.xql")</programlisting>
+        <programlisting language="xquery">repo:install-and-deploy("http://www.functx.com", "1.0", "https://exist-db.org/exist/apps/public-repo/find")</programlisting>
         <para>The first parameter denotes the unique name of the package to install. The second may
             contain a specific version or the empty sequence. The third parameter is the URI for the
             public repository. The function call will download, install and deploy the package as
