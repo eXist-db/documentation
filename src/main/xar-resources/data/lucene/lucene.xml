@@ -620,7 +620,7 @@
                         </variablelist>
                         <para>For instance:</para>
                         <programlisting language="xquery" xlink:href="listings/listing-41.txt"/>
-                        <para>To optimize performance you can also specify a minium number of matches to cut-off needless disjunctive searches, using the <literal>min</literal> attribute:</para>
+                        <para>To optimize performance you can specify a minimum number of matches to prevent needless disjunctive searches, using the <literal>min</literal> attribute. If no occurence indicator is provided the query will default to <literal>should</literal>, as this is the only indicator that supports <literal>min</literal>:</para>
                         <programlisting language="xquery" xlink:href="listings/listing-1.txt"/>
                     </listitem>
                 </varlistentry>
