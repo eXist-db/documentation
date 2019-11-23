@@ -186,12 +186,15 @@
                         </listitem>
                     </varlistentry>
                     <varlistentry>
-                        <term><code>default-permissions</code></term>
+                        <term><code>default permissions</code></term>
                         <listitem>
                             <para>The default permissions for creating resources and collections in
-                                eXist-db are set in <literal>conf.xml</literal>. The current
-                                settings are ok, but you may like to improve on them for your own
-                                application security.</para>
+                                eXist-db are <code>0666</code> for resources, and <code>0777</code> for collections.
+				From these default permissions, the user's umask is subtracted to give the permissions
+				assigned to new resources and collections. By default each new user has the umask <code>022</code>,
+				which leads to new resources having the mode <code>0644</code>, and collections <code>0755</code>.
+				You may wish to modify the umask of some of your users to further restrict the default permisions
+				when they create resources and collections.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
