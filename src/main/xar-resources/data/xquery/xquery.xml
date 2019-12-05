@@ -57,6 +57,35 @@
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
+        <sect2 xml:id="partially-supported-features">
+            <title>Partially Supported Features</title>
+
+            <para>eXist-db has partial support for following xQuery functions</para>
+            <itemizedlist>
+              <listitem>
+                <para><link condition="_blank"
+                    xlink:href="https://www.w3.org/TR/xpath-functions-31/#func-xml-to-json">
+                    fn:xml-to-json()
+                  </link></para>
+                <para>needs implementation</para>
+                  <para>not ignore options map</para>
+                  <para>for xml strings that are marked as beeing escaped</para>
+                    <para>any unescaped occurrence of quotation mark, backspace, form-feed, newline,
+                      carriage return, tab, or solidus is replaced by \", \b, \f, \n, \r, \t, or \/
+                      respectively</para>
+                    <para>any other codepoint in the range 1-31 or 127-159 is replaced by an escape
+                      in the form \uHHHH where HHHH is the upper-case hexadecimal representation of
+                      the codepoint value</para>
+                  <para>for xml strings that are not marked as beeing escaped</para>
+                    <para>any other codepoint in the range 1-31 or 127-159 is replaced by an escape
+                      in the form \uHHHH where HHHH is the upper-case hexadecimal representation of
+                      the codepoint value</para>
+              </listitem>
+            </itemizedlist>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
         <sect2 xml:id="unsupported-features">
             <title>Unsupported features</title>
 
