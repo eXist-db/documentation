@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>XQuery in eXist-db</title>
-        <date>2Q19</date>
+        <date>4Q19</date>
         <keywordset>
             <keyword>xquery</keyword>
         </keywordset>
@@ -60,26 +60,25 @@
         <sect2 xml:id="partially-supported-features">
             <title>Partially Supported Features</title>
 
-            <para>eXist-db has partial support for following xQuery functions</para>
+            <para>eXist-db has partial support for following xQuery functions:</para>
             <itemizedlist>
               <listitem>
                 <para><link condition="_blank"
                     xlink:href="https://www.w3.org/TR/xpath-functions-31/#func-xml-to-json">
                     fn:xml-to-json()
-                  </link></para>
-                <para>needs implementation</para>
-                  <para>not ignore options map</para>
-                  <para>for xml strings that are marked as beeing escaped</para>
-                    <para>any unescaped occurrence of quotation mark, backspace, form-feed, newline,
-                      carriage return, tab, or solidus is replaced by \", \b, \f, \n, \r, \t, or \/
-                      respectively</para>
-                    <para>any other codepoint in the range 1-31 or 127-159 is replaced by an escape
-                      in the form \uHHHH where HHHH is the upper-case hexadecimal representation of
-                      the codepoint value</para>
-                  <para>for xml strings that are not marked as beeing escaped</para>
-                    <para>any other codepoint in the range 1-31 or 127-159 is replaced by an escape
-                      in the form \uHHHH where HHHH is the upper-case hexadecimal representation of
-                      the codepoint value</para>
+                  </link>
+                    implements handling of xml null, xml boolean, xml number, xml array and xml
+                    map elements according to specification.
+                    fn:xml-to-json() implements handling of xml strings and xml map keys that are not
+                    mentioned below according to specification. It ignores the options map.
+                    fn:xml-to-json() is missing implementation for replacing codepoints in the range
+                    1-31 or 127-159 by escaped unicode representations of the codepoint value for any
+                    xml string or map key.
+                    In addition to that for xml strings and map keys that are marked as beeing escaped
+                    fn:xml-to-json() is missing implementation to replace any unescaped occurrence of
+                    quotation mark, backspace, form-feed, newline, carriage return, tab, or solidus
+                    by \&quot;, \b, \f, \n, \r, \t, or \/ respectively.
+                </para>
               </listitem>
             </itemizedlist>
         </sect2>
