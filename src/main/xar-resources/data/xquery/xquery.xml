@@ -67,17 +67,13 @@
                     xlink:href="https://www.w3.org/TR/xpath-functions-31/#func-xml-to-json">
                     fn:xml-to-json()
                   </link>
-                    implements handling of xml null, xml boolean, xml number, xml array and xml
-                    map elements according to specification.
-                    fn:xml-to-json() implements handling of xml strings and xml map keys that are not
-                    mentioned below according to specification. It ignores the options map.
-                    fn:xml-to-json() is missing implementation for replacing codepoints in the range
-                    1-31 or 127-159 by escaped unicode representations of the codepoint value for any
-                    xml string or map key.
-                    In addition to that for xml strings and map keys that are marked as beeing escaped
-                    fn:xml-to-json() is missing implementation to replace any unescaped occurrence of
-                    quotation mark, backspace, form-feed, newline, carriage return, tab, or solidus
-                    by \&quot;, \b, \f, \n, \r, \t, or \/ respectively.
+                    handles most valid input according to specification. Notable exceptions follow.
+                    <literal>fn:xml-to-json()</literal> does not replace codepoints in the range
+                    <literal>1-31</literal> or <literal>127-159</literal> in any
+                    string or map key.
+                    Additionally for strings and map keys that are marked as beeing escaped
+                    <literal>fn:xml-to-json()</literal> does not replace any unescaped occurrence of
+                    quotation mark, backspace, form-feed, newline, carriage return, tab, or solidus.
                 </para>
               </listitem>
             </itemizedlist>
