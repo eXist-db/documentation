@@ -160,11 +160,6 @@
             <programlisting>public void reopenIndexes()</programlisting>
             <para>This method is called when <literal>repair()</literal> is called from
                 <literal>org.exist.storage.NativeBroker</literal>.</para>
-            <note>
-                <para> <literal>repair()</literal> reconstructs every index (including the
-                    structural one) from what is contained in the persistent DOM (usually
-                    <literal>dom.dbx</literal>).</para>
-            </note>
             <para> <literal>open()</literal> will be called for every registered
                 <literal>Index</literal>. That allows each index to (re)allocate the resources it
                 needs for its persistent storage.</para>
