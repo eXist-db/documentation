@@ -1,0 +1,5 @@
+declare function idx:subject-hierarchy($key as xs:string*) {
+    array:for-each (array {$key}, function($k) {
+        doc('/db/subjects/subjects.xml')//subject[@name=$k]/ancestor-or-self::subject/@name
+    })
+};
