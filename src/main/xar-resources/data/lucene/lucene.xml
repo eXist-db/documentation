@@ -3,7 +3,7 @@
         schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
     <info>
         <title>Full Text Index</title>
-        <date>4Q19</date>
+        <date>1Q20</date>
         <keywordset>
             <keyword>indexing</keyword>
         </keywordset>
@@ -394,14 +394,30 @@
                     expression rooted in the parent node being indexed. In the example the parent will be a <tag>db:article</tag> element, so the context item
                     for the expression is set to this element.</para>
                 <para>The expression is evaluated and for each result item, a facet value is added
-                    to the dimension using the string value of the item. If the expression returns
-                    the empty sequence  for the current parent node, the corresponding facet will be
-                    empty as well.</para>
+                    to the dimension using the string value of the item. Therefore if the expression
+                    returns multiple items, a facet for that dimension will also hold multiple values.
+                    If the expression returns the empty sequence  for the current parent node, the corresponding
+                    facet will be empty as well.</para>
                 <para>A facet can also be defined to be hierarchical. A typical example would be a date, which consists of a year, month and day component. By
                     indexing the single components as separate parts of a hierarchical facet, we enable the user to drill down by year first, then by month and
                     finally by day. Let's assume each of our docbook articles has a <tag>pubdate</tag> containing a date in <code>xs:date</code>
                     format:</para>
                 <programlisting language="xml" xlink:href="listings/listing-52.txt"></programlisting>
+                <para>Hierarchical facets may also hold multiple values, for example if we would like to associate
+                    our documents with a subject classification on various levels of granularity (say: <emphasis>science</emphasis> with
+                    <emphasis>math</emphasis> and <emphasis>physics</emphasis> as subcategories or <emphasis>humanities</emphasis> with
+                    <emphasis>art</emphasis>, <emphasis>sociology</emphasis> and <emphasis>history</emphasis>).
+                    This way we enable the user to drill down into broad <emphasis>humanities</emphasis>
+                    or <emphasis>science</emphasis> subject first and choose particular topics afterwards.
+                    If the result of the hierarchical facet <code>expression</code>
+                    evaluates to an array, each of array members will be treated as a hierarchical value for that facet.
+                    Such an array could look in XQuery similar to <code>[('science', 'math'), ('humanities', 'history')]</code> and be
+                    a result of evaluationg a function like <code>idx:subject-hierarchy</code> below stored in an imported module (see <link linkend="external-module">below</link>)
+                    </para>
+                <programlisting language="xml" xlink:href="listings/listing-520.xml"/>
+                <programlisting language="xquery" xlink:href="listings/listing-521.txt"/>
+                <para>which assumes hierarchical subject structure stored in <emphasis>/db/subjects/subjects.xml</emphasis></para>
+                <programlisting language="xml" xlink:href="listings/listing-522.xml"/>
                 <para>Next, we may want to define fields for the authors and title of the article. In docbook, <tag>author</tag> can be a complex element,
                     consisting e.g. of a <tag>personname</tag> with nested
                         <tag>surname</tag> and <tag>firstname</tag>. For display to the user and sorting we want to pre-compute a normalized string out of those
@@ -428,7 +444,7 @@
                     attribute <code>store="no"</code>. The field will still be indexed and
                     available for queries though.</para>
 
-                <para><emphasis role="bold">Importing external modules</emphasis>: as can be seen in the field definition for "author" above, expressions can easily become quite verbose, so writing them into an attribute
+                <para xml:id="external-module"><emphasis role="bold">Importing external modules</emphasis>: as can be seen in the field definition for "author" above, expressions can easily become quite verbose, so writing them into an attribute
                     is not convenient. It is thus also possible to import one or more XQuery modules into the index configuration and use the functions declared
                     in the module:</para>
                 <programlisting language="xml" xlink:href="listings/listing-58.xml"></programlisting>
