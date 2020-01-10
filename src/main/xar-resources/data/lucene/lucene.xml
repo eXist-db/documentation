@@ -561,11 +561,23 @@
                 dimension and value, pass a key "facets" in the options map given in the third
                 parameter of <literal>ft:query</literal>:</para>
             <programlisting language="xquery" xlink:href="listings/listing-57.txt"/>
-            <para>If you specify more than one value for one facet dimension, these will be linked
-                together with a logical <literal>or</literal>, thus returning elements matching any
-                of the alternative facet values for that dimension. If you specify multiple
-                dimensions, they are treated as an <literal>and</literal>, limiting the result to
-                elements matching both dimensions.</para>
+            <para>If you specify multiple dimensions, these will be linked together with a logical
+                <literal>and</literal>, limiting the result to elements matching both dimensions.</para>
+            <para>Treatment of multiple values for one facet dimension depends on the type of facet.
+                For non-hierarchical facets, as in example above, if you specify more than one value these
+                will be linked together with a logical <literal>or</literal>,
+                returning elements matching any of the alternative facet values for that dimension.</para>
+            <para>In case of hierarchical facets, a sequence of items is
+                interpreted as a hierarchical value/subvalue facet path, therefore expression like
+                <code>("2018", "06", "25")</code> for the <emphasis>date</emphasis> dimension mentioned
+                earlier will return nodes from the 25th of June 2018. Nested sequences
+                are not allowed in XQuery, so the only way to pass in multiple hierarchical facet paths
+                is by wrapping the whole structure in an array. Each array element then is logically
+                linked with its other members with <literal>or</literal> expression. To query
+                for elements from June <emphasis>or</emphasis> May 2018 we therefore need to specify
+                date dimension values as <code>[("2018", "06"), ("2018", "05")]</code>
+                </para>
+            <programlisting language="xquery" xlink:href="listings/listing-571.txt"/>
         </sect2>
         <sect2 xml:id="describe">
             <title>Describing Queries in XML</title>
