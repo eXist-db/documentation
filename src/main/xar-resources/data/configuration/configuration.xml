@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Application Server Configuration</title>
-        <date>3Q19</date>
+        <date>1Q20</date>
         <keywordset>
             <keyword>operations</keyword>
         </keywordset>
@@ -446,7 +446,7 @@
                 of these Lock Manager settings should not be modified unless otherwise suggested by eXist-db Core Development Team.</para>
             <variablelist spacing="compact">
                 <varlistentry>
-                    <term> <code>lock-table/@disabled</code> </term>
+                    <term><code>lock-table/@disabled</code></term>
                     <listitem>
                         <para>Disables the database Lock Table which tracks database locks. The Lock Table is enabled by default
                             and allows reporting on database locking via JMX.</para>
@@ -454,6 +454,14 @@
                             have finished testing their system to ensure correct operation, they may wish to disable
                             this in production to ensure the absolute best performance.</para>
                         <note><para>Unless nessecary, it is recommened to leave this enabled.</para></note>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>document/@use-path-locks</code></term>
+                    <listitem>
+                        <para><emphasis>Experimental:</emphasis> Causes path locks to be used for documents as well as collection locks.</para>
+                        <para>This has a performance and concurrency impact, but will ensure that you cannot have deadlocks between Collections and Documents.</para>
+                        <note><para>Unless nessecary, it is recommened to leave this at its default value.</para></note>
                     </listitem>
                 </varlistentry>
             </variablelist>
