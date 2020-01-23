@@ -39,6 +39,28 @@
                 </step>
             </procedure>
         </section>
+	    <section>
+		    <title>Upgrading from Source</title>
+		    <procedure>
+			    
+
+<step>
+	<para>In the folder where you installed eXist-db, run `git status` to see which files differ from the updated repository on GitHub. In particular, you're interested to see which are the configuration files you edited and which you want to preserve (e.g. `conf.xml`, `webapp/WEB-INF/controller-config.xml`, `tools/jetty/webapps/exist-webapp-context.xml`, etc.).</para></step>
+<step><para>Create a full backup from eXist-db (i.e. to a set of files or .zip file).
+<step><para>Stop eXist-db.</para></step>
+<step><para>Make a backup copy of the `webapp/WEB-INF/data directory` directory and any other configuration file you wish to preserve (see above), plus the 'local.build.properties' file in case you edited `build.properties`.</para></step>
+<step><para>Run `git checkout -- lib/` to unsign the jar files.</para></step>
+<step><para>Run `git status`: you should see no lib/ paths in the output.</para></step>
+<step><para>Run `git fetch`.</para></step>
+<step><para>Run `git stash`.</para></step>
+<step><para>Run `git rebase origin/master` or `develop`, whichever you want.</para></step>
+<step><para>Run `git stash pop`.</para></step>
+<step><para>Run `./build.sh clean`.</para></step>
+<step><para>Run `./build.sh jnlp-unsign-all all jnlp-sign-exist jnlp-sign-core jnlp-sign-exist-extensions`.</para></step>
+<step><para>Copy back the configuration files (and, optionally, the' local.build.properties` - see above).</para></step>
+<step><para>Start your eXist-db and you should now have an up-to-date eXist-db instance running.</para></step>
+		    </procedure>
+	    </section>
         <section>
             <title>Upgrading to 3.0 stable</title>
             <para>eXist-db v3.0 is not binary compatible with previous versions of eXist-db; the on-disk database file format has been updated, users should perform a full backup and restore to migrate their data.</para>
