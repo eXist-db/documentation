@@ -1,10 +1,10 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
         schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<article xmlns="http://docbook.org/ns/docbook" version="5.0">
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>The xmldb module</title>
-    <date>1Q18</date>
+    <date>2Q19</date>
     <keywordset>
       <keyword>application-development</keyword>
     </keywordset>
@@ -14,7 +14,7 @@
 
   <para>The xmldb module (<literal>http://exist-db.org/xquery/xmldb</literal> function namespace)
     contains functions for manipulating database contents. The full list of functions and their
-    documentation can be found in the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/exist/apps/fundocs/view.html?uri=http://exist-db.org/xquery/xmldb&amp;location=java:org.exist.xquery.functions.xmldb.XMLDBModule">Function Documentation Library</link>. This article handles some of the highlights and main
+    documentation can be found in the <link xlink:href="{${fundocs.pkg.abbrev}}/view.html?uri=http://exist-db.org/xquery/xmldb">Function Documentation Library</link>. This article handles some of the highlights and main
     uses for this module.</para>
 
   <!-- ================================================================== -->
@@ -27,7 +27,7 @@
       but, since our application expects each record to have its own document, we do not want to
       store the metadata records in a single file. SO we have to divide the document into smaller
       units. This can be done by the following XQuery:</para>
-    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-1.txt"/>
+    <programlisting language="xquery" xlink:href="listings/listing-1.txt"/>
     <para>Let's look at this example in some detail: </para>
     <itemizedlist>
       <listitem>

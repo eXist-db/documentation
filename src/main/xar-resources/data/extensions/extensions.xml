@@ -1,559 +1,432 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
-  <info>
-    <title>Extension Modules</title>
-    <date>1Q18</date>
-    <keywordset>
-      <keyword>java-development</keyword>
-    </keywordset>
-  </info>
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>Extension Modules</title>
+        <date>2Q19</date>
+        <keywordset>
+            <keyword>java-development</keyword>
+        </keywordset>
+    </info>
 
-  <!-- ================================================================== -->
+    <!-- ================================================================== -->
 
-  <para>This article provides an overview of how to create eXist-db extension modules (in Java) and contains a list of available extension modules.</para>
+    <para>This article provides an overview of how to create eXist-db extension modules (in Java)
+        and contains a list of available extension modules.</para>
 
-  <!-- ================================================================== -->
+    <!-- ================================================================== -->
 
-  <sect1 xml:id="module_intro">
-    <title>Introduction</title>
+    <sect1 xml:id="module_intro">
+        <title>Introduction</title>
 
-    <para>eXist-db provides a pluggable module interface that allows extension modules to be easily developed in Java. These extension modules can
-      provide additional XQuery functions through a custom namespace. The extension modules have full access to the eXist-db database, its internal
-      API, the context of the executing XQuery and the HTTP Session (if appropriate).</para>
-    <para>The source code for extension modules should be placed in their own folder inside
-        <literal>$EXIST_HOME/extensions/modules/src/org/exist/xquery/modules</literal>. They may then be compiled in place using either
-        <literal>$EXIST_HOME/build.sh extension-modules</literal> or <literal>%EXIST_HOME%\build.bat extension-modules</literal> depending on the
-      platform.</para>
-    <para>Modules associated to modularized indexes must be placed in the <literal>$EXIST_HOME/extensions/indexes/*/xquery/modules/*</literal>
-      hierarchy. They will be compiled automatically by the standard build targets or as indicated above.</para>
-    <para>eXist-db must also be told which modules to load, this is done in <literal>conf.xml</literal> and the Class name and Namespace for each
-      module is listed below. </para>
-    <note>
-      <para>eXist-db will require a restart to load any new modules added. </para>
-    </note>
-    <para>Once a Module is configured and loaded eXist-db will display the module and its function definitions as part of the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{${fundocs.pkg.abbrev}}">function library</link> page or through
-        <literal>util:decribe-function()</literal>.</para>
-  </sect1>
+        <para>eXist-db provides a pluggable module interface that allows extension modules to be
+            easily developed in Java. These extension modules can provide additional XQuery
+            functions through a custom namespace. The extension modules have full access to the
+            eXist-db database, its internal API, the context of the executing XQuery and the HTTP
+            Session (if appropriate).</para>
+        <para>The source code for extension modules should be placed in their own folder inside
+                <literal>$EXIST_HOME/extensions/modules/*/src/main/java/org/exist/xquery/modules/*</literal>.
+            They may then be added to <literal>$EXIST_HOME/extensions/modules/pom.xml</literal> and
+            compiled in place using <literal>mvn compile</literal>.</para>
+        <para>Modules associated to modularized indexes must be placed in the
+                <literal>$EXIST_HOME/extensions/indexes/*/xquery/modules/*</literal> hierarchy. They
+            may then be added to <literal>$EXIST_HOME/extensions/indexes/pom.xml</literal>. They
+            will be compiled automatically by the standard build targets or as indicated
+            above.</para>
+        <para>eXist-db must also be told which modules to load, this is done in
+            <literal>conf.xml</literal> and the Class name and Namespace for each module is listed
+            below. </para>
+        <note>
+            <para>eXist-db will require a restart to load any new modules added. </para>
+        </note>
+        <para>Once a Module is configured and loaded eXist-db will display the module and its
+            function definitions as part of the <link xlink:href="{${fundocs.pkg.abbrev}}">function library</link>
+            page or through <literal>util:decribe-function()</literal>.</para>
+    </sect1>
 
-  <!-- ================================================================== -->
+    <!-- ================================================================== -->
 
-  <sect1>
-    <title>Extension Modules</title>
-    <sect2 xml:id="module_example">
-      <title>Example Module</title>
-      <para>Demonstrates the simplest example of an Extension module with a single function. A good place to start if you wish to develop your own
-        Extension Module.</para>
-      <itemizedlist>
-        <listitem>
-          <para>Creator: Wolfgang Meier</para>
-        </listitem>
-        <listitem>
-          <para>Licence: LGPL</para>
-        </listitem>
-        <listitem>
-          <para>Status: production</para>
-        </listitem>
-        <listitem>
-          <para>Class: <code>org.exist.xquery.modules.example.ExampleModule</code>
-          </para>
-        </listitem>
-        <listitem>
-          <para>Namespace: <code>http://exist-db.org/xquery/examples</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-    <sect2 xml:id="module_cache">
-      <title>Cache Module</title>
-      <para>Provides a global key/value cache</para>
-      <itemizedlist>
-        <listitem>
-          <para>Creator: Evgeny Gazdovsky</para>
-        </listitem>
-        <listitem>
-          <para>Licence: LGPL</para>
-        </listitem>
-        <listitem>
-          <para>Status: production</para>
-        </listitem>
-        <listitem>
-          <para>Class: <code>org.exist.xquery.modules.cache.CacheModule</code>
-          </para>
-        </listitem>
-        <listitem>
-          <para>Namespace: <code>http://exist-db.org/xquery/cache</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-    <sect2 xml:id="module_compression">
-      <title>Compression Module</title>
-      <para>Provides additional operations for compression</para>
-      <itemizedlist>
-        <listitem>
-          <para>Creator: Adam Retter</para>
-        </listitem>
-        <listitem>
-          <para>Licence: LGPL</para>
-        </listitem>
-        <listitem>
-          <para>Status: production</para>
-        </listitem>
-        <listitem>
-          <para>Class: <code>org.exist.xquery.modules.compression.CompressionModule</code>
-          </para>
-        </listitem>
-        <listitem>
-          <para>Namespace: <code>http://exist-db.org/xquery/compression</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-    <sect2 xml:id="module_context">
-      <title>Context Module</title>
-      <para>Provides access to XQuery contexts, local attributes and foreign contexts for simple inter-XQuery communication. This extension is
-        experimental at this time and has side effects (eg. not purely functional in nature). Use at own risk! </para>
-      <itemizedlist>
-        <listitem>
-          <para>Creator: Andrzej Taramina</para>
-        </listitem>
-        <listitem>
-          <para>Licence: LGPL</para>
-        </listitem>
-        <listitem>
-          <para>Status: experimental</para>
-        </listitem>
-        <listitem>
-          <para>Class: <code>org.exist.xquery.modules.context.ContextModule</code>
-          </para>
-        </listitem>
-        <listitem>
-          <para>Namespace: <code>http://exist-db.org/xquery/context</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-    <sect2 xml:id="module_datetime">
-      <title>Date Time Module</title>
-      <para>Provides additional operations on date and time types</para>
-      <itemizedlist>
-        <listitem>
-          <para>Creator: Adam Retter</para>
-        </listitem>
-        <listitem>
-          <para>Licence: LGPL</para>
-        </listitem>
-        <listitem>
-          <para>Status: production</para>
-        </listitem>
-        <listitem>
-          <para>Class: <code>org.exist.xquery.modules.datetime.DateTimeModule</code>
-          </para>
-        </listitem>
-        <listitem>
-          <para>Namespace: <code>http://exist-db.org/xquery/datetime</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-    <sect2 xml:id="module_exi">
-      <title>EXI Module</title>
-      <para>Provides additional operations to encode and decode Efficient XML Interchange format (EXI)</para>
-      <itemizedlist>
-        <listitem>
-          <para>Creator: Robert Walpole</para>
-        </listitem>
-        <listitem>
-          <para>Licence: LGPL</para>
-        </listitem>
-        <listitem>
-          <para>Status: production</para>
-        </listitem>
-        <listitem>
-          <para>Class: <code>org.exist.xquery.modules.exi.EXIModule</code>
-          </para>
-        </listitem>
-        <listitem>
-          <para>Namespace: <code>http://exist-db.org/xquery/exi</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-    <sect2 xml:id="module_file">
-      <title>File Module</title>
-      <para>Provides additional operations on files and directories. WARNING: Enabling this extension module could result in possible security issues,
-        since it allows writing to the filesystem by xqueries!</para>
-      <itemizedlist>
-        <listitem>
-          <para>Creator: Andrzej Taramina</para>
-        </listitem>
-        <listitem>
-          <para>Licence: LGPL</para>
-        </listitem>
-        <listitem>
-          <para>Status: production</para>
-        </listitem>
-        <listitem>
-          <para>Class: <code>org.exist.xquery.modules.file.FileModule</code>
-          </para>
-        </listitem>
-        <listitem>
-          <para>Namespace: <code>http://exist-db.org/xquery/file</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-    <sect2 xml:id="module_httpclient">
-      <title>HTTP Client Module</title>
-      <para>Functions for performing HTTP requests</para>
-      <itemizedlist>
-        <listitem>
-          <para>Creator: Adam Retter and Andrzej Taramina</para>
-        </listitem>
-        <listitem>
-          <para>Licence: LGPL Features</para>
-        </listitem>
-        <listitem>
-          <para>Used: NekoHTML</para>
-        </listitem>
-        <listitem>
-          <para>Status: production</para>
-        </listitem>
-        <listitem>
-          <para>Class: <code>org.exist.xquery.modules.http.HTTPClientModule</code>
-          </para>
-        </listitem>
-        <listitem>
-          <para>Namespace: <code>http://exist-db.org/xquery/httpclient</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-    <sect2 xml:id="module_image">
-      <title>Image Module</title>
-      <para>This modules provides operations on images stored in the db, including: Retreiving Image Dimensions, Creating Thumbnails and Resizing
-        Images.</para>
-      <itemizedlist>
-        <listitem>
-          <para>Creator: Adam Retter</para>
-        </listitem>
-        <listitem>
-          <para>Contributors: Wolfgang Meier, Rafael Troilo</para>
-        </listitem>
-        <listitem>
-          <para>Licence: LGPL</para>
-        </listitem>
-        <listitem>
-          <para>Status: production</para>
-        </listitem>
-        <listitem>
-          <para>Class: <code>org.exist.xquery.modules.image.ImageModule</code>
-          </para>
-        </listitem>
-        <listitem>
-          <para>Namespace: <code>http://exist-db.org/xquery/image</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-    <sect2 xml:id="module_jndi">
-      <title>JNDI Directory Module</title>
-      <para> This extension module allows you to access and manipulate JNDI-based directories, such as LDAP, using XQuery functions. It can be very
-        useful if you want to integration and LDAP directory into an eXist-db/XQuery based application.</para>
-      <para>To compile it, set the parameter <code>include.module.jndi = true</code> in <code>$EXIST_HOME/extensions/local.build.properties</code> file (create it if
-        missing). Then, to enable it, edit the appropriate module entry in <code>conf.xml</code>.</para>
-      <itemizedlist>
-        <listitem>
-          <para>Creator: Andrzej Taramina</para>
-        </listitem>
-        <listitem>
-          <para>Licence: LGPL</para>
-        </listitem>
-        <listitem>
-          <para>Status: production</para>
-        </listitem>
-        <listitem>
-          <para>Class: <code>org.exist.xquery.modules.jndi.JNDIModule</code>
-          </para>
-        </listitem>
-        <listitem>
-          <para>Namespace: <code>http://exist-db.org/xquery/jndi</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-    <sect2 xml:id="module_mail">
-      <title>Mail Module</title>
-      <para>This modules provides facilities for sending text and/or HTML emails from XQuery using either SMTP or a local Sendmail binary.</para>
-      <itemizedlist>
-        <listitem>
-          <para>Creator: Adam Retter</para>
-        </listitem>
-        <listitem>
-          <para>Contributors: Robert Walpole</para>
-        </listitem>
-        <listitem>
-          <para>Licence: LGPL</para>
-        </listitem>
-        <listitem>
-          <para>Status: production</para>
-        </listitem>
-        <listitem>
-          <para>Class: <code>org.exist.xquery.modules.mail.MailModule</code>
-          </para>
-        </listitem>
-        <listitem>
-          <para>Namespace: <code>http://exist-db.org/xquery/mail</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-    <sect2 xml:id="module_math">
-      <title>Math Module</title>
-      <para>This module provides mathematical functions from the java Math class.</para>
-      <itemizedlist>
-        <listitem>
-          <para>Creator: Dannes Wessels</para>
-        </listitem>
-        <listitem>
-          <para>Licence: LGPL</para>
-        </listitem>
-        <listitem>
-          <para>Status: production</para>
-        </listitem>
-        <listitem>
-          <para>Class: <code>org.exist.xquery.modules.math.MathModule</code>
-          </para>
-        </listitem>
-        <listitem>
-          <para>Namespace: <code>http://exist-db.org/xquery/math</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-    <sect2 xml:id="module_oracle">
-      <title>Oracle Module</title>
-      <para>This module allows execution of PL/SQL Stored Procedures within an Oracle RDBMS from XQuery and returns the results as XML nodes. This
-        module should be used where an Oracle database returns results in an Oracle REF_CURSOR and can only be used in conjunction with the SQL
-        extension module.</para>
-      <itemizedlist>
-        <listitem>
-          <para>Creator: Rob Walpole</para>
-        </listitem>
-        <listitem>
-          <para>Licence: LGPL</para>
-        </listitem>
-        <listitem>
-          <para>Status: production</para>
-        </listitem>
-        <listitem>
-          <para>Class: <code>org.exist.xquery.modules.oracle.OracleModule</code>
-          </para>
-        </listitem>
-        <listitem>
-          <para>Namespace: <code>http://exist-db.org/xquery/oracle</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-    <sect2 xml:id="module_scheduler">
-      <title>Scheduler Module</title>
-      <para>Provides access to eXist-db's Scheduler for the purposes of scheduling job's and manipulating existing job's.</para>
-      <itemizedlist>
-        <listitem>
-          <para>Creator: Adam Retter</para>
-        </listitem>
-        <listitem>
-          <para>Licence: LGPL</para>
-        </listitem>
-        <listitem>
-          <para>Status: production</para>
-        </listitem>
-        <listitem>
-          <para>Class: <code>org.exist.xquery.modules.scheduler.SchedulerModule</code>
-          </para>
-        </listitem>
-        <listitem>
-          <para>Namespace: <code>http://exist-db.org/xquery/scheduler</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-    <sect2 xml:id="module_simpleql">
-      <title>Simple Query Language Module</title>
-      <para>This modules implements a Simple custom Query Language which is then converted to XPath and executed against the db.</para>
-      <itemizedlist>
-        <listitem>
-          <para>Creator: Wolfgang Meier</para>
-        </listitem>
-        <listitem>
-          <para>Licence: LGPL</para>
-        </listitem>
-        <listitem>
-          <para>Status: production</para>
-        </listitem>
-        <listitem>
-          <para>Class: <code>org.exist.xquery.modules.simpleql.SimpleQLModule</code>
-          </para>
-        </listitem>
-        <listitem>
-          <para>Namespace: <code>http://exist-db.org/xquery/simple-ql</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-    <sect2 xml:id="module_spatial">
-      <title>Spatial module</title>
-      <para>Various functions for <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.opengeospatial.org/standards/gml">GML</link>
-        geometries, whether indexed or not. More information about the design is available <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="devguide_indexes.xml">here</link>.</para>
-      <itemizedlist>
-        <listitem>
-          <para>Creator: Pierrick Brihaye</para>
-        </listitem>
-        <listitem>
-          <para>Licence: LGPL</para>
-        </listitem>
-        <listitem>
-          <para>Status: experimental</para>
-        </listitem>
-        <listitem>
-          <para>Class: <code>org.exist.xquery.modules.spatial.SpatialModule</code>
-          </para>
-        </listitem>
-        <listitem>
-          <para>Namespace: <code>http://exist-db.org/xquery/spatial</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-    <sect2 xml:id="module_sql">
-      <title>SQL Module</title>
-      <para>This module provides facilities for performing SQL operations against traditional databases from XQuery and returning the results as XML
-        nodes.</para>
-      <itemizedlist>
-        <listitem>
-          <para>Creator: Adam Retter</para>
-        </listitem>
-        <listitem>
-          <para>Licence: LGPL Features</para>
-        </listitem>
-        <listitem>
-          <para>Used: JDBC</para>
-        </listitem>
-        <listitem>
-          <para>Status: production</para>
-        </listitem>
-        <listitem>
-          <para>Class: <code>org.exist.xquery.modules.sql.SQLModule</code>
-          </para>
-        </listitem>
-        <listitem>
-          <para>Namespace: <code>http://exist-db.org/xquery/sql</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-    <sect2 xml:id="module_xmldiff">
-      <title>XML Differencing Module</title>
-      <para>This module provides facilities for determining the differences between XML nodes.</para>
-      <itemizedlist>
-        <listitem>
-          <para>Creator: Dannes Wessels</para>
-        </listitem>
-        <listitem>
-          <para>Contributors: Pierrick Brihaye</para>
-        </listitem>
-        <listitem>
-          <para>Licence: LGPL</para>
-        </listitem>
-        <listitem>
-          <para>Status: production</para>
-        </listitem>
-        <listitem>
-          <para>Class: <code>org.exist.xquery.modules.xmldiff.XmlDiffModule</code>
-          </para>
-        </listitem>
-        <listitem>
-          <para>Namespace: <code>http://exist-db.org/xquery/xmldiff</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-    <sect2 xml:id="module_xslfo">
-      <title>XSL-FO Module</title>
-      <para>This module provides XSL-FO rendering facilities.</para>
-      <itemizedlist>
-        <listitem>
-          <para>Creator: University of the West of England</para>
-        </listitem>
-        <listitem>
-          <para>Licence: LGPL Features</para>
-        </listitem>
-        <listitem>
-          <para>Used: Apache FOP</para>
-        </listitem>
-        <listitem>
-          <para>Status: production</para>
-        </listitem>
-        <listitem>
-          <para>Class: <code>org.exist.xquery.modules.xslfo.XSLFOModule</code>
-          </para>
-        </listitem>
-        <listitem>
-          <para>Namespace: <code>http://exist-db.org/xquery/xslfo</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-    <sect2 xml:id="module_xprocxq">
-      <title>XProcxq Module</title>
-      <para>This module provides XProc functionality to eXist-db.</para>
-      <itemizedlist>
-        <listitem>
-          <para>Creator: James Fuller</para>
-        </listitem>
-        <listitem>
-          <para>Licence: MPL v1.1 Features</para>
-        </listitem>
-        <listitem>
-          <para>Used: expath http library</para>
-        </listitem>
-        <listitem>
-          <para>Status: in development for v2.0 release</para>
-        </listitem>
-        <listitem>
-          <para>Class: <code>static xquery module via extensions/xprocxq.jar</code>
-          </para>
-        </listitem>
-        <listitem>
-          <para>Namespace: <code>http://xproc.net/xproc</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-
-    <sect2 xml:id="module_xmlcalabash">
-      <title>XML Calabash Module</title>
-      <para>This module provides simple integration with XML Calabash XProc engine.</para>
-      <itemizedlist>
-        <listitem>
-          <para>Creator: James Fuller</para>
-        </listitem>
-        <listitem>
-          <para>Licence: MPL v1.1</para>
-        </listitem>
-        <listitem>
-          <para>Class: <code>org.exist.xquery.modules.xmlcalabash</code>
-          </para>
-        </listitem>
-        <listitem>
-          <para>Namespace: <code>http://xmlcalabash.com</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-  </sect1>
-
-
+    <sect1 xml:id="ext-modules">
+        <title>Extension Modules</title>
+        <sect2 xml:id="module_example">
+            <title>Example Module</title>
+            <para>Demonstrates the simplest example of an Extension module with a single function. A
+                good place to start if you wish to develop your own Extension Module.</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Creator: Wolfgang Meier</para>
+                </listitem>
+                <listitem>
+                    <para>Licence: LGPL</para>
+                </listitem>
+                <listitem>
+                    <para>Status: production</para>
+                </listitem>
+                <listitem>
+                    <para>Class: <code>org.exist.xquery.modules.example.ExampleModule</code>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Namespace: <code>http://exist-db.org/xquery/examples</code>
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </sect2>
+        <sect2 xml:id="module_cache">
+            <title>Cache Module</title>
+            <para>Provides a global key/value cache</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Creator: Evgeny Gazdovsky</para>
+                </listitem>
+                <listitem>
+                    <para>Licence: LGPL</para>
+                </listitem>
+                <listitem>
+                    <para>Status: production</para>
+                </listitem>
+                <listitem>
+                    <para>Class: <code>org.exist.xquery.modules.cache.CacheModule</code>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Namespace: <code>http://exist-db.org/xquery/cache</code>
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </sect2>
+        <sect2 xml:id="module_compression">
+            <title>Compression Module</title>
+            <para>Provides additional operations for compression</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Creator: Adam Retter</para>
+                </listitem>
+                <listitem>
+                    <para>Licence: LGPL</para>
+                </listitem>
+                <listitem>
+                    <para>Status: production</para>
+                </listitem>
+                <listitem>
+                    <para>Class: <code>org.exist.xquery.modules.compression.CompressionModule</code>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Namespace: <code>http://exist-db.org/xquery/compression</code>
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </sect2>
+        <sect2 xml:id="module_exi">
+            <title>EXI Module</title>
+            <para>Provides additional operations to encode and decode Efficient XML Interchange
+                format (EXI)</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Creator: Robert Walpole</para>
+                </listitem>
+                <listitem>
+                    <para>Licence: LGPL</para>
+                </listitem>
+                <listitem>
+                    <para>Status: production</para>
+                </listitem>
+                <listitem>
+                    <para>Class: <code>org.exist.xquery.modules.exi.EXIModule</code>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Namespace: <code>http://exist-db.org/xquery/exi</code>
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </sect2>
+        <sect2 xml:id="module_file">
+            <title>File Module</title>
+            <para>Provides additional operations on files and directories. WARNING: Enabling this
+                extension module could result in possible security issues, since it allows writing
+                to the filesystem by xqueries!</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Creator: Andrzej Taramina</para>
+                </listitem>
+                <listitem>
+                    <para>Licence: LGPL</para>
+                </listitem>
+                <listitem>
+                    <para>Status: production</para>
+                </listitem>
+                <listitem>
+                    <para>Class: <code>org.exist.xquery.modules.file.FileModule</code>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Namespace: <code>http://exist-db.org/xquery/file</code>
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </sect2>
+        <sect2 xml:id="module_image">
+            <title>Image Module</title>
+            <para>This modules provides operations on images stored in the db, including: Retreiving
+                Image Dimensions, Creating Thumbnails and Resizing Images.</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Creator: Adam Retter</para>
+                </listitem>
+                <listitem>
+                    <para>Contributors: Wolfgang Meier, Rafael Troilo</para>
+                </listitem>
+                <listitem>
+                    <para>Licence: LGPL</para>
+                </listitem>
+                <listitem>
+                    <para>Status: production</para>
+                </listitem>
+                <listitem>
+                    <para>Class: <code>org.exist.xquery.modules.image.ImageModule</code>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Namespace: <code>http://exist-db.org/xquery/image</code>
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </sect2>
+        <sect2 xml:id="module_jndi">
+            <title>JNDI Directory Module</title>
+            <para> This extension module allows you to access and manipulate JNDI-based directories,
+                such as LDAP, using XQuery functions. It can be very useful if you want to
+                integration and LDAP directory into an eXist-db/XQuery based application.</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Creator: Andrzej Taramina</para>
+                </listitem>
+                <listitem>
+                    <para>Licence: LGPL</para>
+                </listitem>
+                <listitem>
+                    <para>Status: production</para>
+                </listitem>
+                <listitem>
+                    <para>Class: <code>org.exist.xquery.modules.jndi.JNDIModule</code>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Namespace: <code>http://exist-db.org/xquery/jndi</code>
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </sect2>
+        <sect2 xml:id="module_mail">
+            <title>Mail Module</title>
+            <para>This modules provides facilities for sending text and/or HTML emails from XQuery
+                using either SMTP or a local Sendmail binary.</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Creator: Adam Retter</para>
+                </listitem>
+                <listitem>
+                    <para>Contributors: Robert Walpole</para>
+                </listitem>
+                <listitem>
+                    <para>Licence: LGPL</para>
+                </listitem>
+                <listitem>
+                    <para>Status: production</para>
+                </listitem>
+                <listitem>
+                    <para>Class: <code>org.exist.xquery.modules.mail.MailModule</code>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Namespace: <code>http://exist-db.org/xquery/mail</code>
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </sect2>
+        <sect2 xml:id="module_oracle">
+            <title>Oracle Module</title>
+            <para>This module allows execution of PL/SQL Stored Procedures within an Oracle RDBMS
+                from XQuery and returns the results as XML nodes. This module should be used where
+                an Oracle database returns results in an Oracle REF_CURSOR and can only be used in
+                conjunction with the SQL extension module.</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Creator: Rob Walpole</para>
+                </listitem>
+                <listitem>
+                    <para>Licence: LGPL</para>
+                </listitem>
+                <listitem>
+                    <para>Status: production</para>
+                </listitem>
+                <listitem>
+                    <para>Class: <code>org.exist.xquery.modules.oracle.OracleModule</code>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Namespace: <code>http://exist-db.org/xquery/oracle</code>
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </sect2>
+        <sect2 xml:id="module_scheduler">
+            <title>Scheduler Module</title>
+            <para>Provides access to eXist-db's Scheduler for the purposes of scheduling job's and
+                manipulating existing job's.</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Creator: Adam Retter</para>
+                </listitem>
+                <listitem>
+                    <para>Licence: LGPL</para>
+                </listitem>
+                <listitem>
+                    <para>Status: production</para>
+                </listitem>
+                <listitem>
+                    <para>Class: <code>org.exist.xquery.modules.scheduler.SchedulerModule</code>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Namespace: <code>http://exist-db.org/xquery/scheduler</code>
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </sect2>
+        <sect2 xml:id="module_simpleql">
+            <title>Simple Query Language Module</title>
+            <para>This modules implements a Simple custom Query Language which is then converted to
+                XPath and executed against the db.</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Creator: Wolfgang Meier</para>
+                </listitem>
+                <listitem>
+                    <para>Licence: LGPL</para>
+                </listitem>
+                <listitem>
+                    <para>Status: production</para>
+                </listitem>
+                <listitem>
+                    <para>Class: <code>org.exist.xquery.modules.simpleql.SimpleQLModule</code>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Namespace: <code>http://exist-db.org/xquery/simple-ql</code>
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </sect2>
+        <sect2 xml:id="module_spatial">
+            <title>Spatial module</title>
+            <para>Various functions for <link
+                    xlink:href="https://www.opengeospatial.org/standards/gml">GML</link> geometries,
+                whether indexed or not. More information about the design is available in the <link
+                    xlink:href="devguide_indexes">Developer's Guide to Modularized Indexes</link>.</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Creator: Pierrick Brihaye</para>
+                </listitem>
+                <listitem>
+                    <para>Licence: LGPL</para>
+                </listitem>
+                <listitem>
+                    <para>Status: experimental</para>
+                </listitem>
+                <listitem>
+                    <para>Class: <code>org.exist.xquery.modules.spatial.SpatialModule</code>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Namespace: <code>http://exist-db.org/xquery/spatial</code>
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </sect2>
+        <sect2 xml:id="module_sql">
+            <title>SQL Module</title>
+            <para>This module provides facilities for performing SQL operations against traditional
+                databases from XQuery and returning the results as XML nodes.</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Creator: Adam Retter</para>
+                </listitem>
+                <listitem>
+                    <para>Licence: LGPL Features</para>
+                </listitem>
+                <listitem>
+                    <para>Used: JDBC</para>
+                </listitem>
+                <listitem>
+                    <para>Status: production</para>
+                </listitem>
+                <listitem>
+                    <para>Class: <code>org.exist.xquery.modules.sql.SQLModule</code>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Namespace: <code>http://exist-db.org/xquery/sql</code>
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </sect2>
+        <sect2 xml:id="module_xmldiff">
+            <title>XML Differencing Module</title>
+            <para>This module provides facilities for determining the differences between XML
+                nodes.</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Creator: Dannes Wessels</para>
+                </listitem>
+                <listitem>
+                    <para>Contributors: Pierrick Brihaye</para>
+                </listitem>
+                <listitem>
+                    <para>Licence: LGPL</para>
+                </listitem>
+                <listitem>
+                    <para>Status: production</para>
+                </listitem>
+                <listitem>
+                    <para>Class: <code>org.exist.xquery.modules.xmldiff.XmlDiffModule</code>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Namespace: <code>http://exist-db.org/xquery/xmldiff</code>
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </sect2>
+        <sect2 xml:id="module_xslfo">
+            <title>XSL-FO Module</title>
+            <para>This module provides XSL-FO rendering facilities.</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Creator: University of the West of England</para>
+                </listitem>
+                <listitem>
+                    <para>Licence: LGPL Features</para>
+                </listitem>
+                <listitem>
+                    <para>Used: Apache FOP</para>
+                </listitem>
+                <listitem>
+                    <para>Status: production</para>
+                </listitem>
+                <listitem>
+                    <para>Class: <code>org.exist.xquery.modules.xslfo.XSLFOModule</code>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Namespace: <code>http://exist-db.org/xquery/xslfo</code>
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </sect2>
+    </sect1>
 </article>

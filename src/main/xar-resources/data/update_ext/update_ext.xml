@@ -1,9 +1,9 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>XQuery Update Extension</title>
-    <date>1Q18</date>
+    <date>2Q19</date>
     <keywordset>
       <keyword>xquery</keyword>
     </keywordset>
@@ -25,7 +25,7 @@
     <sect2 xml:id="w3c-rec">
       <title>Relationship to W3C Recommendation</title>
 
-      <para>This extension was created well before the W3C working group created the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.w3.org/TR/xquery-update-10/" condition="_blank">XQuery Update
+      <para>This extension was created well before the W3C working group created the <link xlink:href="https://www.w3.org/TR/xquery-update-10/" condition="_blank">XQuery Update
           Facility 1.0</link> recommendation and therefore differs substantially from it. </para>
     </sect2>
 
@@ -38,7 +38,7 @@
         documents stored in the database. It does not work for updating temporary document fragments
         constructed within an query.</para>
       <para>For example: </para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-1.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-1.txt"/>
       <para>Since <code>$node</code> is an in-memory constructed element (rather than a node stored
         in the database) the query has no effect and simply returns the empty element.</para>
     </sect2>
@@ -66,12 +66,12 @@
       <para>For example, the following expression will throw the database into an inconsistent state
         if <code>//address</code> returns more than one node:</para>
 
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-2.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-2.txt"/>
       <para>However, an expression like the following is safe as it only modifies the current
         iteration variable. The following example only deletes <code>$address</code> (the current
         iteration variable) instead of <code>//address</code> (all addresses in the
         database):</para>
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-3.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-3.txt"/>
     </warning>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -79,7 +79,7 @@
     <sect2 xml:id="insert">
       <title>Insert</title>
 
-      <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="listings/listing-4.txt"/>
+      <programlisting xlink:href="listings/listing-4.txt"/>
       <para>Inserts the content sequence specified in <code>expr</code> into the element node passed
         via <code>exprSingle</code>. <code>exprSingle</code> and <code>expr</code> must evaluate to
         a node set. If <code>exprSingle</code> contains more than one element node, the modification
@@ -161,7 +161,7 @@
         document.</para>
       <example>
         <title>Delete Example</title>
-        <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-12.txt"/>
+        <programlisting language="xquery" xlink:href="listings/listing-12.txt"/>
       </example>
     </sect2>
 
@@ -176,7 +176,7 @@
         be the root element of a document.</para>
       <example>
         <title>Rename Example</title>
-        <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-14.txt"/>
+        <programlisting language="xquery" xlink:href="listings/listing-14.txt"/>
       </example>
     </sect2>
   </sect1>

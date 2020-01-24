@@ -1,9 +1,9 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>Getting Data into eXist-db</title>
-    <date>1Q18</date>
+    <date>2Q19</date>
     <keywordset>
       <keyword>getting-started</keyword>
     </keywordset>
@@ -19,7 +19,7 @@
   <sect1 xml:id="with-dashboard">
     <title>Uploading files using the Dashboard</title>
 
-    <para> eXist-db's <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{dashboard}">Dashboard</link>'s comes with a Collections pane. This
+    <para> eXist-db's <link xlink:href="{dashboard}">Dashboard</link>'s comes with a Collections pane. This
       lets you upload files from your filesystem into the database. Click on this icon to open it iIf you are not logged in, Dashboard will prompt you
       to log in first):</para>
     <figure>
@@ -78,7 +78,7 @@
     <title>Uploading files with a WebDAV client</title>
 
     <para>A WebDAV client lets you manage eXist-db database collections and documents almost like directories and files in a filesystem. WebDAV
-      clients, or applications with built-in WebDAV support, include Windows Explorer, macOS Finder, <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.webdav.org/cadaver">cadaver</link>, <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.konqueror.org/">KDE Konqueror</link>, <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.oxygenxml.com/">oXygen XML Editor</link>, <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.altova.com/">XML Spy</link>, <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.libreoffice.org/">LibreOffice</link>, <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://panic.com/transmit/">Transmit</link> (MacOS only),
+      clients, or applications with built-in WebDAV support, include Windows Explorer, macOS Finder, <link xlink:href="http://www.webdav.org/cadaver">cadaver</link>, <link xlink:href="https://www.konqueror.org/">KDE Konqueror</link>, <link xlink:href="https://www.oxygenxml.com/">oXygen XML Editor</link>, <link xlink:href="https://www.altova.com/">XML Spy</link>, <link xlink:href="https://www.libreoffice.org/">LibreOffice</link>, <link xlink:href="https://panic.com/transmit/">Transmit</link> (MacOS only),
       and many others.</para>
 
     <para>To connect a WebDAV client to eXist-db, you need the URL for eXist's WebDAV interface and an eXist-db username and password. eXist-db's
@@ -90,7 +90,7 @@
         <code>http://localhost:8080/exist/webdav/db/</code> as an example, the server name is <code>localhost</code>, the port is <code>8080</code>,
       and the remote path is <code>/exist/webdav/db</code>.</para>
     <para>Dedicated WebDAV clients are an excellent way to upload and manage the contents of their database. For more information about using WebDAV
-      connections with eXist-db (including client-specific instructions), see the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="webdav">WebDAV</link> article.</para>
+      connections with eXist-db (including client-specific instructions), see the <link xlink:href="webdav">WebDAV</link> article.</para>
   </sect1>
 
   <!-- ================================================================== -->
@@ -98,7 +98,7 @@
   <sect1 xml:id="with-java-client">
     <title>Uploading files with the Java Admin Client</title>
 
-    <para>The <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="java-admin-client">Java Admin Client</link> also lets you upload files into
+    <para>The <link xlink:href="java-admin-client">Java Admin Client</link> also lets you upload files into
       the database. This can be done using the GUI or the command line.</para>
     <para>For uploading files using the Java Admin Client's GUI:</para>
     <orderedlist>
@@ -118,7 +118,7 @@
     <para>To upload files with the command line:</para>
     <programlisting>bin/client.sh -m /db/path/in/database -p /path/on/file/system</programlisting>
     <para>The <code>-m</code> parameter specifies the target collection, the <code>-p</code> parameter the path on the filesystem to the files to
-      upload. See also the <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="java-admin-client">Java Admin Client</link>
+      upload. See also the <link xlink:href="java-admin-client">Java Admin Client</link>
       documentation.</para>
   </sect1>
 
@@ -141,6 +141,6 @@
 
     <para>Ant is a build tool for automating common tasks. eXist-db comes with some special Ant eXist-db actions to automate things like importing or
       exporting files, etc.</para>
-    <para>The action for uploading files and storing them into your database is <code>xdb:store</code>. See <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="ant-tasks">Ant Tasks</link> for more information.</para>
+    <para>The action for uploading files and storing them into your database is <code>xdb:store</code>. See <link xlink:href="ant-tasks">Ant Tasks</link> for more information.</para>
   </sect1>
 </article>

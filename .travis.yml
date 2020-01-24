@@ -1,12 +1,46 @@
-sudo: false
-
 language: java
 
+dist: xenial
+addons:
+  apt:
+    packages:
+    - libgconf-2-4
 jdk:
-  - oraclejdk8
-  - oraclejdk9
+  - openjdk8
+  - openjdk11
 
-script: mvn -B test package
+services:
+  - docker
+
+env:
+  - img=existdb/existdb:latest
+  # No need to check for backwards compatibility
+  # - img=existdb/existdb:release
+
+cache:
+  directories:
+  - $HOME/.m2
+
+before_install:
+  - docker pull $img
+  - docker create  --name exist-ci -p 8080:8080 $img
+
+install:
+  - mvn clean package -DskipTests -q
+
+before_script:
+  - docker cp ./target/exist-documentation-*.xar exist-ci:exist/autodeploy
+  - docker start exist-ci
+  # exist needs time
+  - sleep 30
+
+script:
+  - mvn validate
+  - mvn test
+  - npm run cypress -- --record
+
+after_success:
+  - docker ps
 
 notifications:
-  hipchat: ec8fcfa661addc56a361a8ef536320@integrations
+  slack: exist-db:IXzUdqA0n11cnxaDz43ZQgdX

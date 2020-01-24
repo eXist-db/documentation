@@ -1,169 +1,171 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
 
-  <!-- ================================================================== -->
+    <!-- ================================================================== -->
 
-  <info>
-    <title>Advanced Installation Methods</title>
-    <date>1Q18</date>
-    <keywordset>
-      <keyword>installation</keyword>
-      <keyword>operations</keyword>
-    </keywordset>
-  </info>
+    <info>
+        <title>Advanced Installation Methods</title>
+        <date>4Q19</date>
+        <keywordset>
+            <keyword>installation</keyword>
+            <keyword>operations</keyword>
+        </keywordset>
+    </info>
 
-  <!-- ================================================================== -->
+    <!-- ================================================================== -->
 
-  <para>The eXist-db <link xlink:href="basic-installation">Basic Installation</link> article describes how to install and start eXist-db for basic
-    usage. This article explains more advanced methods of installing and running eXist, for instance for a headless (no GUI) system, running it as a
-    service, etc.</para>
+    <para>The eXist-db <link xlink:href="basic-installation">Basic Installation</link> article
+        describes how to install and start eXist-db for basic usage. This article explains more
+        advanced methods of installing and running eXist, for instance for a headless (no GUI)
+        system, running it as a service, etc.</para>
 
-  <!-- ================================================================== -->
+    <!-- ================================================================== -->
 
-  <sect1 xml:id="headless">
-    <title>Headless Installation</title>
+    <sect1 xml:id="headless">
+        <title>Headless Installation</title>
 
-    <para>The <link xlink:href="basic-installation">Basic Installation</link> of eXist-db requires a graphical desktop. You can also install eXist on
-      a headless (no GUI) system. For this launch the installer from the command line, using the <code>-console</code> option:</para>
-    <programlisting>java -jar eXist-{version}.jar -console</programlisting>
-    <para>In console mode, the installer will prompt for several parameters (almost like the GUI version does). A dump of a sample interaction is
-      shown below:</para>
-    <programlisting xlink:href="listings/listing-2.txt"/>
-  </sect1>
+        <para>The <link xlink:href="basic-installation">Basic Installation</link> of eXist-db
+            requires a graphical desktop. You can also install eXist on a headless (no GUI) system.
+            For this launch the installer from the command line, using the <code>-console</code>
+            option:</para>
+        <programlisting>java -jar eXist-{version}.jar -console</programlisting>
+        <para>In console mode, the installer will prompt for several parameters (almost like the GUI
+            version does). A dump of a sample interaction is shown below:</para>
+        <programlisting xlink:href="listings/listing-2.txt"/>
+    </sect1>
 
-  <!-- ================================================================== -->
+    <!-- ================================================================== -->
 
-  <sect1 xml:id="service">
-    <title>Running eXist-db as a Service</title>
+    <sect1 xml:id="service">
+        <title>Running eXist-db as a Service</title>
 
-    <para>Instead of manually running the eXist-db server in a shell window, you can run it as a background service which is automatically launched
-      during system start-up. This can be convenient, especially for servers. eXist-db continues to run even after users have logged off.</para>
-    <para>eXist-db comes with pre-configured scripts that use <link condition="_blank" xlink:href="http://yajsw.sourceforge.net/">YAJSW (Yet Another
-        Java Service Wrapper)</link> to handle the setup procedure. The scripts for this are contained in the directory
-      <literal>tools/yajsw</literal>. </para>
-    <para>Out of the box the following mainstream platforms are supported:</para>
-    <itemizedlist>
-      <listitem>
-        <para>Windows x86 (32bit/64bit)</para>
-      </listitem>
-      <listitem>
-        <para>Linux x86 (32bit/64bit) &amp; IA (64bit) </para>
-      </listitem>
-      <listitem>
-        <para>macOS x86 (32bit/64bit) </para>
-      </listitem>
-      <listitem>
-        <para>Solaris x86 (32bit/64bit) &amp; SPARC (32bit/64bit)</para>
-      </listitem>
-    </itemizedlist>
+        <para>Instead of manually running the eXist-db server in a shell window, you can run it as a
+            background service which is automatically launched during system start-up. This can be
+            convenient, especially for servers. eXist-db continues to run even after users have
+            logged off.</para>
 
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <sect2 xml:id="windows">
-      <title>Windows</title>
+        <sect2 xml:id="windows">
+            <title>Windows</title>
 
-      <para>On Windows there are three identical options:</para>
-      <itemizedlist>
-        <listitem>
-          <para>Choose <guimenuitem>Install eXist-db as Service</guimenuitem> from the eXist-db's system tray application.</para>
-        </listitem>
-        <listitem>
-          <para>Choose <guimenuitem>Install eXist-db as Service</guimenuitem> from eXist-db's entry in the Windows start menu.</para>
-        </listitem>
-        <listitem>
-          <para>Run <literal>tools/yajsw/bin/installService.bat</literal> from the command line.</para>
-        </listitem>
-      </itemizedlist>
-      <para>Installing eXist-db as a service on Windows requires full administrator rights.</para>
+            <para>On Windows there are three identical options:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Choose <guimenuitem>Install eXist-db as Service</guimenuitem> from the
+                        eXist-db's system tray application.</para>
+                </listitem>
+                <listitem>
+                    <para>Choose <guimenuitem>Install eXist-db as Service</guimenuitem> from
+                        eXist-db's entry in the Windows start menu.</para>
+                </listitem>
+            </itemizedlist>
+            <para>Installing eXist-db as a service on Windows requires full administrator
+                rights.</para>
 
-      <para>After installing eXist-db as a service, you'll find eXist-db in the list of services registered with Windows:</para>
-      <informalfigure>
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="assets/services.png"/>
-          </imageobject>
-        </mediaobject>
-      </informalfigure>
-      <para>Launch it via the service manager (as shown in the screenshot above) or from the command line:</para>
-      <programlisting>tools\yaysw\bin\startService.bat</programlisting>
-    </sect2>
+            <para>After installing eXist-db as a service, you'll find eXist-db in the list of
+                services registered with Windows:</para>
+            <informalfigure>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="assets/services.png"/>
+                    </imageobject>
+                </mediaobject>
+            </informalfigure>
+        </sect2>
 
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <sect2 xml:id="linux">
-      <title>Unix/Linux</title>
+        <sect2 xml:id="linux">
+            <title>Unix/Linux</title>
+            <para> If your system supports <code>systemd</code> you can run the service wrapper as a
+                non-privileged user.</para>
+            <para>Begin by creating a new user in your system which is being created specifically to run eXist-db as a service.
+                You can do this by typing the following command:</para>
+                <programlisting>sudo adduser --system --shell /sbin/nologin --comment "eXist-db Service Account" existdb</programlisting>
+                    <para>This command creates a new system user named "existdb" which does not need to login in order to run a service.
+                    In order for this new system user to be able to run eXist-db, we need to change the permission of eXist-db to
+                    match this new user. You do so by navigating to your <literal>$EXIST_HOME</literal> folder and typing the following two commands:</para>
+                    <programlisting xlink:href="listings/listing-3.txt"/>
+                    <para>These two commmands modify the ownership and group permissions recursively throughout the whole eXist-db project
+                    to your new existdb system user. Now only this user can run eXist-db.
+                    Next, navigate to the <literal>/etc/systemd/system</literal>
+                    sub-directory. Once there, create an exist-db.service file which contains the following information at
+                    a minimum:</para>
+                <programlisting xlink:href="listings/listing-4.txt"/>
+            <para>Once this file is stored in this location, you need to update permissions.
+                Give ownership of this file to the exist user by using the following commands:</para>
+              <programlisting xlink:href="listings/listing-5.txt"/>
+            <para>Below is a list of common commands to interact with the newly created and configured service:</para>  
+            <itemizedlist>
+                <listitem>
+                    <para><code>sudo systemctl start exist-db.service</code> - Enter command to start eXist-db</para>
+                </listitem>
+                <listitem>
+                    <para><code>sudo systemctl stop exist-db.service</code> - Enter command to stop eXist-db</para>
+                </listitem>
+                <listitem>
+                    <para><code>sudo systemctl enable exist-db.service</code> - Enter command to enable eXist-db to automatically start running after a reboot of your system</para>
+                </listitem>
+                <listitem>
+                    <para><code>sudo systemctl disable exist-db.service</code> - Enter commande to disable eXist-db from automatically starting after a reboot of your system</para>
+                </listitem>
+                <listitem>
+                    <para><code>sudo systemctl restart exist-db.service</code> - Enter command to restart eXist-db</para>
+                </listitem>
+                <listitem>
+                    <para><code>systemctl status exist-db</code> - Enter command to check the status of eXist-db</para>
+                </listitem>
+                <listitem>
+                    <para><code>journalctl</code> - Run the following command to check systemd journal:</para>
+                </listitem>
+            </itemizedlist>
+        </sect2>
+    </sect1>
 
-      <para>The scripts for running eXist-db as a service for Unix and Linux based system (among which MacOS)can be found in the
-          <literal>tools/yajsw/bin/</literal> sub-directory.</para>
-      <para>Run the following command to get eXist-db started during initialization of the system:</para>
-      <programlisting>tools/yajsw/bin/installDaemon.sh</programlisting>
-      <para> This works for MacOS and many Linux distributions.</para>
-      <para>It might be required to set some variables for the specific system, among which <code>wrapper.app.account</code> (to have eXist-db started
-        as a specific user) and <code>wrapper.plist.template</code> for <code>launchd</code>. Details can be found on the <link xlink:href="http://yajsw.sourceforge.net/YAJSW%20Configuration%20Parameters.html">YAJSW website</link>.</para>
-      <para> If your system supports <code>systemd</code> you can run the service wrapper as a non-privileged user. You will be notified on choosing
-          <code>systemd</code> non-privileged when running the service wrapper installer and uninstaller.</para>
-    </sect2>
+    <!-- ================================================================== -->
 
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <sect1 xml:id="bin-executables">
+        <title>Alternatives for scripts in the bin Directory</title>
 
-    <sect2 xml:id="other">
-      <title>Other platforms</title>
-
-      <para>Support for additional platforms can be bootstrapped by looking at templates in the <code>tools/yajsw/templates</code> sub-directory.
-        Consult the <link condition="_blank" xlink:href="http://yajsw.sourceforge.net/">YAJSW documentation</link> for more information.</para>
-    </sect2>
-  </sect1>
-
-  <!-- ================================================================== -->
-
-  <sect1 xml:id="bin-executables">
-    <title>Alternatives for scripts in the bin Directory</title>
-
-    <para>Included in the distribution are a number of useful <literal>.sh</literal> (Unix Shell) and <literal>.bat</literal> (DOS batch) programs
-      located in the <literal>bin</literal> sub-directory. Their names speak for themselves.</para>
-    <para>However, if you find that programs do not launch, you can try to manually launch them on the command-line without the scripting wrapper.
-      This often provides useful debugging information.</para>
-    <para>To manually launch these scripts, give the following commands:</para>
-    <variablelist spacing="compact">
-      <varlistentry>
-        <term>
-          <code>startup.sh</code> (Unix) / <code>startup.bat</code> (Windows)</term>
-        <listitem>
-          <programlisting>java -jar start.jar jetty</programlisting>
-          <para>Starts the included Jetty web server at port 8080. eXist runs as a web application, located at <link xlink:href="http://localhost:8080/exist/">http://localhost:8080/exist/</link>. </para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>
-          <code>shutdown.sh</code> (Unix) / <code>shutdown.bat</code> (Windows)</term>
-        <listitem>
-          <programlisting>java -jar start.jar shutdown -p youradminpassword</programlisting>
-          <para>Closes the running instance of eXist. If eXist has been started with <literal>startup.sh</literal>, calling
-              <literal>shutdown.sh</literal> will also stop the Jetty web server. Otherwise, only the database is stopped by this call (since eXist
-            has no control over the environment in which it is running). You should <emphasis>always</emphasis> call <literal>shutdown</literal>
-            before killing the server process.</para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>
-          <code>server.sh</code> (Unix) / <code>server.bat</code> (Windows)</term>
-        <listitem>
-          <programlisting>java -jar start.jar standalone</programlisting>
-          <para>Launches eXist as a stand-alone server process. In this setup, eXist is only accessible through the XMLRPC and the built-in HTTP
-            interface.</para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>
-          <code>client.sh</code> (Unix) / <code>client.bat</code> (Windows)</term>
-        <listitem>
-          <programlisting>java -jar start.jar client</programlisting>
-          <para>Launches the <link xlink:href="java-admin-client">Java Admin Client</link>. This application is also launched if no application is
-            selected on the command-line, like this:</para>
-          <programlisting>java -jar start.jar</programlisting>
-        </listitem>
-      </varlistentry>
-    </variablelist>
-  </sect1>
+        <para>Included in the distribution are a number of useful <literal>.sh</literal> (Unix
+            Shell) and <literal>.bat</literal> (Windows batch) programs located in the
+                <literal>bin</literal> sub-directory. Their names speak for themselves.</para>
+        <para>However, if you find that programs do not launch, you can try to manually launch them
+            on the command-line without the scripting wrapper. This often provides useful debugging
+            information.</para>
+        <para>To manually launch these scripts, give the following commands:</para>
+        <variablelist spacing="compact">
+            <varlistentry>
+                <term> <code>startup.sh</code> (Unix) / <code>startup.bat</code> (Windows)</term>
+                <listitem>
+                    <para>Starts the included Jetty web server at port 8080. eXist runs as a web
+                        application, located at <link xlink:href="http://localhost:8080/exist/"
+                        >http://localhost:8080/exist/</link>. </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>shutdown.sh</code> (Unix) / <code>shutdown.bat</code> (Windows)</term>
+                <listitem>
+                    <programlisting>shutdown.sh -p youradminpassword</programlisting>
+                    <para>Closes the running instance of eXist. If eXist has been started with
+                        <literal>startup.sh</literal>, calling <literal>shutdown.sh</literal> will
+                        also stop the Jetty web server. Otherwise, only the database is stopped by
+                        this call (since eXist has no control over the environment in which it is
+                        running). You should <emphasis>always</emphasis> call
+                        <literal>shutdown</literal> before killing the server process.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>client.sh</code> (Unix) / <code>client.bat</code> (Windows)</term>
+                <listitem>
+                    <para>Launches the <link xlink:href="java-admin-client">Java Admin
+                        Client</link>.</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+    </sect1>
 </article>

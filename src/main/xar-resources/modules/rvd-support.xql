@@ -1,7 +1,7 @@
 xquery version "3.0";
 (:============================================================================:)
-(:== 
-  Module with sypport functions for the review and diagnostics.
+(:==
+  Module with support functions for the review and diagnostics.
 ==:)
 (:============================================================================:)
 (:== PROLOG: ==:)
@@ -79,5 +79,3 @@ declare function rvds:anchor-exists($doc as document-node(), $anchor as xs:strin
 };
 
 (:============================================================================:)
-
-

@@ -1,0 +1,10 @@
+let $result := collection("/db/articles")//db:article[ft:query(., "xml")]
+let $facets := ft:facets($result, "keyword", ())
+return
+    <table>
+    {
+        map:for-each($facets, function($label, $count) {
+            <tr><td>{$label}</td><td>{$count}</td></tr>
+        })
+    }
+    </table>

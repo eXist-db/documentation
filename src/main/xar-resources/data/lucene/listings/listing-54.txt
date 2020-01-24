@@ -1,0 +1,4 @@
+for $article in collection("/db/articles")//db:article[ft:query(., "xquery", map { "fields": ("title", "author") })]
+order by ft:field($article, "title"), ft:field($article, "author")[1]
+return
+    $article
