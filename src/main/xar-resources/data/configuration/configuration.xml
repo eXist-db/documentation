@@ -25,82 +25,46 @@
             <literal>conf.xml</literal>, which is loaded the root directory of the
             distribution (as specified by the system property <literal>exist.home</literal>).</para>
 
-        <para>The configuration file <literal>conf.xml</literal> is divided into eleven
+        <para>The configuration file <literal>conf.xml</literal> is divided into twelve
             sections:</para>
-        <variablelist>
-            <varlistentry>
-                <term> <tag>db-connection</tag> </term>
-                <listitem>
-                    <para>Configures the storage back-end.</para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term> <tag>lock-manager</tag> </term>
-                <listitem>
-                    <para>Configures the Lock Manager.</para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term> <tag>repository</tag> </term>
-                <listitem>
-                    <para>Settings for the package repository.</para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term> <tag>binary-manager</tag> </term>
-                <listitem>
-                    <para>Settings for the Binary Manager.</para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term> <tag>indexer</tag> </term>
-                <listitem>
-                    <para>Controls the indexing process.</para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term> <tag>scheduler</tag> </term>
-                <listitem>
-                    <para>Job scheduler for system or user jobs. </para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term> <tag>parser</tag> </term>
-                <listitem>
-                    <para>Default settings for parsing structured documents.</para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term> <tag>serializer</tag> </term>
-                <listitem>
-                    <para>Default settings for the serializer (external data representation).</para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term> <tag>transformer</tag> </term>
-                <listitem>
-                    <para>Default settings for the XSLT Transformer.</para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term> <tag>validation</tag> </term>
-                <listitem>
-                    <para>Settings for XML validation.</para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term> <tag>xquery</tag> </term>
-                <listitem>
-                    <para>Define (built-in) modules that contain xQuery functions.</para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term> <tag>xupdate</tag> </term>
-                <listitem>
-                    <para>Configuration options related to XUpdate processing.</para>
-                </listitem>
-            </varlistentry>
-        </variablelist>
+        <orderedlist>
+          <listitem>
+            <para><tag>db-connection</tag>: Configures the storage back-end.</para>
+          </listitem>
+          <listitem>
+            <para><tag>lock-manager</tag>: Configures the Lock Manager.</para>
+          </listitem>
+          <listitem>
+            <para><tag>repository</tag>: Settings for the package repository.</para>
+          </listitem>
+          <listitem>
+            <para><tag>binary-manager</tag>: Settings for the Binary Manager.</para>
+          </listitem>
+          <listitem>
+            <para><tag>indexer</tag>: Controls the indexing process.</para>
+          </listitem>
+          <listitem>
+            <para><tag>scheduler</tag>: Job scheduler for system or user jobs.</para>
+          </listitem>
+          <listitem>
+            <para><tag>parser</tag>: Default settings for parsing structured documents.</para>
+          </listitem>
+          <listitem>
+            <para><tag>serializer</tag>: Default settings for the serializer (external data representation).</para>
+          </listitem>
+          <listitem>
+            <para><tag>transformer</tag>: Default settings for the XSLT Transformer.</para>
+          </listitem>
+          <listitem>
+            <para><tag>validation</tag>: Settings for XML validation.</para>
+          </listitem>
+          <listitem>
+            <para><tag>xquery</tag>: Define (built-in) modules that contain xQuery functions.</para>
+          </listitem>
+          <listitem>
+            <para><tag>xupdate</tag>: Configuration options related to XUpdate processing.</para>
+          </listitem>
+        </orderedlist>
         <para>The following sections describe the most commonly modified of the above elements,
             including how to change the default behavior of eXist-db's handling of whitespace
             characters.</para>
