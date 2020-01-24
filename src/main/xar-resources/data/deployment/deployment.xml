@@ -3,7 +3,7 @@
         schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
     <info>
         <title>Database Deployment</title>
-        <date>2Q19</date>
+        <date>1Q20</date>
         <keywordset>
             <keyword>operations</keyword>
             <keyword>java-development</keyword>
@@ -197,7 +197,7 @@
 
                 <para>You can control the binding address by changing the addConnector
                     <tag>Call</tag> element in <code>tools/jetty/etc/standalone.xml</code>:</para>
-                <variablelist spacing="compact">
+                <variablelist>
                     <varlistentry>
                         <term> <code>port</code> </term>
                         <listitem>
@@ -259,7 +259,7 @@
                 <para>The REST Servlet has a number of other parameters that can be set by child
                     elements:</para>
                 <programlisting language="xml" xlink:href="listings/listing-15.xml"/>
-                <variablelist spacing="compact">
+                <variablelist>
                     <varlistentry>
                         <term> <code>form-encoding</code> </term>
                         <listitem>
@@ -285,13 +285,13 @@
                     <varlistentry>
                         <term> <code>user</code> </term>
                         <listitem>
-                            <para>The username of the default user.</para>
+                            <para>Takes the username of the default user.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
                         <term> <code>password</code> </term>
                         <listitem>
-                            <para>The password of the default user.</para>
+                            <para>Takes the password of the default user.</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>

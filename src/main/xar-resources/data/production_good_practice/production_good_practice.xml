@@ -57,7 +57,7 @@
             advantages to installing eXist-db from source code.</para>
         <para>eXist-db may be installed and build (see <link xlink:href="exist-building">Building
             eXist-db</link>) from source code to a production system in one of two ways:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term>Via Local Build Machine (preferred)</term>
                 <listitem>
@@ -77,7 +77,7 @@
             </varlistentry>
         </variablelist>
         <para>Some advantages of installing eXist-db from source code are:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term>Patches</term>
                 <listitem>
@@ -177,7 +177,7 @@
 
                 <para>eXist-db ships with fairly relaxed permissions to facilitate rapid application
                     development. However, for production systems these should be constrained:</para>
-                <variablelist spacing="compact">
+                <variablelist>
                     <varlistentry>
                         <term><code>admin</code> account</term>
                         <listitem>
@@ -251,7 +251,7 @@
             <para>Means for anonymous users to execute arbitrary code require special attention.
                 There are three means of code execution in eXist, which make sense during
                 development, but should be reconsidered for production systems:</para>
-            <variablelist spacing="compact">
+            <variablelist>
                 <varlistentry>
                     <term>Java binding</term>
                     <listitem>
@@ -312,7 +312,7 @@
 
             </variablelist>
             <para>Further considerations for a live environment:</para>
-            <variablelist spacing="compact">
+            <variablelist>
                 <varlistentry>
                     <term>Services</term>
                     <listitem>
@@ -344,7 +344,7 @@
 
             <para>You should ensure that you have enough memory and disk space in your system so
                 that eXist-db can cope with peak demands.</para>
-            <variablelist spacing="compact">
+            <variablelist>
                 <varlistentry>
                     <term><code>-Xmx</code></term>
                     <listitem>

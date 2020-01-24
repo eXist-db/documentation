@@ -8,7 +8,7 @@
 
     <info>
         <title>Ant Tasks</title>
-        <date>2Q19</date>
+        <date>1Q20</date>
         <keywordset>
             <keyword>operations</keyword>
         </keywordset>
@@ -47,7 +47,7 @@
     <sect1 xml:id="common">
         <title>Common attributes</title>
         <para>All tasks share the following common attributes:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>uri</code></term>
                 <listitem>
@@ -97,7 +97,7 @@
             are specified as single source file or with <code>Ant</code> filesets:</para>
 
         <programlisting language="xml" xlink:href="listings/listing-3.txt"/>
-        <variablelist spacing="compact">
+        <variablelist>
             <para>Attributes:</para>
             <varlistentry>
                 <term><code>createcollection</code></term>
@@ -176,7 +176,7 @@
         <programlisting language="xml" xlink:href="listings/listing-5.xml"/>
         <para>Attributes (use either <code>collection</code> or <code>resource</code>, not
             both):</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>collection</code></term>
                 <listitem>
@@ -200,7 +200,7 @@
         <para>The <code>create</code> task creates a single, empty, collection:</para>
 
         <programlisting language="xml" xlink:href="listings/listing-6.xml"/>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>collection</code></term>
                 <listitem>
@@ -229,7 +229,7 @@
             condition.</para>
 
         <programlisting language="xml" xlink:href="listings/listing-7.xml"/>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>resource</code></term>
                 <listitem>
@@ -250,17 +250,17 @@
         <programlisting language="xml" xlink:href="listings/listing-8.xml"/>
         <programlisting language="xml" xlink:href="listings/listing-9.xml"/>
         <para>Attributes:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>resources</code></term>
                 <listitem>
-                    <para>If <code>true</code> lists resources</para>
+                    <para>If <code>true</code> returns a list of resources.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><code>collections</code></term>
                 <listitem>
-                    <para>If <code>true</code> lists collections</para>
+                    <para>If <code>true</code> returns a list of collections.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -289,29 +289,29 @@
         <programlisting language="xml" xlink:href="listings/listing-11.xml"/>
         <para>Attributes (use either <code>collection</code> or <code>resource</code>, not
             both):</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>resource</code></term>
                 <listitem>
-                    <para>The name of the resource to copy.</para>
+                    <para>Takes the name of the resource to copy.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><code>collection</code></term>
                 <listitem>
-                    <para>The name of the collection to copy.</para>
+                    <para>Takes the name of the collection to copy.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><code>destination</code></term>
                 <listitem>
-                    <para>The name of the destination collection to copy to.</para>
+                    <para>Takes the name of the destination collection to copy to.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><code>name</code></term>
                 <listitem>
-                    <para>The new name of the resource or collection.</para>
+                    <para>Takes the new name of the resource or collection.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -327,29 +327,29 @@
         <programlisting language="xml" xlink:href="listings/listing-13.xml"/>
         <para>Attributes (use either <code>collection</code> or <code>resource</code>, not
             both):</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>resource</code></term>
                 <listitem>
-                    <para>The name of the resource to move.</para>
+                    <para>Takes the name of the resource to move.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><code>collection</code></term>
                 <listitem>
-                    <para>The name of the collection to move.</para>
+                    <para>Takes the name of the collection to move.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><code>destination</code></term>
                 <listitem>
-                    <para>The name of the destination collection to move to.</para>
+                    <para>Takes the name of the destination collection to move to.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><code>name</code></term>
                 <listitem>
-                    <para>The new name of the resource or collection.</para>
+                    <para>Takes the new name of the resource or collection.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -364,11 +364,11 @@
             of XML documents.</para>
         <programlisting language="xml" xlink:href="listings/listing-14.xml"/>
         <para>Attributes:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>query</code></term>
                 <listitem>
-                    <para>The XPath expression to process.</para>
+                    <para>Takes the XPath expression to process.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -418,17 +418,17 @@
         <programlisting language="xml" xlink:href="listings/listing-15.txt"/>
         <programlisting language="xml" xlink:href="listings/listing-16.xml"/>
         <para>Attributes:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>query</code></term>
                 <listitem>
-                    <para>The full query to process.</para>
+                    <para>Takes the full query that should be processed.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><code>queryUri</code></term>
                 <listitem>
-                    <para>The query to process, specified as a URI.</para>
+                    <para>Takes the query to process, specified as a URI.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -441,8 +441,7 @@
             <varlistentry>
                 <term><code>destfile</code></term>
                 <listitem>
-                    <para>Write the results of the query to this destination file. Care should be
-                        taken to get a well-formed document (one root tag!).</para>
+                    <para>Write the results of the query to this destination file. Care should be taken to get a well-formed document (one root tag!).</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -471,7 +470,7 @@
         <programlisting language="xml" xlink:href="listings/listing-17.xml"/>
         <programlisting language="xml" xlink:href="listings/listing-18.xml"/>
         <para>Attributes:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>resource</code></term>
                 <listitem>
@@ -532,7 +531,7 @@
             disk:</para>
         <programlisting language="xml" xlink:href="listings/listing-19.xml"/>
         <para>Attributes:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>dir</code></term>
                 <listitem>
@@ -550,7 +549,7 @@
         <para>The <code>restore</code> task restores database contents from a backup.</para>
         <programlisting language="xml" xlink:href="listings/listing-20.xml"/>
         <para>Attributes (use either <code>dir</code> or <code>file</code>, not both):</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>dir</code></term>
                 <listitem>
@@ -575,7 +574,7 @@
         <para>The <code>groups</code> task lists all user groups defined in eXist-db:</para>
         <programlisting language="xml" xlink:href="listings/listing-21.xml"/>
         <para>Attributes:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>outputproperty</code></term>
                 <listitem>
@@ -600,7 +599,7 @@
         <para>The <code>users</code> task lists all users defined in eXist-db:</para>
         <programlisting language="xml" xlink:href="listings/listing-22.xml"/>
         <para>Attributes:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>outputproperty</code></term>
                 <listitem>
@@ -624,17 +623,17 @@
         <para>The lock task locks a resource for a specific user:</para>
         <programlisting language="xml" xlink:href="listings/listing-23.xml"/>
         <para>Attributes:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>resource</code></term>
                 <listitem>
-                    <para>Name of the resource to lock.</para>
+                    <para>Takes the name of the resource to lock.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><code>name</code></term>
                 <listitem>
-                    <para>Name of the user to lock the resource for.</para>
+                    <para>Takes the name of the user to lock the resource for.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -648,11 +647,11 @@
         <para>The <code>adduser</code> task adds a user:</para>
         <programlisting language="xml" xlink:href="listings/listing-24.xml"/>
         <para>Attributes:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>name</code></term>
                 <listitem>
-                    <para>Name of the new user.</para>
+                    <para>Takes the username of the new user.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -664,7 +663,7 @@
             <varlistentry>
                 <term><code>secret</code></term>
                 <listitem>
-                    <para>The password for the new user.</para>
+                    <para>Takes the password for the new user.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -685,11 +684,11 @@
 
         <programlisting language="xml" xlink:href="listings/listing-25.xml"/>
         <para>Attributes:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>name</code></term>
                 <listitem>
-                    <para>Name of the user to remove.</para>
+                    <para>Takes the username of the user to remove.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -704,17 +703,17 @@
 
         <programlisting language="xml" xlink:href="listings/listing-26.xml"/>
         <para>Attributes:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>name</code></term>
                 <listitem>
-                    <para>Name of the user to change the password for.</para>
+                    <para>Takes the username of the user to change the password for.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><code>secret</code></term>
                 <listitem>
-                    <para>The new password.</para>
+                    <para>Takes the new password for the user.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -728,11 +727,11 @@
         <para>The <code>addgroup</code> task adds a user group. </para>
         <programlisting language="xml" xlink:href="listings/listing-27.xml"/>
         <para>Attributes:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>name</code></term>
                 <listitem>
-                    <para>Name of the new group.</para>
+                    <para>Takes the groupname of the new group.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -746,11 +745,11 @@
         <para>The <code>rmgroup</code> task removes a user group.</para>
         <programlisting language="xml" xlink:href="listings/listing-28.xml"/>
         <para>Attributes:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>name</code></term>
                 <listitem>
-                    <para>Name of the group to remove.</para>
+                    <para>Takes the groupname of the group to remove.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -765,7 +764,7 @@
             collection.</para>
         <programlisting language="xml" xlink:href="listings/listing-29.xml"/>
         <para>Attributes:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>resource</code></term>
                 <listitem>
@@ -804,7 +803,7 @@
         <para>The <code>chown</code> task changes the owner of a resource or collection. </para>
         <programlisting language="xml" xlink:href="listings/listing-36.xml"/>
         <para>Attributes:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>name</code></term>
                 <listitem>

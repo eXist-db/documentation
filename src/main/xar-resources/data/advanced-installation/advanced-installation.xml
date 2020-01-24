@@ -8,7 +8,7 @@
 
     <info>
         <title>Advanced Installation Methods</title>
-        <date>4Q19</date>
+        <date>1Q20</date>
         <keywordset>
             <keyword>installation</keyword>
             <keyword>operations</keyword>
@@ -99,7 +99,7 @@
             <para>Once this file is stored in this location, you need to update permissions.
                 Give ownership of this file to the exist user by using the following commands:</para>
               <programlisting xlink:href="listings/listing-5.txt"/>
-            <para>Below is a list of common commands to interact with the newly created and configured service:</para>  
+            <para>Below is a list of common commands to interact with the newly created and configured service:</para>
             <itemizedlist>
                 <listitem>
                     <para><code>sudo systemctl start exist-db.service</code> - Enter command to start eXist-db</para>
@@ -138,7 +138,7 @@
             on the command-line without the scripting wrapper. This often provides useful debugging
             information.</para>
         <para>To manually launch these scripts, give the following commands:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term> <code>startup.sh</code> (Unix) / <code>startup.bat</code> (Windows)</term>
                 <listitem>
@@ -162,8 +162,7 @@
             <varlistentry>
                 <term> <code>client.sh</code> (Unix) / <code>client.bat</code> (Windows)</term>
                 <listitem>
-                    <para>Launches the <link xlink:href="java-admin-client">Java Admin
-                        Client</link>.</para>
+                    <para>Use one of these scripts to launch the <link xlink:href="java-admin-client">Java Admin Client</link>.</para>
                 </listitem>
             </varlistentry>
         </variablelist>

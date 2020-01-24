@@ -22,10 +22,8 @@
 
     <sect1 xml:id="intro">
         <title>Introduction</title>
-
-
         <para>eXist ships with four index types based on this mechanism:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term>Lucene Range index</term>
                 <listitem><para>An index providing range and field based searches on an index built with Apache Lucene..</para></listitem>
@@ -336,8 +334,8 @@
             <programlisting>public String getDataDir()</programlisting>
             <para>Returns the directory in which this <literal>Index</literal> operates. Usually
                 defined by <literal>configure()</literal> which itself receives eXist's
-                configuration settings. <note><para>There might be some <literal>Index</literal>es for
-                    which the concept of data directory isn't accurate.</para></note></para>
+                configuration settings.</para> <note><para>There might be some <literal>Index</literal>es for
+                    which the concept of data directory isn't accurate.</para></note>
             <programlisting>public void configure(BrokerPool pool, String dataDir, Element config)</programlisting>
             <para>Its minimal implementation retains the
                 <literal>org.exist.storage.BrokerPool</literal>, the data directory and the

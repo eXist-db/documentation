@@ -72,49 +72,49 @@
             <itemizedlist>
                 <listitem>
                     <para>Unix/Linux:</para>
-                    <programlisting>$EXIST_HOME/bin/jmxclient.sh &lt;params&gt;</programlisting>
+                    <programlisting>$EXIST_HOME/bin/jmxclient.sh <tag>params</tag></programlisting>
                 </listitem>
                 <listitem>
                     <para>Windows:</para>
-                    <programlisting>$EXIST_HOME\bin\jmxclient.bat &lt;params&gt;</programlisting>
+                    <programlisting>$EXIST_HOME\bin\jmxclient.bat <tag>params</tag></programlisting>
                 </listitem>
             </itemizedlist>
             <para>This accepts the following command-line parameters:</para>
             <variablelist spacing="normal">
                 <varlistentry>
-                    <term><code>-a, --address &lt;argument&gt;</code></term>
+                    <term><code>-a, --address</code> <tag>argument</tag></term>
                     <listitem>
-                        <para>RMI address of the server.</para>
+                        <para>The Remote Method Invocation (RMI) address of the server.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><code>-c, --cache</code></term>
                     <listitem>
-                        <para>displays server statistics on cache and memory usage.</para>
+                        <para>Displays server statistics on cache and memory usage.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><code>-d, --db</code></term>
                     <listitem>
-                        <para>display general info about the db instance.</para>
+                        <para>Displays general information about the db instance.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><code>-h, --help</code></term>
                     <listitem>
-                        <para>print help on command line options and exit.</para>
+                        <para>Prints help on command line options and exit.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term><code>-i, --instance &lt;argument&gt;</code></term>
+                    <term><code>-i, --instance</code> <tag>argument</tag></term>
                     <listitem>
-                        <para>the ID of the database instance to connect to</para>
+                        <para>The ID of the database instance to connect to.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><code>-l, --locks</code></term>
                     <listitem>
-                        <para>lock manager: display locking information on all threads currently
+                        <para>lock manager: displays locking information on all threads currently
                             waiting for a lock on a resource or collection. Useful to debug
                             deadlocks. During normal operation, the list will usually be empty
                             (means: no blocked threads).</para>
@@ -123,27 +123,25 @@
                 <varlistentry>
                     <term><code>-m, --memory</code></term>
                     <listitem>
-                        <para>display info on free and total memory. Can be combined with other
-                            parameters.</para>
+                        <para>Displays info on free and total memory. Can be combined with other parameters.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term><code>-p, --port &lt;argument&gt;</code></term>
+                    <term><code>-p, --port</code> <tag>argument</tag></term>
                     <listitem>
-                        <para>RMI port of the server</para>
+                        <para>The Remote Method Invocation (RMI) port of the server.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><code>-s, --report</code></term>
                     <listitem>
-                        <para>Retrieves the most recent sanity/consistency check report</para>
+                        <para>Retrieves the most recent sanity/consistency check report.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term><code>-w, --wait &lt;argument&gt;</code></term>
+                    <term><code>-w, --wait</code> <tag>argument</tag></term>
                     <listitem>
-                        <para> while displaying server statistics: keep retrieving statistics, but
-                            wait the specified number of seconds between calls.</para>
+                        <para> while displaying server statistics: keeps retrieving statistics, but waits the specified number of seconds between calls.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -168,7 +166,7 @@
             <para>The different JMX objects in eXist are organized into categories. One or more
                 categories can be passed to the servlet in parameter <literal>c</literal>. The
                 following categories are recognized:</para>
-            <variablelist spacing="compact">
+            <variablelist>
                 <varlistentry>
                     <term><code>memory</code></term>
                     <listitem>
@@ -178,46 +176,44 @@
                 <varlistentry>
                     <term><code>instances</code></term>
                     <listitem>
-                        <para>general information about the db instance, active db broker objects
-                            etc.</para>
+                        <para>general information about the db instance, active db broker objects etc.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><code>disk</code></term>
                     <listitem>
-                        <para>current hard disk usage of the database files</para>
+                        <para>Contains current hard disk usage of the database files.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><code>system</code></term>
                     <listitem>
-                        <para>system information: eXist version ...</para>
+                        <para>Contains system information: eXist version ...</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><code>caches</code></term>
                     <listitem>
-                        <para>statistics on eXist's internal caches</para>
+                        <para>Contains statistics on eXist's internal caches.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><code>locking</code></term>
                     <listitem>
-                        <para>information on collection and resource locks currently being held by
-                            operations</para>
+                        <para>Contains current information on collection and resource locks of running operations.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><code>sanity</code></term>
                     <listitem>
-                        <para>feedback from the latest sanity check or ping request (see
-                            below)</para>
+                        <para>Feedback from the latest sanity check or ping request (see
+                            below).</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><code>all</code></term>
                     <listitem>
-                        <para>dumps all known JMX objects in eXist's namespace</para>
+                        <para>Dumps all known JMX objects in eXist's namespace.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -241,10 +237,10 @@
                 <programlisting>http://localhost:8080/exist/status?operation=ping&amp;t=2000</programlisting>
                 <para>If the ping returns within the specified timeout, the servlet returns the
                     attributes of the SanityReport JMX bean, which will include an element
-                    <code>&lt;jmx:Status&gt;PING_OK&lt;/jmx:Status&gt;</code>:</para>
+                    <tag>jmx:Status</tag><code>PING_OK</code><tag>/jmx:Status</tag>:</para>
                 <programlisting language="xml" xlink:href="listings/listing-10.xml"/>
                 <para>If the ping takes longer than the timeout, you'll instead find an element
-                    <code>&lt;jmx:error&gt;</code> in the returned XML. In this case, additional
+                    <tag>jmx:error</tag> in the returned XML. In this case, additional
                     information on running queries, memory consumption and database locks will be
                     provided:</para>
                 <programlisting language="xml" xlink:href="listings/listing-11.xml"/>
