@@ -94,7 +94,7 @@
         to specify optional output properties.</para>
     </note>
     <para>The following general fields for methods are supported:</para>
-    <variablelist spacing="compact">
+    <variablelist>
       <varlistentry>
         <term>
           <code>indent</code>
@@ -183,7 +183,7 @@
           <programlisting>byte[] getDocument(String name, Hashtable parameters)</programlisting>
           <programlisting>String getDocumentAsString(String name, Hashtable parameters)</programlisting>
           <para>Retrieves a document from the database.</para>
-          <variablelist spacing="compact">
+          <variablelist>
             <title>Parameters:</title>
 
             <varlistentry>
@@ -265,7 +265,7 @@
             <literal>getDocumentData()</literal>
             returned structure to verify this.
           </para>
-          <variablelist spacing="compact">
+          <variablelist>
             <varlistentry>
               <term>
                 <code>name</code>
@@ -318,7 +318,7 @@
           <programlisting>boolean parse(byte[] xml, String docName, int overwrite)</programlisting>
           <programlisting>boolean parse(byte[] xml, String docName)</programlisting>
           <para>Insert a new document into the database or replace an existing one.</para>
-          <variablelist spacing="compact">
+          <variablelist>
             <varlistentry>
               <term>
                 <code>xml</code>
@@ -363,7 +363,7 @@
             exceptions can be avoided since the document is not entirely kept in memory. To identify the file on the server, upload returns an identifier string. After uploading all chunks, you can call
             <literal>parseLocal</literal>
             and pass it this identifier string as its first argument.</para>
-          <variablelist spacing="compact">
+          <variablelist>
             <varlistentry>
               <term>
                 <code>file</code>
@@ -429,7 +429,7 @@
         <listitem>
           <programlisting>boolean createCollection(String name)</programlisting>
           <para>Creates a new collection.</para>
-          <variablelist spacing="compact">
+          <variablelist>
             <varlistentry>
               <term>
                 <code>name</code>
@@ -452,7 +452,7 @@
         <listitem>
           <programlisting>boolean remove(String docName)</programlisting>
           <para>Removes a document from the database.</para>
-          <variablelist spacing="compact">
+          <variablelist>
             <varlistentry>
               <term>
                 <code>docName</code>
@@ -466,7 +466,7 @@
         <listitem>
           <programlisting>boolean removeCollection( String collection)</programlisting>
           <para>Removes a collection from the database (including all of its documents and sub-collections).</para>
-          <variablelist spacing="compact">
+          <variablelist>
             <varlistentry>
               <term>
                 <code>collection</code>
@@ -491,7 +491,7 @@
           <programlisting>int executeQuery(byte[] xquery, HashMap parameters)</programlisting>
           <programlisting>int executeQuery(byte[] xquery, String encoding, HashMap parameters)</programlisting>
           <para>Executes an XQuery and returns a reference identifier to the generated result set. This reference can be used to retrieve the results.</para>
-          <variablelist spacing="compact">
+          <variablelist>
             <varlistentry>
               <term>
                 <code>xquery</code>
@@ -556,7 +556,7 @@
             public identifier and the number of hits found for this
             <literal>doctype</literal>
             in each row.</para>
-          <variablelist spacing="compact">
+          <variablelist>
             <varlistentry>
               <term>
                 <code>resultId</code>
@@ -572,7 +572,7 @@
           <programlisting>byte[] retrieve(int resultId, int pos, Hashtable parameters)</programlisting>
           <para>Retrieves a single result-fragment from the result-set referenced by
             <literal>resultId</literal>. The result-fragment is identified by its position in the result-set.</para>
-          <variablelist spacing="compact">
+          <variablelist>
             <varlistentry>
               <term>
                 <code>resultId</code>
@@ -616,7 +616,7 @@
             (see
             <literal>getDocumentData()</literal>
             documentation for further details).</para>
-          <variablelist spacing="compact">
+          <variablelist>
             <varlistentry>
               <term>
                 <code>resultId</code>
@@ -652,7 +652,7 @@
           <programlisting>int getHits(int resultId)</programlisting>
           <para>Get the number of hits in the result-set identified by
             <literal>resultId</literal>.</para>
-          <variablelist spacing="compact">
+          <variablelist>
             <varlistentry>
               <term>
                 <code>resultId</code>
@@ -669,7 +669,7 @@
           <para>Executes an XQuery expression and returns a specified subset of the results. This method will directly return a subset of the result-sequence, starting at
             <literal>start</literal>, as a new XML document. The number of results returned is determined by parameter
             <literal>howmany</literal>. The result-set will be deleted on the server, so later calls to this method will again execute the query.</para>
-          <variablelist spacing="compact">
+          <variablelist>
             <varlistentry>
               <term>
                 <code>xquery</code>
@@ -740,7 +740,7 @@
           <para>
             <literal>collections</literal>
             is an array listing the names of available sub-collections in this collection.</para>
-          <variablelist spacing="compact">
+          <variablelist>
             <varlistentry>
               <term>
                 <code>collection</code>
@@ -805,7 +805,7 @@
             <literal>XMLResource</literal>or
             <literal>BinaryResource</literal>.
           </para>
-          <variablelist spacing="compact">
+          <variablelist>
             <varlistentry>
               <term>
                 <code>collection</code>
@@ -829,7 +829,7 @@
           <programlisting>int xupdate(String collectionName, byte[] xupdate)</programlisting>
           <programlisting>int xupdateResource(String documentName, byte[] xupdate)</programlisting>
           <para>Applies a set of XUpdate modifications to a collection or document.</para>
-          <variablelist spacing="compact">
+          <variablelist>
             <varlistentry>
               <term>
                 <code>collectionName</code>
@@ -871,7 +871,7 @@
           <programlisting>boolean addAccount(String name, String passwd, String digestPasswd, Vector groups)</programlisting>
           <programlisting>boolean updateAccount(String name, String passwd, String digestPasswd, Vector groups, String home)</programlisting>
           <para>Modifies or creates a user account.</para>
-          <variablelist spacing="compact">
+          <variablelist>
             <varlistentry>
               <term>
                 <code>name</code>
@@ -920,7 +920,7 @@
           <programlisting>boolean setPermissions(String resource, String owner, String ownerGroup, String permissions)</programlisting>
           <programlisting>boolean setPermissions(String resource, String owner, String ownerGroup, int permissions)</programlisting>
           <para>Sets the permissions assigned to a given collection or document.</para>
-          <variablelist spacing="compact">
+          <variablelist>
             <varlistentry>
               <term>
                 <code>resource</code>
@@ -1030,7 +1030,7 @@
               <para>number of occurrences of this element as an integer value</para>
             </listitem>
           </orderedlist>
-          <variablelist spacing="compact">
+          <variablelist>
             <varlistentry>
               <term>
                 <code>collectionName</code>
@@ -1062,7 +1062,7 @@
               <para>number occurrences of the term in the specified collection</para>
             </listitem>
           </orderedlist>
-          <variablelist spacing="compact">
+          <variablelist>
             <varlistentry>
               <term>
                 <code>collectionName</code>

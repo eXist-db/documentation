@@ -71,7 +71,7 @@
             file extension of the package is <literal>.xar</literal>. </para>
         <para>The archive <emphasis>must</emphasis> contain two XML descriptor files in the root
             directory: <literal>expath-pkg.xml</literal> and <literal>repo.xml</literal>:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term> <literal>expath-pkg.xml</literal> </term>
                 <listitem>
@@ -103,7 +103,7 @@
             <programlisting language="xml" xlink:href="listings/listing-1.xml"/>
             <para>The schema of this file is documented in the specification. In short, the
                 attributes are as follows:</para>
-            <variablelist spacing="compact">
+            <variablelist>
                 <varlistentry>
                     <term><code>name</code></term>
                     <listitem>
@@ -158,7 +158,7 @@
                     Versioning</link>. This can be done by adding either of the attributes:
                     <code>version</code>, <code>semver</code>, <code>semver-min</code>,
                     <code>semver-max</code>: </para>
-                <variablelist spacing="compact">
+                <variablelist>
                     <varlistentry>
                         <term><code>version</code></term>
                         <listitem>
@@ -310,7 +310,7 @@
                 Contrary to this, a library package only registers XQuery or other modules, but no
                 resources need to be stored into the database, so <tag>target</tag> is empty.</para>
 
-            <variablelist spacing="compact">
+            <variablelist>
                 <varlistentry>
                     <term><tag>type</tag></term>
                     <listitem>

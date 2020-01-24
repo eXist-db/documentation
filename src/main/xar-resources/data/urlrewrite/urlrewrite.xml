@@ -103,7 +103,7 @@
             function like <literal>request:get-uri()</literal> to get the current URI of the
             request. However, to simplify things, <code>XQueryURLRewrite</code> passes a few
             variables to the controller script:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><code>exist:path</code></term>
                 <listitem>
@@ -356,7 +356,7 @@
             the eXist namespace: <literal>http://exist.sourceforge.net/NS/exist</literal>.
             <tag>dispatch</tag> may contain a single action element, followed by an optional
             <tag>view</tag> element. Two action elements are currently allowed:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><tag>redirect</tag></term>
                 <listitem>
@@ -374,7 +374,7 @@
                         where the request was forwarded to.</para>
                     <para>The request can either be forwarded to a servlet or to another request
                         path, depending on which attribute is specified:</para>
-                    <variablelist spacing="compact">
+                    <variablelist>
                         <varlistentry>
                             <term><code>url</code></term>
                             <listitem>
@@ -426,7 +426,7 @@
         </variablelist>
 
         <para>In addition to the action, an element <tag>cache-control</tag> may appear:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><tag>cache-control</tag></term>
                 <listitem>
@@ -443,7 +443,7 @@
             </varlistentry>
         </variablelist>
         <para>Within an action element, parameters and attributes can be set as follows:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><tag>add-parameter</tag></term>
                 <listitem>
@@ -525,7 +525,7 @@
         <sect2 xml:id="xq-servlet">
             <title>XQueryServlet</title>
 
-            <variablelist spacing="compact">
+            <variablelist>
                 <varlistentry>
                     <term><code>xquery.attribute</code></term>
                     <listitem>
@@ -582,7 +582,7 @@
         <sect2 xml:id="xslt-servlet">
             <title>XSLTServlet</title>
 
-            <variablelist spacing="compact">
+            <variablelist>
                 <varlistentry>
                     <term><code>xslt.stylesheet</code></term>
                     <listitem>

@@ -27,7 +27,7 @@
 
         <para>The configuration file <literal>conf.xml</literal> is divided into eleven
             sections:</para>
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term> <tag>db-connection</tag> </term>
                 <listitem>
@@ -118,7 +118,7 @@
             <sect3 xml:id="db-att">
                 <title> <tag>db-connection</tag> attributes</title>
 
-                <variablelist spacing="compact">
+                <variablelist>
                     <varlistentry>
                         <term> <code>database</code> </term>
                         <listitem>
@@ -200,7 +200,7 @@
                 <title> <tag>db-connection</tag>/<tag>pool</tag> element</title>
 
                 <para>These settings control the internal database connection pool.</para>
-                <variablelist spacing="compact">
+                <variablelist>
                     <title> <tag>pool</tag> Attributes</title>
 
                     <varlistentry>
@@ -256,7 +256,7 @@
                     is removed if it hasn't been used for the defined timeout. The XQuery pool is
                     multi-threaded.</para>
                 <para> <tag>query-pool</tag> Attributes:</para>
-                <variablelist spacing="compact">
+                <variablelist>
                     <varlistentry>
                         <term> <code>max-stack-size</code> </term>
                         <listitem>
@@ -300,7 +300,7 @@
                     file. The location, size and other parameters for this file can be set using the
                     <tag>recovery</tag> element.</para>
                 <para> <tag>recovery</tag> Attributes:</para>
-                <variablelist spacing="compact">
+                <variablelist>
                     <varlistentry>
                         <term> <code>enabled</code> </term>
                         <listitem>
@@ -395,7 +395,7 @@
                     follows:</para>
 
                 <para> <tag>watchdog</tag> Attributes:</para>
-                <variablelist spacing="compact">
+                <variablelist>
                     <varlistentry>
                         <term> <code>query-timeout</code> </term>
                         <listitem>
@@ -444,7 +444,7 @@
             <title> <tag>lock-manager</tag> element</title>
             <para>This element contains settings for eXist-db's Lock Manager and Lock Table. The majority
                 of these Lock Manager settings should not be modified unless otherwise suggested by eXist-db Core Development Team.</para>
-            <variablelist spacing="compact">
+            <variablelist>
                 <varlistentry>
                     <term><code>lock-table/@disabled</code></term>
                     <listitem>
@@ -479,7 +479,7 @@
             <sect3 xml:id="indexer-att">
                 <title> <tag>indexer</tag> attributes</title>
 
-                <variablelist spacing="compact">
+                <variablelist>
                     <varlistentry>
                         <term> <code>caseSensitive</code> </term>
                         <listitem>
@@ -640,7 +640,7 @@
 
             <para>This section is used to configure asynchronous jobs with eXist's internal
                 scheduler. Three types of jobs are supported:</para>
-            <variablelist spacing="compact">
+            <variablelist>
                 <varlistentry>
                     <term>startup jobs</term>
                     <listitem>
@@ -678,7 +678,7 @@
             <sect3 xml:id="job-att">
                 <title> <tag>job</tag> attributes</title>
 
-                <variablelist spacing="compact">
+                <variablelist>
                     <varlistentry>
                         <term> <code>type</code> </term>
                         <listitem>
@@ -775,7 +775,7 @@
             <sect3 xml:id="serializer-att">
                 <title> <tag>serializer</tag> attributes</title>
 
-                <variablelist spacing="compact">
+                <variablelist>
                     <varlistentry>
                         <term> <code>enable-xinclude</code> </term>
                         <listitem>
@@ -874,7 +874,7 @@
             <sect3 xml:id="xupdate-att">
                 <title> <tag>xupdate</tag> attributes</title>
 
-                <variablelist spacing="compact">
+                <variablelist>
                     <varlistentry>
                         <term> <code>allowed-fragmentation</code> </term>
                         <listitem>
@@ -910,7 +910,7 @@
             <sect3 xml:id="xq-att">
                 <title> <tag>xquery</tag> attributes</title>
 
-                <variablelist spacing="compact">
+                <variablelist>
                     <varlistentry>
                         <term> <code>enable-java-binding</code> </term>
                         <listitem>
