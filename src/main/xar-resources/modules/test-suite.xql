@@ -15,6 +15,35 @@ import module namespace diag = "http://exist-db.org/xquery/diagnostics" at "diag
 
 declare namespace db5 = "http://docbook.org/ns/docbook";
 
+(:~ Minimal article from the docs with inline element in next title
+ : @see  author-reference.xml :)
+declare variable $tests:article := document {
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <info>
+        <title>Document title</title>
+        <date>1Q18</date>
+    </info>
+    <para>Introductory paragraph(s)</para>
+    <sect1 xml:id="main-id">
+        <title>Title of first main section</title>
+        <para>Lorem ipsum main</para>
+        <sect2 xml:id="sub-id">
+            <title>Title of first sub-section</title>
+            <para>Lorem ipsum sub</para>
+            <sect3 xml:id="subsub-id">
+                <title>Title of first subsub-section</title>
+                <para>Lorem ipsum subsub</para>
+            </sect3>
+        </sect2>
+    </sect1>
+    <sect1 xml:id="next-id">
+        <title>Title of <tag>second</tag> main section</title>
+        <para>Lorem ipsum next</para>
+    </sect1>
+</article>
+
+};
+
 declare
 %test:name('section-headings')
 %test:assertEmpty
@@ -50,4 +79,25 @@ function tests:orphan-listing() {
       return
         $l || ' is missing in ' || $l/ancestor::li/h3/code)
     else ()
+};
+
+declare
+%test:name('ToC rendering')
+%test:assertTrue
+function tests:toc-inline() {
+let $output := <ul class="toc">
+    <li>
+        <a href="#main-id">Title of first main section</a>
+        <ul>
+            <li>
+                <a href="#sub-id">Title of first sub-section</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="#next-id">Title of second main section</a>
+    </li>
+</ul>
+return
+    docbook:toc-db5($tests:article) eq $output
 };

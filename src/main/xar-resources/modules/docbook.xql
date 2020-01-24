@@ -67,7 +67,7 @@ declare %private function docbook:to-html($nodes as node()*) {
 (:== DB5 HANDLING: ==:)
 
 (: Will create the TOC for the DB5 document. Will only go two levels deep (deeper is not very useful for a TOC). :)
-declare %private function docbook:toc-db5($node as node()) as element(ul) {
+declare %public function docbook:toc-db5($node as node()) as element(ul) {
   element ul {
         attribute class {'toc'},
         for $l1 in $node//db5:sect1
