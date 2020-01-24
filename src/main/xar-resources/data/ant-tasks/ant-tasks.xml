@@ -8,7 +8,7 @@
 
     <info>
         <title>Ant Tasks</title>
-        <date>2Q19</date>
+        <date>1Q20</date>
         <keywordset>
             <keyword>operations</keyword>
         </keywordset>
@@ -254,13 +254,13 @@
             <varlistentry>
                 <term><code>resources</code></term>
                 <listitem>
-                    <para>If <code>true</code> lists resources</para>
+                    <para>If <code>true</code> return a list of resources.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><code>collections</code></term>
                 <listitem>
-                    <para>If <code>true</code> lists collections</para>
+                    <para>If <code>true</code> return a list of collections.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -293,25 +293,25 @@
             <varlistentry>
                 <term><code>resource</code></term>
                 <listitem>
-                    <para>The name of the resource to copy.</para>
+                    <para>Takes the name of the resource to copy.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><code>collection</code></term>
                 <listitem>
-                    <para>The name of the collection to copy.</para>
+                    <para>Takes the name of the collection to copy.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><code>destination</code></term>
                 <listitem>
-                    <para>The name of the destination collection to copy to.</para>
+                    <para>Takes the name of the destination collection to copy to.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><code>name</code></term>
                 <listitem>
-                    <para>The new name of the resource or collection.</para>
+                    <para>Takes the new name of the resource or collection.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -331,25 +331,25 @@
             <varlistentry>
                 <term><code>resource</code></term>
                 <listitem>
-                    <para>The name of the resource to move.</para>
+                    <para>Takes the name of the resource to move.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><code>collection</code></term>
                 <listitem>
-                    <para>The name of the collection to move.</para>
+                    <para>Takes the name of the collection to move.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><code>destination</code></term>
                 <listitem>
-                    <para>The name of the destination collection to move to.</para>
+                    <para>Takes the name of the destination collection to move to.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><code>name</code></term>
                 <listitem>
-                    <para>The new name of the resource or collection.</para>
+                    <para>Takes the new name of the resource or collection.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -368,7 +368,7 @@
             <varlistentry>
                 <term><code>query</code></term>
                 <listitem>
-                    <para>The XPath expression to process.</para>
+                    <para>Takes the XPath expression to process.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -422,13 +422,13 @@
             <varlistentry>
                 <term><code>query</code></term>
                 <listitem>
-                    <para>The full query to process.</para>
+                    <para>Takes the full query that should be processed.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><code>queryUri</code></term>
                 <listitem>
-                    <para>The query to process, specified as a URI.</para>
+                    <para>Takes the query to process, specified as a URI.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -441,8 +441,7 @@
             <varlistentry>
                 <term><code>destfile</code></term>
                 <listitem>
-                    <para>Write the results of the query to this destination file. Care should be
-                        taken to get a well-formed document (one root tag!).</para>
+                    <para>Write the results of the query to this destination file. Care should be taken to get a well-formed document (one root tag!).</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -628,13 +627,13 @@
             <varlistentry>
                 <term><code>resource</code></term>
                 <listitem>
-                    <para>Name of the resource to lock.</para>
+                    <para>Takes the name of the resource to lock.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><code>name</code></term>
                 <listitem>
-                    <para>Name of the user to lock the resource for.</para>
+                    <para>Takes the name of the user to lock the resource for.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -652,7 +651,7 @@
             <varlistentry>
                 <term><code>name</code></term>
                 <listitem>
-                    <para>Name of the new user.</para>
+                    <para>Takes the username of the new user.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -664,7 +663,7 @@
             <varlistentry>
                 <term><code>secret</code></term>
                 <listitem>
-                    <para>The password for the new user.</para>
+                    <para>Takes the password for the new user.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -689,7 +688,7 @@
             <varlistentry>
                 <term><code>name</code></term>
                 <listitem>
-                    <para>Name of the user to remove.</para>
+                    <para>Takes the username of the user to remove.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -708,13 +707,13 @@
             <varlistentry>
                 <term><code>name</code></term>
                 <listitem>
-                    <para>Name of the user to change the password for.</para>
+                    <para>Takes the username of the user to change the password for.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><code>secret</code></term>
                 <listitem>
-                    <para>The new password.</para>
+                    <para>Takes the new password for the user.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -732,7 +731,7 @@
             <varlistentry>
                 <term><code>name</code></term>
                 <listitem>
-                    <para>Name of the new group.</para>
+                    <para>Takes thename of the new group.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -750,7 +749,7 @@
             <varlistentry>
                 <term><code>name</code></term>
                 <listitem>
-                    <para>Name of the group to remove.</para>
+                    <para>Takes the groupname of the group to remove.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
