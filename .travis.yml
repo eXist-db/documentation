@@ -29,7 +29,7 @@ install:
   - mvn clean package -DskipTests -q
 
 before_script:
-  - docker cp ./target/exist-documentation-*.xar exist-ci:exist/autodeploy
+  - docker cp ./target/*.xar exist-ci:exist/autodeploy/111.xar
   - docker start exist-ci
   # exist needs time
   - sleep 30
