@@ -85,19 +85,22 @@ declare
 %test:name('ToC rendering')
 %test:assertTrue
 function tests:toc-inline() {
-let $output := <ul class="toc">
-    <li>
-        <a href="#main-id">Title of first main section</a>
-        <ul>
-            <li>
-                <a href="#sub-id">Title of first sub-section</a>
-            </li>
-        </ul>
-    </li>
-    <li>
-        <a href="#next-id">Title of second main section</a>
-    </li>
-</ul>
+  let $output := <ul class="toc">
+      <li>
+          <a href="#main-id">Title of first main section</a>
+          <ul>
+              <li>
+                  <a href="#sub-id">Title of first sub-section</a>
+              </li>
+          </ul>
+      </li>
+      <li>
+          <a href="#next-id">Title of second main section</a>
+      </li>
+      <button class="btn btn-outline-primary btn-sm btn-block">
+          <a href="https://github.com/eXist-db/documentation/issues/new?title=error on Document title">Improve this article</a>
+      </button>
+  </ul>
 return
     docbook:toc-db5($tests:article) eq $output
 };
