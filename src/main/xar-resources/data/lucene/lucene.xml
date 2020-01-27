@@ -288,7 +288,10 @@
                 the text at white space characters, but treats all other characters - including
                 punctuation - as part of the token. The tokens are not converted to lower case and
                 there's no stopword filter applied.</para>
-
+            <para>eXist-db provides a special analyzer for characters with diacrits based on the <literal>StandardAnalyzer</literal>. The <literal>NoDiacriticsStandardAnalyzer</literal> can be switched on and off by setting the <literal>diacritics</literal> attribute on the <tag>lucene</tag> element of your index configuration file.</para>
+            <programlisting language="xml" xlink:href="listings/listing-24.xml"/>
+            <para>Without diacrits <literal>ä</literal>, <literal>å</literal>, <literal>ā</literal>, etc will all be indexed as <literal>a</literal>. Alternatively, this analyzer can also be called by its full name. </para>
+            <programlisting language="xml" xlink:href="listings/listing-23.xml"/>
             <sect3 xml:id="conf">
                 <title>Configuring the Analyzer</title>
 
