@@ -3,7 +3,7 @@
         schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>WebDAV</title>
-    <date>2Q19</date>
+    <date>1Q20</date>
     <keywordset>
       <keyword>getting-started</keyword>
       <keyword>interfaces</keyword>
@@ -16,262 +16,35 @@
     WebDAV makes it possible to manage database collections and documents just like directories and
     files in a file system. You can copy, move, delete, view or edit files with any application
     supporting the WebDAV protocol, including Windows Explorer, macOS Finder, <link xlink:href="http://www.webdav.org/cadaver" condition="_blank">cadaver</link>, <link xlink:href="https://www.konqueror.org/" condition="_blank">KDE Konqueror</link>, <link xlink:href="https://www.oxygenxml.com/" condition="_blank">oXygen XML Editor</link>, <link xlink:href="https://www.altova.com/" condition="_blank">XML Spy</link>, <link xlink:href="https://www.libreoffice.org/" condition="_blank">LibreOffice</link> and many others (see <xref linkend="compatibility"/>
-    below).</para>
-  <para>In the default configuration the WebDAV server can be accessed via the URLs <literal>http://localhost:8080/exist/webdav/db/</literal> and <literal>http://localhost:8443/exist/webdav/db/</literal> (since eXist-db 2.0). </para>
+    below). The interface has been implemented with excellent open-source <link xlink:href="http://milton.io" condition="_blank">Milton</link>  WebDAV API for Java.</para>
+  <para>In the default configuration the WebDAV server can be accessed via the URLs <literal>http://localhost:8080/exist/webdav/db/</literal> and <literal>http://localhost:8443/exist/webdav/db/</literal>.</para>
 
   <!-- ================================================================== -->
 
   <sect1 xml:id="compatibility">
     <title>Compatibility</title>
-
-    <para>The <link xlink:href="http://milton.io" condition="_blank">Milton</link> project, on which eXist-db's WebDAV implementation is
-      build, maintains a detailed WebDAV client compatibility list that describes a "Recipe for
-      broad client compatibility." In case of any problems please read this document. Some
-      preliminary points specific to eXist should be kept in mind:</para>
     <itemizedlist>
       <listitem>
-        <para>For Windows 7 see notes below and the Milton documentation.</para>
+        <para>eXist's Milton based WebDAV interface does not support HTTP Digest Authentication.</para>
       </listitem>
       <listitem>
-        <para>eXist's Milton based WebDAV interface does currently not support HTTP Digest
-          Authentication.</para>
-      </listitem>
-      <listitem>
-        <para>The size of an XML document is presented as a multiple of 4096 bytes, which is eXist's
+        <para>
+          The size of an XML document is presented as a multiple of 4096 bytes, which is eXist's
           internal pagesize (see <link xlink:href="configuration#conf.xml">conf.xml</link>). The actual size of an XML
           document stored in the database can not be determined because the size depends on many
-          factors, among which the serialization parameters applied.</para>
+          factors, e.g. the applied serialization parameters.</para>
       </listitem>
+      <listitem><para>A webdav client / enabled application may or may not work with the webdav server of eXist-db, depending on the quality of the implementation of the client. The server fullfills all requirements of the webdav <link xlink:href="https://tools.ietf.org/html/rfc2518">specification</link>.</para></listitem>
     </itemizedlist>
-    <para>The Milton-based WebDAV interface has been successfully tested with: Windows Web Folders
-      (Windows XP/7), <link xlink:href="https://www.jscape.com/products/file-transfer-clients/anyclient/" condition="_blank">AnyClient</link> (cross-platform), macOS Finder, <link xlink:href="https://www.panic.com/transmit/" condition="_blank">Transmit</link> (macOS), <link xlink:href="https://cyberduck.ch/" condition="_blank">Cyberduck</link>, davfs2 version 1.4.5
-      (Linux), OxygenXML and LibreOffice.</para>
-    <para>The following clients are reported to have issues: <link xlink:href="https://en.wikipedia.org/wiki/GVFS" condition="_blank">GVFS</link> (Nautilus) and <link xlink:href="https://www.netdrive.net/" condition="_blank">NetDrive</link>. However, this can change over time!</para>
   </sect1>
-
-  <!-- ================================================================== -->
-
-  <sect1 xml:id="clients">
-    <title>Clients</title>
-
-
-
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-    <sect2 xml:id="webfolders">
-      <title>Windows Web Folders</title>
-
-      <para>Out of the box, Windows has <emphasis>some</emphasis> native support for the WebDAV
-        protocol, but there are some well-known issues. Please consult the following:</para>
-      <itemizedlist>
-        <listitem>
-          <para>Be aware that there are multiple versions of WebDAV Microsoft libraries (and
-            different flavors of bugs). See <link xlink:href="https://greenbytes.de/tech/webdav/webfolder-client-list.html" condition="_blank">Web Folder Client (MSDAIPP.DLL) Versions and Issues</link>.</para>
-        </listitem>
-        <listitem>
-          <para>Windows Vista and Windows 7 both restrict access to WebDAV servers that use Basic
-            HTTP authentication on non-SSL connections. This restriction can be solved by changing a
-            registry key. Read more on <link xlink:href="https://support.microsoft.com/kb/841215" condition="_blank">MSDN</link> and
-            <link xlink:href="https://greenbytes.de/tech/webdav/webdav-redirector-list.html" condition="_blank">greenbytes.de</link>. However, SSL connections do bring improved
-            security.</para>
-        </listitem>
-      </itemizedlist>
-
-
-
-      <para>To use WebDAV in Internet explorer:</para>
-      <itemizedlist>
-        <listitem>
-          <para>Select <guimenuitem>File -&gt; Open</guimenuitem>.</para>
-        </listitem>
-        <listitem>
-          <para>Fill in URL, for instance <literal>http://localhost:8080/exist/webdav/db/</literal>
-            or <literal>https://localhost:8443/exist/webdav/db/</literal>.</para>
-        </listitem>
-        <listitem>
-          <para>Check <guimenuitem>Open as Web Folder</guimenuitem>.</para>
-        </listitem>
-        <listitem>
-          <para>Click <guimenuitem>Ok</guimenuitem>.</para>
-        </listitem>
-      </itemizedlist>
-    </sect2>
-
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-    <sect2 xml:id="macos">
-      <title>macOS Finder</title>
-
-      <para>The eXist-db database can be accessed easily with the macOS Finder using the
-        <guimenuitem>Go, Connect to Server...</guimenuitem> menu. Use the eXist-db WebDAV URL
-        <code>http://localhost:8080/exist/webdav/db/</code>.</para>
-
-      <note>
-        <para>In some previous MacOS releases, Apple repetitively changed their WebDAV
-          implementation significantly, introducing new bugs and problems. The main issue is that
-          Finder requires exact document sizes reported for PROPFIND where eXist-db by default
-          reports an estimated size as described above.</para>
-        <para>As a workaround, eXist-db detects the MacOS finder via the "user-agent" HTTP header
-          and switches for PROPFIND into a kind of MacOS compatibility mode, where all XML documents
-          in a collection are serialized to determine the exact sizes of these documents. This is a
-          rather expensive and time consuming operation for large documents and for collections with
-          many documents.</para>
-        <para>As an alternative it is recommended to use <link xlink:href="https://www.panic.com/transmit/" condition="_blank">Transmit</link> or <link xlink:href="https://cyberduck.ch/" condition="_blank">Cyberduck</link> instead.</para>
-        <para>For macOS 10.8 the WebDAV client has become functional (again) in 10.8.2, but still
-          the client does not work perfectly, for instance at bulk operations.</para>
-      </note>
-    </sect2>
-
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-    <sect2 xml:id="oxygenxml">
-      <title>oXygen XML Editor</title>
-
-      <itemizedlist>
-        <listitem>
-          <para>Select <literal>File -&gt; Open URL</literal>.</para>
-        </listitem>
-        <listitem>
-          <para>Fill <literal>User</literal> and <literal>Password</literal>.</para>
-        </listitem>
-        <listitem>
-          <para>Enter <literal>Server URL</literal> http://localhost:8080/exist/webdav/db/.</para>
-        </listitem>
-        <listitem>
-          <para>Click <literal>Browse</literal>.</para>
-        </listitem>
-      </itemizedlist>
-      <informalfigure>
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="assets/webdav_oxygen.png"/>
-          </imageobject>
-        </mediaobject>
-      </informalfigure>
-      <para> More info on the <link xlink:href="https://www.oxygenxml.com/xml_editor/ftp_webdav.html/" condition="_blank">oXygen</link> product pages. </para>
-      <note>
-        <para>Note on SSL connections in oXygen: You may encounter an error: <emphasis>"Error:
-          sun.security.validator.ValidatorException: PKIX path building failed:
-          sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid
-          certification path to requested target."</emphasis>
-        </para>
-        <para>In order to avoid this error, you'll need to add the Server certificate to your
-          trusted certificates keystore (<link xlink:href="https://java.sun.com/j2se/1.5.0/docs/guide/security/jsse/JSSERefGuide.html#CustomizingStores" condition="_blank">more info</link>).</para>
-      </note>
-      <warning>
-        <para>When saving a document to the WebDAV server via oXygen, remember to double check that
-          the document's path in the File URL field at the top of the dialog does really contain the
-          URL to which you want to save the document to. It happens too easily that when you click
-          on another folder or resource by mistake, you overwrite the wrong resource. </para>
-      </warning>
-    </sect2>
-
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-    <sect2 xml:id="davfs2">
-      <title>davfs2</title>
-      <para>By default, non-XML files (plain text files, images, etc) are working as expected with davfs2.
-        Because eXist-db reports the size of XML documents as a multiple of the internal pagesize, you can list XML files
-        (<code>ls -l</code>) but you cannot view or edit them. The davfs2 logs (syslog/journalctl) contain:
-        <literal>Could not read response body: connection was closed by server</literal>
-      </para>
-      <para>
-        In order to access XML files stored in eXist from a mounted directory in a filesystem via dafvs2,
-        have to add the following additional Java parameters when starting eXist:</para>
-      <itemizedlist>
-        <listitem><para><literal>org.exist.webdav.PROPFIND_METHOD_XML_SIZE=EXACT</literal></para></listitem>
-        <listitem><para><literal>org.exist.webdav.GET_METHOD_XML_SIZE=EXACT</literal></para></listitem>
-      </itemizedlist>
-
-      <programlisting xlink:href="listings/listing-2.txt"/>
-
-      <warning><para><literal>NULL</literal> and <literal>APPROXIMATE</literal> values work for Oxygen and Cadaver but only <literal>EXACT</literal> can be used with davfs2.</para></warning>
-
-      <para>You must first uninstall the service <emphasis role="bold">before</emphasis>
-        modifying <literal>wrapper.conf</literal>, for changes to be applied when reinstalling:
-      </para>
-
-      <orderedlist>
-        <listitem>
-
-          <para>Uninstall (with service name <emphasis>eXist-db</emphasis>)</para>
-
-          <programlisting xlink:href="listings/listing-3.txt"/>
-
-        </listitem>
-        <listitem>
-
-          <para>Reinstall and enable</para>
-
-          <programlisting xlink:href="listings/listing-4.txt"/>
-
-        </listitem>
-      </orderedlist>
-
-      <note><title>Linux</title><para>Tested on davfs2 1.4.7 on RHEL7.5 and 1.5.4 on Arch Linux.</para></note>
-
-    </sect2>
-
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-    <sect2 xml:id="kde">
-      <title>KDE Konqueror</title>
-
-      <para>Enter an URL like <literal>webdav://localhost:8080/exist/webdav/db</literal>. Use
-        <literal>webdavs://</literal> for WebDAV over SSL. </para>
-      <informalfigure>
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="assets/webdav_konqueror.png"/>
-          </imageobject>
-        </mediaobject>
-      </informalfigure>
-    </sect2>
-
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-    <sect2 xml:id="libreoffice">
-      <title>LibreOffice</title>
-
-      <para>For LibreOffice and OpenOffice.org the recommended way for opening documents stored in
-        eXist-db is using the 'native' WebDAV client, as documented in the <link xlink:href="https://help.libreoffice.org/Common/Opening_a_Document_Using_WebDAV_over_HTTPS" condition="_blank">LibreOffice Help</link> documentation.</para>
-      <warning>
-        <para>When using LibreOffice on MacOS, do not write documents to a network share that is
-          mounted via Finder as documented earlier, since this could corrupt your database. The
-          problem has been identified but there is no solution yet. Please use the alternative
-          described in this chapter.</para>
-      </warning>
-      <para>The first step is configuring LibreOffice to use the LibreOffice Open/Save dialogs,
-        instead of the dialogs that are provided by the operating system: </para>
-      <informalfigure>
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="assets/webdav_libreoffice_settings.gif"/>
-          </imageobject>
-        </mediaobject>
-      </informalfigure>
-      <para> Now it is possible to type an URL in the <guimenuitem>File, Open</guimenuitem> dialog.
-        Enter <code>http://localhost:8080/exist/webdav/db/</code> and provide your login
-        credentials. Now the dialog box shows the content of the database: </para>
-      <informalfigure>
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="assets/webdav_libreoffice_open.gif"/>
-          </imageobject>
-        </mediaobject>
-      </informalfigure>
-    </sect2>
-  </sect1>
-
-  <!-- ================================================================== -->
 
   <sect1 xml:id="serialization">
     <title>Serialization</title>
 
-    <para> When retrieving an XML document via the WebDAV interface, the default serialization
-      settings as defined in <link xlink:href="configuration#conf.xml">conf.xml</link> are used. It is however possible to
-      define custom serialization settings specific for the WebDAV interface. </para>
-    <para> Copy the file <literal>extensions/webdav/src/main/resources/webdav.properties</literal>
+    <para>When retrieving an XML document via the WebDAV interface, the default serialization
+      settings as defined in <link xlink:href="configuration#conf.xml">conf.xml</link> are effective. It is  possible to define custom serialization settings specific for the WebDAV interface. </para>
+    <para>
+      Copy the file <literal>extensions/webdav/src/main/resources/webdav.properties</literal>
       into <literal>$EXIST_HOME/etc</literal> directory and uncomment/modify the parameters. Changes
       in this file requires a restart of eXist-db. </para>
 
