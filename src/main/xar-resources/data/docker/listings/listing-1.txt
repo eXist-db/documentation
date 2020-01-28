@@ -1,0 +1,5 @@
+# Using java syntax on a running eXist-db instances
+docker exec exist java org.exist.start.Main client --no-gui --xpath "system:get-version()"
+
+# Interacting with the JVM
+docker exec exist java -version
