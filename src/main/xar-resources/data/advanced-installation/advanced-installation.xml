@@ -26,7 +26,6 @@
 
     <sect1 xml:id="headless">
         <title>Headless Installation</title>
-
         <para>The <link xlink:href="basic-installation">Basic Installation</link> of eXist-db
             requires a graphical desktop. You can also install eXist on a headless (no GUI) system.
             For this launch the installer from the command line, using the <code>-console</code>
@@ -35,13 +34,18 @@
         <para>In console mode, the installer will prompt for several parameters (almost like the GUI
             version does). A dump of a sample interaction is shown below:</para>
         <programlisting xlink:href="listings/listing-2.txt"/>
+        <sect2 xml:id="docker-compose"><title>Multi-container environments</title>
+            <para>We highly recommend configuring a <literal>docker-compose.yml</literal> for local development or integration into multi-container environments.</para>
+            <programlisting xlink:href="listings/listing-1.txt"/>
+            <para>You can see an example configuration file below. Note that e.g.<code>${EXIST_DATA_DIR}</code> can be passed from an external file, and the use of the <code>volume</code> instructions. For all the available options please consult the <link xlink:href="https://docs.docker.com/compose/">docker compose</link> documentation.</para>
+            <programlisting xlink:href="listings/listing-6.txt"/>
+        </sect2>
     </sect1>
 
     <!-- ================================================================== -->
 
     <sect1 xml:id="service">
         <title>Running eXist-db as a Service</title>
-
         <para>Instead of manually running the eXist-db server in a shell window, you can run it as a
             background service which is automatically launched during system start-up. This can be
             convenient, especially for servers. eXist-db continues to run even after users have
@@ -51,7 +55,6 @@
 
         <sect2 xml:id="windows">
             <title>Windows</title>
-
             <para>On Windows there are three identical options:</para>
             <itemizedlist>
                 <listitem>
@@ -83,44 +86,56 @@
             <title>Unix/Linux</title>
             <para> If your system supports <code>systemd</code> you can run the service wrapper as a
                 non-privileged user.</para>
-            <para>Begin by creating a new user in your system which is being created specifically to run eXist-db as a service.
-                You can do this by typing the following command:</para>
-                <programlisting>sudo adduser --system --shell /sbin/nologin --comment "eXist-db Service Account" existdb</programlisting>
-                    <para>This command creates a new system user named "existdb" which does not need to login in order to run a service.
-                    In order for this new system user to be able to run eXist-db, we need to change the permission of eXist-db to
-                    match this new user. You do so by navigating to your <literal>$EXIST_HOME</literal> folder and typing the following two commands:</para>
-                    <programlisting xlink:href="listings/listing-3.txt"/>
-                    <para>These two commmands modify the ownership and group permissions recursively throughout the whole eXist-db project
-                    to your new existdb system user. Now only this user can run eXist-db.
-                    Next, navigate to the <literal>/etc/systemd/system</literal>
-                    sub-directory. Once there, create an exist-db.service file which contains the following information at
-                    a minimum:</para>
-                <programlisting xlink:href="listings/listing-4.txt"/>
-            <para>Once this file is stored in this location, you need to update permissions.
-                Give ownership of this file to the exist user by using the following commands:</para>
-              <programlisting xlink:href="listings/listing-5.txt"/>
-            <para>Below is a list of common commands to interact with the newly created and configured service:</para>
+            <para>Begin by creating a new user in your system which is being created specifically to
+                run eXist-db as a service. You can do this by typing the following command:</para>
+            <programlisting>sudo adduser --system --shell /sbin/nologin --comment "eXist-db Service Account" existdb</programlisting>
+            <para>This command creates a new system user named "existdb" which does not need to
+                login in order to run a service. In order for this new system user to be able to run
+                eXist-db, we need to change the permission of eXist-db to match this new user. You
+                do so by navigating to your <literal>$EXIST_HOME</literal> folder and typing the
+                following two commands:</para>
+            <programlisting xlink:href="listings/listing-3.txt"/>
+            <para>These two commmands modify the ownership and group permissions recursively
+                throughout the whole eXist-db project to your new existdb system user. Now only this
+                user can run eXist-db. Next, navigate to the <literal>/etc/systemd/system</literal>
+                sub-directory. Once there, create an exist-db.service file which contains the
+                following information at a minimum:</para>
+            <programlisting xlink:href="listings/listing-4.txt"/>
+            <para>Once this file is stored in this location, you need to update permissions. Give
+                ownership of this file to the exist user by using the following commands:</para>
+            <programlisting xlink:href="listings/listing-5.txt"/>
+            <para>Below is a list of common commands to interact with the newly created and
+                configured service:</para>
             <itemizedlist>
                 <listitem>
-                    <para><code>sudo systemctl start exist-db.service</code> - Enter command to start eXist-db</para>
+                    <para><code>sudo systemctl start exist-db.service</code> - Enter command to
+                        start eXist-db</para>
                 </listitem>
                 <listitem>
-                    <para><code>sudo systemctl stop exist-db.service</code> - Enter command to stop eXist-db</para>
+                    <para><code>sudo systemctl stop exist-db.service</code> - Enter command to stop
+                        eXist-db</para>
                 </listitem>
                 <listitem>
-                    <para><code>sudo systemctl enable exist-db.service</code> - Enter command to enable eXist-db to automatically start running after a reboot of your system</para>
+                    <para><code>sudo systemctl enable exist-db.service</code> - Enter command to
+                        enable eXist-db to automatically start running after a reboot of your
+                        system</para>
                 </listitem>
                 <listitem>
-                    <para><code>sudo systemctl disable exist-db.service</code> - Enter commande to disable eXist-db from automatically starting after a reboot of your system</para>
+                    <para><code>sudo systemctl disable exist-db.service</code> - Enter commande to
+                        disable eXist-db from automatically starting after a reboot of your
+                        system</para>
                 </listitem>
                 <listitem>
-                    <para><code>sudo systemctl restart exist-db.service</code> - Enter command to restart eXist-db</para>
+                    <para><code>sudo systemctl restart exist-db.service</code> - Enter command to
+                        restart eXist-db</para>
                 </listitem>
                 <listitem>
-                    <para><code>systemctl status exist-db</code> - Enter command to check the status of eXist-db</para>
+                    <para><code>systemctl status exist-db</code> - Enter command to check the status
+                        of eXist-db</para>
                 </listitem>
                 <listitem>
-                    <para><code>journalctl</code> - Run the following command to check systemd journal:</para>
+                    <para><code>journalctl</code> - Run the following command to check systemd
+                        journal:</para>
                 </listitem>
             </itemizedlist>
         </sect2>
@@ -133,7 +148,7 @@
 
         <para>Included in the distribution are a number of useful <literal>.sh</literal> (Unix
             Shell) and <literal>.bat</literal> (Windows batch) programs located in the
-                <literal>bin</literal> sub-directory. Their names speak for themselves.</para>
+            <literal>bin</literal> sub-directory. Their names speak for themselves.</para>
         <para>However, if you find that programs do not launch, you can try to manually launch them
             on the command-line without the scripting wrapper. This often provides useful debugging
             information.</para>
@@ -162,7 +177,8 @@
             <varlistentry>
                 <term> <code>client.sh</code> (Unix) / <code>client.bat</code> (Windows)</term>
                 <listitem>
-                    <para>Use one of these scripts to launch the <link xlink:href="java-admin-client">Java Admin Client</link>.</para>
+                    <para>Use one of these scripts to launch the <link
+                        xlink:href="java-admin-client">Java Admin Client</link>.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
