@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>XQuery in eXist-db</title>
-        <date>4Q19</date>
+        <date>2Q19</date>
         <keywordset>
             <keyword>xquery</keyword>
         </keywordset>
@@ -53,30 +53,6 @@
                 <literal>following-sibling::</literal>, <literal>preceding::</literal> and
                 <literal>preceding-sibling::</literal>. The only optional axis not supported is the
                 <literal>namespace</literal> axis.</para>
-        </sect2>
-
-        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-        <sect2 xml:id="partially-supported-features">
-            <title>Partially Supported Features</title>
-
-            <para>eXist-db has partial support for following xQuery functions:</para>
-            <itemizedlist>
-              <listitem>
-                <para><link condition="_blank"
-                    xlink:href="https://www.w3.org/TR/xpath-functions-31/#func-xml-to-json">
-                    fn:xml-to-json()
-                  </link>
-                    handles most valid input according to specification. Notable exceptions follow.
-                    <literal>fn:xml-to-json()</literal> does not replace codepoints in the range
-                    <literal>1-31</literal> or <literal>127-159</literal> in any
-                    string or map key.
-                    Additionally for strings and map keys that are marked as being escaped
-                    <literal>fn:xml-to-json()</literal> does not replace any unescaped occurrence of
-                    quotation mark, backspace, form-feed, newline, carriage return, tab, or solidus.
-                </para>
-              </listitem>
-            </itemizedlist>
         </sect2>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
