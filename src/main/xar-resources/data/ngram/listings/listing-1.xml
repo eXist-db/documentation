@@ -1,11 +1,15 @@
-<collection xmlns="http://exist-db.org/collection-config/1.0">
-    <index>
-        <lucene>
-            <text qname="SPEECH">
-                <ignore qname="SPEAKER"/>
-            </text>
-            <text qname="TITLE"/>
-        </lucene>
-        <ngram qname="SPEAKER"/>
-    </index>
+<collection 
+  
+  
+  
+  xmlns="http://exist-db.org/collection-config/1.0">
+  <index>
+    <lucene>
+      <text qname="SPEECH">
+        <ignore qname="SPEAKER"/>
+      </text>
+      <text qname="TITLE"/>
+    </lucene>
+    <ngram qname="SPEAKER"/>
+  </index>
 </collection>
