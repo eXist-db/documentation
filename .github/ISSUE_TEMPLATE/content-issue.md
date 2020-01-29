@@ -1,6 +1,6 @@
 ---
 name: Content Issue
-about: Create a report about inaccurate or misleading contents
+about: Something is working with the contents
 title: "[ARTICLE.xml]: "
 labels: docs-outdated
 assignees: ''
