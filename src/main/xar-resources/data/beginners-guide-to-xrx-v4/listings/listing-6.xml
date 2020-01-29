@@ -1,22 +1,12 @@
-<collection 
-  
-  
-  
-  xmlns="http://exist-db.org/collection-config/1.0">
-  <index 
-    
-    
-    
-    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+  <index xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <!-- Disable the standard full text index -->
     <fulltext default="none" attributes="false"/>
     <!-- Lucene index configuration -->
     <lucene>
       <!-- Use the standard analyzer will ignore stopwords like 'the', 'and' -->
       <analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/>
-      <!-- an index boost can be used to give matches in the
-            name a higher score. This means a name match will have higher rank then
-            an match in the definition. -->
+      <!-- an index boost can be used to give matches in the name a higher score. This means a name match will have higher rank then an match in the definition. -->
       <text match="//term/term-name" boost="2"/>
       <text match="//term/definition"/>
       <text match="//term/publish-status-code"/>
