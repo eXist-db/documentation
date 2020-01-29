@@ -42,7 +42,9 @@ Should you encounter documentation for features that are deprecated in the minim
 
 ### Unit tests
 The full test-suite consists of validation, unit, and integration tests, it runs automatically on travis. To be able to run integration tests locally, contributors should run `npm i` to download and install [cypress.js](https://www.cypress.io). This is only required once. To execute the tests run the following commands:          
--   To validate xml files run `mvn validate`,
+-   To validate article files run `mvn validate`,
+    -   Validation uses both the official `docbook.rng` and our own `exist-docs.rng` (experimental) schema.
+    -   The schema files are located at: `src/main/relaxng`
 -   to run the javascript or XQSuite unit tests run: `mvn test`. We do **not** support testing via node alone, aka `npm test`, use the maven command instead.
 -   To run the Integrations tests, however, use `npm run cypress`.
 
