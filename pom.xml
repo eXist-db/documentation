@@ -187,12 +187,17 @@
                             <includes>
                                 <include>*/*.xml</include>
                             </includes>
-                            <excludes>
-                                <exclude>template/template.xml</exclude>
-                                <exclude>db4-versions/*.xml</exclude>
-                            </excludes>
                             <systemId>${project.baseUri}src/main/relaxng/docbook.rng</systemId>
                             <publicId>-//OASIS//DTD DocBook V5.1//EN//XML</publicId>
+                            <validating>true</validating>
+                            <schemaLanguage>http://relaxng.org/ns/structure/1.0</schemaLanguage>
+                        </validationSet>
+                        <validationSet>
+                            <dir>src/main/xar-resources/data</dir>
+                            <includes>
+                                <include>*/*.xml</include>
+                            </includes>
+                            <systemId>${project.baseUri}src/main/relaxng/exist-docs.rng</systemId>
                             <validating>true</validating>
                             <schemaLanguage>http://relaxng.org/ns/structure/1.0</schemaLanguage>
                         </validationSet>
