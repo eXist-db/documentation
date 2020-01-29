@@ -26,11 +26,17 @@
         <variablelist>
             <varlistentry>
                 <term>Lucene Range index</term>
-                <listitem><para>An index providing range and field based searches on an index built with Apache Lucene..</para></listitem>
+                <listitem>
+                    <para>An index providing range and field based searches on an index built with
+                        Apache Lucene..</para>
+                </listitem>
             </varlistentry>
             <varlistentry>
                 <term>Lucene Full-text index</term>
-                <listitem><para>A Full text search index which uses Apache Lucene for indexing and query.</para></listitem>
+                <listitem>
+                    <para>A Full text search index which uses Apache Lucene for indexing and
+                        query.</para>
+                </listitem>
             </varlistentry>
             <varlistentry>
                 <term>NGram index</term>
@@ -62,10 +68,9 @@
                 <term>Spatial index</term>
                 <listitem>
                     <para>A spatial index that stores some of the geometric characteristics of <link
-                            condition="_blank"
-                            xlink:href="https://www.opengeospatial.org/standards/gml">Geography
-                            Markup Language</link> geometries (tested against GML version 2.1.2).
-                        For instance:</para>
+                        condition="_blank" xlink:href="https://www.opengeospatial.org/standards/gml"
+                        >Geography Markup Language</link> geometries (tested against GML version
+                        2.1.2). For instance:</para>
                     <programlisting language="xml" xlink:href="listings/listing-1.xml"/>
                     <para>This will generate several index entries. The most important ones
                         are:</para>
@@ -79,8 +84,8 @@
                         <listitem>
                             <para>The polygon itself, stored in a binary form (<link
                                 condition="_blank"
-                                xlink:href="https://en.wikipedia.org/wiki/Well-known_text">Well-Known
-                                Binary</link>)</para>
+                                xlink:href="https://en.wikipedia.org/wiki/Well-known_text"
+                                >Well-Known Binary</link>)</para>
                         </listitem>
                         <listitem>
                             <para>The coordinates of its <link condition="_blank"
@@ -98,6 +103,7 @@
 
     <sect1 xml:id="classes">
         <title>Classes</title>
+        <para>Below is a technical explanation of the java classes that lets you interact with exist's indexing features.</para>
 
         <sect2 xml:id="index-manager">
             <title> org.exist.indexing.IndexManager </title>
@@ -118,12 +124,12 @@
                 configuration file: </para>
             <programlisting language="xml" xlink:href="listings/listing-3.xml"/>
             <para>This defines two indexes, backed-up by their specific classes
-                    (<literal>class</literal> attribute; these classes implement the
-                    <literal>org.exist.indexing.Index</literal> interface as will be seen below),
+                (<literal>class</literal> attribute; these classes implement the
+                <literal>org.exist.indexing.Index</literal> interface as will be seen below),
                 eventually assigns them a human-readable (writable even) identifier and passes them
                 custom parameters which are implementation-dependant. Then, it configures (by
                 calling their <literal>configure()</literal> method), opens (by calling their
-                    <literal>open()</literal> method) and keeps track of each of them.</para>
+                <literal>open()</literal> method) and keeps track of each of them.</para>
             <para> <literal>org.exist.indexing.IndexManager</literal> also provides these public
                 methods:</para>
 
@@ -177,11 +183,10 @@
             <programlisting>public IndexController(DBBroker broker)</programlisting>
             <para>This registers the <literal>broker</literal>'s <literal>IndexWorker</literal>s,
                 once for each registered <literal>Index</literal>. These
-                    <literal>IndexWorker</literal>s, that will be described below, are returned by
-                the <literal>getWorker()</literal> method in
-                    <literal>org.exist.indexing.Index</literal>, which is usually a good place to
-                create such an <literal>IndexWorker</literal>, at least the first time it is
-                called.</para>
+                <literal>IndexWorker</literal>s, that will be described below, are returned by the
+                <literal>getWorker()</literal> method in
+                <literal>org.exist.indexing.Index</literal>, which is usually a good place to create
+                such an <literal>IndexWorker</literal>, at least the first time it is called.</para>
             <para>This <literal>IndexController</literal> will be available through the
                 <literal>getIndexController()</literal> method of
                 <literal>org.exist.storage.DBBroker</literal>.</para>
@@ -303,8 +308,8 @@
                 index.</para>
             <programlisting>void configure(BrokerPool pool, String dataDir, Element config)</programlisting>
             <para>Notifies the <literal>Index</literal> a data directory (normally
-                    <literal>${EXIST_HOME}/data</literal>) and the configuration element in which it
-                is declared.</para>
+                <literal>${EXIST_HOME}/data</literal>) and the configuration element in which it is
+                declared.</para>
             <programlisting>void open()</programlisting>
             <para>Method that is executed when the <literal>Index</literal> is opened, whatever it
                 means. Consider this method as an initialization and allocate the necessary
@@ -334,8 +339,11 @@
             <programlisting>public String getDataDir()</programlisting>
             <para>Returns the directory in which this <literal>Index</literal> operates. Usually
                 defined by <literal>configure()</literal> which itself receives eXist's
-                configuration settings.</para> <note><para>There might be some <literal>Index</literal>es for
-                    which the concept of data directory isn't accurate.</para></note>
+                configuration settings.</para>
+            <note>
+                <para>There might be some <literal>Index</literal>es for which the concept of data
+                    directory isn't accurate.</para>
+            </note>
             <programlisting>public void configure(BrokerPool pool, String dataDir, Element config)</programlisting>
             <para>Its minimal implementation retains the
                 <literal>org.exist.storage.BrokerPool</literal>, the data directory and the
@@ -423,8 +431,10 @@
                 is an <emphasis>ordered</emphasis> list of the index entries, in a textual form,
                 associated with the number of occurences for the entries and a list of the documents
                 containing them.</para>
-                <note><para>For some indexes, the concept of ordered or textual occurrences
-                might not be meaningful.</para></note>
+            <note>
+                <para>For some indexes, the concept of ordered or textual occurrences might not be
+                    meaningful.</para>
+            </note>
         </sect2>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -487,7 +497,7 @@
                 pipeline.</para>
             <programlisting>public abstract IndexWorker getWorker()</programlisting>
             <para>These remain abstract, since we still can not know what
-                    <literal>IndexWorker</literal> will own the <literal>Listener</literal> until we
+                <literal>IndexWorker</literal> will own the <literal>Listener</literal> until we
                 have a concrete implementation.</para>
         </sect2>
     </sect1>
@@ -509,15 +519,15 @@
             >PostGIS</link> given that the implementation has itself been designed in a quite
             modular way. </para>
         <para>In eXist's Git repository, the modularized <literal>Index</literal>es code is in
-                <literal>extensions/indexes</literal> and the file system's architecture is designed
-            to follow eXist's core architecture, i.e. <literal>org.exist.indexing.*</literal> for
-            the <literal>Index</literal>es and <literal>org.exist.xquery.*</literal> for their
+            <literal>extensions/indexes</literal> and the file system's architecture is designed to
+            follow eXist's core architecture, i.e. <literal>org.exist.indexing.*</literal> for the
+            <literal>Index</literal>es and <literal>org.exist.xquery.*</literal> for their
             associated <literal>Module</literal>s. There is also a dedicated location for required
             external libraries and for the test cases. The build system should normally be able to
             download the required libraries and build all the files automatically, and even launch
             the tests provided that the DB's configuration file declares the
-                <literal>Index</literal>es (see above) and their associated
-                <literal>Module</literal>s (see below).</para>
+            <literal>Index</literal>es (see above) and their associated <literal>Module</literal>s
+            (see below).</para>
         <para>The described spatial <literal>Index</literal> heavily relies on the excellent open
             source librairies provided by the <link xlink:href="http://geotools.codehaus.org/"
             >Geotools</link> project. We have experienced a few problems that will be mentioned
@@ -525,10 +535,9 @@
             in the future, making current workarounds redundant.</para>
         <para>The <literal>Index</literal> has been tested with only one file which is available
             from the <link xlink:href="http://www.ordnancesurvey.co.uk/oswebsite/">Ordnance Survey
-                of Great-Britain</link>, a topography layer of Port-Talbot, which is available as
-                <link
-                xlink:href="http://www.ordnancesurvey.co.uk/oswebsite/products/try-now/sample-data.html"
-                >sample data</link>.</para>
+            of Great-Britain</link>, a topography layer of Port-Talbot, which is available as <link
+            xlink:href="http://www.ordnancesurvey.co.uk/oswebsite/products/try-now/sample-data.html"
+            >sample data</link>.</para>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
@@ -542,24 +551,23 @@
             <para>Let's start with this:</para>
             <programlisting xlink:href="listings/listing-71.txt"/>
             <para>Here we define an abstract class that extends
-                    <literal>org.exist.indexing.AbstractIndex</literal> and thus implements
-                    <literal>org.exist.indexing.Index</literal>. We also define a few members like
-                    <literal>ID</literal> that will be returned by the unoverriden
-                    <literal>getIndexId()</literal> from
-                    <literal>org.exist.indexing.AbstractIndex</literal>, a
-                <literal>Logger</literal>, a <literal>java.util.HashMap</literal> that will be a
-                "pool" of <literal>IndexWorker</literal>s (one for each
-                    <literal>org.exist.storage.DBBroker</literal>) and a
-                    <literal>java.sql.Connection</literal> that will handle the database operations
-                at the index level. </para>
+                <literal>org.exist.indexing.AbstractIndex</literal> and thus implements
+                <literal>org.exist.indexing.Index</literal>. We also define a few members like
+                <literal>ID</literal> that will be returned by the unoverriden
+                <literal>getIndexId()</literal> from
+                <literal>org.exist.indexing.AbstractIndex</literal>, a <literal>Logger</literal>, a
+                <literal>java.util.HashMap</literal> that will be a "pool" of
+                <literal>IndexWorker</literal>s (one for each
+                <literal>org.exist.storage.DBBroker</literal>) and a
+                <literal>java.sql.Connection</literal> that will handle the database operations at
+                the index level. </para>
             <para>Let' now introduce this general purpose interface:</para>
             <programlisting xlink:href="listings/listing-72.txt"/>
             <para>This defines the spatial operators that will be used by spatial queries. For more
                 information about the semantics, see the <link
-                    xlink:href="http://www.vividsolutions.com/jts/bin/JTS%20Technical%20Specs.pdf"
-                    >JTS documentation</link> (chapter 11). We will use this wonderful library
-                everytime a spatial computation is required. So does the Geotools project by the
-                way.</para>
+                xlink:href="http://www.vividsolutions.com/jts/bin/JTS%20Technical%20Specs.pdf">JTS
+                documentation</link> (chapter 11). We will use this wonderful library everytime a
+                spatial computation is required. So does the Geotools project by the way.</para>
             <para>Here are a few concrete methods that should be usable by any JDBC-enabled
                 database:</para>
             <programlisting xlink:href="listings/listing-73.txt"/>
@@ -624,7 +632,7 @@
             <para>The next method is also quite straightforward:</para>
             <programlisting xlink:href="listings/listing-77.txt"/>
             <para>This picks an <literal>IndexWorker</literal> (more precisely a
-                    <literal>org.exist.indexing.spatial.GMLHSQLIndexWorker</literal> that will be
+                <literal>org.exist.indexing.spatial.GMLHSQLIndexWorker</literal> that will be
                 described below) for the given <literal>broker</literal> from the "pool". If needed,
                 namely the first time the method is called with with parameter, it creates one.
                 Notice that this <literal>IndexWorker</literal> is DB-dependant. It will be
@@ -640,17 +648,17 @@
                 remember that the database should be closed at that moment no file locking
                 issues.</para>
             <para> <literal>removeIndexContent()</literal> deletes the table that contains spatial
-                data. As explained
-                above, this is less efficient than deleteing the whole databse though!</para>
+                data. As explained above, this is less efficient than deleteing the whole databse
+                though!</para>
             <para>The two next methods are totally JDBC-specific and, given the way they are
                 implemented, are totally embedded HSQLDB-specific. The <emphasis>current</emphasis>
                 code is directly adapted from
-                    <literal>org.exist.storage.lock.ReentrantReadWriteLock</literal> to show that
+                <literal>org.exist.storage.lock.ReentrantReadWriteLock</literal> to show that
                 connection management should be severely controlled given the concurrency context
                 induced by using many <literal>org.exist.storage.DBBroker</literal>. Despite the
                 fact <literal>DBBroker</literal>s are thread-safe, access to
-                    <emphasis>shared</emphasis> storage must be concurrential, in particular when
-                    <literal>flush()</literal> is called. </para>
+                <emphasis>shared</emphasis> storage must be concurrential, in particular when
+                <literal>flush()</literal> is called. </para>
             <para> <literal>org.exist.storage.index.BFile</literal> users would call
                 <literal>getLock()</literal> to acquire and release locks on the index files. Our
                 solution is thus very similar.</para>
@@ -723,8 +731,8 @@
                             <entry> <para>WKT</para> </entry>
                             <entry> <para>VARCHAR</para> </entry>
                             <entry> <para>The <link
-                                xlink:href="https://de.wikipedia.org/wiki/Well_Known_Text">Well-Known
-                                Text</link> representation of the geometry</para> </entry>
+                                xlink:href="https://de.wikipedia.org/wiki/Well_Known_Text"
+                                >Well-Known Text</link> representation of the geometry</para> </entry>
                             <entry/>
                         </row>
                         <row>
@@ -781,8 +789,8 @@
                             <entry> <para>VARCHAR</para> </entry>
                             <entry> <para>The WKT representation of the geometry</para> </entry>
                             <entry> <para>In the <link
-                                xlink:href="https://en.wikipedia.org/wiki/EPSG:4326">epsg:4326</link>
-                                SRS</para> </entry>
+                                xlink:href="https://en.wikipedia.org/wiki/EPSG:4326"
+                                >epsg:4326</link> SRS</para> </entry>
                         </row>
                         <row>
                             <entry> <para>EPSG4326_WKB</para> </entry>
@@ -1069,13 +1077,12 @@
                 <literal>org.geotools.gml.producer.GeometryTransformer</literal> which needs some
                 polishing because, despite it is called a transformer, it doesn't cope easily with a
                 <literal>Handler</literal> and returns a... <literal>String</literal> ! See <link
-                    xlink:href="https://osgeo-org.atlassian.net/browse/GEOT-1315"
+                xlink:href="https://osgeo-org.atlassian.net/browse/GEOT-1315"
                 >GEOT-1315</link>.</para>
             <para>The last method is also a utility method:</para>
             <programlisting xlink:href="listings/listing-98.txt"/>
             <para>It implements a workaround for our test file SRS which isn't yet known by Geotools
-                libraries (see <link
-                    xlink:href="https://osgeo-org.atlassian.net/browse/GEOT-1307"
+                libraries (see <link xlink:href="https://osgeo-org.atlassian.net/browse/GEOT-1307"
                 >GEOT-1307</link>), then it tries to get the transformation from our cache. If it
                 doesn't succeed, it tries to find one in the libraries that are in the CLASSPATH.
                 Should those libraries lack the Bursa-Wolf parameters, it will make another attempt
@@ -1130,7 +1137,7 @@
             <para>The next method is a bit more restrictive and modular:</para>
             <programlisting xlink:href="listings/listing-107.txt"/>
             <para>It directly selects the right node and allows to return either the original
-                    <literal>Geometry</literal>, either its EPSG:4326 transformation.</para>
+                <literal>Geometry</literal>, either its EPSG:4326 transformation.</para>
             <para>The next method is a generalization of the previous one:</para>
             <programlisting xlink:href="listings/listing-108.txt"/>
             <para>It queries the whole index for the requested <literal>Geometry</literal>, ignoring
@@ -1328,15 +1335,14 @@
                 xlink:href="http://www.ordnancesurvey.co.uk/oswebsite/products/try-now/sample-data.html"
                 >sample data</link>.</para>
             <para>The chosen topography layer is of Port-Talbot, which is available as <link
-                    xlink:href="http://www.ordnancesurvey.co.uk/products/osmastermap/layers/topography/sampledata/2182-SS7886-2c1.gz"
-                    >2182-SS7886-2c1.gz</link>. Download this file, gunzip it, and give to the
-                resulting file a <literal>.gml</literal> extension
-                    (<literal>port-talbot.gml</literal>) this will allow eXist to recognise it as an
-                XML file.</para>
+                xlink:href="http://www.ordnancesurvey.co.uk/products/osmastermap/layers/topography/sampledata/2182-SS7886-2c1.gz"
+                >2182-SS7886-2c1.gz</link>. Download this file, gunzip it, and give to the resulting
+                file a <literal>.gml</literal> extension (<literal>port-talbot.gml</literal>) this
+                will allow eXist to recognise it as an XML file.</para>
             <note>
                 <para>If you have previously executed <literal>mvn test</literal>, the file should
                     have been downloaded and gunzipped for you in
-                        <literal>$EXIST_HOME/extensions/indexes/spatial/target/test-classes</literal>.</para>
+                    <literal>$EXIST_HOME/extensions/indexes/spatial/target/test-classes</literal>.</para>
             </note>
             <para>Since this file refers to an OSGB-hosted schema, we will need to bypass validation
                 in <literal>${EXIST_HOME}/etc/conf.xml</literal>.</para>
@@ -1352,9 +1358,8 @@
             <para>Then, we will configure this collection by creating a configuration
                 collection.</para>
             <para>Let's navigate to <literal>/db/system/config</literal> </para>
-            <para>If required, let's create a general configuration collection:
-                <literal>File/Create a collection...</literal> name it <literal>db</literal> and get
-                into it.</para>
+            <para>If required, let's create a general configuration collection: <literal>File/Create
+                a collection...</literal> name it <literal>db</literal> and get into it.</para>
             <para>Then let's create a configuration collection for <literal>/db/spatial</literal>:
                 <literal>File/Create a collection...</literal> name it <literal>spatial</literal>
                 and get into it.</para>
@@ -1379,8 +1384,8 @@
                 seconds, including some default fulltext indexing. Let's close the upload window and
                 quit the interactive client.</para>
             <para>Let's look our our GML file looks like on GML Viewer, a free viewer provided by
-                <link xlink:href="https://wiki.snowflakesoftware.com/display/GV50DOC"
-                >Snowflake software</link>:</para>
+                <link xlink:href="https://wiki.snowflakesoftware.com/display/GV50DOC">Snowflake
+                software</link>:</para>
             <informalfigure>
                 <mediaobject>
                     <imageobject>
@@ -1391,12 +1396,13 @@
             <para>If you want to have a look at the spatial index HSQLDB, which, if you are using
                 the default data-dir, is in <literal>${EXIST_HOME}/data/spatial_index.*</literal>
                 there is a dedicated script file in
-                    <literal>${EXIST_HOME}/extensions/indexes/spatial/</literal>. to launch HSQL's
-                GUI client: Use either <literal>hsql.bat</literal> or <literal>hsql.sh
-                    [data-dir]</literal> (you only need to supply data-dir if it is not the default
+                <literal>${EXIST_HOME}/extensions/indexes/spatial/</literal>. to launch HSQL's GUI
+                client: Use either <literal>hsql.bat</literal> or <literal>hsql.sh
+                [data-dir]</literal> (you only need to supply data-dir if it is not the default
                 one).</para>
             <para>If the SQL command <literal>SELECT * FROM SPATIAL_INDEX_V1;</literal> is executed,
-                the result window shows that <literal>21961</literal> geometries have been indexed.</para>
+                the result window shows that <literal>21961</literal> geometries have been
+                indexed.</para>
             <para>Let's get back to the interactive client and open the query window (the one we get
                 when clicking on the binocular button in the toolbar).</para>
             <para>This query:</para>
@@ -1476,8 +1482,9 @@
                 spatially-enabled, database engine that stores the <literal>Geometry</literal>
                 objects and their properties.</para>
             <note>
-                <para>The Spatial Index does not currently support XQuery Update or XUpdate. Using either
-                update facility on GML documents will likely lead to incorrect query results.</para>
+                <para>The Spatial Index does not currently support XQuery Update or XUpdate. Using
+                    either update facility on GML documents will likely lead to incorrect query
+                    results.</para>
             </note>
             <para>Here are still some tentative improvements.</para>
             <para>The first improvement is to plug in the <literal>getGeometriesForNodes()</literal>
@@ -1486,11 +1493,12 @@
                 sequence/set optimization.</para>
             <para>Indeed, a query like this one on our test file:</para>
             <programlisting xlink:href="listings/listing-133.txt"/>
-            <para>Which results in <literal>5339</literal> items through as many calls to the DB in 51 seconds on an
-                initialized index! Intercepting the <literal>SINGLE_STEP_EXECUTION</literal> flag
-                when the expression is analyzed would allow to call the 2 above methods rather than
-                their "individual" counterparts, namely <literal>getGeometryForNode()</literal> and
-                    <literal>getGeometricPropertyForNode()</literal>. The expected performance
+            <para>Which results in <literal>5339</literal> items through as many calls to the DB in
+                51 seconds on an initialized index! Intercepting the
+                <literal>SINGLE_STEP_EXECUTION</literal> flag when the expression is analyzed would
+                allow to call the 2 above methods rather than their "individual" counterparts,
+                namely <literal>getGeometryForNode()</literal> and
+                <literal>getGeometricPropertyForNode()</literal>. The expected performance
                 improvement would be interesting.</para>
             <para>A second improvement could be to refine the queries on the HSQLDB. Currently,
                 <literal>search()</literal> (in

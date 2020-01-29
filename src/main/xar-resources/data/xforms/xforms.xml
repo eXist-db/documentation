@@ -162,14 +162,14 @@
             </listitem>
             <listitem>
                 <para>System global, by editing
-                        <literal>$EXIST_HOME/etc/webapp/WEB-INF/betterform-config.xml</literal>: </para>
+                    <literal>$EXIST_HOME/etc/webapp/WEB-INF/betterform-config.xml</literal>: </para>
                 <programlisting language="xml">&lt;property name="filter.ignoreResponseBody" value="false"&gt;</programlisting>
                 <para>Change the value of the property <literal>filter.ignoreResponseBody</literal>
                     to <literal>true</literal> and restart eXist-db. </para>
             </listitem>
             <listitem>
                 <para>By removing the configuration for XFormsFilter in
-                        <literal>$EXIST_HOME/etc/webapp/WEB-INF/web.xml</literal>. By commenting the
+                    <literal>$EXIST_HOME/etc/webapp/WEB-INF/web.xml</literal>. By commenting the
                     filter-mapping XForms processing will be disabled. However note that betterFORM
                     still get loaded on the classpath.</para>
             </listitem>
@@ -186,7 +186,7 @@
 
     <sect1 xml:id="resources">
         <title>Additional XForms Resources</title>
-
+        <para>A collection of further xforms resources to provide help.</para>
 
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -232,8 +232,8 @@
 
             <itemizedlist>
                 <listitem>
-                    <para> <link condition="_blank" xlink:href="https://www.w3.org/TR/xforms/">XForms
-                        v1.1 (W3C Recommendation)</link> </para>
+                    <para> <link condition="_blank" xlink:href="https://www.w3.org/TR/xforms/"
+                        >XForms v1.1 (W3C Recommendation)</link> </para>
                 </listitem>
             </itemizedlist>
         </sect2>
@@ -266,8 +266,9 @@
                         >betterFORM coverage</link> of W3C XForms 1.1 Test Suite</para>
                 </listitem>
                 <listitem>
-                    <para> <link condition="_blank" xlink:href="https://en.wikibooks.org/wiki/XForms"
-                        >XForms Wikibook</link> is a useful place to learn XForms</para>
+                    <para> <link condition="_blank"
+                        xlink:href="https://en.wikibooks.org/wiki/XForms">XForms Wikibook</link> is
+                        a useful place to learn XForms</para>
                 </listitem>
                 <listitem>
                     <para> <link condition="_blank" xlink:href="https://en.wikibooks.org/wiki/XRX"

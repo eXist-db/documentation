@@ -13,10 +13,10 @@
 
     <!-- ================================================================== -->
 
-    <para>Based on our experiences of developing and using eXist-db in production
-        environments we learned a number of lessons. This Good Practice guide is an attempt
-        to cover some of the considerations that should be taken into account when deploying
-        eXist-db for use in a production environment.</para>
+    <para>Based on our experiences of developing and using eXist-db in production environments we
+        learned a number of lessons. This Good Practice guide is an attempt to cover some of the
+        considerations that should be taken into account when deploying eXist-db for use in a
+        production environment.</para>
     <para>The concepts laid out within this document should not be considered absolute or accepted
         wholesale - they should rather be used as suggestions to guide users in their eXist-db
         deployments.</para>
@@ -42,7 +42,9 @@
                     >https://bintray.com/existdb/releases/exist#read</link> </para>
             </listitem>
             <listitem>
-                <para>For dockerized production systems we strongly recommend to use semantic-version tags of official release, e.g. <literal>5.2.0</literal> instead of <literal>release</literal> or <literal>latest</literal>.</para>
+                <para>For dockerized production systems we strongly recommend to use
+                    semantic-version tags of official release, e.g. <literal>5.2.0</literal> instead
+                    of <literal>release</literal> or <literal>latest</literal>.</para>
             </listitem>
         </itemizedlist>
     </sect1>
@@ -171,7 +173,7 @@
 
         <sect2 xml:id="sect-permissions">
             <title>Security - Permissions</title>
-
+            <para>The permission requirements for development and deployment servers are rather different. Here we explain what to look out for starting with the default configuration.</para>
             <sect3 xml:id="exist-perm">
                 <title>eXist-db Permissions</title>
 

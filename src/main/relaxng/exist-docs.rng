@@ -37,22 +37,23 @@
             <data type="NCName"/>
           </attribute>
           <ref name="title"/>
-          <zeroOrMore>
-            <choice>
-              <ref name="example"/>
-              <ref name="figure"/>
-              <ref name="important"/>
-              <ref name="informalfigure"/>
-              <ref name="itemizedlist"/>
-              <ref name="note"/>
-              <ref name="orderedlist"/>
-              <ref name="para"/>
-              <ref name="programlisting"/>
-              <ref name="table"/>
-              <ref name="variablelist"/>
-              <ref name="warning"/>
-            </choice>
-          </zeroOrMore>
+            <oneOrMore>
+                <choice>
+                    <ref name="example"/>
+                    <ref name="figure"/>
+                    <ref name="important"/>
+                    <ref name="informalfigure"/>
+                    <ref name="informaltable"/>
+                    <ref name="itemizedlist"/>
+                    <ref name="note"/>
+                    <ref name="orderedlist"/>
+                    <ref name="para"/>
+                    <ref name="programlisting"/>
+                    <ref name="table"/>
+                    <ref name="variablelist"/>
+                    <ref name="warning"/>
+                </choice>
+            </oneOrMore>
           <zeroOrMore>
             <element name="sect2">
               <attribute>
@@ -60,25 +61,23 @@
                 <data type="NCName"/>
               </attribute>
               <ref name="title"/>
-              <optional>
-                <ref name="figure"/>
-              </optional>
-              <zeroOrMore>
-                <choice>
-                  <ref name="example"/>
-                  <ref name="important"/>
-                  <ref name="informalfigure"/>
-                  <ref name="informaltable"/>
-                  <ref name="itemizedlist"/>
-                  <ref name="note"/>
-                  <ref name="orderedlist"/>
-                  <ref name="para"/>
-                  <ref name="programlisting"/>
-                  <ref name="table"/>
-                  <ref name="variablelist"/>
-                  <ref name="warning"/>
-                </choice>
-              </zeroOrMore>
+                <oneOrMore>
+                    <choice>
+                        <ref name="example"/>
+                        <ref name="figure"/>
+                        <ref name="important"/>
+                        <ref name="informalfigure"/>
+                        <ref name="informaltable"/>
+                        <ref name="itemizedlist"/>
+                        <ref name="note"/>
+                        <ref name="orderedlist"/>
+                        <ref name="para"/>
+                        <ref name="programlisting"/>
+                        <ref name="table"/>
+                        <ref name="variablelist"/>
+                        <ref name="warning"/>
+                    </choice>
+                </oneOrMore>
               <zeroOrMore>
                 <element name="sect3">
                   <attribute>
@@ -86,25 +85,23 @@
                     <data type="NCName"/>
                   </attribute>
                   <ref name="title"/>
-                  <oneOrMore>
-                    <choice>
-                      <ref name="example"/>
-                      <ref name="important"/>
-                      <ref name="informalfigure"/>
-                      <ref name="informaltable"/>
-                      <ref name="itemizedlist"/>
-                      <ref name="note"/>
-                      <ref name="para"/>
-                      <ref name="programlisting"/>
-                      <ref name="variablelist"/>
-                    </choice>
-                  </oneOrMore>
-                  <optional>
-                    <ref name="table"/>
-                  </optional>
-                  <optional>
-                    <ref name="warning"/>
-                  </optional>
+                    <oneOrMore>
+                        <choice>
+                            <ref name="example"/>
+                            <ref name="figure"/>
+                            <ref name="important"/>
+                            <ref name="informalfigure"/>
+                            <ref name="informaltable"/>
+                            <ref name="itemizedlist"/>
+                            <ref name="note"/>
+                            <ref name="orderedlist"/>
+                            <ref name="para"/>
+                            <ref name="programlisting"/>
+                            <ref name="table"/>
+                            <ref name="variablelist"/>
+                            <ref name="warning"/>
+                        </choice>
+                    </oneOrMore>
                 </element>
               </zeroOrMore>
             </element>
@@ -211,55 +208,8 @@
       </optional>
     </element>
   </define>
-  <define name="orderedlist">
-    <element name="orderedlist">
-      <zeroOrMore>
-        <ref name="listitem"/>
-      </zeroOrMore>
-    </element>
-  </define>
-  <define name="informalfigure">
-    <element name="informalfigure">
-      <ref name="mediaobject"/>
-    </element>
-  </define>
-  <define name="table">
-    <element name="table">
-      <optional>
-        <attribute>
-          <name ns="http://www.w3.org/XML/1998/namespace">id</name>
-          <data type="NCName"/>
-        </attribute>
-      </optional>
-      <ref name="title"/>
-      <ref name="tgroup"/>
-    </element>
-  </define>
-  <define name="programlisting">
-    <element name="programlisting">
-      <optional>
-        <attribute name="language">
-          <data type="NCName"/>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute name="xlink:href"/>
-      </optional>
-      <oneOrMore>
-        <choice>
-          <text/>
-          <ref name="tag"/>
-        </choice>
-      </oneOrMore>
-    </element>
-  </define>
   <define name="variablelist">
     <element name="variablelist">
-      <optional>
-        <attribute name="spacing">
-          <data type="NCName"/>
-        </attribute>
-      </optional>
       <optional>
         <choice>
           <ref name="para"/>
@@ -300,14 +250,32 @@
       </zeroOrMore>
     </element>
   </define>
+  <define name="orderedlist">
+    <element name="orderedlist">
+      <zeroOrMore>
+        <ref name="listitem"/>
+      </zeroOrMore>
+    </element>
+  </define>
   <define name="important">
     <element name="important">
       <ref name="para"/>
     </element>
   </define>
-  <define name="figure">
-    <element name="figure">
+  <define name="table">
+    <element name="table">
+      <optional>
+        <attribute>
+          <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+          <data type="NCName"/>
+        </attribute>
+      </optional>
       <ref name="title"/>
+      <ref name="tgroup"/>
+    </element>
+  </define>
+  <define name="informalfigure">
+    <element name="informalfigure">
       <ref name="mediaobject"/>
     </element>
   </define>
@@ -323,6 +291,30 @@
           </choice>
         </oneOrMore>
       </choice>
+    </element>
+  </define>
+  <define name="programlisting">
+    <element name="programlisting">
+      <optional>
+        <attribute name="language">
+          <data type="NCName"/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute name="xlink:href"/>
+      </optional>
+      <oneOrMore>
+        <choice>
+          <text/>
+          <ref name="tag"/>
+        </choice>
+      </oneOrMore>
+    </element>
+  </define>
+  <define name="figure">
+    <element name="figure">
+      <ref name="title"/>
+      <ref name="mediaobject"/>
     </element>
   </define>
   <define name="informaltable">
@@ -413,6 +405,9 @@
   </define>
   <define name="listitem">
     <element name="listitem">
+      <optional>
+        <ref name="example"/>
+      </optional>
       <zeroOrMore>
         <choice>
           <ref name="figure"/>
@@ -427,17 +422,11 @@
       </zeroOrMore>
       <optional>
         <choice>
-          <ref name="example"/>
           <ref name="informaltable"/>
           <ref name="table"/>
           <ref name="warning"/>
         </choice>
       </optional>
-    </element>
-  </define>
-  <define name="mediaobject">
-    <element name="mediaobject">
-      <ref name="imageobject"/>
     </element>
   </define>
   <define name="tgroup">
@@ -467,6 +456,11 @@
           <ref name="row"/>
         </oneOrMore>
       </element>
+    </element>
+  </define>
+  <define name="mediaobject">
+    <element name="mediaobject">
+      <ref name="imageobject"/>
     </element>
   </define>
   <define name="row">

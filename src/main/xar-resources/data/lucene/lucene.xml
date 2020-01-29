@@ -1,970 +1,859 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
-  <info>
-    <title>Full Text Index</title>
-    <date>1Q20</date>
-    <keywordset>
-      <keyword>indexing</keyword>
-    </keywordset>
-  </info>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>Full Text Index</title>
+        <date>1Q20</date>
+        <keywordset>
+            <keyword>indexing</keyword>
+        </keywordset>
+    </info>
 
-  <!-- ================================================================== -->
+    <!-- ================================================================== -->
 
-  <para>This article provides information on configuring and using eXist-db's full text index.</para>
+    <para>This article provides information on configuring and using eXist-db's full text
+        index.</para>
 
-  <!-- ================================================================== -->
+    <!-- ================================================================== -->
 
-  <sect1 xml:id="intro">
-    <title>Introduction</title>
+    <sect1 xml:id="intro">
+        <title>Introduction</title>
 
-    <para>The full text index module is based on
-      <link condition="_blank" xlink:href="https://lucene.apache.org">Apache Lucene</link>.
-    </para>
-    <para>The full-text index module is tightly integrated with eXist-db's
-      <emphasis>modularized indexing architecture</emphasis>: the index behaves like a plug-in which adds itself to the database's index pipelines. Once configured, the index will be notified of relevant events, like adding/removing a document, removing a
-      collection or updating single nodes. No manual re-indexing is required to keep the index up-to-date.
-    </para>
-    <para>The full-text index module also implements common interfaces which are shared with other indexes, for instance for highlighting matches (see
-      <link xlink:href="kwic">KWIC</link>). It is easy to switch between the Lucene index and, for instance, the ngram index without rewriting much XQuery code.</para>
-  </sect1>
+        <para>The full text index module is based on <link condition="_blank"
+            xlink:href="https://lucene.apache.org">Apache Lucene</link>. </para>
+        <para>The full-text index module is tightly integrated with eXist-db's <emphasis>modularized
+            indexing architecture</emphasis>: the index behaves like a plug-in which adds itself to
+            the database's index pipelines. Once configured, the index will be notified of relevant
+            events, like adding/removing a document, removing a collection or updating single nodes.
+            No manual re-indexing is required to keep the index up-to-date. </para>
+        <para>The full-text index module also implements common interfaces which are shared with
+            other indexes, for instance for highlighting matches (see <link xlink:href="kwic"
+            >KWIC</link>). It is easy to switch between the Lucene index and, for instance, the
+            ngram index without rewriting much XQuery code.</para>
+    </sect1>
 
-  <!-- ================================================================== -->
+    <!-- ================================================================== -->
 
-  <sect1 xml:id="config">
-    <title>Configuring the Index</title>
-    <para>The index has a single configuration parameter on the
-      <tag>modules</tag>
-      <code>/</code>
-      <tag>module</tag>
-      element called
-      <code>buffer</code>. It defines the amount of memory (in megabytes) Lucene will use for buffering index entries before they are written to disk. See the
-      <link condition="_blank" xlink:href="https://lucene.apache.org/core/4_10_4/core/org/apache/lucene/index/IndexWriterConfig.html#setRAMBufferSizeMB(double)">Lucene Javadocs</link>.</para>
+    <sect1 xml:id="config">
+        <title>Configuring the Index</title>
+        <para>The index has a single configuration parameter on the <tag>modules</tag>
+            <code>/</code> <tag>module</tag> element called <code>buffer</code>. It defines the
+            amount of memory (in megabytes) Lucene will use for buffering index entries before they
+            are written to disk. See the <link condition="_blank"
+            xlink:href="https://lucene.apache.org/core/4_10_4/core/org/apache/lucene/index/IndexWriterConfig.html#setRAMBufferSizeMB(double)"
+            >Lucene Javadocs</link>.</para>
 
-    <para>Like other indexes, you create a Lucene index by configuring it in a
-      <literal>collection.xconf</literal>
-      document as explained in
-      <link xlink:href="indexing#idxconf">documentation</link>. For example:</para>
+        <para>Like other indexes, you create a Lucene index by configuring it in a
+            <literal>collection.xconf</literal> document as explained in <link
+            xlink:href="indexing#idxconf">documentation</link>. For example:</para>
 
-    <example>
-      <title>collection.xconf for version 2.2</title>
-      <programlisting language="xml" xlink:href="listings/listing-3.xml"/>
-    </example>
-    <example>
-      <title>collection.xconf for version 3.0 and above.</title>
-      <programlisting language="xml" xlink:href="listings/listing-4.xml"/>
-    </example>
+        <example>
+            <title>collection.xconf for version 2.2</title>
+            <programlisting language="xml" xlink:href="listings/listing-3.xml"/>
+        </example>
+        <example>
+            <title>collection.xconf for version 3.0 and above.</title>
+            <programlisting language="xml" xlink:href="listings/listing-4.xml"/>
+        </example>
 
-    <para>You can define a Lucene index on a single element or attribute (<code>qname="..."</code>) or a node path with wildcards (<code>match="..."</code>, see below).
-    </para>
+        <para>You can define a Lucene index on a single element or attribute
+            (<code>qname="..."</code>) or a node path with wildcards (<code>match="..."</code>, see
+            below). </para>
 
-    <para>It is important make sure to
-      <emphasis>choose the right context</emphasis>
-      for an index, which has to be the same as in your query. To better understand this, let's have a look at how the index creation is handled by eXist-db and Lucene. For example:
-      <tag>text qname="SPEECH"</tag>
-    </para>
-    <para>This creates an index on
-      <tag>SPEECH</tag>
-      only. What is passed to Lucene is the string value of
-      <tag>SPEECH</tag>, which also includes the text of all its descendant text nodes (<emphasis>except</emphasis>
-      those filtered out by an optional
-      <tag>ignore</tag>).
-    </para>
-    <para>Consider the fragment:</para>
-    <programlisting language="xml" xlink:href="listings/listing-6.xml"/>
-    <para>If you have an index on
-      <tag>SPEECH</tag>, Lucene will use the text
-      <code>"Second Witch Fillet of a fenny snake, In the cauldron boil and bake;"</code>
-      and index it. eXist-db internally links this Lucene document to the
-      <tag>SPEECH</tag>
-      node, but Lucene itself has no knowledge of that (it doesn't know anything about XML nodes).</para>
+        <para>It is important make sure to <emphasis>choose the right context</emphasis> for an
+            index, which has to be the same as in your query. To better understand this, let's have
+            a look at how the index creation is handled by eXist-db and Lucene. For example:
+            <tag>text qname="SPEECH"</tag> </para>
+        <para>This creates an index on <tag>SPEECH</tag> only. What is passed to Lucene is the
+            string value of <tag>SPEECH</tag>, which also includes the text of all its descendant
+            text nodes (<emphasis>except</emphasis> those filtered out by an optional
+            <tag>ignore</tag>). </para>
+        <para>Consider the fragment:</para>
+        <programlisting language="xml" xlink:href="listings/listing-6.xml"/>
+        <para>If you have an index on <tag>SPEECH</tag>, Lucene will use the text <code>"Second
+            Witch Fillet of a fenny snake, In the cauldron boil and bake;"</code> and index it.
+            eXist-db internally links this Lucene document to the <tag>SPEECH</tag> node, but Lucene
+            itself has no knowledge of that (it doesn't know anything about XML nodes).</para>
 
-    <para>Given this, take the following query:</para>
-    <programlisting language="xquery">//SPEECH[ft:query(., 'cauldron')]</programlisting>
-    <para>This searches the index and finds the text, which eXist-db can trace back to the
-      <tag>SPEECH</tag>
-      node in the XML document.
-    </para>
-    <para>However, it is required that you use the same context (<tag>SPEECH</tag>) for creating
-      <emphasis>and</emphasis>
-      querying the index. For instance:</para>
-    <programlisting language="xquery">//SPEECH[ft:query(LINE, 'cauldron')]</programlisting>
-    <para>This will
-      <emphasis>not return anything</emphasis>, even though
-      <tag>LINE</tag>
-      is a child of
-      <tag>SPEECH</tag>
-      and
-      <code>cauldron</code>
-      was indexed. This particular
-      <code>cauldron</code>
-      is linked to its ancestor
-      <tag>SPEECH</tag>
-      , not its parent
-      <tag>LINE</tag>.</para>
+        <para>Given this, take the following query:</para>
+        <programlisting language="xquery">//SPEECH[ft:query(., 'cauldron')]</programlisting>
+        <para>This searches the index and finds the text, which eXist-db can trace back to the
+            <tag>SPEECH</tag> node in the XML document. </para>
+        <para>However, it is required that you use the same context (<tag>SPEECH</tag>) for creating
+            <emphasis>and</emphasis> querying the index. For instance:</para>
+        <programlisting language="xquery">//SPEECH[ft:query(LINE, 'cauldron')]</programlisting>
+        <para>This will <emphasis>not return anything</emphasis>, even though <tag>LINE</tag> is a
+            child of <tag>SPEECH</tag> and <code>cauldron</code> was indexed. This particular
+            <code>cauldron</code> is linked to its ancestor <tag>SPEECH</tag> , not its parent
+            <tag>LINE</tag>.</para>
 
-    <para>However, you are free to give the user both options, i.e. use
-      <tag>SPEECH</tag>
-      and
-      <tag>LINE</tag>
-      as context at the same time. For this define a second index on
-      <tag>LINE</tag>:</para>
-    <programlisting language="xml" xlink:href="listings/listing-9.txt"/>
+        <para>However, you are free to give the user both options, i.e. use <tag>SPEECH</tag> and
+            <tag>LINE</tag> as context at the same time. For this define a second index on
+            <tag>LINE</tag>:</para>
+        <programlisting language="xml" xlink:href="listings/listing-9.txt"/>
 
-    <para>Let's use a different example to illustrate this. Assume you have a document with encoded place names:</para>
+        <para>Let's use a different example to illustrate this. Assume you have a document with
+            encoded place names:</para>
 
-    <programlisting language="xml" xlink:href="listings/listing-10.txt"/>
-    <para>For a general query you probably want to search through all paragraphs. However, you may also want to provide an advanced search option, which allows the user to restrict his/her queries to place names. To make this possible, simply define an
-      index on
-      <tag>placeName</tag>
-      <emphasis>as well</emphasis>:</para>
-    <programlisting language="xml" xlink:href="listings/listing-11.xml"/>
-    <para>Based on this setup, you'll be able to query for the word 'Paris' anywhere in a paragraph:</para>
-    <programlisting language="xquery">//p[ft:query(., 'paris')]</programlisting>
-    <para>And also on 'Paris' occurring within a
-      <tag>placeName</tag>:</para>
-    <programlisting language="xquery">//p[ft:query(placeName, 'paris')]</programlisting>
+        <programlisting language="xml" xlink:href="listings/listing-10.txt"/>
+        <para>For a general query you probably want to search through all paragraphs. However, you
+            may also want to provide an advanced search option, which allows the user to restrict
+            his/her queries to place names. To make this possible, simply define an index on
+            <tag>placeName</tag> <emphasis>as well</emphasis>:</para>
+        <programlisting language="xml" xlink:href="listings/listing-11.xml"/>
+        <para>Based on this setup, you'll be able to query for the word 'Paris' anywhere in a
+            paragraph:</para>
+        <programlisting language="xquery">//p[ft:query(., 'paris')]</programlisting>
+        <para>And also on 'Paris' occurring within a <tag>placeName</tag>:</para>
+        <programlisting language="xquery">//p[ft:query(placeName, 'paris')]</programlisting>
 
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <sect2 xml:id="match">
-      <title>Using
-        <code>match="..."</code>
-      </title>
+        <sect2 xml:id="match">
+            <title>Using <code>match="..."</code> </title>
 
-      <para>In addition to defining an index on a given qualified name, you can also specify a "path" with wildcards.
-        <emphasis>This feature might be subject to change</emphasis>, so please be careful when using it.</para>
-      <para>Assume you want to define an index on all the possible elements below
-        <tag>SPEECH</tag>. You can do this by creating one index for every element:</para>
-      <programlisting language="xml" xlink:href="listings/listing-14.txt"/>
-      <para>As a shortcut, you can use a
-        <literal>match</literal>
-        attribute with a wildcard:</para>
-      <programlisting language="xml" xlink:href="listings/listing-15.txt"/>
-      <para>This will create a separate index on each child element of SPEECH it encounters. Please note that the argument to match is a simple path pattern, not a full XPath expression. For the time being, it only allows:</para>
-      <itemizedlist>
-        <listitem>
-          <para>
-            <code>/</code>
-            and
-            <code>//</code>
-            to denote child or descendant steps,</para>
-        </listitem>
-        <listitem>
-          <para>
-            <code>*</code>
-            wildcard selector to match an arbitrary element,</para>
-        </listitem>
-        <listitem>
-          <para>matching a single attribute's value, e.g.
-            <code>foo[@bar = 'xyz']</code>
-          </para>
-        </listitem>
-      </itemizedlist>
-      <para>As explained above, you have to figure out which parts of your document will likely be interesting as context for a full text query. The full text index works best if the context isn't too narrow. For example, if you have a document structure
-        with section
-        <tag>div</tag>s, headings and paragraphs, you would probably want to create an index on the
-        <tag>div</tag>s and maybe on the headings, so the user can differentiate between the two.</para>
-      <para>
-        In some cases, you could decide to put the index on the paragraph level. Then you don't need the index on the section, since you can always get from the paragraph back to the section.</para>
-      <para>If you query a larger context, you can use the
-        <link xlink:href="kwic">KWIC</link>
-        module to show the user text
-        <emphasis>surrounding</emphasis>
-        each match. Or you can ask eXist-db to
-        <link xlink:href="kwic#highlight">highlight each match</link>
-        with an
-        <tag>exist:match</tag>
-        tag, which you can later use to locate the matches within the text.</para>
-    </sect2>
+            <para>In addition to defining an index on a given qualified name, you can also specify a
+                "path" with wildcards. <emphasis>This feature might be subject to change</emphasis>,
+                so please be careful when using it.</para>
+            <para>Assume you want to define an index on all the possible elements below
+                <tag>SPEECH</tag>. You can do this by creating one index for every element:</para>
+            <programlisting language="xml" xlink:href="listings/listing-14.txt"/>
+            <para>As a shortcut, you can use a <literal>match</literal> attribute with a
+                wildcard:</para>
+            <programlisting language="xml" xlink:href="listings/listing-15.txt"/>
+            <para>This will create a separate index on each child element of SPEECH it encounters.
+                Please note that the argument to match is a simple path pattern, not a full XPath
+                expression. For the time being, it only allows:</para>
+            <itemizedlist>
+                <listitem>
+                    <para> <code>/</code> and <code>//</code> to denote child or descendant
+                        steps,</para>
+                </listitem>
+                <listitem>
+                    <para> <code>*</code> wildcard selector to match an arbitrary element,</para>
+                </listitem>
+                <listitem>
+                    <para>matching a single attribute's value, e.g. <code>foo[@bar = 'xyz']</code>
+                    </para>
+                </listitem>
+            </itemizedlist>
+            <para>As explained above, you have to figure out which parts of your document will
+                likely be interesting as context for a full text query. The full text index works
+                best if the context isn't too narrow. For example, if you have a document structure
+                with section <tag>div</tag>s, headings and paragraphs, you would probably want to
+                create an index on the <tag>div</tag>s and maybe on the headings, so the user can
+                differentiate between the two.</para>
+            <para> In some cases, you could decide to put the index on the paragraph level. Then you
+                don't need the index on the section, since you can always get from the paragraph
+                back to the section.</para>
+            <para>If you query a larger context, you can use the <link xlink:href="kwic">KWIC</link>
+                module to show the user text <emphasis>surrounding</emphasis> each match. Or you can
+                ask eXist-db to <link xlink:href="kwic#highlight">highlight each match</link> with
+                an <tag>exist:match</tag> tag, which you can later use to locate the matches within
+                the text.</para>
+        </sect2>
 
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <sect2 xml:id="whitespace">
-      <title>Whitespace Treatment and Ignored Content</title>
+        <sect2 xml:id="whitespace">
+            <title>Whitespace Treatment and Ignored Content</title>
+            <para>We'll go into more detail with two common requirements when using full-text indexes.</para>
+            <sect3 xml:id="inline">
+                <title>Inlined elements</title>
 
-      <sect3 xml:id="inline">
-        <title>Inlined elements</title>
+                <para>By default, eXist-db's indexer assumes that element boundaries break on a word
+                    or token. For example, if you have an element:</para>
 
-        <para>By default, eXist-db's indexer assumes that element boundaries break on a word or token. For example, if you have an element:</para>
+                <programlisting language="xml" xlink:href="listings/listing-16.txt"/>
+                <para>You want <code>12</code> and <code>8</code> to be indexed as separate tokens,
+                    even though there's no whitespace between the elements. eXist-db will pass the
+                    content of the two elements to Lucene as separate strings and Lucene will see
+                    two tokens (instead of just <code>128</code>).</para>
+                <para>However, you usually <emphasis>don't</emphasis> want this behaviour for mixed
+                    content nodes. For example:</para>
 
-        <programlisting language="xml" xlink:href="listings/listing-16.txt"/>
-        <para>You want
-          <code>12</code>
-          and
-          <code>8</code>
-          to be indexed as separate tokens, even though there's no whitespace between the elements. eXist-db will pass the content of the two elements to Lucene as separate strings and Lucene will see two tokens (instead of just
-          <code>128</code>).</para>
-        <para>However, you usually
-          <emphasis>don't</emphasis>
-          want this behaviour for mixed content nodes. For example:</para>
+                <programlisting language="xml" xlink:href="listings/listing-17.txt"/>
+                <para>In this case, you want <code>unclear</code> to be indexed as a single word.
+                    This can be done by telling eXist-db which nodes are inline nodes. The example
+                    configuration above uses:</para>
+                <programlisting language="xml" xlink:href="listings/listing-18.txt"/>
+                <para>The <tag>inline</tag> option can both be specified globally or
+                    per-index:</para>
+                <programlisting language="xml" xlink:href="listings/listing-19.xml"/>
+            </sect3>
 
-        <programlisting language="xml" xlink:href="listings/listing-17.txt"/>
-        <para>In this case, you want
-          <code>unclear</code>
-          to be indexed as a single word. This can be done by telling eXist-db which nodes are inline nodes. The example configuration above uses:</para>
-        <programlisting language="xml" xlink:href="listings/listing-18.txt"/>
-        <para>The
-          <tag>inline</tag>
-          option can both be specified globally or per-index:</para>
-        <programlisting language="xml" xlink:href="listings/listing-19.xml"/>
-      </sect3>
+            <sect3 xml:id="ignore">
+                <title>Ignored elements</title>
 
-      <sect3 xml:id="ignore">
-        <title>Ignored elements</title>
+                <para>It is sometimes necessary to skip the content of an inline element. Notes are
+                    a good example:</para>
 
-        <para>It is sometimes necessary to skip the content of an inline element. Notes are a good example:</para>
+                <programlisting language="xml" xlink:href="listings/listing-20.xml"/>
+                <para>Use an <tag>ignore</tag> element in the collection configuration to have
+                    eXist-db ignore the note:</para>
+                <programlisting language="xml" xlink:href="listings/listing-21.txt"/>
+                <para>Basically, <tag>ignore</tag> simply allows you to hide a chunk of text before
+                    Lucene sees it.</para>
+                <para>Like the <tag>inline</tag> tag, <tag>ignore</tag> may appear both globally or
+                    within a single index definition.</para>
+                <para>The <tag>ignore</tag> only applies to descendants of an indexed element. You
+                    can still create another index on the ignored element itself. For example, you
+                    can have index definitions for <tag>p</tag> <emphasis>and</emphasis>
+                    <tag>note</tag>:</para>
+                <programlisting language="xml" xlink:href="listings/listing-22.xml"/>
 
-        <programlisting language="xml" xlink:href="listings/listing-20.xml"/>
-        <para>Use an
-          <tag>ignore</tag>
-          element in the collection configuration to have eXist-db ignore the note:</para>
-        <programlisting language="xml" xlink:href="listings/listing-21.txt"/>
-        <para>Basically,
-          <tag>ignore</tag>
-          simply allows you to hide a chunk of text before Lucene sees it.</para>
-        <para>Like the
-          <tag>inline</tag>
-          tag,
-          <tag>ignore</tag>
-          may appear both globally or within a single index definition.</para>
-        <para>The
-          <tag>ignore</tag>
-          only applies to descendants of an indexed element. You can still create another index on the ignored element itself. For example, you can have index definitions for
-          <tag>p</tag>
-          <emphasis>and</emphasis>
-          <tag>note</tag>:</para>
-        <programlisting language="xml" xlink:href="listings/listing-22.xml"/>
+                <para>If <tag>note</tag> appears within <tag>p</tag>, it will not be added to the
+                    index on <tag>p</tag>, only to the index on <tag>note</tag>. For example:</para>
+                <programlisting language="xquery">//p[ft:query(., "note")]</programlisting>
+                <para>This may not return a hit if <code>"note"</code> occurs within a
+                    <tag>note</tag>, while this finds a match:</para>
+                <programlisting language="xquery">//p[ft:query(note, "note")]</programlisting>
+            </sect3>
+        </sect2>
 
-        <para>If
-          <tag>note</tag>
-          appears within
-          <tag>p</tag>, it will not be added to the index on
-          <tag>p</tag>, only to the index on
-          <tag>note</tag>. For example:</para>
-        <programlisting language="xquery">//p[ft:query(., "note")]</programlisting>
-        <para>This may not return a hit if
-          <code>"note"</code>
-          occurs within a
-          <tag>note</tag>, while this finds a match:</para>
-        <programlisting language="xquery">//p[ft:query(note, "note")]</programlisting>
-      </sect3>
-    </sect2>
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <sect2 xml:id="boost">
+            <title>Boost</title>
 
-    <sect2 xml:id="boost">
-      <title>Boost</title>
+            <para>A <emphasis>boost</emphasis> value can be assigned to an index to give it a higher
+                score. The score for each match will be multiplied by the boost factor (default is:
+                1.0). For example, you may want to rank matches in titles higher than other matches. </para>
+            <para>Here's how to configure the documentation search indexes in eXist-db:</para>
+            <programlisting language="xml" xlink:href="listings/listing-25.xml"/>
 
-      <para>A
-        <emphasis>boost</emphasis>
-        value can be assigned to an index to give it a higher score. The score for each match will be multiplied by the boost factor (default is: 1.0). For example, you may want to rank matches in titles higher than other matches.
-      </para>
-      <para>Here's how to configure the documentation search indexes in eXist-db:</para>
-      <programlisting language="xml" xlink:href="listings/listing-25.xml"/>
+            <para>The <tag>title</tag> index gets a boost of 2.0 to make sure that its matches get a
+                higher score. Since the <tag>title</tag> element occurs within <tag>section</tag>,
+                we add an ignore rule to the index definition on the section and create a separate
+                index on title. We also ignore titles occurring inside paragraphs. Without this,
+                title would be matched two times.</para>
+            <para>Because the title is now indexed separately, we need to query it explicitly. For
+                example, to search the section and the title at the same time, one could issue the
+                following query:</para>
+            <programlisting language="xquery" xlink:href="listings/listing-26.txt"/>
 
-      <para>The
-        <tag>title</tag>
-        index gets a boost of 2.0 to make sure that its matches get a higher score. Since the
-        <tag>title</tag>
-        element occurs within
-        <tag>section</tag>, we add an ignore rule to the index definition on the section and create a separate index on title. We also ignore titles occurring inside paragraphs. Without this, title would be matched two times.</para>
-      <para>Because the title is now indexed separately, we need to query it explicitly. For example, to search the section and the title at the same time, one could issue the following query:</para>
-      <programlisting language="xquery" xlink:href="listings/listing-26.txt"/>
+            <sect3 xml:id="boost-attribute">
+                <title>Attribute boost</title>
 
-      <sect3 xml:id="boost-attribute">
-        <title>Attribute boost</title>
+                <para>Starting with eXist-db 3.0 a boost value can also be assigned to an index by
+                    attribute. This can be used to weight your search results, even if you have flat
+                    data structures with the same attribute value pairs in attributes throughout
+                    your documents. Two flavours of dynamic weighting are available through the new
+                    pairs <tag>match-sibling-attribute</tag>, <tag>has-sibling-attribute</tag> and
+                    <tag>match-attribute</tag>, <tag>has-attribute</tag> child elements in the
+                    full-text index configuration. </para>
+                <para>If you have data in Lexical metadata framework (LMF) format you will recognize
+                    these repeated structures of <tag>feat</tag> elements with <code>att</code> and
+                    <code>val</code> attributes within <tag>LexicalEntry</tag> elements. For
+                    instance <tag>feat att='writtenForm' val='LMF feature value'</tag>. The
+                    attribute boosting allows you to weight the results based on the value of the
+                    <code>att</code> attribute so that hits in definitions come before hits in
+                    comments and examples. This behaviour is enabled by adding a child
+                    <tag>match-sibling-attr</tag> to a Lucene configuration <tag>text</tag> element.
+                    An example index configuration for it looks like this:</para>
+                <programlisting language="xml" xlink:href="listings/listing-27.xml"/>
+                <para>This means that the <code>ft:score#1</code> function will boost hits in
+                    <code>val</code> attributes with a factor of 25 times for the
+                    <code>writtenForm</code> value of the <code>att</code> attribute.</para>
+                <para>In the same way <tag>match-attr</tag> would be used for element qnames in the
+                    <tag>text</tag> element.</para>
+                <para>If you do not care about any value of the sibling attribute, use the
+                    <tag>has-attribute</tag> index configuration variant. An example index
+                    configuration with <tag>has-attr</tag> looks like this:</para>
+                <programlisting language="xml" xlink:href="listings/listing-28.xml"/>
+                <para>This means that if your <tag>feat</tag> elements have an attribute
+                    <tag>xml:lang</tag> it will score them nil and push them last of the pack, which
+                    might be useful to demote hits in features in other languages than the main
+                    entry language.</para>
+                <para>In the same way <tag>has-sibling-attr</tag> would be used for attributes in
+                    the <tag>text</tag> element.</para>
+            </sect3>
+        </sect2>
 
-        <para>Starting with eXist-db 3.0 a boost value can also be assigned to an index by attribute. This can be used to weight your search results, even if you have flat data structures with the same attribute value pairs in attributes throughout your
-          documents. Two flavours of dynamic weighting are available through the new pairs
-          <tag>match-sibling-attribute</tag>,
-          <tag>has-sibling-attribute</tag>
-          and
-          <tag>match-attribute</tag>,
-          <tag>has-attribute</tag>
-          child elements in the full-text index configuration.
-        </para>
-        <para>If you have data in Lexical metadata framework (LMF) format you will recognize these repeated structures of
-          <tag>feat</tag>
-          elements with
-          <code>att</code>
-          and
-          <code>val</code>
-          attributes within
-          <tag>LexicalEntry</tag>
-          elements. For instance
-          <tag>feat att='writtenForm' val='LMF feature value'</tag>. The attribute boosting allows you to weight the results based on the value of the
-          <code>att</code>
-          attribute so that hits in definitions come before hits in comments and examples. This behaviour is enabled by adding a child
-          <tag>match-sibling-attr</tag>
-          to a Lucene configuration
-          <tag>text</tag>
-          element. An example index configuration for it looks like this:</para>
-        <programlisting language="xml" xlink:href="listings/listing-27.xml"/>
-        <para>This means that the
-          <code>ft:score#1</code>
-          function will boost hits in
-          <code>val</code>
-          attributes with a factor of 25 times for the
-          <code>writtenForm</code>
-          value of the
-          <code>att</code>
-          attribute.</para>
-        <para>In the same way
-          <tag>match-attr</tag>
-          would be used for element qnames in the
-          <tag>text</tag>
-          element.</para>
-        <para>If you do not care about any value of the sibling attribute, use the
-          <tag>has-attribute</tag>
-          index configuration variant. An example index configuration with
-          <tag>has-attr</tag>
-          looks like this:</para>
-        <programlisting language="xml" xlink:href="listings/listing-28.xml"/>
-        <para>This means that if your
-          <tag>feat</tag>
-          elements have an attribute
-          <tag>xml:lang</tag>
-          it will score them nil and push them last of the pack, which might be useful to demote hits in features in other languages than the main entry language.</para>
-        <para>In the same way
-          <tag>has-sibling-attr</tag>
-          would be used for attributes in the
-          <tag>text</tag>
-          element.</para>
-      </sect3>
-    </sect2>
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <sect2 xml:id="analyzer">
+            <title>Analyzers</title>
 
-    <sect2 xml:id="analyzer">
-      <title>Analyzers</title>
+            <para>One of the strengths of Lucene is that it allows the developer to determine nearly
+                every aspect of text analysis. This is done through analyzer classes, which combine
+                a tokenizer with a chain of filters to post-process the tokenized text. eXist-db's
+                Lucene module already allows different analyzers to be used for different
+                indexes.</para>
 
-      <para>One of the strengths of Lucene is that it allows the developer to determine nearly every aspect of text analysis. This is done through analyzer classes, which combine a tokenizer with a chain of filters to post-process the tokenized text.
-        eXist-db's Lucene module already allows different analyzers to be used for different indexes.</para>
+            <programlisting language="xml" xlink:href="listings/listing-29.xml"/>
 
-      <programlisting language="xml" xlink:href="listings/listing-29.xml"/>
+            <para>In the example above, we define that Lucene's <link condition="_blank"
+                xlink:href="https://lucene.apache.org/core/4_10_4/analyzers-common/org/apache/lucene/analysis/standard/StandardAnalyzer.html"
+                >StandardAnalyzer</link> should be used by default (the <tag>analyzer</tag> element
+                without <literal>id</literal> attribute). We provide an additional analyzer and
+                assign it the id <literal>ws</literal>, by which the analyzer can be referenced in
+                the actual index definitions.</para>
+            <para>The <link condition="_blank"
+                xlink:href="https://lucene.apache.org/core/4_10_4/analyzers-common/org/apache/lucene/analysis/core/WhitespaceAnalyzer.html"
+                >whitespace analyzer</link> is the most basic one. As the name implies, it tokenizes
+                the text at white space characters, but treats all other characters - including
+                punctuation - as part of the token. The tokens are not converted to lower case and
+                there's no stopword filter applied.</para>
+            <para>eXist-db provides a special analyzer for characters with diacrits based on the
+                <literal>StandardAnalyzer</literal>. The
+                <literal>NoDiacriticsStandardAnalyzer</literal> can be switched on and off by
+                setting the <literal>diacritics</literal> attribute on the <tag>lucene</tag> element
+                of your index configuration file.</para>
+            <programlisting language="xml" xlink:href="listings/listing-24.xml"/>
+            <para>Without diacrits <literal>ä</literal>, <literal>å</literal>, <literal>ā</literal>,
+                etc will all be indexed as <literal>a</literal>. Alternatively, this analyzer can
+                also be called by its full name. </para>
+            <programlisting language="xml" xlink:href="listings/listing-23.xml"/>
+            <sect3 xml:id="conf">
+                <title>Configuring the Analyzer</title>
 
-      <para>In the example above, we define that Lucene's
-        <link condition="_blank" xlink:href="https://lucene.apache.org/core/4_10_4/analyzers-common/org/apache/lucene/analysis/standard/StandardAnalyzer.html">StandardAnalyzer</link>
-        should be used by default (the
-        <tag>analyzer</tag>
-        element without
-        <literal>id</literal>
-        attribute). We provide an additional analyzer and assign it the id
-        <literal>ws</literal>, by which the analyzer can be referenced in the actual index definitions.</para>
-      <para>The
-        <link condition="_blank" xlink:href="https://lucene.apache.org/core/4_10_4/analyzers-common/org/apache/lucene/analysis/core/WhitespaceAnalyzer.html">whitespace analyzer</link>
-        is the most basic one. As the name implies, it tokenizes the text at white space characters, but treats all other characters - including punctuation - as part of the token. The tokens are not converted to lower case and there's no stopword filter
-        applied.</para>
-      <para>eXist-db provides a special analyzer for characters with diacrits based on the
-        <literal>StandardAnalyzer</literal>. The
-        <literal>NoDiacriticsStandardAnalyzer</literal>
-        can be switched on and off by setting the
-        <literal>diacritics</literal>
-        attribute on the
-        <tag>lucene</tag>
-        element of your index configuration file.</para>
-      <programlisting language="xml" xlink:href="listings/listing-24.xml"/>
-      <para>Without diacrits
-        <literal>ä</literal>,
-        <literal>å</literal>,
-        <literal>ā</literal>, etc will all be indexed as
-        <literal>a</literal>. Alternatively, this analyzer can also be called by its full name.
-      </para>
-      <programlisting language="xml" xlink:href="listings/listing-23.xml"/>
-      <sect3 xml:id="conf">
-        <title>Configuring the Analyzer</title>
+                <para>You can send configuration parameters to the instantiation of the Analyzer.
+                    These parameters must match a <code>Constructor</code> signature on the
+                    underlying Java class of the Analyzer, please review the Javadoc for the
+                    Analyzer that you wish to configure.</para>
+                <para>We currently support passing the following types: </para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <code>String</code> (default if no type is specified)</para>
+                    </listitem>
+                    <listitem>
+                        <para> <code>java.io.FileReader</code> (since Lucene 4) or <code>file</code>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para> <code>java.lang.Boolean</code> or <code>boolean</code> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <code>java.lang.Integer</code> or <code>int</code> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <code>org.apache.lucene.analysis.util.CharArraySet</code> or
+                            <code>set</code> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <code>java.lang.reflect.Field</code> </para>
+                    </listitem>
+                </itemizedlist>
+                <para> The value <link condition="_blank"
+                    xlink:href="https://lucene.apache.org/core/4_10_4/core/org/apache/lucene/util/Version.html#LUCENE_CURRENT"
+                    >Version#LUCENE_CURRENT</link> is always added as first parameter for the
+                    analyzer constructor (a fallback mechanism is present for older analyzers). The
+                    previously valid values <code>java.io.File</code> and <code>java.util.Set</code>
+                    can not be used since Lucene 4.</para>
+                <para>For instance to add a stopword list, use one of the following
+                    constructions:</para>
+                <programlisting language="xml" xlink:href="listings/listing-30.xml"/>
 
-        <para>You can send configuration parameters to the instantiation of the Analyzer. These parameters must match a
-          <code>Constructor</code>
-          signature on the underlying Java class of the Analyzer, please review the Javadoc for the Analyzer that you wish to configure.</para>
-        <para>We currently support passing the following types:
-        </para>
-        <itemizedlist>
-          <listitem>
-            <para>
-              <code>String</code>
-              (default if no type is specified)</para>
-          </listitem>
-          <listitem>
-            <para>
-              <code>java.io.FileReader</code>
-              (since Lucene 4) or
-              <code>file</code>
-            </para>
-          </listitem>
-          <listitem>
-            <para>
-              <code>java.lang.Boolean</code>
-              or
-              <code>boolean</code>
-            </para>
-          </listitem>
-          <listitem>
-            <para>
-              <code>java.lang.Integer</code>
-              or
-              <code>int</code>
-            </para>
-          </listitem>
-          <listitem>
-            <para>
-              <code>org.apache.lucene.analysis.util.CharArraySet</code>
-              or
-              <code>set</code>
-            </para>
-          </listitem>
-          <listitem>
-            <para>
-              <code>java.lang.reflect.Field</code>
-            </para>
-          </listitem>
-        </itemizedlist>
-        <para>
-          The value
-          <link condition="_blank" xlink:href="https://lucene.apache.org/core/4_10_4/core/org/apache/lucene/util/Version.html#LUCENE_CURRENT">Version#LUCENE_CURRENT</link>
-          is always added as first parameter for the analyzer constructor (a fallback mechanism is present for older analyzers). The previously valid values
-          <code>java.io.File</code>
-          and
-          <code>java.util.Set</code>
-          can not be used since Lucene 4.</para>
-        <para>For instance to add a stopword list, use one of the following constructions:</para>
-        <programlisting language="xml" xlink:href="listings/listing-30.xml"/>
+                <programlisting language="xml" xlink:href="listings/listing-31.xml"/>
 
-        <programlisting language="xml" xlink:href="listings/listing-31.xml"/>
+                <note>
+                    <para>Using the Snowball analyzer requires you to add additional libraries to
+                        <code>lib/user</code>.</para>
+                    <programlisting language="xml" xlink:href="listings/listing-32.xml"/>
+                </note>
 
-        <note>
-          <para>Using the Snowball analyzer requires you to add additional libraries to
-            <code>lib/user</code>.</para>
-          <programlisting language="xml" xlink:href="listings/listing-32.xml"/>
-        </note>
+            </sect3>
+        </sect2>
 
-      </sect3>
-    </sect2>
-
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <sect2 xml:id="facets-and-fields">
-      <title>Facets and Fields</title>
-      <para>Starting with eXist 5.0, an index configuration may define additional facets and fields. Both can hold arbitrary content, which will be attached to the indexed parent node and can be used to further refine a query, sort results or display
-        additional information to the user:</para>
-      <variablelist>
-        <varlistentry>
-          <term>facet</term>
-          <listitem>
-            <para>a facet defines a concept or information item by which the indexed items can be grouped. Typical facets would be categories taken from some pre-defined taxonomy, languages, dates, places or names occurring in a text corpus. The goal is to
-              enable users to "drill down" into a potentially large result set by selecting from a list of facets displayed to them. For example, if you shop for a laptop, you are often presented with a list of facets with which you may restrict your result by CPU
-              type, memory or screen size etc. As you select facets, the result set will become smaller and smaller.</para>
-            <para>Facets are always pre-defined at indexing time, so the drill down is very fast. They are meant for refining other queries, the assumption always is that the user selects one or more facets from a list of facet values associated with the current
-              query results.</para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>field</term>
-          <listitem>
-            <para>a field contains additional, searchable content attached to an indexed parent node. In many cases fields will contain constructed content which is not directly found in the indexed XML or requires costly computation. For example, determining
-              publication dates or author names for a set of articles may require some pre-processing which may be too expensive at query time. A field allows you to pre-compute those information items at indexing time.</para>
-            <para>Fields can be queried in the same expression as the parent node, resulting in fast response times. Their content can optionally be stored to speed up display or sorting. Fields may also use a different analyzer than the parent node, which
-              allows e.g. multiple languages to be handled separately.</para>
-          </listitem>
-        </varlistentry>
-      </variablelist>
-      <sect3 xml:id="facet-conf">
-        <title>Facet and Field Configuration</title>
-        <para>Facets and fields are configured in a similar way. Both should appear nested inside the parent index element they are attached to. Let's assume we have a collection of articles written in docbook. Each article will have a top-level
-          <tag>info</tag>
-          element describing the article. Each
-          <tag>info</tag>
-          element contains a
-          <tag>title</tag>, one or more
-          <tag>author</tag>s and a list of keywords in
-          <tag>keywordset</tag>.</para>
-        <para>Keywords are a perfect candidate for a facet, so let's start with it:</para>
-        <programlisting language="xml" xlink:href="listings/listing-50.txt"></programlisting>
-        <para>Every facet needs to have a
-          <code>dimension</code>
-          attribute, defining the name of the facet dimension the items will be added to. The values associated with this facet dimension are determined by the
-          <code>expression</code>
-          attribute: it may contain an arbitary XQuery expression rooted in the parent node being indexed. In the example the parent will be a
-          <tag>db:article</tag>
-          element, so the context item for the expression is set to this element.</para>
-        <para>The expression is evaluated and for each result item, a facet value is added to the dimension using the string value of the item. Therefore if the expression returns multiple items, a facet for that dimension will also hold multiple values. If
-          the expression returns the empty sequence for the current parent node, the corresponding facet will be empty as well.</para>
-        <para>A facet can also be defined to be hierarchical. A typical example would be a date, which consists of a year, month and day component. By indexing the single components as separate parts of a hierarchical facet, we enable the user to drill down
-          by year first, then by month and finally by day. Let's assume each of our docbook articles has a
-          <tag>pubdate</tag>
-          containing a date in
-          <code>xs:date</code>
-          format:</para>
-        <programlisting language="xml" xlink:href="listings/listing-52.txt"></programlisting>
-        <para>Hierarchical facets may also hold multiple values, for example if we would like to associate our documents with a subject classification on various levels of granularity (say:
-          <emphasis>science</emphasis>
-          with
-          <emphasis>math</emphasis>
-          and
-          <emphasis>physics</emphasis>
-          as subcategories or
-          <emphasis>humanities</emphasis>
-          with
-          <emphasis>art</emphasis>,
-          <emphasis>sociology</emphasis>
-          and
-          <emphasis>history</emphasis>). This way we enable the user to drill down into broad
-          <emphasis>humanities</emphasis>
-          or
-          <emphasis>science</emphasis>
-          subject first and choose particular topics afterwards. If the result of the hierarchical facet
-          <code>expression</code>
-          evaluates to an array, each of array members will be treated as a hierarchical value for that facet. Such an array could look in XQuery similar to
-          <code>[('science', 'math'), ('humanities', 'history')]</code>
-          and be a result of evaluationg a function like
-          <code>idx:subject-hierarchy</code>
-          below stored in an imported module (see
-          <link linkend="external-module">below</link>)
-        </para>
-        <programlisting language="xml" xlink:href="listings/listing-520.xml"/>
-        <programlisting language="xquery" xlink:href="listings/listing-521.txt"/>
-        <para>which assumes hierarchical subject structure stored in
-          <emphasis>/db/subjects/subjects.xml</emphasis>
-        </para>
-        <programlisting language="xml" xlink:href="listings/listing-522.xml"/>
-        <para>Next, we may want to define fields for the authors and title of the article. In docbook,
-          <tag>author</tag>
-          can be a complex element, consisting e.g. of a
-          <tag>personname</tag>
-          with nested
-          <tag>surname</tag>
-          and
-          <tag>firstname</tag>. For display to the user and sorting we want to pre-compute a normalized string out of those components:</para>
-        <programlisting language="xml" xlink:href="listings/listing-51.txt"></programlisting>
-        <para>A field does not need to define an
-          <tag>expression</tag>
-          attribute though: if no expression is given, the field's content will be taken from the parent element. This makes sense e.g. if you would like to index a node twice, e.g. using a different analyzer. Or you can specify
-          <code>index="no"</code>
-          on the parent element and index its content with an explicit field.</para>
-        <para>A field may use a different analyzer than the one used to index the parent content. Analyzers are referenced through
-          <code>analyzer</code>
-          attribute as described
-          <link linkend="analyzer">above</link>.</para>
-        <para>
-          <emphasis role="bold">Typed fields</emphasis>: fields may also declare a
-          <code>type</code>
-          attribute: supported values are atomic types like
-          <code>xs:date</code>,
-          <code>xs:dateTime</code>,
-          <code>xs:time</code>,
-          <code>xs:integer</code>,
-          <code>xs:decimal</code>
-          and their sub-types. Defining a type is important with respect to sorting (see below), e.g. to get dates in the correct order. Typed fields can also be retrieved into corresponding XQuery atomic values, so no additional casting is necessary. However,
-          typed fields cannot be queried using Lucene's default query parser, only retrieved with
-          <literal>ft:field</literal>.</para>
-        <para>
-          <emphasis role="bold">Storing fields</emphasis>: By default the complete content of a field is stored in the Lucene index, allowing later fast retrieval of the content using
-          <literal>ft:field</literal>. You can disable storing the content by adding attribute
-          <code>store="no"</code>. The field will still be indexed and available for queries though.</para>
-
-        <para xml:id="external-module">
-          <emphasis role="bold">Importing external modules</emphasis>: as can be seen in the field definition for "author" above, expressions can easily become quite verbose, so writing them into an attribute is not convenient. It is thus also possible to
-          import one or more XQuery modules into the index configuration and use the functions declared in the module:</para>
-        <programlisting language="xml" xlink:href="listings/listing-58.xml"></programlisting>
-        <para>In this example we extract the code for computing the author field into a function
-          <literal>idx:authors</literal>
-          located in an XQuery module,
-          <literal>module.xql</literal>. Note that we're using a relative import path for the module in the
-          <literal>at</literal>
-          attribute. The path will be resolved relative to the collection to which the collection configuration applies (not where the collection configuration itself is stored). It is also important that the module and all dependencies it imports is stored
-          <emphasis>before</emphasis>
-          the collection configuration is saved and indexing starts.</para>
-        <para>
-          <emphasis role="bold">Conditions</emphasis>: sometimes you may want to create a field only if a certain condition is met. For this purpose, an additional attribute
-          <literal>if</literal>
-          may be added, containing an XPath expression. If the expression evaluates to an effective boolean value of
-          <literal>true</literal>, the field will be created. Otherwise it is skipped.</para>
-        <para>Conditions are useful to e.g. distinguish between different languages and apply an appropriate analyzer to each. Let's assume our docbook articles may have both, a German and English version. The language is indicated by the
-          <code>@xml:lang</code>
-          attribute on the top-level
-          <tag>section</tag>
-          element. We thus create a separate field for each language and connect it to the analyzer appropriate for the language:</para>
-        <programlisting language="xml" xlink:href="listings/listing-59.xml"></programlisting>
-        <para>Note that we skip indexing the parent
-          <tag>article</tag>
-          element with
-          <code>index="no"</code>
-          because we do not want a default index, but rather a separate field for each language, so we can target them in queries explicitely.</para>
-      </sect3>
-    </sect2>
-  </sect1>
-
-  <!-- ================================================================== -->
-
-  <sect1 xml:id="query">
-    <title>Querying the Index</title>
-    <para>Querying full text from XQuery is straightforward. For example:</para>
-    <programlisting language="xquery" xlink:href="listings/listing-34.txt"/>
-    <para>The query function takes a query string in Lucene's default
-      <link condition="_blank" xlink:href="https://lucene.apache.org/core/4_10_4/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description">query syntax</link>. It returns a set of nodes which are relevant with respect to the query. Lucene assigns a relevance score or rank (a decimal number) to each match. This score is preserved by eXist-db and can be accessed through the score function.</para>
-    <para>The higher the score, the more relevant the text. You can use Lucene's features to "boost" a certain term in the query: give it a higher or lower influence on the final rank.</para>
-    <para>Please note that the score is computed relative to the root context of the index. If you created an index on
-      <tag>SPEECH</tag>, all scores will be computed based on text in
-      <tag>SPEECH</tag>
-      nodes, even though your actual query may only return
-      <tag>LINE</tag>
-      children of
-      <tag>SPEECH</tag>.</para>
-    <para>The query string passed to
-      <literal>ft:query</literal>
-      may be empty. In this case all items from the context sequence are matched and returned. Using an empty query makes sense in combination with the options for retrieving facets and field values described below.</para>
-    <para>The Lucene module is fully supported by eXist-db's query-rewriting optimizer. This means that the query engine can rewrite the XQuery expression to make best use of the available indexes. All the rules and hints given in the
-      <link xlink:href="tuning.xml">tuning</link>
-      guide fully apply to the Lucene index.</para>
-    <para>To present search results in a
-      <emphasis>Keywords in Context</emphasis>
-      format, you may want to have a look at eXist-db's
-      <link xlink:href="kwic.xml">KWIC</link>
-      module.</para>
-    <sect2 xml:id="query-fields">
-      <title>Querying Fields</title>
-      <para>Fields associated with the indexed parent node (see
-        <link linkend="facets-and-fields">above</link>) can be queried with
-        <literal>ft:query</literal>
-        by prefixing parts of the query expression with the field name followed by a colon (':') as described in the documentation for Lucene's default query syntax. For example, the following expression searches for a docbook article containing the terms
-        "xml" in the text and "xquery language" in the title:</para>
-      <programlisting language="xquery" xlink:href="listings/listing-53.txt"/>
-      <para>Note how subexpressions can be grouped with parentheses to clearly state to which field they apply.</para>
-    </sect2>
-    <sect2 xml:id="retrieve-fields">
-      <title>Retrieving Field Content</title>
-      <para>You can retrieve the content of a field for display or sorting purposes using the
-        <literal>ft:field</literal>
-        function. However, fields are always bound to the result of a full text query, so you cannot retrieve them without calling
-        <literal>ft:query</literal>
-        first. Also, keeping track of fields can be expensive, so
-        <literal>ft:query</literal>
-        needs to be explicitly passed a parameter specifying which fields should be made available via the query result. The third, optional, parameter to
-        <literal>ft:query</literal>
-        supports a
-        <literal>fields</literal>
-        option listing the names of the fields to be provided. The values of the associated field can then be retrieved for each item in the query result using
-        <literal>ft:field</literal>.</para>
-      <para>One of the most common uses for retrieving field contents will be for sorting the results of a query. The
-        <code>order by</code>
-        in the example below sorts results by title first and then by author.</para>
-      <programlisting language="xquery" xlink:href="listings/listing-54.txt"/>
-      <para>Note that even though fields are only available with the results of the ft:query, it is still possible to use them for sorting and displaying the whole available data set. For example, to view all articles in the collection you could pass in an
-        empty sequence in place of the query string like this:</para>
-      <programlisting language="xquery" xlink:href="listings/listing-55.txt"/>
-      <para>
-        <emphasis role="bold">Typed fields</emphasis>: If you declared a different type than
-        <literal>xs:string</literal>
-        on a field, you should remember to use the 3-parameter variant of
-        <literal>ft:field</literal>
-        and pass in the name of the desired target type as 3rd parameter. Reason: lucene basically stores all non-text data types as numbers and eXist has no way to figure out the original type of the field. So if you defined a field with type
-        <literal>xs:date</literal>, make sure to retrieve it with
-        <literal>ft:field($node, "date", "xs:date")</literal>, otherwise all you get is a number.</para>
-    </sect2>
-    <sect2 xml:id="display-facets">
-      <title>Displaying Facet Counts</title>
-      <para>Facet counts for the query result can be retrieved if facets are associated with an indexed parent element. Facet counts for a particular dimension are available as a map containing an entry for each facet value occurring in one or more items
-        of the query result. The map links the facet value given as a map key with a positive count corresponding to the number of times the value occurs in the result set. Facet values with zero count are never included.</para>
-      <para>For example, we may use the following query to display the facet counts for the "keyword" dimension in our set of docbook articles:</para>
-      <programlisting language="xquery" xlink:href="listings/listing-56.txt"/>
-      <para>Function
-        <literal>ft:facets</literal>
-        expects a sequence of nodes belonging to a result set obtained from one or more calls to
-        <literal>ft:query</literal>. If the sequence was combined from multiple expressions calling
-        <literal>ft:query</literal>, the facet counts will be merged. Second parameter of
-        <literal>ft:facets</literal>
-        specifies the dimension for which facet counts should be retrieved. The third parameter should be either empty sequence or a positive integer denoting the maximum number of facets to show. In the case it is smaller than the total number of facets,
-        only those with the highest counts are returned. Passing an empty sequence means that all facet value counts should be shown. Please note that facets with a zero occurrence count (i.e. facets not appearing anywhere in the result) are never returned.</para>
-      <para>For hierarchical facets only the top-most facet value in the hierarchy will be returned by default. For example, if you indexed a date facet with separate year, month and day component, a call to
-        <code>ft:facets($node, "date", ())</code>
-        will return facet counts for years only. To also get counts for months, you have to call
-        <literal>ft:facets</literal>
-        with a fourth parameter, passing in the year for which sub-facet counts should be retrieved. To get days, you also need to specify month and so on.
-        <code>ft:facets($node, "date", (), ("2018", "06"))</code>
-        will thus return facet counts for all days in June 2018.</para>
-    </sect2>
-    <sect2 xml:id="refine-facets">
-      <title>Refining a Query with Facets</title>
-      <para>The main purpose of facets is to quickly narrow down a query result, limiting it to only items which match a certain facet value. To drill down by a given facet dimension and value, pass a key "facets" in the options map given in the third
-        parameter of
-        <literal>ft:query</literal>:</para>
-      <programlisting language="xquery" xlink:href="listings/listing-57.txt"/>
-      <para>If you specify multiple dimensions, these will be linked together with a logical
-        <literal>and</literal>, limiting the result to elements matching both dimensions.</para>
-      <para>Treatment of multiple values for one facet dimension depends on the type of facet. For non-hierarchical facets, as in example above, if you specify more than one value these will be linked together with a logical
-        <literal>or</literal>, returning elements matching any of the alternative facet values for that dimension.</para>
-      <para>In case of hierarchical facets, a sequence of items is interpreted as a hierarchical value/subvalue facet path, therefore expression like
-        <code>("2018", "06", "25")</code>
-        for the
-        <emphasis>date</emphasis>
-        dimension mentioned earlier will return nodes from the 25th of June 2018. Nested sequences are not allowed in XQuery, so the only way to pass in multiple hierarchical facet paths is by wrapping the whole structure in an array. Each array element then
-        is logically linked with its other members with
-        <literal>or</literal>
-        expression. To query for elements from June
-        <emphasis>or</emphasis>
-        May 2018 we therefore need to specify date dimension values as
-        <code>[("2018", "06"), ("2018", "05")]</code>
-      </para>
-      <programlisting language="xquery" xlink:href="listings/listing-571.txt"/>
-    </sect2>
-    <sect2 xml:id="describe">
-      <title>Describing Queries in XML</title>
-      <para>Lucene's default query syntax does not provide access to all available features. However, eXist-db's
-        <literal>ft:query</literal>
-        function also accepts a description of the query in XML, as an alternative to passing a query string. The XML description closely mirrors Lucene's query API. It is transformed into an internal tree of query objects, which is directly passed to Lucene
-        for execution. This has several advantages, for example you can specify if the order of terms should be relevant for a phrase query:</para>
-      <programlisting language="xquery" xlink:href="listings/listing-37.txt"/>
-      <para>Ranged queries using <literal>TO</literal> are also supported. Suppose you have marked dates and wish to return only results between 1600 and 1610.</para>
-      <programlisting language="xquery" xlink:href="listings/listing-36.txt"/>
-      <para>The following elements may occur within a query description:</para>
-      <variablelist>
-        <varlistentry>
-          <term>
-            <tag>term</tag>
-          </term>
-          <listitem>
-            <para>Defines a single term to be searched in the index. If the root query element contains a sequence of term elements, wrap them in
-              <tag>bool/</tag>
-              and they will be combined as in a boolean "or" query. For example:
-            </para>
-            <programlisting language="xquery" xlink:href="listings/listing-38.txt"/>
-            <para>This finds all
-              <tag>SPEECH</tag>
-              elements containing either
-              <code>nation</code>
-              or
-              <code>miserable</code>
-              or both.</para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>
-            <tag>wildcard</tag>
-          </term>
-          <listitem>
-            <para>A string with a
-              <code>*</code>
-              wildcard in it. This will be matched against the terms of a document. Can be used instead of a
-              <tag>term</tag>
-              element. For example:</para>
-            <programlisting language="xquery" xlink:href="listings/listing-39.txt"/>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>
-            <tag>regex</tag>
-          </term>
-          <listitem>
-            <para>A regular expression which will be matched against the terms of a document. Can be used instead of a
-              <tag>term</tag>
-              element. For example:</para>
-            <programlisting language="xquery" xlink:href="listings/listing-40.txt"/>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>
-            <tag>bool</tag>
-          </term>
-          <listitem>
-            <para>Constructs a boolean query from its children. Each child element may have an occurrence indicator, which could be either
-              <literal>must</literal>,
-              <literal>should</literal>
-              or
-              <literal>not</literal>:</para>
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <sect2 xml:id="facets-and-fields">
+            <title>Facets and Fields</title>
+            <para>Starting with eXist 5.0, an index configuration may define additional facets and
+                fields. Both can hold arbitrary content, which will be attached to the indexed
+                parent node and can be used to further refine a query, sort results or display
+                additional information to the user:</para>
             <variablelist>
-              <varlistentry>
-                <term>
-                  <code>must</code>
-                </term>
-                <listitem>
-                  <para>this part of the query
-                    <emphasis>must</emphasis>
-                    be matched</para>
-                </listitem>
-              </varlistentry>
-              <varlistentry>
-                <term>
-                  <code>should</code>
-                </term>
-                <listitem>
-                  <para>this part of the query
-                    <emphasis>should</emphasis>
-                    be matched, but doesn't need to</para>
-                </listitem>
-              </varlistentry>
-              <varlistentry>
-                <term>
-                  <code>not</code>
-                </term>
-                <listitem>
-                  <para>this part of the query
-                    <emphasis>must not</emphasis>
-                    be matched</para>
-                </listitem>
-              </varlistentry>
+                <varlistentry>
+                    <term>facet</term>
+                    <listitem>
+                        <para>a facet defines a concept or information item by which the indexed
+                            items can be grouped. Typical facets would be categories taken from some
+                            pre-defined taxonomy, languages, dates, places or names occurring in a
+                            text corpus. The goal is to enable users to "drill down" into a
+                            potentially large result set by selecting from a list of facets
+                            displayed to them. For example, if you shop for a laptop, you are often
+                            presented with a list of facets with which you may restrict your result
+                            by CPU type, memory or screen size etc. As you select facets, the result
+                            set will become smaller and smaller.</para>
+                        <para>Facets are always pre-defined at indexing time, so the drill down is
+                            very fast. They are meant for refining other queries, the assumption
+                            always is that the user selects one or more facets from a list of facet
+                            values associated with the current query results.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>field</term>
+                    <listitem>
+                        <para>a field contains additional, searchable content attached to an indexed
+                            parent node. In many cases fields will contain constructed content which
+                            is not directly found in the indexed XML or requires costly computation.
+                            For example, determining publication dates or author names for a set of
+                            articles may require some pre-processing which may be too expensive at
+                            query time. A field allows you to pre-compute those information items at
+                            indexing time.</para>
+                        <para>Fields can be queried in the same expression as the parent node,
+                            resulting in fast response times. Their content can optionally be stored
+                            to speed up display or sorting. Fields may also use a different analyzer
+                            than the parent node, which allows e.g. multiple languages to be handled
+                            separately.</para>
+                    </listitem>
+                </varlistentry>
             </variablelist>
-            <para>For instance:</para>
-            <programlisting language="xquery" xlink:href="listings/listing-41.txt"/>
-            <para>To optimize performance you can specify a minimum number of matches to prevent needless disjunctive searches, using the
-              <literal>min</literal>
-              attribute. If no occurence indicator is provided the query will default to
-              <literal>should</literal>, as this is the only indicator that supports
-              <literal>min</literal>:</para>
-            <programlisting language="xquery" xlink:href="listings/listing-1.txt"/>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>
-            <tag>phrase</tag>
-          </term>
-          <listitem>
-            <para>Searches for a group of terms occurring in the correct order. The element may either contain explicit
-              <tag>term</tag>
-              elements or text content. Text will be automatically tokenized into a sequence of terms. For example:</para>
-            <programlisting language="xquery" xlink:href="listings/listing-42.txt"/>
-            <para>This has the same effect as:</para>
-            <programlisting language="xquery" xlink:href="listings/listing-43.txt"/>
-            <para>The attribute
-              <literal>slop</literal>
-              can be used for a proximity search: Lucene will try to find terms which are within the specified distance:</para>
-            <programlisting language="xquery" xlink:href="listings/listing-44.txt"/>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>
-            <tag>near</tag>
-          </term>
-          <listitem>
-            <para>
-              <tag>near</tag>
-              is a powerful alternative to
-              <tag>phrase</tag>
-              and one of the features not available through the standard Lucene query parser.</para>
-            <para>If the element has text content only, it will be tokenized into terms and the expression behaves like
-              <tag>phrase</tag>. Otherwise it may contain any combination of
-              <tag>term</tag>,
-              <tag>first</tag>
-              and nested
-              <tag>near</tag>
-              elements. This makes it possible to search for two sequences of terms which are within a specific distance. For example:</para>
-            <programlisting language="xquery" xlink:href="listings/listing-45.txt"/>
-            <para>Element
-              <tag>first</tag>
-              matches a span against the start of the text in the context node. It takes an optional attribute
-              <literal>end</literal>
-              to specify the maximum distance from the start of the text. For example:</para>
-            <programlisting language="xquery" xlink:href="listings/listing-46.txt"/>
-            <para>As shown above, the content of
-              <tag>first</tag>
-              can again be text, a
-              <tag>term</tag>
-              or
-              <tag>near</tag>.</para>
-            <para>Contrary to
-              <tag>phrase</tag>,
-              <tag>near</tag>
-              can be told to ignore the order of its components. Use parameter
-              <literal>ordered="yes|no"</literal>
-              to change near's behaviour. For example:</para>
-            <programlisting language="xquery" xlink:href="listings/listing-47.txt"/>
-          </listitem>
-        </varlistentry>
-      </variablelist>
-      <para>All elements in a query may have an optional
-        <literal>boost</literal>
-        parameter (float). The score of the nodes matching the corresponding query part will be multiplied by this factor.</para>
-    </sect2>
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <sect2 xml:id="parameters">
-      <title>Additional parameters</title>
-      <para>The
-        <code>ft:query</code>
-        function allows a third parameter for passing additional settings to the query engine. This parameter must be an XML fragment which lists the configuration properties to be set as child elements:</para>
-      <programlisting language="xquery" xlink:href="listings/listing-48.txt"/>
-      <para>The meaning of those properties is as follows</para>
-      <variablelist>
-        <varlistentry>
-          <term>
-            <code>filter-rewrite</code>
-          </term>
-          <listitem>
-            <para>Controls how terms are expanded for wildcard or regular expression searches. If set to
-              <code>yes</code>, Lucene will use a filter to pre-process matching terms. If set to
-              <code>no</code>, all matching terms will be added to a single boolean query which is then executed. This may generate a "too many clauses" exception when applied to large data sets. Setting filter-rewrite to
-              <code>yes</code>
-              avoids those issues.</para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>
-            <code>default-operator</code>
-          </term>
-          <listitem>
-            <para>The default operator with which multiple terms will be combined. Allowed values:
-              <code>or</code>,
-              <code>and</code>.</para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>
-            <code>phrase-slop</code>
-          </term>
-          <listitem>
-            <para>Sets the default slop for phrases. If
-              <code>0</code>, then exact phrase matches are required. Default value is
-              <code>0</code>.</para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>
-            <code>leading-wildcard</code>
-          </term>
-          <listitem>
-            <para>When set to
-              <code>yes</code>,
-              <code>*</code>
-              or
-              <code>?</code>
-              are allowed as the first character of a PrefixQuery and WildcardQuery. Note that this can produce very slow queries on big indexes.</para>
-          </listitem>
-        </varlistentry>
-      </variablelist>
-    </sect2>
-  </sect1>
+            <sect3 xml:id="facet-conf">
+                <title>Facet and Field Configuration</title>
+                <para>Facets and fields are configured in a similar way. Both should appear nested
+                    inside the parent index element they are attached to. Let's assume we have a
+                    collection of articles written in docbook. Each article will have a top-level
+                    <tag>info</tag> element describing the article. Each <tag>info</tag> element
+                    contains a <tag>title</tag>, one or more <tag>author</tag>s and a list of
+                    keywords in <tag>keywordset</tag>.</para>
+                <para>Keywords are a perfect candidate for a facet, so let's start with it:</para>
+                <programlisting language="xml" xlink:href="listings/listing-50.txt"/>
+                <para>Every facet needs to have a <code>dimension</code> attribute, defining the
+                    name of the facet dimension the items will be added to. The values associated
+                    with this facet dimension are determined by the <code>expression</code>
+                    attribute: it may contain an arbitary XQuery expression rooted in the parent
+                    node being indexed. In the example the parent will be a <tag>db:article</tag>
+                    element, so the context item for the expression is set to this element.</para>
+                <para>The expression is evaluated and for each result item, a facet value is added
+                    to the dimension using the string value of the item. Therefore if the expression
+                    returns multiple items, a facet for that dimension will also hold multiple
+                    values. If the expression returns the empty sequence for the current parent
+                    node, the corresponding facet will be empty as well.</para>
+                <para>A facet can also be defined to be hierarchical. A typical example would be a
+                    date, which consists of a year, month and day component. By indexing the single
+                    components as separate parts of a hierarchical facet, we enable the user to
+                    drill down by year first, then by month and finally by day. Let's assume each of
+                    our docbook articles has a <tag>pubdate</tag> containing a date in
+                    <code>xs:date</code> format:</para>
+                <programlisting language="xml" xlink:href="listings/listing-52.txt"/>
+                <para>Hierarchical facets may also hold multiple values, for example if we would
+                    like to associate our documents with a subject classification on various levels
+                    of granularity (say: <emphasis>science</emphasis> with <emphasis>math</emphasis>
+                    and <emphasis>physics</emphasis> as subcategories or
+                    <emphasis>humanities</emphasis> with <emphasis>art</emphasis>,
+                    <emphasis>sociology</emphasis> and <emphasis>history</emphasis>). This way we
+                    enable the user to drill down into broad <emphasis>humanities</emphasis> or
+                    <emphasis>science</emphasis> subject first and choose particular topics
+                    afterwards. If the result of the hierarchical facet <code>expression</code>
+                    evaluates to an array, each of array members will be treated as a hierarchical
+                    value for that facet. Such an array could look in XQuery similar to
+                    <code>[('science', 'math'), ('humanities', 'history')]</code> and be a result of
+                    evaluationg a function like <code>idx:subject-hierarchy</code> below stored in
+                    an imported module (see <link linkend="external-module">below</link>) </para>
+                <programlisting language="xml" xlink:href="listings/listing-520.xml"/>
+                <programlisting language="xquery" xlink:href="listings/listing-521.txt"/>
+                <para>which assumes hierarchical subject structure stored in
+                    <emphasis>/db/subjects/subjects.xml</emphasis> </para>
+                <programlisting language="xml" xlink:href="listings/listing-522.xml"/>
+                <para>Next, we may want to define fields for the authors and title of the article.
+                    In docbook, <tag>author</tag> can be a complex element, consisting e.g. of a
+                    <tag>personname</tag> with nested <tag>surname</tag> and <tag>firstname</tag>.
+                    For display to the user and sorting we want to pre-compute a normalized string
+                    out of those components:</para>
+                <programlisting language="xml" xlink:href="listings/listing-51.txt"/>
+                <para>A field does not need to define an <tag>expression</tag> attribute though: if
+                    no expression is given, the field's content will be taken from the parent
+                    element. This makes sense e.g. if you would like to index a node twice, e.g.
+                    using a different analyzer. Or you can specify <code>index="no"</code> on the
+                    parent element and index its content with an explicit field.</para>
+                <para>A field may use a different analyzer than the one used to index the parent
+                    content. Analyzers are referenced through <code>analyzer</code> attribute as
+                    described <link linkend="analyzer">above</link>.</para>
+                <para> <emphasis role="bold">Typed fields</emphasis>: fields may also declare a
+                    <code>type</code> attribute: supported values are atomic types like
+                    <code>xs:date</code>, <code>xs:dateTime</code>, <code>xs:time</code>,
+                    <code>xs:integer</code>, <code>xs:decimal</code> and their sub-types. Defining a
+                    type is important with respect to sorting (see below), e.g. to get dates in the
+                    correct order. Typed fields can also be retrieved into corresponding XQuery
+                    atomic values, so no additional casting is necessary. However, typed fields
+                    cannot be queried using Lucene's default query parser, only retrieved with
+                    <literal>ft:field</literal>.</para>
+                <para> <emphasis role="bold">Storing fields</emphasis>: By default the complete
+                    content of a field is stored in the Lucene index, allowing later fast retrieval
+                    of the content using <literal>ft:field</literal>. You can disable storing the
+                    content by adding attribute <code>store="no"</code>. The field will still be
+                    indexed and available for queries though.</para>
 
-  <!-- ================================================================== -->
+                <para xml:id="external-module"> <emphasis role="bold">Importing external
+                    modules</emphasis>: as can be seen in the field definition for "author" above,
+                    expressions can easily become quite verbose, so writing them into an attribute
+                    is not convenient. It is thus also possible to import one or more XQuery modules
+                    into the index configuration and use the functions declared in the
+                    module:</para>
+                <programlisting language="xml" xlink:href="listings/listing-58.xml"/>
+                <para>In this example we extract the code for computing the author field into a
+                    function <literal>idx:authors</literal> located in an XQuery module,
+                    <literal>module.xql</literal>. Note that we're using a relative import path for
+                    the module in the <literal>at</literal> attribute. The path will be resolved
+                    relative to the collection to which the collection configuration applies (not
+                    where the collection configuration itself is stored). It is also important that
+                    the module and all dependencies it imports is stored <emphasis>before</emphasis>
+                    the collection configuration is saved and indexing starts.</para>
+                <para> <emphasis role="bold">Conditions</emphasis>: sometimes you may want to create
+                    a field only if a certain condition is met. For this purpose, an additional
+                    attribute <literal>if</literal> may be added, containing an XPath expression. If
+                    the expression evaluates to an effective boolean value of
+                    <literal>true</literal>, the field will be created. Otherwise it is
+                    skipped.</para>
+                <para>Conditions are useful to e.g. distinguish between different languages and
+                    apply an appropriate analyzer to each. Let's assume our docbook articles may
+                    have both, a German and English version. The language is indicated by the
+                    <code>@xml:lang</code> attribute on the top-level <tag>section</tag> element. We
+                    thus create a separate field for each language and connect it to the analyzer
+                    appropriate for the language:</para>
+                <programlisting language="xml" xlink:href="listings/listing-59.xml"/>
+                <para>Note that we skip indexing the parent <tag>article</tag> element with
+                    <code>index="no"</code> because we do not want a default index, but rather a
+                    separate field for each language, so we can target them in queries
+                    explicitely.</para>
+            </sect3>
+        </sect2>
+    </sect1>
 
-  <sect1 xml:id="constructed-fields">
-    <title>Adding Constructed Fields to a Document</title>
+    <!-- ================================================================== -->
 
-    <para>This feature allows to add arbitrary fields to a binary or XML document and have them indexed with Lucene. It was developed as part of the
-      <link xlink:href="contentextraction">content extraction framework</link>, to attach metadata extracted from for instance a PDF to the binary document. It works equally well for XML documents though and is an efficient method to attach computed fields
-      to a document, containing information which does not exist in the XML as such.</para>
-    <note>
-      <para>With the advent of
-        <xref linkend="facets-and-fields"/>) functionality it is recommended to use these instead of constructed fields.</para>
-    </note>
-    <para>The field indexes are not configured via
-      <literal>collection.xconf</literal>. Instead we add fields programmatically from an XQuery (which could be run via a trigger):</para>
-    <programlisting language="xquery" xlink:href="listings/listing-49.txt"/>
+    <sect1 xml:id="query">
+        <title>Querying the Index</title>
+        <para>Querying full text from XQuery is straightforward. For example:</para>
+        <programlisting language="xquery" xlink:href="listings/listing-34.txt"/>
+        <para>The query function takes a query string in Lucene's default <link condition="_blank"
+            xlink:href="https://lucene.apache.org/core/4_10_4/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description"
+            >query syntax</link>. It returns a set of nodes which are relevant with respect to the
+            query. Lucene assigns a relevance score or rank (a decimal number) to each match. This
+            score is preserved by eXist-db and can be accessed through the score function.</para>
+        <para>The higher the score, the more relevant the text. You can use Lucene's features to
+            "boost" a certain term in the query: give it a higher or lower influence on the final
+            rank.</para>
+        <para>Please note that the score is computed relative to the root context of the index. If
+            you created an index on <tag>SPEECH</tag>, all scores will be computed based on text in
+            <tag>SPEECH</tag> nodes, even though your actual query may only return <tag>LINE</tag>
+            children of <tag>SPEECH</tag>.</para>
+        <para>The query string passed to <literal>ft:query</literal> may be empty. In this case all
+            items from the context sequence are matched and returned. Using an empty query makes
+            sense in combination with the options for retrieving facets and field values described
+            below.</para>
+        <para>The Lucene module is fully supported by eXist-db's query-rewriting optimizer. This
+            means that the query engine can rewrite the XQuery expression to make best use of the
+            available indexes. All the rules and hints given in the <link xlink:href="tuning.xml"
+            >tuning</link> guide fully apply to the Lucene index.</para>
+        <para>To present search results in a <emphasis>Keywords in Context</emphasis> format, you
+            may want to have a look at eXist-db's <link xlink:href="kwic.xml">KWIC</link>
+            module.</para>
+        <sect2 xml:id="query-fields">
+            <title>Querying Fields</title>
+            <para>Fields associated with the indexed parent node (see <link
+                linkend="facets-and-fields">above</link>) can be queried with
+                <literal>ft:query</literal> by prefixing parts of the query expression with the
+                field name followed by a colon (':') as described in the documentation for Lucene's
+                default query syntax. For example, the following expression searches for a docbook
+                article containing the terms "xml" in the text and "xquery language" in the
+                title:</para>
+            <programlisting language="xquery" xlink:href="listings/listing-53.txt"/>
+            <para>Note how subexpressions can be grouped with parentheses to clearly state to which
+                field they apply.</para>
+        </sect2>
+        <sect2 xml:id="retrieve-fields">
+            <title>Retrieving Field Content</title>
+            <para>You can retrieve the content of a field for display or sorting purposes using the
+                <literal>ft:field</literal> function. However, fields are always bound to the result
+                of a full text query, so you cannot retrieve them without calling
+                <literal>ft:query</literal> first. Also, keeping track of fields can be expensive,
+                so <literal>ft:query</literal> needs to be explicitly passed a parameter specifying
+                which fields should be made available via the query result. The third, optional,
+                parameter to <literal>ft:query</literal> supports a <literal>fields</literal> option
+                listing the names of the fields to be provided. The values of the associated field
+                can then be retrieved for each item in the query result using
+                <literal>ft:field</literal>.</para>
+            <para>One of the most common uses for retrieving field contents will be for sorting the
+                results of a query. The <code>order by</code> in the example below sorts results by
+                title first and then by author.</para>
+            <programlisting language="xquery" xlink:href="listings/listing-54.txt"/>
+            <para>Note that even though fields are only available with the results of the ft:query,
+                it is still possible to use them for sorting and displaying the whole available data
+                set. For example, to view all articles in the collection you could pass in an empty
+                sequence in place of the query string like this:</para>
+            <programlisting language="xquery" xlink:href="listings/listing-55.txt"/>
+            <para> <emphasis role="bold">Typed fields</emphasis>: If you declared a different type
+                than <literal>xs:string</literal> on a field, you should remember to use the
+                3-parameter variant of <literal>ft:field</literal> and pass in the name of the
+                desired target type as 3rd parameter. Reason: lucene basically stores all non-text
+                data types as numbers and eXist has no way to figure out the original type of the
+                field. So if you defined a field with type <literal>xs:date</literal>, make sure to
+                retrieve it with <literal>ft:field($node, "date", "xs:date")</literal>, otherwise
+                all you get is a number.</para>
+        </sect2>
+        <sect2 xml:id="display-facets">
+            <title>Displaying Facet Counts</title>
+            <para>Facet counts for the query result can be retrieved if facets are associated with
+                an indexed parent element. Facet counts for a particular dimension are available as
+                a map containing an entry for each facet value occurring in one or more items of the
+                query result. The map links the facet value given as a map key with a positive count
+                corresponding to the number of times the value occurs in the result set. Facet
+                values with zero count are never included.</para>
+            <para>For example, we may use the following query to display the facet counts for the
+                "keyword" dimension in our set of docbook articles:</para>
+            <programlisting language="xquery" xlink:href="listings/listing-56.txt"/>
+            <para>Function <literal>ft:facets</literal> expects a sequence of nodes belonging to a
+                result set obtained from one or more calls to <literal>ft:query</literal>. If the
+                sequence was combined from multiple expressions calling <literal>ft:query</literal>,
+                the facet counts will be merged. Second parameter of <literal>ft:facets</literal>
+                specifies the dimension for which facet counts should be retrieved. The third
+                parameter should be either empty sequence or a positive integer denoting the maximum
+                number of facets to show. In the case it is smaller than the total number of facets,
+                only those with the highest counts are returned. Passing an empty sequence means
+                that all facet value counts should be shown. Please note that facets with a zero
+                occurrence count (i.e. facets not appearing anywhere in the result) are never
+                returned.</para>
+            <para>For hierarchical facets only the top-most facet value in the hierarchy will be
+                returned by default. For example, if you indexed a date facet with separate year,
+                month and day component, a call to <code>ft:facets($node, "date", ())</code> will
+                return facet counts for years only. To also get counts for months, you have to call
+                <literal>ft:facets</literal> with a fourth parameter, passing in the year for which
+                sub-facet counts should be retrieved. To get days, you also need to specify month
+                and so on. <code>ft:facets($node, "date", (), ("2018", "06"))</code> will thus
+                return facet counts for all days in June 2018.</para>
+        </sect2>
+        <sect2 xml:id="refine-facets">
+            <title>Refining a Query with Facets</title>
+            <para>The main purpose of facets is to quickly narrow down a query result, limiting it
+                to only items which match a certain facet value. To drill down by a given facet
+                dimension and value, pass a key "facets" in the options map given in the third
+                parameter of <literal>ft:query</literal>:</para>
+            <programlisting language="xquery" xlink:href="listings/listing-57.txt"/>
+            <para>If you specify multiple dimensions, these will be linked together with a logical
+                <literal>and</literal>, limiting the result to elements matching both
+                dimensions.</para>
+            <para>Treatment of multiple values for one facet dimension depends on the type of facet.
+                For non-hierarchical facets, as in example above, if you specify more than one value
+                these will be linked together with a logical <literal>or</literal>, returning
+                elements matching any of the alternative facet values for that dimension.</para>
+            <para>In case of hierarchical facets, a sequence of items is interpreted as a
+                hierarchical value/subvalue facet path, therefore expression like <code>("2018",
+                "06", "25")</code> for the <emphasis>date</emphasis> dimension mentioned earlier
+                will return nodes from the 25th of June 2018. Nested sequences are not allowed in
+                XQuery, so the only way to pass in multiple hierarchical facet paths is by wrapping
+                the whole structure in an array. Each array element then is logically linked with
+                its other members with <literal>or</literal> expression. To query for elements from
+                June <emphasis>or</emphasis> May 2018 we therefore need to specify date dimension
+                values as <code>[("2018", "06"), ("2018", "05")]</code> </para>
+            <programlisting language="xquery" xlink:href="listings/listing-571.txt"/>
+        </sect2>
+        <sect2 xml:id="describe">
+            <title>Describing Queries in XML</title>
+            <para>Lucene's default query syntax does not provide access to all available features.
+                However, eXist-db's <literal>ft:query</literal> function also accepts a description
+                of the query in XML, as an alternative to passing a query string. The XML
+                description closely mirrors Lucene's query API. It is transformed into an internal
+                tree of query objects, which is directly passed to Lucene for execution. This has
+                several advantages, for example you can specify if the order of terms should be
+                relevant for a phrase query:</para>
+            <programlisting language="xquery" xlink:href="listings/listing-37.txt"/>
+            <para>Ranged queries using <literal>TO</literal> are also supported. Suppose you have
+                marked dates and wish to return only results between 1600 and 1610.</para>
+            <programlisting language="xquery" xlink:href="listings/listing-36.txt"/>
+            <para>The following elements may occur within a query description:</para>
+            <variablelist>
+                <varlistentry>
+                    <term> <tag>term</tag> </term>
+                    <listitem>
+                        <para>Defines a single term to be searched in the index. If the root query
+                            element contains a sequence of term elements, wrap them in
+                            <tag>bool/</tag> and they will be combined as in a boolean "or" query.
+                            For example: </para>
+                        <programlisting language="xquery" xlink:href="listings/listing-38.txt"/>
+                        <para>This finds all <tag>SPEECH</tag> elements containing either
+                            <code>nation</code> or <code>miserable</code> or both.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <tag>wildcard</tag> </term>
+                    <listitem>
+                        <para>A string with a <code>*</code> wildcard in it. This will be matched
+                            against the terms of a document. Can be used instead of a
+                            <tag>term</tag> element. For example:</para>
+                        <programlisting language="xquery" xlink:href="listings/listing-39.txt"/>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <tag>regex</tag> </term>
+                    <listitem>
+                        <para>A regular expression which will be matched against the terms of a
+                            document. Can be used instead of a <tag>term</tag> element. For
+                            example:</para>
+                        <programlisting language="xquery" xlink:href="listings/listing-40.txt"/>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <tag>bool</tag> </term>
+                    <listitem>
+                        <para>Constructs a boolean query from its children. Each child element may
+                            have an occurrence indicator, which could be either
+                            <literal>must</literal>, <literal>should</literal> or
+                            <literal>not</literal>:</para>
+                        <variablelist>
+                            <varlistentry>
+                                <term> <code>must</code> </term>
+                                <listitem>
+                                    <para>this part of the query <emphasis>must</emphasis> be
+                                        matched</para>
+                                </listitem>
+                            </varlistentry>
+                            <varlistentry>
+                                <term> <code>should</code> </term>
+                                <listitem>
+                                    <para>this part of the query <emphasis>should</emphasis> be
+                                        matched, but doesn't need to</para>
+                                </listitem>
+                            </varlistentry>
+                            <varlistentry>
+                                <term> <code>not</code> </term>
+                                <listitem>
+                                    <para>this part of the query <emphasis>must not</emphasis> be
+                                        matched</para>
+                                </listitem>
+                            </varlistentry>
+                        </variablelist>
+                        <para>For instance:</para>
+                        <programlisting language="xquery" xlink:href="listings/listing-41.txt"/>
+                        <para>To optimize performance you can specify a minimum number of matches to
+                            prevent needless disjunctive searches, using the <literal>min</literal>
+                            attribute. If no occurence indicator is provided the query will default
+                            to <literal>should</literal>, as this is the only indicator that
+                            supports <literal>min</literal>:</para>
+                        <programlisting language="xquery" xlink:href="listings/listing-1.txt"/>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <tag>phrase</tag> </term>
+                    <listitem>
+                        <para>Searches for a group of terms occurring in the correct order. The
+                            element may either contain explicit <tag>term</tag> elements or text
+                            content. Text will be automatically tokenized into a sequence of terms.
+                            For example:</para>
+                        <programlisting language="xquery" xlink:href="listings/listing-42.txt"/>
+                        <para>This has the same effect as:</para>
+                        <programlisting language="xquery" xlink:href="listings/listing-43.txt"/>
+                        <para>The attribute <literal>slop</literal> can be used for a proximity
+                            search: Lucene will try to find terms which are within the specified
+                            distance:</para>
+                        <programlisting language="xquery" xlink:href="listings/listing-44.txt"/>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <tag>near</tag> </term>
+                    <listitem>
+                        <para> <tag>near</tag> is a powerful alternative to <tag>phrase</tag> and
+                            one of the features not available through the standard Lucene query
+                            parser.</para>
+                        <para>If the element has text content only, it will be tokenized into terms
+                            and the expression behaves like <tag>phrase</tag>. Otherwise it may
+                            contain any combination of <tag>term</tag>, <tag>first</tag> and nested
+                            <tag>near</tag> elements. This makes it possible to search for two
+                            sequences of terms which are within a specific distance. For
+                            example:</para>
+                        <programlisting language="xquery" xlink:href="listings/listing-45.txt"/>
+                        <para>Element <tag>first</tag> matches a span against the start of the text
+                            in the context node. It takes an optional attribute
+                            <literal>end</literal> to specify the maximum distance from the start of
+                            the text. For example:</para>
+                        <programlisting language="xquery" xlink:href="listings/listing-46.txt"/>
+                        <para>As shown above, the content of <tag>first</tag> can again be text, a
+                            <tag>term</tag> or <tag>near</tag>.</para>
+                        <para>Contrary to <tag>phrase</tag>, <tag>near</tag> can be told to ignore
+                            the order of its components. Use parameter
+                            <literal>ordered="yes|no"</literal> to change near's behaviour. For
+                            example:</para>
+                        <programlisting language="xquery" xlink:href="listings/listing-47.txt"/>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para>All elements in a query may have an optional <literal>boost</literal> parameter
+                (float). The score of the nodes matching the corresponding query part will be
+                multiplied by this factor.</para>
+        </sect2>
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <sect2 xml:id="parameters">
+            <title>Additional parameters</title>
+            <para>The <code>ft:query</code> function allows a third parameter for passing additional
+                settings to the query engine. This parameter must be an XML fragment which lists the
+                configuration properties to be set as child elements:</para>
+            <programlisting language="xquery" xlink:href="listings/listing-48.txt"/>
+            <para>The meaning of those properties is as follows</para>
+            <variablelist>
+                <varlistentry>
+                    <term> <code>filter-rewrite</code> </term>
+                    <listitem>
+                        <para>Controls how terms are expanded for wildcard or regular expression
+                            searches. If set to <code>yes</code>, Lucene will use a filter to
+                            pre-process matching terms. If set to <code>no</code>, all matching
+                            terms will be added to a single boolean query which is then executed.
+                            This may generate a "too many clauses" exception when applied to large
+                            data sets. Setting filter-rewrite to <code>yes</code> avoids those
+                            issues.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <code>default-operator</code> </term>
+                    <listitem>
+                        <para>The default operator with which multiple terms will be combined.
+                            Allowed values: <code>or</code>, <code>and</code>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <code>phrase-slop</code> </term>
+                    <listitem>
+                        <para>Sets the default slop for phrases. If <code>0</code>, then exact
+                            phrase matches are required. Default value is <code>0</code>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <code>leading-wildcard</code> </term>
+                    <listitem>
+                        <para>When set to <code>yes</code>, <code>*</code> or <code>?</code> are
+                            allowed as the first character of a PrefixQuery and WildcardQuery. Note
+                            that this can produce very slow queries on big indexes.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </sect2>
+    </sect1>
 
-    <para>The
-      <literal>store</literal>
-      attribute indicates that the fields content should be stored as a string. Without this attribute, the content will be indexed for search, but you won't be able to retrieve the contents.
-    </para>
-    <para>To get the contents of a field, use the
-      <literal>ft:get-field</literal>
-      function:</para>
-    <programlisting language="xquery">ft:get-field("/db/demo/test.xml", "title")</programlisting>
+    <!-- ================================================================== -->
 
-    <para>To query this index, use the
-      <literal>ft:search</literal>
-      function:</para>
-    <programlisting language="xquery">ft:search("/db/demo/test.xml", "title:indexing and author:me")</programlisting>
+    <sect1 xml:id="constructed-fields">
+        <title>Adding Constructed Fields to a Document</title>
 
-    <para>Custom field indexes are automatically deleted when their parent document is removed. If you want to update fields without removing the document, you need to delete the old fields first though. This can be done using the
-      <literal>ft:remove-index</literal>
-      function:</para>
-    <programlisting language="xquery">ft:remove-index("/db/demo/test.xml")</programlisting>
-  </sect1>
+        <para>This feature allows to add arbitrary fields to a binary or XML document and have them
+            indexed with Lucene. It was developed as part of the <link
+            xlink:href="contentextraction">content extraction framework</link>, to attach metadata
+            extracted from for instance a PDF to the binary document. It works equally well for XML
+            documents though and is an efficient method to attach computed fields to a document,
+            containing information which does not exist in the XML as such.</para>
+        <note>
+            <para>With the advent of <xref linkend="facets-and-fields"/>) functionality it is
+                recommended to use these instead of constructed fields.</para>
+        </note>
+        <para>The field indexes are not configured via <literal>collection.xconf</literal>. Instead
+            we add fields programmatically from an XQuery (which could be run via a trigger):</para>
+        <programlisting language="xquery" xlink:href="listings/listing-49.txt"/>
+
+        <para>The <literal>store</literal> attribute indicates that the fields content should be
+            stored as a string. Without this attribute, the content will be indexed for search, but
+            you won't be able to retrieve the contents. </para>
+        <para>To get the contents of a field, use the <literal>ft:get-field</literal>
+            function:</para>
+        <programlisting language="xquery">ft:get-field("/db/demo/test.xml", "title")</programlisting>
+
+        <para>To query this index, use the <literal>ft:search</literal> function:</para>
+        <programlisting language="xquery">ft:search("/db/demo/test.xml", "title:indexing and author:me")</programlisting>
+
+        <para>Custom field indexes are automatically deleted when their parent document is removed.
+            If you want to update fields without removing the document, you need to delete the old
+            fields first though. This can be done using the <literal>ft:remove-index</literal>
+            function:</para>
+        <programlisting language="xquery">ft:remove-index("/db/demo/test.xml")</programlisting>
+    </sect1>
 </article>

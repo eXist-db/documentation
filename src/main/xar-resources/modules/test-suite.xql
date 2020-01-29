@@ -22,6 +22,9 @@ declare variable $tests:article := document {
     <info>
         <title>Document title</title>
         <date>1Q18</date>
+        <keywordset>
+          <keyword>blah</keyword>
+        </keywordset>
     </info>
     <para>Introductory paragraph(s)</para>
     <sect1 xml:id="main-id">
