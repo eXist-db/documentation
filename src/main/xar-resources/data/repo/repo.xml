@@ -152,7 +152,7 @@
                 <para>A dependency on another package is defined by using a reference to the unique
                     name of the other package: The name attribute (URI) of the
                     <code>expath-pkg.xml</code> descriptor. For eaxample:</para>
-                <programlisting language="xml">&lt;dependency package="http://exist-db.org/apps/shared"/&gt;</programlisting>
+                <programlisting language="xml" xlink:href="listings/listing-2.xml"/>
                 <para>It is also possible to create a dependency on a specific version, based on
                     <link condition="_blank" xlink:href="https://semver.org/">Semantic
                     Versioning</link>. This can be done by adding either of the attributes:
@@ -203,7 +203,7 @@
                     unsupported instances and display a warning to the user. To require such a
                     specific eXist-db version, include a processor dependency in your
                     descriptor:</para>
-                <programlisting language="xml">&lt;dependency processor="eXist-db" version="trunk &amp;gt; rev 18070"/&gt;</programlisting>
+                <programlisting language="xml" xlink:href="listings/listing-3.xml"/>
             </sect3>
 
             <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -340,7 +340,7 @@
                         <para>You can define package specific permissions in the
                             <literal>repo.xml</literal> to use when uploading package contents like
                             this: </para>
-                        <programlisting language="xml">&lt;permissions user="app-user" password="123" group="app-group" mode="rw-rw-r--"/&gt;</programlisting>
+                        <programlisting language="xml" xlink:href="listings/listing-9.xml"/>
                         <para> All resources and collections will be owned by the specified user and
                             permissions will be changed to those given in <literal>mode</literal>.
                             If the user does not exist, the deploy function will try to create it,
@@ -435,7 +435,7 @@
 
         <para>The root collection for deployed packages can be configured in
             <literal>conf.xml</literal>:</para>
-        <programlisting language="xml">&lt;repository root="/db/apps"/&gt;</programlisting>
+        <programlisting language="xml" xlink:href="listings/listing-11.xml"/>
         <para>The install location specified in the <tag>target</tag> element of
             <literal>repo.xml</literal> will always be relative to this root collection.</para>
         <para>eXist-db's URL rewriting is by default configured to map any path starting with

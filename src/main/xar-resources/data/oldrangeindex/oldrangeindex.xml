@@ -147,7 +147,7 @@
             <literal>path</literal> or <literal>qname</literal> attribute, not to descendants of
             that node. Consider a mixed content element like:</para>
 
-        <programlisting language="xml">&lt;mixed&gt;&lt;s&gt;un&lt;/s&gt;&lt;s&gt;even&lt;/s&gt;&lt;/mixed&gt;</programlisting>
+        <programlisting language="xml" xlink:href="listings/listing-2.xml"/>
         <para>If an index is defined on <tag>mixed</tag>, the key for the index is built from the
             concatenated text nodes of element <tag>mixed</tag> and all its descendants, so
             <code>uneven</code> in this case. The created index will only be used to evaluate
@@ -166,8 +166,7 @@
             define the elements or attributes to which the index should apply. However, the
             <literal>path</literal> attribute creates <emphasis>context-dependant</emphasis>
             indexes, while the <literal>qname</literal> attribute does not. </para>
-        <para>The <code>path</code> attribute takes a simple path expression: </para>
-        <programlisting language="xml">&lt;create path="//book/title" type="xs:string"/&gt;</programlisting>
+        <para>The <code>path</code> attribute takes a simple path expression: <tag>create path="//book/title" type="xs:string"/</tag></para>
         <para>The <code>path</code> expression looks like XPath, but it's not. Index path syntax
             uses the following components to construct paths:</para>
         <itemizedlist>
@@ -205,13 +204,11 @@
         <para>We therefore had to introduce an alternative configuration method which is not
             context-dependant. To keep things simple, we decided to define the index on the
             <emphasis>qname</emphasis> of the element or attribute alone and to ignore the context
-            altogether:</para>
-        <programlisting language="xml">&lt;create qname="title" type="xs:string"/&gt;</programlisting>
+            altogether: <tag>create qname="title" type="xs:string"/</tag></para>
         <para>This results in an index being created on every <tag>title</tag> element found in the
             document node tree. Section titles will be indexed as well as chapter or book titles. </para>
         <para>Indexes on attributes are defined as above by prepending "@" to the attribute's
-            name:</para>
-        <programlisting language="xml">&lt;create qname="@type" type="xs:string"/&gt;</programlisting>
+            name: <tag>create qname="@type" type="xs:string"/</tag></para>
         <para>This defines an index on all attributes named "type", but not on elements with the
             same name.</para>
         <para>Defining indexes on qnames may result in a considerably larger index, but it allows

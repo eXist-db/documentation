@@ -235,7 +235,7 @@
                     interchange of applications, the EXPath Community has created a specification
                     for application metadata, called EXPath Packaging System. eXist supports and
                     extends this module. This tutorial will not cover this file's structure, but you
-                    can learn more about this by reading about the <link xlink:href="repo">Package 
+                    can learn more about this by reading about the <link xlink:href="repo">Package
                         Repository</link>. </para>
             </listitem>
         </orderedlist>
@@ -304,9 +304,10 @@
                 allows us to put other data types within the data collection without disrupting this
                 report.</para>
             <para>Our next step is to change each of the items listed into HTML links so that we can
-                view each individual item on a separate HTML page. To do this we change the
-                <code>&lt;li&gt;{$term-name}&lt;/li&gt;</code> to be the following code:</para>
-            <programlisting language="xml">&lt;li&gt;&lt;a href="view-item.xq?id={$term/id/text()}"&gt;{$term-name}&lt;/a&gt;&lt;/li&gt;</programlisting>
+                view each individual item on a separate HTML page. To do this we change this:</para>
+                <programlisting language="xquery" xlink:href="listings/listing-4.txt"/>
+                <para> to be the following code:</para>
+            <programlisting language="xquery" xlink:href="listings/listing-3.txt"/>
             <para>This produces the following output:</para>
             <informalfigure>
                 <mediaobject>

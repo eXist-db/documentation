@@ -68,7 +68,7 @@
     <para>If no action is specified within the dispatch element, the request will be passed through the filter chain and handled normally. The same happens if the action is the
       <tag>ignore</tag>
       element. For example, the simplest controller script consist of a single ignore:</para>
-    <para>eXist's URL rewriting mechanism lets you specify an <tag>error handler</tag> element for each dispatch directive in your <literal>controller.xql</literal>.</para>  
+    <para>eXist's URL rewriting mechanism lets you specify an <tag>error handler</tag> element for each dispatch directive in your <literal>controller.xql</literal>.</para>
     <programlisting language="xml" xlink:href="listings/listing-4.xml"/>
 
     <note>
@@ -580,7 +580,7 @@
       folder of eXist, you can use the following snippet:</para>
     <programlisting language="xquery" xlink:href="listings/listing-12.txt"/>
     <para>This simply removes the /libs/ prefix and sets absolute="yes", so the path will be resolved relative to the main context of the servlet engine, usually /exist/. In your HTML, you can now write:</para>
-    <programlisting language="xml">&lt;script type="text/javascript" src="/libs/scripts/jquery/jquery-1.7.1.min.js"&gt;&lt;/script&gt;</programlisting>
+    <programlisting language="xml" xlink:href="listings/listing-13.xml"/>
     <para>This will locate the jquery file in
       <literal>webapp/scripts/jquery/...</literal>, even if the rest of your application is stored in the db and not on the file system.</para>
   </sect1>
