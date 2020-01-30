@@ -44,7 +44,7 @@
             <para><tag>indexer</tag>: Controls the indexing process.</para>
           </listitem>
           <listitem>
-            <para><tag>scheduler</tag>: Job scheduler for system or user jobs.</para>
+            <para><tag>scheduler</tag>: Job scheduler for system or user jobs such as backups.</para>
           </listitem>
           <listitem>
             <para><tag>parser</tag>: Default settings for parsing structured documents.</para>
@@ -635,7 +635,6 @@
             </variablelist>
             <para>Below is an example which configures a <link xlink:href="backup"
                 >BackupSystemTask</link>: </para>
-
             <programlisting language="xml" xlink:href="listings/listing-6.xml"/>
             <para>Each job is configured in a <tag>job</tag> element which accepts a number of
                 standard attributes:</para>
@@ -834,7 +833,7 @@
                 <tag>xupdate</tag> section. The main parameter is called
                 <literal>allowed-fragmentation</literal>:</para>
 
-            <programlisting language="xml"><![CDATA[&amp;lt;xupdate allowed-fragmentation="20" enable-consistency-checks="no" /&amp;gt;]]></programlisting>
+            <programlisting language="xml" xlink:href="listings/listing-2.xml" />
             <sect3 xml:id="xupdate-att">
                 <title> <tag>xupdate</tag> attributes</title>
 
@@ -987,7 +986,7 @@
                 <programlisting language="xquery">import module namespace file="http://exist-db.org/xquery/file";</programlisting>
                 <para>Instead of providing a Java class, one can also specify a <code>src</code> URI
                     which must point to the XQuery source code of the module, for instance:</para>
-                <programlisting language="xml" xlink:href="listings/listing-10.txt"/>
+                <programlisting language="xml" xlink:href="listings/listing-10.xml"/>
                 <para>For the <code>src</code> attribute, eXist understands the <link
                     xlink:href="xquery#module-system">same types of URIs</link> as in an
                     ordinary XQuery import statement.</para>

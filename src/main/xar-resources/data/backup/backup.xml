@@ -6,7 +6,7 @@
 
     <info>
         <title>Database Backup and Restore</title>
-        <date>2Q19</date>
+        <date>1Q20</date>
         <keywordset>
             <keyword>operations</keyword>
         </keywordset>
@@ -159,7 +159,7 @@
                 the name of an archive to download it.</para>
             <para>eXist-db can also create <emphasis>incremental backups</emphasis>, meaning only
                 resources which were modified since the last backup are backed up.</para>
-            <para>All backups will be stored in ZIP format. The default storage directory is
+            <para>The default storage directory is
                 <literal>$EXIST_HOME/data/export/</literal>. You can configure a different
                 directory in the configuration file <literal>conf.xml</literal>.</para>
         </sect2>
@@ -167,10 +167,10 @@
         <sect2 xml:id="schedule">
             <title>Scheduling Backups</title>
 
-            <para>You can use eXist-db's <link xlink:href="configuration">scheduler</link> to
+            <para>You can use eXist-db's <link xlink:href="configuration#scheduler">scheduler</link> to
                 schedule server-side backup and consistency check tasks. To do this, add the
                 following definition to the scheduler section in the configuration file
-                <literal>$EXIST_HOME/etc/conf.xml</literal></para>
+                <literal>$EXIST_HOME/etc/conf.xml</literal>.</para>
 
 
             <example>
@@ -190,7 +190,7 @@
                     <term>output</term>
                     <listitem>
                         <para>The directory to which the backup is written. Relative paths are
-                            interpreted relative to eXist-db's main data directory.</para>
+                            interpreted relative to eXist-db's main data directory <literal>$EXIST_HOME/data</literal>.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -240,12 +240,44 @@
                             two incremental backups.</para>
                     </listitem>
                 </varlistentry>
+                <varlistentry>
+                  <!-- or output-dir or output ? -->
+                    <term>dir</term>
+                    <listitem>
+                        <para>The directory to store the backup in. The path is relative to exist's default data directory.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>suffix / prefix</term>
+                    <listitem>
+                        <para>Start and end of the filename for a zipped backup.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>collection</term>
+                    <listitem>
+                        <para>The name of the instances' collection to be included in the backup.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>user / password</term>
+                    <listitem>
+                        <para>The username and password combination necessary for accessing the backup.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>zip-files-max</term>
+                    <listitem>
+                        <para>The maximum number of backups to keep in the backup location.</para>
+                    </listitem>
+                </varlistentry>
             </variablelist>
 
             <note>
                 <para>You can schedule more than one backup job. For example, an incremental backup
-                    could be done multiple times a day while a full backup is created once during
-                    the night </para>
+                    could be done multiple e.g. every two minutes while a full backup is created once during
+                    the night.</para>
+                    <programlisting language="xml" xlink:href="listings/listing-3.xml"/>
             </note>
         </sect2>
 
