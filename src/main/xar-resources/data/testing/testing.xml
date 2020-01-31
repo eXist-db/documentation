@@ -74,7 +74,7 @@
           </inlinemediaobject>
         </para>
         <para>that will create something like this:</para>
-        <programlisting language="xml" xlink:href="listings/data-1.txt"/>
+        <programlisting language="xml" xlink:href="listings/listing-1.xml"/>
       </example>
       <para>By using a schema for
         <emphasis>validating</emphasis>
@@ -83,7 +83,7 @@
         of the provided input, and prevent users from storing something in the database that is not a date.</para>
       <example>
         <title>Using native types</title>
-        <programlisting language="xquery" xlink:href="listings/valid.txt"/>
+        <programlisting language="xquery" xlink:href="listings/listing-2.txt"/>
       </example>
       <para>To check that your
         <literal>local:check-input</literal>
@@ -92,7 +92,7 @@
         Typically, such tests would include corner cases like BCE dates, leap years, or dates in foreign date formats, as well as a basic test date that should simply store in the db.</para>
       <example>
         <title>Testing Corner Cases</title>
-        <programlisting language="xquery" xlink:href="listings/xq-test.txt"/>
+        <programlisting language="xquery" xlink:href="listings/listing-3.txt"/>
         <para>For in-depth examples of unit testing in XQuery please see the examples in the
           <link condition="_blank" xlink:href="xqsuite">XQSuite article</link>
         </para>
