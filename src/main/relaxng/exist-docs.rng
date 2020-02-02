@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <start>
+    <element name="article">
+      <attribute name="version">
+        <data type="decimal"/>
+      </attribute>
+      <element name="info">
+        <ref name="title"/>
+        <element name="date">
+          <data type="NMTOKEN"/>
+        </element>
+        <element name="keywordset">
+          <oneOrMore>
+            <element name="keyword">
+              <data type="NCName"/>
+            </element>
+          </oneOrMore>
+        </element>
+      </element>
+      <oneOrMore>
+        <ref name="para"/>
+      </oneOrMore>
+      <optional>
+        <ref name="itemizedlist"/>
+      </optional>
+      <optional>
+        <ref name="note"/>
+      </optional>
+      <optional>
+        <ref name="warning"/>
+      </optional>
+      <oneOrMore>
+        <element name="sect1">
+          <attribute>
+            <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+            <data type="NCName"/>
+          </attribute>
+          <ref name="title"/>
+            <oneOrMore>
+                <choice>
+                    <ref name="example"/>
+                    <ref name="figure"/>
+                    <ref name="important"/>
+                    <ref name="informalfigure"/>
+                    <ref name="informaltable"/>
+                    <ref name="itemizedlist"/>
+                    <ref name="note"/>
+                    <ref name="orderedlist"/>
+                    <ref name="para"/>
+                    <ref name="programlisting"/>
+                    <ref name="table"/>
+                    <ref name="variablelist"/>
+                    <ref name="warning"/>
+                </choice>
+            </oneOrMore>
+          <zeroOrMore>
+            <element name="sect2">
+              <attribute>
+                <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+                <data type="NCName"/>
+              </attribute>
+              <ref name="title"/>
+                <oneOrMore>
+                    <choice>
+                        <ref name="example"/>
+                        <ref name="figure"/>
+                        <ref name="important"/>
+                        <ref name="informalfigure"/>
+                        <ref name="informaltable"/>
+                        <ref name="itemizedlist"/>
+                        <ref name="note"/>
+                        <ref name="orderedlist"/>
+                        <ref name="para"/>
+                        <ref name="programlisting"/>
+                        <ref name="table"/>
+                        <ref name="variablelist"/>
+                        <ref name="warning"/>
+                    </choice>
+                </oneOrMore>
+              <zeroOrMore>
+                <element name="sect3">
+                  <attribute>
+                    <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+                    <data type="NCName"/>
+                  </attribute>
+                  <ref name="title"/>
+                    <oneOrMore>
+                        <choice>
+                            <ref name="example"/>
+                            <ref name="figure"/>
+                            <ref name="important"/>
+                            <ref name="informalfigure"/>
+                            <ref name="informaltable"/>
+                            <ref name="itemizedlist"/>
+                            <ref name="note"/>
+                            <ref name="orderedlist"/>
+                            <ref name="para"/>
+                            <ref name="programlisting"/>
+                            <ref name="table"/>
+                            <ref name="variablelist"/>
+                            <ref name="warning"/>
+                        </choice>
+                    </oneOrMore>
+                </element>
+              </zeroOrMore>
+            </element>
+          </zeroOrMore>
+        </element>
+      </oneOrMore>
+    </element>
+  </start>
+  <define name="title">
+    <element name="title">
+      <oneOrMore>
+        <choice>
+          <text/>
+          <ref name="code"/>
+          <ref name="tag"/>
+        </choice>
+      </oneOrMore>
+    </element>
+  </define>
+  <define name="para">
+    <element name="para">
+      <optional>
+        <attribute name="role">
+          <data type="NCName"/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+          <data type="NCName"/>
+        </attribute>
+      </optional>
+      <oneOrMore>
+        <choice>
+          <text/>
+          <ref name="code"/>
+          <ref name="emphasis"/>
+          <ref name="link"/>
+          <ref name="literal"/>
+          <ref name="tag"/>
+          <ref name="xref"/>
+          <element name="guimenuitem">
+            <text/>
+          </element>
+          <element name="inlinemediaobject">
+            <ref name="imageobject"/>
+          </element>
+        </choice>
+      </oneOrMore>
+    </element>
+  </define>
+  <define name="itemizedlist">
+    <element name="itemizedlist">
+      <optional>
+        <attribute name="xreflabel"/>
+      </optional>
+      <optional>
+        <attribute>
+          <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+          <data type="NCName"/>
+        </attribute>
+      </optional>
+      <zeroOrMore>
+        <ref name="listitem"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="note">
+    <element name="note">
+      <optional>
+        <attribute>
+          <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+          <data type="NCName"/>
+        </attribute>
+      </optional>
+      <optional>
+        <ref name="title"/>
+      </optional>
+      <oneOrMore>
+        <choice>
+          <ref name="para"/>
+          <ref name="programlisting"/>
+        </choice>
+      </oneOrMore>
+      <optional>
+        <choice>
+          <ref name="itemizedlist"/>
+          <ref name="orderedlist"/>
+        </choice>
+      </optional>
+    </element>
+  </define>
+  <define name="warning">
+    <element name="warning">
+      <oneOrMore>
+        <choice>
+          <ref name="para"/>
+          <ref name="programlisting"/>
+        </choice>
+      </oneOrMore>
+      <optional>
+        <ref name="orderedlist"/>
+        <ref name="informalfigure"/>
+      </optional>
+    </element>
+  </define>
+  <define name="variablelist">
+    <element name="variablelist">
+      <optional>
+        <choice>
+          <ref name="para"/>
+          <ref name="title"/>
+        </choice>
+      </optional>
+      <zeroOrMore>
+        <element name="varlistentry">
+          <optional>
+            <attribute name="xreflabel">
+              <data type="NCName"/>
+            </attribute>
+          </optional>
+          <optional>
+            <attribute>
+              <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+              <data type="NCName"/>
+            </attribute>
+          </optional>
+          <zeroOrMore>
+            <choice>
+              <ref name="listitem"/>
+              <element name="term">
+                <oneOrMore>
+                  <choice>
+                    <text/>
+                    <ref name="code"/>
+                    <ref name="link"/>
+                    <ref name="literal"/>
+                    <ref name="tag"/>
+                    <ref name="xref"/>
+                  </choice>
+                </oneOrMore>
+              </element>
+            </choice>
+          </zeroOrMore>
+        </element>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="orderedlist">
+    <element name="orderedlist">
+      <zeroOrMore>
+        <ref name="listitem"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="important">
+    <element name="important">
+      <ref name="para"/>
+    </element>
+  </define>
+  <define name="table">
+    <element name="table">
+      <optional>
+        <attribute>
+          <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+          <data type="NCName"/>
+        </attribute>
+      </optional>
+      <ref name="title"/>
+      <ref name="tgroup"/>
+    </element>
+  </define>
+  <define name="informalfigure">
+    <element name="informalfigure">
+      <ref name="mediaobject"/>
+    </element>
+  </define>
+  <define name="example">
+    <element name="example">
+      <ref name="title"/>
+      <choice>
+        <ref name="informalfigure"/>
+        <oneOrMore>
+          <choice>
+            <ref name="para"/>
+            <ref name="programlisting"/>
+          </choice>
+        </oneOrMore>
+      </choice>
+    </element>
+  </define>
+  <define name="programlisting">
+    <element name="programlisting">
+      <optional>
+        <attribute name="language">
+          <data type="NCName"/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute name="xlink:href"/>
+      </optional>
+      <oneOrMore>
+        <choice>
+          <text/>
+          <ref name="tag"/>
+        </choice>
+      </oneOrMore>
+    </element>
+  </define>
+  <define name="figure">
+    <element name="figure">
+      <ref name="title"/>
+      <ref name="mediaobject"/>
+    </element>
+  </define>
+  <define name="informaltable">
+    <element name="informaltable">
+      <optional>
+        <attribute>
+          <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+          <data type="NCName"/>
+        </attribute>
+      </optional>
+      <ref name="tgroup"/>
+    </element>
+  </define>
+  <define name="code">
+    <element name="code">
+      <text/>
+    </element>
+  </define>
+  <define name="tag">
+    <element name="tag">
+      <text/>
+    </element>
+  </define>
+  <define name="xref">
+    <element name="xref">
+      <attribute name="linkend">
+        <data type="NCName"/>
+      </attribute>
+    </element>
+  </define>
+  <define name="literal">
+    <element name="literal">
+      <text/>
+    </element>
+  </define>
+  <define name="link">
+    <element name="link">
+      <optional>
+        <attribute name="condition">
+          <data type="NCName"/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute name="linkend">
+          <data type="NCName"/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute name="xlink:href">
+          <data type="anyURI"/>
+        </attribute>
+      </optional>
+      <oneOrMore>
+        <choice>
+          <text/>
+          <ref name="code"/>
+          <ref name="emphasis"/>
+          <ref name="literal"/>
+        </choice>
+      </oneOrMore>
+    </element>
+  </define>
+  <define name="emphasis">
+    <element name="emphasis">
+      <optional>
+        <attribute name="role">
+          <data type="NCName"/>
+        </attribute>
+      </optional>
+      <oneOrMore>
+        <choice>
+          <text/>
+          <ref name="code"/>
+          <ref name="link"/>
+        </choice>
+      </oneOrMore>
+    </element>
+  </define>
+  <define name="imageobject">
+    <element name="imageobject">
+      <element name="imagedata">
+        <attribute name="fileref"/>
+        <optional>
+          <attribute name="width"/>
+        </optional>
+      </element>
+    </element>
+  </define>
+  <define name="listitem">
+    <element name="listitem">
+      <optional>
+        <ref name="example"/>
+      </optional>
+      <zeroOrMore>
+        <choice>
+          <ref name="figure"/>
+          <ref name="informalfigure"/>
+          <ref name="itemizedlist"/>
+          <ref name="note"/>
+          <ref name="orderedlist"/>
+          <ref name="para"/>
+          <ref name="programlisting"/>
+          <ref name="variablelist"/>
+        </choice>
+      </zeroOrMore>
+      <optional>
+        <choice>
+          <ref name="informaltable"/>
+          <ref name="table"/>
+          <ref name="warning"/>
+        </choice>
+      </optional>
+    </element>
+  </define>
+  <define name="tgroup">
+    <element name="tgroup">
+      <attribute name="cols">
+        <data type="integer"/>
+      </attribute>
+      <zeroOrMore>
+        <element name="colspec">
+          <optional>
+            <attribute name="colname">
+              <data type="NCName"/>
+            </attribute>
+          </optional>
+          <optional>
+            <attribute name="colwidth"/>
+          </optional>
+        </element>
+      </zeroOrMore>
+      <optional>
+        <element name="thead">
+          <ref name="row"/>
+        </element>
+      </optional>
+      <element name="tbody">
+        <oneOrMore>
+          <ref name="row"/>
+        </oneOrMore>
+      </element>
+    </element>
+  </define>
+  <define name="mediaobject">
+    <element name="mediaobject">
+      <ref name="imageobject"/>
+    </element>
+  </define>
+  <define name="row">
+    <element name="row">
+      <oneOrMore>
+        <element name="entry">
+          <oneOrMore>
+            <choice>
+              <text/>
+              <ref name="para"/>
+            </choice>
+          </oneOrMore>
+        </element>
+      </oneOrMore>
+    </element>
+  </define>
+</grammar>

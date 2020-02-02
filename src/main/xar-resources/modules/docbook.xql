@@ -85,7 +85,13 @@ declare %public function docbook:toc-db5($node as node()) as element(ul) {
                 return
                     element li {element a {attribute href {'#' || data($n/@xml:id)}, $n/db5:title/string()}}})
                 else ()
-            }
+            },
+            element button { attribute class {'btn btn-outline-primary btn-sm btn-block'},
+        element a {
+                    attribute href {'https://github.com/eXist-db/documentation/issues/new?title=error on ' || $node//db5:info/db5:title},
+                    'Improve this article'
+                }
+        }
     }
 };
 

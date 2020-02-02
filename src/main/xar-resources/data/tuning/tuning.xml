@@ -25,14 +25,14 @@
         <para>Java always limits the maximum amount of memory available to a process. So eXist-db
             will not automatically use all of the available memory on your machine. </para>
         <para>The maximum amount of memory Java will allocate is determined by the
-                <literal>-Xmx</literal> parameter passed to Java on the command line. </para>
+            <literal>-Xmx</literal> parameter passed to Java on the command line. </para>
         <para>When eXist-db is started via the graphical launcher or via one of the shell or batch
             scripts, memory settings are read from the file
-                <literal>$EXIST_HOME/etc/launcher.properties</literal>:</para>
+            <literal>$EXIST_HOME/etc/launcher.properties</literal>:</para>
         <programlisting xlink:href="listings/listing-1.txt"/>
         <para>For <emphasis>Unix/Linux</emphasis> systems, this is done in the <code>.sh</code>
-            files, for instance  <literal>$EXIST_HOME/bin/startup.sh</literal>, from the
-                <literal>JAVA_OPTS</literal> evironment variable. You can override those variables
+            files, for instance <literal>$EXIST_HOME/bin/startup.sh</literal>, from the
+            <literal>JAVA_OPTS</literal> evironment variable. You can override those variables
             globally in your own shell.</para>
         <para>On <emphasis>Windows</emphasis>,this is done in the main <code>.bat</code> files, for
             instance <literal>$EXIST_HOME\bin\startup.bat</literal>.</para>
@@ -49,8 +49,8 @@
             them a few moment later. This "trashing effect" results in an immediate performance
             drop, in particular while indexing documents.</para>
         <para>All caches share a single memory pool, whose size is determined by the attribute
-                <literal>cacheSize</literal> in the <tag>db-connection</tag> section of
-                <literal>$EXIST_HOME/etc/conf.xml</literal>:</para>
+            <literal>cacheSize</literal> in the <tag>db-connection</tag> section of
+            <literal>$EXIST_HOME/etc/conf.xml</literal>:</para>
         <programlisting language="xml" xlink:href="listings/listing-3.txt"/>
         <para>The global cache manager will dynamically grant more memory to caches while they are
             under load and free memory used by idle caches.</para>
@@ -83,7 +83,7 @@
 
     <sect1 xml:id="idx-conf">
         <title>Index configuration</title>
-
+        <para>Some notes on the optimizing different indexes. More general information regarding these options is available in the individual articles for each index.</para>
 
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -170,7 +170,7 @@
 
     <sect1 xml:id="write">
         <title>Writing Queries</title>
-
+        <para>Next to configering your indexes for better performance, you can also optimize the way you write your queries.</para>
         <sect2 xml:id="short">
             <title>Prefer short paths</title>
 

@@ -1,0 +1,204 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+  <info>
+    <title>Containerization via Docker</title>
+    <date>1Q20</date>
+    <keywordset>
+      <keyword>application-development</keyword>
+      <keyword>operations</keyword>
+    </keywordset>
+  </info>
+
+  <para>This article covers the configuration and use cases of the official
+    <link xlink:href="https://hub.docker.com/r/existdb/existdb/">docker images</link>
+    for eXist-db</para>
+
+  <sect1 xml:id="container-intro">
+    <title>Running exist inside a container</title>
+    <para>Containers have become a popular means of distributing software without the need to worry hardware and software requirements other then the ability to run containers. Containers offer powerful features for continious deployment of production
+      systems, and convenient ways for testing software without interference from external dependencies. How it looks on my computer is how it looks on yours.</para>
+
+    <sect2 xml:id="official-images">
+      <title>The official images</title>
+      <para>We offer minimal images of eXist-db which are automatically updated as part of the build-test life-cycle. The images are based on Google Cloud Platform's
+        <link xlink:href="https://github.com/GoogleCloudPlatform/distroless">
+          Distroless Docker Images</link>. You can find the source code
+        <link xlink:href="https://github.com/eXist-db/exist/tree/develop/exist-docker">here</link>.</para>
+      <para>Next to fully tagged version, we have two rolling release channels:</para>
+      <orderedlist>
+        <listitem>
+          <para>
+            <code>release</code>: for the latest stable releases based on the master branch.</para>
+        </listitem>
+        <listitem>
+          <para>
+            <code>latest</code>: for last commit to the develop branch (within minutes of each commit).</para>
+        </listitem>
+      </orderedlist>
+      <note>
+        <para>For technical details about building your own images, and build time arguments please consult the
+          <code>README.md</code>
+          of each release. In cases where the information in this document contradicts that in the
+          <link xlink:href="https://github.com/eXist-db/exist/tree/develop/exist-docker/src/main/resources-filtered">source-code repo</link>
+          the latter is authoritative. To inform us of conflicts please open an issue via the button on the right.
+        </para>
+      </note>
+    </sect2>
+  </sect1>
+
+  <sect1 xml:id="container-how-to">
+    <title>How to get started</title>
+    <para>First you need to download an images:</para>
+    <para>
+      <code>docker pull existdb/existdb:latest</code>
+    </para>
+    <para>Then you can start the container using that image:</para>
+    <para>
+      <code>docker run -it -d -p 8080:8080 -p 8443:8443 --name exist existdb/existdb:latest</code>
+    </para>
+    <sect2 xml:id="docker-what">
+      <title>What does this do?</title>
+      <para>You have just download and started eXist-db without launching an installer or having to provide java. More specifically:</para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            <code>-it</code>: allocates a
+            <literal>TTY</literal>
+            and keeps
+            <literal>STDIN</literal>
+            open. This allows you to interact with the running Docker container via your console.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            <code>-d</code>: detaches the container from the terminal that started it. So your container won't stop when you close the terminal.</para>
+        </listitem>
+        <listitem>
+          <para>
+            <code>-p</code>: maps the Containers internal and external port assignments (we recommend sticking with matching pairs). This allows you to connect to the eXist-db Web Server running in the Docker container.</para>
+        </listitem>
+        <listitem>
+          <para>
+            <code>--name</code>: lets you provide a name (instead of using a randomly generated one)</para>
+        </listitem>
+      </itemizedlist>
+      <para>The only required parts are
+        <code>docker run existdb/existdb</code>.</para>
+      <para>For a full list of available options see the official
+        <link xlink:href="https://docs.docker.com/engine/reference/commandline/run/">Docker documentation</link>. You can now access your running instance by going go
+        <literal>localhost:8080
+        </literal>
+        inside your browser. To stop the container:</para>
+      <para>
+        <code>docker stop exist</code>
+      </para>
+    </sect2>
+  </sect1>
+  <sect1 xml:id="container-interact">
+    <title>Interacting with the running container</title>
+    <para>You can interact with a running container as if it were a regular Linux host.</para>
+      <important>
+        <para>GCR base images do not contain a shell by design. You can issue shell-like commands to the
+          <link xlink:href="java-admin-client">Java Admin Client</link>, as we do throughout this readme, but you can't open the shell in interactive mode.</para>
+      </important>
+      <para>We'll continue to use
+      <code>exist</code>
+      as the name of our container:</para>
+    <programlisting xlink:href="listings/listing-1.txt"/>
+    <para>Containers build from this image run a periodical health-check to make sure that eXist-db is operating normally. If
+      <code>docker ps</code>
+      reports unhealthy you can get a more detailed report with this command:</para>
+    <para>
+      <code>docker inspect --format='{{json .State.Health}}' exist</code>
+    </para>
+    <para>To check exist's logs:
+      <code>docker logs exist</code>
+    </para>
+  </sect1>
+  <sect1 xml:id="base-image">
+    <title>Use as Base Image</title>
+    <para>A common usage of these images is as a base image for your own applications. We'll take a quick look at three scenarios of increasing complexity, to demonstrate how to achieve common tasks from inside
+      <literal>Dockerfile</literal>.</para>
+    <sect2 xml:id="base-simple">
+      <title>A simple base image</title>
+      <para>The simplest case assumes that you have a
+        <code>.xar</code>
+        app inside a build folder on the same level as your own
+        <literal>Dockerfile</literal>. To get an image of an eXist-db instance with your app installed and running, you would then:</para>
+      <programlisting xlink:href="listings/listing-2.txt"/>
+      <para>You should see something like this:</para>
+      <programlisting xlink:href="listings/listing-3.txt"/>
+      <para>The result is a new image of your app installed into eXist-db. Since you didn't provide further instructions it will simply reuse the
+        <code>EXPOSE, CMD, HEALTHCHECK,</code>
+        etc instructions defined by the base image. You can now publish this image to a docker registry and share it with others.</para>
+    </sect2>
+    <sect2 xml:id="single-stage">
+      <title>Single Stage Image</title>
+      <para>The following slightly more complex example will install your app, but also modify the underlying eXist-db instance in which your app is running. Instead of a local build directory, we'll download the
+        <code>.xar</code>
+        from the web, and copy a modified
+        <code>conf.xml</code>
+        from a
+        <code>src/</code>
+        directory along side your
+        <code>Dockerfile</code>.
+      </para>
+      <para>To execute any of the
+        <code>docker exec …
+        </code>style commands from this readme, use
+        <code>RUN</code>.</para>
+      <programlisting xlink:href="listings/listing-4.txt"/>
+      <para>The above demonstrates different kind of operations available to you in a single stage build. You have just executed the
+        <link xlink:href="java-admin-client">Java Admin Client</link>
+        from inside a Dockerfile, which in turn allows you to run any XQuery code you want when modifying the eXist-db instance that will ship with your images. You can also chain multiple RUN commands.</para>
+      <warning>
+        <para>For security reasons more elaborate
+          <link xlink:href="https://docs.docker.com/engine/swarm/secrets/">techniques</link>
+          for not sharing your password in the clear are highly recommended, such as the use of secure variables inside your CI environment.</para>
+      </warning>
+    </sect2>
+    <sect2 xml:id="multi-stage">
+      <title>Multi-stage Images</title>
+      <para>Lastly, you can eliminate external dependencies even further by using a multi-stage build. To ensure compatibility between different Java engines we recommend sticking with debian based images for the builder stage.</para>
+      <para>The following two-stage build will download and install
+        <literal>ant</literal>
+        and
+        <literal>nodeJS</literal>
+        into a builder stage which then downloads frontend dependencies before building the
+        <code>.xar</code>
+        file. The second stage (each
+        <code>FROM</code>
+        begins a stage) is the simple example again from before. Such a setup ensures that non of your collaborators has to have
+        <literal>java, nodeJS, ect</literal>
+        installed, and is great for fully automated builds and deployment.</para>
+      <programlisting xlink:href="listings/listing-5.txt"/>
+      <para>The basic idea behind multi-staging is that everything you need for building your software should be managed by docker, so that all collaborators can rely on one stable environment. In the end, and after how ever many stages you need, only the
+        files necessary to run your app should go into the final stage. The possibilities are virtually endless, but with this example and the Dockerfile in this repo you should get a pretty good idea of how you might apply this idea to your own projects.</para>
+    </sect2>
+  </sect1>
+  <sect1 xml:id="container-caveat">
+    <title>Caveats</title>
+    <itemizedlist>
+      <listitem>
+        <para>
+          <literal>JVM</literal>
+          inside a container require some special considerations regarding memory allocation. You should familiarize yourself with our images use of
+          <literal>JAVA_TOOL_OPTIONS</literal>, and avoid the traditional way of setting the heap size via
+          <literal>-Xmx</literal>.</para>
+      </listitem>
+      <listitem>
+        <para>Containers rely on advanced
+          <literal>CPU</literal>artichetture features to do their magic. You should always consult the official docker documentation for your operation system to see if containers are supported on your hardware and/or software.</para>
+      </listitem>
+    </itemizedlist>
+    <note>
+      <title>macOS</title>
+      <para>Apple's macOS uses its own version of
+        <literal>hypervisor</literal>
+        which can result in poor i/o performance compared to running on other platforms</para>
+    </note>
+  </sect1>
+
+</article>

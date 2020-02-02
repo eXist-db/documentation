@@ -69,6 +69,7 @@
                 </listitem>
             </varlistentry>
         </variablelist>
+        <note><para>Be aware that many proxies by default limit the maximum size of request bodies, eg. <code>client_max_body_size 1m;</code>. When working with large xml files in eXist-db such a limitation will intefere with its normal operations. To fix this increase the value in line with your application's demands.</para></note>
     </sect1>
 
     <!-- ================================================================== -->

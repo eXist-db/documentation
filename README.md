@@ -1,6 +1,6 @@
 # eXist-db Documentation
 [![Build Status](https://travis-ci.com/eXist-db/documentation.svg?branch=master)](https://travis-ci.com/eXist-db/documentation)
-[![Docbook version](https://img.shields.io/badge/docbook-5.0-19a5a4.svg)](http://docbook.org/xml/5.0/)
+[![Docbook version](https://img.shields.io/badge/docbook-5.1-19a5a4.svg)](http://docbook.org/xml/5.1/)
 [![eXist-db version](https://img.shields.io/badge/eXist_db-5.2.0-blue.svg)](http://www.exist-db.org/exist/apps/homepage/index.html)
 
 <img src="src/main/xar-resources/icon.png" align="left" width="15%"/>
@@ -38,12 +38,14 @@ Should you encounter documentation for features that are deprecated in the minim
 
 3.  Install this file via the Dashboard > Package Manager.
 
-## (WIP) Testing
+## Testing
 
 ### Unit tests
 The full test-suite consists of validation, unit, and integration tests, it runs automatically on travis. To be able to run integration tests locally, contributors should run `npm i` to download and install [cypress.js](https://www.cypress.io). This is only required once. To execute the tests run the following commands:          
--   To validate xml files run `mvn validate`,
--   to run the javascript tests `mvn test` (xQsuite coming soon). We do **not** support testing via node alone, aka `npm test`, use the maven command instead.
+-   To validate article files run `mvn validate`,
+    -   Validation uses both the official `docbook.rng` and our own `exist-docs.rng` (experimental) schema.
+    -   The schema files are located at: `src/main/relaxng`
+-   to run the javascript or XQSuite unit tests run: `mvn test`. We do **not** support testing via node alone, aka `npm test`, use the maven command instead.
 -   To run the Integrations tests, however, use `npm run cypress`.
 
 Both unit and integration tests, expect a running instance of exist with a copy of the documentation app installed reachable at `localhost:8080` and an empty admin password. It might be necessary to skip test execution during building from time to time, use: `mvn clean package -DskipTests`.

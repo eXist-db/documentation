@@ -1,0 +1,14 @@
+declare function obe:make-catalog($col as item()*, $docs as xs:string*) as item() {
+    <collection stable="true" xml:base="xmldb:exist://">
+        {
+            if (exists($docs)) then
+                for $doc in $docs
+                return
+                    <doc href="{$config:data-root || "/" || $doc}"/>
+            else
+                for $doc in collection($col)//tei:TEI
+                return
+                    <doc href="{document-uri(root($doc))}"/>
+        }
+    </collection>
+};

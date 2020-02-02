@@ -43,7 +43,11 @@ var paths = {
     output: 'src/main/xar-resources/resources/'
   },
   fonts: {
-    output: 'src/main/xar-resources/resources/fonts/',
+    output: 'src/main/xar-resources/resources/fonts/'
+  },
+  xml: {
+    listings: 'src/main/xar-resources/data/*/listings/*.xml',
+    articles: 'src/main/xar-resources/data/*/*.xml'
   }
 }
 
@@ -85,6 +89,8 @@ var lazypipe = require('lazypipe')
 var rename = require('gulp-rename')
 var header = require('gulp-header')
 var pkg = require('./package.json')
+var muxml = require('gulp-muxml')
+
 
 // Scripts
 var standard = require('gulp-standard')
@@ -191,6 +197,24 @@ var lintScripts = function(done) {
 
   // Signal completion
   done()
+}
+
+// pretty print all xml listings
+// articles not yet decided
+var prettyXml = function(done) {
+  src(paths.xml.listings, { base: "./" })
+  .pipe(muxml({
+    stripComments: false,
+    stripCdata: false,
+    stripInstruction: false,
+    saxOptions: {
+      trim: true,
+      normalize: true
+    }
+  }))
+    .pipe(dest("./"))
+    // Signal completion
+    done()
 }
 
 // Process, lint, and minify Sass files
@@ -327,6 +351,7 @@ exports.default = series(
     buildStyles,
     buildSVGs,
     copyFiles,
-    buildPack
+    buildPack,
+    prettyXml
   )
 )

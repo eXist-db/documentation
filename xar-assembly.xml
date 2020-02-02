@@ -17,7 +17,39 @@
   <dependency package="http://exist-db.org/apps/shared" semver-min="0.8.2"/>
   <prepare>pre-install.xql</prepare>
   <changelog>
-    <change version="5.0.0">
+    <change xmlns="http://exist-db.org/xquery/repo" version="5.2.0">
+      <ul xmlns="http://www.w3.org/1999/xhtml">
+        <li>lucene: add diacritics analyzer</li>
+        <li>url-rewrite: add errorhandler documentation</li>
+        <li>rewrites: log4j, webdav</li>
+        <li>docker: new article</li>
+        <li>transform: improve xsl documentation</li>
+        <li>xqsuite: add missing annotation documentation</li>
+        <li>web_proxying: add warning about body size limitations</li>
+        <li>listings are now linted when building the app</li>
+        <li>validate all articles to enforce author-ref via custom schema (experimental)</li>
+        <li>increase docbook to 5.1</li>
+      </ul>
+    </change>
+    <change xmlns="http://exist-db.org/xquery/repo" version="5.1.0">
+      <ul xmlns="http://www.w3.org/1999/xhtml">
+        <li>lucene: add multi-value hierarchical facets</li>
+        <li>configuration: experimental document path-locks</li>
+      </ul>
+    </change>
+    <change xmlns="http://exist-db.org/xquery/repo" version="5.0.3">
+      <ul xmlns="http://www.w3.org/1999/xhtml">
+        <li>remove newly implemented Xquery functions from list of unsupported functions</li>
+      </ul>
+    </change>
+    <change xmlns="http://exist-db.org/xquery/repo" version="5.0.2">
+      <ul xmlns="http://www.w3.org/1999/xhtml">
+        <li>improve advanced installations and backup restore instructions</li>
+        <li>document the @min attribute for lucene queries</li>
+        <li>improve permission settings documentation</li>
+      </ul>
+    </change>
+    <change xmlns="http://exist-db.org/xquery/repo" version="5.0.0">
       <ul xmlns="http://www.w3.org/1999/xhtml">
         <li>changes to backup and app restore process</li>
         <li>add unit and integration tests</li>
@@ -25,148 +57,6 @@
         <li>document new xquery functions, and adjust deprecated syntax cases</li>
         <li>add lucene facets documentation</li>
         <li>switched to mavenized build, and install instructions</li>
-      </ul>
-    </change>
-    <change version="4.2.0">
-      <ul xmlns="http://www.w3.org/1999/xhtml">
-        <li>removed deprecated extensions</li>
-        <li>removed war guide</li>
-        <li>updates to indexing guide</li>
-        <li>add previously undocumented xqSuite annotations</li>
-        <li>update Bootsrap, Jquery, switch to highlight, many minor bumps</li>
-        <li>integrate frontend tooling in build process via maven plugin</li>
-        <li>add integration tests, and execute XQsuite test during build</li>
-        <li>fix outdated syntax in xmlrpc article</li>
-      </ul>
-    </change>
-    <change version="4.1.2">
-      <ul xmlns="http://www.w3.org/1999/xhtml">
-        <li>removed mentions of xprocq</li>
-        <li>removed exist v2 upgrade warning on install</li>
-      </ul>
-    </change>
-    <change version="4.1.1">
-      <ul xmlns="http://www.w3.org/1999/xhtml">
-        <li>content edits</li>
-        <li>dependency updates</li>
-      </ul>
-    </change>
-    <change version="4.1.0">
-      <ul xmlns="http://www.w3.org/1999/xhtml">
-        <li>advanced-installation: new instructions for unattended installation</li>
-        <li>incompatibilities: add long-jump upgrade instructions</li>
-        <li>production-good-practices: add parser description</li>
-        <li>integration-testing: new article about best practices for testing exist-db apps</li>
-        <li>testing: new article introducing various approaches to automated code tests</li>
-        <li>app updates and code changes</li>
-      </ul>
-    </change>
-    <change version="4.0.4">
-      <ul xmlns="http://www.w3.org/1999/xhtml">
-        <li>more emphatically support openJDK</li>
-        <li>update indexer from current conf.xml</li>
-        <li>added information about davfs2 usage</li>
-        <li>add info about %test:name to xqsuite article</li>
-        <li>add info about new lucene options</li>
-      </ul>
-    </change>
-    <change version="4.0.3">
-      <ul xmlns="http://www.w3.org/1999/xhtml">
-        <li>style fixes for links</li>
-        <li>Added info about XQTS Collation to Xquery article</li>
-        <li>explain pending and error counts in xqsuite</li>
-        <li>added third JAXV parameter in validation</li>
-        <li>added intallation and upgrade instructions source builds</li>
-      </ul>
-    </change>
-    <change version="4.0.2">
-      <ul xmlns="http://www.w3.org/1999/xhtml">
-        <li>update xqsuite documentation to add new variable</li>
-        <li>minor fixes and typos</li>
-      </ul>
-    </change>
-    <change version="4.0.1">
-      <ul xmlns="http://www.w3.org/1999/xhtml">
-        <li>adapt search to db5</li>
-        <li>Update advanced installation - better intro to YAJSW config</li>
-        <li>XQuery article updates</li>
-        <li>betterFORM information</li>
-        <li>Security, Backup and Scheduler update</li>
-        <li>broken-links page.html cause crash and locked D</li>
-        <li>broken-links Jetty links are outdate</li>
-        <li>add Jetty portal folder info to deplyomen</li>
-        <li>enhancement /apps/doc/deployment.xml missing instructions about removing the portal folder</li>
-        <li>dependency updates </li>
-        <li>Updated the diagnostics page</li>
-        <li>Updates of xforms, webdav and versioning + minor edit</li>
-        <li>broken-links [configuration.xml] missing how-to data from wiki</li>
-        <li>add link to style guid</li>
-        <li>change to proper map syntax</li>
-        <li>Fix reference expansions</li>
-        <li>Review Beginner's Guide to XR</li>
-        <li>Fix further reference expansion for package name</li>
-        <li>[security.xml] update mentions of old user manage</li>
-        <li>deprecated [debugger.xml] Unclear instruction</li>
-        <li>deprecated [configuration.xml] Services sectio</li>
-        <li>fix empty-sequence in exampl</li>
-        <li>[oxygen.xml] Update oXygen docs with directions for the eXist connection wizar</li>
-        <li>[templating.xml] examples uses html5  syntax </li>
-      </ul>
-    </change>
-    <change version="4.0.0">
-      <ul xmlns="http://www.w3.org/1999/xhtml">
-        <li>[lucene.xml, indexing.xml] add info about the ICUFoldingFilter and UCA collation</li>
-        <li>documentation now uses docbook 5.</li>
-        <li>fix use of empty-sequence in example</li>
-        <li>A major rework is in progress based on edits by Erik Siegel</li>
-      </ul>
-    </change>
-    <change version="3.0.0">
-      <ul xmlns="http://www.w3.org/1999/xhtml">
-        <li>add info on hardening production system</li>
-        <li>Address issues regarding the configuration.xml articl</li>
-        <li>bug Fix the linking to apps by abbrev package nam</li>
-        <li>[util.xml] broken link to Function Documentation Librar</li>
-        <li>doc variable no longer works from the default page templat</li>
-        <li>Roundup of work on old issue</li>
-        <li>Fixed filename of the eXist-db installation ja</li>
-        <li>enhancement update contents of data/repo.xml explaining how setting permissions work</li>
-        <li>[troubleshooting.xml] Update documentation on jetty ports and port conflict</li>
-        <li>Remove XACML documentatio</li>
-        <li>Remove ftlegacy.xml documentation on legacy ft-inde</li>
-        <li>recode site:expand-links()?
-        </li>
-      </ul>
-    </change>
-    <change version="0.6.0">
-      <ul xmlns="http://www.w3.org/1999/xhtml">
-        <li>New: Improved build infrastructure for the Documentation app -
-          <a href="https://github.com/eXist-db/documentation/pull/135">#135</a>
-        </li>
-        <li>[Upgrade Guide]: Revised the guide with best practices -
-          <a href="https://github.com/eXist-db/documentation/issues/120">#120</a>
-        </li>
-        <li>[Indexing and XQuery]: Added information on json-ignore-whitespace-text-nodes serialization option and some minor corrections -
-          <a href="https://github.com/eXist-db/documentation/pull/138">#138</a>
-        </li>
-        <li>[Devguide]: Removed mention of XMLDBTransformer -
-          <a href="https://github.com/eXist-db/documentation/pull/139">#139</a>
-        </li>
-      </ul>
-    </change>
-    <change version="0.4.7">
-      <ul xmlns="http://www.w3.org/1999/xhtml">
-        <li>No release notes prepared for this or any earlier versions.</li>
-      </ul>
-    </change>
-    <change version="0.4.8">
-      <ul xmlns="http://www.w3.org/1999/xhtml">
-        <li>[New Range Index]: Added full documentation for "conditional indexes," a new feature for limiting indexed values to elements meeting certain child attribute criteria.</li>
-        <li>[Quick Start]: Added a workaround for those with Saxon installed as a JRE extension; improved description of macOS first run &amp; default data directory location.</li>
-        <li>[Upgrading]: Added new section on how to upgrade to eXist 3.0 and important changes in this release.</li>
-        <li>[XQSuite]: Added descriptions of %test:stats and %test:assertXPath annotations.</li>
-        <li>[Lucene]: Fixed WhitespaceAnalyzer classname and the version of Lucene.</li>
-        <li>Across the board: Fixed name of macOS (was Mac OS X); reviewed mentions of v2.0 and updated where appropriate to match current release</li>
       </ul>
     </change>
   </changelog>

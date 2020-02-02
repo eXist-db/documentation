@@ -1,6 +1,8 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
-        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Java Management Extensions (JMX)</title>
         <date>2Q19</date>
@@ -32,7 +34,8 @@
             system properties:</para>
         <programlisting xlink:href="listings/listing-1.txt"/>
         <warning>
-            <para>These options makes the server publicly accessible. Please check the Oracle <link xlink:href="https://docs.oracle.com/javase/1.5.0/docs/guide/management/agent.html">
+            <para>These options makes the server publicly accessible. Please check the Oracle <link
+                xlink:href="https://docs.oracle.com/javase/1.5.0/docs/guide/management/agent.html">
                 JMX documentation</link> for details.</para>
         </warning>
         <para>The extension can now be activated by passing a <code>-j</code> or <code>-jmx</code>
@@ -46,6 +49,7 @@
 
     <sect1 xml:id="monitoring">
         <title>Monitoring and Management</title>
+        <para>This sections explains how to monitor an exist instant using common java tools.</para>
 
 
 
@@ -80,7 +84,7 @@
                 </listitem>
             </itemizedlist>
             <para>This accepts the following command-line parameters:</para>
-            <variablelist spacing="normal">
+            <variablelist>
                 <varlistentry>
                     <term><code>-a, --address</code> <tag>argument</tag></term>
                     <listitem>
@@ -123,7 +127,8 @@
                 <varlistentry>
                     <term><code>-m, --memory</code></term>
                     <listitem>
-                        <para>Displays info on free and total memory. Can be combined with other parameters.</para>
+                        <para>Displays info on free and total memory. Can be combined with other
+                            parameters.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -141,7 +146,8 @@
                 <varlistentry>
                     <term><code>-w, --wait</code> <tag>argument</tag></term>
                     <listitem>
-                        <para> while displaying server statistics: keeps retrieving statistics, but waits the specified number of seconds between calls.</para>
+                        <para> while displaying server statistics: keeps retrieving statistics, but
+                            waits the specified number of seconds between calls.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -176,7 +182,8 @@
                 <varlistentry>
                     <term><code>instances</code></term>
                     <listitem>
-                        <para>general information about the db instance, active db broker objects etc.</para>
+                        <para>general information about the db instance, active db broker objects
+                            etc.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -200,7 +207,8 @@
                 <varlistentry>
                     <term><code>locking</code></term>
                     <listitem>
-                        <para>Contains current information on collection and resource locks of running operations.</para>
+                        <para>Contains current information on collection and resource locks of
+                            running operations.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -240,8 +248,8 @@
                     <tag>jmx:Status</tag><code>PING_OK</code><tag>/jmx:Status</tag>:</para>
                 <programlisting language="xml" xlink:href="listings/listing-10.xml"/>
                 <para>If the ping takes longer than the timeout, you'll instead find an element
-                    <tag>jmx:error</tag> in the returned XML. In this case, additional
-                    information on running queries, memory consumption and database locks will be
+                    <tag>jmx:error</tag> in the returned XML. In this case, additional information
+                    on running queries, memory consumption and database locks will be
                     provided:</para>
                 <programlisting language="xml" xlink:href="listings/listing-11.xml"/>
             </sect3>

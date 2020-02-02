@@ -22,6 +22,9 @@ declare variable $tests:article := document {
     <info>
         <title>Document title</title>
         <date>1Q18</date>
+        <keywordset>
+          <keyword>blah</keyword>
+        </keywordset>
     </info>
     <para>Introductory paragraph(s)</para>
     <sect1 xml:id="main-id">
@@ -44,6 +47,9 @@ declare variable $tests:article := document {
 
 };
 
+(:~ see if all sections have an ID (now inforced via schema)
+ : @return empty-sequence otherwise name of document with faulty section
+ :)
 declare
 %test:name('section-headings')
 %test:assertEmpty
@@ -64,6 +70,9 @@ function tests:missing-id() {
         $m
 };
 
+(:~ Run the diagnose listings page and see if there are new Errors
+ : @return empty-sequence, otherwise name of listing and parent collection
+ :)
 declare
 %test:name('diagnose listings')
 %test:assertEmpty
@@ -81,23 +90,45 @@ function tests:orphan-listing() {
     else ()
 };
 
+(:~ See if ToC rendering is WAI  :)
 declare
 %test:name('ToC rendering')
 %test:assertTrue
 function tests:toc-inline() {
-let $output := <ul class="toc">
-    <li>
-        <a href="#main-id">Title of first main section</a>
-        <ul>
-            <li>
-                <a href="#sub-id">Title of first sub-section</a>
-            </li>
-        </ul>
-    </li>
-    <li>
-        <a href="#next-id">Title of second main section</a>
-    </li>
-</ul>
+  let $output := <ul class="toc">
+      <li>
+          <a href="#main-id">Title of first main section</a>
+          <ul>
+              <li>
+                  <a href="#sub-id">Title of first sub-section</a>
+              </li>
+          </ul>
+      </li>
+      <li>
+          <a href="#next-id">Title of second main section</a>
+      </li>
+      <button class="btn btn-outline-primary btn-sm btn-block">
+          <a href="https://github.com/eXist-db/documentation/issues/new?title=error on Document title">Improve this article</a>
+      </button>
+  </ul>
 return
     docbook:toc-db5($tests:article) eq $output
+};
+
+(:~ Check if two listings that should be identical actually are.
+ : Txt and xml listings cannot be easily displayed via <xref> or xinclude
+ : so unfortunately this is necessary, to avoid conflicting information.
+ :
+ : @see author-reference
+ : @return true (hopefully)
+ :)
+declare
+%test:name('Listing consistency')
+%test:args('backup/listings/listing-3.xml.','configuration/listings/listing-6.xml')
+%test:assertTrue
+function tests:equal-listing($path1 as xs:string, $path2 as xs:string) as xs:boolean {
+    let $a := $config:data-root || $path1
+    let $b := $config:data-root || $path2
+    return
+    deep-equal(doc($a), doc($b))
 };
