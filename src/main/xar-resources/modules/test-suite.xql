@@ -7,13 +7,14 @@ xquery version "3.1";
  :)
 
 module namespace tests = "http://exist-db.org/xquery/documentation/tests";
-declare namespace test = "http://exist-db.org/xquery/xqsuite";
 
 import module namespace docbook = "http://docbook.org/ns/docbook" at "docbook.xql";
 import module namespace config = "http://exist-db.org/xquery/apps/config" at "config.xqm";
 import module namespace diag = "http://exist-db.org/xquery/diagnostics" at "diagnostics.xql";
 
+declare namespace test = "http://exist-db.org/xquery/xqsuite";
 declare namespace db5 = "http://docbook.org/ns/docbook";
+declare namespace xlink = "http://www.w3.org/1999/xlink";
 
 (:~ Minimal article from the docs with inline element in next title
  : @see  author-reference.xml :)
@@ -131,4 +132,48 @@ function tests:equal-listing($path1 as xs:string, $path2 as xs:string) as xs:boo
     let $b := $config:data-root || $path2
     return
     deep-equal(doc($a), doc($b))
+};
+
+(:~ Make sure that programlistings for xml do not contain string contents
+ : use <tag> for short snippets, listing-x.xml files for trees.
+ : @see author-reference
+ : @return empty-sequence or name of document with faulty listing
+ :)
+declare
+%test:name('Pro angular brackets')
+%test:assertEmpty
+function tests:no-ecaped-listings() {
+  let $target := collection($config:data-root)//db5:programlisting[@language='xml']
+
+let $cdata := for $n in $target
+                let $title := $n/ancestor::db5:article/db5:info/db5:title
+                return
+                    if ($n/string() eq '')
+                    then ()
+                    else (util:document-name($title))
+
+return
+    distinct-values($cdata)
+};
+
+(:~ Check if listings marked as xml are well-formed and stored as xml.
+ : While it is sometimes necessary to store xml as txt that is not well : formed, limiting this to when necessary helps us keep examples valid.
+ :)
+declare
+%test:name('wellformed xml')
+%test:assertEmpty
+%test:pending
+function tests:no-txt-xmls() {
+  (: TODO check saxOpts to prevent unescaping of &amp; and use parse-xml to check if text files are well-formed :)
+let $target := collection($config:data-root)//db5:programlisting[@language='xml']
+
+let $txtxml := for $n in $target
+                let $title := $n/ancestor::db5:article/db5:info/db5:title
+                let $format := data($n/@xlink:href)
+                return
+                    if (ends-with($format, '.xml'))
+                    then ()
+                    else (util:document-name($title) || ' in ' || substring-after($format, 'listings/'))
+return
+    $txtxml
 };

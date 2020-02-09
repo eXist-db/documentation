@@ -96,7 +96,7 @@
         <para>Let's use a different example to illustrate this. Assume you have a document with
             encoded place names:</para>
 
-        <programlisting language="xml" xlink:href="listings/listing-10.txt"/>
+        <programlisting language="xml" xlink:href="listings/listing-10.xml"/>
         <para>For a general query you probably want to search through all paragraphs. However, you
             may also want to provide an advanced search option, which allows the user to restrict
             his/her queries to place names. To make this possible, simply define an index on
@@ -121,7 +121,7 @@
             <programlisting language="xml" xlink:href="listings/listing-14.txt"/>
             <para>As a shortcut, you can use a <literal>match</literal> attribute with a
                 wildcard:</para>
-            <programlisting language="xml" xlink:href="listings/listing-15.txt"/>
+            <programlisting language="xml" xlink:href="listings/listing-15.xml"/>
             <para>This will create a separate index on each child element of SPEECH it encounters.
                 Please note that the argument to match is a simple path pattern, not a full XPath
                 expression. For the time being, it only allows:</para>
@@ -165,7 +165,7 @@
                 <para>By default, eXist-db's indexer assumes that element boundaries break on a word
                     or token. For example, if you have an element:</para>
 
-                <programlisting language="xml" xlink:href="listings/listing-16.txt"/>
+                <programlisting language="xml" xlink:href="listings/listing-16.xml"/>
                 <para>You want <code>12</code> and <code>8</code> to be indexed as separate tokens,
                     even though there's no whitespace between the elements. eXist-db will pass the
                     content of the two elements to Lucene as separate strings and Lucene will see
@@ -173,11 +173,11 @@
                 <para>However, you usually <emphasis>don't</emphasis> want this behaviour for mixed
                     content nodes. For example:</para>
 
-                <programlisting language="xml" xlink:href="listings/listing-17.txt"/>
+                <programlisting language="xml" xlink:href="listings/listing-17.xml"/>
                 <para>In this case, you want <code>unclear</code> to be indexed as a single word.
                     This can be done by telling eXist-db which nodes are inline nodes. The example
                     configuration above uses:</para>
-                <programlisting language="xml" xlink:href="listings/listing-18.txt"/>
+                <programlisting language="xml" xlink:href="listings/listing-18.xml"/>
                 <para>The <tag>inline</tag> option can both be specified globally or
                     per-index:</para>
                 <programlisting language="xml" xlink:href="listings/listing-19.xml"/>
@@ -192,7 +192,7 @@
                 <programlisting language="xml" xlink:href="listings/listing-20.xml"/>
                 <para>Use an <tag>ignore</tag> element in the collection configuration to have
                     eXist-db ignore the note:</para>
-                <programlisting language="xml" xlink:href="listings/listing-21.txt"/>
+                <programlisting language="xml" xlink:href="listings/listing-21.xml"/>
                 <para>Basically, <tag>ignore</tag> simply allows you to hide a chunk of text before
                     Lucene sees it.</para>
                 <para>Like the <tag>inline</tag> tag, <tag>ignore</tag> may appear both globally or
@@ -410,7 +410,7 @@
                     contains a <tag>title</tag>, one or more <tag>author</tag>s and a list of
                     keywords in <tag>keywordset</tag>.</para>
                 <para>Keywords are a perfect candidate for a facet, so let's start with it:</para>
-                <programlisting language="xml" xlink:href="listings/listing-50.txt"/>
+                <programlisting language="xml" xlink:href="listings/listing-50.xml"/>
                 <para>Every facet needs to have a <code>dimension</code> attribute, defining the
                     name of the facet dimension the items will be added to. The values associated
                     with this facet dimension are determined by the <code>expression</code>
@@ -428,7 +428,7 @@
                     drill down by year first, then by month and finally by day. Let's assume each of
                     our docbook articles has a <tag>pubdate</tag> containing a date in
                     <code>xs:date</code> format:</para>
-                <programlisting language="xml" xlink:href="listings/listing-52.txt"/>
+                <programlisting language="xml" xlink:href="listings/listing-52.xml"/>
                 <para>Hierarchical facets may also hold multiple values, for example if we would
                     like to associate our documents with a subject classification on various levels
                     of granularity (say: <emphasis>science</emphasis> with <emphasis>math</emphasis>
@@ -453,7 +453,7 @@
                     <tag>personname</tag> with nested <tag>surname</tag> and <tag>firstname</tag>.
                     For display to the user and sorting we want to pre-compute a normalized string
                     out of those components:</para>
-                <programlisting language="xml" xlink:href="listings/listing-51.txt"/>
+                <programlisting language="xml" xlink:href="listings/listing-51.xml"/>
                 <para>A field does not need to define an <tag>expression</tag> attribute though: if
                     no expression is given, the field's content will be taken from the parent
                     element. This makes sense e.g. if you would like to index a node twice, e.g.

@@ -51,7 +51,7 @@
         <para>All caches share a single memory pool, whose size is determined by the attribute
             <literal>cacheSize</literal> in the <tag>db-connection</tag> section of
             <literal>$EXIST_HOME/etc/conf.xml</literal>:</para>
-        <programlisting language="xml" xlink:href="listings/listing-3.txt"/>
+        <programlisting language="xml" xlink:href="listings/listing-3.xml"/>
         <para>The global cache manager will dynamically grant more memory to caches while they are
             under load and free memory used by idle caches.</para>
         <para>The default setting for <literal>cacheSize</literal> is very conservative (48M). It is
