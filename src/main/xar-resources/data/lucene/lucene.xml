@@ -279,8 +279,10 @@
             <para>One of the strengths of Lucene is that it allows the developer to determine nearly
                 every aspect of text analysis. This is done through analyzer classes, which combine
                 a tokenizer with a chain of filters to post-process the tokenized text. eXist-db's
-                Lucene module already allows different analyzers to be used for different
-                indexes.</para>
+                Lucene module already allows different analyzers to be used for different indexes.
+                And starting from eXist version 5.3.0 - specifying a particular analyzer to be used
+                for processing a particular query (see <code>query-analyzer-id</code> in Additional parameters).
+                </para>
 
             <programlisting language="xml" xlink:href="listings/listing-29.xml"/>
 
@@ -289,20 +291,21 @@
                 >StandardAnalyzer</link> should be used by default (the <tag>analyzer</tag> element
                 without <literal>id</literal> attribute). We provide an additional analyzer and
                 assign it the id <literal>ws</literal>, by which the analyzer can be referenced in
-                the actual index definitions.</para>
+                the actual index definitions and by queries specifying a particular analyzer that
+                should be used to process them (see <code>query-analyzer-id</code> in Additional parameters).</para>
             <para>The <link condition="_blank"
                 xlink:href="https://lucene.apache.org/core/4_10_4/analyzers-common/org/apache/lucene/analysis/core/WhitespaceAnalyzer.html"
                 >whitespace analyzer</link> is the most basic one. As the name implies, it tokenizes
                 the text at white space characters, but treats all other characters - including
                 punctuation - as part of the token. The tokens are not converted to lower case and
                 there's no stopword filter applied.</para>
-            <para>eXist-db provides a special analyzer for characters with diacrits based on the
+            <para>eXist-db provides a special analyzer for characters with diacritics based on the
                 <literal>StandardAnalyzer</literal>. The
                 <literal>NoDiacriticsStandardAnalyzer</literal> can be switched on and off by
                 setting the <literal>diacritics</literal> attribute on the <tag>lucene</tag> element
                 of your index configuration file.</para>
             <programlisting language="xml" xlink:href="listings/listing-24.xml"/>
-            <para>Without diacrits <literal>ä</literal>, <literal>å</literal>, <literal>ā</literal>,
+            <para>Without diacritics <literal>ä</literal>, <literal>å</literal>, <literal>ā</literal>,
                 etc will all be indexed as <literal>a</literal>. Alternatively, this analyzer can
                 also be called by its full name. </para>
             <programlisting language="xml" xlink:href="listings/listing-23.xml"/>
@@ -414,7 +417,7 @@
                 <para>Every facet needs to have a <code>dimension</code> attribute, defining the
                     name of the facet dimension the items will be added to. The values associated
                     with this facet dimension are determined by the <code>expression</code>
-                    attribute: it may contain an arbitary XQuery expression rooted in the parent
+                    attribute: it may contain an arbitrary XQuery expression rooted in the parent
                     node being indexed. In the example the parent will be a <tag>db:article</tag>
                     element, so the context item for the expression is set to this element.</para>
                 <para>The expression is evaluated and for each result item, a facet value is added
@@ -441,7 +444,7 @@
                     evaluates to an array, each of array members will be treated as a hierarchical
                     value for that facet. Such an array could look in XQuery similar to
                     <code>[('science', 'math'), ('humanities', 'history')]</code> and be a result of
-                    evaluationg a function like <code>idx:subject-hierarchy</code> below stored in
+                    evaluating a function like <code>idx:subject-hierarchy</code> below stored in
                     an imported module (see <link linkend="external-module">below</link>) </para>
                 <programlisting language="xml" xlink:href="listings/listing-520.xml"/>
                 <programlisting language="xquery" xlink:href="listings/listing-521.txt"/>
@@ -720,7 +723,7 @@
                         <programlisting language="xquery" xlink:href="listings/listing-41.txt"/>
                         <para>To optimize performance you can specify a minimum number of matches to
                             prevent needless disjunctive searches, using the <literal>min</literal>
-                            attribute. If no occurence indicator is provided the query will default
+                            attribute. If no occurrence indicator is provided the query will default
                             to <literal>should</literal>, as this is the only indicator that
                             supports <literal>min</literal>:</para>
                         <programlisting language="xquery" xlink:href="listings/listing-1.txt"/>
@@ -781,8 +784,20 @@
                 settings to the query engine. This parameter must be an XML fragment which lists the
                 configuration properties to be set as child elements:</para>
             <programlisting language="xquery" xlink:href="listings/listing-48.txt"/>
-            <para>The meaning of those properties is as follows</para>
+            <para>The meaning of those properties is as follows:</para>
             <variablelist>
+                <varlistentry>
+                    <term> <code>query-analyzer-id</code> </term>
+                    <listitem>
+                        <para>Explicitly specifies the analyzer that should be used to process
+                            that particular query. The value provided should match the
+                            <code>id</code> attribute of an <code>analyzer</code> defined in
+                            collection.xconf. If you don't specify that property, your query will
+                            be processed using the same analyzer that was used to create the
+                            index you're querying. While this works for most cases, there are tasks
+                            that require this finer level of control.
+                    </listitem>
+                </varlistentry>
                 <varlistentry>
                     <term> <code>filter-rewrite</code> </term>
                     <listitem>
