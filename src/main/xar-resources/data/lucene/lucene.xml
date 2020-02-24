@@ -281,7 +281,8 @@
                 a tokenizer with a chain of filters to post-process the tokenized text. eXist-db's
                 Lucene module already allows different analyzers to be used for different indexes.
                 And starting from eXist version 5.3.0 - specifying a particular analyzer to be used
-                for processing a particular query (see <code>query-analyzer-id</code> in Additional parameters).
+                for processing a particular query (see <code>query-analyzer-id</code> in
+                <link linkend="parameters">Additional parameters</link>).
                 </para>
 
             <programlisting language="xml" xlink:href="listings/listing-29.xml"/>
@@ -292,7 +293,8 @@
                 without <literal>id</literal> attribute). We provide an additional analyzer and
                 assign it the id <literal>ws</literal>, by which the analyzer can be referenced in
                 the actual index definitions and by queries specifying a particular analyzer that
-                should be used to process them (see <code>query-analyzer-id</code> in Additional parameters).</para>
+                should be used to process them (see <code>query-analyzer-id</code> in
+                <link linkend="parameters">Additional parameters</link>).</para>
             <para>The <link condition="_blank"
                 xlink:href="https://lucene.apache.org/core/4_10_4/analyzers-common/org/apache/lucene/analysis/core/WhitespaceAnalyzer.html"
                 >whitespace analyzer</link> is the most basic one. As the name implies, it tokenizes
@@ -795,7 +797,12 @@
                             collection.xconf. If you don't specify that property, your query will
                             be processed using the same analyzer that was used to create the
                             index you're querying. While this works for most cases, there are tasks
-                            that require this finer level of control.</para>
+                            that require this finer level of control. For example it is a feature of
+                            some Lucene analyzers that the parameters used for indexing a field
+                            are different from those used to query it. In such cases simply define
+                            a distinct <code>analyzer</code> (dubbed 'query analyzer') and
+                            explicitly refer to it with the <code>query-analyzer-id</code> parameter
+                            in each respective query invocation.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
