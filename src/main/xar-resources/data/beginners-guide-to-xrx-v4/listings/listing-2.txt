@@ -1,0 +1,21 @@
+xquery version "1.0";
+
+declare option exist:serialize "method=xhtml media-type=text/html indent=yes";
+
+<html>
+    <head>
+        <title>Glossary of Terms</title>
+    </head>
+    <body>
+        <h1>Terms</h1>
+        <ol>
+            {
+                for $term in collection('/db/apps/terms/data')/term
+                let $term-name := $term/term-name/text()
+                order by $term-name
+                return
+                    <li>{$term-name}</li>
+            }
+        </ol>
+    </body>
+</html>

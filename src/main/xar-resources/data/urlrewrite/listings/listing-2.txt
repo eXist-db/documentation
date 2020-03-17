@@ -1,0 +1,8 @@
+let $params := subsequence(analyze-string($exist:path, '^/?(.*)/([^/]+)$')//fn:group, 2)
+return
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="/index.xql">
+            <add-parameter name="feed" value="{$params[1]}"/>
+            <add-parameter name="ref" value="{$params[2]}"/>
+        </forward>
+    </dispatch>

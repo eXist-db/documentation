@@ -1,0 +1,122 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>Production use - Proxying eXist-db behind a Web Server</title>
+        <date>2Q19</date>
+        <keywordset>
+            <keyword>operations</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+
+    <para>From a security perspective it is recognised best practice to proxy Web Application
+        Servers behind dedicated Web Servers. eXist-db is no exception. This article will provide
+        you with some examples on how to do this.</para>
+
+
+    <!-- ================================================================== -->
+    <!--  -->
+
+    <sect1 xml:id="intro">
+        <title>Introduction</title>
+
+        <para>Interesting side-effects of proxying eXist-db behind a Web Server:</para>
+        <variablelist>
+            <varlistentry>
+                <term>Unified web namespace</term>
+                <listitem>
+                    <para>You can map eXist-db, or an application build on eXist-db, into an
+                        existing web namespace. If your website is -
+                        <code>http://www.mywebsite.com</code>, then your eXist-db application could
+                        be mapped into <code>http://www.mywebsite.com/myapplication/</code>.
+                        However, if you are tempted to shorten the URL of WebDAV resources with such
+                        a mapping, you will not succeed, due to the specifications of WebDAV that
+                        are not designed to handle such cases.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>Virtual Hosting</term>
+                <listitem>
+                    <para>Providing your Web Server supports Virtual Hosting, you should be able to
+                        proxy many URLs from different domains onto different eXist-db REST URLs,
+                        which may belong to one or more eXist-db instances. This allows a single
+                        eXist-db instance to perform virtual hosting.</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+
+        <para>Examples are provided for:</para>
+        <variablelist>
+            <varlistentry>
+                <term> <link condition="_blank" xlink:href="https://wiki.nginx.org/Main">Nginx</link> </term>
+                <listitem>
+                    <para>A very small but extremely powerful Web Server which is also simple to
+                        configure. It powers some of the biggest sites on the Web. See <xref
+                        linkend="sect-nginx"/>.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <link condition="_blank" xlink:href="https://httpd.apache.org/">Apache
+                    HTTPD</link> </term>
+                <listitem>
+                    <para>Likely the most prolific Web Server used on the web. See <xref
+                        linkend="sect-apache"/>.</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        <note><para>Be aware that many proxies by default limit the maximum size of request bodies, eg. <code>client_max_body_size 1m;</code>. When working with large xml files in eXist-db such a limitation will intefere with its normal operations. To fix this increase the value in line with your application's demands.</para></note>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="ex-proxy">
+        <title>Example: Proxying a Web Domain Name to an eXist-db Collection</title>
+
+        <para>In this example we look at how to proxy a web domain name onto an eXist-db Collection.
+            We make the following assumptions:</para>
+        <orderedlist>
+            <listitem>
+                <para><code>http://www.mywebsite.com</code> is our website domain name
+                    address</para>
+            </listitem>
+            <listitem>
+                <para>eXist-db is running in standalone mode (i.e.
+                    <code>http://localhost:8088/</code>) on the same host as the Web Server (i.e.
+                    <code>http://localhost:80/</code>)</para>
+            </listitem>
+            <listitem>
+                <para><code>/db/apps/mywebsite.com</code> is the eXist-db collection we want to
+                    proxy</para>
+            </listitem>
+            <listitem>
+                <para>Web Server access logging will be written to
+                    <code>/srv/www/vhosts/mywebsite.com/logs/access.log</code></para>
+            </listitem>
+        </orderedlist>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="sect-nginx">
+            <title>Using Nginx</title>
+
+            <para>This needs to be added to the <code>http</code> section of the
+                <code>nginx.conf</code> file:</para>
+            <programlisting language="nginx" xlink:href="listings/listing-1.txt"/>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="sect-apache">
+            <title>Using Apache HTTPD</title>
+
+            <para>This needs to be added to your <code>httpd.conf</code>:</para>
+            <programlisting language="xml" xlink:href="listings/listing-2.txt"/>
+        </sect2>
+
+    </sect1>
+</article>

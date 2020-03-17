@@ -1,0 +1,15 @@
+import module namespace kwic="http://exist-db.org/xquery/kwic";
+                
+declare function local:filter($node as node(), $mode as xs:string) as xs:string? {
+  if ($node/parent::SPEAKER or $node/parent::STAGEDIR) then 
+      ()
+  else if ($mode eq 'before') then 
+      concat($node, ' ')
+  else 
+      concat(' ', $node)
+};
+
+for $hit in doc("/db/shakespeare/plays/hamlet.xml")//SPEECH[ft:query(., "'nature'")] 
+order by ft:score($hit) descending
+return
+kwic:summarize($hit, <config width="40"/>, util:function(xs:QName("local:filter"), 2))

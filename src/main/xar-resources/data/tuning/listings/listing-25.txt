@@ -1,0 +1,11 @@
+xquery version "3.0";
+
+let $query := "king"
+let $speeches := //SPEECH[ft:query(., $query)]
+for $speaker in distinct-values($speeches/SPEAKER)
+let $speechBySpeaker := $speeches[SPEAKER = $speaker]
+order by $speaker
+return
+    <speaker name="{$speaker}">
+    { $speechBySpeaker }
+    </speaker>

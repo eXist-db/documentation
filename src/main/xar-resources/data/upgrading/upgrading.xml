@@ -1,0 +1,259 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>Upgrade Guide</title>
+        <date>1Q20</date>
+        <keywordset>
+            <keyword>operations</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+    <para>This article explains the best practices for upgrading eXist-db. It provides instructions
+        for several different types of upgrades. Following these instructions will ensure your data
+        is properly backed up and preserved during the upgrade process.</para>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="key-concepts">
+        <title>Introduction</title>
+        <para>The primary goal of an upgrade is to migrate your eXist application to a new version,
+            while preserving the contents of your database.</para>
+        <para>Before embarking on an upgrade, you should first review the new version's release
+            notes (see the <link condition="_blank"
+            xlink:href="https://exist-db.org/exist/apps/wiki/blogs/eXist/">eXist Developer's
+            Blog</link> for an archive of all past release notes). The release notes introduce the
+            new version's features, improvements and bug fixes. They can also outline any new
+            requirements (for instance the required version of Java). </para>
+        <para>For the purpose of this guide, the most important item in the release notes is whether
+            the new version is <emphasis>binary-compatible</emphasis> with the previous version or
+            not. Pay close attention to these notes, as they will tell you which upgrade route to
+            follow.</para>
+        <para>If a new version is binary-compatible with the previous version, it means the format
+            eXist uses to store the contents of the database has not changed. The data can be used
+            by new version without modification. </para>
+        <para>However, if a new version is <emphasis>not</emphasis> binary-compatible, the new
+            version of eXist has changed the way it reads data from or stores data into the
+            database. Additional steps are required to migrate your data to the new version of
+            eXist.</para>
+        <para>Always back up your data before upgrading to any new version of eXist.</para>
+        <para>Do not install the new version of eXist over the previous version. Instead, install
+            the new version into a fresh new directory.</para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="binary-compatible-upgrades">
+        <title>Binary Compatible Upgrades</title>
+
+        <para>Follow these steps if the new version of eXist is binary-compatible with the your old
+            version (as can be found in the release notes):</para>
+        <orderedlist>
+            <listitem>
+                <para>Stop the existing installation of eXist.</para>
+            </listitem>
+            <listitem>
+                <para>Create a <link xlink:href="backup">backup</link> of the data from your
+                    existing installation.</para>
+            </listitem>
+            <listitem>
+                <para>Install the new version of eXist. Do <emphasis>not</emphasis> install one
+                    eXist version over the existing one. Always install the new version into a fresh
+                    new directory.</para>
+            </listitem>
+            <listitem>
+                <para>Remove the still <emphasis>empty</emphasis> <code>data</code> directory from
+                    the new installation. By default the data directory is located at
+                    <code>$EXIST_HOME/data</code>. If you are not sure where the data directory is,
+                    check the main logfile <link xlink:href="troubleshooting#logs">
+                    <code>exist.log</code> </link>, searching for entries after start-up pertaining
+                    to <code>DATA_DIR</code>. </para>
+            </listitem>
+            <listitem>
+                <para>Copy the entire existing data directory, and paste it to the location of the
+                    new data directory (the directory you deleted in the previous step).</para>
+            </listitem>
+            <listitem>
+                <para>Start the new eXist instance.</para>
+            </listitem>
+            <listitem>
+                <para>Check the <link xlink:href="troubleshooting#logs"> <code>exist.log</code>
+                    </link> for any errors during startup.</para>
+            </listitem>
+        </orderedlist>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="non-binary-compatible-upgrades">
+        <title>Binary Non-compatible Upgrades</title>
+
+        <para>Follow these steps if the new version of eXist is not binary-compatible with the your
+            old version (as can be found in the release notes). The key difference with upgrading to
+            a binary-compatible new version is that you have to perform a <emphasis>full
+            restore</emphasis> of your backed-up data into the new installation.</para>
+        <orderedlist>
+            <listitem>
+                <para>Create a <link xlink:href="backup">server-side backup</link>. This can be done
+                    in a number of ways: </para>
+                <orderedlist>
+                    <listitem>
+                        <para>Use Backup Central from the Dashboard</para>
+                    </listitem>
+                    <listitem>
+                        <para>The Emergency Export Tool (GUI):</para>
+                        <orderedlist>
+                            <listitem>
+                                <para>Unix/Linux:</para>
+                                <programlisting language="shell">bin/export-gui.sh</programlisting>
+                            </listitem>
+                            <listitem>
+                                <para>Windows:</para>
+                                <programlisting language="shell">bin\export-gui.bat</programlisting>
+                            </listitem>
+                        </orderedlist>
+                    </listitem>
+                    <listitem>
+                        <para>The Emergency Backup Tool (CLI) for headless sytems:</para>
+                        <orderedlist>
+                            <listitem>
+                                <para>Unix/Linux:</para>
+                                <programlisting language="shell">bin/export.sh</programlisting>
+                            </listitem>
+                            <listitem>
+                                <para>Windows:</para>
+                                <programlisting language="shell">bin\export.bat</programlisting>
+                            </listitem>
+                        </orderedlist>
+                    </listitem>
+                    <listitem>
+                        <para>Via XQuery:</para>
+                        <programlisting language="xquery" xlink:href="listings/listing-3.txt"/>
+                    </listitem>
+                </orderedlist>
+                <para>Once the backup is complete, you should check the backup report in the
+                    <code>export</code> directory within either the <code>data</code> directory (for
+                    backups created via the Dashboard or Xquery) or <code>$EXIST_HOME</code> (for
+                    backups created by the Emergency Backup Tool).</para>
+                <para>Normally this report just contains the list of collections which were backed
+                    up. If you see any warnings or errors, it is even more important to perform a
+                    “full restore” of your backed-up data.</para>
+            </listitem>
+            <listitem>
+                <para>Stop the existing installation of eXist.</para>
+            </listitem>
+            <listitem>
+                <para>Install the new version of eXist. DO NOT install one eXist version over
+                    another one. Always install the new version into a fresh new directory.</para>
+            </listitem>
+            <listitem>
+                <para>Perform a full <link xlink:href="backup#restore">restore</link> of the backup
+                    onto the new version of eXist.</para>
+            </listitem>
+        </orderedlist>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="upgrading-from-source">
+        <title>Upgrading from Source</title>
+        <para>The following steps only apply to users who wish to upgrade eXist instances that were
+            built from (modified) source code, instead of from the provided installers.</para>
+        <para>Before attempting to upgrade always perform a <link xlink:href="backup">full
+            backup</link>. Stop eXist after the backup has been generated.</para>
+        <orderedlist>
+            <listitem>
+                <para>Determine which files contain local modification and would be in conflict with
+                    updated files from the new version of exist-db, by running <code>git
+                    status</code> inside the local folder where you cloned exist. You should pay
+                    special attention to Configuration files, such as:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para><literal>etc/conf.xml</literal></para>
+                    </listitem>
+                    <listitem>
+                        <para><literal>etc/webapp/WEB-INF/controller-config.xml</literal></para>
+                    </listitem>
+                    <listitem>
+                        <para><literal>etc/jetty/webapps/exist-webapp-context.xml</literal></para>
+                    </listitem>
+                </itemizedlist>
+            </listitem>
+            <listitem>
+                <para>A typical sequence to replay the local modifications on top of the upstream
+                    changes to the master branch would look like this:</para>
+                <programlisting language="shell" xlink:href="listings/source.txt"/>
+            </listitem>
+            <listitem>
+                <para>Finally follow the <link
+                    xlink:href="https://github.com/eXist-db/exist/blob/develop/BUILD.md">build
+                    instructions</link> for eXist-db.</para>
+            </listitem>
+        </orderedlist>
+    </sect1>
+
+    <!-- ================================================================== -->
+    <sect1 xml:id="upgrading-docker">
+        <title>Upgrading docker images</title>
+        <para>When following eXist-db's stable release channel via the docker <literal>release</literal> tag, orchestrators will automatically check and pull newer images.
+        To avoid that you accidentally pull a binary incompabtile image that will break your container, we recommend testing your app on a continous integration service on both <literal>release</literal>, and <literal>latest</literal>.
+        This way your <literal>CI</literal> will inform you and prevent incompatible upgrades making it into production.</para>
+    </sect1>
+
+    <!-- ================================================================== -->
+    <sect1 xml:id="compatibility-history">
+        <title>History of Non-compatible Upgrades</title>
+
+        <para>This is a list of binary non-compatible releases for quick reference.</para>
+        <para>If a non-incremental upgrade across multiple non-compatible releases is necessary, for
+            instance from 1.4 to 3.6, we strongly recommend to first check past release notes to
+            understand how breaking changes might affect you.</para>
+        <important>
+            <para>Note, database backups from eXist-db 2.2 and earlier are not compatible with
+                eXist-db 5.0.0+. If you wish to migrate to eXist-db version 5.0.0+ from version 2.2
+                or earlier, you should first upgrade (incrementally if nessecary) to the latest
+                4.x.x version.</para>
+        </important>
+        <table xml:id="old-news">
+            <title>Notes on previous releases</title>
+            <tgroup cols="2">
+                <tbody>
+                    <row>
+                        <entry> <para>Latest</para> </entry>
+                        <entry> <para> <link
+                            xlink:href="https://exist-db.org/exist/apps/wiki/blogs/eXist/">Release
+                            notes</link> </para> </entry>
+                    </row>
+                    <row>
+                        <entry> <para>4.5.0</para> </entry>
+                        <entry> <para> <link xlink:href="incompatibilities#v4.5.0">Special
+                            notes</link> </para> </entry>
+                    </row>
+                    <row>
+                        <entry> <para>3.0</para> </entry>
+                        <entry> <para> <link xlink:href="incompatibilities#v3.0">Special
+                            notes</link> </para> </entry>
+                    </row>
+                    <row>
+                        <entry> <para>2.2</para> </entry>
+                        <entry> <para> <link xlink:href="incompatibilities#v2.2">Special
+                            notes</link> </para> </entry>
+                    </row>
+                    <row>
+                        <entry> <para>2.0</para> </entry>
+                        <entry> <para> <link xlink:href="incompatibilities#v2.0">Special
+                            notes</link> </para> </entry>
+                    </row>
+                    <row>
+                        <entry> <para>1.4.0</para> </entry>
+                        <entry> <para> <link xlink:href="incompatibilities#v1.4">Special
+                            notes</link> </para> </entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+    </sect1>
+</article>

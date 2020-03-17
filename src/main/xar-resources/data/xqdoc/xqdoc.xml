@@ -1,0 +1,186 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>xqDoc</title>
+        <date>1Q18</date>
+        <keywordset>
+            <keyword>XQuery</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+
+    <para> xqDoc comments (see <link condition="_blank" xlink:href="http://xqdoc.org/"
+        >xqdoc.org</link>) are used to document XQuery library and main modules in a manner similar
+        to how Javadoc comments are used to document Java classes and packages. With the
+        documentation close to the source, documentation maintenance is easier. From this, xqDoc can
+        generate useful documentation quickly and easily.</para>
+    <para> An XQuery module does not need to contain xqDoc style comments in order for the xqDoc
+        tools to produce useful output. Even without any xqDoc documentation style comments, a cross
+        reference (for modules, functions, and variables) and XQuery code browser (for modules and
+        functions) will be created by xqDoc. </para>
+    <para>xqDoc comments are extracted when eXist-db parses an XQuery. It keeps them with the
+        function signature. </para>
+    <para>To speed up parsing, xqDoc uses "lazy evaluation". Comments are stored as plain strings
+        first. This is parsed and merged into the function signature when needed. It allows tools
+        like eXide to display up to date documentation while working on a module.</para>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="comment-style">
+        <title>Comment Style</title>
+
+        <para> xqDoc style comments begin with <code>(:~</code>  and end with  <code>:)</code>. </para>
+        <para>An xqDoc style comment can be specified for each of the following:</para>
+        <para>Library Modules:</para>
+        <itemizedlist>
+            <listitem>
+                <para>Module Declaration</para>
+            </listitem>
+            <listitem>
+                <para>Module Import</para>
+            </listitem>
+            <listitem>
+                <para>Variable Definition</para>
+            </listitem>
+            <listitem>
+                <para>Function Definition</para>
+            </listitem>
+        </itemizedlist>
+        <para>Main Modules:</para>
+        <itemizedlist>
+            <listitem>
+                <para>Main Module</para>
+            </listitem>
+            <listitem>
+                <para>Module Import</para>
+            </listitem>
+            <listitem>
+                <para>Variable Definition</para>
+            </listitem>
+            <listitem>
+                <para>Function Definition</para>
+            </listitem>
+        </itemizedlist>
+
+        <para>An xqDoc comment contains specials strings, called <emphasis>tags</emphasis> Tags
+            start with an <code>@</code> character. The text up to the first tag is assumed to be
+            the general description for the component being documented.</para>
+        <para>The following tags are recognized and handled:</para>
+
+        <variablelist>
+            <varlistentry>
+                <term> <code>@author</code> </term>
+                <listitem>
+                    <para>Author of this component. Occurrences: zero or more.</para>
+                    <programlisting language="xquery" xlink:href="listings/listing-1.txt"/>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>@version</code> </term>
+                <listitem>
+                    <para>Version of the component. Occurrences: zero or more, but only a single
+                        <code>@version</code> makes sense.</para>
+                    <programlisting language="xquery" xlink:href="listings/listing-2.txt"/>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>@since</code> </term>
+                <listitem>
+                    <para>Identifies the version of the module since when this component is
+                        supported. Occurrences: zero or more, but only a single <code>@since</code>
+                        makes sense.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>@see</code> </term>
+                <listitem>
+                    <para>Adds a hypertext link to an external site, a library or main module, a
+                        specific function or variable, or arbitrary text. Occurrences: zero or
+                        more.</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>To link to an external site, use a complete URL such as
+                                <code>http://www.xquery.com</code>.</para>
+                        </listitem>
+                        <listitem>
+                            <para>To link to a library or main module (contained in xqDoc), provide
+                                the URI for this (see example below).</para>
+                        </listitem>
+                        <listitem>
+                            <para>To link to a specific function or variable (contained in xqDoc),
+                                provide the URI for the library or main module, followed by a
+                                semicolon <code>;</code> and the function or variable name.</para>
+                        </listitem>
+                        <listitem>
+                            <para>To provide a name for a link, add a semicolon <code>;</code>,
+                                followed by the name</para>
+                        </listitem>
+                        <listitem>
+                            <para>Anything else will be interpreted as just text.</para>
+                        </listitem>
+                    </itemizedlist>
+                    <programlisting language="xquery" xlink:href="listings/listing-4.txt"/>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>@param</code> </term>
+                <listitem>
+                    <para>Describes the parameters associated with a function. Append the parameter
+                        name and its description.</para>
+                    <programlisting language="xquery" xlink:href="listings/listing-5.txt"/>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>@return</code> </term>
+                <listitem>
+                    <para>Describes the return value from a function. Occurrences: zero or
+                        more.</para>
+                    <programlisting language="xquery" xlink:href="listings/listing-6.txt"/>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>@deprecated</code> </term>
+                <listitem>
+                    <para>Identifies the component as deprecated. Its text should indicate the
+                        reason and its optional replacement.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>@error</code> </term>
+                <listitem>
+                    <para>Identifies an error raised by the function. Occurrences: zero or
+                        more.</para>
+                    <programlisting language="xquery" xlink:href="listings/listing-8.txt"/>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+
+        <para>Values provided for each of the tags can contain embedded XHTML markup to enhance or
+            emphasize the xqDoc presentation. However, make sure the content is well formed and that
+            entities are used (for instance &amp;amp; instead of &amp;). </para>
+
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="ex-xqdoc">
+        <title>Examples</title>
+        <para>Two examples for library and function comments.</para>
+        <sect2 xml:id="ex-lib">
+            <title>Library module comment:</title>
+            <programlisting language="xquery" xlink:href="listings/listing-9.txt"/>
+        </sect2>
+        <sect2 xml:id="ex-func">
+            <title>Function comment</title>
+            <programlisting language="xquery" xlink:href="listings/listing-10.txt"/>
+        </sect2>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+</article>

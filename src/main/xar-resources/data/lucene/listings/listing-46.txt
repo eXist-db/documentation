@@ -1,0 +1,6 @@
+let $query :=
+    <query>
+        <near slop="50"><first end="2"><near>second witch</near></first><near
+slop="1">tongue dog</near></near>
+    </query>
+    return //SPEECH[ft:query(., $query)]

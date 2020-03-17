@@ -1,0 +1,553 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <info>
+        <title>Database Deployment</title>
+        <date>1Q20</date>
+        <keywordset>
+            <keyword>operations</keyword>
+            <keyword>java-development</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+    <para>This article explains how to install eXist-db as a stand-alone or embedded server.</para>
+
+    <sect1 xml:id="overview">
+        <title>Overview</title>
+
+        <para>There are <emphasis>three</emphasis> ways to deploy the eXist-db database:</para>
+
+        <variablelist>
+            <varlistentry>
+                <term>In a Servlet Context</term>
+                <listitem>
+                    <para>The database is deployed as part of a web application. eXist will happily
+                        live together with other servlets. This is the default mode established when
+                        the database is deployed according to instructions provided in the <link xlink:href="basic-installation">Basic Installation Guide</link>.</para>
+                    <para>In this mode all resources used by eXist-db will have paths relative to
+                        the web application's current context. For example, eXist will store all its
+                        database files in the <literal>WEB-INF/data</literal> directory of the web
+                        application (unless specifically configured otherwise).</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>Stand-alone Server Process</term>
+                <listitem>
+                    <para>In stand-alone mode, eXist-db runs in its own Java virtual machine (JVM).
+                        Clients have to access the database through the network, either using the
+                        XML-RPC, WebDAV protocol or the REST-style HTTP API.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>Embedded in an Application</term>
+                <listitem>
+                    <para>In embedded mode, the database is basically used as a Java library,
+                        controlled by the client application. It runs in the same JVM as the client,
+                        no network connection is needed. The client has full access to the
+                        database.</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+
+        <para>All three deployments are thread-safe and allow concurrent operations by multiple
+            users. Servlets running in the same web application context will have direct access to
+            the database. External client applications may still use the supplied network
+            interfaces.</para>
+        <para>Detailed instructions on how to set up eXist-db for use with a servlet-engine are
+            provided in the <link xlink:href="basic-installation">Basic Installation Guide</link>.
+            The sections in this document address the other two deployment options. </para>
+        <itemizedlist>
+            <listitem>
+                <para>Section 2 introduces the XML:DB URI and explain how different servers are
+                    addressed by Java clients.</para>
+            </listitem>
+            <listitem>
+                <para>Section 3 deals with running eXist as a stand-alone server</para>
+            </listitem>
+            <listitem>
+                <para>Section 4 addresses the required steps to directly embed eXist into an
+                    application, including how to embed it in the <link condition="_blank" xlink:href="http://titanium.dstc.edu.au">XMLdbGUI</link>.</para>
+            </listitem>
+        </itemizedlist>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="xmldb-uri">
+        <title>Addressing Servers using the XML:DB URI</title>
+
+        <para>One way to access eXist-db from Java applications is to use the XML:DB API. The XML:DB
+            API uses a specific URI scheme to locate a collection of XML resources on the server.
+            You will encounter XML:DB URIs when working with the Java client, the backup tools and
+            sometimes in XQuery functions. It is therefore important to understand how the URI
+            scheme addresses servers and resources.</para>
+        <para>eXist's XML:DB API implementation supports transparent access to remote as well as
+            embedded database servers. This means the database on the server is available on the
+            client as though it were locally connected to the client. The user should not have to be
+            aware of where a resource is physically located. Applications need not be affected by
+            how the database has been deployed.</para>
+
+        <para>The XML:DB URI identifies the database implementation, the name of the collection, and
+            optionally the location of the database server on the network. </para>
+
+        <variablelist>
+            <varlistentry>
+                <term>In a Servlet Context</term>
+                <listitem>
+                    <para>Use the following URI to points to the Shakespeare collection on a remote
+                        server which is running in a <emphasis>servlet engine</emphasis>:</para>
+                    <programlisting>xmldb:exist://localhost:8080/exist/xmlrpc/db/shakespeare</programlisting>
+                    <para>The host part: <literal>localhost:8080/exist/xmlrpc</literal> describes
+                        the path to the XML-RPC listener, which is running as a servlet. The
+                        collection part (<literal>/db/shakespeare</literal>) defines the collection
+                        to retrieve.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>Stand-alone Server Process</term>
+                <listitem>
+                    <para>If eXist had started as a stand-alone server, the URI would change its
+                        port to <literal>8088</literal>:</para>
+                    <programlisting>xmldb:exist://localhost:8088/xmlrpc/db/shakespeare</programlisting>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>Embedded in an Application</term>
+                <listitem>
+                    <para>To access an <emphasis>embedded instance</emphasis> of the database, we
+                        simply drop the host part altogether and use three forward slashes
+                        (<literal>///</literal>) in front of the collection path:</para>
+                    <programlisting>xmldb:exist:///db/shakespeare</programlisting>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+
+        <para>You can use the <link xlink:href="java-admin-client">Java Admin Client</link>, which
+            utilizes the XML:DB API to access the database, to experiment with these settings. The
+            <guimenuitem>Login</guimenuitem> dialog offers a text field where you can specify an
+            XML:DB URI to connect to.</para>
+        <para>By default, the client tries to access the database engine located at the base
+            URI:</para>
+        <programlisting>xmldb:exist://localhost:8080/exist/xmlrpc/</programlisting>
+        <para>Change the entry in the GUI to try another URI or pass it using the
+            <literal>-ouri</literal> option on the command line. For example:</para>
+        <programlisting>bin/client.sh -ouri=xmldb:exist://</programlisting>
+        <para>This will cause a local database instance to run in the same Java virtual machine as
+            the client.</para>
+        <para>There is also a short form for this command. The <literal>-l</literal> option causes
+            the client to launch a local database instance. For instance:</para>
+        <programlisting>bin/client.sh -l</programlisting>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="run-stand-alone">
+        <title>Running as a Stand-alone Server</title>
+
+        <para>There are many cases in which it is preferable to have the database engine running in
+            its own Java virtual machine. In stand-alone mode, eXist will launch its own, embedded
+            web server to provide XML-RPC, WebDAV and REST services to the outside world. The
+            embedded server is based on a stripped-down Jetty. It uses a limited configuration,
+            excluding all the additional services available in a full-blown servlet
+            environment.</para>
+        <para>The stand-alone deployment is more reliable and performs better than the web
+            application setup, since no other threads (simultaneous tasks) are running. The
+            stand-alone database server offers XML-RPC, WebDAV and REST-style HTTP interfaces for
+            external client access. Please note that it does not support SOAP. </para>
+        <para>By default, the stand-alone server listens on port <literal>8088</literal>, though
+            this can be changed (see configuration below). The Java class for launching the server
+            is <literal>org.exist.jetty.StandaloneServer</literal>.</para>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="start-stand-alone">
+            <title>Starting the Stand-alone Server</title>
+
+            <para>To start the server use either the <code>bin/server.sh</code> (Unix) or the
+                <code>bin\server.bat</code> (Windows) command.</para>
+
+            <para>The server is multi-threaded, a server thread is assigned to each client request.
+                If the specified maximum number of threads is reached, the server will block the
+                client until one of the server-threads is available to respond. By default, the
+                maximum number of threads is 5. To change this, use the <literal>-t</literal>
+                option, e.g.:</para>
+            <programlisting>bin\server.bat -t 20</programlisting>
+            <para>To access the stand-alone server using the <link xlink:href="java-admin-client">Java Admin Client</link> (or by your own Java classes), start the XML:DB server URI
+                to <code>xmldb:exist://localhost:8088/xmlrpc</code> </para>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="config-stand-alone">
+            <title>Standalone Server Configuration</title>
+
+            <para>The <literal>tools/jetty/etc/standalone/WEB-INF/web.xml</literal> configuration
+                file is used when the server operates in standalone mode. An instance of the Jetty
+                web server is configured using its settings. The services offered with eXist have
+                their own configuration servlet element in this file.</para>
+            <para>Currently, the servlet API alternatives are "<literal>webdav</literal>,
+                "<literal>xmlrpc</literal>", and "<literal>rest</literal>". Any of these servlets
+                can be disabled by setting a init-param <literal>enabled</literal> attribute to
+                "<literal>no</literal>".</para>
+
+            <sect3 xml:id="binding-address">
+                <title>Controlling the Binding Address (&lt;indexer&gt;)</title>
+
+                <para>You can control the binding address by changing the addConnector
+                    <tag>Call</tag> element in <code>tools/jetty/etc/standalone.xml</code>:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term> <code>port</code> </term>
+                        <listitem>
+                            <para>The port on which the server will listen. The Jetty web server
+                                will bind to port <literal>8088</literal> by default.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term> <code>host</code> </term>
+                        <listitem>
+                            <para>The host-name on which the server will respond.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term> <code>address</code> </term>
+                        <listitem>
+                            <para>The IP address on which the server should bind. This may be useful
+                                when the server has multiple addresses that serve the same
+                                host-name.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+            </sect3>
+
+            <sect3 xml:id="webdav">
+                <title>WebDAV Servlet</title>
+
+                <para>The WebDAV servlet provides services at the context address specified. This
+                    servlet is represented by the <tag>webdav</tag> element in the
+                    <literal>server.xml</literal> configuration file. For this element, the
+                    <literal>context</literal> attribute controls the web server context at which
+                    the WebDAV services are provided. If the <literal>context</literal> attribute is
+                    not specified, it defaults to <literal>/webdav/</literal>.</para>
+            </sect3>
+
+            <sect3 xml:id="xml-rpc">
+                <title>XML-RPC Servlet</title>
+
+                <para>The XML-RPC servlet provides database API services to clients, like the Admin
+                    GUI client. This servlet is represented by the <tag>xmlrpc</tag> element in the
+                    <literal>server.xml</literal> configuration file. For this element, the
+                    <literal>context</literal> attribute controls the web server context at which
+                    the XMLRPC services are provided. If the <literal>context</literal> attribute is
+                    not specified, it defaults to <literal>/xmlrpc/</literal>. </para>
+                <warning>
+                    <para>If you disable this servlet, you disable the use of the <link xlink:href="java-admin-client">Java Admin Client</link>.</para>
+                </warning>
+            </sect3>
+
+            <sect3 xml:id="rest">
+                <title>REST Servlet</title>
+
+                <para>The REST servlet provides HTTP/REST-style interactions with the database. It
+                    is configured by a <tag>servlet</tag> element with <tag>servlet-class</tag>
+                    <code>org.exist.http.servlets.EXistServlet</code> in the
+                    <literal>tools/jetty/etc/standalone/WEB-INF/web.xml</literal> configuration
+                    file. It depends on the <code>XQueryURLRewrite</code> filter for context,
+                    default is <literal>/</literal>.</para>
+                <para>The REST Servlet has a number of other parameters that can be set by child
+                    elements:</para>
+                <programlisting language="xml" xlink:href="listings/listing-15.xml"/>
+                <variablelist>
+                    <varlistentry>
+                        <term> <code>form-encoding</code> </term>
+                        <listitem>
+                            <para>The default encoding of form POSTs.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term> <code>container-encoding</code> </term>
+                        <listitem>
+                            <para>The default encoding of the servlet container for all HTTP
+                                interactions except POSTs.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term> <code>use-default-user</code> </term>
+                        <listitem>
+                            <para>A boolean value (<literal>true</literal>/<literal>false</literal>)
+                                that indicates whether the effective user must be used for
+                                non-authenticated interactions. If any of these fails a simple AUTH
+                                interaction is undertaken. </para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term> <code>user</code> </term>
+                        <listitem>
+                            <para>Takes the username of the default user.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term> <code>password</code> </term>
+                        <listitem>
+                            <para>Takes the password of the default user.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+            </sect3>
+
+            <sect3 xml:id="custom">
+                <title>Custom Servlets</title>
+
+                <para>Any servlet can be configured to run in the Jetty server by adding a
+                    <tag>servlet</tag> element to the <code>server.xml</code> configuration file.
+                    The <tag>servlet</tag> element has the standard attributes of
+                    <code>enabled</code> and <code>context</code>, as well as the <code>class</code>
+                    attribute to specify the servlet implementation class.</para>
+                <para>This element can have any number of <tag>param</tag> child-elements to set
+                    parameters for the servlet. For example:</para>
+
+                <programlisting language="xml" xlink:href="listings/listing-16.xml"/>
+            </sect3>
+
+            <sect3 xml:id="forwarding">
+                <title>Forwarding Requests</title>
+
+                <para>The forwarding-request settings allow you to map incoming URL requests to
+                    specific resources on the server (e.g. queries). This is done with the
+                    <tag>forwarding</tag> element. Inside this element is a single <tag>root</tag>
+                    element and any number of <tag>forward</tag> elements. </para>
+                <para>Each <tag>forward</tag> element specifies a specific primary URL that is
+                    forwarded to secondary URL. This allows you to map a "clean" URL to an XQuery or
+                    some other resource within the server. The target is always specified by a
+                    <literal>destination</literal> attribute. For instance:</para>
+                <programlisting language="xml" xlink:href="listings/listing-18.txt"/>
+                <para>Here the first <tag>forward</tag> element maps the URI path
+                    <literal>/admin</literal> to the XQuery resource
+                    <literal>/db/admin/admin.xql</literal>, the second one maps the URI path
+                    <literal>/docs</literal> to the document
+                    <literal>/db/products/docs.xml</literal>.</para>
+
+                <para>The <tag>root</tag> element maps requests to the root directory of the server
+                    (for instance <literal>/</literal>) to a specified resource. For example:</para>
+                <programlisting language="xml" xlink:href="listings/listing-1.xml"/>
+                <para>This maps a requests for the (default) server root to the XQuery resource
+                    <literal>/db/admin/admin.xql</literal>.</para>
+
+            </sect3>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="shut-down">
+            <title>Shutting Down the Database</title>
+
+            <para>Use the <literal>shutdown.bat</literal> (Windows/DOS) and
+                <literal>shutdown.sh</literal> (Unix) scripts to shutdown the database. These
+                commands connect to the default server URI, usually
+                <code>xmldb:exist://localhost:8080/exist/xmlrpc</code>.</para>
+            <para>If your database is running in stand-alone mode, you must specify a different
+                server URI. For instance, to stop eXist when running in stand-alone mode, listening
+                on port <literal>8088</literal>, use:</para>
+            <programlisting>$EXIST_HOME/bin/shutdown.sh --uri=xmldb:exist://localhost:8088/xmlrpc</programlisting>
+        </sect2>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <!-- STOPPED HERE ! -->
+    <sect1 xml:id="embedding">
+        <title>Embedding eXist in an Application</title>
+
+        <para>In the embedded mode, the database runs in the same Java virtual machine as the client
+            application. The database will not be accessible by any outside application and no
+            network listeners are started. You can embed eXist-db into any Java application using
+            the XML:DB API.</para>
+        <para>To prepare the environment for using an embedded eXist, follow the steps below:</para>
+        <orderedlist>
+            <listitem>
+                <para>Copy <literal>conf.xml</literal> and <literal>log4j.xml</literal> to the
+                    target directory.</para>
+            </listitem>
+            <listitem>
+                <para>Create a subdirectory <literal>data</literal> in the target directory.</para>
+            </listitem>
+            <listitem>
+                <para>Edit the <literal>files</literal> attribute in the <tag>db-connection</tag>
+                    section of <literal>conf.xml</literal> to point to this data directory.</para>
+            </listitem>
+            <listitem>
+                <para>Do the same for the <literal>journal-dir</literal> in the <tag>recovery</tag>
+                    element.</para>
+            </listitem>
+            <listitem>
+                <para>To see logging output, edit <literal>log4j.xml</literal>. The simplest way is
+                    to change the <literal>appender-ref</literal> in the <tag>root</tag> category to
+                    <literal>console</literal>. This will result in most log messages being written
+                    to the console.</para>
+            </listitem>
+            <listitem>
+                <para>Create a <literal>lib</literal> directory below the target directory and copy
+                    the following <literal>.jar</literal> files from eXist-db into it:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <literal>exist.jar</literal> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <literal>lib/extensions/exist-modules.jar</literal> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <literal>lib/core/antlr-X.X.X.jar</literal> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <literal>lib/core/commons-pool-X.X.jar</literal> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <literal>lib/core/commons-collections-X.X.jar</literal> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <literal>lib/core/commons-logging-X.X.X.jar</literal> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <literal>lib/core/log4j-X.X.X.jar</literal> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <literal>lib/optional/slf4j-api-X.X.X.jar</literal> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <literal>lib/optional/slf4j-log4j12-X.X.X.jar</literal> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <literal>lib/core/quartz-X.X.X.jar</literal> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <literal>lib/core/sunxacml.jar</literal> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <literal>lib/core/xmldb.jar</literal> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <literal>lib/core/xmlrpc-client-X.X.X.jar</literal> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <literal>lib/core/xmlrpc-common-X.X.X.jar</literal> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <literal>lib/core/xmlrpc-server-X.X.X.jar</literal> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <literal>lib/core/jta.jar</literal> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <literal>lib/core/pkg-repo.jar</literal> </para>
+                    </listitem>
+                </itemizedlist>
+                <para>If you plan to use extension modules (like the n-gram index), copy the
+                    corresponding jars from <literal>lib/extensions</literal>. The default eXist
+                    configuration needs:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <literal>exist-ngram-module.jar</literal> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <literal>exist-lucene-module.jar</literal> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <literal>exist-versioning.jar</literal> </para>
+                    </listitem>
+                </itemizedlist>
+                <para>For the Lucene module copy the jars from
+                    <literal>extensions/indexes/lib</literal>:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <literal>lucene-core-X.X.X.jar</literal> </para>
+                    </listitem>
+                    <listitem>
+                        <para> <literal>lucene-regex-X.X.X.jar</literal> </para>
+                    </listitem>
+                </itemizedlist>
+                <para>The <literal>lib/endorsed</literal> directory furthermore plays a special
+                    role: the Java releases come with their own XML support libraries, including
+                    Xalan (for XSLT processing), an XML parser, and the standard Java interfaces for
+                    SAX and DOM. Some features of eXist will not work properly with a wrong version
+                    of Xerces or the resolver <code>.jar</code> (schema validation, catalog loading,
+                    ...). To ensure the correct versions are available, we have included these
+                    versions of Xerces, Xalan and Saxon, plus the standard interfaces used by both
+                    of them. You can use Java's endorsed library loading mechanism to ensure the
+                    correct XML support libraries are loaded. </para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Create a directory <literal>lib/endorsed</literal> </para>
+                    </listitem>
+                    <listitem>
+                        <para>Copy all <code>.jar</code> files from eXist's
+                            <literal>lib/endorsed</literal> directory into the newly created
+                            directory</para>
+                    </listitem>
+                </itemizedlist>
+                <para>Specifying the <literal>-Djava.endorsed.dirs=lib/endorsed</literal> system
+                    property on the Java command line will force the JVM to prefer any library it
+                    finds in the endorsed directory over its own system libraries (copying the jars
+                    into <literal>$JAVA_HOME/jre/lib/endorsed</literal> will do the same thing).
+                    Note that the batch and shell scripts included with eXist all set the
+                    <literal>java.endorsed.dirs</literal> system property to point to
+                    <literal>lib/endorsed</literal>.</para>
+            </listitem>
+            <listitem>
+                <para>Make sure your <code>CLASSPATH</code> includes these <code>.jar</code>
+                    files.</para>
+            </listitem>
+        </orderedlist>
+
+        <para>Internally, eXist has two different XML:DB driver implementations: the first
+            communicates with a remote database engine using XML-RPC calls; the second has direct
+            access to a local instance of eXist. Which implementation is selected depends on the
+            XML:DB URI as described above.</para>
+        <para>To access an embedded database, simply drop the host portion (for instance
+            <literal>localhost:8088/xmlrpc/</literal>) from the URI. For instance:
+            <code>xmldb:exist:///db</code> </para>
+        <para>To start an embedded database instance, simply set the system property
+            <literal>exist.initdb</literal> to <literal>true</literal>. This will notify the XML:DB
+            driver to read the configuration settings when starting the database if none has been
+            previously started. For example, to launch your own Java application with an embedded
+            instance, you may enter the command:</para>
+        <programlisting>java -Dexist.initdb=true MyApp</programlisting>
+        <para>The driver will try to read the eXist configuration file, create the required database
+            files (if absent) and launch the database. </para>
+        <para>The driver must be able to read the configuration file <literal>conf.xml</literal>. It
+            seraches for <literal>conf.xml</literal> in the directory specified by the
+            <literal>exist.home</literal> system property. You should therefore ensure a copy of
+            <literal>conf.xml</literal> is present in the correct directory. For example, to launch
+            your own application, while setting <literal>exist.home</literal>:</para>
+        <programlisting>java -Dexist.initdb=true -Dexist.home=/home/exist/eXist MyApp</programlisting>
+        <important>
+            <para>The paths to the data and log directories in <literal>conf.xml</literal> need to
+                point to <emphasis>writable</emphasis> directories.</para>
+        </important>
+        <para>Instead of using the <literal>-Dexist.initdb</literal> property, you can also tell the
+            database driver to create a local database instance during the initialization of the
+            XML:DB database manager within your Java code. Set the
+            <literal>create-database</literal> property on the created <literal>Database</literal>
+            object to <literal>true</literal>. For example:</para>
+        <programlisting language="java" xlink:href="listings/listing-24.txt"/>
+
+        <para>When running eXist in embedded mode, ensure proper shutdown the database before your
+            application exits. The main reason is to flush all of the unwritten data buffers to
+            disk. The database uses a background thread to periodically synchronize its buffers with
+            the data files on disk, and this thread will keep running unless you shutdown the
+            database.</para>
+        <para>There is a special XML:DB service, <literal>DatabaseInstanceManager</literal>, which
+            contains a single method: <literal>shutdown</literal>. To properly shutdown the database
+            instance, retrieve the service from the <literal>/db-collection</literal> and call
+            <literal>shutdown()</literal>. For example:</para>
+        <programlisting language="java" xlink:href="listings/listing-25.txt"/>
+        <para>To summarize, a minimal working class with a single static main to start/stop the db
+            may look like this:</para>
+
+        <programlisting language="java" xlink:href="listings/listing-26.txt"/>
+        <para>Put this code into a Java file <literal>TestDB.java</literal>, store it into the
+            target directory (which we prepared above), and compile and run it with:</para>
+        <programlisting>javac TestDB.java java -Dexist.initdb=true -Dexist.home=. TestDB</programlisting>
+    </sect1>
+</article>

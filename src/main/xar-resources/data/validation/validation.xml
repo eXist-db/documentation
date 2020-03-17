@@ -1,0 +1,475 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>XML Validation</title>
+        <date>2Q19</date>
+        <keywordset>
+            <keyword>application-development</keyword>
+        <keyword>testing</keyword>
+    </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+    <para>eXist-db supports validation of XML documents. </para>
+    <para>There are two ways to validate documents: </para>
+    <itemizedlist>
+        <listitem>
+            <para> <xref linkend="sect-implicit-validation"/>happens automatically when
+                inserting documents into the database.</para>
+        </listitem>
+        <listitem>
+            <para> <xref linkend="sect-explicit-validation"/> must use one of the
+                provided XQuery extension functions.</para>
+        </listitem>
+    </itemizedlist>
+
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="sect-implicit-validation">
+        <title>Implicit validation</title>
+
+        <para>Implicit validation is executed automatically when documents are inserted into the
+            database.</para>
+        <para>To enable implicit validation, change eXist-db configuration by editing
+            <literal>conf.xml</literal>. The following two items must be configured:</para>
+        <itemizedlist>
+            <listitem>
+                <para>Validation mode</para>
+            </listitem>
+            <listitem>
+                <para>Catalog Entity Resolver</para>
+            </listitem>
+        </itemizedlist>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="val-mode">
+            <title>Validation mode</title>
+
+            <para>The validation mode can be set in the <tag>validation</tag> element in
+                <code>conf.xml</code>:</para>
+
+            <programlisting language="xml" xlink:href="listings/listing-1.xml"/>
+            <para>Attribute <emphasis>mode</emphasis> switches the validation capabilities of the
+                (Xerces) XML parser. Its values are:</para>
+            <variablelist>
+                <varlistentry>
+                    <term> <code>yes</code> </term>
+                    <listitem>
+                        <para>Switch validation on. All XML documents will be validated. If the
+                            grammar (XML schema, DTD) document(s) cannot be resolved, the XML
+                            document is rejected.</para>
+                        <para/>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <code>no</code> </term>
+                    <listitem>
+                        <para>(default) Switch validation off. No grammar validation is performed
+                            and all well-formed XML documents will be accepted.</para>
+                        <para/>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>auto</term>
+                    <listitem>
+                        <para>Validation of an XML document is performed based on the content of the
+                            document. </para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>When a document contains a reference to a grammar document
+                                    (<emphasis>XML schema</emphasis> or <emphasis>DTD</emphasis>),
+                                    the XML parser tries to resolve this grammar and the XML
+                                    document is validated against it (equivalent to
+                                    <emphasis>mode="yes"</emphasis>). Again, if the grammar cannot
+                                    be resolved, the XML document will be rejected. </para>
+                            </listitem>
+                            <listitem>
+                                <para>When the XML document does not contain a reference to a
+                                    grammar, it will not be parsed. </para>
+                            </listitem>
+                        </itemizedlist>
+
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="cat-resolver">
+            <title>Catalog Entity Resolver</title>
+
+            <para>All grammars (XML schema, DTD) used for implicit validation must be registered
+                with eXist using <link condition="_blank"
+                xlink:href="https://www.oasis-open.org/committees/download.php/14809/xml-catalogs.html"
+                >OASIS catalog</link> files. The actual resolving is performed by the Apache <link
+                condition="_blank" xlink:href="https://xml.apache.org/commons/components/resolver/"
+                >xml-commons resolver</link> library.</para>
+            <para>Catalogs can be stored on disk and/or in the database.</para>
+            <para>It is possible to configure multiple catalog entries in <tag>entity-resolver</tag>
+                child element(s) of <tag>validation</tag> in <code>conf.xml</code>. For instance: </para>
+
+            <programlisting language="xml" xlink:href="listings/listing-2.xml"/>
+
+            <para>A catalog stored in the database can be addressed by a URL like
+                <code>xmldb:exist:///db/mycollection/catalog.xml</code> (note the 3 leading slashes,
+                which implies localhost). Or use the shorter equivalent
+                <code>/db/mycollection/catalog.xml</code>.</para>
+            <note>
+                <para>In the preceding example <code>${WEBAPP_HOME}</code> can be substituted by a
+                    <code>file://</code> URL pointing to the <code>webapp</code> directory of eXist
+                    (for instance <code>$EXIST_HOME/etc/webapp/</code>).</para>
+            </note>
+            <para>Here is an example of a catalog file:</para>
+            <programlisting language="xml" xlink:href="listings/listing-3.xml"/>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="col-conf">
+            <title>Collection configuration</title>
+
+            <para>Within the database the validation mode for each individual collection can be
+                configured using <emphasis>collection.xconf</emphasis> documents (in the same way
+                these are used for configuring <link xlink:href="indexing">indexes</link>).
+                These documents need to be stored in <code>/db/system/config/db/...</code>.</para>
+            <para>The following example <code>collection.xconf</code> file turns implicit validation
+                off:</para>
+            <programlisting language="xml" xlink:href="listings/listing-4.xml"/>
+
+        </sect2>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="sect-explicit-validation">
+        <title>Explicit validation</title>
+
+        <para>Explicit validation is performed through the use of provided XQuery extension
+            functions. The following validation options are provided: </para>
+        <itemizedlist>
+            <listitem>
+                <para>JAXP</para>
+            </listitem>
+            <listitem>
+                <para>JAXV</para>
+            </listitem>
+            <listitem>
+                <para>Jing</para>
+            </listitem>
+        </itemizedlist>
+        <para>Each of these options is discussed in the following sections. Consult the function
+            documentation for details.</para>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="jaxp">
+            <title>JAXP</title>
+
+            <para>The JAXP validation functions are based on the validation capabilities of the
+                <link condition="_blank"
+                xlink:href="https://docs.oracle.com/javase/10/docs/api/javax/xml/parsers/package-summary.html"
+                > <code>javax.xml.parsers</code> </link> API. The actual validation is performed by
+                the <link condition="_blank" xlink:href="https://xerces.apache.org/xerces2-j/"
+                >Xerces2</link> library.</para>
+            <para>When parsing an XML document and a reference to a grammar (either DTD or XSD) is
+                found, the parser attempts to resolve the grammar reference by following
+                either:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>The XSD <code>xsi:schemaLocation</code> or
+                        <code>xsi:noNamespaceSchemaLocation</code> hints</para>
+                </listitem>
+                <listitem>
+                    <para>The DTD DOCTYPE SYSTEM information</para>
+                </listitem>
+                <listitem>
+                    <para>by outsourcing the retrieval of the grammars to an XML Catalog resolver.
+                        The resolver identifies XSDs by their (target)namespace. DTDs are identified
+                        by the <code>PublicId</code>.</para>
+                </listitem>
+            </itemizedlist>
+            <para>The <code>jaxp()</code> and <code>jaxp-report()</code> functions accept the
+                following parameters: </para>
+            <variablelist>
+                <varlistentry>
+                    <term> <code>$instance</code> </term>
+                    <listitem>
+                        <para>The XML instance document, either as document node, element node,
+                            <code>xs:anyURI</code> or as Java file object.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <code>$cache-grammars</code> </term>
+                    <listitem>
+                        <para>Set this to true() to enable grammar caching.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <code>$catalogs</code> </term>
+                    <listitem>
+                        <para>One or more OASIS catalog files referenced as <code>xs:anyURI</code>.
+                            Depending on its values different resolvers will be used: </para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>When passing an empty sequence <code>()</code>, the catalog
+                                    files defined in <code>conf.xml</code> are used.</para>
+                            </listitem>
+                            <listitem>
+                                <para>If the URI ends with <code>.xml</code> the specified catalog
+                                    is used.</para>
+                            </listitem>
+                            <listitem>
+                                <para>If the URI points ends with <code>/</code> it is supposed to
+                                    point a collection. The grammar files are searched in this
+                                    collection and its sub-collections. XSDs are found by their
+                                    <code>targetNamespace</code> attribute, DTDs are found by their
+                                    <code>publicId</code> entries in catalog files.</para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="jaxv">
+            <title>JAXV</title>
+
+            <para>The JAXV validation functions are based on the <link condition="_blank"
+                xlink:href="https://docs.oracle.com/javase/10/docs/api/javax/xml/validation/package-summary.html"
+                > <code>java.xml.validation</code> </link> API which has been introduced in Java 5
+                to provide a schema-language-independent interface to validation services. Although
+                officially the specification allows use of additional schema languages, only XML
+                schemas can be really used so far. </para>
+            <para>The <code>jaxv()</code> and <code>jaxv-report()</code> functions accept the
+                following parameters: </para>
+            <variablelist>
+                <varlistentry>
+                    <term> <code>$instance</code> </term>
+                    <listitem>
+                        <para>The XML instance document either as document node, element node,
+                            <code>xs:anyURI</code> or as Java file object.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <code>$grammars</code> </term>
+                    <listitem>
+                        <para>One or more grammar files either as document nodes, element nodes,
+                            <code>xs:anyURI</code>, or as Java file objects.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <code>$language</code> </term>
+                    <listitem>
+                        <para>The namespace of the schema language as <code>xs:anyURI</code>. The
+                            following values are supported by the <link condition="_blank"
+                            xlink:href="https://docs.oracle.com/javase/10/docs/api/javax/xml/validation/SchemaFactory.html"
+                            ><code>jaxv.SchemaFactory</code></link>: </para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>For XSD 1.0 either
+                                    <code>http://www.w3.org/2001/XMLSchema</code> or
+                                    <code>http://www.w3.org/XML/XMLSchema/v1.0</code></para>
+                            </listitem>
+                            <listitem>
+                                <para>For XSD 1.1
+                                    <code>http://www.w3.org/XML/XMLSchema/v1.1</code></para>
+                            </listitem>
+                            <listitem>
+                                <para>For RELAX NG 1.0
+                                    <code>http://relaxng.org/ns/structure/1.0</code></para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="jing">
+            <title>Jing</title>
+
+            <para>The Jing validation functions are based on James Clark's <link condition="_blank"
+                xlink:href="http://www.thaiopensource.com/relaxng/jing.html">Jing</link> library.
+                eXist uses the maintained version that is available via <link condition="_blank"
+                xlink:href="https://code.google.com/p/jing-trang/">Google Code</link>. The library
+                relies on the <link condition="_blank"
+                xlink:href="http://www.thaiopensource.com/relaxng/api/jing/com/thaiopensource/validate/ValidationDriver.html"
+                ><code>com.thaiopensource.validate.ValidationDriver</code></link> which supports a
+                wide range of grammar types: </para>
+            <itemizedlist>
+                <listitem>
+                    <para>XML schema (<code>.xsd</code>)</para>
+                </listitem>
+                <listitem>
+                    <para>Namespace-based Validation Dispatching Language
+                        (<code>.nvdl</code>)</para>
+                </listitem>
+                <listitem>
+                    <para>RelaxNG (<code>.rng</code> and <code>.rnc</code>)</para>
+                </listitem>
+                <listitem>
+                    <para>Schematron 1.5 (<code>.sch</code>)</para>
+                </listitem>
+            </itemizedlist>
+            <para>The <code>jing()</code> and <code>jing-report()</code> functions accept the
+                following parameters: </para>
+            <variablelist>
+                <varlistentry>
+                    <term> <code>$instance</code> </term>
+                    <listitem>
+                        <para>The XML instance document as document node, element node,
+                            <code>xs:anyURI</code>, or as Java file object.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <code>$grammar</code> </term>
+                    <listitem>
+                        <para>The grammar file can be referenced either as document node, element
+                            node, <code>xs:anyURI</code>, binary document, or as Java file
+                            object.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <note>
+                <para>You can use <code>util:binary-doc()</code> to pass <code>.rnc</code> files as
+                    binary document</para>
+            </note>
+        </sect2>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="sect3a">
+        <title>Validation report</title>
+
+        <para> A validation report contains the following for a valid document: </para>
+
+        <programlisting language="xml" xlink:href="listings/listing-5.xml"/>
+
+        <para>For an invalid document the following is returned:</para>
+        <programlisting language="xml" xlink:href="listings/listing-6.xml"/>
+        <para>When something goes wrong you might the following:</para>
+        <programlisting language="xml" xlink:href="listings/listing-7.txt"/>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="sect4">
+        <title>Grammar management</title>
+
+        <para>The Xerces XML parser compiles all grammar files upon first use. For efficiency
+            reasons these compiled grammars are cached, resulting in a significant increase in
+            validation processing performance. However, sometimes it may be desirable to manually
+            clear this cache. For this purpose two grammar management functions are provided: </para>
+        <variablelist>
+            <varlistentry>
+                <term> <code>clear-grammar-cache()</code> </term>
+                <listitem>
+                    <para>Removes all cached grammar and returns the number of removed
+                        grammar</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>pre-parse-grammar(xs:anyURI)</code> </term>
+                <listitem>
+                    <para>Parses the referenced grammar and returns the namespace of the parsed
+                        XSD.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>show-grammar-cache()</code> </term>
+                <listitem>
+                    <para>Returns an XML report about all cached grammars. For instance:</para>
+                    <programlisting language="xml" xlink:href="listings/listing-8.xml"/>
+                    <para>The <tag>BaseSystemId</tag> element typically does
+                        <emphasis>not</emphasis> provide useful information.</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="sect4a">
+        <title>Interactive Client</title>
+
+        <para>The interactive shell mode of the <link xlink:href="java-admin-client">Java Admin
+            Client</link> provides a simple <emphasis>validate</emphasis> command that accepts the
+            similar explicit validation arguments.</para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="sect6">
+        <title>Special notes</title>
+
+        <itemizedlist>
+            <listitem>
+                <para>To avoid potential deadlocking it is considered good practice to store XML
+                    instance documents and grammar documents in separate collections.</para>
+            </listitem>
+
+            <listitem>
+                <para>The explicit validation is performed by <link condition="_blank"
+                    xlink:href="https://xerces.apache.org/xerces2-j/javadocs/api/javax/xml/validation/package-summary.html"
+                    >Xerces</link> (XML schema, DTD) and by <link condition="_blank"
+                    xlink:href="https://www.oxygenxml.com/onvdl.html">oNVDL</link>: oXygen XML NVDL
+                    implementation based on Jing (XSD, RelaxNG, Schematron and Namespace-based
+                    Validation Dispatching Language).</para>
+            </listitem>
+        </itemizedlist>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="sect7">
+        <title>References</title>
+
+        <itemizedlist>
+            <listitem>
+                <para>Apache <link condition="_blank"
+                    xlink:href="https://xml.apache.org/commons/components/resolver/">xml-commons
+                    resolver</link> </para>
+            </listitem>
+            <listitem>
+                <para>OASIS <link condition="_blank"
+                    xlink:href="https://www.oasis-open.org/committees/entity/">XML Catalog
+                    Specification</link> V1.1</para>
+            </listitem>
+            <listitem>
+                <para>Xerces <link condition="_blank"
+                    xlink:href="https://xerces.apache.org/xerces2-j/faq-grammars.html">caching
+                    grammars</link>.</para>
+            </listitem>
+            <listitem>
+                <para> <link condition="_blank" xlink:href="https://github.com/relaxng/jing-trang"
+                    >jing-trang</link> Schema validation and conversion based on RELAX NG</para>
+            </listitem>
+            <listitem>
+                <para> <link
+                    xlink:href="https://en.wikipedia.org/wiki/Namespace-based_Validation_Dispatching_Language"
+                    >NVDL</link> (Namespace-based Validation Dispatching Language)</para>
+            </listitem>
+            <listitem>
+                <para> <link condition="_blank" xlink:href="https://en.wikipedia.org/wiki/Schematron"
+                    >Schematron</link> </para>
+            </listitem>
+            <listitem>
+                <para> <link condition="_blank" xlink:href="https://en.wikipedia.org/wiki/RELAX_NG"
+                    >Relax NG</link> </para>
+            </listitem>
+        </itemizedlist>
+    </sect1>
+</article>

@@ -1,0 +1,25 @@
+private void dropDocumentNode(Connection conn)
+        throws SQLException {    	
+	if (currentNodeId == null)
+	  return;        
+	try {         
+	  boolean removed = removeDocumentNode(currentDoc, currentNodeId, conn);
+	  if (!removed)
+	    LOG.error("No data dropped for node " + currentNodeId.toString() + " from GML index");
+	  else {
+	    if (LOG.isDebugEnabled())	            
+	      LOG.debug("Dropped data for node " + currentNodeId.toString() + " from GML index");
+	  }
+	} finally {        
+	currentNodeId = null;
+	}
+      }
+
+      private void removeDocument(Connection conn)
+        throws SQLException {
+	if (LOG.isDebugEnabled())
+	  LOG.debug("Dropping GML index for document " + currentDoc.getURI());
+	int nodeCount = removeDocument(currentDoc, conn);
+	if (LOG.isDebugEnabled())
+	  LOG.debug("Dropped " + nodeCount + " nodes from GML index");
+      }

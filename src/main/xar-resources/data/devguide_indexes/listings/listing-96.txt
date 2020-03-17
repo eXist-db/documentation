@@ -1,0 +1,47 @@
+public Occurrences[] scanIndex(DocumentSet docs) {    	
+        Map occurences = new TreeMap();
+	Connection conn = null;
+	try { 
+	  conn = acquireConnection();
+          //Collect the (normalized) geometries for each document
+	  for (Iterator iDoc = docs.iterator(); iDoc.hasNext();) {
+	    DocumentImpl doc = (DocumentImpl)iDoc.next();
+	    //TODO : check if document is GML-aware ?
+	    //Aggregate the occurences between different documents
+	    for (Iterator iGeom = getGeometriesForDocument(doc, conn).entrySet().iterator(); iGeom.hasNext();) {
+	      Map.Entry entry = (Map.Entry) iGeom.next();
+	      Geometry key = (Geometry)entry.getKey();
+	      //Do we already have an occurence for this geometry ?
+	      Occurrences oc = (Occurrences)occurences.get(key);
+	      if (oc != null) {
+	        //Yes : increment occurence count
+		oc.addOccurrences(oc.getOccurrences() + 1);
+		//...and reference the document
+		oc.addDocument(doc);
+              } else {
+	        //No : create a new occurence with EPSG4326_WKT as "term"
+		oc = new Occurrences((String)entry.getValue());
+		//... with a count set to 1
+		oc.addOccurrences(1);
+		//... and reference the document
+		oc.addDocument(doc);
+		occurences.put(key, oc);
+	      }
+	    }
+	  }
+	} catch (SQLException e) {
+	  LOG.error(e);
+	  return null;
+	} finally {
+	  try {
+	    if (conn != null)
+	      releaseConnection(conn);
+	  } catch (SQLException e) {
+	    LOG.error(e);
+	    return null;
+	  } 
+        }
+	Occurrences[] result = new Occurrences[occurences.size()];
+	occurences.values().toArray(result);
+	return result;
+      }

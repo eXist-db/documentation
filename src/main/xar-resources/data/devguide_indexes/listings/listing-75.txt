@@ -1,0 +1,14 @@
+package org.exist.indexing.spatial;
+
+	public class GMLHSQLIndex extends AbstractGMLJDBCIndex {
+	
+	  private final static Logger LOG = Logger.getLogger(GMLHSQLIndex.class);
+	  public static String db_file_name_prefix = "spatial_index";
+	  public static String TABLE_NAME = "SPATIAL_INDEX_V1";
+	  private DBBroker connectionOwner = null;
+	  private long connectionTimeout = 100000L;
+	
+	  public GMLHSQLIndex() {    	
+	  } 
+	
+	}

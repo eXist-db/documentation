@@ -1,0 +1,14 @@
+public static String buildAuthURL ( String action, String cls, WfProcess wfprocess, String rolevalue, String nextAction ) throws Exception
+{
+    ReferenceFactory rf = new ReferenceFactory();
+    Properties urlProperties = new Properties();
+    urlProperties.put( "action", action );
+    urlProperties.put( "class", cls );
+    urlProperties.put( "wfprocess", rf.getReferenceString( wfprocess ) ); // WfProcess Oid
+    urlProperties.put( "role", rolevalue );
+    urlProperties.put( "nextAction", nextAction );
+    //urlProperties.put("Users", getRoleMapUsers(wfprocess, rolevalue));
+    String url = GatewayURL.buildAuthenticatedURL( "XX.enterprise.URLProcessor", "generateForm", urlProperties ).toExternalForm();
+    url = url.substring( ( XXProperties.getLocalProperties().getProperty( "XX.server.codebase" ) ).length() - 10 );
+    return url;
+}

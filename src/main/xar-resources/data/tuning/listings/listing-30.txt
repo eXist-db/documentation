@@ -1,0 +1,6 @@
+for $match in collection("/db/articles")//section//p[contains(., "XML")]
+return
+    <match>
+        <section>{$match/ancestor::title/text()}</section>
+        {$match}
+    </match>

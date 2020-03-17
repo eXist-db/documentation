@@ -1,0 +1,260 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>Java Management Extensions (JMX)</title>
+        <date>2Q19</date>
+        <keywordset>
+            <keyword>java-development</keyword>
+            <keyword>operations</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+    <para>eXist-db provides access to various management interfaces via Java Management Extensions
+        (JMX). An agent in the Java virtual machine exposes agent services as so-called MBeans that
+        belong to different components running within the virtual machine. A JMX-compliant
+        management application can then connect to the agent through the MBeans and access the
+        available services in a standardized way. </para>
+    <para>The standard Java installation includes a simple client, JConsole, which will also display
+        the eXist-specific services. eXist also provides a command-line client for quick access to
+        server statistics and other information.</para>
+    <para>Right now, eXist only exposes a limited set of read-only services. Most of them are useful
+        for debugging purposes only.</para>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="enable">
+        <title>Enabling the JMX agent</title>
+
+        <para>To enable the platform server within the host virtual machine, pass the following Java
+            system properties:</para>
+        <programlisting xlink:href="listings/listing-1.txt"/>
+        <warning>
+            <para>These options makes the server publicly accessible. Please check the Oracle <link
+                xlink:href="https://docs.oracle.com/javase/1.5.0/docs/guide/management/agent.html">
+                JMX documentation</link> for details.</para>
+        </warning>
+        <para>The extension can now be activated by passing a <code>-j</code> or <code>-jmx</code>
+            command-line parameter to the eXist start scripts (<literal>client.sh</literal>,
+            <literal>startup.sh</literal> etc.). This parameter must be followed by the port number
+            through which the JMX/RMI connections are enabled. For instance:</para>
+        <programlisting xlink:href="listings/listing-2.txt"/>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="monitoring">
+        <title>Monitoring and Management</title>
+        <para>This sections explains how to monitor an exist instant using common java tools.</para>
+
+
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="jconsole">
+            <title>Use JConsole</title>
+
+            <para>Use a JMX-compliant management console to access the management interfaces. For
+                example, call JConsole, which is included with the JDK:</para>
+            <programlisting>jconsole localhost:1099</programlisting>
+            <para>Clicking on the <guimenuitem>MBeans</guimenuitem> tab should show some
+                eXist-specific MBeans below the standard Java MBeans (in the tree component to the
+                left).</para>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="jmxclient">
+            <title>Use JMXClient</title>
+
+            <para>eXist includes a simple command-line JMX client which provides quick access to
+                some important server statistics.</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Unix/Linux:</para>
+                    <programlisting>$EXIST_HOME/bin/jmxclient.sh <tag>params</tag></programlisting>
+                </listitem>
+                <listitem>
+                    <para>Windows:</para>
+                    <programlisting>$EXIST_HOME\bin\jmxclient.bat <tag>params</tag></programlisting>
+                </listitem>
+            </itemizedlist>
+            <para>This accepts the following command-line parameters:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><code>-a, --address</code> <tag>argument</tag></term>
+                    <listitem>
+                        <para>The Remote Method Invocation (RMI) address of the server.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>-c, --cache</code></term>
+                    <listitem>
+                        <para>Displays server statistics on cache and memory usage.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>-d, --db</code></term>
+                    <listitem>
+                        <para>Displays general information about the db instance.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>-h, --help</code></term>
+                    <listitem>
+                        <para>Prints help on command line options and exit.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>-i, --instance</code> <tag>argument</tag></term>
+                    <listitem>
+                        <para>The ID of the database instance to connect to.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>-l, --locks</code></term>
+                    <listitem>
+                        <para>lock manager: displays locking information on all threads currently
+                            waiting for a lock on a resource or collection. Useful to debug
+                            deadlocks. During normal operation, the list will usually be empty
+                            (means: no blocked threads).</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>-m, --memory</code></term>
+                    <listitem>
+                        <para>Displays info on free and total memory. Can be combined with other
+                            parameters.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>-p, --port</code> <tag>argument</tag></term>
+                    <listitem>
+                        <para>The Remote Method Invocation (RMI) port of the server.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>-s, --report</code></term>
+                    <listitem>
+                        <para>Retrieves the most recent sanity/consistency check report.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>-w, --wait</code> <tag>argument</tag></term>
+                    <listitem>
+                        <para> while displaying server statistics: keeps retrieving statistics, but
+                            waits the specified number of seconds between calls.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para>The following command should print some statistics about cache usage within
+                eXist:</para>
+            <programlisting>$EXIST_home/bin/jmxclient.sh -c -w 2000</programlisting>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="jmxservlet">
+            <title>JMXServlet</title>
+
+            <para>eXist also provides a servlet which connects to the JMX interface and returns a
+                status report for the database as XML. By default, this servlet listens on:</para>
+            <programlisting>http://localhost:8080/exist/status</programlisting>
+            <para>For example, to get a report on current memory usage and running instances, use
+                the following URL:</para>
+            <programlisting>http://localhost:8080/exist/status?c=memory&amp;c=instances</programlisting>
+            <para>This returns something like:</para>
+            <programlisting language="xml" xlink:href="listings/listing-8.xml"/>
+            <para>The different JMX objects in eXist are organized into categories. One or more
+                categories can be passed to the servlet in parameter <literal>c</literal>. The
+                following categories are recognized:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><code>memory</code></term>
+                    <listitem>
+                        <para>current memory consumption of the Java virtual machine</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>instances</code></term>
+                    <listitem>
+                        <para>general information about the db instance, active db broker objects
+                            etc.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>disk</code></term>
+                    <listitem>
+                        <para>Contains current hard disk usage of the database files.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>system</code></term>
+                    <listitem>
+                        <para>Contains system information: eXist version ...</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>caches</code></term>
+                    <listitem>
+                        <para>Contains statistics on eXist's internal caches.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>locking</code></term>
+                    <listitem>
+                        <para>Contains current information on collection and resource locks of
+                            running operations.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>sanity</code></term>
+                    <listitem>
+                        <para>Feedback from the latest sanity check or ping request (see
+                            below).</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>all</code></term>
+                    <listitem>
+                        <para>Dumps all known JMX objects in eXist's namespace.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+
+
+            <sect3 xml:id="ping">
+                <title>Testing responsiveness using "ping"</title>
+
+                <para>This servlet also implements a simple "ping" operation. Ping will first try to
+                    obtain an internal database broker object. If the db is under very high load or
+                    deadlocked, it will run out of broker objects and ping will not be able to
+                    obtain one within a certain time. This is an indication that the database has
+                    become unresponsive for requests. If a broker object could be obtained, the
+                    servlet will run a simple XQuery to test the availability of the XQuery
+                    engine.</para>
+                <para>To run a "ping", call the servlet with parameter
+                    <literal>operation=ping</literal>. The operation accepts an optional timeout
+                    parameter, <literal>t=timeout-in-ms</literal>. </para>
+                <para>For example, the following URL starts a ping with a timeout of 2
+                    seconds:</para>
+                <programlisting>http://localhost:8080/exist/status?operation=ping&amp;t=2000</programlisting>
+                <para>If the ping returns within the specified timeout, the servlet returns the
+                    attributes of the SanityReport JMX bean, which will include an element
+                    <tag>jmx:Status</tag><code>PING_OK</code><tag>/jmx:Status</tag>:</para>
+                <programlisting language="xml" xlink:href="listings/listing-10.xml"/>
+                <para>If the ping takes longer than the timeout, you'll instead find an element
+                    <tag>jmx:error</tag> in the returned XML. In this case, additional information
+                    on running queries, memory consumption and database locks will be
+                    provided:</para>
+                <programlisting language="xml" xlink:href="listings/listing-11.xml"/>
+            </sect3>
+
+        </sect2>
+
+    </sect1>
+</article>

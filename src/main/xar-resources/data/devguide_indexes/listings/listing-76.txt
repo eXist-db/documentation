@@ -1,0 +1,12 @@
+public void configure(BrokerPool pool, String dataDir, Element config) 
+	  throws DatabaseConfigurationException {
+	  super.configure(pool, dataDir, config);
+	  String param = ((Element)config).getAttribute("connectionTimeout");
+	  if (param != null) {
+	    try {
+	    connectionTimeout = Long.parseLong(param);
+	    } catch (NumberFormatException e) {
+	    LOG.error("Invalid value for 'connectionTimeout'", e);
+	    }
+	  }    	
+	}

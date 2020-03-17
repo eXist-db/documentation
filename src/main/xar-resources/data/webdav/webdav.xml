@@ -1,0 +1,63 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+  <info>
+    <title>WebDAV</title>
+    <date>1Q20</date>
+    <keywordset>
+      <keyword>getting-started</keyword>
+      <keyword>interfaces</keyword>
+    </keywordset>
+  </info>
+
+  <!-- ================================================================== -->
+
+  <para>eXist-db ships with a <link xlink:href="https://en.wikipedia.org/wiki/WebDAV" condition="_blank">WebDAV</link> interface.
+    WebDAV makes it possible to manage database collections and documents just like directories and
+    files in a file system. You can copy, move, delete, view or edit files with any application
+    supporting the WebDAV protocol, including Windows Explorer, macOS Finder, <link xlink:href="http://www.webdav.org/cadaver" condition="_blank">cadaver</link>, <link xlink:href="https://www.konqueror.org/" condition="_blank">KDE Konqueror</link>, <link xlink:href="https://www.oxygenxml.com/" condition="_blank">oXygen XML Editor</link>, <link xlink:href="https://www.altova.com/" condition="_blank">XML Spy</link>, <link xlink:href="https://www.libreoffice.org/" condition="_blank">LibreOffice</link> and many others (see <xref linkend="compatibility"/>
+    below). The interface has been implemented with excellent open-source <link xlink:href="http://milton.io" condition="_blank">Milton</link>  WebDAV API for Java.</para>
+  <para>In the default configuration the WebDAV server can be accessed via the URLs <literal>http://localhost:8080/exist/webdav/db/</literal> and <literal>http://localhost:8443/exist/webdav/db/</literal>.</para>
+
+  <!-- ================================================================== -->
+
+  <sect1 xml:id="compatibility">
+    <title>Compatibility</title>
+    <itemizedlist>
+      <listitem>
+        <para>eXist's Milton based WebDAV interface does not support HTTP Digest Authentication.</para>
+      </listitem>
+      <listitem>
+        <para>
+          The size of an XML document is presented as a multiple of 4096 bytes, which is eXist's
+          internal pagesize (see <link xlink:href="configuration#conf.xml">conf.xml</link>). The actual size of an XML
+          document stored in the database can not be determined because the size depends on many
+          factors, e.g. the applied serialization parameters.</para>
+      </listitem>
+      <listitem><para>A webdav client / enabled application may or may not work with the webdav server of eXist-db, depending on the quality of the implementation of the client. The server fullfills all requirements of the webdav <link xlink:href="https://tools.ietf.org/html/rfc2518">specification</link>.</para></listitem>
+    </itemizedlist>
+  </sect1>
+
+  <sect1 xml:id="serialization">
+    <title>Serialization</title>
+
+    <para>When retrieving an XML document via the WebDAV interface, the default serialization
+      settings as defined in <link xlink:href="configuration#conf.xml">conf.xml</link> are effective. It is  possible to define custom serialization settings specific for the WebDAV interface. </para>
+    <para>
+      Copy the file <literal>extensions/webdav/src/main/resources/webdav.properties</literal>
+      into <literal>$EXIST_HOME/etc</literal> directory and uncomment/modify the parameters. Changes
+      in this file requires a restart of eXist-db. </para>
+
+    <programlisting xlink:href="listings/listing-1.txt"/>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1 xml:id="notes">
+    <title>Notes</title>
+
+    <para> From the <link xlink:href="https://github.com/eXist-db/exist/issues/1442" condition="_blank">community</link> we have received feedback that the WebDAV interface is not fully
+      functional when it is accessed via a reverse proxy and a resource's path is altered (aliased)
+      with it. </para>
+  </sect1>
+</article>

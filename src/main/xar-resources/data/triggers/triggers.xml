@@ -1,0 +1,344 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>Configuring Database Triggers</title>
+        <date>1Q18</date>
+        <keywordset>
+            <keyword>application-development</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+    <para>eXist-db supports triggers: code that runs when certain events in the database occur. This
+        article will tell you how to use this facility.</para>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="triggers">
+        <title>Overview</title>
+
+
+        <para>Triggers can be configured to respond to document and/or collection events. There are
+            five types of events triggers can respond to:</para>
+        <variablelist>
+            <varlistentry>
+                <term>create</term>
+                <listitem>
+                    <para>Fired when a collection or document is created in a collection</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>update</term>
+                <listitem>
+                    <para>Fired when a document is updated (there is no collection update)</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>copy</term>
+                <listitem>
+                    <para>Fired when a collection or document is copied</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>move</term>
+                <listitem>
+                    <para>Fired when a collection or document is moved (a rename operation is
+                        considered a move, not an update)</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>delete</term>
+                <listitem>
+                    <para>Fired when a collection or document is deleted</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+
+        <para>Triggers can be defined for running both <emphasis>before</emphasis> and
+            <emphasis>after</emphasis> the event.</para>
+
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="types">
+        <title>Trigger Types</title>
+
+        <para>Triggers can be written in XQuery or Java. </para>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="xq-triggers">
+            <title>XQuery Triggers</title>
+
+            <para>The XQuery code to execute when the trigger is fired can be placed in the
+                collection configuration <code>collection.xconf</code> file or referenced by a
+                URL.</para>
+            <para>The XQuery functions mapped to trigger event:</para>
+            <itemizedlist>
+                <listitem>
+                    <para> <code>trigger:before-create-collection($uri as xs:anyURI)</code> </para>
+                </listitem>
+                <listitem>
+                    <para> <code>trigger:after-create-collection($uri as xs:anyURI)</code> </para>
+                </listitem>
+                <listitem>
+                    <para> <code>trigger:before-copy-collection($uri as xs:anyURI, $new-uri as
+                        xs:anyURI)</code> </para>
+                </listitem>
+                <listitem>
+                    <para> <code>trigger:after-copy-collection($new-uri as xs:anyURI, $uri as
+                        xs:anyURI)</code> </para>
+                </listitem>
+                <listitem>
+                    <para> <code>trigger:before-move-collection($uri as xs:anyURI, $new-uri as
+                        xs:anyURI)</code> </para>
+                </listitem>
+                <listitem>
+                    <para> <code>trigger:after-move-collection($new-uri as xs:anyURI, $uri as
+                        xs:anyURI)</code> </para>
+                </listitem>
+                <listitem>
+                    <para> <code>trigger:before-delete-collection($uri as xs:anyURI)</code> </para>
+                </listitem>
+                <listitem>
+                    <para> <code>trigger:after-delete-collection($uri as xs:anyURI)</code> </para>
+                </listitem>
+                <listitem>
+                    <para> <code>trigger:before-create-document($uri as xs:anyURI)</code> </para>
+                </listitem>
+                <listitem>
+                    <para> <code>trigger:after-create-document($uri as xs:anyURI)</code> </para>
+                </listitem>
+                <listitem>
+                    <para> <code>trigger:before-update-document($uri as xs:anyURI)</code> </para>
+                </listitem>
+                <listitem>
+                    <para> <code>trigger:after-update-document($uri as xs:anyURI)</code> </para>
+                </listitem>
+                <listitem>
+                    <para> <code>trigger:before-copy-document($uri as xs:anyURI, $new-uri as
+                        xs:anyURI)</code> </para>
+                </listitem>
+                <listitem>
+                    <para> <code>trigger:after-copy-document($new-uri as xs:anyURI, $uri as
+                        xs:anyURI)</code> </para>
+                </listitem>
+                <listitem>
+                    <para> <code>trigger:before-move-document($uri as xs:anyURI, $new-uri as
+                        xs:anyURI)</code> </para>
+                </listitem>
+                <listitem>
+                    <para> <code>trigger:after-move-document($new-uri as xs:anyURI, $uri as
+                        xs:anyURI)</code> </para>
+                </listitem>
+                <listitem>
+                    <para> <code>trigger:before-delete-document($uri as xs:anyURI)</code> </para>
+                </listitem>
+                <listitem>
+                    <para> <code>trigger:after-delete-document($uri as xs:anyURI)</code> </para>
+                </listitem>
+            </itemizedlist>
+            <para>The <code>trigger:</code> prefix must be mapped to
+                <code>http://exist-db.org/xquery/trigger</code> namespace.</para>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="java-triggers">
+            <title>Java Triggers</title>
+
+            <para>Triggers written in Java must implement the
+                <code>org.exist.collections.triggers.CollectionTrigger</code> or
+                <code>org.exist.collections.triggers.DocumentTrigger</code> interface. The Java
+                class for your trigger must be available on the class path. <code>lib/user</code> is
+                a good place to store the your custom trigger. </para>
+            <para>The <code>DocumentTrigger</code> interface provides a convenient starting place
+                and provides the methods.</para>
+        </sect2>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="trigger-config">
+        <title>Configuring Triggers</title>
+
+        <para>Triggers are configured using the collection-specific configuration files called
+            <code>collection.xconf</code>. These files are stored as standard XML documents in the
+            system collection <literal>/db/system/config</literal>. <code>collection.xconf</code> is
+            used also to define other collection specific settings such as <link
+            xlink:href="indexing">indexes</link> or default permissions.</para>
+        <para>The hierarchy of the collection <literal>/db/system/config</literal> mirrors the
+            hierarchical structure of the main database collection. </para>
+        <para>Configurations are inherited by descendants in this hierarchy, (the configuration
+            settings for a child collection are added to or override those set for its parent). With
+            this it is possible for each collection to have its own <emphasis>trigger creation
+            policy</emphasis> defined by a configuration file.</para>
+        <para>To configure triggers for a given collection, for example: <literal>/db/foo</literal>,
+            create a new collection configuration file <code>collection.xconf</code> and store it in
+            the system collection (for instance as
+            <literal>/db/system/config/db/foo/collection.xconf</literal>). Since sub-collections
+            inherit the configuration policy of their parents, you are not required to specify a
+            configuration for its sub-collections.</para>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="conf-syntax">
+            <title>Configuration Structure and Syntax</title>
+
+            <para>Trigger configuration files are standard XML documents that have their elements
+                defined in the eXist namespace
+                <code>http://exist-db.org/collection-config/1.0</code>.</para>
+            <para>All configuration documents have a <tag>collection</tag> root element. The
+                triggers <code>child</code> element encloses the trigger configuration. Only a
+                single <tag>triggers</tag> element is permitted. In the <tag>triggers</tag> element
+                are <tag>trigger</tag> elements that define each trigger and the event(s) that it is
+                fired for.</para>
+            <para>Each <tag>trigger</tag> element has two attributes, <code>event</code> and
+                <code>class</code>.</para>
+            <variablelist>
+                <varlistentry>
+                    <term><code>event</code></term>
+                    <listitem>
+                        <para>A comma separated list of events to fire on:</para>
+                        <itemizedlist>
+                            <listitem>
+                                <para><literal>create</literal></para>
+                            </listitem>
+                            <listitem>
+                                <para><literal>update</literal></para>
+                            </listitem>
+                            <listitem>
+                                <para><literal>copy</literal></para>
+                            </listitem>
+                            <listitem>
+                                <para><literal>move</literal></para>
+                            </listitem>
+                            <listitem>
+                                <para><literal>delete</literal></para>
+                            </listitem>
+                        </itemizedlist>
+
+                        <para>If for an XQuery trigger the <code>event</code> attribute is not
+                            present, the code will never be invoked. </para>
+                        <para>For Java triggers the <code>event</code> attribute may or may not have
+                            any effect depending on the implementation of the
+                            <literal>configure()</literal> method. See the examples below.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>class</code></term>
+                    <listitem>
+                        <para>The name of the Java Class to fire when an event occurs. XQuery
+                            triggers are handled by the built-in Java trigger
+                            <literal>org.exist.collections.triggers.XQueryTrigger</literal>.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+
+            <para>The <tag>trigger</tag> element can in addition contain zero or more
+                <tag>parameter</tag> child-elements, defining any parameters to send to the
+                trigger.</para>
+
+            <sect3 xml:id="conf-xq">
+                <title>Configuring an XQuery Trigger</title>
+
+                <para>For XQuery triggers the following parameters apply:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term><code>url</code></term>
+                        <listitem>
+                            <para>The URL of the XQuery to execute</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><code>query</code></term>
+                        <listitem>
+                            <para>Can be used instead of <code>url</code>. Contains the XQuery
+                                itself.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+
+                <para>The following example shows two XQuery Triggers configured in
+                    <code>collection.xconf</code>. The first executes an XQuery stored in the
+                    database, the second an XQuery placed inline:</para>
+                <programlisting language="xml" xlink:href="listings/listing-2.xml"/>
+            </sect3>
+
+            <sect3 xml:id="conf-java">
+                <title>Configuring a Java Trigger</title>
+
+                <para>When configuring a Java Trigger, parameters are passed in a named map to the
+                    <code>configure()</code> function of the trigger.</para>
+                <para>The following example shows a Java trigger configuration:</para>
+                <programlisting language="xml" xlink:href="listings/listing-3.xml"/>
+            </sect3>
+
+        </sect2>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="ex-trigger">
+        <title>Example Triggers</title>
+
+        <para>Here are trigger examples:</para>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="logging-xq">
+            <title>Simple logging Trigger in XQuery</title>
+            <programlisting language="xquery" xlink:href="listings/listing-4.txt"/>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="logging-java">
+            <title>Simple Logging Trigger in Java</title>
+            <programlisting language="java" xlink:href="listings/listing-5.txt"/>
+        </sect2>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="provided">
+        <title>Provided Triggers</title>
+
+        <para>eXist provides some triggers that might be useful:</para>
+
+        <variablelist>
+            <varlistentry>
+                <term>HistoryTrigger</term>
+                <listitem>
+                    <para>This collection trigger will save all old versions of documents before
+                        they are overwritten or removed. The old versions are kept in the 'history
+                        root' which is by default <code>/db/history</code>. This can be changed with
+                        the parameter <code>root</code>. You need to configure this trigger for
+                        every collection whose history you want to preserve.</para>
+                    <para>The <emphasis>event</emphasis> attribute is ignored by
+                        <literal>HistoryTrigger</literal> </para>
+                    <programlisting language="xml" xlink:href="listings/listing-6.xml"/>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>STX Transformer Trigger</term>
+                <listitem>
+                    <para>STXTransformerTrigger applies an STX stylesheet to the input SAX stream,
+                        using <link condition="_blank" xlink:href="http://joost.sourceforge.net"
+                        >Joost</link>. The stylesheet location is identified by parameter
+                        <code>src</code>. The <code>src</code> parameter is just a path, the
+                        stylesheet will be loaded from the database, otherwise, it is interpreted as
+                        an URI.</para>
+                    <para>The <emphasis>event</emphasis> attribute is ignored by
+                        <literal>STXTransformerTrigger</literal> </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+
+    </sect1>
+</article>

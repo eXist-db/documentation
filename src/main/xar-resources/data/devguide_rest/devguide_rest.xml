@@ -1,0 +1,367 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>REST-Style Web API</title>
+        <date>2Q19</date>
+        <keywordset>
+            <keyword>application-development</keyword>
+            <keyword>interfaces</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+    <para>eXist-db provides a REST-style (or <emphasis>RESTful</emphasis>) API through HTTP, which
+        provides a simple and quick way to access the database. To use this API, all one needs is an
+        HTTP client, which is provided by nearly all programming languages and environments. Or
+        simply use a web-browser…</para>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="rest">
+        <title>Introduction</title>
+
+        <para>In the standard eXIst-db configuration, the system will listen for REST request
+            at:</para>
+        <programlisting>http://localhost:8080/exist/rest/</programlisting>
+
+        <para>The server treats all HTTP request paths as paths to a database collection (instead of
+            the file system). Relative paths are resolved relative to the database root collection.
+            For instance:</para>
+        <programlisting>http://localhost:8080/exist/rest/db/shakespeare/plays/hamlet.xml</programlisting>
+        <para>The server will receive an HTTP GET request for the resource
+            <literal>hamlet.xml</literal> in the collection
+            <literal>/db/shakespeare/plays</literal>. Itr will look for this collection and check if
+            the resource is available. If so, it will retrieve its contents and send this back to
+            the client. If the document does not exist, an <emphasis>HTTP 404 (Not Found)</emphasis>
+            status response will be returned.</para>
+
+        <para>To keep the interface simple, the basic database operations are directly mapped to
+            HTTP request methods wherever possible:</para>
+        <variablelist>
+            <varlistentry>
+                <term> <code>GET</code> </term>
+                <listitem>
+                    <para>Retrieves a resource or collection from the database. XQuery and XPath
+                        queries may also be specified using GET's optional parameters applied to the
+                        selected resource. See <xref linkend="get-requests"/>.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>PUT</code> </term>
+                <listitem>
+                    <para>Uploads a resource to the database. If required, collections are
+                        automatically created and existing resources overwritten. See <xref
+                        linkend="put-requests"/>.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>DELETE</code> </term>
+                <listitem>
+                    <para>Removes a resource (document or collection) from the database. See <xref
+                        linkend="delete-requests"/>.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>POST</code> </term>
+                <listitem>
+                    <para>Submits an XML fragment in the content of the request. This fragment
+                        specifies the action to take. The fragment can be either an XUpdate document
+                        or a query request. Query requests are used to pass complex XQuery
+                        expressions too large to be URL-encoded. See <xref linkend="post-requests"
+                        />.</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+
+        <note>
+            <para> When running eXist-db as a stand-alone server(when the database has been started
+                using the shell-script <literal>bin/server.sh</literal> (Unix) or batch file
+                <literal>bin/server.bat</literal> (Windows/DOS)), HTTP access is supported through a
+                simple, built-in web server. This web server has limited capabilities, restricted to
+                the basic operations defined by eXist's REST API (<literal>GET</literal>,
+                <literal>POST</literal>, <literal>PUT</literal> and
+                <literal>DELETE</literal>).</para>
+            <para>When running in a servlet-context (the usual way of starting eXist-db), this same
+                server functionality is provided by the <literal>EXistServlet</literal>.</para>
+            <para>Both the stand-alone server and the servlet rely on Java class
+                <literal>org.exist.http.RESTServer</literal> to do the actual work.</para>
+        </note>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="http-auth">
+        <title>HTTP Authentication</title>
+
+        <para>Authentication is done through the basic HTTP authentication mechanism so only
+            authenticated users can access the database. If no username and password are specified,
+            the server assumes a "guest" user identity, which has limited capabilities. If the
+            username submitted is not known, or an incorrect password is submitted, an error page
+            (<code>403</code> - Forbidden) is returned.</para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="get-requests">
+        <title>GET Requests</title>
+
+        <para>If the server receives an HTTP <code>GET</code> request, it first checks the request
+            for known parameters. If no parameters are given or known it will try to locate the
+            collection or document specified in the URI database path and return a representation of
+            this resource the client.</para>
+        <note>
+            <para>When the located resource is XML, the returned <emphasis>content-type</emphasis>
+                attribute value is <literal>application/xml</literal> and for binary resources
+                <literal>application/octet-stream</literal>.</para>
+        </note>
+        <para>If the path resolves to a database collection, the retrieved results are returned as
+            an XML fragment. For example:</para>
+        <programlisting language="xml" xlink:href="listings/listing-3.xml"/>
+
+        <para>If an <literal>xml-stylesheet</literal> processing instruction is found in a requested
+            XML document, the database will try to apply this stylesheet before returning the
+            document. A relative path will be resolved relative to the location of the source
+            document. For example, if the document <literal>hamlet.xml</literal>, which is stored in
+            collection <literal>/db/shakespeare/plays</literal> contains the XSLT processing
+            instruction:</para>
+        <programlisting>&lt;?xml-stylesheet type="application/xml" href="shakes.xsl"?&gt;</programlisting>
+        <para>The database will load the stylesheet from
+            <literal>/db/shakespeare/plays/shakes.xsl</literal>.</para>
+        <para> <code>GET</code> accepts the following optional request parameters (which must be
+            URL-encoded):</para>
+        <variablelist>
+            <varlistentry>
+                <term> <code>_xsl=XSL Stylesheet</code> </term>
+                <listitem>
+                    <para>Applies an XSL stylesheet to the requested resource. A relative path is
+                        considered relative to the database root collection. This option will
+                        override any XSL stylesheet processing instructions found in the source XML
+                        file.</para>
+                    <para>Setting <literal>_xsl</literal> to <literal>no</literal> disables any
+                        stylesheet processing. This is useful for retrieving unprocessed XML from
+                        documents that have a stylesheet declaration.</para>
+                    <warning>
+                        <para>If your document has a valid XSL stylesheet declaration, the web
+                            browser may still decide to apply the XSL. In this case, passing
+                            <literal>_xsl=no</literal> has no visible effect, though the XSL is now
+                            rendered by the browser, <emphasis>not</emphasis> eXist.</para>
+                    </warning>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>_query=XPath/XQuery Expression</code> </term>
+                <listitem>
+                    <para>Executes the query specified. The collection or resource referenced in the
+                        request path is added to the set of statically known documents for the
+                        query. </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>_indent=yes | no</code> </term>
+                <listitem>
+                    <para>Whether to return indented pretty-printed XML. The default value is
+                        <literal>yes</literal>.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>_encoding=Character Encoding Type</code> </term>
+                <listitem>
+                    <para>Sets the character encoding for the resulting XML. The default value is
+                        <literal>UTF-8</literal>.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>_howmany=Number of Items</code> </term>
+                <listitem>
+                    <para>Specifies the maximum number of items to return from the result sequence.
+                        The default value is <literal>10</literal>.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>_start=Starting Position in Sequence</code> </term>
+                <listitem>
+                    <para>Specifies the index position of the first item in the result sequence to
+                        return. The default value is <literal>1</literal>.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>_wrap=yes | no</code> </term>
+                <listitem>
+                    <para>Specifies whether the returned query results must be wrapped in a parent
+                        <tag>exist:result</tag> element. The default value is
+                        <literal>yes</literal>.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>_source=yes | no</code> </term>
+                <listitem>
+                    <para>Specifies whether the query should display its source code instead of
+                        being executed. The default value is <literal>no</literal>. See the
+                        <tag>allow-source</tag> section in <literal>descriptor.xml</literal> about
+                        explicitly allowing this behaviour.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>_cache=yes | no</code> </term>
+                <listitem>
+                    <para>If set to <code>yes</code>, the results of the current query are stored in
+                        a session on the server. A session id will be returned with the response.
+                        Subsequent requests can pass this session id via the
+                        <literal>_session</literal> parameter. If the server finds a valid session
+                        id, it will return the cached results instead of re-evaluating the query.
+                        See below. </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>_session=session id</code> </term>
+                <listitem>
+                    <para>Specifies a session id returned by a previous query request. Query results
+                        will be read from the cached session.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>_release=session id</code> </term>
+                <listitem>
+                    <para>Release the session identified by session id.</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        <para>As an example: The following URI will find all <tag>SPEECH</tag> elements in the
+            collection <literal>/db/shakespeare</literal> with "Juliet" as the <tag>SPEAKER</tag>.
+            As specified, it will return 5 items from the result sequence, starting at position
+            3:</para>
+        <programlisting>http://localhost:8080/exist/rest/db/shakespeare?_query=//SPEECH[SPEAKER=%22JULIET%22]&amp;_start=3&amp;_howmany=5</programlisting>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="put-requests">
+        <title>PUT Requests</title>
+
+        <para>Documents can be stored or updated in the database using an HTTP <code>PUT</code>
+            request. The request URI points to the location where the document must be stored. As
+            defined by the HTTP specifications, an existing document at the specified path will be
+            updated. Any collections defined in the path that do not exist are created
+            automatically.</para>
+        <para>For example, the following Python script stores a document (the name is specified on
+            the command-line) in the database collection <literal>/db/test</literal>,. This will be
+            created if it does not exist. Note that the HTTP header field
+            <literal>content-type</literal> is specified as <literal>application/xml</literal>,
+            since otherwise the document would be stored as a binary resource.</para>
+
+        <programlisting language="java" xlink:href="listings/listing-6.txt"/>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="delete-requests">
+        <title>DELETE Requests</title>
+
+        <para> <code>DELETE</code> removes a collection or resource from the database.</para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="post-requests">
+        <title>POST Requests</title>
+
+        <para> <code>POST</code> requests require an XML fragment in the content of the request.
+            This fragment specifies the action to take.</para>
+        <itemizedlist>
+            <listitem>
+                <para>If the root node of the fragment uses the XUpdate namespace
+                    (<literal>http://www.xmldb.org/xupdate</literal>), the fragment is sent to the
+                    XUpdateProcessor to be processed.</para>
+            </listitem>
+            <listitem>
+                <para>Otherwise the root node must have the namespace for eXist requests
+                    (<literal>http://exist.sourceforge.net/NS/exist</literal>). The fragment is
+                    interpreted as an <emphasis>extended query request</emphasis>. Extended query
+                    requests can be used to post complex XQuery scripts that are too large to be
+                    encoded in a <code>GET</code> request.</para>
+            </listitem>
+        </itemizedlist>
+
+
+        <para>The structure of the POST XML request is as follows:</para>
+
+        <programlisting language="xml" xlink:href="listings/listing-7.xml"/>
+        <para>The root element <literal>query</literal> identifies the fragment as an extended query
+            request. The XQuery expression for this request is enclosed in the
+            <literal>text</literal> element. The <code>start</code>, <code>max</code>,
+            <code>cache</code> and <code>session-id</code> attributes have the same meaning as the
+            corresponding <code>GET</code> parameters (see <xref linkend="get-requests"/>).</para>
+        <note>
+            <para>You may have to enclose the XQuery expression in a CDATA section (i.e.
+                &lt;![CDATA[ ... ]]&gt;) to avoid parsing errors. </para>
+        </note>
+        <para>Optional output properties, such as <code>pretty-print</code>, can be passed in the
+            <tag>properties</tag> element.</para>
+        <para> An example of <code>POST</code> for Perl is provided below:</para>
+        <programlisting language="java" xlink:href="listings/listing-8.txt"/>
+
+        <para>The returned query results are enclosed in an <tag>exist:result</tag> element:</para>
+        <programlisting language="xml" xlink:href="listings/listing-9.xml"/>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="call-xq">
+        <title>Calling Stored XQueries</title>
+
+        <para>The REST interface supports executing stored XQueries on the server. If the target
+            resource of a <code>GET</code> or <code>POST</code> request is a binary resource with
+            the mime-type <literal>application/xquery</literal>, the REST server will try to compile
+            and execute it as an XQuery script. The script has access to the entire HTTP context,
+            including parameters and session attributes.</para>
+        <para>Stored XQueries are a good way to provide dynamic views on data or create small
+            services. However, they can do more: because you can also store binary resources like
+            images, CSS stylesheets or Javascript files into a database collection, it is entirely
+            possible to serve a complex application out of the database. For instance, have a look
+            at the example <link
+            xlink:href="https://demo.exist-db.org/exist/apps/demo/examples/web/index.html">Using
+            XQuery for Web Applications</link> on the demo server.</para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="cached-results">
+        <title>Cached Query Results</title>
+
+        <para>When executing queries using <code>GET</code> or <code>POST</code>, the server is able
+            to cache query results in a server-side session. These results are cached in
+            memory.</para>
+        <note>
+            <para>Memory consumption will be low for query results which reference nodes stored in
+                the database and high for nodes constructed within the XQuery itself.</para>
+        </note>
+        <para>To create a session and store query results, pass <literal>_cache=yes</literal> with a
+            <code>GET</code> request or set attribute <literal>cache="yes"</literal> within the XML
+            payload of a <code>POST</code> query request. The server will execute the query as
+            usual. If the result sequence contains more than one item, the entire sequence will be
+            stored into a newly created session.</para>
+        <para>The id of the created session is included in the response. For requests which return a
+            <tag>exist:result</tag> wrapper element, the session id will be specified in the
+            <literal>exist:session</literal> attribute. The session id is also available in the HTTP
+            header <literal>X-Session-Id</literal>. </para>
+        <para>The following example shows an example of the HTTP header and <tag>exist:result</tag>
+            tag returned by the server:</para>
+
+        <programlisting xlink:href="listings/listing-10.txt"/>
+        <para>The session id can be passed with subsequent requests to retrieve further chunks of
+            data without re-evaluating the query. For a <code>GET</code> request, pass the session
+            id with parameter <literal>_session</literal>. For a <code>POST</code> request, add an
+            attribute <literal>session="sessionId"</literal> to the XML content of the
+            request.</para>
+        <para>If the session does not exist or has timed out, the server will re-evaluate the query.
+            The timeout is set to 2 minutes.</para>
+        <para>A session can be deleted by sending a GET <code>request</code> to an arbitrary
+            collection URL. Pass the session id in the <literal>_release</literal> parameter:</para>
+        <programlisting>http://localhost:8080/exist/rest/db?_release=0</programlisting>
+    </sect1>
+
+</article>

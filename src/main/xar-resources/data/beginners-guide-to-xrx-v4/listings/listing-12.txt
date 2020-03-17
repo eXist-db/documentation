@@ -1,0 +1,103 @@
+xquery version "1.0";
+
+declare option exist:serialize "method=xhtml media-type=text/xml indent=yes process-xsl-pi=no";
+
+let $new := request:get-parameter('new', '')
+let $id := request:get-parameter('id', '')
+let $data-collection := '/db/apps/terms/data'
+let $file := 
+    if ($new ne '') then
+        'new-instance.xml'
+    else
+        concat('../data/', $id, '.xml')
+let $form :=
+    <html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:xf="http://www.w3.org/2002/xforms"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:ev="http://www.w3.org/2001/xml-events">
+        <head>
+            <title>Edit Item</title>
+            <style type="text/css">
+                <![CDATA[
+                    @namespace xf url("http://www.w3.org/2002/xforms");
+             
+                    body {
+                        font-family: Helvetica, Ariel, Verdana, sans-serif;
+                    }
+             
+                    .term-name .xforms-value {width: 50ex;}
+                    .definition .xforms-value {
+                        height: 5em;
+                        width: 600px;
+                    }
+                        
+                    /* align the labels but not the save label */
+                    xf|output xf|label, xf|input xf|label, xf|textarea xf|label, xf|select1 xf|label {
+                        display: inline-block;
+                        width: 14ex;
+                        text-align: right;
+                        vertical-align: top;
+                        margin-right: 1ex;
+                        font-weight: bold;
+                    }
+             
+                    xf|input, xf|select1, xf|textarea, xf|ouptut {
+                        display: block;
+                        margin: 1ex;
+                    }
+                ]]>
+            </style>
+            <xf:model>
+                <xf:instance xmlns="" src="{$file}" id="save-data"/>
+                <xf:submission id="save" method="post" action="{
+                        if ($new eq 'true') then
+                            'save-new.xq'
+                        else
+                            'update.xq'
+                    }" instance="my-task" replace="all"/>
+            </xf:model>
+        </head>
+        <body>
+            <h1>Edit Term</h1>
+            {
+                if ($id) then
+                    <xf:output ref="id" class="id">
+                        <xf:label>ID:</xf:label>
+                    </xf:output>
+                else
+                    ()
+            }
+            <xf:input ref="term-name" class="term-name">
+                <xf:label>Term Name:</xf:label>
+            </xf:input>
+            <xf:textarea ref="definition" class="definition">
+                <xf:label>Definition:</xf:label>
+            </xf:textarea>
+            <xf:select1 ref="publish-status-code">
+                <xf:label>Status:</xf:label>
+                <xf:item>
+                    <xf:label>Draft</xf:label>
+                    <xf:value>draft</xf:value>
+                </xf:item>
+                <xf:item>
+                    <xf:label>Under Review</xf:label>
+                    <xf:value>review</xf:value>
+                </xf:item>
+                <xf:item>
+                    <xf:label>Published</xf:label>
+                    <xf:value>published</xf:value>
+                </xf:item>
+            </xf:select1>
+            <xf:submit submission="save">
+                <xf:label>Save</xf:label>
+            </xf:submit>
+        </body>
+    </html>
+let $xslt-pi := processing-instruction xml-stylesheet {'type="text/xsl" href="/exist/apps/xsltforms/xsltforms.xsl"'}
+return
+    (
+        (: Prevent betterFORM (still enabled by default) from intercepting the form, allowing XSLTForms to handle it :)
+        request:set-attribute("betterform.filter.ignoreResponseBody", "true"),
+        $xslt-pi, 
+        $form
+    )

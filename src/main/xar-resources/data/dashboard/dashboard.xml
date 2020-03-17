@@ -1,0 +1,185 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>Dashboard</title>
+        <date>2Q19</date>
+        <keywordset>
+            <keyword>getting-started</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+    <para>The eXist-db Dashboard is the central application launchpad and administration facility
+        for eXist-db. Much like a tablet or smartphone home screen, the Dashboard displays a list of
+        applications, or "apps".</para>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="intro">
+        <title>Introduction</title>
+        <para>The Dashboard supports both "apps" and "plug-ins". Apps are self-contained
+            applications providing their own web GUI, while "plug-ins" run inside the Dashboard as
+            simple, single-screen dialogs. Examples for apps are the eXist-db documentation, eXide,
+            or the demo app. Examples for plug-ins are the package manager or the collection
+            browser. Plug-ins are most suitable for administrative functions.</para>
+        <para>In addition to applications and plug-ins, the package repository does also provide
+            library and resource packages. They usually do not provide a web GUI and are therefore
+            not visible on the Dashboard home screen. However, they will appear in the list of
+            installed packages within the package manager. You can read more about the different
+            types of packages in the <link xlink:href="repo">package repository
+            documentation</link>.</para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="login">
+        <title>Login</title>
+
+        <figure>
+            <title>Login as User admin</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="assets/dashboardLogin.png" width="50%"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>To fully use the administration plug-ins, you need to be logged in as a dba user. You
+            may access plug-ins as a non-dba user, but as soon as you want to apply changes, you
+            will get a permission error.</para>
+        <para>You can log in by clicking on the link in the upper left-hand corner of the Dashboard
+            frame. If you are logged in as another user, click on the user name to log out.</para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="usage">
+        <title>Using the Package Manager</title>
+
+        <figure>
+            <title>The Package Manager Icon</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="assets/dashboardPMIcon.png" width="25%"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>The Package Manager lists all installed and available packages. If updates to
+            installed packages are available, this is marked in red.</para>
+        <para>To filter the package list, select the corresponding radio buttons to see either
+            <literal>installed</literal> or <literal>available</literal> packages. Detailed
+            information about each package can be viewed by selecting the <literal>show
+            details</literal> checkbox in the upper-right corner.</para>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="install">
+            <title>Installing/Removing a Package</title>
+
+            <figure>
+                <title>Installing an app</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="assets/dashboardInstallApp.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>To install an app from the public repository, move your mouse over the app. You
+                should see an install button if the app is not currently installed or a remove
+                button if it is.</para>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="update">
+            <title>Updating a Package</title>
+
+            <figure>
+                <title>Available Updates to Installed Packages</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="assets/dashboardUp2dateApps.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>Updates to already installed packages appear with the currently installed and the
+                available version number in red. Another note is displayed if a package requires a
+                certain version of eXist-db. If this is the case, please make sure you are on the
+                correct version before you attempt to install it.</para>
+            <para>Clicking on the install button will update the package, removing the old
+                one.</para>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="install-old">
+            <title>Installing an older version</title>
+
+            <figure>
+                <title>Older Versions in Detailed View</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="assets/dashboardSelectVersion.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>Sometimes you may want to go back to an older version of a package. To see all
+                available versions, switch to the detail view, using the <guimenuitem>show
+                details</guimenuitem> button. Older versions will only be displayed for packages
+                which are not installed, so you have to remove the corresponding package
+                first.</para>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="upload">
+            <title>Uploading Your Own Packages</title>
+
+            <figure>
+                <title>Upload Your Own Application to eXist-db</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="assets/dashboardLoadOwnApps.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>Instead of installing from the public repository, you can also upload a package
+                from your local disk. The package has to be in <literal>.xar</literal>
+                format.</para>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="browser-cache">
+            <title>Browser Caching</title>
+
+            <figure>
+                <title>Clear your Cache Information</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="assets/dashboardUp2dateInfo.png"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+            <para>Some apps like eXide or the Dashboard rely on JavaScript libraries. After an
+                update, your browser may still use the old libraries, which may affect the
+                functionality of the app. You should at least reload any open page belonging to
+                those apps. A corresponding warning will be shown during the update. </para>
+        </sect2>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <!-- This is very incomplete and therefore not useable in this form. It is developer not usage info and does therefore not belong in this article! -->
+    <!--  <sect1>
+    <title>Further Information for Developers</title>
+
+    <para>[To be completed...]</para>
+    <para>Plugins are loaded and unloaded on demand via dojo's AMD loader. They are modular, self-contained units. To add a new plugin, you need to
+      provide an HTML and a <literal>.js</literal> file, which defines a subclass of the base plugin class. The source code for the dashboard is
+      available on <link xlink:href="https://github.com/eXist-db/dashboard">GitHub</link>.</para>
+  </sect1>-->
+</article>

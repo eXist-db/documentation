@@ -1,0 +1,726 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <!-- ================================================================== -->
+
+    <info>
+        <title>Author Reference</title>
+        <date>1Q20</date>
+        <keywordset>
+            <keyword>authoring</keyword>
+            <keyword>exist</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+    <para>This article describes the conventions for writing articles for the eXist-db documentation
+        set. The eXist-db documentation set is (since beginning 2018) based on a subset of the
+        DocBook 5 content model. If you want to contribute an article (please do) it must conform to
+        the standards described here.</para>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="writing-guidelines">
+        <title>General guidelines</title>
+
+        <para>Here are some general writing (and tagging) guidelines:</para>
+        <itemizedlist>
+            <listitem>
+                <para>Please start of with a short introduction of your article in one or a few
+                    paragraphs before diving in. These paragraphs must be placed
+                    <emphasis>before</emphasis> the first <tag>sect1</tag>.</para>
+                <para>Describe what the article is about and for whom. What is the subject? Is it
+                    for total novices, beginners, advanced programming gurus in Java hyperspace?
+                    Prevent readers from diving in and find out that it's not for them.</para>
+            </listitem>
+            <listitem>
+                <para>Presenting longer listings can best be done by storing these in separate
+                    documents and linking them (see <xref linkend="listings"/>). This makes
+                    maintenance easier (ever edited a large CDATA section with XML inside?).</para>
+                <para>An additional reason is that somewhere in the future we intend to enable
+                    running code-examples directly from the documentation app. For this these
+                    examples must be in separate documents. So make sure that at least runnable
+                    examples are separated from your text.</para>
+            </listitem>
+            <listitem>
+                <para>Of course all the normal technical writing guidelines apply: Keep your target
+                    group in mind (what do they know and, more importantly, what not), write correct
+                    English, use plenty of examples, split the article in sections and sub-sections
+                    that make sense, etc.</para>
+            </listitem>
+        </itemizedlist>
+
+        <sect2 xml:id="patterns">
+            <title>Patterns to avoid</title>
+
+            <para>The following patterns tend to occur again and again in writing documentation.
+                Please try to avoid them…</para>
+            <para>The examples exaggerated, but that's for illustration purposes, not to offend
+                anyone.</para>
+
+            <sect3 xml:id="avoid">
+                <title>Avoid the difficult and explain the easy</title>
+
+                <para>It is very tempting to skip quickly over some hard parts of the documentation
+                    and instead describe some of the easy parts in length. For instance:</para>
+                <example>
+                    <title/>
+                    <para>To configure the <emphasis>xyz</emphasis> extension you have to create an
+                        XML configuration file. Here is an example:</para>
+                    <programlisting>(some skimpy example of a complicated configuration file that is supposed to speak for itself
+but does not because its too simple)</programlisting>
+                    <para>To work with the user interface open this, click here, enter the password
+                        twice, click ok, bla bla bla, going on for multiple paragraphs…</para>
+                </example>
+
+                <para>Well, your reader isn't stupid and hasn't seen a GUI for the first time. So
+                    telling him/her that a password needs to be entered twice and that ok must be
+                    clicked is completely superfluous. Just point your reader to the GUI and maybe
+                    to the right menu but that's all. Believe me, they know how to fill in a dialog
+                    box.</para>
+                <para>But they do not know what all these elements and attributes in the
+                    configuration file mean. Even if the names speak for themselves, some
+                    explanation will be necessary. Best to describe them all, mention defaults,
+                    examples, etc.</para>
+                <para>And yes, that's hard work, both in thinking and writing. But if you want your
+                    xyz extension to be used and useful (that's what you wrote it for, right?) its
+                    part of the job.</para>
+            </sect3>
+
+            <sect3 xml:id="polite">
+                <title>Being overly polite</title>
+
+                <para>Sometimes writers try to be very polite to both the reader and, strangely
+                    enough, the system. Since the reader wants it clear and you can't offend a
+                    system, don't.</para>
+
+                <table>
+                    <title>Table title</title>
+                    <tgroup cols="2">
+                        <colspec/>
+                        <colspec/>
+                        <thead>
+                            <row>
+                                <entry> <para>Polite version</para> </entry>
+                                <entry> <para>Straight version</para> </entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry> <para>The logfile should appear.</para> </entry>
+                                <entry> <para>The logfile appears.</para> </entry>
+                            </row>
+                            <row>
+                                <entry> <para>You may enter ...</para> </entry>
+                                <entry> <para>Enter ...</para> </entry>
+                            </row>
+                            <row>
+                                <entry> <para>If you wish you can also...</para> </entry>
+                                <entry> <para>It is also possible to ...</para> <para>Also:
+                                    ...</para> </entry>
+                            </row>
+                            <row>
+                                <entry> <para>Please navigate to...</para> </entry>
+                                <entry> <para>Navigate to ...</para> </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </sect3>
+
+            <sect3 xml:id="thus">
+                <title>Using thus instead of therefore</title>
+                <para>Somehow there seems to be a preference among eXist-db's documentation writers
+                    for the word "thus" when "therefore" is meant. Thus is almost always wrong in
+                    this kind of prose, so please default to therefore. If you want to know more
+                    read on <link condition="_blank"
+                    xlink:href="https://painintheenglish.com/case/4452/">here</link>.</para>
+            </sect3>
+
+            <sect3 xml:id="java">
+                <title>Java isn't always interesting</title>
+                <para>Some articles that explain stuff about things in the XQuery realm keep
+                    rambling on about stuff in Java or in eXist-db's architecture: Servlets that
+                    execute, methods that are called, etc.</para>
+                <para>Yes, because <emphasis>you</emphasis> are a Java programmer its probably
+                    interesting to you. But when the intended audience of the article is XQuery
+                    programmers, don't bother them with this. And if you really (really!) think it
+                    is necessary information for some of them, add it to a separate section at the
+                    bottom.</para>
+            </sect3>
+
+        </sect2>
+
+
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="tech">
+        <title>Technical guidelines</title>
+
+        <para>More information about DocBook itself can be found on the <link condition="_blank"
+            xlink:href="https://docbook.org/">official DocBook site</link>.</para>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="col-struct">
+            <title>Collection (directory) structure</title>
+            <itemizedlist xml:id="test-list-for-ref" xreflabel="directory structure list">
+                <listitem>
+                    <para>A single article must be stored in a collection on its own, the
+                        <emphasis>article-collection</emphasis>. Related assets or other files will
+                        be stored in sub-collections of this. This setup ensures that everything
+                        belonging to a single article stays together. </para>
+                </listitem>
+                <listitem>
+                    <para>In the eXist documentation app, the article-collection will become a
+                        sub-collection of the <code>data</code> collection. So an article-collection
+                        called <code>new-cool-feature</code> will become
+                        <code>/db/apps/doc/data/new-cool-feature</code>.</para>
+                </listitem>
+                <listitem>
+                    <para>The name of the article-collection should be the same as the document-name
+                        of the article itself. So if your article is called
+                        <code>new-cool-feature.xml</code>, store it as
+                        <code>new-cool-feature/new-cool-feature.xml</code>.</para>
+                </listitem>
+                <listitem>
+                    <para>Any binary assets (images, etc.) referenced by your article must be stored
+                        in a sub-collection <code>assets</code>. So in our example in
+                        <code>new-cool-feature/assets</code>.</para>
+                </listitem>
+                <listitem>
+                    <para>Any non-binary assets (usually included program/text listings) referenced
+                        by your article must be stored in a sub-collection <code>listings</code>. So
+                        in our example in <code>new-cool-feature/listings</code>.</para>
+                </listitem>
+            </itemizedlist>
+            <note>
+                <para>All rules regarding collection names are not there for technical reasons but
+                    to promote consistency. If you deviate and make sure all references are correct
+                    it will still work. However, to keep things maintainable it is strongly
+                    recommended to follow the rules stated above (or, if you really think they're
+                    stupid, apply for a rule change).</para>
+            </note>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="file-struc">
+            <title>Overall XML structure</title>
+            <para>Here is an example how an article for this documentation set looks like:</para>
+            <programlisting language="xml" xlink:href="listings/structure.xml"/>
+            <para>Both the processing instructions at the top are optional but strongly recommended.
+                They're present to guide tools like oXygen in validating the document and provide
+                authoring hints.</para>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="info">
+            <title>Article information</title>
+            <para>Here is an example the article's mandatory information section:</para>
+            <programlisting language="xml" xlink:href="listings/info.xml"/>
+            <para>The following rules and guidelines apply:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>There <emphasis>must</emphasis> be a title present in a <tag>title</tag>
+                        element. This is the main title of the document. It will be displayed at the
+                        top of the page.</para>
+                </listitem>
+                <listitem>
+                    <para>Optional but strongly recommended is a date in the <tag>date</tag>
+                        element. This will be displayed below the title and provide the reader with
+                        some clue on how old this information is. We all know that sometimes
+                        articles get outdated but are not removed... You don't have to provide an
+                        exact date. Just month and year will do, or some indication like
+                        1Q18.</para>
+                </listitem>
+                <listitem>
+                    <para>We use keywords to mark an article for certain subject areas. See <xref
+                        linkend="keyword-usage"/>.</para>
+                </listitem>
+                <listitem>
+                    <para>You can add more information in <tag>info</tag> to your heart's desire but
+                        the renderer won't use nor display it.</para>
+                </listitem>
+            </itemizedlist>
+
+            <sect3 xml:id="keyword-usage">
+                <title>Keyword usage</title>
+
+                <para>The <tag>info</tag> element must contain at least one keyword. This is used to
+                    create an index on subject. Multiple keywords can be specified by repeating the
+                    <tag>keyword</tag> element.</para>
+                <para>Keywords are always written <emphasis>lower-case</emphasis> and must not
+                    contain spaces.</para>
+                <para>The following keywords are in use:</para>
+                <table>
+                    <title>Keyword usage</title>
+                    <tgroup cols="2">
+                        <colspec colwidth="30%"/>
+                        <colspec/>
+                        <thead>
+                            <row>
+                                <entry> <para>Keyword</para> </entry>
+                                <entry> <para>Meaning</para> </entry>
+                            </row>
+                        </thead>
+                        <!-- Please keep in alphabetical order. -->
+                        <tbody>
+                            <row>
+                                <entry> <para> <code>application-development</code> </para> </entry>
+                                <entry> <para>Information related to using eXIst-db as an
+                                    application platform.</para> </entry>
+                            </row>
+                            <row>
+                                <entry> <para> <code>exist</code> </para> </entry>
+                                <entry> <para>Anything related to eXist-db itself, like legal
+                                    statements, how to send in bugs, etc.</para> </entry>
+                            </row>
+                            <row>
+                                <entry> <para> <code>getting-started</code> </para> </entry>
+                                <entry> <para>Basic information on how to get eXist-db up and
+                                    running.</para> </entry>
+                            </row>
+                            <row>
+                                <entry> <para> <code>java-development</code> </para> </entry>
+                                <entry> <para>Information about programming Java for or in
+                                    eXist-db.</para> </entry>
+                            </row>
+                            <row>
+                                <entry> <para> <code>indexing</code> </para> </entry>
+                                <entry> <para>Information related to eXist-db's indexes.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry> <para> <code>installation</code> </para> </entry>
+                                <entry> <para>Information about installing eXist-db</para> </entry>
+                            </row>
+                            <row>
+                                <entry> <para> <code>interfaces</code> </para> </entry>
+                                <entry> <para>Information about specific interfaces eXist-db
+                                    provides</para> </entry>
+                            </row>
+                            <row>
+                                <entry> <para> <code>operations</code> </para> </entry>
+                                <entry> <para>How to keep eXist-db up and running, not from a
+                                    programmer's but from a system maintenance point of view.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry> <para> <code>testing</code> </para> </entry>
+                                <entry> <para>Information related to testing eXist-db or its
+                                    applications.</para> </entry>
+                            </row>
+                            <row>
+                                <entry> <para> <code>xquery</code> </para> </entry>
+                                <entry> <para>Information related to XQuery (or XPath) in general or
+                                    eXist-db's specific features of the language.</para> </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+
+                <warning>
+                    <para>Tables like the one above tend to get outdated sooner or later (because
+                        somebody adds/deletes a keyword and forgets to update it). To see all the
+                        keywords actually in use, look at the index-by-subject section of the <link
+                        xlink:href="documentation">main documentation page</link>.</para>
+                    <para>Watch out: For legibility reasons the keywords there are presented
+                        <emphasis>capitalized</emphasis>. Remember that in the article documents the
+                        keywords must be stated in <emphasis>lower-case</emphasis>!</para>
+                </warning>
+
+            </sect3>
+
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="block">
+            <title>Supported block elements</title>
+
+            <para>The following DocBook 5 block level elements are supported for the eXist-db
+                documentation set. Unsupported elements will be flagged when the content is rendered
+                (you'll see a bold red error message in the middle of your story).</para>
+
+            <variablelist>
+
+                <varlistentry>
+                    <term>Paragraphs</term>
+                    <listitem>
+                        <para>Use <tag>para</tag> to tag text as a paragraph.</para>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Section levels</term>
+                    <listitem>
+                        <para>You can use <tag>sect1</tag> up to <tag>sect3</tag> as section levels.
+                            Only <tag>sect1</tag> and <tag>sect2</tag> will appear in the table of
+                            contents. Markup in titles is ignored.</para>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Lists</term>
+                    <listitem>
+                        <para>You can use either <tag>itemizedlist</tag> (with bullets) or
+                            <tag>orderedlist</tag> (with numbers).</para>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Variable list</term>
+                    <listitem>
+                        <para>A <tag>variablelist</tag> is a bit of a misnomer. It creates lists
+                            like this one (the list of block elements you're looking at now), so
+                            it's useful for much more than variables.</para>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Notes</term>
+                    <listitem>
+                        <note>
+                            <title>About notes</title>
+                            <para>The <tag>note</tag> element creates a noticeable layout like this.
+                                The title is optional.</para>
+                        </note>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Warnings</term>
+                    <listitem>
+                        <warning>
+                            <para>Both the <tag>warning</tag> and <tag>important</tag> element
+                                produce a layout like this. The only difference is the text of the
+                                header. You can optionally add a title.</para>
+                        </warning>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Examples</term>
+                    <listitem>
+                        <example>
+                            <title>An example of an example</title>
+                            <para>The <tag>example</tag> element produces an example in a layout
+                                like this. It must have a <tag>title</tag> element, which is
+                                displayed at the bottom:</para>
+                        </example>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry xml:id="listings" xreflabel="Listings">
+                    <term>Listings</term>
+                    <listitem>
+                        <para>Anything you want to present as a program listing or other fixed text
+                            (e.g. a sequence of commands) must be enclosed in a
+                            <tag>programlisting</tag> element. There are two ways to provide the
+                            actual contents of the listing:</para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>Simply enclose the text in the <tag>programlisting</tag>
+                                    element. Use CDATA if necessary. Any markup will be
+                                    ignored.</para>
+                            </listitem>
+                            <listitem>
+                                <para>Add an <code>xlink:href</code> attribute
+                                    (<code>xmlns:xlink="http://www.w3.org/1999/xlink"</code>) with a
+                                    reference to a file containing the text. This must be a
+                                    <emphasis>relative</emphasis> reference (e.g.
+                                    <code>xlink:href="listings/mylisting.txt"</code>). The contents
+                                    of the element will be ignored.</para>
+                                <para>Using the <code>xlink:href</code> attribute is definitely
+                                    <emphasis>not</emphasis> the proper way to do this. It should be
+                                    done by using an <tag>xi:include</tag> element inside
+                                    <tag>programlisting</tag>. However, current XInclude limitations
+                                    in eXist prevent this from working properly (it can only include
+                                    XML, not text). So therefore this workaround.</para>
+                            </listitem>
+                        </itemizedlist>
+                        <para>Listings have two display modes:</para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>If it's a listing in some language (like XML), add a
+                                    <code>language</code> attribute with the name of the language.
+                                    The render will try to add some color coding (if it recognizes
+                                    it). Here is a listing with <code>language="xml"</code>:</para>
+                                <programlisting language="xml" xlink:href="listings/example-xml.xml"/>
+                            </listitem>
+                            <listitem>
+                                <para>For a straight listing, don't add a <code>language</code>
+                                    attribute. Here is the same listing as above without:</para>
+                                <programlisting xlink:href="listings/example-xml.xml"/>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Figures</term>
+                    <listitem>
+                        <para>Use <tag>figure</tag> or <tag>informalfigure</tag> to add an asset.
+                            The effect of both elements is almost the same, the only difference is
+                            that an informal figure has no title. DocBook prescribes an elaborate
+                            XML construction, here is an example:</para>
+                        <programlisting language="xml" xlink:href="listings/figure.xml"/>
+                        <para>This produces:</para>
+                        <figure>
+                            <title>Figure title here</title>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata fileref="assets/powered-by-exist.gif" width="50%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </figure>
+                        <para>The <code>width</code> attribute is the only size-related attribute
+                            used. It sets the width relative to the available horizontal space. If
+                            you don't specify a width a default of 75% is used.</para>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Tables</term>
+                    <listitem>
+                        <para>Use <tag>table</tag> or <tag>informaltable</tag> to add a table. The
+                            effect of both elements is almost the same, the only difference is that
+                            an informal table has no title. Table layout is kept simple and
+                            straight. Here is how a simple table looks like:</para>
+                        <programlisting language="xml" xlink:href="listings/table.xml"/>
+                        <para>And this is the result:</para>
+                        <table>
+                            <title>Table title</title>
+                            <tgroup cols="2">
+                                <colspec colwidth="30%"/>
+                                <colspec/>
+                                <thead>
+                                    <row>
+                                        <entry> <para>Col 1</para> </entry>
+                                        <entry> <para>Col 2</para> </entry>
+                                    </row>
+                                </thead>
+                                <tbody>
+                                    <row>
+                                        <entry> <para>Bla</para> </entry>
+                                        <entry> <para>More bla</para> </entry>
+                                    </row>
+                                    <row>
+                                        <entry> <para>Blegh</para> </entry>
+                                        <entry> <para>More blegh</para> </entry>
+                                    </row>
+                                </tbody>
+                            </tgroup>
+                        </table>
+                    </listitem>
+                </varlistentry>
+
+            </variablelist>
+
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="inline">
+            <title>Supported inline elements</title>
+            <para>The following inline elements are supported:</para>
+            <warning>
+                <para>Inline elements in <tag>title</tag> elements are <emphasis>not</emphasis>
+                    supported. Any markup in titles is ignored.</para>
+            </warning>
+
+            <variablelist>
+
+                <varlistentry>
+                    <term>Emphasis</term>
+                    <listitem>
+                        <para>Use <tag>emphasis</tag> for <emphasis>emphasizing</emphasis>.</para>
+                        <para>Although discouraged, you can request a specific emphasis type:</para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>Use <code>role="bold"</code> for <emphasis role="bold">bold
+                                    emphasis</emphasis>.</para>
+                            </listitem>
+                            <listitem>
+                                <para>Use <code>role="underline"</code> for <emphasis
+                                    role="underline">underlined emphasis</emphasis>.</para>
+                            </listitem>
+                            <listitem>
+                                <para>Use <code>role="italic"</code> for <emphasis role="italic"
+                                    >italic emphasis</emphasis>. This looks the same as no
+                                    <code>role</code> attribute but produces an <tag>i</tag> instead
+                                    of an <tag>em</tag>.</para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>GUI Items</term>
+                    <listitem>
+                        <para>Use <tag>guimenuitem</tag> around anything referring to choices in a
+                            GUI, for instance <guimenuitem>menu</guimenuitem> choices. The effect is
+                            now simple italic but that might change later.</para>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Code</term>
+                    <listitem>
+                        <para>Use <tag>code</tag> or <tag>literal</tag> for literals, pieces of
+                            code, commands, etc. The result will be <code>mono-spaced</code>.</para>
+                        <para>The general guideline is to use this for everything that lists pieces
+                            of code, attributes, variable names, etc. For elements use
+                            <tag>tag</tag>.</para>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Tags</term>
+                    <listitem>
+                        <para>A <tag>tag</tag> element surrounds its content with &lt; and &gt; and
+                            formats it like code. Meant to make life easier:
+                            <code><![CDATA[<tag>xxx</tag>]]></code> is the shorter version of
+                            <code><![CDATA[<code><xxx></code>]]></code>.</para>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Figures</term>
+                    <listitem>
+                        <para>Use the <tag>inlinemediaobject</tag> to add an asset inline in the
+                            text. DocBook prescribes an elaborate XML construction, here is an
+                            example of a paragraph with an inline figure:</para>
+                        <programlisting language="xml" xlink:href="listings/inlinefigure.xml"/>
+                        <para>This produces:</para>
+                        <para>There is an asset <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="assets/webstart.small.jpg"/>
+                            </imageobject>
+                            </inlinemediaobject> here.</para>
+                        <para>The <code>width</code> attribute is the only size-related attribute
+                            recognized and used.</para>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Internal links</term>
+                    <listitem>
+                        <para>You can create a link to any block level element with the
+                            <tag>xref</tag> element. To do so, give the target an identifier by
+                            using <code>xml:id="..."</code> and mention this identifier in the
+                            <code>linkend</code> attribute of the <tag>xref</tag>. </para>
+                        <para>You can generate a specific link text by adding an
+                            <code>xreflabel</code> attribute to the <emphasis>target</emphasis>
+                            element, like here: <xref linkend="test-list-for-ref"/>. If this
+                            attribute is not present on the target its title is used, like this:
+                            <xref linkend="writing-guidelines"/>. If there is no title, the name of
+                            the element is presented.</para>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>External links</term>
+                    <listitem>
+                        <para>Links to external sources are done with the <tag>link</tag> element.
+                            Place the target's full URI in the <code>xlink:href</code> attribute.
+                            For instance, <tag>link
+                            xlink:href="https://exist-db.org/exist/apps/homepage/index.html"</tag>
+                            links to the <link condition="_blank"
+                            xlink:href="https://exist-db.org/exist/apps/homepage/index.html">eXist
+                            home page</link>.</para>
+                        <para>To open the link on a new page, add
+                            <code>condition="_blank"</code>.</para>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Article links</term>
+                    <listitem>
+                        <para>To create a link to another article in this documentation set, also
+                            use the <tag>link</tag> element. However, use the target's document name
+                            (without the <code>.xml</code> extension) as the link address. For
+                            instance, <tag>link xlink:href="documentation"</tag> links to the <link
+                            xlink:href="documentation">documentation home page</link>.</para>
+                    </listitem>
+                </varlistentry>
+
+            </variablelist>
+
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="index">
+            <title>Generating indexes</title>
+
+            <para>Indexes can be automagicly generated. For examples have a look at the <link
+                xlink:href="documentation">documentation home page</link>. There are three
+                variations:</para>
+            <variablelist>
+                <varlistentry>
+                    <term>Alphabetical index on title</term>
+                    <listitem>
+                        <para>Add a <code>role="indexontitle"</code> attribute to a <tag>para</tag>
+                            element. An index on title will be generated after it.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>Index on keyword, all</term>
+                    <listitem>
+                        <para>Add a <code>role="indexonkeyword"</code> attribute to a
+                            <tag>para</tag> element. An index on keywords (as specified in the
+                            <tag>info</tag> element, see <xref linkend="keyword-usage"/>) will be
+                            generated after it.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>Index on keyword, single</term>
+                    <listitem>
+                        <para>Add a <code>role="indexonkeyword:somekeyword"</code> attribute to a
+                            <tag>para</tag> element to generate a list of articles with this
+                            specific keyword (as specified in the <tag>info</tag> element, see <xref
+                            linkend="keyword-usage"/>).</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </sect2>
+
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="tools">
+        <title>Additional tools</title>
+
+        <para>There are two additional pages in the documentation app to help authors and
+            editors:</para>
+        <variablelist>
+            <varlistentry>
+                <term> <link condition="_blank" xlink:href="editorial-view.html">Editorial
+                    view</link> </term>
+                <listitem>
+                    <para>The editorial view provides an overview of all the articles and their
+                        incoming and outgoing links.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <link condition="_blank" xlink:href="diagnostics.html">Diagnostics</link> </term>
+                <listitem>
+                    <para>Performs limited diagnostics. Checks whether the outgoing links in
+                        articles to other articles, listings and assets are ok. Also checks whether
+                        there are unreferenced (and therefore superfluous) listings and
+                        assets.</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+
+    </sect1>
+
+</article>

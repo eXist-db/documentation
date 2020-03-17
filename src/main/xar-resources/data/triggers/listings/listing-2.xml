@@ -1,0 +1,10 @@
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+  <triggers>
+    <trigger event="update" class="org.exist.collections.triggers.XQueryTrigger">
+      <parameter name="url" value="xmldb:exist:///db/myTrigger.xql"/>
+    </trigger>
+    <trigger event="create" class="org.exist.collections.triggers.XQueryTrigger">
+      <parameter name="query" value="module namespace trigger='http://exist-db.org/xquery/trigger';      declare function trigger:before-create-collection($uri as xs:anyURI) {              util:log('debug', concat('Trigger fired at ', current-dateTime()))           };"/>
+    </trigger>
+  </triggers>
+</collection>

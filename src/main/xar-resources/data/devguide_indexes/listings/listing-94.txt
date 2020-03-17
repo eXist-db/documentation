@@ -1,0 +1,21 @@
+public NodeSet search(DBBroker broker, NodeSet contextSet, Geometry EPSG4326_geometry, int spatialOp)
+        ...    	
+      }
+
+      public Geometry getGeometryForNode(DBBroker broker, NodeProxy p, boolean getEPSG4326) throws  SpatialIndexException {
+        ...
+      }
+
+      protected Geometry[] getGeometriesForNodes(DBBroker broker, NodeSet contextSet, boolean getEPSG4326) throws SpatialIndexException {
+        ...
+      }
+
+      public AtomicValue getGeometricPropertyForNode(DBBroker broker, NodeProxy p, String propertyName) 
+      throws  SpatialIndexException {
+        ...
+      }    
+
+      public ValueSequence getGeometricPropertyForNodes(DBBroker broker, NodeSet contextSet, String propertyName) 
+      throws  SpatialIndexException {
+        ...
+      }

@@ -1,0 +1,55 @@
+protected void checkDatabase() 
+	  throws ClassNotFoundException, SQLException {	
+	  Class.forName("org.hsqldb.jdbcDriver");		
+	}
+	
+	protected void shutdownDatabase()
+	  throws DBException {
+	  try {
+	    if (conn != null) {
+	    Statement stmt = conn.createStatement();				
+	    stmt.executeQuery("SHUTDOWN");
+	    stmt.close();
+	    conn.close();				
+	    if (LOG.isDebugEnabled()) 
+	      LOG.debug("GML index: " + getDataDir() + "/" + db_file_name_prefix + " closed");
+	    }
+	  } catch (SQLException e) {
+	    throw new DBException(e.getMessage()); 
+	  } finally {
+	  conn = null;
+	  }
+	}
+	
+	protected void deleteDatabase()
+	  throws DBException {
+	  File directory = new File(getDataDir());
+	  File[] files = directory.listFiles( 
+	    new FilenameFilter() {
+              public boolean accept(File dir, String name) {
+	        return name.startsWith(db_file_name_prefix);
+	      }
+	    }
+	  );
+	  boolean deleted = true;
+	  for (int i = 0; i < files.length ; i++) {
+  	    deleted &= files[i].delete();
+	  }
+	}
+	
+	protected void removeIndexContent()
+          throws DBException {
+	  try {
+	    //Let's be lazy here : we only delete th index content if we have a connection
+	    if (conn != null) {
+	    Statement stmt = conn.createStatement(); 
+	    int nodeCount = stmt.executeUpdate("DELETE FROM " + GMLHSQLIndex.TABLE_NAME + ";");       
+	    stmt.close();
+	    if (LOG.isDebugEnabled()) 
+ 	      LOG.debug("GML index: " + getDataDir() + "/" + db_file_name_prefix + ". " + 
+	      nodeCount + " nodes removed");
+	    }		
+	  } catch (SQLException e) {
+	    throw new DBException(e.getMessage()); 
+	  }
+	}

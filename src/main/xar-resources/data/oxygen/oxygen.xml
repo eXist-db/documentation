@@ -1,0 +1,138 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+  <info>
+    <title>Using oXygen with eXist-db</title>
+    <date>2Q19</date>
+    <keywordset>
+      <keyword>getting-started</keyword>
+    </keywordset>
+  </info>
+
+  <!-- ================================================================== -->
+
+  <para>This article describes how to use eXist-db in combination with the <link xlink:href="https://oxygenxml.com/" condition="_blank">oXygen XML Editor</link> IDE.</para>
+
+  <!-- ================================================================== -->
+
+  <sect1 xml:id="overview">
+    <title>Overview</title>
+
+    <para>
+      <link xlink:href="https://oxygenxml.com/" condition="_blank">oXygen XML Editor</link> is a powerful
+      IDE for working with XML in general but also with eXist-db. Its eXist-db specific capabilities include:</para>
+    <itemizedlist>
+      <listitem>
+        <para>Browsing eXist-db database contents</para>
+      </listitem>
+      <listitem>
+        <para>Editing database contents (open, save, rename documents; create, rename collections)</para>
+      </listitem>
+      <listitem>
+        <para>Editing XQuery files and continuously validate them against eXist-db's XQuery engine</para>
+      </listitem>
+      <listitem>
+        <para>Executing queries and displaying results</para>
+      </listitem>
+    </itemizedlist>
+    <para> This article describes how to configure oXygen to work with eXist-db. See also <link xlink:href="https://oxygenxml.com/xml_editor/eXist_support.html" condition="_blank">oXygen's eXist-db support</link> article.</para>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1 xml:id="setup">
+    <title>How to tell oXygen about your eXist-db installation</title>
+    <note>
+      <para>Please also check the oXygen documentation for your version of oXygen</para>
+    </note>
+    <para>To tap into eXist-db via oXygen, you must tell oXygen a bit about your eXist-db installation. First, we need to create an entry for eXist-db
+      in oXygen's list of <emphasis>Data Sources</emphasis>. Then we need to create an entry in its list of Data Connections; this involves providing
+      oXygen with a URL and account information for your eXist-db instance.</para>
+    <orderedlist>
+      <listitem>
+        <para>In oXygen, go to <guimenuitem>Preferences > Data Sources</guimenuitem>, and you will see a window with two areas: Data Sources (at the
+          top) and Connections (at the bottom). </para>
+      </listitem>
+      <listitem>
+        <para>Click the <guimenuitem>Create eXist-db XML connection</guimenuitem> link at the top.
+        <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="assets/oxygen_v20_conn-wiz.png"/>
+          </imageobject>
+        </inlinemediaobject>
+      </para>
+      </listitem>
+      <listitem>
+        <para>Fill in the dialog (for a default installation. You'll only need to change the user to <code>admin</code> and fill in its password)</para>
+      </listitem>
+      <listitem>
+        <para>Click <guimenuitem>ok</guimenuitem> on all subsequent dialogs (if any). This will create both a Data Source and Connection for
+          you.</para>
+      </listitem>
+    </orderedlist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1 xml:id="browsing-db">
+    <title>How to browse your database contents</title>
+
+    <para>Now that you have created an oXygen Data Source and Connection for eXist-db, you can browse your database contents from within oXygen in two
+      ways: </para>
+    <itemizedlist>
+      <listitem>
+        <para>Use the Data Source Explorer, an oXygen pane that lists your Connections including the one you created above. To open the Data Source
+          Explorer, select <guimenuitem>Window, Show view, Data Source Explorer</guimenuitem>. You can now browse collections and their contents.
+          Right click on these items display contextual menus.</para>
+      </listitem>
+      <listitem>
+        <para>Use the <guimenuitem>File, Open URL</guimenuitem> to browse and pick documents from the eXist-db database. The first time you connect
+          you need to fill in several fields, among which your eXist-db account credentials and server URL (e.g.,<code>
+            http://localhost:8080/exist/webdav/db/</code>)</para>
+      </listitem>
+    </itemizedlist>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1 xml:id="validating-queries">
+    <title>How to validate XQuery files against eXist-db's XQuery engine</title>
+
+    <para>By default oXygen uses Saxon to validate XQuery files. Saxon is a fine tool for validating XQuery (among its many capabilities), but it
+      lacks knowledge of eXist-db built-in functions and other settings. Therefore if you are creating XQuery to use in eXist-db, you will find
+      numerous advantages in configuring oXygen to use eXist-db for validation. The steps to complete this configuration are very easy:</para>
+    <orderedlist>
+      <listitem>
+        <para>In oXygen, go to <guimenuitem>Preferences, XQuery</guimenuitem>. On the dropdown menu labeled, <guimenuitem>XQuery Validate
+            with</guimenuitem>, select the name of the Data Connection that you created above.</para>
+      </listitem>
+    </orderedlist>
+    <para>Now when you are editing an XQuery file in oXygen, the validation information you receive (for instance when you click on the
+        <guimenuitem>Validate</guimenuitem> toolbar button) is supplied from eXist-db.</para>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1 xml:id="executing-queries">
+    <title>How to execute queries and display results</title>
+
+    <para>You can also execute queries against eXist-db from within oXygen:</para>
+    <orderedlist>
+      <listitem>
+        <para>Open the XQuery file that you would like to execute.</para>
+      </listitem>
+      <listitem>
+        <para>Select the <guimenuitem>Configure Transformation Scenario</guimenuitem> toolbar button, select the <guimenuitem>New</guimenuitem>
+          button, and select <guimenuitem>XQuery Transformation</guimenuitem> in the dropdown menu.</para>
+      </listitem>
+      <listitem>
+        <para>A new dialog will appear with fields to configure your XQuery transformation settings. Enter a Name for the transformation (e.g.,
+          "Transform with eXist-db"). In the <guimenuitem>Transformer</guimenuitem> dropdown menu select the Data Connection you created above.</para>
+      </listitem>
+      <listitem>
+        <para>From now on you can execute any query using this transformation scenario by simply selecting the <guimenuitem>Apply Transformation
+            Scenario</guimenuitem> toolbar button</para>
+      </listitem>
+    </orderedlist>
+  </sect1>
+</article>

@@ -1,0 +1,227 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <info>
+        <title>Legacy Range index</title>
+        <date>2Q19</date>
+        <keywordset>
+            <keyword>indexing</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+    <para>This article describes eXist-db's old range index. This has been replaced by a <link xlink:href="newrangeindex">redesigned range index</link> (since eXist 2.2). The old index is
+        still available for compatibility reasons. Its use is discouraged.</para>
+
+    <!-- ================================================================== -->
+    <sect1 xml:id="intro">
+        <title>Introduction</title>
+
+        <para>Range indexes provide a shortcut for the database to directly select nodes based on
+            their typed values. They are used when matching or comparing nodes by way of standard
+            XPath operators and functions. Without a range index, comparison operators like
+            <code>=</code>, <code>&gt;</code> or <code>&lt;</code> will default to a "brute-force"
+            inspection of the DOM, which can be extremely slow if eXist-db has to search through
+            maybe millions of nodes: each node has to be loaded and cast to the target type.</para>
+        <para>To see how range indexes work, consider the following fragment:</para>
+
+        <programlisting language="xml" xlink:href="listings/listing-1.xml"/>
+        <para>With this short inventory, the text nodes of the <tag>price</tag> elements have dollar
+            values expressed as a floating-point number, (e.g. "299.99"), which has an <link xlink:href="https://www.w3.org/TR/xmlschema-0/">XML Schema Definition</link> (XSD) data
+            type of <literal>xs:double</literal>. Using this built-in type to define a range index,
+            we can improve the efficiency of searches for <tag>price</tag> values. During indexing,
+            eXist-db will apply this data type selection by attempting to cast all <tag>price</tag>
+            values as double floating point numbers and add appropriate values to the index. Values
+            that cannot be cast as double are ignored. This range index will be used by any
+            expression that compares <tag>price</tag> to an <literal>xs:double</literal> value. For
+            instance:</para>
+        <programlisting>//item[price &gt; 100.0]</programlisting>
+
+        <para>For non-string data types, the range index provides the query engine with a more
+            efficient method of data conversion. Instead of retrieving the value of each selected
+            element and casting it as a <literal>xs:double</literal> type, the engine can evaluate
+            the expression by using the range index as a form of lookup index. Without an index,
+            eXist-db has to do a full scan over all price <tag>price</tag> elements, retrieve the
+            string values of their text node and cast them to a double number. This is a
+            time-consuming process which also scales very badly with growing data sets. With a
+            proper index, eXist-db needs just a single index lookup to evaluate <literal>price =
+            100.0</literal>. The range expression <literal>price &gt; 100.0</literal> is processed
+            with an index scan starting at 100. </para>
+        <para>For string data, the index will also be used by the standard functions
+            <literal>fn:contains()</literal>, <literal>fn:starts-with()</literal>,
+            <literal>fn:ends-with()</literal> and <literal>fn:matches()</literal>.</para>
+        <para>To illustrate this functionality, let's return to the previous example. If you define
+            a range index of type <literal>xs:string</literal> for element <tag>name</tag>, a query
+            on this element to select tall bookcases using <literal>fn:matches()</literal> will be
+            supported by the following index:</para>
+        <programlisting>//item[fn:matches(name, '[Tt]all\s[Bb]')]</programlisting>
+        <para>Note that <literal>fn:matches</literal> will by default try to match the regular
+            expression <emphasis>anywhere</emphasis> in the string. We can thus speed up the query
+            dramatically by using "^" to restrict the match to the start of the string: </para>
+        <programlisting>//item[fn:matches(name, '^[Tt]all\s[Bb]')]</programlisting>
+
+        <note>
+            <para>If you really need to search for an exact substring in a longer text sequence, it
+                is often better to use the NGram index instead of the range index, i.e. use
+                <literal>ngram:contains()</literal> instead of <literal>fn:contains()</literal>.
+                Unfortunately, there's no equivalent NGram function for
+                <literal>fn:matches()</literal>.</para>
+        </note>
+
+        <para>In general, three conditions must be met in order to optimize a search using a range
+            index:</para>
+        <orderedlist>
+            <listitem>
+                <para> <emphasis>The range index must be defined on all items in the input
+                    sequence.</emphasis> </para>
+                <para>For example, suppose you have two collections in the database: C1 and C2. If
+                    you have a range index defined for collection C1, but your query happens to
+                    operate on both C1 and C2, then the range index would <emphasis>not</emphasis>
+                    be used. The query optimizer selects an optimization strategy based on the
+                    entire input sequence of the query. Since, in this example, since only nodes in
+                    C1 have a range index, no range index optimization would be applied.</para>
+            </listitem>
+            <listitem>
+                <para> <emphasis>The index data type (first argument type) must match the test data
+                    type (second argument type).</emphasis> </para>
+                <para>In other words, with range indexes, there is no promotion of data types (i.e.
+                    no data type precedes or replaces another data type). For example, if you
+                    defined an index of type <literal>xs:double</literal> on <tag>price</tag>, a
+                    query that compares this element's value with a string literal would not use a
+                    range index, for instance:</para>
+                <programlisting>//item[price = '1000.0']</programlisting>
+                <para>In order to apply the range index, you would need to cast the value as a type
+                    <literal>xs:double</literal>, i.e.:</para>
+                <programlisting>//item[price = xs:double($price)] (where $price is any test value)</programlisting>
+                <para>Similarly, when we compare <literal>xs:double</literal> values with
+                    <literal>xs:integer</literal> values, as in, for instance:</para>
+                <programlisting>//item[price = 1000]</programlisting>
+                <para>the range index would again not be used since the <tag>price</tag> data type
+                    differs from the test value type, although this conflict might not seem as
+                    obvious as it is with string values.</para>
+            </listitem>
+            <listitem>
+                <para> <emphasis>The right-hand argument has no dependencies on the current context
+                    item.</emphasis> </para>
+                <para>That is, the test or conditional value must not depend on the value against
+                    which it is being tested. For example, range indexes will not be applied given
+                    the following expression:</para>
+                <programlisting>//item[price = self]</programlisting>
+            </listitem>
+        </orderedlist>
+        <para>Concerning range indexes on strings there's another restriction to be considered: up
+            to version 1.3, range indexes on strings can only be used with the default Unicode
+            collation. Also, string indexes will always be case sensitive (while n-gram and full
+            text indexes are not). It is not (yet) possible to define a string index on a different
+            collation (e.g. for German or French) or to make it case-insensitive. </para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="range-idx">
+        <title>Range index configuration</title>
+
+        <para>Range index configuration is done in <code>collection.xconf</code> documents (see
+            <link xlink:href="indexing">indexing</link>):</para>
+        <programlisting language="xml" xlink:href="listings/listing-9.txt"/>
+        <para>A range index is configured by adding a <tag>create</tag> element directly below the
+            root <tag>index</tag> element. As explained above, the node to be indexed is either
+            specified through a <literal>path</literal> or a <literal>qname</literal>
+            attribute.</para>
+
+        <note>
+            <para>Unlike the <link xlink:href="newrangeindex">new range index</link>, the
+                <tag>create</tag> elements of the old range index are <emphasis>not</emphasis>
+                wrapped inside a <tag>range</tag> tag.</para>
+        </note>
+
+        <para>As range indexes are type specific, the <literal>type</literal> attribute is always
+            required. The type should be one of the atomic XML schema types, currently including
+            <literal>xs:string</literal>, <literal>xs:integer</literal> and its derived types
+            <literal>xs:double</literal> and <literal>xs:float</literal>,
+            <literal>xs:boolean</literal> and <literal>xs:dateTime</literal>. If the name of the
+            type is unknown, the index configuration will be ignored and you will get a warning
+            written into the logs.</para>
+        <para>Please note that the index configuration will only apply to the node specified via the
+            <literal>path</literal> or <literal>qname</literal> attribute, not to descendants of
+            that node. Consider a mixed content element like:</para>
+
+        <programlisting language="xml" xlink:href="listings/listing-2.xml"/>
+        <para>If an index is defined on <tag>mixed</tag>, the key for the index is built from the
+            concatenated text nodes of element <tag>mixed</tag> and all its descendants, so
+            <code>uneven</code> in this case. The created index will only be used to evaluate
+            queries on <tag>mixed</tag>, but not for queries on <tag>s</tag>. However, you can
+            create an additional index on <tag>s</tag> without getting into conflict with the
+            existing index on <tag>mixed</tag>.</para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="pathvsqname">
+        <title>Configuration by path vs. configuration by qname</title>
+
+        <para>It is important to note the difference between the <literal>path</literal> and
+            <literal>qname</literal> attributes used in above examples. Both attributes are used to
+            define the elements or attributes to which the index should apply. However, the
+            <literal>path</literal> attribute creates <emphasis>context-dependant</emphasis>
+            indexes, while the <literal>qname</literal> attribute does not. </para>
+        <para>The <code>path</code> attribute takes a simple path expression: <tag>create path="//book/title" type="xs:string"/</tag></para>
+        <para>The <code>path</code> expression looks like XPath, but it's not. Index path syntax
+            uses the following components to construct paths:</para>
+        <itemizedlist>
+            <listitem>
+                <para>Elements are specified by their <emphasis>qname</emphasis> </para>
+            </listitem>
+            <listitem>
+                <para>Attributes are specified by <literal>@attributeName</literal>, so if the
+                    attribute is called <code>attrib1</code>, one uses <literal>@attrib1</literal>
+                    in the index specification.</para>
+            </listitem>
+            <listitem>
+                <para>Child nodes are selected using the forward-slash (<literal>/</literal>)</para>
+            </listitem>
+            <listitem>
+                <para>All descendant nodes in a tree are selected using the double forward-slash
+                    (<literal>//</literal>)</para>
+            </listitem>
+        </itemizedlist>
+        <para>The example above creates a range index of type string on all <tag>title</tag>
+            elements which are children of <tag>book</tag> elements, which may occur at an arbitrary
+            position in the document tree. All other <tag>title</tag> elements, e.g. those being
+            children of <tag>section</tag> nodes, are not indexed. The path expression thus defines
+            a <emphasis>selective</emphasis> index, which is also
+            <emphasis>context-dependant</emphasis>: we always need look at the context of each
+            <tag>title</tag> node before we can determine if this particular title is to be indexed
+            or not.</para>
+        <para>This kind of context-dependant index definition helps to keep the index small, but
+            unfortunately it makes it hard for the query optimizer to properly rewrite the
+            expression tree without missing some nodes. The optimizer needs to make an optimization
+            decision at compile time, where the context of an expression is unknown or at least not
+            exactly known (read the <link xlink:href="http://atomic.exist-db.org/blogs/eXist/NewIndexing">blog article</link> to
+            get the whole picture). This means that some of the optimization techniques can not be
+            applied to context-dependant indexes!</para>
+        <para>We therefore had to introduce an alternative configuration method which is not
+            context-dependant. To keep things simple, we decided to define the index on the
+            <emphasis>qname</emphasis> of the element or attribute alone and to ignore the context
+            altogether: <tag>create qname="title" type="xs:string"/</tag></para>
+        <para>This results in an index being created on every <tag>title</tag> element found in the
+            document node tree. Section titles will be indexed as well as chapter or book titles. </para>
+        <para>Indexes on attributes are defined as above by prepending "@" to the attribute's
+            name: <tag>create qname="@type" type="xs:string"/</tag></para>
+        <para>This defines an index on all attributes named "type", but not on elements with the
+            same name.</para>
+        <para>Defining indexes on qnames may result in a considerably larger index, but it allows
+            the query engine to apply all available optimization techniques, which can improve query
+            times by an order of magnitude. As always, there's a trade-off here between performance
+            and storage space. In many cases, the performance win can be dramatic enough to justify
+            the increase in index size.</para>
+        <important>
+            <para>To be on the safe side, and to benefit from current and future improvements in the
+                query engine, you should prefer <literal>qname</literal> over
+                <literal>path</literal>, unless you really need to exclude certain nodes from
+                indexing.</para>
+        </important>
+    </sect1>
+
+</article>

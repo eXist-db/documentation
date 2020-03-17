@@ -1,0 +1,213 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <info>
+        <title>Writing Java Applications with the XML:DB API</title>
+        <date>2Q19</date>
+        <keywordset>
+            <keyword>java-development</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+    <para>This article explains how to work with eXist-db from Java code using the XML:DB API. This
+        API provides a common interface to native or XML-enabled databases and supports the
+        development of portable, reusable applications.</para>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="intro">
+        <title>Introduction</title>
+
+        <para>The preferred way to work with eXist-db when developing Java applications is to use
+            the XML:DB API. eXist-db's implementation of the XML:DB standard conforms to the latest
+            working drafts put forth by the <link
+                xlink:href="https://github.com/xmldb-org/xmldb-api">XML:DB Initiative</link>. For
+            more information, refer to the Javadocs for this API.</para>
+        <para>The basic components employed by the XML:DB API are <emphasis>drivers</emphasis>,
+            <emphasis>collections</emphasis>, <emphasis>resources</emphasis> and
+            <emphasis>services</emphasis>.</para>
+        <para> <emphasis>Drivers</emphasis> are implementations of the database interface that
+            encapsulate the database access logic for specific XML database products. They are
+            provided by the product vendor and must be registered with the database manager.</para>
+        <para>A <emphasis>collection</emphasis> is a hierarchical container for
+            <emphasis>resources</emphasis> and further sub-collections. Currently two different
+            resources are defined by the API: <literal>XMLResource</literal> and
+            <literal>BinaryResource</literal>. An <literal>XMLResource</literal> represents an XML
+            document or a document fragment, selected by a previously executed XPath query.</para>
+        <para>Finally, <emphasis>services</emphasis> are requested for special tasks such as
+            querying a collection with XPath, or managing a collection.</para>
+        <para>There are also several XML:DB examples provided in the
+            <link xlink:href="https://github.com/eXist-book/book-code/tree/master/chapters/integration">sample code</link>
+            that accompanies the Integration chapter of the <link xlink:href="http://shop.oreilly.com/product/0636920026525.do">eXist-db book</link>.
+        </para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="use-xmldb">
+        <title>Using the XML:DB API</title>
+
+        <para>For working with eXist-db via XML:DB API, you will need two dependencies, one for the XML:DB API
+        and one for eXist-db's implementation of the API. These dependencies are available from Maven and should
+        be added to your Maven <literal>pom.xml</literal> or project's dependency tool like so:</para>
+        <programlisting language="xml" xlink:href="listings/listing-1.txt"/>
+        <para>In the following simple example, a document is retrieved from the eXist server and
+            printed to standard output.</para>
+
+        <programlisting language="java" xlink:href="listings/listing-2.txt"/>
+
+        <para>With this example, the database driver class for eXist
+            (<literal>org.exist.xmldb.DatabaseImpl</literal>) is registered first with the
+            <literal>DatabaseManager</literal>. </para>
+        <para>Next we obtain a <literal>Collection</literal> object from the database manager by
+            calling the static method <literal>DatabaseManger.getCollection()</literal>. This method
+            expects a fully qualified URI for its parameter value, which identifies the desired
+            collection. The format of this URI must be:</para>
+        <programlisting>xmldb:[DATABASE-ID]://[HOST-ADDRESS]/db/collection</programlisting>
+        <para>Because more than one database driver can be registered with the database manager, the
+            first part of the URI (<literal>xmldb:exist</literal>) is required to determine which
+            driver class to use. The <emphasis>database-id</emphasis> is used by the database
+            manager to select the correct driver from its list of available drivers. To use
+            eXist-db, this ID should always be <code>exist</code> (unless you have set up multiple
+            database instances; additional instances may have other names).</para>
+        <para>The final part of the URI identifies the collection path, and optionally the host
+            address of the database server on the network. Internally, eXist uses two different
+            driver implementations: The first talks to a remote database engine using XML-RPC calls,
+            the second has direct access to a local instance of eXist-db. The root collection is
+            always identified by <literal>/db</literal>. For example:</para>
+        <programlisting>xmldb:exist://localhost:8080/exist/xmlrpc/db/shakespeare/plays</programlisting>
+        <para>This references the Shakespeare collection on a remote server running the XML-RPC
+            interface as a servlet at <literal>localhost:8080/exist/xmlrpc</literal>. </para>
+
+        <para>If we leave out the host address, the XML:DB driver will try to connect to a locally
+            attached database instance. For instance:</para>
+        <programlisting>xmldb:exist:///db/shakespeare/plays</programlisting>
+        <para>In this case, we have to tell the XML:DB driver that it should create a new database
+            instance if none has been started. This is done by setting the
+            <literal>create-database</literal> property of class <literal>Database</literal> to
+            <code>true</code> (more information on embedded use of eXist-db can be found in the
+            <link xlink:href="deployment">deployment guide</link>).</para>
+        <para>The <literal>setProperty</literal> calls are used to set database-specific parameters.
+            In this case, pretty-printing of XML output is turned on for the collection. eXist uses
+            the property keys defined in the standard Java package
+            <literal>javax.xml.transform</literal>. Thus, in Java you can simply use class
+            <literal>OutputKeys</literal> to get the correct keys.</para>
+        <para>Calling <literal>col.getResource()</literal> finally retrieves the document, which is
+            returned as an <literal>XMLResource</literal>. All resources have a method
+            <literal>getContent()</literal>, which returns the resource's content, depending on it's
+            type. In this case we retrieve the content as type <literal>String</literal>.</para>
+        <para>To query the repository, we may either use the standard
+            <literal>XPathQueryService</literal> or eXist's <literal>XQueryService</literal> class.
+            The XML:DB API defines different kinds of services, which may or may not be provided by
+            the database. The <literal>getService</literal> method of class
+            <literal>Collection</literal> calls a service if it is available. The method expects the
+            service name as the first parameter, and its version (as a string) as the second.</para>
+
+        <para>The following is an example of using the XML:DB API to execute a database
+            query:</para>
+        <programlisting language="java" xlink:href="listings/listing-6.txt"/>
+        <para>To execute the query, method <literal>service.query(xpath)</literal> is called. This
+            method returns a <literal>ResourceSet</literal>, containing the Resources found by the
+            query. <literal>ResourceSet.getIterator()</literal> gives us an iterator over these
+            resources. Every Resource contains a single document fragment or value, selected by the
+            XPath expression.</para>
+        <para>Internally, eXist does not distinguish between XPath and XQuery expressions.
+            <literal>XQueryService</literal> thus maps to the same implementation class as
+            <literal>XPathQueryService</literal>. However, it provides a few additional methods.
+            Most important, when talking to an embedded database, <literal>XQueryService</literal>
+            allows for the XQuery expression to be <emphasis>compiled</emphasis> to an internal
+            representation, which can then be reused. With compilation, the previous example code
+            would look as follows:</para>
+
+        <programlisting language="java" xlink:href="listings/listing-7.txt"/>
+        <para>The XML-RPC server automatically caches compiled expressions, and so calling
+            <literal>compile</literal> through the remote driver produces no effect if the
+            expression is already cached.</para>
+        <para>Next, we would like to store a new document into the repository. This is done by
+            creating a new <literal>XMLResource</literal>, assigning it the content of the new
+            document, and calling the <literal>storeResource</literal> method of class
+            <literal>Collection</literal>. </para>
+        <para>First, a new Resource is created by method
+            <literal>Collection.createResource()</literal>, and expects two parameters: the id and
+            type of resource being created. If the id parameter is <code>null</code>, a unique
+            resource-id will be automatically generated .</para>
+        <para>In some cases, the collection may not yet exist, and so we must create it. To create a
+            new collection, call the <literal>createCollection</literal> method of the
+            <literal>CollectionManagementService</literal> service. In the following example, we
+            simply start at the root collection object to get the
+            <literal>CollectionManagementService</literal> service.</para>
+
+        <programlisting language="java" xlink:href="listings/listing-8.txt"/>
+
+        <note>
+            <para>The <literal>XMLResource.setContent()</literal> method takes a Java object as its
+                parameter. The eXist driver checks if the object is a File. Otherwise, the object is
+                transformed into a String by calling the object's <literal>toString()</literal>
+                method. Passing a File has one big advantage: If the database is running in embedded
+                mode, the file will be directly passed to the indexer. Thus, the file's content does
+                not have to be loaded into memory. This is handy if your files are very
+                large.</para>
+        </note>
+
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="extend-xmldb">
+        <title>Extensions to XML:DB</title>
+
+        <para>eXist provides extensions on top of the XML:DB specification.
+            If you wish to use these extensions, you should make sure that the scope for your <literal>exist-core</literal>
+            dependency is set to <literal>compile</literal>.
+        </para>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="services">
+            <title>Additional Services</title>
+
+            <para>The <code>UserManagementService</code> service contains methods to manage users
+                and handle permissions. These methods resemble common Unix commands such as
+                <literal>chown</literal> or <literal>chmod</literal>. As with other services,
+                <literal>UserManagementService</literal> can be retrieved from a collection
+                objectn:</para>
+            <programlisting xlink:href="listings/listing-9.txt"/>
+            <para>Another service called <code>DatabaseInstanceManager</code> provides a single
+                method to shut down the database instance accessed by the driver. You have to be a
+                member of the <literal>dba</literal> user group to use this method or an exception
+                will be thrown. </para>
+            <para>Finally, interface <code>IndexQueryService</code> supports access to the terms and
+                elements contained in eXist's internal index. Method
+                <code>getIndexedElements()</code> returns a list of element occurrences for the
+                current collection. For each occurring element, the element's name and a frequency
+                count is returned.</para>
+            <para>Method <code>scanIndexTerms()</code> allows for a retrieval of the list of
+                occurring words for the current collection. This can be useful to provide users a
+                list of searchable terms together with their frequency.</para>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="multidb">
+            <title>Multiple Database Instances</title>
+
+            <para>As explained above, passing a local XML:DB URI to the
+                <literal>DatabaseManager</literal> means that the driver will try to start or access
+                an embedded database instance. You can configure more than one database instance by
+                setting the location of the central configuration file.</para>
+            <para> The configuration file is set through the <literal>configuration</literal>
+                property of the <literal>DatabaseImpl</literal> driver class. If you would like to
+                use different drivers for different database instances, specify a name for the
+                created instance through the <literal>database-id</literal> property. You may later
+                use this name in the URI to refer to a database instance. The following fragment
+                sets up two instances:</para>
+
+            <programlisting language="java" xlink:href="listings/listing-10.txt"/>
+            <para>With this example, the URI<code> xmldb:test:///db</code> selects the test database
+                instance. Both instances should have their own data and log directory as specified
+                in the configuration files.</para>
+        </sect2>
+    </sect1>
+</article>

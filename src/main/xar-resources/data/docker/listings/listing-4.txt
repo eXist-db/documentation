@@ -1,0 +1,9 @@
+FROM existdb/existdb
+
+# NOTE: this is for syntax demo purposes only
+RUN [ "java", "org.exist.start.Main", "client", "--no-gui",  "-l", "-u", "admin", "-P", "", "-x", "sm:passwd('admin','123')" ]
+
+# use a modified conf.xml
+COPY src/conf.xml /exist/etc
+
+ADD https://github.com/eXist-db/documentation/releases/download/4.0.4/exist-documentation-4.0.4.xar /exist/autodeploy

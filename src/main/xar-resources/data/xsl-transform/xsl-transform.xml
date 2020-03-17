@@ -1,0 +1,148 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <info>
+    <title>XSL transformations</title>
+    <date>1Q20</date>
+    <keywordset>
+      <keyword>application-development</keyword>
+    </keywordset>
+  </info>
+
+  <!-- ================================================================== -->
+
+  <para>eXist-db can perform XSLT transformations inside XQuery code. For this you need to use the
+    <code>transform</code>
+    module.</para>
+
+  <!-- ================================================================== -->
+
+  <sect1 xml:id="transform-module">
+    <title>The
+      <code>transform</code>
+      module</title>
+
+    <para>eXist-db transform module allows you to do XSLT transformations from XQuery code using Saxon.</para>
+    <para>Its function namespace is
+      <literal>http://exist-db.org/xquery/transform</literal>.</para>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2 xml:id="transform">
+      <title>
+        <code>transform:transform()</code>
+      </title>
+
+      <para>The <code>transform:transform</code> function performs an XSLT transformation and returns you the result:. It has two signatures:</para>
+      <programlisting language="xquery" xlink:href="listings/listing-1.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-2.txt"/>
+
+      <variablelist>
+        <varlistentry>
+          <term>
+            <code>$input</code>
+          </term>
+          <listitem>
+            <para>The node to be transformed. If
+              <literal>$input</literal>
+              is an empty sequence, the function returns immediately.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <code>$stylesheet</code>
+          </term>
+          <listitem>
+            <para>The stylesheet to use. This must either be a URI or a node.</para>
+            <para>
+              If
+              <code>$stylesheet</code>
+              is a URI, the stylesheet is loaded from the specified location. Watch out: A relative URI is interpreted as a file path!</para>
+            <para>Loading a stylesheet from the database is done best by creating a full absolute path, including an
+              <code>xmldb:exist://</code>
+              prefix.</para>
+            <para>The stylesheet is compiled into a template (using the standard Java APIs
+              <literal>javax.xml.transform</literal>). The result is shared between all instances of the function and will only reload if modified since last invocation.</para>
+            <para>Some examples for referencing the stylesheet:</para>
+            <itemizedlist>
+              <listitem>
+                <programlisting language="xquery">transform:transform($root, doc("/db/styles/style.xsl"), ())</programlisting>
+                <para>Create the stylesheet from a document node.</para>
+              </listitem>
+              <listitem>
+                <programlisting language="xquery">transform:transform($root, xs:anyURI("http:exist-db.org/style.xsl"), ())</programlisting>
+                <programlisting language="xquery">transform:transform($root, xs:anyURI("xmldb:exist:///db/styles/style.xsl"), ())</programlisting>
+                <para>Load the stylesheet from the specified URI.
+                </para>
+              </listitem>
+            </itemizedlist>
+
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <code>$parameters</code>
+          </term>
+          <listitem>
+            <para>Specify any stylesheet parameters. This must be an XML fragment like the following example:</para>
+            <programlisting language="xml" xlink:href="listings/listing-7.xml"/>
+            <para>The stylesheet can now reference parameter
+              <code>param1</code>
+              as follows:</para>
+            <programlisting>&lt;xsl:param name="param1"/&gt;</programlisting>
+            <para>
+              There are two special parameters named
+              <code>exist:stop-on-warn</code>
+              and
+              <code>exist:stop-on-error</code>. If set to
+              <code>yes</code>, eXist will generate an XQuery error if the XSL processor reports a warning or error.
+            </para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>$attributes</term>
+          <listitem>
+            <para>Pass attributes to the transformation factory. Verify the
+              <link xlink:href="https://docs.oracle.com/javase/8/docs/api/javax/xml/transform/TransformerFactory.html#setAttribute-java.lang.String-java.lang.Object-">Java</link>
+              or
+              <link xlink:href="https://www.saxonica.com/html/documentation/javadoc/net/sf/saxon/lib/FeatureKeys.html">Saxon</link>
+              documentation for more details. Its contents must be an XML fragment, below you see how <code>-it:main</code> type transformations are handled:</para>
+            <programlisting language="xml" xlink:href="listings/listing-9.xml"/>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <code>$serialization</code>
+          </term>
+          <listitem>
+            <para>Specifies serialization options in the same way as passed to the
+              <code>declare option exist:serialize</code>
+              expression.
+            </para>
+            <para>An additional serialization option,
+              <code>xinclude-path</code>, is supported. This specifies the base path against which XInclude-s will be expanded. A relative path is relative to the current module load path.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      <para>A common trap is the use of <code>fn:doc()</code> these are not identical inside eXist-db's xquery processing and Saxon's XSL handling. Therefore, for transformation of mutiple XML files stored inside the dababase, you might wish to construct a temporary catalog file for use by the transformation and immediate removal, like this:</para>
+      <programlisting language="xquery" xlink:href="listings/listing-3.txt"/>
+    </sect2>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2 xml:id="stream-transform">
+      <title>
+        <code>transform:stream-transform()</code>
+      </title>
+
+      <para>Performs an XSLT transformation like the
+        <literal>transform:transform</literal>
+        function, but directly streams the transformation result to the HTTP request output stream. It doesn't return anything. The function is therefore only usable in a web context.
+      </para>
+      <para>The servlet output stream will be closed afterwards.</para>
+    </sect2>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+</article>

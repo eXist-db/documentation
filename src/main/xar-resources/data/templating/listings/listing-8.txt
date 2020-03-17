@@ -1,0 +1,10 @@
+declare
+    %templates:wrap
+function demo:search($node as node(), $model as map(*), $query as xs:string) as map(*) {
+    let $result :=
+        for $hit in collection($config:app-root)//SCENE[ft:query(., $query)]
+        order by ft:score($hit) descending
+        return $hit
+    return
+        map { "result": $result }
+};

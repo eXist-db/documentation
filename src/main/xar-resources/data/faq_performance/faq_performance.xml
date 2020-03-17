@@ -1,0 +1,151 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <info>
+        <title>Performance FAQ</title>
+        <date>2Q19</date>
+        <keywordset>
+            <keyword>operations</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+    <para>Contains a short FAQ about eXist-db's performance.</para>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="limits">
+        <title>FAQ</title>
+
+        <variablelist>
+
+            <varlistentry>
+                <term>Are there limits on the size or amount of data eXist-db can store?</term>
+                <listitem>
+                    <para>As an advanced, powerful native XML database, eXist-db is capable of
+                        storing and querying XML documents of arbitrary depth and complexity, and
+                        there is no theoretical limit to the amount of data or the number of
+                        documents and collections you store in eXist-db. Currently eXist-db is set
+                        to limit the number of documents and collections (respectively) to 2^32, but
+                        this can be raised. Thus, the raw size of your data is not the key factor to
+                        consider when evaluating how eXist-db will perform for your
+                        applications.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term>How much do external factors like memory, storage, operating system, and
+                    processor power affect eXist-db's performance?</term>
+                <listitem>
+                    <para>eXist-db has modest memory requirements (the default memory footprint is
+                        512 MB), but as your data grows, queries grow more complex, and number of
+                        concurrent users increase, the performance of eXist-db will improve by
+                        supplying it with adequate memory, storage, and processing power. Certain
+                        operating systems impose upper limits on the amount of memory that can be
+                        allocated to a single application; for example, the 32-bit version of
+                        Windows limits applications to 1.3 GB of RAM, which while adequate for many
+                        applications may not last forever. As a multithreaded Java application,
+                        eXist-db benefits from multicore processors. Solid state storage offers
+                        performance advantages over much better than hard disk storage.
+                        Understanding external factors like these will allow you to give eXist-db
+                        the environment it needs to perform to your requirements. Regardless of the
+                        hardware and operating system you are using, you will want to explore the
+                        core factors that contribute to eXist-db performance.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term>What core factors play into eXist-db's performance?</term>
+                <listitem>
+                    <para>The key factor affecting performance in eXist-db is the interrelationship
+                        between the structure of your data and the queries you need to run. eXist-db
+                        has been designed to execute XQuery efficiently by pre-indexing the
+                        structure of your data (and, if you configure it, the contents of elements
+                        or attributes). Indexing allows eXist-db to perform operations in memory
+                        (which is fast), rather than reading from disk (which is slow). eXist-db
+                        generally performs very well when querying XML documents and their
+                        collections. When performance suffers, it is typically because indexing has
+                        not been employed, because queries have been written inefficiently, or
+                        because the data needs to be restructured to allow queries to perform most
+                        optimally.</para>
+                    <para>Among the many ways to optimize eXist-db's performance, eXist-db's
+                        indexing abilities can dramatically improve the performance of queries.
+                        Range or NGram indexes can improve the performance of queries that rely on
+                        string or value comparisons, and full text indexes can dramatically increase
+                        the speed and sophistication of full text searches. These indexes, paired
+                        with the right cache and memory settings will allow eXist-db to load just
+                        the right amount of data in memory for fast processing and minimize disk I/O
+                        operations or the need to access the raw DOM to complete a query.</para>
+                    <para>Performance of queries can also depend on actions like storing, replacing,
+                        or updating data. Some operations synchronize on the collection cache, which
+                        blocks other operations. Overcoming write-related performance problems can
+                        require changes to an application's design.</para>
+                    <para>Performance can change when an application moves from single to multiple
+                        concurrent users. In a concurrent situation, queries which need to traverse
+                        the DOM or scan through large index entries can become a bottleneck even
+                        though they run quickly when a single user runs the query.</para>
+                    <para>The bottom line: Performance depends on many factors, but developers of
+                        eXist-db are eager to eliminate all known bottlenecks and factors that lead
+                        to poor performance. If you have performance concerns, send a message to the
+                        exist-open mailing list. Depending on the nature your issue, you may be
+                        asked to send information about your operating system or memory settings,
+                        sample data and queries, a thread dump captured while the query is running,
+                        or information about memory consumption (using jconsole or other tools) to
+                        see how memory is used during times of low and high load. Very often the
+                        cause of a slowdown is a single query which just consumes too many
+                        resources, and if such a query coincides with other operations, performance
+                        can degrade. Identifying bottlenecks is the first step to overcoming
+                        performance problems.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term>How scalable is eXist-db?</term>
+                <listitem>
+                    <para>Scalability is a complex topic, and there are numerous areas that an
+                        application might want to be able to scale. To date, eXist-db has typically
+                        run as a single server. In a single server model, the means for scaling
+                        involves increasing memory and adding faster storage. However, eXist-db also
+                        has data replication abilities, allowing applications to span multiple
+                        servers. Built on JMS, eXist-db's replication involves designating one
+                        server as the master, and one or more other servers as slaves. Changes on
+                        the master are automatically replicated to the slaves. This replication
+                        facility should not be confused with a system for sharding data or
+                        distributing queries across multiple servers.</para>
+                    <para>As the scalability requirements of eXist-db users grow, the eXist-db
+                        developers aim to rise to the challenge.</para>
+                </listitem>
+            </varlistentry>
+
+        </variablelist>
+
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="sources">
+        <title>Sources</title>
+
+        <itemizedlist>
+            <listitem>
+                <para>On size vs. structure: <link xlink:href="https://markmail.org/message/jagye4wqirqpkowm">Wolfgang Meier,
+                    exist-open mailing list, Apr 29, 2010</link> </para>
+            </listitem>
+            <listitem>
+                <para>On querying while writing: <link xlink:href="https://markmail.org/message/6boozu74ttequcoo">Wolfgang Meier,
+                    exist-open mailing list, Jan 19, 2012</link> </para>
+            </listitem>
+            <listitem>
+                <para>On multiple concurrent users thread dumps, and memory monitoring, <link xlink:href="https://markmail.org/message/p5zzlnjg2j6wb7gr">Wolfgang Meier,
+                    exist-open mailing list, Jan 19, 2012</link> </para>
+            </listitem>
+            <listitem>
+                <para>On limits of collection and document ids: <link xlink:href="https://markmail.org/message/2n2vnisdonpk4yt6">Pierrick Brihaye,
+                    exist-open mailing list, Oct 4, 2007</link> </para>
+            </listitem>
+        </itemizedlist>
+    </sect1>
+
+
+</article>

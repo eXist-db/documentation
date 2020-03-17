@@ -1,0 +1,359 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>Code Review Guide</title>
+        <date>1Q18</date>
+        <keywordset>
+            <keyword>exist</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+    <para>This article provides guidelines on how to do a proper code review when developing for
+        eXist-db's own code base.</para>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="intro">
+        <title>Introduction</title>
+
+        <para>The following areas are important when conducting code review:</para>
+        <orderedlist>
+            <listitem>
+                <para>Does the solution provide custom class libraries for reusable classes &amp;
+                    methods?</para>
+            </listitem>
+            <listitem>
+                <para>What classes have been extended or implemented and whether they are
+                    supported?</para>
+            </listitem>
+            <listitem>
+                <para>Look for deprecated classes &amp; methods. Look for alternate methods if
+                    deprecated methods used. </para>
+            </listitem>
+            <listitem>
+                <para>Have the proper classes been extended to provide functionality based on
+                    functional requirements? Check whether objects have been extended too heavily
+                    where a lighter extension would suffice. </para>
+            </listitem>
+            <listitem>
+                <para>Are proper abstract classes &amp; interfaces used to provide a flexible, yet
+                    cohesive design model? </para>
+            </listitem>
+            <listitem>
+                <para>Has code been properly documented, for instance using JavaDoc?</para>
+            </listitem>
+        </orderedlist>
+
+        <para>And in general, we will look for the 7 Deadly Sins of Software Design and make
+            recommendation accordingly:</para>
+        <orderedlist>
+            <listitem>
+                <para>Rigidity: Make it hard to change, especially if changes result in ripple
+                    effects or when you don't know what will happen when you make changes. </para>
+            </listitem>
+            <listitem>
+                <para>Fragility: Make it easy to break. Whenever you change something, something
+                    breaks. </para>
+            </listitem>
+            <listitem>
+                <para>Immobility: Make it hard to reuse. When something is coupled to everything.
+                    When you try to take a piece of code (class etc.) it takes all of its
+                    dependencies with it. </para>
+            </listitem>
+            <listitem>
+                <para>Viscosity: Make it hard to do the right thing. There are usually several ways
+                    to work with a design. Viscosity happens when it is hard to work with the design
+                    the way the designer intended to. The results are tricks and workarounds that,
+                    many times, have unexpected outcomes (especially if the design is also fragile).
+                </para>
+            </listitem>
+            <listitem>
+                <para>Needless Complexity (Over design): When you overdo it (the "Swiss-Army knife"
+                    anti-pattern). A class that tries to anticipate every possible need. Another
+                    example is applying too many patterns to a simple problem. </para>
+            </listitem>
+            <listitem>
+                <para>Needless Repetition: The same code is scattered around which makes it error
+                    prone.</para>
+            </listitem>
+            <listitem>
+                <para> <emphasis role="italic">The 7th Deadly Sin of Software Design is (the
+                    obvious) "Not doing any". </emphasis> </para>
+            </listitem>
+        </orderedlist>
+
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="clean">
+        <title>Clean Unnecessary Code</title>
+
+        <para>As our business needs and techniques evolve, there are more and more changes to our
+            implementation, therefore a lot of code gets deprecated. Some of this may need to
+            remain, due to legacy data. However, some of it can be cleaned to make maintenance easy
+            and improve performance.</para>
+        <para>Different cases that might be found in the review:</para>
+        <itemizedlist>
+            <listitem>
+                <para>Whole classes are deprecated</para>
+            </listitem>
+            <listitem>
+                <para>Code segments are unnecessary due to changes.</para>
+            </listitem>
+            <listitem>
+                <para>Redundant registration of listener services.</para>
+            </listitem>
+        </itemizedlist>
+        <para>A good planning at the beginning will help to avoid messy code. And whenever there is
+            a change to be implemented, plan it first with a thorough review to its impact and
+            identify the code that needs to be changed. Only then implementation can start.</para>
+        <para>We recommend to review code that has a lot changes remove unnecessary code and merge
+            similar code using team discussion. This may be scheduled after migrated system go-live.
+            It will improve code quality, make it easy for debugging, and reduce unnecessary
+            maintenance work.</para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="optimize">
+        <title>Optimize and reduce database query to improve performance</title>
+
+        <para>Sometimes, we need to balance between Disk/Network and RAM access. We may improve
+            performance at cost of memory, as long as memory consumption is not the bottleneck. As a
+            rule of the thumb, a database query is more expensive then in memory processing in terms
+            of performance, so we need to optimize and combine some of the queries to reduce
+            database queries as much as possible. </para>
+        <para>Another balance is between the optimization and readability. We need to manage
+            optimization in a controllable way.</para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="local-cache">
+        <title>Use local cache to improve performance</title>
+
+        <para>It is recommended to use local caches to store frequently accessed data to avoid
+            database queries. Such a cache mechanism is simple and easy to implement.</para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="avoid">
+        <title>Avoid the use of expensive operations</title>
+
+        <para>Avoid using any expensive operations such as String concatenations. String
+            concatenations are expensive because Strings are constant; their values cannot be
+            changed after they are created. So each concatenation will create a new String
+            object.</para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="rollback">
+        <title>Proper rollback of database transactions</title>
+
+        <para>For database transaction take care of rollback properly. Here is an example how
+            <emphasis>not</emphasis> to do this:</para>
+        <programlisting language="java" xlink:href="listings/listing-1.txt"/>
+        <para>The consequence of this code is that if there is an error when executing the
+            transaction, the transaction will not be rolled back correctly. This will have an impact
+            on data integrity. </para>
+
+        <para>We recommend using the following structure for all database transactions to ensure
+            data integrity. </para>
+        <programlisting language="java" xlink:href="listings/listing-2.txt"/>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="hard-coding">
+        <title>Hard Coding</title>
+
+        <para>Hard code is hard to maintain and may cause potential problems.Here is an example: </para>
+        <programlisting language="java" xlink:href="listings/listing-3.txt"/>
+        <para>This code will remove the host name from the URL. However, it is hard coded and will
+            break if there is a rehosting. </para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="releasing">
+        <title>Resources not released</title>
+
+        <para>Resource should be released when it is not needed. Here is an example:</para>
+        <programlisting language="java" xlink:href="listings/listing-4.txt"/>
+        <para>The FileInputStream is not closed before returning from the method.</para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="comply">
+        <title>Comply to Java Coding Standards</title>
+
+        <para>Code conventions are important to programmers for a number of reasons:</para>
+        <itemizedlist>
+            <listitem>
+                <para>80% of the costs, over the lifetime of a piece of software, goes to
+                    maintenance.</para>
+            </listitem>
+            <listitem>
+                <para>Hardly any software is maintained for its whole life by the original
+                    author.</para>
+            </listitem>
+            <listitem>
+                <para>Code conventions improve the readability of the software, allowing engineers
+                    to understand new code more quickly and thoroughly.</para>
+            </listitem>
+            <listitem>
+                <para>If you ship your source code as a product, you need to make sure it is well
+                    packaged and clean, as any other product you create.</para>
+            </listitem>
+        </itemizedlist>
+        <para>eXist follows the Sun coding standards. In addition to that:</para>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="comments">
+            <title>Comments</title>
+            <itemizedlist>
+                <listitem>
+                    <para>Further details on JavaDoc comments over and above the Sun standard, can
+                        be found in the Sun Doc Comments how to guide. </para>
+                </listitem>
+                <listitem>
+                    <para>Have JavaDoc comment for all classes </para>
+                </listitem>
+                <listitem>
+                    <para>Each class should have a comment. This comment should describe the
+                        function, intent and role of the class. </para>
+                </listitem>
+                <listitem>
+                    <para>Have JavaDoc comment for all methods </para>
+                </listitem>
+                <listitem>
+                    <para>Each method should have a comment describing how the method is called and
+                        what it does. Discussion of implementation specifics should be avoided since
+                        this is not for the user of a method to know in most cases. That information
+                        belongs in implementation comments. </para>
+                </listitem>
+                <listitem>
+                    <para>Within the method JavaDoc comment, info should be added on the parameters.
+                        Each method JavaDoc comment should contain an <code>@param</code> comment
+                        for each parameter, an <code>@return</code> comment if not a void or
+                        constructor method, and an <code>@throws</code> comment for each exception
+                        (cf. Documenting Exceptions with <code>@throws</code> Tag). </para>
+                </listitem>
+                <listitem>
+                    <para>The method pre and post conditions should be documented here.
+                        Pre-conditions comprise parameter ranges and the overall state of the object
+                        and system expected when calling the method. Post-conditions should document
+                        the expected return value sets and the state of the object and system that
+                        will apply when the method exits. These should map to assertions. </para>
+                </listitem>
+                <listitem>
+                    <para>The JavaDoc should also document traceability of this method to the design
+                        and the requirements. Have JavaDoc comment for all fields Each non-trivial
+                        field should have a comment describing the role and purpose of the field, as
+                        well as any other appropriate information such as the range. </para>
+                </listitem>
+            </itemizedlist>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="exceptions">
+            <title>Exceptions</title>
+            <itemizedlist>
+                <listitem>
+                    <para>All exceptions should be handled, it is never acceptable to simply print
+                        the exception message and stack trace. Exceptions should be dealt and
+                        corrective or informative action taken to highlight the issue.</para>
+                </listitem>
+                <listitem>
+                    <para>For debugging purposes the stack trace should be logged at the final
+                        destination of the exception or at whenever the exception is modified, for
+                        example throwing a XXException instead of a
+                        <code>java.io.IOException</code>.</para>
+                </listitem>
+            </itemizedlist>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="logging">
+            <title>Logging</title>
+
+            <itemizedlist>
+                <listitem>
+                    <para>If no logging system is in use in the package already or the logging is
+                        unconditional, then log4j should be used for all logging. Please see the
+                        <emphasis>Log4J Logging Guide</emphasis>.</para>
+                </listitem>
+                <listitem>
+                    <para>If a class has unconditional logging, then it should be updated to use
+                        log4j. A case of unconditional logging is where there are
+                        <code>System.out.println()</code> in the code with no conditions surrounding
+                        the call. This unnecessarily clutters the log and places a burden on
+                        performance.</para>
+                </listitem>
+                <listitem>
+                    <para>Logging should always be performed at method exit and entry as
+                        follows:</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>Log entry</para>
+                        </listitem>
+                        <listitem>
+                            <para>Log arguments</para>
+                        </listitem>
+                        <listitem>
+                            <para>Log exit</para>
+                        </listitem>
+                        <listitem>
+                            <para>Log return values</para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+                <listitem>
+                    <para>The occurrence of exceptions and the stack trace should also be logged as
+                        info level items.</para>
+                </listitem>
+                <listitem>
+                    <para>Logging calls should be wrapped in enablement checks so that arguments do
+                        not get unnecessarily evaluated for example:</para>
+                    <programlisting language="java" xlink:href="listings/listing-5.txt"/>
+                </listitem>
+            </itemizedlist>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="assertions">
+            <title>Assertions</title>
+
+
+            <itemizedlist>
+                <listitem>
+                    <para>Assertions should be used in the code to verify that the expected results
+                        have occurred. Assertions should be used as liberally as possible. </para>
+                </listitem>
+                <listitem>
+                    <para>Standard Assertions should be performed at method entry and exit; these
+                        methods should validate the pre and post-conditions for the method. All
+                        arguments should be checked for validity as should the return values.
+                        Similarly the state of the object and broader system should be checked as
+                        appropriate on both method entry and exit, for example if a file is open.
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </sect2>
+
+    </sect1>
+
+</article>

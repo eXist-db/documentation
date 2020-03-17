@@ -1,0 +1,3 @@
+for $sect in /book//section[ft:query(., "ngram")] | /book//section[ft:query(title, "ngram")]
+order by ft:score($sect) descending 
+return $sect

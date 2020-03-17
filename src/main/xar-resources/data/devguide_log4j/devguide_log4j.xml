@@ -1,0 +1,613 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>Log4j Logging Guide</title>
+        <date>1Q20</date>
+        <keywordset>
+            <keyword>java-development</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+    <para>This article explains logging and eXist-db's use of <link
+        xlink:href="https://logging.apache.org/log4j/">Log4j</link>.</para>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="overview">
+        <title>Overview</title>
+
+        <para>Logging may seem like a less important part of an application. After all, it consumes
+            resources: programmer time, increasing class file size, CPU cycles, etc. All while doing
+            nothing to provide end-user functionality. However, logging is an important part of any
+            substantial body of software and is absolutely critical in enterprise software. A big
+            issue with the use of the logging system when troubleshooting is that it changes to the
+            log configuration require a <emphasis>restart</emphasis>. Yet, userss are often
+            extremely reluctant to restart their production servers. <link
+            xlink:href="https://logging.apache.org/log4j/">Log4j</link> is the most powerful
+            Java-based logging library available today. It provides a many features to address such
+            concerns.</para>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="intro">
+            <title>Introducing Log4j</title>
+
+            <para>Log4j is based on the following core concepts:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Each log event is issued by a hierarchically named <code>logger</code>,
+                        e.g. <code>xx.method.server.httpgw</code> which can correspond to Java class
+                        names.</para>
+                </listitem>
+                <listitem>
+                    <para>All log events have an associated severity level:</para>
+                    <informaltable xml:id="loglevel">
+                        <tgroup cols="2">
+                            <thead>
+                                <row>
+                                    <entry> <para>Level</para> </entry>
+                                    <entry> <para>Usage</para> </entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry> <para> <code>Trace</code> </para> </entry>
+                                    <entry> <para>Very low-level debugging “execution is here”
+                                        debugging/troubleshooting messages.</para> </entry>
+                                </row>
+                                <row>
+                                    <entry> <para> <code>Debug</code> </para> </entry>
+                                    <entry> <para>Messages of interest to those debugging or
+                                        troubleshooting (with greater importance than trace
+                                        messages). Probably only meaningful to developers</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry> <para> <code>Info</code> </para> </entry>
+                                    <entry> <para>General informational messages. Understandable by
+                                        and/or of interest to non-developers as well.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry> <para> <code>Warn</code> </para> </entry>
+                                    <entry> <para>Warnings of potential problems</para> </entry>
+                                </row>
+                                <row>
+                                    <entry> <para> <code>Error</code> </para> </entry>
+                                    <entry> <para>Error conditions</para> </entry>
+                                </row>
+                                <row>
+                                    <entry> <para> <code>Fatal</code> </para> </entry>
+                                    <entry> <para>Fatal error conditions, For instance a shut down,
+                                        a likely crash or something equally severe</para> </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                </listitem>
+                <listitem>
+                    <para>Logging is controlled either via a Log4j configuration file. Exist-db's
+                        main log configuration file responsible for the <literal>exist.log</literal>
+                        is located at <code>exist/etc/log4j2.xml</code>. To issue log events
+                        programmatically you must acquire a logger by name and specify a log message
+                        and its severity level (and optionally a <code>Throwable</code> where
+                        applicable). </para>
+                </listitem>
+            </itemizedlist>
+            <para>Based on these core concepts, Log4j provides a powerful set of
+                functionalities:</para>
+            <variablelist>
+                <varlistentry>
+                    <term>Many “appender” choices</term>
+                    <listitem>
+                        <para>Each log event may be output to zero or more “appenders”. These are
+                            generalized output pipes, e.g. <code>System.out/err</code>,
+                            <code>JDBC</code>, <code>syslog</code> etc. </para>
+                        <para>When outputing to a file various options for log rolling are
+                            available. For instance daily creation of new log files, segmenting when
+                            a given file size is reached, and externally controlled log rotation.
+                            These appenders can be run synchronously to the threads generating the
+                            log events or as separate asynchronous queues.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>Flexible layout options</term>
+                    <listitem>
+                        <para>Each appender can specify a layout, for formatting the log message.
+                            The administrator can choose from <literal>HTML</literal>,
+                            <literal>XML</literal>, and <literal>text</literal> formats – including
+                            the flexible <code>PatternLayout</code>, which allows selecting the data
+                            to include (timestamps, originating thread, logger name, etc.).</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>Hierarchical logger configuration</term>
+                    <listitem>
+                        <para>Administrators can configure log event cutoff levels and appenders for
+                            entire branches of the hierarchical logger tree.</para>
+                        <para>For instance, by adding a <code>console</code> appender targeting
+                            <code>System.out</code> to the root logger, all Log4j output will go to
+                            <code>System.out</code>. One can configure the overall cutoff level as
+                            <code>error</code> at the root logger level so that only error and fatal
+                            messages are output, unless otherwise specified. One could then
+                            configure the <code>xx.method</code> logger to have an <code>info</code>
+                            level cutoff and an appender to capture all output to a specified file
+                            (in addition to <code>System.out</code>). These <code>xx.method</code>
+                            settings would then affect all loggers whose names begin with
+                            <code>xx.method</code>. (e.g.
+                            <code>xx.method.server.httpgw</code>).</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>Log viewers</term>
+                    <listitem>
+                        <para>Various free and commercial products provide specialized viewing
+                            capabilities for Log4j logs. Apache provides a very useful Log4j log
+                            viewer <link xlink:href="https://logging.apache.org/chainsaw"
+                            >Chainsaw</link>.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+
+            <para>For more information visit the <link
+                xlink:href="https://logging.apache.org/log4j/">Log4j website</link> website. </para>
+
+            <note>
+                <para>Java 1.4 and higher’s <code>java.util.logging</code> API is very similar to
+                    Log4j’s. However Log4j is much more powerful in a number of critical areas. </para>
+                <para>In conjunction with our JMX MBeans for Log4j, one can also: </para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Dynamically examine and reconfigure the Log4j configuration for the
+                            duration of the process via a JMX console.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Have all processes using a Log4j configuration file periodically check
+                            its modification date and automatically re-load it upon any
+                            change.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Force an immediate reload from a configuration file via a JMX
+                            console.</para>
+                    </listitem>
+                </itemizedlist>
+            </note>
+
+        </sect2>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="config">
+        <title>Configuring Log4j</title>
+        <!-- TODO this is still missing a listing of the full contents of exist/logs or the config files -->
+
+        <para>The <code>$EXIST_HOME/etc/log4j2.xml</code> configuration file controls Log4j’s
+            behavior. Log files are written <code>$EXIST_HOME/logs/</code>. The configuration file
+            is used mainly to set a given level of log output for loggers. Without such
+            configuration only ERROR and FATAL log events will show up. Therefore you have to change
+            the configuration to see <code>trace</code>, <code>debug</code>, <code>info</code>, or
+            <code>warn</code> log events in the Log4j output. </para>
+        <para>To turn on a given logging level for all loggers, find the <code>Log4j.root</code>
+            property and change its priority value to the desired level. For instance:</para>
+        <programlisting language="xml" xlink:href="listings/listing-8.xml"/>
+        <para>Change the priority level to <code>info</code> to see informational messages:</para>
+        <programlisting language="xml" xlink:href="listings/listing-9.xml"/>
+        <para>This will result in a cacophony of log output, so you’ll generally want to adjust the
+            logging level to a more specific level. For instance:</para>
+        <programlisting language="xml" xlink:href="listings/listing-11.xml"/>
+        <para>This sets the <code>org.exist.security</code> logger’s level to
+            <code>info</code>.</para>
+        <para>Note that doing this causes the default log level of all
+            <code>org.exist.security</code> loggers to be set to <code>info</code>. For example, the
+            level of the <code>org.exist.security.xacml</code> logger would also be set to
+            <code>info</code>, unless of course the level for this logger is specified explicitly. </para>
+        <para>Checking the Log4j configuration file is done periodically so changes may go unnoticed
+            for a few minutes.</para>
+        <para>To make temporary changes to the Log4j configuration without changing the
+            configuration files, use JMX MBeans:</para>
+
+        <orderedlist>
+            <listitem>
+                <para>Start <code>jconsole</code> </para>
+                <para> <code>jconsole</code> is located in the Java SDK’s bin directory. You can
+                    either double-click on it or run it from the command line.</para>
+            </listitem>
+            <listitem>
+                <para>Select the target JVM</para>
+                <para> <code>jconsole</code> will list the Java processes running on your machine
+                    under the current user, which have been configured to allow local JMX
+                    connections.</para>
+            </listitem>
+            <listitem>
+                <para>Navigate to the Logging node in the MBean tree:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Select the MBeans tab.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Expand the right folder.</para>
+                    </listitem>
+                    <listitem>
+                        <para>In the servlet engine expand the <code>WebAppContext</code> folder and
+                            the folder named after your web app.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Select the <code>Logging</code> node (which should now be
+                            visible).</para>
+                    </listitem>
+                </itemizedlist>
+            </listitem>
+            <listitem>
+                <para>Perform desired operations and/or modifications:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>To change the configuration file check interval, change the
+                            <code>ConfigurationCheckInterval</code> attribute to the desired number
+                            of seconds. Note that this change will apply only for the duration of
+                            the JVM process unless you select the Loader node and its save
+                            operation.</para>
+                    </listitem>
+                    <listitem>
+                        <para>To force an immediate reload of the configuration file, press the
+                            <guimenuitem>reconfigure</guimenuitem> button on the operations
+                            tab.</para>
+                    </listitem>
+                    <listitem>
+                        <para>To examine other aspects of the configuration and make temporary
+                            changes, press the <guimenuitem>registerLoggers</guimenuitem> button on
+                            the operation tab. Expand the <guimenuitem>Logging</guimenuitem> tree
+                            node and examine/operate upon its children.</para>
+                    </listitem>
+                </itemizedlist>
+            </listitem>
+        </orderedlist>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="use">
+        <title>Using Log4j in Java</title>
+
+        <orderedlist>
+            <listitem>
+                <para>Acquire a logger: </para>
+                <programlisting language="java" xlink:href="listings/listing-19.txt"/>
+
+                <para>Remarks:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>This is a somewhat time-consuming operation and should be done in
+                            constructors of relatively long-lived objects or in static
+                            initializers.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Many classes can separately acquire a logger using the same logger
+                            name. They will all end up with their own reference to the same shared
+                            logger object.</para>
+                    </listitem>
+                </itemizedlist>
+            </listitem>
+            <listitem>
+                <para>Use the logger: </para>
+                <programlisting language="java">logger.info( "Something I really wanted to say" );</programlisting>
+                <para>Remarks:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <code>info()</code> is just one of Logger’s methods for issuing Log4j
+                            log events. It implicitly assigns the event a severity level of
+                            <code>info</code> and does not specify a <code>Throwable</code>. Logger
+                            methods for issuing log events include:</para>
+                        <programlisting language="java" xlink:href="listings/listing-1.txt"/>
+                    </listitem>
+                    <listitem>
+                        <para>Note that in each case the message is an Object, not a
+                            <code>String</code>. If (and only if) Log4j decides to output the given
+                            log event (based on the configuration), it will render this object as a
+                            <code>String</code> (essentially via <code>toString()</code>).</para>
+                    </listitem>
+                </itemizedlist>
+            </listitem>
+        </orderedlist>
+        <para> You emit log events with appropriate log levels to appropriately named loggers. The
+            Log4j configuration determines which appenders (if any) should output/record the event
+            and how this should be done. </para>
+        <sect2 xml:id="converting">
+            <title>Converting existing logging code to Log4j</title>
+
+            <para>Conversion of existing logging code to Log4j can be as simple as replacing
+                <code>System.out.println()</code> calls, etc, with use of the Log4j API. There are a
+                few special considerations worth noting.</para>
+            <variablelist>
+                <varlistentry>
+                    <term>Dealing with Legacy Properties</term>
+                    <listitem>
+                        <para>You'll have to check the functionality of existing logging properties: </para>
+                        <itemizedlist>
+                            <listitem>
+                                <para> For instance, properties specifying output files can be
+                                    removed, as customers can now siphon Log4j output to specific
+                                    files via Log4j’s configuration files. </para>
+                                <para/>
+                            </listitem>
+                            <listitem>
+                                <para>To preserve well-known logging properties regardless, given
+                                    the following example code:</para>
+                                <programlisting language="java" xlink:href="listings/listing-2.txt"/>
+                                <para>The static portions above can be left as is and the remainder
+                                    changed to:</para>
+                                <programlisting language="java" xlink:href="listings/listing-3.txt"/>
+                                <para>This example assumes that output from the given Log4j logger
+                                    should be completely enabled when the existing property is
+                                    set.</para>
+                                <para>One can also use this:</para>
+                                <programlisting language="java" xlink:href="listings/listing-4.txt"/>
+                                <para>This causes the existing property to enable output from the
+                                    given Log4j logger up through the severity level,
+                                    <code>debug</code>. </para>
+                                <para>This approach to preserving existing “enabling” properties a
+                                    partal fix. The intended minimum log verbosity is ensured upon
+                                    initialization but cannot be reset via the property without a
+                                    restart. The ability to change the log-level on the fly or make
+                                    fine grained log-level adjustments is only available through the
+                                    Log4j configuration. </para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>Conditional Computation of Data for Logging</term>
+                    <listitem>
+                        <para>When log messages are constructed conditionallys:</para>
+                        <programlisting language="java" xlink:href="listings/listing-5.txt"/>
+                        <para>The <code>if</code> block may include
+                            <code>System.out.println()</code>’s or the results of the block may be
+                            used in later <code>System.out.println()</code>’s. The code is intended
+                            to avoid computations and assignments unless their results are
+                            used.</para>
+                        <para>You can now use one of Log4j’s <code>is*Enabled()</code> methods for
+                            this. For example: </para>
+                        <programlisting language="java" xlink:href="listings/listing-6.txt"/>
+                        <para>The Log4j Logger class provides a set of methods for this:</para>
+                        <programlisting language="java" xlink:href="listings/listing-7.txt"/>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </sect2>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="tips">
+        <title>Tips and Tricks</title>
+        <para>This section contains useful hints based on our user's experiences.</para>
+        <sect2 xml:id="general">
+            <title>General</title>
+
+            <variablelist>
+
+                <varlistentry>
+                    <term>Carefully select appropriate logger names</term>
+                    <listitem>
+                        <para>Logger names should be meaningful and facilitate hierarchical
+                            configuration by administrators. Use a namespace prefix, either
+                            <code>xx</code> or <code>com.xxx</code> to avoid collision with logger
+                            names from 3rd-party libraries and customizations. </para>
+                        <para>For instance, one might have <code>xx.method.server</code> for general
+                            logging related to various low-level aspects of the method server and
+                            <code>xx.method.server.timing</code> for logging specifically related to
+                            the method timing. Use Java class and package names where these make
+                            sense. </para>
+                        <para/>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Document your logger if appropriate</term>
+                    <listitem>
+                        <para>If appropriate, document your logger in
+                            <code>/xxx/src_web/loggers.html</code>. For instance when the output is
+                            of interest to your customer. The logger should be documented (by name)
+                            in <code>/xxx/src_web/loggers.html</code> (which ends up in xxx’s
+                            codebase in an installation).</para>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Select appropriate levels for log events</term>
+                    <listitem>
+                        <para> See the table above for an outline of levels and their intended
+                            usage. <xref linkend="loglevel"/></para>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Don’t go overboard with the Log4j configuration files</term>
+                    <listitem>
+                        <para>Log4j provides a great deal of ease and flexibility in its
+                            configuration. Its log viewers also make it easy to merge log data from
+                            multiple Log4j logs or filter out the data of interest from a general
+                            purpose log. Given this it makes little sense to provide a complex Log4j
+                            configuration file. The customer can change the configuration to have
+                            more or less specific log outputs as dictated by their needs and
+                            desires. </para>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Adjust log levels in Log4j configuration files where appropriate</term>
+                    <listitem>
+                        <para>By default only <code>error</code> and <code>fatal</code> log messages
+                            are created. This generates relatively "quiet" logs that only alert
+                            administrators to issues. There are however sometimes log messages
+                            classified as <code>informational</code> that should be output at this
+                            log level as well. Such as periodic information about process health
+                            summaries. Simply enable info level debig ouput in the for the logger in
+                            question. </para>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Don’t include redundant data in log messages</term>
+                    <listitem>
+                        <para>Log4j includes current time, thread name, logger name, evernt level,
+                            etc information in a standard fashion so it is easily interpreted by log
+                            viewers. Inclusion of any of these pieces of information in the log
+                            message itself is therefore redundant. </para>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>make use of <code>AttributeListWrapper</code> where appropriate</term>
+                    <listitem>
+                        <para>For some particularly significant logs it is important to have even
+                            more control, including: </para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>To select which attributes should be included in a given log
+                                    message</para>
+                            </listitem>
+                            <listitem>
+                                <para>To specify the order of these attributes</para>
+                            </listitem>
+                            <listitem>
+                                <para>To specify the formatting of these attributes (e.g. comma
+                                    delimited, with or without attribute names, etc)</para>
+                            </listitem>
+                        </itemizedlist>
+                        <para>Examples of such cases include request access and periodic statistics
+                            logging. </para>
+                        <para>There is a re-usable utility for just this purpose,
+                            <code>xx.jmx.core.AttributeListWrapper</code>. </para>
+                    </listitem>
+                </varlistentry>
+
+            </variablelist>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="performance">
+            <title>Performance</title>
+
+            <para>The operation of Log4j’s Logger class’s logging methods for issuing log events can
+                be summed up as: </para>
+            <programlisting language="java" xlink:href="listings/listing-12.txt"/>
+
+            <itemizedlist>
+                <listitem>
+                    <para> <code>render()</code> is simply a <code>toString()</code> call, except
+                        when <code>message</code> is an instance of a class for which a specialized
+                        render has been registered.</para>
+                </listitem>
+                <listitem>
+                    <para> <code>trace()</code>, <code>debug()</code>, <code>info()</code>,
+                        <code>warn()</code>, <code>error()</code>, etc, call <code>log()</code> with
+                        the appropriate level.</para>
+                </listitem>
+            </itemizedlist>
+
+            <para>Note that Log4j's documentation claims that <code>isEnabledFor()</code>, and the
+                <code>Logger.is*Enabled()</code> method are extremely fast. Therefore
+                <code>log()</code> should take very little time as well (unless
+                <code>isEnabledFor()</code> returns <code>true</code>). </para>
+            <para>Given this, a few additional performance tips and tricks: </para>
+
+            <variablelist>
+                <varlistentry>
+                    <term>Don’t reacquire a logger on each usage</term>
+                    <listitem>
+                        <para>The <code>LogR.getLogger()</code> (and underlying
+                            <code>Logger.getLogger()</code>) calls are relatively expensive. One
+                            should acquire these objects once per class (or once per instance of a
+                            class) and re-use them in subsequent logging calls. </para>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Don’t assume a log’s level cannot change</term>
+                    <listitem>
+                        <para>One of the big advantages of Log4j is that administrators can easily
+                            change the level setting of any logger at any time. One can however
+                            easily undo this by following conventions common in existing logging
+                            code, e.g.: </para>
+                        <programlisting language="java" xlink:href="listings/listing-13.txt"/>
+                        <para> <code>Logger</code>’s <code>isEnabledFor()</code> and
+                            <code>is*Enabled()</code> routines are fast enough to allow calling them
+                            more frequently in order to obtain the benefits of dynamically
+                            configurable logging levels. </para>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Don’t check whether the log level is enabled before every log call</term>
+                    <listitem>
+                        <para>Do not write code as: </para>
+                        <programlisting language="java" xlink:href="listings/listing-14.txt"/>
+                        <para>This results in essentially no savings when
+                            <code>isDebugEnabled()</code> is <code>true</code>. It also makes the
+                            code more verbose and harder to read. Instead do: </para>
+                        <programlisting language="java">logger.debug( "Some constant string" );</programlisting>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Do avoid doing additional work for logging unless the logger is
+                        enabled</term>
+                    <listitem>
+                        <para>Assume the last example looked like: </para>
+                        <programlisting language="java" xlink:href="listings/listing-16.txt"/>
+                        <para>Then the <code>isDebugEnabled()</code> check should be performed. In
+                            this case, two string concatenations and a potentially (somewhat)
+                            expensive method call can be saved when the logger is not debug enabled.
+                            See the “Conditional Computation of Data for Logging” section above for
+                            another example of this pattern. </para>
+                        <para>On the other hand, this technique should not be used when you are all
+                            but certain the given logger will be enabled. Usually this applies only
+                            to log events being emitted with an <code>error</code> or
+                            <code>fatal</code> level. In this case saving times for the few cases in
+                            which someone has actually disabled this level of logging is not
+                            worthwhile. </para>
+                        <para>Another technique to avoid unnecessary work is to leverage the fact
+                            that <code>Logger</code>’s take objects, not strings, as arguments. Thus
+                            one might write: </para>
+                        <programlisting language="java" xlink:href="listings/listing-17.txt"/>
+                        <para>Here one will pay for the construction of <code>someObj</code> in all
+                            cases but will only pay for <code>someObj.toString()</code> when logging
+                            is enabled for info-level log events. Thus if very little work is done
+                            in the constructor and most is done in toString() this avoids doing work
+                            except when necessary. <code>AttributeListWrapper</code> (see above) is
+                            an example of this technique. </para>
+                    </listitem>
+                </varlistentry>
+
+                <varlistentry>
+                    <term>Hoist log level checks outside of very tight loops</term>
+                    <listitem>
+                        <para>For cases where a given log level will usually not be enabled, for
+                            instance for trace and debug log messages, one should avoid repeated
+                            checks within a tight loop. For example: </para>
+                        <programlisting language="java" xlink:href="listings/listing-18.txt"/>
+                        <para>Trace level logging is rarely enabled and so in this example checking
+                            for this case ahead of time can save us from repeatedly verifying this
+                            in a tight loop. This does, however, come at the cost of making it
+                            impossible to dynamically enable trace logging for this logger in the
+                            middle of this loop. Due to this, this technique should only be used for
+                            tight loops where the duration of the execution represented by the loop
+                            (and thus the time during which the logging behavior may lag the
+                            intended setting) is small.</para>
+                    </listitem>
+                </varlistentry>
+
+            </variablelist>
+
+        </sect2>
+    </sect1>
+</article>

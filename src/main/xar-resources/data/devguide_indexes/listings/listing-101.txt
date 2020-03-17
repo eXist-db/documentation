@@ -1,0 +1,18 @@
+protected boolean removeDocumentNode(DocumentImpl doc, NodeId nodeId, Connection conn)
+        throws SQLException {
+	PreparedStatement ps = conn.prepareStatement(
+	"DELETE FROM " + GMLHSQLIndex.TABLE_NAME + 
+	" WHERE DOCUMENT_URI = ? AND NODE_ID_UNITS = ? AND NODE_ID = ?;"
+	); 
+	ps.setString(1, doc.getURI().toString());
+	ps.setInt(2, nodeId.units());
+	byte[] bytes = new byte[nodeId.size()];
+	nodeId.serialize(bytes, 0);        
+	ps.setBytes(3, bytes);
+	try {	 
+	  return (ps.executeUpdate() == 1);
+	} finally {
+	  if (ps != null)
+	    ps.close();
+        }
+      }

@@ -1,0 +1,12 @@
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+  <index>
+    <!-- Lucene indexes -->
+    <lucene diacritics="no">
+      <analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/>
+      <text match="//title[@xml:lang='Sa-Ltn']"/>
+      <text match="/TEI/text">
+        <ignore qname="text"/>
+      </text>
+    </lucene>
+  </index>
+</collection>

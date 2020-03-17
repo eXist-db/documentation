@@ -1,0 +1,128 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>Using collections in eXist-db</title>
+        <date>1Q18</date>
+        <keywordset>
+            <keyword>getting-started</keyword>
+            <keyword>application-development</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+    <para>eXist supports the concept of document collections. Collections are groupings of both XML
+        documents, binary documents and other collections, much like directories on disk. This
+        document describes some design considerations deciding what collections to use and how to
+        partition your data into XML files.</para>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="collection-use">
+        <title>Using collections to group your XML documents</title>
+
+        <para>eXist organizes its documents in collections, like file systems use directories. </para>
+        <para> By convention the root collection of eXist is called <code>/db</code>, much like
+            <code>/</code> is the root collection of a UNIX file system. Users create
+            sub-collections under <code>/db</code> collection to store data. </para>
+        <para> Collections contain two types of things, files or sub-collections. Files in eXist are
+            called "resources". Well-formed XML documents are indexed by eXist. Non XML files are
+            stored as binary objects. </para>
+        <para> In general, you can group XML data files into sub-collections in whatever way is most
+            convenient and meaningful to your organization. For example, if you are collecting daily
+            sales data in XML format you can place daily sales orders for each month into a separate
+            collection for that year and month. Sales for October 2012 would for instance be in
+            <code>/db/sales/data/2010/10</code>. Using dates to separate your data is quite common.
+            This allows you to remove old records by simply removing a year or month-level
+            collection.</para>
+        <para>eXist-db can query all XML documents in any collection or any sub-collection to find a
+            document. Unlike a file system, you don't need to know what year or month the data is
+            in. You only need to know the root collection to start your queries. eXist will find
+            your documents from there.</para>
+        <para>How you create collections should reflect the logical structure of your data. You can
+            store tens of thousands of XML files in a single collection without a problem. However
+            this makes viewing the files challenging using a folder-interface. Therefore collections
+            with under ~1,000 XML files are preferred by most collection designers.</para>
+        <para>Collections allow you to create database triggers for the documents within a
+            collection. These triggers are executed when a document is created, updated, deleted or
+            viewed. </para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="partition">
+        <title>Partitioning data</title>
+
+        <para>eXist-db is designed to be flexible with the amount of data stored in a collection or
+            XML file. It works equally well if you have a single file with 10,000 sales transactions
+            or 10,000 individual transaction files. The query you write won't need to be changed if
+            you alter how the files are grouped, as long as you reference the root collection of
+            your documents. </para>
+        <para>There are however some design considerations when you're performing concurrent reads
+            and writes on a document collection. eXist-db only guarantees atomic operations within a
+            single document. So placing two different data elements that must stay consistent within
+            an single document is good practice. </para>
+        <para> You many also want to use a database lock on a document or a sub-document to prevent
+            other processes from modifying it. This feature is similar to file locks that are
+            performed on a shared file in a file system. Locking a document helps avoiding conflicts
+            when multiple people attempt to edit the same document at the same time. You can also
+            calculate hash tags on a document as you load it into an editor to verify that it has
+            not been modified by someone else while you have been editing it. This strategy, and the
+            use of the etags HTML element, helps you avoid the missing updates problem.</para>
+        <para>Native XML database collections can be used as a "primary taxonomy" to store documents
+            of different types. This is similar to the categorization of a book in a library where
+            the book is found according to its primary subject. However, unlike a physical book, a
+            document can contain many different category elements and thus does not have to be
+            copied or moved between collections. An XML document can contain keywords and category
+            terms that allow search tools to find documents that fit multiple subject
+            categories.</para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="security">
+        <title>Security considerations</title>
+
+        <para>Collections can be used as a way to group documents according to who can access them.
+            You may have an internal policy that only allows users with a particular role to modify
+            a document. eXist-db provides basic UNIX-style permissions on each collection to allow
+            only some groups to have write access to a collection of documents (see <link
+            xlink:href="security">Security</link> for more information).</para>
+        <para>An example of using security-based collections to group web application functionality: </para>
+        <itemizedlist>
+            <listitem>
+                <para>Use the <code>/db/apps</code> folder to hold all your applications</para>
+            </listitem>
+            <listitem>
+                <para>Use <code>/db/apps/books</code> folder to hold your books application.</para>
+            </listitem>
+            <listitem>
+                <para>Use a <code>/db/apps/books/data</code> to store the actual book data. Only
+                    users with edit rights can change the data in the collection. </para>
+            </listitem>
+            <listitem>
+                <para>Use a <code>/db/apps/books/views</code> to store read-only transform views of
+                    the book data.</para>
+            </listitem>
+            <listitem>
+                <para>Use a <code>/db/apps/books/edit</code> for editing tools. Only users with edit
+                    rights will be able to access this folder.</para>
+            </listitem>
+            <listitem>
+                <para>Use a <code>/db/apps/books/admin</code> for administrative tools. For example
+                    changing code-tables in selection lists or tools that re-index the
+                    collection.</para>
+            </listitem>
+            <listitem>
+                <para>Use a <code>/db/apps/books/unit-tests</code> to store unit tests for the books
+                    application. Only developers will need this collection loaded on their
+                    system.</para>
+            </listitem>
+        </itemizedlist>
+
+
+    </sect1>
+</article>

@@ -1,0 +1,93 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <info>
+        <title>How to report issues</title>
+        <date>2Q19</date>
+        <keywordset>
+            <keyword>getting-started</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+    <para>This article will tell you what information to provide when you report an issue.</para>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="reporting">
+        <title>Reporting an issue</title>
+
+        <para>Bugs can be reported on the <link condition="_blank" xlink:href="https://github.com/eXist-db/exist/issues/">Bug Tracker</link>. Data and log
+            files can be attached.</para>
+
+        <para>When a (potential) bug is reported, please include as much of the information
+            described below. When more information is provided it is easier for the developers to
+            understand and reproduce the issue, which means that the issue can be picked-up and
+            solved much faster.</para>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="general">
+            <title>General information</title>
+
+            <para>When reporting a (suspected) bug please make the report as complete as possible: </para>
+            <itemizedlist>
+                <listitem>
+                    <para>Try to write a clear (and short) description how to reproduce the
+                        problem</para>
+                </listitem>
+                <listitem>
+                    <para>Include the exact version (and revision), e.g. "1.4.3" (rev1234) or "2.1".
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Always add the operating system (e.g. "Windows7 64bit"), the exact Java
+                        version as is outputted by the command <code>java -version</code> on the
+                        console.</para>
+                </listitem>
+                <listitem>
+                    <para>Include relevant <emphasis role="bold">parts</emphasis> of the logfile
+                        (<literal>logs/exist.log</literal>).</para>
+                </listitem>
+                <listitem>
+                    <para>Mention the changes made in the configuration files, for instance
+                        <literal>etc/conf.xml</literal>, <literal>etc/launcher.properties</literal>,
+                        and <literal>etc/jetty/jetty.xml</literal>.</para>
+                </listitem>
+            </itemizedlist>
+
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="xq">
+            <title>XQuery specific</title>
+
+            <para>When reporting a potential <emphasis role="bold">XQuery</emphasis> bug please: </para>
+            <itemizedlist>
+                <listitem>
+                    <para>Make the XQuery, if possible, 'self containing', meaning that the XQuery
+                        does not require any additional files to run.</para>
+                </listitem>
+                <listitem>
+                    <para>Describe the actual XQuery result and the expected result</para>
+                </listitem>
+                <listitem>
+                    <para>Check if the issue has been solved in the latest version of eXist-db; For
+                        this the web based tool <link xlink:href="https://exist-db.org/exist/apps/eXide/index.html">eXide</link>
+                        can be used.</para>
+                </listitem>
+                <listitem>
+                    <para>Run the XQuery with <link xlink:href="http://kernowforsaxon.sourceforge.net">Kernow for Saxon</link>
+                        and check the similarities and differences. </para>
+                </listitem>
+            </itemizedlist>
+
+
+        </sect2>
+
+    </sect1>
+
+
+</article>

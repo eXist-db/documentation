@@ -1,0 +1,68 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook">
+    <info>
+        <title>HTTP-Related Functions in the Request and Session Modules</title>
+        <date>1Q18</date>
+        <keywordset>
+            <keyword>application-development</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+    <para>This article describes the functions for handling HTTP session parameters and
+        variables.</para>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="introduction">
+        <title>Introduction</title>
+
+        <para>The request module (in the <literal>http://exist-db.org/xquery/request</literal>
+            function namespace) contains functions for handling HTTP request parameters. The session
+            module (in the <literal>http://exist-db.org/xquery/session</literal> function namespace)
+            contains functions for handling HTTP session variables. Functions in these namespaces
+            are only usable if the query is executed through the <code>XQueryGenerator</code> or the
+            <code>XQueryServlet</code>.</para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="functions">
+        <title>Available functions</title>
+
+        <variablelist>
+            <varlistentry>
+                <term><code>request:get-parameter(name, default value)</code></term>
+                <listitem>
+                    <para>This HTTP function expects two arguments: the first denotes the name of
+                        the parameter, the second specifies a default value, which is returned if
+                        the parameter is not set. This function returns a sequence containing the
+                        values for the parameter. </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><code>request:get-uri()</code></term>
+                <listitem>
+                    <para>This function returns the URI of the current request. To encode this URI
+                        using the current session identifier, use the following function:</para>
+                    <programlisting>session:encode-url(request:get-uri())</programlisting>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><code>session:create()</code></term>
+                <listitem>
+                    <para>This function creates a new HTTP session if none exists.</para>
+
+                </listitem>
+            </varlistentry>
+        </variablelist>
+
+        <para>Other session functions read and set session attributes, among other operations. For
+            example, an XQuery or Java object value can be stored in a session attribute, to cache
+            query results.</para>
+
+    </sect1>
+</article>

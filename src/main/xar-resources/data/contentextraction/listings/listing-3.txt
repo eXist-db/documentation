@@ -1,0 +1,3 @@
+content:get-metadata($binary as xs:base64Binary) as document-node()
+content:get-metadata-and-content($binary as xs:base64Binary) as document-node()
+content:stream-content($binary as xs:base64Binary, $paths as xs:string*, $callback as function, $namespaces as element()?, $userData as item()*) as empty-sequence()

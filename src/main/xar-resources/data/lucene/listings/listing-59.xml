@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+  <index xmlns:db="http://docbook.org/ns/docbook" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <lucene>
+      <analyzer class="org.apache.lucene.analysis.de.GermanAnalyzer" id="german"/>
+      <analyzer class="org.apache.lucene.analysis.en.EnglishAnalyzer" id="english"/>
+      <text qname="db:article" index="no">
+        <field name="english" if="@xml:lang='en'" analyzer="english"/>
+        <field name="german" if="@xml:lang='de'" analyzer="german"/>
+      </text>
+    </lucene>
+  </index>
+</collection>

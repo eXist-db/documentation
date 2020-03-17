@@ -1,0 +1,33 @@
+xquery version "1.0";
+
+declare option exist:serialize "method=xhtml media-type=text/html indent=yes";
+
+let $data-collection := '/db/apps/terms/data'
+let $q := request:get-parameter('q', "")
+let $search-results := collection($data-collection)/term[ft:query(*, $q)]
+let $count := count($search-results)
+return
+    <html>
+        <head>
+            <title>Term Search Results</title>
+        </head>
+        <body>
+            <h3>Term Search Results</h3>
+            <p><b>Search results for:</b> &quot;{$q}&quot;<b> in collection: </b>{$data-collection}</p>
+            <p><b>Terms Found:</b> {$count}</p>
+            <ol>
+                {
+                    for $term in $search-results
+                    let $id := $term/id
+                    let $term-name := $term/term-name/text()
+                    order by upper-case($term-name)
+                    return
+                        <li>
+                            <a href="../views/view-item.xq?id={$id}">{$term-name}</a>
+                        </li>
+                }
+            </ol>
+            <a href="search-form.html">New Search</a><br/>
+            <a href="../index.html">App Home</a>
+        </body>
+    </html>

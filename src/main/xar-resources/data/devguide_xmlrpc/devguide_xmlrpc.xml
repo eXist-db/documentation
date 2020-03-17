@@ -1,0 +1,1120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article xmlns="http://docbook.org/ns/docbook" version="5.0">
+  <info>
+    <title>XML-RPC API Developer's Guide</title>
+    <date>2Q19</date>
+    <keywordset>
+      <keyword>java-development</keyword>
+      <keyword>interfaces</keyword>
+    </keywordset>
+  </info>
+
+  <!-- ================================================================== -->
+
+  <para>This article explains how to interface with eXist-db using the XML-RPC API. This API can be used to access eXIst-db from multiple languages and environments.</para>
+
+  <!-- ================================================================== -->
+
+  <sect1 xml:id="intro">
+    <title>Introduction</title>
+
+    <para>XML-RPC (XML Remote Procedural Call) provides a simple way to access eXist-db by calling remote procedures from a wide variety of programming languages and environments, like CGI scripts, PHP, JSP and more.
+    </para>
+    <para>For a Java server, eXist uses the XML-RPC library created by Hannes Wallnoefer which recently has moved to Apache (see:
+      <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://xml.apache.org/xmlrpc">http://xml.apache.org/xmlrpc</link>).
+    </para>
+    <para>Perl examples use the RPC::XML package, which should be available at every CPAN mirror (see
+      <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://www.cpan.org">CPAN</link>).</para>
+    <para>The following is a small example, which shows how to talk to eXist-db from Java using the Apache XML-RPC library. This example can be found in
+      <literal>samples/org/exist/examples/xmldb/Retrieve.java</literal>.</para>
+
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="java" xlink:href="listings/listing-1.txt"/>
+    <para>As shown above, the
+      <literal>execute</literal>
+      method of
+      <literal>XmlRpcClient</literal>
+      expects as its parameters a method (passed as a string) to call on the server and a
+      <code>Vector</code>
+      of parameters to pass to this executed method. In this example, the method
+      <literal>getDocumentAsString</literal>
+      is called as the first parameter, and a
+      <code>Vector params</code>. Various output properties can also be set through the
+      <code>hashtable</code>
+      argument (see the method description below). Since all parameters are passed in a
+      <code>Vector</code>, they are necessarily Java objects.</para>
+    <note>
+      <para>XML-RPC messages (requests and responses sent between the server and client) are themselves XML documents. In some cases, these documents may use a character encoding which is in conflict with the encoding of the document we would like to
+        receive. It is therefore important to set the
+        <emphasis>transport</emphasis>
+        encoding to
+        <literal>UTF-8</literal>
+        as shown in the example above. However, conflicts may persist depending on which client library is used. To avoid such conflicts, eXist provides alternative declarations for selected methods, which expect string parameters as byte arrays. The XML-RPC
+        library will send them as binary data (using Base64 encoding for transport). With this approach, document encodings are preserved regardless of the character encoding used by the XML-RPC transport layer.</para>
+    </note>
+    <note>
+      <para>The XML-RPC API uses
+        <literal>int</literal>
+        to encode booleans. This is because some clients do not correctly pass boolean parameters.</para>
+    </note>
+    <para>Querying is easy using XML-RPC:</para>
+
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="java" xlink:href="listings/listing-2.txt"/>
+    <para>You will find the source code of this example in
+      <literal>samples/xmlrpc/search2.pl</literal>. It uses the simple query method, which executes the query and returns a document containing the specified number of results. The result set is
+      <emphasis>not</emphasis>
+      cached on the server.
+    </para>
+    <para>The following example calls the
+      <literal>executeQuery</literal>
+      method, which returns a unique session id. In this case, the actual results are cached on the server and can be retrieved using the
+      <literal>retrieve</literal>
+      method.
+    </para>
+
+    <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="java" xlink:href="listings/listing-3.txt"/>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1 xml:id="methods">
+    <title>Available Methods</title>
+
+    <para>This section gives you an overview of the methods implemented by eXist-db's XML-RPC server. Only the most common methods are presented here. For a complete list see the Java interface
+      <code>RpcAPI.java</code>.
+    </para>
+    <note>
+      <para>Method signatures are presented using Java data types. Some methods like
+        <literal>getDocument()</literal>
+        and
+        <literal>retrieve()</literal>
+        accept a
+        <code>struct</code>
+        to specify optional output properties.</para>
+    </note>
+    <para>The following general fields for methods are supported:</para>
+    <variablelist>
+      <varlistentry>
+        <term>
+          <code>indent</code>
+        </term>
+        <listitem>
+          <para>Returns indented pretty-print XML. [<literal>yes | no</literal>]</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <code>encoding</code>
+        </term>
+        <listitem>
+          <para>Specifies the character encoding used for the output. If the method returns a string, only the XML declaration will be modified accordingly.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <code>omit-xml-declaration</code>
+        </term>
+        <listitem>
+          <para>Add XML declaration to the head of the document. [<literal>yes | no</literal>]</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <code>expand-xincludes</code>
+        </term>
+        <listitem>
+          <para>Expand XInclude elements. [<literal>yes | no</literal>]</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <code>process-xsl-pi</code>
+        </term>
+        <listitem>
+          <para>Specifying
+            <code>yes</code>
+            XSL processing instructions in the document will be processed and the corresponding stylesheet applied to the output. [<literal>yes | no</literal>]</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <code>highlight-matches</code>
+        </term>
+        <listitem>
+          <para>The database will add special tags to highlight the strings in the text that have triggered a fulltext match. Set to
+            <literal>elements</literal>
+            to highlight matches in element values,
+            <literal>attributes</literal>
+            for attribute values or
+            <literal>both</literal>
+            for both elements and attributes.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <code>stylesheet</code>
+        </term>
+        <listitem>
+          <para>Use this parameter to specify an XSL stylesheet which should be applied to the output. If the parameter contains a relative path, the stylesheet will be loaded from the database.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <code>stylesheet-param.key1 ... stylesheet-param.key2</code>
+        </term>
+        <listitem>
+          <para>If a stylesheet has been specified with
+            <literal>stylesheet</literal>, you can pass it parameters. Stylesheet parameters are recognized if they start with the prefix
+            <literal>stylesheet-param.</literal>, followed by the name of the parameter. The leading
+            <literal>stylesheet-param.</literal>
+            string will be removed before the parameter is passed to the stylesheet.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2 xml:id="retrieve">
+      <title>Retrieving documents</title>
+
+      <itemizedlist>
+        <listitem>
+          <programlisting>byte[] getDocument(String name, Hashtable parameters)</programlisting>
+          <programlisting>String getDocumentAsString(String name, Hashtable parameters)</programlisting>
+          <para>Retrieves a document from the database.</para>
+          <variablelist>
+            <title>Parameters:</title>
+
+            <varlistentry>
+              <term>
+                <code>name</code>
+              </term>
+              <listitem>
+                <para>Path of the document to be retrieved (e.g.
+                  <literal>/db/shakespeare/plays/r_and_j.xml</literal>).</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>parameters</code>
+              </term>
+              <listitem>
+                <para>A
+                  <code>struct</code>
+                  containing
+                  <literal>key=value</literal>
+                  pairs for configuring the output.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+        <listitem>
+          <programlisting>Hashtable getDocumentData(String name, Hashtable parameters)</programlisting>
+          <programlisting>Hashtable getNextChunk(String handle, Int offset)</programlisting>
+          <programlisting>Hashtable getNextExtendedChunk(String handle, String offset)</programlisting>
+          <para>These methods retrieve a document from the database, but limit the number of bytes transmitted in one chunk to avoid memory shortage on the server.</para>
+          <para>
+            <literal>getDocumentData()</literal>
+            returns a
+            <code>struct</code>
+            containing the following fields:
+            <literal>data</literal>,
+            <literal>handle</literal>,
+            <literal>offset</literal>,
+            <literal>supports-long-offset</literal>.
+            <literal>data</literal>
+            contains the document's data (as
+            <literal>byte[]</literal>) or the first chunk of data if the document size exceeds the predefined internal limit.
+            <literal>handle</literal>
+            and
+            <literal>offset</literal>
+            can be passed to
+            <literal>getNextChunk()</literal>
+            or
+            <literal>getNextExtendedChunk()</literal>
+            to retrieve the remaining data chunks.
+          </para>
+
+          <para>If
+            <literal>offset</literal>
+            is
+            <code>0</code>, no more chunks are available and all of the data is already contained in the
+            <literal>data</literal>
+            field. Otherwise, further chunks can be retrieved by passing the handle and the offset (as returned by the last call) to
+            <literal>getNextChunk()</literal>
+            or
+            <literal>getNextExtendedChunk()</literal>. Once the last chunk is read,
+            <literal>offset</literal>
+            will be
+            <code>0</code>
+            and the handle becomes invalid.</para>
+          <para>
+            <literal>supports-long-offset</literal>, when available, tells whether the server understands
+            <literal>getNextExtendedChunk()</literal>
+            method:
+            <literal>getNextChunk()</literal>
+            and
+            <literal>getNextExtendedChunk()</literal>
+            do more or less the same, but with the difference that
+            <literal>getNextExtendedChunk()</literal>
+            does not have the 2GB limitation in
+            <literal>offset</literal>., which previous eXist servers could not handle. Use the
+            <literal>supports-long-offset</literal>
+            parameter from
+            <literal>getDocumentData()</literal>
+            returned structure to verify this.
+          </para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <code>name</code>
+              </term>
+              <listitem>
+                <para>Path of the document to be retrieved (e.g.
+                  <literal>/db/shakespeare/plays/r_and_j.xml</literal>).</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>parameters</code>
+              </term>
+              <listitem>
+                <para>A
+                  <code>struct</code>
+                  containing
+                  <literal>key=value</literal>
+                  pairs to configure the output.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>handle</code>
+              </term>
+              <listitem>
+                <para>The handle returned by the call to
+                  <literal>getDocumentData()</literal>
+                  (this identifies a temporary file on the server).</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>offset</term>
+              <listitem>
+                <para>The data offset in the document at which the next chunk in the sequence will be read.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2 xml:id="store">
+      <title>Storing Documents</title>
+
+      <itemizedlist>
+        <listitem>
+          <programlisting>boolean parse(byte[] xml, String docName, int overwrite)</programlisting>
+          <programlisting>boolean parse(byte[] xml, String docName)</programlisting>
+          <para>Insert a new document into the database or replace an existing one.</para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <code>xml</code>
+              </term>
+              <listitem>
+                <para>XML content of this document as a UTF-8 encoded byte array.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>docName</code>
+              </term>
+              <listitem>
+                <para>Path to the database location where the new document is to be stored.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>overwrite</code>
+              </term>
+              <listitem>
+                <para>Set this value to &gt;
+                  <code>0</code>
+                  to automatically replaces an existing document at the same location.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+        <listitem>
+          <programlisting>String upload(byte[] chunk, int length)</programlisting>
+          <programlisting>String upload(String file, byte[] chunk, int length)</programlisting>
+          <programlisting>boolean parseLocal(String localFile, String docName, boolean replace)</programlisting>
+          <para>Uploads an entire document on to the database before parsing it.</para>
+          <para>The
+            <code>parse</code>
+            method receives the document as a large single chunk, but the
+            <code>upload</code>
+            method allows you to upload the whole document to the server
+            <emphasis>before</emphasis>
+            parsing. Doing it this way
+            <emphasis>out-of-memory</emphasis>
+            exceptions can be avoided since the document is not entirely kept in memory. To identify the file on the server, upload returns an identifier string. After uploading all chunks, you can call
+            <literal>parseLocal</literal>
+            and pass it this identifier string as its first argument.</para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <code>file</code>
+              </term>
+              <listitem>
+                <para>The name of the file to which the uploaded chunk is appended. This is the name of a temporary file on the server. Use the two-argument version of upload for the first chunk. The method creates a temporary file and returns its name.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>chunk</code>
+              </term>
+              <listitem>
+                <para>A byte array containing the data to be appended.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>length</code>
+              </term>
+              <listitem>
+                <para>Defines the number of bytes to be read from chunk.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>localFile</code>
+              </term>
+              <listitem>
+                <para>The name of the local file on the server that is to be stored in the database. This should be the same as the name returned by
+                  <literal>upload</literal>.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>docName</code>
+              </term>
+              <listitem>
+                <para>The full path specifying the location where the document should be stored in the database.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>replace</code>
+              </term>
+              <listitem>
+                <para>Set this to
+                  <literal>true</literal>
+                  if an existing document with the same name should be automatically overwritten.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2 xml:id="create">
+      <title>Creating a Collection</title>
+
+      <itemizedlist>
+        <listitem>
+          <programlisting>boolean createCollection(String name)</programlisting>
+          <para>Creates a new collection.</para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <code>name</code>
+              </term>
+              <listitem>
+                <para>Path to the new collection.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2 xml:id="remove">
+      <title>Removing Documents or Collections</title>
+
+      <itemizedlist>
+        <listitem>
+          <programlisting>boolean remove(String docName)</programlisting>
+          <para>Removes a document from the database.</para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <code>docName</code>
+              </term>
+              <listitem>
+                <para>The full path to the database document.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+        <listitem>
+          <programlisting>boolean removeCollection( String collection)</programlisting>
+          <para>Removes a collection from the database (including all of its documents and sub-collections).</para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <code>collection</code>
+              </term>
+              <listitem>
+                <para>The full path to the collection.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2 xml:id="query">
+      <title>Querying</title>
+
+      <itemizedlist>
+        <listitem>
+          <programlisting>int executeQuery(String xquery, HashMap parameters)</programlisting>
+          <programlisting>int executeQuery(byte[] xquery, HashMap parameters)</programlisting>
+          <programlisting>int executeQuery(byte[] xquery, String encoding, HashMap parameters)</programlisting>
+          <para>Executes an XQuery and returns a reference identifier to the generated result set. This reference can be used to retrieve the results.</para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <code>xquery</code>
+              </term>
+              <listitem>
+                <para>A valid XQuery expression.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>parameters</code>
+              </term>
+              <listitem>
+                <para>The parameters as HashMap values (<code>sort-expr</code>,
+                  <code>namespaces</code>,
+                  <code>variables</code>,
+                  <code>base-uri</code>,
+                  <code>static-documents</code>,
+                  <code>protected</code>).</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>encoding</code>
+              </term>
+              <listitem>
+                <para>The character encoding used for the query string.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+        <listitem>
+          <programlisting>Hashtable querySummary(int result-Id)</programlisting>
+          <para>Returns a summary of query results for the result-set referenced by
+            <literal>result-Id</literal>.</para>
+          <para>The
+            <literal>result-Id</literal>
+            value is taken from a previous call to
+            <literal>executeQuery</literal>
+            (see above). The
+            <literal>querySummary</literal>
+            method returns a
+            <code>struct</code>
+            with the following fields:
+            <literal>queryTime</literal>,
+            <literal>hits</literal>,
+            <literal>documents</literal>,
+            <literal>doctype</literal>.</para>
+          <para>
+            <literal>queryTime</literal>
+            and
+            <literal>hits</literal>
+            are integer values that describe the processing time in milliseconds for the query execution and the number of hits in the result-set respectively. The field
+            <literal>documents</literal>
+            is an array of an array (i.e.
+            <literal>Object[][3]</literal>) that represents a table in which each row identifies one document. The first field in each row contains the
+            <literal>document-id</literal>
+            (integer value). The second has the document's name as a string value. The third contains the number of hits found in this document (integer value).</para>
+          <para>The<literal>doctype</literal>
+            field is also an array of an array (Object[][2]) that contains the
+            <literal>doctype</literal>
+            public identifier and the number of hits found for this
+            <literal>doctype</literal>
+            in each row.</para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <code>resultId</code>
+              </term>
+              <listitem>
+                <para>Reference to a result-set as returned by a previous call to
+                  <literal>executeQuery</literal>.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+        <listitem>
+          <programlisting>byte[] retrieve(int resultId, int pos, Hashtable parameters)</programlisting>
+          <para>Retrieves a single result-fragment from the result-set referenced by
+            <literal>resultId</literal>. The result-fragment is identified by its position in the result-set.</para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <code>resultId</code>
+              </term>
+              <listitem>
+                <para>Reference to a result-set as returned by a previous call to
+                  <literal>executeQuery</literal>.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>pos</code>
+              </term>
+              <listitem>
+                <para>The position of the item in the result-sequence, starting at 0.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>parameters</code>
+              </term>
+              <listitem>
+                <para>A
+                  <code>struct</code>
+                  containing
+                  <literal>key=value</literal>
+                  pairs to configure the output.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+        <listitem>
+          <programlisting>Hashtable retrieveFirstChunk(int resultId, int pos, Hashtable parameters)</programlisting>
+          <para>Retrieves a single result-fragment from the result-set referenced by
+            <literal>resultId</literal>, but limiting the number of bytes transmitted in one chunk to avoid memory shortage on the server. The result-fragment is identified by its position in the result-set, which is passed in the parameter
+            <literal>pos</literal>. It returns the same structure as
+            <literal>getDocumentData()</literal>, and its fields behaves the same, so next chunks must be fetched using either
+            <literal>getNextChunk()</literal>
+            or
+            <literal>getNextExtendedChunk()</literal>
+            (see
+            <literal>getDocumentData()</literal>
+            documentation for further details).</para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <code>resultId</code>
+              </term>
+              <listitem>
+                <para>Reference to a result-set as returned by a previous call to
+                  <literal>executeQuery</literal>.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>pos</code>
+              </term>
+              <listitem>
+                <para>The position of the item in the result-sequence, starting at 0.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>parameters</code>
+              </term>
+              <listitem>
+                <para>A
+                  <code>struct</code>
+                  containing
+                  <literal>key=value</literal>
+                  pairs to configure the output.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+        <listitem>
+          <programlisting>int getHits(int resultId)</programlisting>
+          <para>Get the number of hits in the result-set identified by
+            <literal>resultId</literal>.</para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <code>resultId</code>
+              </term>
+              <listitem>
+                <para>Reference to a result-set as returned by a previous call to
+                  <literal>executeQuery</literal>.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+        <listitem>
+          <programlisting>String query(byte[] xquery, int howmany, int start, Hashtable parameters)</programlisting>
+          <para>Executes an XQuery expression and returns a specified subset of the results. This method will directly return a subset of the result-sequence, starting at
+            <literal>start</literal>, as a new XML document. The number of results returned is determined by parameter
+            <literal>howmany</literal>. The result-set will be deleted on the server, so later calls to this method will again execute the query.</para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <code>xquery</code>
+              </term>
+              <listitem>
+                <para>An XQuery expression.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>start</code>
+              </term>
+              <listitem>
+                <para>The position of the first item to be retrieved from the result-sequence.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>howmany</code>
+              </term>
+              <listitem>
+                <para>The maximum number of items to retrieve.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>parameters</code>
+              </term>
+              <listitem>
+                <para>A struct containing
+                  <literal>key=value</literal>
+                  pairs to configure the output.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+        <listitem>
+          <programlisting>void releaseQueryResult(int resultId)</programlisting>
+          <para>Forces the result-set identified by its result id to be released on the server.</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2 xml:id="info">
+      <title>Retrieving Information on Collections and Documents</title>
+
+      <itemizedlist>
+        <listitem>
+          <programlisting>Hashtable describeCollection(String collection)</programlisting>
+          <para>Returns a
+            <code>struct</code>
+            describing a specified collection.</para>
+          <para>The returned
+            <code>struct</code>
+            has the following fields:
+            <literal>name</literal>
+            (the collection path),
+            <literal>owner</literal>
+            (identifies the collection owner),
+            <literal>group</literal>
+            (identifies the group that owns the collection),
+            <literal>created</literal>
+            (the creation date of the collection expressed as a long value),
+            <literal>permissions</literal>
+            (the active permissions that apply to the collection as an integer value).</para>
+          <para>
+            <literal>collections</literal>
+            is an array listing the names of available sub-collections in this collection.</para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <code>collection</code>
+              </term>
+              <listitem>
+                <para>The full path to the collection.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+        <listitem>
+          <programlisting>Hashtable describeResource(String resource)</programlisting>
+          <para>Returns a
+            <code>struct</code>
+            describing a specified resource.</para>
+          <para>The returned
+            <code>struct</code>
+            has the following fields:
+            <literal>name</literal>
+            (the collection path),
+            <literal>owner</literal>
+            (identifies the collection owner),
+            <literal>group</literal>
+            (identifies the group that owns the collection),
+            <literal>created</literal>
+            (the creation date of the collection expressed as a long value),
+            <literal>permissions</literal>
+            (the active permissions that apply to the collection as an integer value),
+            <literal>type</literal>
+            (either
+            <literal>XMLResource</literal>
+            for XML documents or
+            <literal>BinaryResource</literal>
+            for binary files),
+            <literal>content-length</literal>
+            (the estimated size of the resource in bytes). The
+            <literal>content-length</literal>
+            is based on the number of pages occupied by the resource in the DOM storage. For binary resources, the value will always be
+            <code>0</code>.</para>
+        </listitem>
+        <listitem>
+          <programlisting>Hashtable getCollectionDesc(String collection)</programlisting>
+          <para>Returns a struct describing a collection.</para>
+          <para>The returned struct has the following fields:
+            <literal>name</literal>
+            (the collection path),
+            <literal>owner</literal>
+            (identifies the collection owner),
+            <literal>group</literal>
+            (identifies the group that owns the collection),
+            <literal>created</literal>
+            (the creation date of the collection expressed as a long value),
+            <literal>permissions</literal>
+            (the active permissions that apply to the collection as an integer value).</para>
+          <para>
+            <literal>collections</literal>
+            is an array listing the names of available sub-collections in this collection.</para>
+          <para>
+            <literal>documents</literal>
+            is an array listing information on all of the documents in this collection. Each item in the array is a struct with the following fields: name, owner, group, permissions, type. The type field contains a string describing the type of the resource:
+            either
+            <literal>XMLResource</literal>or
+            <literal>BinaryResource</literal>.
+          </para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <code>collection</code>
+              </term>
+              <listitem>
+                <para>The full path to the collection.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2 xml:id="xupdate">
+      <title>XUpdate</title>
+
+      <itemizedlist>
+        <listitem>
+          <programlisting>int xupdate(String collectionName, byte[] xupdate)</programlisting>
+          <programlisting>int xupdateResource(String documentName, byte[] xupdate)</programlisting>
+          <para>Applies a set of XUpdate modifications to a collection or document.</para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <code>collectionName</code>
+              </term>
+              <listitem>
+                <para>The full path to the collection to which the XUpdate modifications should be applied.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>documentName</code>
+              </term>
+              <listitem>
+                <para>The full path to the document to which the XUpdate modifications should be applied.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>xupdate</code>
+              </term>
+              <listitem>
+                <para>The XUpdate document containing the modifications. This should be send as an
+                  <literal>UTF-8</literal>
+                  encoded binary array.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2 xml:id="perm">
+      <title>Managing Accounts and Permissions</title>
+
+      <itemizedlist>
+        <listitem>
+          <programlisting>boolean addAccount(String name, String passwd, String digestPasswd, Vector groups)</programlisting>
+          <programlisting>boolean updateAccount(String name, String passwd, String digestPasswd, Vector groups, String home)</programlisting>
+          <para>Modifies or creates a user account.</para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <code>name</code>
+              </term>
+              <listitem>
+                <para>Username .</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>passwd</code>
+              </term>
+              <listitem>
+                <para>The plain-text (!) password for the user.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>digestPasswd</code>
+              </term>
+              <listitem>
+                <para>The md5 encoded password for the user.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>groups</code>
+              </term>
+              <listitem>
+                <para>A vector of groups assigned to the user. The first group in the vector will become the user's primary group.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>home</code>
+              </term>
+              <listitem>
+                <para>An optional setting for the accounts's home collection path. The collection will be created if it does not exist, and provides the user with full access.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+        <listitem>
+          <programlisting>boolean setPermissions(String resource, String permissions)</programlisting>
+          <programlisting>boolean setPermissions(String resource, int permissions)</programlisting>
+          <programlisting>boolean setPermissions(String resource, String owner, String ownerGroup, String permissions)</programlisting>
+          <programlisting>boolean setPermissions(String resource, String owner, String ownerGroup, int permissions)</programlisting>
+          <para>Sets the permissions assigned to a given collection or document.</para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <code>resource</code>
+              </term>
+              <listitem>
+                <para>The full path to the collection or document on which the specified permissions will be set. The method first checks if the specified path points to a collection or resource.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>owner</code>
+              </term>
+              <listitem>
+                <para>The name of the user owning this resource.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>ownerGroup</code>
+              </term>
+              <listitem>
+                <para>The name of the group owning this resource.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>permissions</code>
+              </term>
+              <listitem>
+                <para>The permissions assigned to the resource, which can be specified either as an integer value constructed using the
+                  <code>Permission</code>
+                  class, or using a modification string. The bit encoding of the integer value corresponds to Unix conventions. The modification string has the following syntax:</para>
+                <programlisting>[user|group|other]=[+|-][read|write|update][, ...]</programlisting>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+        <listitem>
+          <programlisting>Hashtable getPermissions(String resource)</programlisting>
+          <para>Returns the active permissions for the specified document or collection.</para>
+          <para>The returned
+            <code>struct</code>
+            has the following fields:
+            <literal>name</literal>
+            (the collection path),
+            <literal>owner</literal>
+            (identifies the collection owner),
+            <literal>group</literal>
+            (identifies the group that owns the collection),
+            <literal>created</literal>
+            (the creation date of the collection expressed as a long value),
+            <literal>permissions</literal>
+            (the active permissions that apply to the collection as an integer value).</para>
+        </listitem>
+        <listitem>
+          <programlisting>boolean removeAccount(String name)</programlisting>
+          <para>Removes the identified account.</para>
+        </listitem>
+        <listitem>
+          <programlisting>Hashtable getAccount(String name)</programlisting>
+          <para>Returns a struct describing the account identified by its name.</para>
+          <para>The returned struct has the following fields:
+            <literal>name</literal>
+            (the collection path),
+            <literal>home</literal>
+            (identifies the user's home directory),
+            <literal>groups</literal>
+            (an array specifying all groups to which the user belongs).</para>
+        </listitem>
+        <listitem>
+          <programlisting>Vector getAccount()</programlisting>
+          <para>Returns a list of all accounts currently known to the system.</para>
+          <para>Each account in the list is described by the same struct returned by the
+            <literal>getAccount()</literal>
+            method.</para>
+        </listitem>
+        <listitem>
+          <programlisting>Vector getGroups()</programlisting>
+          <para>Returns a list of all group names (as string values) currently defined.</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2 xml:id="access">
+      <title>Access to the Index Contents</title>
+
+      <para>The following methods provide access to eXist's internal index structure.</para>
+      <itemizedlist>
+        <listitem>
+          <programlisting>Vector getIndexedElements(String collectionName, boolean inclusive)</programlisting>
+          <para>Returns a list (i.e.
+            <code>array[][4]</code>) of all indexed element names for the specified collection.</para>
+          <para>For each element, an array of four items is returned:</para>
+          <orderedlist>
+            <listitem>
+              <para>name of the element</para>
+            </listitem>
+            <listitem>
+              <para>optional namespace URI</para>
+            </listitem>
+            <listitem>
+              <para>optional namespace prefix</para>
+            </listitem>
+            <listitem>
+              <para>number of occurrences of this element as an integer value</para>
+            </listitem>
+          </orderedlist>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <code>collectionName</code>
+              </term>
+              <listitem>
+                <para>The full path to the collection.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>inclusive</code>
+              </term>
+              <listitem>
+                <para>If set to
+                  <literal>true</literal>, the sub-collections of the specified collection will be included into the result.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+        <listitem>
+          <programlisting>Vector scanIndexTerms(String collectionName, String start, String end, boolean inclusive)</programlisting>
+          <para>Return a list (<code>array[][2]</code>) of all index terms contained in the specified collection.</para>
+          <para>For each term, an array with two items is returned:</para>
+          <orderedlist>
+            <listitem>
+              <para>the term itself</para>
+            </listitem>
+            <listitem>
+              <para>number occurrences of the term in the specified collection</para>
+            </listitem>
+          </orderedlist>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <code>collectionName</code>
+              </term>
+              <listitem>
+                <para>The full path to the collection.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>start</code>
+              </term>
+              <listitem>
+                <para>The start position for the returned range expressed as a string value. Returned index terms are positioned after the start position in ascending, alphabetical order.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>end</code>
+              </term>
+              <listitem>
+                <para>The end position for the returned range expressed as a string value. Returned index terms are positioned before the end position in ascending, alphabetical order.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <code>inclusive</code>
+              </term>
+              <listitem>
+                <para>If set to<literal>true</literal>, sub-collections of the specified collection will be included into the result.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2 xml:id="other">
+      <title>Other Methods</title>
+
+      <itemizedlist>
+        <listitem>
+          <programlisting>boolean shutdown()</programlisting>
+          <para>Shuts down the database engine. All dirty pages are written to disk.</para>
+        </listitem>
+        <listitem>
+          <programlisting>boolean sync()</programlisting>
+          <para>Causes the database to write all dirty pages to disk.</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+  </sect1>
+</article>

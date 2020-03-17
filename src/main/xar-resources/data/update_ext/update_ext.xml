@@ -1,0 +1,191 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>XQuery Update Extension</title>
+        <date>2Q19</date>
+        <keywordset>
+            <keyword>xquery</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+
+    <para>This article describes eXist-db's extension to XQuery for updating nodes in the
+        database.</para>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="considerations">
+        <title>Important Considerations</title>
+        <para>Two things you should take into account with respect to the updating extension.</para>
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="w3c-rec">
+            <title>Relationship to W3C Recommendation</title>
+
+            <para>This extension was created well before the W3C working group created the <link
+                condition="_blank" xlink:href="https://www.w3.org/TR/xquery-update-10/">XQuery
+                Update Facility 1.0</link> recommendation and therefore differs substantially from
+                it. </para>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="persistence">
+            <title>Persistent Document Updates</title>
+
+            <para>The XQuery update extension was designed for updating
+                <emphasis>persistent</emphasis> documents stored in the database. It does not work
+                for updating temporary document fragments constructed within an query.</para>
+            <para>For example: </para>
+            <programlisting language="xquery" xlink:href="listings/listing-1.txt"/>
+            <para>Since <code>$node</code> is an in-memory constructed element (rather than a node
+                stored in the database) the query has no effect and simply returns the empty
+                element.</para>
+        </sect2>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="syntax">
+        <title>Update Syntax</title>
+
+        <para>All update statements start with the keyword <code>update</code>, followed by an
+            update action.</para>
+        <para>Available actions are: <code>insert</code>, <code>delete</code>, <code>replace</code>,
+            <code>value</code> and <code>rename</code>. The return type of an update expression is
+            <literal>empty-sequence()</literal>. </para>
+        <para>An update statement may occur at any position within the XQuery main code or a
+            function body. </para>
+        <warning>
+            <para>When using <code>update</code> within the return clause of a FLWOR expression, be
+                cautious when deleting or replacing nodes that are still being used by the enclosing
+                code. This is because a delete or replace will be processed immediately, and so the
+                deleted or replaced node will no longer be available to the query. <emphasis>Such
+                actions can corrupt the database!</emphasis> </para>
+            <para>For example, the following expression will throw the database into an inconsistent
+                state if <code>//address</code> returns more than one node:</para>
+
+            <programlisting language="xquery" xlink:href="listings/listing-2.txt"/>
+            <para>However, an expression like the following is safe as it only modifies the current
+                iteration variable. The following example only deletes <code>$address</code> (the
+                current iteration variable) instead of <code>//address</code> (all addresses in the
+                database):</para>
+            <programlisting language="xquery" xlink:href="listings/listing-3.txt"/>
+        </warning>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="insert">
+            <title>Insert</title>
+
+            <programlisting xlink:href="listings/listing-4.txt"/>
+            <para>Inserts the content sequence specified in <code>expr</code> into the element node
+                passed via <code>exprSingle</code>. <code>exprSingle</code> and <code>expr</code>
+                must evaluate to a node set. If <code>exprSingle</code> contains more than one
+                element node, the modification will be applied to each of the nodes. The position of
+                the insertion is determined by the keywords <code>into</code>,
+                <code>following</code> or <code>preceding</code>:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><code>into</code></term>
+                    <listitem>
+                        <para>The content is appended after the last child node of the specified
+                            elements.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>following</code></term>
+                    <listitem>
+                        <para>The content is inserted immediately after the node specified in
+                            <code>exprSingle</code>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>preceding</code></term>
+                    <listitem>
+                        <para>The content is inserted before the node specified in
+                            <code>exprSingle</code>.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <example>
+                <title>Insert Example: Element</title>
+                <programlisting language="xquery">update insert &lt;email type="office"&gt;andrew@gmail.com&lt;/email&gt; into //address[fname="Andrew"]</programlisting>
+            </example>
+            <example>
+                <title>Insert Example: Attribute</title>
+                <programlisting language="xquery">update insert attribute type {'permanent'} into //address[fname="Andrew"]</programlisting>
+            </example>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="replace">
+            <title>Replace</title>
+
+            <programlisting>update replace expr with exprSingle</programlisting>
+            <para>Replaces the nodes returned by <code>expr</code> with the nodes in
+                <code>exprSingle</code>. <code>expr</code> must evaluate to a single element,
+                attribute or text node. If it is an element, <code>exprSingle</code> must contain a
+                single element node. If it is an attribute or text node, the value of the attribute
+                or the text node is set to the concatenated string values of all nodes in
+                <code>exprSingle</code>. <code>expr</code> cannot be the root element of a
+                document.</para>
+            <example>
+                <title>Replace Example</title>
+                <programlisting language="xquery">update replace //fname[. = "Andrew"] with &lt;fname&gt;Andy&lt;/fname&gt;</programlisting>
+            </example>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="value">
+            <title>Value</title>
+
+            <programlisting>update value expr with exprSingle</programlisting>
+            <para>Updates the content of all nodes in <code>expr</code> with the items in
+                <code>exprSingle</code>. If <code>expr</code> is an attribute or text node, its
+                value will be set to the concatenated string value of all items in
+                <code>exprSingle</code>.</para>
+            <example>
+                <title>Value Example</title>
+                <programlisting language="xquery">update value //fname[. = "Andrew"] with 'Andy'</programlisting>
+            </example>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="delete">
+            <title>Delete</title>
+
+            <programlisting>update delete expr</programlisting>
+            <para>Removes all nodes in <code>expr</code> from their document. <code>expr</code>
+                cannot be the root element of a document.</para>
+            <example>
+                <title>Delete Example</title>
+                <programlisting language="xquery" xlink:href="listings/listing-12.txt"/>
+            </example>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="rename">
+            <title>Rename</title>
+
+            <programlisting>update rename expr as exprSingle</programlisting>
+            <para>Renames the nodes in <code>expr</code> using the string value of the first item in
+                <code>exprSingle</code> as the new name of the node. <code>expr</code> should
+                evaluate to a set of elements or attributes. <code>expr</code> cannot be the root
+                element of a document.</para>
+            <example>
+                <title>Rename Example</title>
+                <programlisting language="xquery" xlink:href="listings/listing-14.txt"/>
+            </example>
+        </sect2>
+    </sect1>
+</article>

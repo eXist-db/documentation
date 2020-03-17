@@ -1,0 +1,10 @@
+let $options :=
+    <options>
+        <query-analyzer-id>ws</query-analyzer-id>
+        <default-operator>and</default-operator>
+        <phrase-slop>1</phrase-slop>
+        <leading-wildcard>no</leading-wildcard>
+        <filter-rewrite>yes</filter-rewrite>
+    </options>
+return
+    //SPEECH[ft:query(., $query, $options)]

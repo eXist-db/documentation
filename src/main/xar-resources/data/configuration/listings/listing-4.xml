@@ -1,0 +1,17 @@
+<indexer caseSensitive="yes" index-depth="5" preserve-whitespace-mixed-content="no" suppress-whitespace="none">
+  <modules>
+    <module id="ngram-index" file="ngram.dbx" n="3" class="org.exist.indexing.ngram.NGramIndex"/>
+    <!-- <module id="spatial-index" connectionTimeout="10000" flushAfter="300" class="org.exist.indexing.spatial.GMLHSQLIndex"/> -->
+    <module id="lucene-index" buffer="32" class="org.exist.indexing.lucene.LuceneIndex"/>
+    <!-- The following index can be used to speed up 'order by' expressions by pre-ordering a node set. -->
+    <module id="sort-index" class="org.exist.indexing.sort.SortIndex"/>
+    <!-- New range index based on Apache Lucene. Replaces the old range index which is hard-wired into eXist core. -->
+    <module id="range-index" class="org.exist.indexing.range.RangeIndex"/>
+    <!-- The following module is not really an index (though it sits in the index pipeline). It gathers relevant statistics on the distribution of elements in the database, which can be used by the query optimizer for additional optimizations. -->
+    <!-- <module id="index-stats" file="stats.dbx" class="org.exist.storage.statistics.IndexStatistics" /> -->
+  </modules>
+  <!-- Default index settings. Default settings apply if there's no collection-specific configuration for a collection. -->
+  <index>
+    <!-- settings go here -->
+  </index>
+</indexer>

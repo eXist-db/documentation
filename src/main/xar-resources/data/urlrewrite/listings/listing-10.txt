@@ -1,0 +1,19 @@
+if ($name eq 'acronyms.xql') then
+	<dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+		<!-- query results are passed to XSLT servlet via request attribute -->
+		<set-attribute name="xquery.attribute"
+			value="model"/>
+		<view>
+			<forward servlet="XSLTServlet">
+				<set-attribute name="xslt.input"
+					value="model"/>
+				<set-attribute name="xslt.stylesheet"
+					value="xquery/stylesheets/acronyms.xsl"/>
+			</forward>
+			<forward servlet="XSLTServlet">
+				<clear-attribute name="xslt.input"/>
+				<set-attribute name="xslt.stylesheet" 
+					value="stylesheets/db2html.xsl"/>
+			</forward>
+		</view>
+	</dispatch>

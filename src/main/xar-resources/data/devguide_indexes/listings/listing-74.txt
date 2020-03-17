@@ -1,0 +1,7 @@
+public abstract IndexWorker getWorker(DBBroker broker);
+	protected abstract void checkDatabase() throws ClassNotFoundException, SQLException;
+	protected abstract void shutdownDatabase() throws DBException;
+	protected abstract void deleteDatabase() throws DBException;
+	protected abstract void removeIndexContent() throws DBException;
+	protected abstract Connection acquireConnection(DBBroker broker) throws SQLException;   
+	protected abstract void releaseConnection(DBBroker broker) throws SQLException;

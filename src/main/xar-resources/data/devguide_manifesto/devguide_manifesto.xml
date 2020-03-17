@@ -1,0 +1,256 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <info>
+        <title>eXist-db Developer Manifesto</title>
+        <date>1Q18</date>
+        <keywordset>
+            <keyword>exist</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+    <para>This document lays out guidelines for developers that are either committing directly to
+        the eXist-db code base via the projects GitHub repository or developing externally, for
+        later incorporation into eXist-db.</para>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="communication">
+        <title>Communication</title>
+
+        <para>Communication between developers and within Open Source projects can be a hard thing
+            to achieve effectively, but to ensure the success of the project and contributions, we
+            must all strive to improve on communicating our intentions.</para>
+        <para>Public and open discussion of all new features and changes to existing features
+            <emphasis>must</emphasis> always be undertaken. eXist-db is a community project and the
+            community must be invited to provide input and feedback on development. Development
+            discussions take place through the <link xlink:href="http://sourceforge.net/mail/?group_id=17691">eXist-db Development mailing
+            list</link>.</para>
+        <para>If conflicts of interest occur during discussion, they must be resolved before code
+            changes are made. If conflicts cannot be resolved by the community, usually one of the
+            core maintainers acts as a moderator. Core maintainers are contributors who feel
+            responsible for the project as a whole and have shown it in the past their commitment
+            and support. Right now this includes: Pierrick Brihaye, Wolfgang Meier, Leif-Jöran
+            Olsson, Adam Retter and Dannes Wessels. We name those people, so you know who to talk
+            to, but the list is in no way exclusive and may change over time.</para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="maintainability">
+        <title>Maintainability</title>
+
+        <para>All code accepted must be maintainable. Otherwise there is the possibility that it
+            will grow stale and, without maintainers, will be removed from the code base.</para>
+        <para>To ensure a happy future for the code base, each contributor has a responsibility to
+            ensure:</para>
+        <itemizedlist>
+            <listitem>
+                <para>New code and bug-fixes <emphasis>must</emphasis> be accompanied by
+                    JUnit/XQuery/XSpec test cases. This helps us understand intention and avoid
+                    regressions.</para>
+            </listitem>
+            <listitem>
+                <para>Code must be appropriately commented (including javadoc/xqdoc), so the
+                    intention is understood. Industry standard code formatting rules must be
+                    followed. This helps us read and understand contributions.</para>
+            </listitem>
+            <listitem>
+                <para>Code must be tagged with the developers name and email address. This helps us
+                    contact contributors/maintainers should issues arrive.</para>
+            </listitem>
+            <listitem>
+                <para>Consider the maintainability of new features: will you maintain and support
+                    them over years? If not, who will? How do you communicate what is
+                    required?</para>
+            </listitem>
+        </itemizedlist>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="developing">
+        <title>Developing</title>
+
+        <itemizedlist>
+            <listitem>
+                <para>Follow Industry Standard coding conventions.</para>
+            </listitem>
+            <listitem>
+                <para>eXist-db is now developed atop Sun Java 8, so make use of Java 8 features for
+                    cleaner, safer and more efficient code.</para>
+            </listitem>
+            <listitem>
+                <para>New Features <emphasis>must</emphasis> be generic and applicable to an
+                    audience of more than one or two. Consider whether the eXist-db community would
+                    see this as a valuable feature (you should have already discussed this via the
+                    eXist-db Development mailing list). If a feature is just for you and/or your
+                    customer, it may have no place in eXist-db's main code base.</para>
+            </listitem>
+            <listitem>
+                <para>Major new features or risky changes must be developed in their own branch.
+                    Once tested (this must include user testing) they may then be integrated back
+                    into the main code base.</para>
+            </listitem>
+            <listitem>
+                <para>Follow a RISC like approach to developing new functions. It is better to have
+                    a single function that is flexible than multiple function signatures for the
+                    same function. Likewise, do not replace two functions by offering one new super
+                    function. Functions should act like simple building blocks that can be combined
+                    together.</para>
+            </listitem>
+            <listitem>
+                <para>The use of Static Analysis tools is highly recommended. These tools reduce
+                    risk, and are valuable even to the most highly skilled developers. Such tools
+                    include <link xlink:href="http://checkstyle.sourceforge.net">Checkstyle</link>,
+                    <link xlink:href="http://findbugs.sourceforge.net">FindBugs</link> and <link xlink:href="http://pmd.sourceforge.net/">PMD</link>.</para>
+            </listitem>
+        </itemizedlist>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="before">
+        <title>Before Committing</title>
+
+        <itemizedlist>
+            <listitem>
+                <para> <emphasis>TEST, TEST and TEST again!</emphasis> See last section how to do
+                    this.</para>
+            </listitem>
+            <listitem>
+                <para>Execute the JUnit test suite to ensure that there are no regressions. If there
+                    are any regressions, do not commit!</para>
+            </listitem>
+            <listitem>
+                <para>Execute the XQTS test suite to ensure that there are no regressions. If there
+                    are any regressions, do not commit!</para>
+            </listitem>
+            <listitem>
+                <para>If you are working in an area of performance, there is a Benchmark test suite
+                    that you should run.</para>
+            </listitem>
+            <listitem>
+                <para>When effecting major changes, make sure all the demo applications which ship
+                    with eXist-db are still working as expected. Testing of the main user
+                    interfaces, including Java WebStart client and WebDAV, helps to avoid surprises
+                    at release time.</para>
+            </listitem>
+            <listitem>
+                <para>Documentation, whilst often overlooked, is critical in getting users to accept
+                    and test any new feature. If you add features without documentation they are
+                    worthless to the community.</para>
+            </listitem>
+            <listitem>
+                <para>Have a look at the <link xlink:href="devguide_codereview">Code Review
+                    Guide</link> and take its recommendations at heart!</para>
+            </listitem>
+            <listitem>
+                <para>Atomicity! Please consider how you group commits together. A feature should be
+                    contributed as an atomic commit, this enables co-developers to easily follow and
+                    test the feature. If you need to clean up existing code during development,
+                    please commit this labelled 'cleaning up'. This makes your final commit much
+                    more concise.</para>
+            </listitem>
+            <listitem>
+                <para>If possible, without breaking existing functionality, it can be useful to
+                    break very large commits into a few smaller atomic ones, spanning a couple of
+                    days. This allows other users to test and help identify any parts of your code
+                    which might introduce issues.</para>
+            </listitem>
+            <listitem>
+                <para>Commit tagging helps us to generate lists of what has changed between
+                    releases. Please prefix your commit messages with an appropriate tag:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>[bugfix]</para>
+                    </listitem>
+                    <listitem>
+                        <para>[lib-change]</para>
+                    </listitem>
+                    <listitem>
+                        <para>[feature]</para>
+                    </listitem>
+                    <listitem>
+                        <para>[ignore]</para>
+                    </listitem>
+                    <listitem>
+                        <para>[format-change]</para>
+                    </listitem>
+                    <listitem>
+                        <para>[documentation]</para>
+                    </listitem>
+                    <listitem>
+                        <para>[documentation-fix]</para>
+                    </listitem>
+                    <listitem>
+                        <para>[performance]</para>
+                    </listitem>
+                    <listitem>
+                        <para>[testsuite]</para>
+                    </listitem>
+                    <listitem>
+                        <para>[building]</para>
+                    </listitem>
+                </itemizedlist>
+                <para>The change log scripts will ignore any messages which do not start with one of
+                    the tags above or whose tag is [ignore].</para>
+            </listitem>
+        </itemizedlist>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="finally">
+        <title>Finally</title>
+
+        <para>Open Source projects are almost but quite not a democracy. Breaking, unknown and/or
+            untested commits cause a lot of pain and lost hours to your fellow developers.</para>
+        <para>Whilst we of course wish to encourage and nurture contributions to the project, these
+            have to happen in a manner everyone involved in the project can cope with. However, as
+            an absolute last measure, if developers frequently fail to adhere to the Manifesto then
+            Commit access to the eXist-db repository shall be revoked by the core developers.</para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="test-all">
+        <title>How to enable all and test</title>
+
+        <para>It is essential that none of the existing code breaks because of your commit. Here is
+            how to be sure all code can be built and tested:</para>
+        <orderedlist>
+            <listitem>
+                <para>Edit <literal>conf.xml</literal> (or actually the original file
+                    <literal>conf.xml.tmpl</literal>)</para>
+                <orderedlist>
+                    <listitem>
+                        <para>Uncomment all (really, all) built-in modules under Xpath
+                            <literal>/exist/xquery/builtin-modules</literal> </para>
+                    </listitem>
+                    <listitem>
+                        <para>Activate the spatial index by uncommenting the index-module
+                            spatial-index under Xpath <literal>/exist/indexer/modules</literal> (the
+                            corresponding function module is uncommented in the first step.</para>
+                    </listitem>
+                </orderedlist>
+            </listitem>
+            <listitem>
+                <para>Edit <literal>local.build.properties</literal> and switch on all
+                    modules</para>
+                <orderedlist>
+                    <listitem>
+                        <para>The Oracle module can be left switched off, the required jar is a bit
+                            difficult to download</para>
+                    </listitem>
+                    <listitem>
+                        <para>Switch all modules on with the command </para>
+                        <programlisting>cat build.properties | sed 's/false/true/g' &gt; local.build.properties</programlisting>
+                    </listitem>
+                </orderedlist>
+            </listitem>
+        </orderedlist>
+    </sect1>
+</article>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://expath.org/ns/pkg" name="${package-name}" abbrev="${package-abbrev}" version="${project.version}" spec="1.0">
+  <title>${package-title}</title>
+  <author id="exist-db">eXist-db</author>
+  <website>${project.url}</website>
+  <license>GNU Lesser General Public License, version 2.1</license>
+  <copyright>true</copyright>
+  <type>application</type>
+  <target>doc</target>
+  <status>stable</status>
+  <tag>${project.artifactId}</tag>
+  <tag>application</tag>
+  <tag>documentation</tag>
+  <category id="apps">Applications</category>
+  <category id="doc">Documentation</category>
+  <dependency processor="http://exist-db.org" semver-min="${exist.version}"/>
+  <dependency package="http://exist-db.org/apps/shared" semver-min="0.8.2"/>
+  <prepare>pre-install.xql</prepare>
+  <changelog>
+    <change xmlns="http://exist-db.org/xquery/repo" version="5.2.0">
+      <ul xmlns="http://www.w3.org/1999/xhtml">
+        <li>lucene: add diacritics analyzer</li>
+        <li>url-rewrite: add errorhandler documentation</li>
+        <li>rewrites: log4j, webdav</li>
+        <li>docker: new article</li>
+        <li>transform: improve xsl documentation</li>
+        <li>xqsuite: add missing annotation documentation</li>
+        <li>web_proxying: add warning about body size limitations</li>
+        <li>listings are now linted when building the app</li>
+        <li>validate all articles to enforce author-ref via custom schema (experimental)</li>
+        <li>increase docbook to 5.1</li>
+      </ul>
+    </change>
+    <change xmlns="http://exist-db.org/xquery/repo" version="5.1.0">
+      <ul xmlns="http://www.w3.org/1999/xhtml">
+        <li>lucene: add multi-value hierarchical facets</li>
+        <li>configuration: experimental document path-locks</li>
+      </ul>
+    </change>
+    <change xmlns="http://exist-db.org/xquery/repo" version="5.0.3">
+      <ul xmlns="http://www.w3.org/1999/xhtml">
+        <li>remove newly implemented Xquery functions from list of unsupported functions</li>
+      </ul>
+    </change>
+    <change xmlns="http://exist-db.org/xquery/repo" version="5.0.2">
+      <ul xmlns="http://www.w3.org/1999/xhtml">
+        <li>improve advanced installations and backup restore instructions</li>
+        <li>document the @min attribute for lucene queries</li>
+        <li>improve permission settings documentation</li>
+      </ul>
+    </change>
+    <change xmlns="http://exist-db.org/xquery/repo" version="5.0.0">
+      <ul xmlns="http://www.w3.org/1999/xhtml">
+        <li>changes to backup and app restore process</li>
+        <li>add unit and integration tests</li>
+        <li>update interapp links, http links, section IDs</li>
+        <li>document new xquery functions, and adjust deprecated syntax cases</li>
+        <li>add lucene facets documentation</li>
+        <li>switched to mavenized build, and install instructions</li>
+      </ul>
+    </change>
+  </changelog>
+
+  <fileSets>
+    <fileSet>
+      <directory>${basedir}</directory>
+      <includes>
+        <include>README.md</include>
+        <include>LICENSE</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>${project.build.outputDirectory}</directory>
+    </fileSet>
+  </fileSets>
+
+</package>

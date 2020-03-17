@@ -1,0 +1,47 @@
+backup.sh --h 
+
+    Usage: backup.sh [Arguments]
+    
+    Arguments:
+    -b, --backup <string>                      backup the specified collection.
+                                               <string>: any string
+                                               Default:
+    -d, --dir <path>                           specify the directory to use for
+                                               backups.
+                                               <path>: a file path
+                                               Default: /Users/aretter/code/exist.maven/.
+    --deduplicate-blobs <boolean>              Deduplicate BLOBS in the backup.
+                                               <boolean>: true or false
+                                               Default: false
+    -h, --help <argument-to-print-help-for>    <argument-to-print-help-for>: an argument to print help for
+                                               Default: If no specific parameter is given the whole usage text is given
+    -o, --option<string>=<string>              specify extra options:
+                                               property=value. For available properties see client.
+                                               properties.
+                                               <string>=<string>: where "<string>" is any string and "<string>" is any string
+                                               Default: Empty map
+    -p, --password <string>                    set the password for connecting to
+                                               the database.
+                                               <string>: any string
+                                               Default:
+    -P, --dba-password <string>                if the backup specifies a different
+                                               password for the admin user, use this option
+                                               to specify the new password. Otherwise
+                                               you will get a permission denied
+                                               <string>: any string
+                                               Default:
+    -q, --quiet                                be quiet. Just print errors.
+                                               Default: disabled
+    -r, --restore <path>                       read the specified __contents__.xml
+                                               file and restore the resources described
+                                               there.
+                                               <path>: a file path
+                                               Default: /Users/aretter/code/exist.maven/.
+    -R, --rebuild                              rebuild the EXpath app repository
+                                               after restore.
+                                               Default: disabled
+    -u, --user <string>                        set user.
+                                               <string>: any string
+                                               Default: admin
+    -U, --gui                                  start in GUI mode
+                                               Default: disabled

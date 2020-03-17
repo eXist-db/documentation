@@ -1,0 +1,274 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
+        schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
+        schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>Troubleshooting</title>
+        <date>2Q19</date>
+        <keywordset>
+            <keyword>operations</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+    <para>This document contains hints and tips about troubleshooting problems. It also tells you
+        where to find information (version numbers, log information, etc.). See also <link
+        xlink:href="getting-help">Getting Help</link>.</para>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="normal-start-up">
+        <title>Normal Start Up</title>
+
+        <para>When eXist-db starts up it writes log output to the console.</para>
+        <itemizedlist>
+            <listitem>
+                <para> If you started eXist-db via the system tray launcher, the console output is
+                    captured. It can be viewed by selecting the <guimenuitem>Show Tool
+                    Window</guimenuitem> menu entry in the system tray pop-up. Then select
+                    <literal>Show console messages</literal>. </para>
+            </listitem>
+            <listitem>
+                <para>If you launched eXist-db via one of the shell scripts, the output directly
+                    appears.</para>
+            </listitem>
+        </itemizedlist>
+
+        <para>Output for a properly launched eXIst-db should be similar to the following (Linux)
+            example:</para>
+
+        <programlisting xlink:href="listings/listing-1.txt"/>
+        <para>When you see the "Server has started" message and no further errors appear, your
+            eXist-db installation is working normally.</para>
+        <para>When you do not (even) see this message,try the following troubleshooting
+            steps.</para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="db-locked">
+        <title>Database Refuses to Start</title>
+
+        <para>If eXist-db was not shutdown properly, it will start a recovery process to redo
+            committed transactions and roll back uncommitted ones. If an inconsistency is found
+            during this process, eXist-db will automatically abort the start-up and print out a
+            warning. This emergency stop is done to avoid potential damage and give an administrator
+            a chance to check the database and create a backup. It does not necessarily indicate a
+            real problem. In most cases, the database should be ok and restarting it will be
+            save.</para>
+        <para>We recommend to run a <link xlink:href="backup">consistency check</link> in when this
+            happens. If inconsistencies are found, make sure you have a backup before
+            continuing.</para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="clearing-db">
+        <title>Going Back to an Empty Database</title>
+
+        <para>During development and testing you may sometimes wish to go back to a completely
+            empty, fresh, database. Here's how to really <emphasis>remove everything</emphasis> and
+            reset the database to its initial state:</para>
+        <orderedlist>
+            <listitem>
+                <para>Make sure eXist-db is not running</para>
+            </listitem>
+            <listitem>
+                <para>Manually remove the contents of your data directory. </para>
+                <para>The default data directory is <literal>$EXIST_HOME/data</literal>
+                </para>
+            </listitem>
+        </orderedlist>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="environmental-variables">
+        <title><code>JAVA_HOME</code> Environment Variable</title>
+
+        <para>When using one of the shell or batch scripts, eXist-db may fail to start up properly
+            if the environment variable<literal>JAVA_HOME</literal> is not set properly. The
+            variable us used by all scripts in <literal>$EXIST_HOME/bin</literal>.</para>
+        <variablelist>
+            <varlistentry>
+                <term><literal>JAVA_HOME</literal></term>
+                <listitem>
+                    <para>This should point to the directory where Java (JRE or JDK) is installed. </para>
+                    <variablelist>
+                        <varlistentry>
+                            <term>Windows</term>
+                            <listitem>
+                                <para><link condition="_blank"
+                                        xlink:href="https://confluence.atlassian.com/display/DOC/Setting+the+JAVA_HOME+Variable+in+Windows"
+                                        >Setting <code>JAVA_HOME</code> on Windows</link></para>
+                                <para/>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>Linux</term>
+                            <listitem>
+                                <para><link condition="_blank"
+                                        xlink:href="https://www.cyberciti.biz/faq/linux-unix-set-java_home-path-variable/"
+                                        >Setting <code>JAVA_HOME</code> on Linux</link></para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>macOS</term>
+                            <listitem>
+                                <para><link
+                                        xlink:href="https://osxdaily.com/2015/07/28/set-enviornment-variables-mac-os-x/"
+                                        >Setting <code>JAVA_HOME</code> on macOS</link></para>
+                            </listitem>
+                        </varlistentry>
+                    </variablelist>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="port-conflicts">
+        <title>Port Conflicts</title>
+
+        <para>eXist-db can fail to start up if another service on your system is using the ports
+            that eXist's embedded web server is using (port 8080 or 8443 by default). If another
+            service occupies these ports, you cannot start up eXist-db unless you shut down the
+            service in question or make eXist-db use another port.</para>
+        <para>To see whether this is the case, enter <link condition="_blank"
+                xlink:href="http://localhost:8080/">http://localhost:8080/</link> in your browser.
+            To make eXist-db use another port, open
+                <literal>$EXIST_HOME/etc/jetty/jetty-http.xml</literal> and change the value
+                <code>8080</code> to a port number that is not used (for instance
+            <code>8899</code>):</para>
+        <programlisting language="xml" xlink:href="listings/listing-6.xml"/>
+
+        <para>eXist-db uses port 8443 for confidential communication. Another service may be using
+            this port. To make eXist-db use another port, open the file
+                <literal>$EXIST_HOME/etc/jetty/jetty-ssl.xml</literal> and change the value
+                <code>8443</code> in to a port number that is not used (for instance
+                <code>8444</code>):</para>
+        <programlisting language="xml" xlink:href="listings/listing-8.xml"/>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="logs">
+        <title>Using the Logs</title>
+
+        <para>If you experience any problems while using eXist-db, your first step should be to
+            check the log files to get additional information about the source of the problem.
+            eXist-db uses the <emphasis>log4j-package</emphasis> to write output logs to files. </para>
+        <itemizedlist>
+            <listitem>
+                <para> By default, this output is written to the directory
+                        <literal>$EXIST_HOME/logs</literal></para>
+            </listitem>
+        </itemizedlist>
+        <para>The main log files for eXist are <literal>exist.log</literal> and
+            <literal>xmldb.log</literal>. </para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="memory">
+        <title>Out of Memory</title>
+
+        <para>Running out of memory typically throws Java into an inconsistent state. Some threads
+            may still be alive and continue to run while others have died. It is therefore important
+            to avoid memory errors up-front by checking the memory consumption of your queries
+            <emphasis>before</emphasis> they go into production. Should you encounter an out of
+            memory error, please make sure to restart eXist and follow the emergency
+            procedure.</para>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="streaming">
+            <title>Streaming Large Files</title>
+
+            <para>If you have to generate large binaries (for instance ZIP or PDF) from within
+                XQuery, it is best not to do this in memory. There are various XQuery functions
+                which directly stream to the HTTP response.</para>
+            <para>There's also a known issue with the betterform XForms filter caching every HTTP
+                response. To work around this, your XQuery should be run via an URL which is not
+                processed by the XForms filter: either disable the filter or use <code>/rest</code>
+                or <code>/restxq</code>.</para>
+        </sect2>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="emergency">
+        <title>Killing the Database</title>
+
+        <para>If you ever feel you have to kill the database (because it does not respond for
+            whatever reason), the recommended procedure is as follows:</para>
+        <orderedlist>
+            <listitem>
+                <para>Check if a query is running wild and try to kill it. This can be done either
+                    through the "Scheduler" plug-in in the dashboard, or the "Running Jobs" section
+                    in the <link xlink:href="java-admin-client">Java Admin Client</link>. Try to
+                    kill the query there and wait for a minute if the system returns to normal
+                    operations:</para>
+                <informalfigure>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="assets/schedulerplugin.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </informalfigure>
+            </listitem>
+            <listitem>
+                <para>Attempt to trigger a proper shutdown, either via the system tray icon or the
+                    dashboard. Wait for at least 3 minutes. Even if eXist-db does not stop
+                    completely, it may still be able to complete the shutdown procedure for the core
+                    database.</para>
+            </listitem>
+            <listitem>
+                <para>It may now be safe to kill the eXist-db process. Check the logs to see if the
+                    database has properly shut down. The last message in the logs will indicate
+                    this.</para>
+            </listitem>
+            <listitem>
+                <para>If the logs indicate a proper shutdown: before restarting, remove any
+                    <literal>.log</literal> and <literal>.lck</literal> files from the data
+                    directory. This will prevent a recovery run, which would certainly take a lot of
+                    time.</para>
+            </listitem>
+            <listitem>
+                <para>Otherwise:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>You are sure you have no valuable changes in this db instance, usually
+                            because it's a development system: follow the step above and remove the
+                            <literal>.log</literal> files before restart to reduce startup
+                            time.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Before restart, archive the contents of the data directory: you may
+                            need them if anything goes wrong. Restart the database but be prepared
+                            for a recovery run, which may take considerable time (depending on the
+                            size of your db).</para>
+                    </listitem>
+                    <listitem>
+                        <para>If inconsistencies are detected during the recovery, eXist will switch
+                            to read-only mode. In this case, stop it again and run a <link
+                            xlink:href="backup">consistency check</link>, which can also create a
+                            low-level backup.</para>
+                        <para>If the consistency check reports errors, eXist may still be able to
+                            run, but there might be inconsistencies in its data structures. Prepare
+                            for a complete restore into a clean data directory as soon as you can
+                            take the database offline for maintenance.</para>
+                    </listitem>
+                </itemizedlist>
+            </listitem>
+        </orderedlist>
+        <warning>
+            <para>Do not repeatedly kill the database. Killing eXist during recovery will most
+                likely result in additional damages. Always check the logs and console output to see
+                what eXist is doing before you kill it.</para>
+        </warning>
+    </sect1>
+</article>

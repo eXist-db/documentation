@@ -1,0 +1,8 @@
+<job type="system" name="check1" class="org.exist.storage.ConsistencyCheckTask" cron-trigger="0 0 0/12 * * ?">
+  <parameter name="output" value="export"/>
+  <parameter name="zip" value="yes"/>
+  <parameter name="backup" value="yes"/>
+  <parameter name="incremental" value="no"/>
+  <parameter name="incremental-check" value="no"/>
+  <parameter name="max" value="2"/>
+</job>
