@@ -98,44 +98,46 @@
             <para>These two commmands modify the ownership and group permissions recursively
                 throughout the whole eXist-db project to your new existdb system user. Now only this
                 user can run eXist-db. Next, navigate to the <literal>/etc/systemd/system</literal>
-                sub-directory. Once there, create an exist-db.service file which contains the
+                sub-directory. Once there, create an existdb.service file which contains the
                 following information at a minimum:</para>
             <programlisting xlink:href="listings/listing-4.txt"/>
             <para>Once this file is stored in this location, you need to update permissions. Give
                 ownership of this file to the exist user by using the following commands:</para>
             <programlisting xlink:href="listings/listing-5.txt"/>
+            <para>You can then install the existdb service, by runniung <code>sudo systemctl daemon-reload &amp;&amp; sudo systemctl enable existdb</code>.
+                If you then want to start eXist-db as a service, run <code>sudo systemctl start existdb</code>.</para>
             <para>Below is a list of common commands to interact with the newly created and
                 configured service:</para>
             <itemizedlist>
                 <listitem>
-                    <para><code>sudo systemctl start exist-db.service</code> - Enter command to
+                    <para><code>sudo systemctl start existdb</code> - Enter command to
                         start eXist-db</para>
                 </listitem>
                 <listitem>
-                    <para><code>sudo systemctl stop exist-db.service</code> - Enter command to stop
+                    <para><code>sudo systemctl stop existdb</code> - Enter command to stop
                         eXist-db</para>
                 </listitem>
                 <listitem>
-                    <para><code>sudo systemctl enable exist-db.service</code> - Enter command to
+                    <para><code>sudo systemctl enable existdb</code> - Enter command to
                         enable eXist-db to automatically start running after a reboot of your
                         system</para>
                 </listitem>
                 <listitem>
-                    <para><code>sudo systemctl disable exist-db.service</code> - Enter commande to
+                    <para><code>sudo systemctl disable existdb</code> - Enter commande to
                         disable eXist-db from automatically starting after a reboot of your
                         system</para>
                 </listitem>
                 <listitem>
-                    <para><code>sudo systemctl restart exist-db.service</code> - Enter command to
+                    <para><code>sudo systemctl restart existdb</code> - Enter command to
                         restart eXist-db</para>
                 </listitem>
                 <listitem>
-                    <para><code>systemctl status exist-db</code> - Enter command to check the status
+                    <para><code>systemctl status existdb</code> - Enter command to check the status
                         of eXist-db</para>
                 </listitem>
                 <listitem>
                     <para><code>journalctl</code> - Run the following command to check systemd
-                        journal:</para>
+                        journal</para>
                 </listitem>
             </itemizedlist>
         </sect2>
