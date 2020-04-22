@@ -194,6 +194,15 @@
           </row>
           <row>
             <entry>
+              <para><code>-P profileName</code> (Enable named profile)</para>
+              <para><code>-P !profileName</code> (Disable named Profile)</para>
+            </entry>
+            <entry>
+              <para>Enables of disables build profiles, see the <link linkend="build-profiles">list of profiles</link> below.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
               <para><code>-Ddocker=true</code></para>
             </entry>
             <entry>
@@ -260,6 +269,112 @@
         </tbody>
       </tgroup>
     </table>
+    <sect2 xml:id="build-profiles">
+      <title>Build Profiles</title>
+      <para>Some aspects of the build are separated into profiles which may be enabled or disabled as needed.</para>
+      <table>
+        <title>Build Profiles</title>
+        <tgroup cols="3">
+          <thead>
+            <row>
+              <entry>Profile Name</entry>
+              <entry>Description</entry>
+              <entry>Default</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>
+                <para><code>docker</code></para>
+              </entry>
+              <entry>
+                <para>Build/Publish an eXist-db Docker Container</para>
+              </entry>
+              <entry>
+                <para>Disabled</para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para><code>installed</code></para>
+              </entry>
+              <entry>
+                <para>Build/Publish an eXist-db IzPack installer</para>
+              </entry>
+              <entry>
+                <para>Enabled</para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para><code>codesign-mac-app</code></para>
+              </entry>
+              <entry>
+                <para>Codesign the eXist-db .app package. Requires macOS and an Apple Developer Certificate</para>
+              </entry>
+              <entry>
+                <para>Enabled on macOS when <code>-Dmac-signing=true</code></para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para><code>mac-dmg-on-mac</code></para>
+              </entry>
+              <entry>
+                <para>Build/Publish a DMG for eXist-db from Mac. Requires macOS.</para>
+              </entry>
+              <entry>
+                <para>Enabled on macOS when <code>-Denv.CI=true</code> is not set, e.g. Travis-CI</para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para><code>mac-dmg-on-unix</code></para>
+              </entry>
+              <entry>
+                <para>Build/Publish a DMG for eXist-db from Unix. Requires Unix like OS with loopback filesystem and HFS tools.</para>
+              </entry>
+              <entry>
+                <para>Enabled on Linux when <code>-Denv.CI=true</code> is not set, e.g. Travis-CI</para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para><code>codesign-mac-dmg</code></para>
+              </entry>
+              <entry>
+                <para>Codesign the eXist-db DMG. Requires macOS and an Apple Developer Certificate</para>
+              </entry>
+              <entry>
+                <para>Enabled on macOS when <code>-Dmac-signing=true</code></para>
+              </entry>
+            </row>
+            <row>
+            <entry>
+              <para><code>java8-runtime-compatibility</code></para>
+            </entry>
+            <entry>
+              <para>Ensure runtime compatibility with Java 8. Sets the <code>-release 8</code> to javac.</para>
+            </entry>
+            <entry>
+              <para>Enabled on JDK 9+</para>
+            </entry>
+            </row>
+            <row>
+              <entry>
+                <para><code>windows-disable-parallel-testing</code></para>
+              </entry>
+              <entry>
+                <para>Causes the test suite to run without parallelism</para>
+              </entry>
+              <entry>
+                <para>Enabled on AppVeyor Windows Builds</para>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </sect2>
   </sect1>
 
 </article>
