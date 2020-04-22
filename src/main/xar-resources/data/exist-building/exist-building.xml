@@ -285,6 +285,17 @@
           <tbody>
             <row>
               <entry>
+                <para><code>build-dist-archives</code></para>
+              </entry>
+              <entry>
+                <para>Build eXist-db .tar.bz2 and .zip packages</para>
+              </entry>
+              <entry>
+                <para>Enabled</para>
+              </entry>
+            </row>
+            <row>
+              <entry>
                 <para><code>docker</code></para>
               </entry>
               <entry>
@@ -296,7 +307,7 @@
             </row>
             <row>
               <entry>
-                <para><code>installed</code></para>
+                <para><code>installer</code></para>
               </entry>
               <entry>
                 <para>Build/Publish an eXist-db IzPack installer</para>
@@ -350,15 +361,37 @@
               </entry>
             </row>
             <row>
-            <entry>
-              <para><code>java8-runtime-compatibility</code></para>
-            </entry>
-            <entry>
-              <para>Ensure runtime compatibility with Java 8. Sets the <code>-release 8</code> to javac.</para>
-            </entry>
-            <entry>
-              <para>Enabled on JDK 9+</para>
-            </entry>
+              <entry>
+                <para><code>java8-runtime-compatibility</code></para>
+              </entry>
+              <entry>
+                <para>Ensure runtime compatibility with Java 8. Sets the <code>-release 8</code> to javac.</para>
+              </entry>
+              <entry>
+                <para>Enabled on JDK 9+</para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para><code>micro-benchmarks</code></para>
+              </entry>
+              <entry>
+                <para>eXist-db Micro-benchmarks</para>
+              </entry>
+              <entry>
+                <para>Enabled</para>
+              </entry>
+            </row>
+            <row>
+              <entry>
+                <para><code>concurrency-stress-tests</code></para>
+              </entry>
+              <entry>
+                <para>eXist-db JCStress Tests</para>
+              </entry>
+              <entry>
+                <para>Enabled</para>
+              </entry>
             </row>
             <row>
               <entry>
