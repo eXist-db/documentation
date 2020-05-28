@@ -590,6 +590,24 @@
                 retrieve it with <literal>ft:field($node, "date", "xs:date")</literal>, otherwise
                 all you get is a number.</para>
         </sect2>
+        <sect2 xml:id="expand-fields">
+            <title>Matches in fields</title>
+            <para>When retrieving the content of a field for display, you may still need an indication
+                 of where matches were found.</para>
+            <para>
+                <literal>ft:highlight-field-matches</literal> will return a copy of the XML fragment it
+                 received in its first parameter with <literal>exist:match</literal>
+                tag wrapped around the fields that match. Effectively it provides the same mechanism as
+                <literal>util:expand</literal> for full text matches but works on fields instead.</para>
+
+            <para>For example, to display each matching article with its title, author and matched full
+                text as KWIC, you could start with the code below. Please note that 
+                <literal>ft:highlight-field-matches</literal> just returns
+                <literal>exist:field</literal> with <literal>exist:match</literal> inside, so you'd need
+                to further process the result for proper HTML output.</para>
+
+            <programlisting language="xquery" xlink:href="listings/listing-60.txt" />
+        </sect2>
         <sect2 xml:id="display-facets">
             <title>Displaying Facet Counts</title>
             <para>Facet counts for the query result can be retrieved if facets are associated with

@@ -1,0 +1,9 @@
+  
+for $article in collection("/db/articles")//db:article[ft:query(., "lucene AND title:xquery AND author:wolfgang", map { "fields": ("title", "author") })]
+    order by ft:field($article, "title")[1]
+return
+    <result>
+      {ft:highlight-field-matches($article, 'title')}
+      {ft:highlight-field-matches($article, 'author')}
+      {kwic:summarize($article, <config width="40"/>)}
+    </result>
