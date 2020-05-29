@@ -593,12 +593,28 @@
         <sect2 xml:id="expand-fields">
             <title>Matches in fields</title>
             <para>When retrieving the content of a field for display, you may still need an indication
-                 of where matches were found.</para>
+                of where matches were found. You cannot use <literal>util:expand</literal> for that 
+                but need <literal>ft:highlight-field-matches</literal> instead. Effectively it provides 
+                the same mechanism as <literal>util:expand</literal> for full text matches but works on fields.</para>
+
+            <itemizedlist>
+                <listitem>
+                    <para><literal>util:expand</literal> operates on nodes which are part of an XML document</para>
+                </listitem>
+                <listitem>
+                    <para>fields are attached to a node, but can contain arbitrary string content which may, but does 
+                        not have to, be derived from the document</para>
+                </listitem>
+            </itemizedlist>
+
+            <para>Thus <literal>util:expand</literal> and <literal>ft:highlight-field-matches</literal> behave differently 
+                and produce slightly different output. <literal>ft:highlight-field-matches</literal> is also faster as it 
+                does not need to traverse the XML tree like <literal>util:expand</literal>.</para>
+
             <para>
-                <literal>ft:highlight-field-matches</literal> will return a copy of the XML fragment it
-                 received in its first parameter with <literal>exist:match</literal>
-                tag wrapped around the fields that match. Effectively it provides the same mechanism as
-                <literal>util:expand</literal> for full text matches but works on fields instead.</para>
+                <literal>ft:highlight-field-matches</literal> will return a field it
+                received in its first parameter with <literal>exist:match</literal>
+                tag wrapped around the matches. </para>            
 
             <para>For example, to display each matching article with its title, author and matched full
                 text as KWIC, you could start with the code below. Please note that 
