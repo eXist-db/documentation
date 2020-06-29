@@ -431,7 +431,7 @@
             </itemizedlist>
             <para>For example, to backup the entire database on a Unix system to the target
                 directory <literal>/var/backup/hd060501</literal>, enter the following:</para>
-            <programlisting></programlisting>
+            <programlisting>bin/backup.sh -u admin -p admin-pass -b /db -d /var/backup/hd060501</programlisting>
 
             <para>By default, the utility connects to the database at the URI:
                 <literal>xmldb:exist://localhost:8080/exist/xmlrpc</literal>. If you want to backup
