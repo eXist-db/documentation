@@ -431,7 +431,7 @@
             </itemizedlist>
             <para>For example, to backup the entire database on a Unix system to the target
                 directory <literal>/var/backup/hd060501</literal>, enter the following:</para>
-            <programlisting>bin/backup.sh -u admin -p admin-pass -b /db -d /var/backup/hd060501</programlisting>
+            <programlisting></programlisting>
 
             <para>By default, the utility connects to the database at the URI:
                 <literal>xmldb:exist://localhost:8080/exist/xmlrpc</literal>. If you want to backup
@@ -442,6 +442,11 @@
             <programlisting xlink:href="listings/listing-9.txt"/>
             <para>Default settings for the user, password or server URIs can also be set in the
                 <literal>backup.properties</literal> file.</para>
+            <para>If you want to connect to a databse using SSL, use the parameter <literal>--use-ssl</literal> or
+                (shorter) <literal>-S</literal>:</para>
+            <programlisting xlink:href="listings/listing-12.txt"/>
+            <para>NOTE: You still have to set the correct port (usually port 443), otherwise the client will attempt
+                SSL to port 8080.</para>
         </sect2>
 
     </sect1>

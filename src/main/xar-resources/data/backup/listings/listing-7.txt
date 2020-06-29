@@ -3,6 +3,9 @@ backup.sh --h
     Usage: backup.sh [Arguments]
     
     Arguments:
+    -a, --overwrite-apps                       overwrite newer applications
+                                               installed in the database.
+                                               Default: disabled
     -b, --backup <string>                      backup the specified collection.
                                                <string>: any string
                                                Default:
@@ -39,6 +42,9 @@ backup.sh --h
                                                Default: /Users/aretter/code/exist.maven/.
     -R, --rebuild                              rebuild the EXpath app repository
                                                after restore.
+                                               Default: disabled
+    -S, --use-ssl                              Use SSL by default for remote
+                                               connections
                                                Default: disabled
     -u, --user <string>                        set user.
                                                <string>: any string
