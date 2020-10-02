@@ -32,7 +32,7 @@ Should you encounter documentation for features that are deprecated in the minim
 2.  Build the documentation application:
     ```bash
     $ cd documentation
-    $ mvn clean package
+    $ mvn clean package -DskipTests
     ```
     The compiled `.xar` file is located in the `/target` directory
 
@@ -48,7 +48,7 @@ The full test-suite consists of validation, unit, and integration tests, it runs
 -   to run the javascript or XQSuite unit tests run: `mvn test`. We do **not** support testing via node alone, aka `npm test`, use the maven command instead.
 -   To run the Integrations tests, however, use `npm run cypress`.
 
-Both unit and integration tests, expect a running instance of exist with a copy of the documentation app installed reachable at `localhost:8080` and an empty admin password. It might be necessary to skip test execution during building from time to time, use: `mvn clean package -DskipTests`.
+Both unit and integration tests, expect a running instance of exist with a copy of the documentation app installed reachable at `localhost:8080` and an empty admin password. To simply build a new package, without a running instance, use the command provided in the [Build section](#Building-from-source). Omitting `-DskipTests` will run validation and unit tests as part of the build.
 
 You can view recordings of the previous integration test runs on our [Cypress Dashboard](https://dashboard.cypress.io/#/projects/h8zx19/runs)
 
