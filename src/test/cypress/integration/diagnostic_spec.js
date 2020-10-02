@@ -7,7 +7,7 @@
 
 context.skip('Diagnostics', () => {
   before(() => {
-    cy.visit('/diagnostics.html', { responseTimeout: 60000 })
+    cy.visit('diagnostics.html', { responseTimeout: 60000 })
   })
   it('should not find dead links', () => {
     cy.get('h1')
