@@ -1,8 +1,9 @@
 language: java
+dist: bionic
 
 jdk:
-  - oraclejdk8
-  - oraclejdk11
+  - openjdk8
+  - openjdk11
 
 # Tell Travis that we are using Docker.
 services:
@@ -12,6 +13,11 @@ services:
 env:
   - img=existdb/existdb:latest
   - img=existdb/existdb:release
+
+# Download exist into the test VM
+before_install:
+  - docker pull $img
+  - docker create  --name exist-ci -p 8080:8080 $img
 
 install:
   - ant develop

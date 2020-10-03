@@ -1,10 +1,11 @@
 # Tell Travis that we want Java.
 language: java
+dist: bionic
 
 # This should be the minimal Java version required by eXist-db.
 jdk:
-  - oraclejdk8
+  - openjdk8
 
-# This makes the build command explicit. 
+# This makes the build command explicit.
 install:
   - ant
