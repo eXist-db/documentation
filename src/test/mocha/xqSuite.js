@@ -4,8 +4,8 @@ const supertest = require('supertest')
 var client = supertest.agent('http://localhost:8080')
 
 describe('running XQsuite test …', function () {
-  this.timeout(60000)
-  this.slow(45000)
+  this.timeout(95000)
+  this.slow(60000)
   const runner = '/exist/rest/db/apps/doc/modules/test-runner.xql'
 
   it('returns 0 errors or failures', function (done) {
