@@ -93,7 +93,7 @@
       </note>
       <para>If you use more then one test runner, you can simply add additional test commands to the script parameter. In the case of our app, eXist-db is already running in the background, so it is also possible to run your
         <literal>XQSuite</literal>
-        unit tests. You can see how this is configured, for apps using our the
+        unit tests. You can see how this is configured, for apps using  the
         <link condition="_blank" xlink:href="https://github.com/eXist-db/generator-exist">yeoman templates</link>.</para>
       <para>How to write good unit tests is beyond the scope of this article. Whenever you are struggling with your integration test, however, you should ask yourself if what you are trying to achieve might not be better served by creating unit tests.
         Whichever solution works best for you, you should not rely on either unit or integration tests alone, and both should be integrated into your CI pipeline.</para>
@@ -123,7 +123,7 @@
       <para>You can simply execute the Cypress test command inside your CI test script after the unit test command we added earlier.</para>
       <programlisting language="yaml" xlink:href="listings/travis-4.txt"/>
       <para>With Cypress you write your tests in the same fashion as you would with Mocha unit tests; however, you now address the rendered document inside a browser instead of individual JavaScript functions.</para>
-      <programlisting language="json" xlink:href="listings/cypress.txt"/>
+      <programlisting language="javascript" xlink:href="listings/cypress.txt"/>
       <para>The above example opens a page (the dashboard) in the browser, logs in, and closes the window it just opened. You can do many more things, but these examples are meant to provide a good starting point for creating your first integration test.
         If there are any console errors or problems with rendering content Cypress will create an error message and your tests will fail. To check the syntax of these commands, and to see many more examples please visit the
         <link condition="_blank" xlink:href="https://docs.cypress.io/guides/core-concepts/writing-and-organizing-tests.html#Folder-Structure">Cypress documentation</link>.</para>
