@@ -1,0 +1,77 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>Synchronize directory to a collection</title>
+        <date>3Q20</date>
+        <keywordset>
+            <keyword>synchronize</keyword>
+            <keyword>filesystem</keyword>
+            <keyword>collection</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+    <para>This article provides information on the synchronization of filesystem data to an exist-db collection.</para>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="intro">
+        <title>Introduction</title>
+
+        <para>An editing workflow often operates on a filesystem directory that eventually may be published using exist-db.
+            An <link xlink:href="https://search.maven.org/search?q=a:exist-db-addons">exist-db-addons</link> library,
+            available in maven central, enables automatic publication of a directory to a collection.
+        </para>
+        <para>Files in a directory specified by the parameter <emphasis role="bold"
+                >datadir</emphasis> will be synchronized to a collection specified by the parameter
+                <emphasis role="bold">collection</emphasis> recursively. If the target collection
+            does not exist it will be created. Files and collections that are new or newer than the
+            one in the target collection will be written to that collection. Files and collections
+            that are not present in the source directory will be removed from the collection, this
+            can be turned off via a boolean parameter <emphasis role="bold"
+                >removeNotInSource</emphasis>. Owner and group of collections and documents can be
+            provided in parameters <emphasis role="bold">owner</emphasis> and <emphasis role="bold"
+                >group</emphasis>, otherwise they will be the same as the owner and group of the
+            parent collection of the provided collection parameter. After syncing cache is cleared
+            to prevent problems, this can be turned off via boolean parameter <emphasis role="bold"
+                >clearCache</emphasis>. NOTE that the sync will partially succeed when during
+            syncing an exception occurs, collections and files added or removed before the exception
+            will remain added/removed. Meant to be used as a start-up task, DataSyncTaskCron is
+            meant to be scheduled as a cronjob. </para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="usage">
+        <title>usage</title>
+        <sect2>
+            <title>Include exist-db-addons</title>
+            <para>For example in a Dockerfile:</para>
+            <para>
+                <programlisting>
+ARG EXISTADDONSERSION=1.6
+COPY exist-db-addons-${EXISTADDONSERSION}.jar $EXIST_HOME/lib/
+ENV CLASSPATH=$EXIST_HOME/lib/exist.uber.jar:$EXIST_HOME/lib/exist-db-addons-${EXISTADDONSERSION}.jar
+            </programlisting>
+            </para>
+        </sect2>
+        <sect2>
+            <title>configure in conf.xml</title>
+            <para>The first job below will sync at start-up, the second will sync at 2am, <link xlink:href="../scheduler/scheduler.xml">see scheduler</link>
+                <programlisting language="xml"><![CDATA[
+<job class="org.fryske_akademy.exist.jobs.DataSyncTask" type="system" period="10" repeat="0" >
+    <parameter name="collection" value="xmldb:exist:///db/apps/teidictjson/data"/>
+    <parameter name="datadir" value="/data"/>
+</job>
+<job class="org.fryske_akademy.exist.jobs.DataSyncTaskCron" type="system" cron-trigger="0 0 2 ? * *" >
+    <parameter name="collection" value="xmldb:exist:///db/apps/teidictjson/data"/>
+    <parameter name="datadir" value="/data"/>
+</job>
+    ]]>
+        </programlisting></para>
+        </sect2>
+    </sect1>
+</article>

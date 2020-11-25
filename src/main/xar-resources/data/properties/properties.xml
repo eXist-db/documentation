@@ -1,0 +1,83 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>Application properties</title>
+        <date>3Q20</date>
+        <keywordset>
+            <keyword>properties</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+    <para>This article provides information on working with property files for exist
+        applications.</para>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="intro">
+        <title>Introduction</title>
+
+        <para>For most applications it is a good idea to provide settings in a property file. An
+                <link xlink:href="https://search.maven.org/search?q=a:exist-db-addons"
+                >exist-db-addons</link> library, available in maven central, enables you to do so. </para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="usage">
+        <title>usage</title>
+        <sect2>
+            <title>Include exist-db-addons</title>
+            <para>For example in a Dockerfile:</para>
+            <para>
+                <programlisting>
+ARG EXISTADDONSERSION=1.6
+COPY exist-db-addons-${EXISTADDONSERSION}.jar $EXIST_HOME/lib/
+ENV CLASSPATH=$EXIST_HOME/lib/exist.uber.jar:$EXIST_HOME/lib/exist-db-addons-${EXISTADDONSERSION}.jar
+            </programlisting>
+            </para>
+        </sect2>
+        <sect2>
+            <title>configure in conf.xml</title>
+            <para><programlisting language="xml"><![CDATA[
+<module uri="http://exist-db.org/xquery/properties"
+        class="org.fryske_akademy.exist.properties.PropertiesModule">
+    <parameter name="basePath" value="/run/secrets"/>
+</module>
+            ]]>
+        </programlisting></para>
+        </sect2>
+        <sect2>
+            <title>use properties in xquery</title>
+            <para><programlisting>
+declare namespace properties="http://exist-db.org/xquery/properties";
+
+declare variable $teidictjson:props := properties:loadProperties("teidictjson.properties");
+
+declare function teidictjson:getProperty($key as xs:string, $default as xs:string) as xs:string {
+    if (map:contains($teidictjson:props,$key)) then
+        map:get($teidictjson:props,$key)
+    else
+        $default
+};            
+        </programlisting></para>
+        </sect2>
+        <sect2>
+            <title>optionally mount properties as docker secret</title>
+            <para>In docker-compose.yml: <programlisting>
+    secrets:
+      - source: ${APPNAME}.properties
+        target: teidictjson.properties
+        mode: 0444
+secrets:
+  fhwbjson.properties:
+    external: true
+        </programlisting></para>
+        </sect2>
+    </sect1>
+    
+    
+</article>
