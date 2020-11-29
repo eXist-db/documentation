@@ -29,30 +29,31 @@
 
     <sect1 xml:id="usage">
         <title>usage</title>
-        <sect2>
+        <para>Below a setup for exist-db for properties.</para>
+        <sect2 xml:id="classpath">
             <title>Include exist-db-addons</title>
             <para>For example in a Dockerfile:</para>
-            <para>
-                <programlisting>
+            <programlisting language="Dockerfile">
 ARG EXISTADDONSERSION=1.7
 COPY exist-db-addons-${EXISTADDONSERSION}.jar $EXIST_HOME/lib/
 ENV CLASSPATH=$EXIST_HOME/lib/exist.uber.jar:$EXIST_HOME/lib/exist-db-addons-${EXISTADDONSERSION}.jar
             </programlisting>
-            </para>
         </sect2>
-        <sect2>
+        <sect2 xml:id="conf.xml">
             <title>configure in conf.xml</title>
-            <para><programlisting language="xml"><![CDATA[
+            <para>add the module to exist:</para>
+            <programlisting language="xml"><![CDATA[
 <module uri="http://exist-db.org/xquery/properties"
         class="org.fryske_akademy.exist.properties.PropertiesModule">
     <parameter name="basePath" value="/run/secrets"/>
 </module>
             ]]>
-        </programlisting></para>
+        </programlisting>
         </sect2>
-        <sect2>
+        <sect2 xml:id="xquery">
             <title>use properties in xquery</title>
-            <para><programlisting>
+            <para>load and use properties in your xquery</para>
+            <programlisting language="xquery">
 declare namespace properties="http://exist-db.org/xquery/properties";
 
 declare variable $teidictjson:props := properties:loadProperties("teidictjson.properties");
@@ -63,11 +64,12 @@ declare function teidictjson:getProperty($key as xs:string, $default as xs:strin
     else
         $default
 };            
-        </programlisting></para>
+        </programlisting>
         </sect2>
-        <sect2>
+        <sect2 xml:id="docker-secret">
             <title>optionally mount properties as docker secret</title>
-            <para>In docker-compose.yml: <programlisting>
+            <para>In docker-compose.yml:</para>
+            <programlisting language="yaml">
     secrets:
       - source: ${APPNAME}.properties
         target: teidictjson.properties
@@ -75,7 +77,7 @@ declare function teidictjson:getProperty($key as xs:string, $default as xs:strin
 secrets:
   fhwbjson.properties:
     external: true
-        </programlisting></para>
+        </programlisting>
         </sect2>
     </sect1>
     

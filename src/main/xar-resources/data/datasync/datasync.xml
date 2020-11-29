@@ -47,21 +47,20 @@
 
     <sect1 xml:id="usage">
         <title>usage</title>
-        <sect2>
+        <para>Below a setup for exist-db for data synchronization.</para>
+        <sect2 xml:id="classpath">
             <title>Include exist-db-addons</title>
             <para>For example in a Dockerfile:</para>
-            <para>
-                <programlisting>
+            <programlisting language="Dockerfile">
 ARG EXISTADDONSERSION=1.7
 COPY exist-db-addons-${EXISTADDONSERSION}.jar $EXIST_HOME/lib/
 ENV CLASSPATH=$EXIST_HOME/lib/exist.uber.jar:$EXIST_HOME/lib/exist-db-addons-${EXISTADDONSERSION}.jar
             </programlisting>
-            </para>
         </sect2>
-        <sect2>
+        <sect2 xml:id="conf.xml">
             <title>configure in conf.xml</title>
-            <para>The first job below will sync at start-up, the second will sync at 2am, <link xlink:href="../scheduler/scheduler.xml">see scheduler</link>
-                <programlisting language="xml"><![CDATA[
+            <para>The first job below will sync at start-up, the second will sync at 2am, <link xlink:href="../scheduler/scheduler.xml">see scheduler</link></para>
+            <programlisting language="xml"><![CDATA[
 <job class="org.fryske_akademy.exist.jobs.DataSyncTask" type="system" period="10" repeat="0" >
     <parameter name="collection" value="xmldb:exist:///db/apps/teidictjson/data"/>
     <parameter name="datadir" value="/data"/>
@@ -71,7 +70,7 @@ ENV CLASSPATH=$EXIST_HOME/lib/exist.uber.jar:$EXIST_HOME/lib/exist-db-addons-${E
     <parameter name="datadir" value="/data"/>
 </job>
     ]]>
-        </programlisting></para>
+            </programlisting>
         </sect2>
     </sect1>
 </article>
