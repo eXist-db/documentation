@@ -1,11 +1,10 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
         schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<article version="5.0" xmlns="http://docbook.org/ns/docbook"
-    xmlns:xlink="http://www.w3.org/1999/xlink">
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
     <info>
         <title>Range Index</title>
-        <date>2Q19</date>
+        <date>4Q20</date>
         <keywordset>
             <keyword>indexing</keyword>
         </keywordset>
@@ -13,10 +12,8 @@
 
     <!-- ================================================================== -->
 
-    <para>eXist (version 2.2 and above) includes a super fast modularized range index based on
+    <para>eXist-db includes a super fast modularized range index based on
         Apache Lucene. This article describes eXist-db's range index.</para>
-    <para>There is also an <link xlink:href="oldrangeindex">older version of the range index</link>,
-        which is kept for compatibility reasons. Usage of this range index is discouraged.</para>
 
     <!-- ================================================================== -->
 
@@ -87,8 +84,7 @@
                 compare strings ignoring accents or case, you can define your index as follows: </para>
 
             <programlisting language="xml" xlink:href="listings/listing-7.txt"/>
-            <para> Please refer to the <link condition="_blank"
-                xlink:href="http://userguide.icu-project.org/collation/concepts">ICU
+            <para> Please refer to the <link condition="_blank" xlink:href="http://userguide.icu-project.org/collation/concepts">ICU
                 documentation</link> (which is used by eXist) for more information on collations,
                 strength, etc. </para>
         </sect2>
@@ -170,7 +166,9 @@
             <para>The following optional attributes can be specified on a <code>condition</code>: </para>
             <variablelist>
                 <varlistentry>
-                    <term><code>operator="eq|ne|lt|gt|le|ge|starts-with|ends-with|contains|matches"</code></term>
+                    <term>
+                        <code>operator="eq|ne|lt|gt|le|ge|starts-with|ends-with|contains|matches"</code>
+                    </term>
                     <listitem>
                         <para>Specifies the operator for the comparison. <code>matches</code>
                             supports Java regular expressions.</para>
@@ -178,14 +176,18 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term><code>case="yes|no"</code></term>
+                    <term>
+                        <code>case="yes|no"</code>
+                    </term>
                     <listitem>
                         <para>Turns case sensitivity on or off for string comparisons. </para>
                         <para>Default is <code>yes</code>.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term><code>numeric="yes|no"</code></term>
+                    <term>
+                        <code>numeric="yes|no"</code>
+                    </term>
                     <listitem>
                         <para>Turns numeric comparison on or off for equality and ordinal
                             comparisons (<code>eq, ne, lt, gt, le, ge</code>). When enabled, 01.0
@@ -246,8 +248,7 @@
     <sect1 xml:id="comparison-range-index">
         <title>Comparison with the old range index</title>
 
-        <para>eXist also has an older version of the range index on board (see <link
-            xlink:href="oldrangeindex">old range index</link>). Compared to this newer version it
+        <para>eXist also has an older version of the range index on board (see <link xlink:href="oldrangeindex">old range index</link>). Compared to this newer version it
             has three main issues:</para>
         <orderedlist>
             <listitem>
