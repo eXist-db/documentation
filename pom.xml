@@ -96,6 +96,14 @@
       </resource>
     </resources>
 
+    <pluginManagement>
+      <plugins>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.0.0</version>
+      </plugins>
+    </pluginManagement>
+
     <plugins>
       <plugin>
         <groupId>com.github.eirslett</groupId>
@@ -139,12 +147,13 @@
             </goals>
             <phase>compile</phase>
           </execution>
+          <!-- Mocha is used for integration tests of xqsuite -->
           <execution>
             <id>mocha tests</id>
             <goals>
               <goal>npm</goal>
             </goals>
-            <phase>test</phase>
+            <phase>integration-test</phase>
             <configuration>
               <arguments>test</arguments>
             </configuration>
@@ -238,6 +247,67 @@
           </execution>
         </executions>
       </plugin>
+      <!-- start up Server in Docker for integration-test -->
+      <plugin>
+        <groupId>io.fabric8</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>0.35.0</version>
+        <configuration>
+          <verbose>true</verbose>
+          <images>
+            <image>
+              <alias>existdb-docs-tests</alias>
+              <name>existdb/existdb:latest</name>
+              <run>
+                <ports>
+                  <port>8080:8080</port>
+                </ports>
+                <wait>
+                  <log>Server has started, listening on</log>
+                  <time>120000</time>
+                </wait>
+              </run>
+            </image>
+          </images>
+        </configuration>
+        <executions>
+          <execution>
+            <id>docker-it-start</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>docker-it-stop</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Cypress is used for integration tests -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>npm</executable>
+              <arguments>
+                <argument>run</argument>
+                <argument>cypress</argument>
+                <argument>--</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
@@ -272,4 +342,5 @@
       <url>http://clojars.org/repo</url>
     </pluginRepository>
   </pluginRepositories>
+
 </project>
