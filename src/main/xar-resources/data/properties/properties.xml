@@ -33,29 +33,14 @@
         <sect2 xml:id="classpath">
             <title>Include exist-db-addons</title>
             <para>For example in a Dockerfile:</para>
-            <programlisting language="Dockerfile">
-ARG EXISTADDONSERSION=1.7
-COPY exist-db-addons-${EXISTADDONSERSION}.jar $EXIST_HOME/lib/
-ENV CLASSPATH=$EXIST_HOME/lib/exist.uber.jar:$EXIST_HOME/lib/exist-db-addons-${EXISTADDONSERSION}.jar
-            </programlisting>
+            <programlisting language="Dockerfile" xlink:href="listings/docker.txt"/>
             <para>Or include a dependency in exist-db's pom.xml:</para>
-            <programlisting language="xml"><![CDATA[
-<dependency>
-  <groupId>org.fryske-akademy</groupId>
-  <artifactId>exist-db-addons</artifactId>
-  <version>1.7</version>
-</dependency>]]></programlisting>
+            <programlisting language="xml" xlink:href="listings/mavenconf.xml"/>
         </sect2>
         <sect2 xml:id="conf.xml">
             <title>configure in conf.xml</title>
             <para>add the module to exist:</para>
-            <programlisting language="xml"><![CDATA[
-<module uri="http://exist-db.org/xquery/properties"
-        class="org.fryske_akademy.exist.properties.PropertiesModule">
-    <parameter name="basePath" value="/run/secrets"/>
-</module>
-            ]]>
-        </programlisting>
+            <programlisting language="xml" xlink:href="listings/existconf.xml"/>
         </sect2>
         <sect2 xml:id="xquery">
             <title>use properties in xquery</title>
@@ -70,8 +55,8 @@ declare function teidictjson:getProperty($key as xs:string, $default as xs:strin
         map:get($teidictjson:props,$key)
     else
         $default
-};            
-        </programlisting>
+};
+            </programlisting>
         </sect2>
         <sect2 xml:id="docker-secret">
             <title>optionally mount properties as docker secret</title>

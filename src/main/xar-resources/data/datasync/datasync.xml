@@ -51,33 +51,14 @@
         <sect2 xml:id="classpath">
             <title>Include exist-db-addons</title>
             <para>For example in a Dockerfile:</para>
-            <programlisting language="Dockerfile">
-ARG EXISTADDONSERSION=2.3
-COPY exist-db-addons-${EXISTADDONSERSION}.jar $EXIST_HOME/lib/
-ENV CLASSPATH=$EXIST_HOME/lib/exist.uber.jar:$EXIST_HOME/lib/exist-db-addons-${EXISTADDONSERSION}.jar
-            </programlisting>
+            <programlisting language="Dockerfile" xlink:href="listings/docker.txt"/>
             <para>Or include a dependency in exist-db's pom.xml:</para>
-            <programlisting language="xml"><![CDATA[
-<dependency>
-  <groupId>org.fryske-akademy</groupId>
-  <artifactId>exist-db-addons</artifactId>
-  <version>2.3</version>
-</dependency>]]></programlisting>
+            <programlisting language="xml" xlink:href="listings/mavenconf.xml"/>
         </sect2>
         <sect2 xml:id="conf.xml">
             <title>configure in conf.xml</title>
             <para>The first job below will sync at start-up, the second will sync at 2am, <link xlink:href="../scheduler/scheduler.xml">see scheduler</link></para>
-            <programlisting language="xml"><![CDATA[
-<job class="org.fryske_akademy.exist.jobs.DataSyncTask" type="system" period="10" repeat="0" >
-    <parameter name="collection" value="xmldb:exist:///db/apps/teidictjson/data"/>
-    <parameter name="datadir" value="/data"/>
-</job>
-<job class="org.fryske_akademy.exist.jobs.DataSyncTaskCron" type="system" cron-trigger="0 0 2 ? * *" >
-    <parameter name="collection" value="xmldb:exist:///db/apps/teidictjson/data"/>
-    <parameter name="datadir" value="/data"/>
-</job>
-    ]]>
-            </programlisting>
+            <programlisting language="xml" xlink:href="listings/existconf.xml"/>
         </sect2>
     </sect1>
 </article>
