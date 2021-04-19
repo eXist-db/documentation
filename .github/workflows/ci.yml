@@ -1,0 +1,29 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  build:
+    name: Build and Test (${{ matrix.os }} / OpenJDK ${{ matrix.jdk }})
+    strategy:
+      fail-fast: true
+      matrix:
+        jdk: ['8', '11']
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK ${{ matrix.jdk }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.jdk }}
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Maven Build
+        run: mvn clean package -DskipTests
+      - name: Test
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+        run: mvn verify

@@ -211,6 +211,14 @@
           </row>
           <row>
             <entry>
+              <para><code>-Ddocker.tag=tag-name</code></para>
+            </entry>
+            <entry>
+              <para>Tags the built eXist-db Docker image with a specific tagname.</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
               <para><code>-Dmac.signing=true</code></para>
             </entry>
             <entry>
@@ -224,6 +232,14 @@
             </entry>
             <entry>
               <para>Specify the certificate for signing of Mac <code>.app</code> and <code>.DMG</code> files (only on Mac platforms).</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para><code>-Dxar.resolve.offline=true</code></para>
+            </entry>
+            <entry>
+              <para>Do not attempt to download the latest version of any EXPath Packages which are set to be auto-deployed. Useful for offline working; inferred by Maven's `-O` option.</para>
             </entry>
           </row>
           <row>

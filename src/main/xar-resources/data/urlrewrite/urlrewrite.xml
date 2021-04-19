@@ -68,7 +68,7 @@
     <para>If no action is specified within the dispatch element, the request will be passed through the filter chain and handled normally. The same happens if the action is the
       <tag>ignore</tag>
       element. For example, the simplest controller script consist of a single ignore:</para>
-    <para>eXist's URL rewriting mechanism lets you specify an <tag>error handler</tag> element for each dispatch directive in your <literal>controller.xql</literal>.</para>
+    <para>eXist's URL rewriting mechanism lets you specify an <tag>error handler</tag> element for each dispatch directive in your <literal>controller.xq</literal>. <emphasis>NOTE</emphasis>: In eXist-db versions prior to 5.3.0, <literal>controller.xql</literal> must be used instead.</para>
     <programlisting language="xml" xlink:href="listings/listing-4.xml"/>
 
     <note>
@@ -87,7 +87,7 @@
     <title>Variables</title>
 
     <para>Within a
-      <code>controller.xql</code>
+      <code>controller.xq</code>
       file, you have access to the entire XQuery function library, including the functions in the
       <code>request</code>,
       <code>response</code>
@@ -253,7 +253,7 @@
     <title>Locating Controller Scripts and Configuring Base Mappings</title>
 
     <para>By convention, the controller XQueries are called
-      <literal>controller.xql</literal>.</para>
+      <literal>controller.xq</literal>.</para>
     <para>
       <code>XQueryURLRewrite</code>
       will try to guess the path to the controller by looking at the request path.
@@ -288,7 +288,7 @@
       <literal>/rest</literal>
       in
       <literal>web.xml</literal>, we would need to make sure that this path is ignored in our main
-      <literal>controller.xql</literal>. However, if the mapping is done via
+      <literal>controller.xq</literal>. However, if the mapping is done via
       <literal>controller-config.xml</literal>, it will already been known to XQueryURLRewrite and we don't need take care of the path in our controller.</para>
     <para>The
       <tag>root</tag>
@@ -338,7 +338,7 @@
       <literal>webapp/stylesheets/db2html.xsl</literal>. This can be done by returning the following
       <tag>dispatch</tag>
       fragment by
-      <literal>controller.xql</literal>:</para>
+      <literal>controller.xq</literal>:</para>
     <programlisting language="xml" xlink:href="listings/listing-9.xml"/>
     <para>In this example there's no forwarding action except for the view So the request will be handled by the servlet engine the normal way. The response is then passed to
       <code>XSLTServlet</code>. A new HTTP POST request is created whose body is set to the response data of the previous step.
@@ -561,7 +561,7 @@
     <title>Accessing resources not stored in the database</title>
 
     <para>If your
-      <code>controller.xql</code>
+      <code>controller.xq</code>
       is stored in a database collection, all relative and/or absolute URIs within the controller will be resolved against the database, not the file system. This can be a problem if you need to access common resources, which should be shared with other
       applications residing on the file system or in the database.</para>
     <para>The

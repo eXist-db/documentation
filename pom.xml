@@ -49,6 +49,7 @@
     <project.build.target>1.8</project.build.target>
 
     <exist.version>5.3.0-SNAPSHOT</exist.version>
+    <shared-resources.version>0.8.4</shared-resources.version>
     <node.version>v10.22.1</node.version>
     <npm.version>6.14.6</npm.version>
 
@@ -96,11 +97,21 @@
       </resource>
     </resources>
 
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>3.0.0</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
     <plugins>
       <plugin>
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
-        <version>1.10.3</version>
+        <version>1.11.3</version>
         <executions>
           <execution>
             <!-- optional: looks nicer in your build log. -->
@@ -139,12 +150,13 @@
             </goals>
             <phase>compile</phase>
           </execution>
+          <!-- Mocha is used for integration tests of xqsuite -->
           <execution>
             <id>mocha tests</id>
             <goals>
               <goal>npm</goal>
             </goals>
-            <phase>test</phase>
+            <phase>integration-test</phase>
             <configuration>
               <arguments>test</arguments>
             </configuration>
@@ -205,7 +217,7 @@
       <plugin>
         <groupId>com.helger.maven</groupId>
         <artifactId>ph-schematron-maven-plugin</artifactId>
-        <version>5.6.5</version>
+        <version>6.1.0</version>
         <executions>
           <execution>
             <goals>
@@ -238,6 +250,98 @@
           </execution>
         </executions>
       </plugin>
+      <!-- start up Server in Docker for integration-test -->
+      <plugin>
+        <groupId>com.github.monkeywie</groupId>
+        <artifactId>copy-rename-maven-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <id>prepare-autodeploy</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <fileSets>
+                <fileSet>
+                  <sourceFile>${project.build.directory}/${project.artifactId}-${project.version}.xar</sourceFile>
+                  <destinationFile>${project.build.directory}/autodeploy/${project.artifactId}-${project.version}.xar</destinationFile>
+                </fileSet>
+              </fileSets>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.exist-db.maven.plugins</groupId>
+        <artifactId>public-xar-repo-plugin</artifactId>
+        <version>1.2.0</version>
+        <executions>
+          <execution>
+            <id>prepare-autodeploy-deps</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>resolve</goal>
+            </goals>
+            <configuration>
+              <repoUri>http://exist-db.org/exist/apps/public-repo</repoUri>
+              <outputDirectory>${project.build.directory}/autodeploy/</outputDirectory>
+              <existDbVersion>${exist.version}</existDbVersion>
+              <packages>
+                <package>
+                  <abbrev>shared</abbrev>
+                  <version>${shared-resources.version}</version>
+                </package>
+              </packages>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>io.fabric8</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>0.35.0</version>
+        <configuration>
+          <verbose>true</verbose>
+          <images>
+            <image>
+              <alias>existdb-docs-tests</alias>
+              <name>existdb/existdb:latest</name>
+              <run>
+                <ports>
+                  <port>8080:8080</port>
+                </ports>
+                <volumes>
+                  <bind>
+                    <volume>${project.build.directory}/autodeploy:/exist/autodeploy</volume>
+                  </bind>
+                </volumes>
+                <wait>
+                  <log>Server has started, listening on</log>
+                  <time>120000</time>
+                </wait>
+              </run>
+            </image>
+          </images>
+        </configuration>
+        <executions>
+          <execution>
+            <id>docker-it-start</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>docker-it-stop</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
@@ -259,12 +363,81 @@
     </plugins>
   </build>
 
-  <repositories>
-    <repository>
-      <id>exist</id>
-      <url>https://raw.github.com/eXist-db/mvn-repo/master/</url>
-    </repository>
-  </repositories>
+  <!--
+    Cypress is used for integration tests
+
+    First profile enables to run Cypress without record (cypress.io) support.
+    Second profile enables to run Cypress with record support, e.g. for CI.
+  -->
+  <profiles>
+    <profile>
+      <id>cypress-without-record</id>
+      <activation>
+        <property>
+          <name>env.CI</name>
+          <value>!true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>npm</executable>
+                  <arguments>
+                    <argument>run</argument>
+                    <argument>cypress</argument>
+                    <argument>--</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>cypress-with-record</id>
+      <activation>
+        <property>
+          <name>env.CI</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>npm</executable>
+                  <arguments>
+                    <argument>run</argument>
+                    <argument>cypress</argument>
+                    <argument>--</argument>
+                    <argument>--record</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
   <pluginRepositories>
     <pluginRepository>
@@ -272,4 +445,5 @@
       <url>http://clojars.org/repo</url>
     </pluginRepository>
   </pluginRepositories>
+
 </project>

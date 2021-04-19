@@ -14,7 +14,7 @@
   <category id="apps">Applications</category>
   <category id="doc">Documentation</category>
   <dependency processor="http://exist-db.org" semver-min="${exist.version}"/>
-  <dependency package="http://exist-db.org/apps/shared" semver-min="0.8.2"/>
+  <dependency package="http://exist-db.org/apps/shared" semver-min="${shared-resources.version}"/>
   <prepare>pre-install.xql</prepare>
   <changelog>
     <change xmlns="http://exist-db.org/xquery/repo" version="5.2.0">
