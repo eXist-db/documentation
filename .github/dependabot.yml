@@ -1,0 +1,48 @@
+version: 2
+updates:
+- package-ecosystem: maven
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "03:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: com.github.eirslett:frontend-maven-plugin
+    versions:
+    - 1.11.0
+    - 1.11.2
+  - dependency-name: com.helger.maven:ph-schematron-maven-plugin
+    versions:
+    - 6.0.2
+    - 6.0.3
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "03:00"
+  open-pull-requests-limit: 10
+  versioning-strategy: increase
+  ignore:
+  - dependency-name: cypress
+    versions:
+    - 6.3.0
+    - 6.4.0
+    - 6.5.0
+    - 6.6.0
+    - 6.7.1
+    - 6.8.0
+    - 7.0.0
+    - 7.0.1
+    - 7.1.0
+  - dependency-name: mocha
+    versions:
+    - 8.3.0
+    - 8.3.1
+  - dependency-name: chai
+    versions:
+    - 4.3.0
+    - 4.3.1
+    - 4.3.3
+  - dependency-name: acorn
+    versions:
+    - 8.0.5
