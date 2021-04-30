@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module class="org.exist.xquery.modules.sql.SQLModule" uri="http://exist-db.org/xquery/sql">
+    
+    <!-- Connection Pool 1 -->
+    <parameter name="pool.1.name" value="pool-1"/>
+    <parameter name="pool.1.properties.dataSourceClassName" value="org.postgresql.ds.PGSimpleDataSource"/>
+    <parameter name="pool.1.properties.dataSource.user" value="my-username"/>
+    <parameter name="pool.1.properties.dataSource.password" value="my-password"/>
+    <parameter name="pool.1.properties.dataSource.databaseName" value="my-db"/>
+    <parameter name="pool.1.properties.maximumPoolSize" value="10"/>
+    <parameter name="pool.1.properties.registerMbeans" value="false"/>
+
+    <!-- Connection Pool 2 -->
+    <parameter name="pool.2.name" value="pool-2"/>
+    <parameter name="pool.2.properties.dataSourceClassName" value="org.mariadb.jdbc.MariaDbDataSource"/>
+    <parameter name="pool.2.properties.dataSource.user" value="my-other-username"/>
+    <parameter name="pool.2.properties.dataSource.password" value="my-other-password"/>
+    <parameter name="pool.2.properties.dataSource.databaseName" value="other-db"/>
+    <parameter name="pool.2.properties.maximumPoolSize" value="10"/>
+    <parameter name="pool.2.properties.registerMbeans" value="false"/>
+
+</module>
