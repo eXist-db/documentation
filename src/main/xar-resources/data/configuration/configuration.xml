@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Application Server Configuration</title>
-        <date>1Q20</date>
+        <date>2Q21</date>
         <keywordset>
             <keyword>operations</keyword>
         </keywordset>
@@ -59,7 +59,8 @@
             <para><tag>validation</tag>: Settings for XML validation.</para>
           </listitem>
           <listitem>
-            <para><tag>xquery</tag>: Define (built-in) modules that contain xQuery functions.</para>
+            <para><tag>xquery</tag>: Enable and configure extension modules that contain XQuery
+                    functions.</para>
           </listitem>
           <listitem>
             <para><tag>xupdate</tag>: Configuration options related to XUpdate processing.</para>
@@ -867,8 +868,8 @@
 
             <programlisting language="xml" xlink:href="listings/listing-8.xml"/>
             <para>The <tag>xquery</tag> section is used to enable/disable certain core features of
-                the XQuery engine. It also lists the XQuery modules that will be known to the query
-                engine by default.</para>
+                the XQuery engine. It also lists the XQuery extension modules that will be known to
+                the query engine by default.</para>
 
             <sect3 xml:id="xq-att">
                 <title> <tag>xquery</tag> attributes</title>
@@ -975,9 +976,9 @@
             <sect3 xml:id="xq-builtin">
                 <title> <tag>xquery</tag>/<tag>builtin-modules</tag> element </title>
 
-                <para>This section lists the XQuery modules which will be known to the query engine.
-                    The modules in this list can be imported into a query without specifying a
-                    location. For example:</para>
+                <para>This section lists the XQuery extension modules which will be known to the
+                    query engine. The modules in this list can be imported into a query without
+                    specifying a location. For example:</para>
                 <programlisting language="xml" xlink:href="listings/listing-9.xml"/>
                 <para>This establishes a static mapping between the module URI for the file module
                     and the Java class which implements it. When using that module, it is sufficient
