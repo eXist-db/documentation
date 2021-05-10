@@ -336,6 +336,9 @@
                             You should modify the <tag>builtin-modules</tag> section of
                             <literal>etc/conf.xml</literal> and <emphasis>only</emphasis> load what
                             you need for your application.</para>
+                            <para>If you make use of the Cache Module, you should make sure that it has either
+                                a <code>maximumSize</code> or <code>expireAfterAccess</code> bound configured,
+                            this ensures that the Cache can consume all memory.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>

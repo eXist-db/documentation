@@ -54,6 +54,42 @@
         <para>Whilst most extension modules work without any further configuration than that
             described above, some modules have additional configuration options. Those additional
             options are described in this section.</para>
+        <sect2 xml:id="module_cache">
+            <title>Cache Module</title>
+            <para>This module provides a Global Mutable cache which can be used for manually
+                caching data. This is often used for caching the results of expensive queries.</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Creator: Adam Retter</para>
+                </listitem>
+                <listitem>
+                    <para>Licence: LGPL v2</para>
+                </listitem>
+                <listitem>
+                    <para>Used: <link xlink:href="https://github.com/ben-manes/caffeine">Caffeine</link></para>
+                </listitem>
+                <listitem>
+                    <para>Status: production</para>
+                </listitem>
+                <listitem>
+                    <para>Class: <code>org.exist.xquery.modules.cache.CacheModule</code>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Namespace: <code>http://exist-db.org/xquery/cache</code></para>
+                </listitem>
+            </itemizedlist>
+            <para>
+                The Cache module can be configured for with a bounded size, or time, or both. eXist-db cannot
+                know how much memory the data you will put in the cache will take, so it is up to you to
+                manage your own memory needs here.
+            </para>
+            <para>A named cache can either be explicitly created by calling the <code>cache:create</code> XQuery
+                function, or it can be implicitly created lazing on the first operation performed on the cache.
+                Configuration of the Cache module is specified within the module definition of eXist-db's
+                <code>conf.xml</code> file:</para>
+            <programlisting language="xml" xlink:href="listings/listing-2.xml"/>
+        </sect2>
         <sect2 xml:id="module_sql">
             <title>SQL Module</title>
             <para>This module provides facilities for performing SQL operations against traditional
@@ -66,7 +102,7 @@
                     <para>Licence: LGPL v2</para>
                 </listitem>
                 <listitem>
-                    <para>Used: JDBC</para>
+                    <para>Used: <link xlink:href="https://docs.oracle.com/javase/8/docs/technotes/guides/jdbc/">JDBC</link></para>
                 </listitem>
                 <listitem>
                     <para>Status: production</para>
