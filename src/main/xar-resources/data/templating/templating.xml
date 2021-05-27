@@ -49,48 +49,24 @@
             make a best guess instead of requiring additional code or annotations. This works as
             long as the conventions used are sufficiently clear.</para>
         <para>The input for the templating framework is always a plain HTML file. The module scans
-            the HTML view for elements with <code>class</code> (or <code>data-template</code>, see
-            below) attributes following a simple convention and tries to translate them into XQuery
-            function calls. By using class attributes, the HTML remains sufficiently clean and does
+            the HTML view for elements with <code>data-template</code> attributes 
+            following a simple convention and tries to translate them into XQuery
+            function calls. By using <code>data-*</code> attributes, the HTML remains sufficiently clean and does
             not get messed up with application code. A web designer could take the HTML files and
             work on it without being bothered by the extra class names.</para>
-        <para>In the simplest case, a template call inside a class attribute is just the name of a
-            function known in the XQuery context. To start with the usual "Hello world"
-            example:</para>
-        <programlisting language="xquery">&lt;div class="demo:hello grey-box"&gt;Greet the user&lt;/div&gt;</programlisting>
+        <para>To start with the usual "Hello world" example:</para>
+        <programlisting language="xml" xlink:href="listings/listing-2.xml"/>
 
-        <para>When the module encounters demo:hello, it will try to find a function named
-            "demo:hello" in all the modules known to the XQuery. If this function's signature
-            follows a certain convention (see below), it will be called and the <tag>div</tag> will
+        <para>When the module encounters <code>data-template="demo:hello"</code>, it will try to find a function named
+            <literal>demo:hello</literal> in all the modules known within the current XQuery context. If a function is found and its signature
+            follows a certain convention, it will be called and the <tag>div</tag> will
             either be replaced or enhanced by whatever the function returns.</para>
-        <para>Please note that the additional class "grey-box" does not interfere with the template
-            call and is ignored by the templating framework. The templating framework will only take
-            a closer look at class names which follow the <code>prefix:local-name</code> pattern.
-            <code>grey-box</code> is probably be a class used for CSS styling, so we don't want to
-            remove it. </para>
-        <para>It is possible to pass static parameters to a template call. These must be encoded as
-            URI parameters, for instance: <code>demo:hello?language=de</code>. A static parameter
-            will be passed to the XQuery function as a fallback value, if it cannot be determined by
-            looking at the HTTP context (see below).</para>
 
-        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-        <sect2 xml:id="html5-method">
-            <title>HTML5 Method</title>
-
-            <para>Instead of "abusing" class attributes to encode template calls or other
-                application-specific information, HTML5 provides a standard method for adding data
-                to an element, using <literal>data-*</literal> attributes. This approach is
-                supported in the templating framework (beginning with version 0.3.0 of the
-                shared-resources package).</para>
-            <para>The <literal>data-*</literal> attributes must follow the function naming pattern.
-                The templating function to call has to be specified in an
-                <literal>data-template</literal>, optional parameters go into one or more attributes
-                <literal>data-template-*</literal>.</para>
-            <para>For example the previous example could be rewritten as:</para>
-            <programlisting language="xml" xlink:href="listings/listing-2.xml"/>
-            <para>The templating framework supports both alternatives.</para>
-        </sect2>
+        <para>The <literal>data-template</literal> attribute must follow the function naming pattern.
+            It is also possible to pass static parameters to a template call.
+            Additional parameters go into one or more attributes
+            <literal>data-template-*</literal>, where the * should be replace by the name of the parameter, 
+            e.g. <literal>data-template-path="menu.html"</literal>.</para>
     </sect1>
 
     <!-- ================================================================== -->
@@ -239,61 +215,58 @@
         </sect2>
     </sect1>
 
+    
     <!-- ================================================================== -->
-
+    
     <sect1 xml:id="set-up">
         <title>Set-Up</title>
-
+        
         <para>The templating module is entirely implemented in XQuery. It provides a single public
-            function, <code>templates:apply</code>. A complete main module which calls the
-            templating framework to process an HTML file passed in the HTTP request body could look
-            as follows:</para>
-        <programlisting language="xquery" xlink:href="listings/listing-12.txt"/>
-        <para>This module would be called from the URL rewriting controller. For example, we could
-            add a rule to <literal>controller.xq</literal> to pass any .html resource to the above
-            main query (saved to <literal>modules/view.xql</literal>):</para>
-        <programlisting language="xquery" xlink:href="listings/listing-13.txt"/>
-        <para>The only part of the main module code which might look a bit unusual is the inline
-            lookup function: the templating module uses dynamic function calls to execute template
-            functions in application modules. But unfortunately, XQuery modules can only "see"
-            functions in their own context. There is therefore no way for the templating module to
-            determine what functions are defined in application modules which are outside its
-            context. So need to "help" it by providing a callback function to resolve function
-            references. The lookup function is defined in the main context and can access all the
-            modules imported into the main module.</para>
-        <para>Normally you can just copy and paste the main module code as given above. To adopt it
-            to your own application, just import your application modules and you're done.</para>
-    </sect1>
-
-    <!-- ================================================================== -->
-
-    <sect1 xml:id="integration">
-        <title>Integration with eXide</title>
-
-        <para>The "New Application" templates in eXide already include the HTML templating module
-            and configures the URL rewriting to call this for any path ending in
-            <literal>.html</literal>. Using eXide is therefore the easiest way to get started with
-            the templating framework. </para>
-        <para>Please consult the <link xlink:href="development-starter">Getting Started with Web
-            Application Development</link> guide.</para>
-    </sect1>
-
-    <!-- ================================================================== -->
-
-    <sect1 xml:id="module">
-        <title>Where to Find the Module?</title>
-
-        <para>If you generate your application with eXide, a copy of the HTML templating module will
-            be included, so you can customize it. If you rather want to make sure you have the
-            latest version of the templating module: the <link
-            xlink:href="https://github.com/eXist-db/shared-resources">shared-resources</link>
-            application also exports the module. This will always be the latest version. You could
-            therefore define a dependency on the shared-resources app (see the <link
-            xlink:href="repo">packaging documentation</link>). You can now just import the
-            module by its namespace URI, but without specifying a location:</para>
-        <programlisting language="xquery">import module namespace templates="http://exist-db.org/xquery/templates";</programlisting>
-        <para>The documentation and demo applications all read the templating module from
-            shared-resources.</para>
+            function, <code>templates:apply</code>.</para>
+        
+        <sect2 xml:id="deprecation">
+            <title>Important Note</title>
+            <para>The old version of the templating module used to be part of the <emphasis>deprecated</emphasis>
+                shared-resources package, while a <link xlink:href="https://github.com/eXist-db/templating/">new and improved version</link> 
+                is now available in its own
+                expath package. We recommend to update to the new package with the short name
+                <emphasis>templating</emphasis>, available on the eXist-db dashboard. To update, following the 3 steps below:</para>
+            <orderedlist>
+                <listitem>
+                    <para>change any dependency on shared-resources in your expath-pkg.xml to point to this package:</para>
+                    <programlisting language="xml" xlink:href="listings/listing-14.xml"/>
+                </listitem>
+                <listitem>
+                    <para>update the module URI for any imports of the templating module:</para>
+                    <programlisting language="xquery" xlink:href="listings/listing-15.txt"/>
+                </listitem>
+                <listitem>
+                    <para>New standard templating functions will go into a separate module, so you may want to add the following import in addition to the one above, which will give you access to the lib:parse-params template function (and others in the future):</para>
+                    <programlisting language="xquery" xlink:href="listings/listing-16.txt"/>
+                </listitem>
+            </orderedlist>
+        </sect2>
+        <sect2 xml:id="main-xquery">
+            <title>Calling the Templating from a Main XQuery</title>
+            <para>A complete main module which calls the
+                templating framework to process an HTML file passed in the HTTP request body could look
+                as follows:</para>
+            <programlisting language="xquery" xlink:href="listings/listing-12.txt"/>
+            <para>This module would be called from the URL rewriting controller. For example, we could
+                add a rule to <literal>controller.xq</literal> to pass any .html resource to the above
+                main query (saved to <literal>modules/view.xql</literal>):</para>
+            <programlisting language="xquery" xlink:href="listings/listing-13.txt"/>
+            <para>The only part of the main module code which might look a bit unusual is the inline
+                lookup function: the templating module uses dynamic function calls to execute template
+                functions in application modules. But unfortunately, XQuery modules can only "see"
+                functions in their own context. There is therefore no way for the templating module to
+                determine what functions are defined in application modules which are outside its
+                context. So need to "help" it by providing a callback function to resolve function
+                references. The lookup function is defined in the main context and can access all the
+                modules imported into the main module.</para>
+            <para>Normally you can just copy and paste the main module code as given above. To adopt it
+                to your own application, just import your application modules and you're done.</para>
+        </sect2>
     </sect1>
 
     <!-- ================================================================== -->
@@ -302,19 +275,75 @@
         <title>Pre-defined Template Commands</title>
 
         <para>The templating module defines a number of general-purpose templating functions which
-            are described below. </para>
-        <para><code>templates:surround</code> is probably the most powerful one and used by almost
-            all HTML views.</para>
+            are described below. Functions marked as <emphasis>deprecated</emphasis> should not be used
+            anymore. Those labelled with <emphasis>removed</emphasis> did exist in the old templating
+            module (which shiped in the shared-resources package) and have been removed from the newer
+            templating package.</para>
+        <para>Functions marked as <emphasis>new</emphasis> have been added in the new templating package
+            and are not available in the older module.</para>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
         <sect2 xml:id="include">
-            <title>templates:include</title>
+            <title>templates:include (deprecated)</title>
 
-            <programlisting language="xquery">templates:include?path=path-to-xml-resource</programlisting>
+            <informaltable>
+                <tgroup cols="2">
+                    <colspec colwidth="30%"/>
+                    <colspec/>
+                    <thead>
+                        <row>
+                            <entry><para>Parameter</para></entry>
+                            <entry><para>Description</para></entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry><para>path</para></entry>
+                            <entry><para>path to the resources</para></entry>
+                        </row>
+                    </tbody>                 
+                </tgroup>
+            </informaltable>
+            <para>Includes the content of the resource given by parameter <code>path</code> into the current
+                element. <code>path</code> is always interpreted relative to the current application
+                directory or collection.</para>
+        </sect2>
+        
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        
+        <sect2 xml:id="lib_include">
+            <title>lib:include (new)</title>
+            
+            <informaltable>
+                <tgroup cols="2">
+                    <colspec colwidth="30%"/>
+                    <colspec/>
+                    <thead>
+                        <row>
+                            <entry><para>Parameter</para></entry>
+                            <entry><para>Description</para></entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry><para>path</para></entry>
+                            <entry><para>path to the resources</para></entry>
+                        </row>
+                    </tbody>                 
+                </tgroup>
+            </informaltable>
             <para>Includes the content of the resource given by <code>path</code> into the current
                 element. <code>path</code> is always interpreted relative to the current application
                 directory or collection.</para>
+            <para>The children (if any) of the including element (i.e. the one triggering the lib:include function)
+                are merged into the included content. To define where a child element should be
+                inserted, you must use a @data-target attribute referencing an HTML id which must exist
+                within the included fragment. If @data-target is missing, the element will be discarded.</para> 
+            <para>This is a mechanism to inject content from the including element into the included content. For example, if the same menu
+                or toolbar is included into every page of an application, but some pages should have
+                additional options, you can use lib:include with lib:block to define the additional HTML
+                to be inserted in a specific place.</para>
         </sect2>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -322,7 +351,28 @@
         <sect2 xml:id="each">
             <title>templates:each</title>
 
-            <programlisting language="xquery">templates:each?from=map-key&amp;amp;to=map-key</programlisting>
+            <informaltable>
+                <tgroup cols="2">
+                    <colspec colwidth="30%"/>
+                    <colspec/>
+                    <thead>
+                        <row>
+                            <entry><para>Parameter</para></entry>
+                            <entry><para>Description</para></entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry><para>from</para></entry>
+                            <entry><para>references a property in the model map which should be used as the source sequence to iterate</para></entry>
+                        </row>
+                        <row>
+                            <entry><para>to</para></entry>
+                            <entry><para>the name of the property to be added to the model map. This will contain the current iteration item.</para></entry>
+                        </row>
+                    </tbody>                 
+                </tgroup>
+            </informaltable>
             <para>Retrieve the sequence identified by the map key <literal>from</literal> in the
                 <code>$model</code> map. If it exists, iterate over the items in its value (as a
                 sequence) and process any nested content once. During each iteration, the current
@@ -335,7 +385,24 @@
         <sect2 xml:id="if-set">
             <title>templates:if-parameter-set</title>
 
-            <programlisting language="xquery">templates:if-parameter-set?param=request-parameter</programlisting>
+            <informaltable>
+                <tgroup cols="2">
+                    <colspec colwidth="30%"/>
+                    <colspec/>
+                    <thead>
+                        <row>
+                            <entry><para>Parameter</para></entry>
+                            <entry><para>Description</para></entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry><para>name</para></entry>
+                            <entry><para>name of the parameter to check</para></entry>
+                        </row>
+                    </tbody>                 
+                </tgroup>
+            </informaltable>
             <para>Conditionally includes content only if the given request parameter is set and not
                 empty.</para>
         </sect2>
@@ -345,7 +412,24 @@
         <sect2 xml:id="if-unset">
             <title>templates:if-parameter-unset</title>
 
-            <programlisting language="xquery">templates:if-parameter-unset?param=request-parameter</programlisting>
+            <informaltable>
+                <tgroup cols="2">
+                    <colspec colwidth="30%"/>
+                    <colspec/>
+                    <thead>
+                        <row>
+                            <entry><para>Parameter</para></entry>
+                            <entry><para>Description</para></entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry><para>param</para></entry>
+                            <entry><para>name of the parameter to check</para></entry>
+                        </row>
+                    </tbody>                 
+                </tgroup>
+            </informaltable>
             <para>Conditionally includes content only if the given request parameter is
                 <emphasis>not</emphasis> set or empty.</para>
         </sect2>
@@ -353,9 +437,35 @@
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
         <sect2 xml:id="surround">
-            <title>templates:surround</title>
+            <title>templates:surround (deprecated)</title>
 
-            <programlisting language="xquery">templates:surround?with=xml-resource&amp;at=id&amp;using=id</programlisting>
+            <informaltable>
+                <tgroup cols="2">
+                    <colspec colwidth="30%"/>
+                    <colspec/>
+                    <thead>
+                        <row>
+                            <entry><para>Parameter</para></entry>
+                            <entry><para>Description</para></entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry><para>with</para></entry>
+                            <entry><para>path to the resource which should be used as surrounding container</para></entry>
+                        </row>
+                        <row>
+                            <entry><para>at</para></entry>
+                            <entry><para>id of the HTML element which should be surrounded</para></entry>
+                        </row>
+                        <row>
+                            <entry><para>using</para></entry>
+                            <entry><para>(optional) id of an HTML element in the resource specified by with. If specified,
+                            only this element will be used as surrounding container - not the entire document.</para></entry>
+                        </row>
+                    </tbody>                 
+                </tgroup>
+            </informaltable>
             <para>Surrounds its content with the contents of the XML resource specified in
                 <code>with</code>. The <code>at</code> parameter determines where the content is
                 inserted into the surrounding XML. It should match an existing HTML <code>id</code>
@@ -387,11 +497,31 @@
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
         <sect2 xml:id="load-source">
-            <title>templates:load-source</title>
+            <title>templates:load-source (removed)</title>
 
             <programlisting language="xquery">templates:load-source</programlisting>
             <para>Commonly used with an <tag>a</tag> element: opens the document referenced in the
                 <code>href</code> attribute in eXide.</para>
+        </sect2>
+        
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        
+        <sect2 xml:id="parse-params">
+            <title>lib:parse-params (new)</title>
+            
+            <para>Recursively expand template expressions appearing in attributes or text content,
+                trying to expand them from request/session parameters or the current model.</para>
+                
+            <para>Template expressions should have the form <code>${paramName:default text}</code>.
+                Specifying a default is optional. If there is no default and the parameter
+                cannot be expanded, the empty string is output.</para>
+
+            <para>To support navigating the map hierarchy of the model, paramName may be a sequence 
+                of map keys separated by ?, i.e. <code>${address?street}</code> would first retrieve the map
+                property called "address" and then look up the property "street" on it.</para>
+                
+            <para>The templating function should fail gracefully if a parameter or map lookup cannot
+                be resolved, a lookup resolves to multiple items, a map or an array.</para>
         </sect2>
     </sect1>
 </article>
