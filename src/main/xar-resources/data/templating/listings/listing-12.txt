@@ -15,8 +15,8 @@ import module namespace templates="http://exist-db.org/xquery/html-templating";
  :)
 import module namespace app="http://my.domain/myapp" at "app.xql";
 
-declare option output:method "html5";
-declare option output:media-type "text/html";
+declare option output:method "html";
+declare option output:html-version "5";
 
 (:
  : We have to provide a lookup function to templates:apply to help it

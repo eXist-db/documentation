@@ -230,7 +230,7 @@
                 shared-resources package, while a <link xlink:href="https://github.com/eXist-db/templating/">new and improved version</link> 
                 is now available in its own
                 expath package. We recommend to update to the new package with the short name
-                <emphasis>templating</emphasis>, available on the eXist-db dashboard. To update, following the 3 steps below:</para>
+                <emphasis>templating</emphasis>, available on the eXist-db dashboard. To update, follow the 3 steps below:</para>
             <orderedlist>
                 <listitem>
                     <para>change any dependency on shared-resources in your expath-pkg.xml to point to this package:</para>
@@ -254,17 +254,17 @@
             <programlisting language="xquery" xlink:href="listings/listing-12.txt"/>
             <para>This module would be called from the URL rewriting controller. For example, we could
                 add a rule to <literal>controller.xq</literal> to pass any .html resource to the above
-                main query (saved to <literal>modules/view.xql</literal>):</para>
+                main query (saved to <literal>modules/view.xq</literal>):</para>
             <programlisting language="xquery" xlink:href="listings/listing-13.txt"/>
             <para>The only part of the main module code which might look a bit unusual is the inline
                 lookup function: the templating module uses dynamic function calls to execute template
                 functions in application modules. But unfortunately, XQuery modules can only "see"
                 functions in their own context. There is therefore no way for the templating module to
                 determine what functions are defined in application modules which are outside its
-                context. So need to "help" it by providing a callback function to resolve function
+                context. So it needs to be "helped" by providing a callback function to resolve function
                 references. The lookup function is defined in the main context and can access all the
                 modules imported into the main module.</para>
-            <para>Normally you can just copy and paste the main module code as given above. To adopt it
+            <para>Normally you can just copy and paste the main module code as given above. To adapt it
                 to your own application, just import your application modules and you're done.</para>
         </sect2>
     </sect1>
@@ -277,7 +277,7 @@
         <para>The templating module defines a number of general-purpose templating functions which
             are described below. Functions marked as <emphasis>deprecated</emphasis> should not be used
             anymore. Those labelled with <emphasis>removed</emphasis> did exist in the old templating
-            module (which shiped in the shared-resources package) and have been removed from the newer
+            module (which was shipped in the shared-resources package) and has been removed from the newer
             templating package.</para>
         <para>Functions marked as <emphasis>new</emphasis> have been added in the new templating package
             and are not available in the older module.</para>
