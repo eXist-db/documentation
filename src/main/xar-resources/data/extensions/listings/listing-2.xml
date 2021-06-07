@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module class="org.exist.xquery.modules.sql.CacheModule" uri="http://exist-db.org/xquery/cache">
-    <parameter name="enableLazyCreation" value="true"/>         <!-- allow the cache to be created implicitly -->
-    <parameter name="lazy.maximumSize" value="128"/>            <!-- size bound - 128 entries max -->
-    <parameter name="lazy.expireAfterAccess" value="60000"/>    <!-- time bound - 60 seconds -->
+  <parameter name="enableLazyCreation" value="true"/>
+  <!-- allow the cache to be created implicitly -->
+  <parameter name="lazy.maximumSize" value="128"/>
+  <!-- size bound - 128 entries max -->
+  <parameter name="lazy.expireAfterAccess" value="60000"/>
+  <!-- time bound - 60 seconds -->
 </module>

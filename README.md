@@ -1,5 +1,6 @@
 # eXist-db Documentation
 [![Build Status](https://github.com/eXist-db/documentation/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/eXist-db/documentation/actions/workflows/ci.yml)
+[![documentation](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/h8zx19/master&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/h8zx19/runs)
 [![Docbook version](https://img.shields.io/badge/docbook-5.1-19a5a4.svg)](http://docbook.org/xml/5.1/)
 [![eXist-db version](https://img.shields.io/badge/eXist_db-5.2.0-blue.svg)](http://www.exist-db.org/exist/apps/homepage/index.html)
 

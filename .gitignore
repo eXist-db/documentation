@@ -1,16 +1,98 @@
-target/
-*.iml
+##############################
+## IntelliJ
+##############################
+out/
 .idea/
-*.xpr
-tmp/
+.idea_modules/
+*.iml
+*.ipr
+*.iws
 
+##############################
+## Java
+##############################
+.mtj.tmp/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*\
+
+##############################
+## IntelliJ
+##############################
+out/
+.idea/
+.idea_modules/
+*.iml
+*.ipr
+*.iws
+
+##############################
+## Eclipse
+##############################
+.settings/
+bin/
+tmp/
+.metadata
+.classpath
+.project
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.loadpath
+.factorypath
+
+##############################
+## NetBeans
+##############################
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
+##############################
+## Visual Studio Code
+##############################
+.vscode/
+.code-workspace
+.vscode/
+
+##############################
+## OS X
+##############################
+.DS_Store
+
+##############################
+## Maven
+##############################
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+pom.xml.bak
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+maven-archiver/
+
+##############################
+## Other
+##############################
+*.xpr
+src/test/cypress/videos/*.mp4
+src/test/cypress/screenshots/**/*.png
 github-report.html
 node_modules/*
 node/*
-
-maven-archiver/
-
-.DS_Store
-
-src/test/cypress/videos/*.mp4
-src/test/cypress/screenshots/**/*.png
+src/main/xar-resources/resources/scripts/*.min.*
+src/main/xar-resources/resources/styles/*.min.*
+src/main/xar-resources/resources/styles/*.map
