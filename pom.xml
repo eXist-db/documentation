@@ -374,8 +374,8 @@
       <id>cypress-without-record</id>
       <activation>
         <property>
-          <name>env.CI</name>
-          <value>!true</value>
+          <name>env.GITHUB_BASE_REF</name>
+          <value>master</value>
         </property>
       </activation>
       <build>
@@ -407,8 +407,8 @@
       <id>cypress-with-record</id>
       <activation>
         <property>
-          <name>env.CI</name>
-          <value>true</value>
+          <name>env.GITHUB_REF</name>
+          <value>refs/heads/master</value>
         </property>
       </activation>
       <build>
