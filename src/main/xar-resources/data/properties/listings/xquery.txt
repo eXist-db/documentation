@@ -1,0 +1,10 @@
+declare namespace properties="http://exist-db.org/xquery/properties";
+
+declare variable $teidictjson:props := properties:loadProperties("teidictjson.properties");
+
+declare function teidictjson:getProperty($key as xs:string, $default as xs:string) as xs:string {
+    if (map:contains($teidictjson:props,$key)) then
+        map:get($teidictjson:props,$key)
+    else
+        $default
+};

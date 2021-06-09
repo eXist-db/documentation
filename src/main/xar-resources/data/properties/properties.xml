@@ -1,0 +1,58 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>Application properties</title>
+        <date>3Q20</date>
+        <keywordset>
+            <keyword>properties</keyword>
+        </keywordset>
+    </info>
+
+    <!-- ================================================================== -->
+
+    <para>This article provides information on working with property files for exist
+        applications.</para>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="intro">
+        <title>Introduction</title>
+
+        <para>For most applications it is a good idea to provide settings in a property file. An
+                <link xlink:href="https://search.maven.org/search?q=a:exist-db-addons"
+                >exist-db-addons</link> library, available in maven central, enables you to do so. </para>
+    </sect1>
+
+    <!-- ================================================================== -->
+
+    <sect1 xml:id="usage">
+        <title>usage</title>
+        <para>Below a setup for exist-db for properties.</para>
+        <sect2 xml:id="classpath">
+            <title>Include exist-db-addons</title>
+            <para>For example in a Dockerfile:</para>
+            <programlisting language="Dockerfile" xlink:href="listings/docker.txt"/>
+            <para>Or include a dependency in exist-db's pom.xml:</para>
+            <programlisting language="xml" xlink:href="listings/mavenconf.xml"/>
+        </sect2>
+        <sect2 xml:id="conf.xml">
+            <title>configure in conf.xml</title>
+            <para>add the module to exist:</para>
+            <programlisting language="xml" xlink:href="listings/existconf.xml"/>
+        </sect2>
+        <sect2 xml:id="xquery">
+            <title>use properties in xquery</title>
+            <para>load and use properties in your xquery</para>
+            <programlisting language="xquery" xlink:href="listings/xquery.txt"/>
+        </sect2>
+        <sect2 xml:id="docker-secret">
+            <title>optionally mount properties as docker secret</title>
+            <para>In docker-compose.yml:</para>
+            <programlisting language="yaml" xlink:href="listings/compose.yml"/>
+        </sect2>
+    </sect1>
+    
+    
+</article>

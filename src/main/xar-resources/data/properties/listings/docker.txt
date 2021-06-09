@@ -1,0 +1,3 @@
+ARG EXISTADDONSERSION=2.3
+COPY exist-db-addons-${EXISTADDONSERSION}.jar $EXIST_HOME/lib/
+ENV CLASSPATH=$EXIST_HOME/lib/exist.uber.jar:$EXIST_HOME/lib/exist-db-addons-${EXISTADDONSERSION}.jar
