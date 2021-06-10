@@ -20,30 +20,30 @@ var settings = {
 
 var paths = {
   input: 'src/main/frontend/',
-  output: 'target/generated-resources/gulp/xar-resources/resources/',
+  output: 'target/generated-resources/frontend/xar-resources/resources/',
   scripts: {
     input: 'src/main/frontend/javascript/*',
     polyfills: '.polyfill.js',
-    output: 'target/generated-resources/gulp/xar-resources/resources/scripts/'
+    output: 'target/generated-resources/frontend/xar-resources/resources/scripts/'
   },
   styles: {
     input: 'src/main/frontend/sass/*.{scss,sass}',
-    output: 'target/generated-resources/gulp/xar-resources/resources/styles/'
+    output: 'target/generated-resources/frontend/xar-resources/resources/styles/'
   },
   svgs: {
     input: 'src/main/frontend/img/*.svg',
-    output: 'target/generated-resources/gulp/xar-resources/resources/images/'
+    output: 'target/generated-resources/frontend/xar-resources/resources/images/'
   },
   copy: {
     input: 'src/main/frontend/copy/**',
-    output: 'target/generated-resources/gulp/xar-resources/resources/'
+    output: 'target/generated-resources/frontend/xar-resources/resources/'
   },
   vendor: {
     input: 'node_modules/',
-    output: 'target/generated-resources/gulp/xar-resources/resources/'
+    output: 'target/generated-resources/frontend/xar-resources/resources/'
   },
   fonts: {
-    output: 'target/generated-resources/gulp/xar-resources/resources/fonts/'
+    output: 'target/generated-resources/frontend/xar-resources/resources/fonts/'
   },
   xml: {
     listings: 'src/main/xar-resources/data/*/listings/*.xml',
