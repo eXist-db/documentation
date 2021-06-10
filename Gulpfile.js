@@ -20,30 +20,30 @@ var settings = {
 
 var paths = {
   input: 'src/main/frontend/',
-  output: 'src/main/xar-resources/resources/',
+  output: 'target/generated-resources/frontend/xar-resources/resources/',
   scripts: {
     input: 'src/main/frontend/javascript/*',
     polyfills: '.polyfill.js',
-    output: 'src/main/xar-resources/resources/scripts/'
+    output: 'target/generated-resources/frontend/xar-resources/resources/scripts/'
   },
   styles: {
     input: 'src/main/frontend/sass/*.{scss,sass}',
-    output: 'src/main/xar-resources/resources/styles/'
+    output: 'target/generated-resources/frontend/xar-resources/resources/styles/'
   },
   svgs: {
     input: 'src/main/frontend/img/*.svg',
-    output: 'src/main/xar-resources/resources/images/'
+    output: 'target/generated-resources/frontend/xar-resources/resources/images/'
   },
   copy: {
     input: 'src/main/frontend/copy/**',
-    output: 'src/main/xar-resources/resources/'
+    output: 'target/generated-resources/frontend/xar-resources/resources/'
   },
   vendor: {
     input: 'node_modules/',
-    output: 'src/main/xar-resources/resources/'
+    output: 'target/generated-resources/frontend/xar-resources/resources/'
   },
   fonts: {
-    output: 'src/main/xar-resources/resources/fonts/'
+    output: 'target/generated-resources/frontend/xar-resources/resources/fonts/'
   },
   xml: {
     listings: 'src/main/xar-resources/data/*/listings/*.xml',
