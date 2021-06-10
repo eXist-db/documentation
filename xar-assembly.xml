@@ -77,6 +77,19 @@
     </fileSet>
     <fileSet>
       <directory>${project.build.outputDirectory}</directory>
+      <excludes>
+        <!--
+          These are not needed from this fileSet,
+          instead they are taken from the fileSet
+          of the Gulp transform output in ${project.build.directory}/generated-resources/gulp/xar-resources
+          see the fileSet below.
+        -->
+        <exclude>**.js</exclude>
+        <exclude>**.css</exclude>
+      </excludes>
+    </fileSet>
+    <fileSet>
+      <directory>${project.build.directory}/generated-resources/gulp/xar-resources</directory>
     </fileSet>
   </fileSets>
 
