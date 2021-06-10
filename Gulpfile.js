@@ -199,22 +199,28 @@ var lintScripts = function(done) {
   done()
 }
 
-// pretty print all xml listings
-// articles not yet decided
-var prettyXml = function(done) {
-  src(paths.xml.listings, { base: "./" })
-  .pipe(muxml({
-    stripComments: false,
-    stripCdata: false,
-    stripInstruction: false,
-    saxOptions: {
-      trim: true,
-      normalize: true
-    }
-  }))
-    .pipe(dest("./"))
-    // Signal completion
-    done()
+function prettyPrintXml(xmlSrcPath, xmlTargetPath, done) {
+  src(xmlSrcPath, { base: "./" })
+      .pipe(muxml({
+        stripComments: false,
+        stripCdata: false,
+        stripInstruction: false,
+        saxOptions: {
+          trim: true,
+          normalize: true
+        }
+      }))
+      .pipe(dest(xmlTargetPath))
+  // Signal completion
+  done()
+}
+
+var prettyPrintListingsXml = function(done) {
+  prettyPrintXml(paths.xml.listings, "./", done)
+}
+
+var prettyPrintArticlesXml = function(done) {
+  prettyPrintXml(paths.xml.articles, "./", done)
 }
 
 // Process, lint, and minify Sass files
@@ -351,7 +357,13 @@ exports.default = series(
     buildStyles,
     buildSVGs,
     copyFiles,
-    buildPack,
-    prettyXml
+    buildPack
   )
+)
+
+// Pretty Print XML task
+// gulp
+exports.prettyPrintXml = parallel(
+    prettyPrintArticlesXml,
+    prettyPrintListingsXml
 )
