@@ -1,8 +1,0 @@
-<job class="org.fryske_akademy.exist.jobs.DataSyncTask" type="system" period="10" repeat="0" >
-    <parameter name="collection" value="xmldb:exist:///db/apps/teidictjson/data"/>
-    <parameter name="datadir" value="/data"/>
-</job>
-<job class="org.fryske_akademy.exist.jobs.DataSyncTaskCron" type="system" cron-trigger="0 0 2 ? * *" >
-<parameter name="collection" value="xmldb:exist:///db/apps/teidictjson/data"/>
-<parameter name="datadir" value="/data"/>
-</job>
