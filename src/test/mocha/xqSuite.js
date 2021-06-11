@@ -12,8 +12,11 @@ describe('running XQsuite test …', function () {
     client
       .get(runner)
       .set('Accept', 'application/json')
-      .expect('content-type', 'application/json; charset=utf-8')
+      .expect('content-type', /json/)
+      .expect(200)
       .end(function (err, res) { // eslint-disable-line handle-callback-err
+        console.info('response body: ' + JSON.stringify(res.body))
+        if (err) return done(err);
         try {
           console.group()
           console.group()
