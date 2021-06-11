@@ -9,7 +9,7 @@ xquery version "3.0";
 
 module namespace config = "http://exist-db.org/xquery/apps/config";
 
-import module namespace templates = "http://exist-db.org/xquery/templates";
+import module namespace templates = "http://exist-db.org/xquery/html-templating";
 
 declare namespace repo = "http://exist-db.org/xquery/repo";
 declare namespace expath = "http://expath.org/ns/pkg";
