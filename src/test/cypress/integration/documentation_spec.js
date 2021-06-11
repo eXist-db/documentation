@@ -3,7 +3,7 @@
 
 context('Documentation', () => {
   beforeEach(() => {
-    cy.visit('.')
+    cy.visit('')
   })
   describe('landing article', () => {
     it('should have content prose', () => {
