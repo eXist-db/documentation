@@ -11,7 +11,7 @@ import module namespace kwic = "http://exist-db.org/xquery/kwic";
 import module namespace util = "http://exist-db.org/xquery/util";
 
 declare namespace db5 = "http://docbook.org/ns/docbook";
-declare namespace templates = "http://exist-db.org/xquery/templates";
+declare namespace templates = "http://exist-db.org/xquery/html-templating";
 
 declare option exist:serialize "method=html media-type=text/html expand-xincludes=yes";
 

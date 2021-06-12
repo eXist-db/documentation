@@ -2,7 +2,7 @@ xquery version "3.1";
 
 module namespace app = "http://exist-db.org/apps/docs/app";
 
-import module namespace templates = "http://exist-db.org/xquery/templates";
+import module namespace templates = "http://exist-db.org/xquery/html-templating";
 import module namespace config = "http://exist-db.org/xquery/apps/config" at "config.xqm";
 
 declare namespace expath = "http://expath.org/ns/pkg";

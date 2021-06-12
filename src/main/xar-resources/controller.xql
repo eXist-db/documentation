@@ -97,21 +97,6 @@ else
             <forward url="{$exist:controller}/modules/view.xql"/>
           </error-handler>
         </dispatch>
-        
-        (: Anything with /$shared/ in it points to the eXist main shared-resources app: :)
-      else
-        if (contains($exist:path, "/$shared/")) then
-          <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-            <forward url="/shared-resources/{substring-after($exist:path, '/$shared/')}"/>
-          </dispatch>
-          
-          (: Shared images, css, etc. are contained in the top /resources/ collection. :)
-        (:else
-          if (starts-with($exist:path, "/resources/")) then
-            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-              <forward url="{$exist:controller}/resources/{substring-after($exist:path, '/resources/')}"/>
-            </dispatch>:)
-            
             (: Final catch-all: :)
           else
             <ignore xmlns="http://exist.sourceforge.net/NS/exist">
