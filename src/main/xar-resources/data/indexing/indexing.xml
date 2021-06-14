@@ -3,7 +3,7 @@
         schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
     <info>
         <title>Configuring Database Indexes</title>
-        <date>2Q19</date>
+        <date>2Q21</date>
         <keywordset>
             <keyword>application-development</keyword>
         </keywordset>
@@ -53,7 +53,7 @@
                 <para> <emphasis> <link xlink:href="lucene">Full Text Indexes</link>
                     </emphasis>: This full text indexing module features faster and customizable
                     full text indexing by transparently integrating Lucene into the XQuery engine.
-                    Prefer this index over the Legacy Full Text Index. </para>
+                </para>
             </listitem>
             <listitem>
                 <para> <emphasis> <link xlink:href="ngram">NGram Indexes</link> </emphasis>:
@@ -174,16 +174,14 @@
                 types of indexes: full text, range and ngram.</para>
 
             <para>If the document to be indexed uses namespaces, you should add a
-                <literal>xmlns</literal> declaration for each of the required namespaces to the
-                <tag>index</tag> element:</para>
+                <literal>xmlns</literal> declaration for each of the required namespaces:</para>
 
             <programlisting language="xml" xlink:href="listings/listing-4.xml"/>
             <para>The example configuration above creates two indexes on a collection of atom
                 documents. The two elements which should be indexed are both in the
                 <literal>atom</literal> namespace and we therefore need to declare a mapping for
-                this namespace. Please note that the <literal>xmlns</literal> namespace declarations
-                have to be specified on the <tag>index</tag> element, not the <tag>create</tag> or
-                <tag>fulltext</tag> elements.</para>
+                this namespace. Here, the namespace mapping is placed on the <tag>index</tag> 
+                element, but it can appear anywhere in the configuration document.</para>
         </sect2>
     </sect1>
 
