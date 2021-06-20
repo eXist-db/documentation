@@ -48,7 +48,7 @@
     <project.build.source>1.8</project.build.source>
     <project.build.target>1.8</project.build.target>
 
-    <exist.version>5.3.0-SNAPSHOT</exist.version>
+    <exist.version>5.3.0</exist.version>
     <templating.version>1.0.2</templating.version>
     <node.version>v14.17.0</node.version>
     <npm.version>6.14.13</npm.version>
@@ -166,6 +166,35 @@
           <nodeVersion>${node.version}</nodeVersion>
           <npmVersion>${npm.version}</npmVersion>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>de.jutzig</groupId>
+        <artifactId>github-release-plugin</artifactId>
+        <version>1.1.1</version>
+        <executions>
+          <execution>
+              <id>github-upload</id>
+              <phase>deploy</phase>
+              <goals>
+                  <goal>release</goal>
+              </goals>
+              <inherited>false</inherited>
+
+              <configuration>
+                  <description>eXist-db documentation app for eXist-db 5.3.0</description>
+                  <releaseName>v5.3.0</releaseName>
+                  <tag>${project.version}</tag>
+                  <fileSets>
+                      <fileSet>
+                          <directory>${project.build.directory}</directory>
+                          <includes>
+                              <include>${project.artifactId}*.xar</include>                        
+                          </includes>
+                      </fileSet>
+                  </fileSets>
+              </configuration>
+            </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
