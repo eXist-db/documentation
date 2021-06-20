@@ -19,6 +19,24 @@
   <changelog>
     <change xmlns="http://exist-db.org/xquery/repo" version="5.2.0">
       <ul xmlns="http://www.w3.org/1999/xhtml">
+        <li>updated validating against eXist-db XQuery engine</li>
+        <li>documentation: refer from kwic expand matches to lucene expand fields</li>
+        <li>Add documentation for --use-ssl flag (CLI backup)</li>
+        <li>Update xquery.xml</li>
+        <li>Update new range index doc to point to recent Lucene documentation</li>
+        <li>Add pointer to range:matches in documentation of new range index</li>
+        <li>fn:trace#1 is now supported</li>        
+        <li>Add offline mode for Xars, URL Rewrite should now use controller.xq and not controller.xql</li>
+        <li>Tests and integration tests should be executable from both local machines and CI using just 'mvn verify</li>
+        <li>Review documentation on HTML templating; align with new templating package and mark deprecated/removed functions</li>
+        <li>Add some information about bounding the Cache module</li>
+        <li>Some documentation for Connection Pooling in the SQL Module</li>
+        <li>listings in separate files</li>
+        <li>listings not in CDATA</li>        
+      </ul>
+    </change>
+    <change xmlns="http://exist-db.org/xquery/repo" version="5.2.0">
+      <ul xmlns="http://www.w3.org/1999/xhtml">
         <li>advanced-installation: minor improvements to the systemd steps</li>
         <li>backup: address inconsistencies with configuration</li>
         <li>docker: new article</li>
