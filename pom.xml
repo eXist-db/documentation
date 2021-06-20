@@ -33,9 +33,9 @@
   </licenses>
 
   <scm>
-    <url>https://www.github.com/exist-db/documentation.git</url>
-    <connection>scm:git:https://www.github.com/exist-db/documentation.git</connection>
-    <developerConnection>scm:git:https://www.github.com/exist-db/documentation.git</developerConnection>
+    <url>scm:git:https://github.com/exist-db/documentation.git</url>
+    <connection>scm:git:https://github.com/exist-db/documentation.git</connection>
+    <developerConnection>scm:git:https://github.com/exist-db/documentation.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
@@ -174,27 +174,26 @@
         <version>1.1.1</version>
         <executions>
           <execution>
-              <id>github-upload</id>
-              <phase>deploy</phase>
-              <goals>
-                  <goal>release</goal>
-              </goals>
-              <inherited>false</inherited>
-
-              <configuration>
-                  <description>eXist-db documentation app for eXist-db 5.3.0</description>
-                  <releaseName>v5.3.0</releaseName>
-                  <tag>${project.version}</tag>
-                  <fileSets>
-                      <fileSet>
-                          <directory>${project.build.directory}</directory>
-                          <includes>
-                              <include>${project.artifactId}*.xar</include>                        
-                          </includes>
-                      </fileSet>
-                  </fileSets>
-              </configuration>
-            </execution>
+            <id>github-upload</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>release</goal>
+            </goals>
+            <inherited>false</inherited>
+            <configuration>
+              <description>eXist-db documentation app for eXist-db 5.3.1</description>
+              <releaseName>v5.3.1</releaseName>
+              <tag>${project.version}</tag>
+              <fileSets>
+                <fileSet>
+                  <directory>${project.build.directory}</directory>
+                  <includes>
+                    <include>${project.artifactId}*.xar</include>
+                  </includes>
+                </fileSet>
+              </fileSets>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
       <plugin>
