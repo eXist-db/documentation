@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>XQuery in eXist-db</title>
-        <date>1Q20</date>
+        <date>3Q21</date>
         <keywordset>
             <keyword>xquery</keyword>
         </keywordset>
@@ -609,7 +609,16 @@
                 default and need not be specified explicitly.</para>
             <para>Options are specified within the option's string literal, separated by
                 whitespace.</para>
-
+            
+            <para>
+                You can also apply exist specific serialization options via a map to in-built function <literal>fn:serialize()</literal>.
+            </para>
+            <programlisting language="xquery" xlink:href="listings/listing-40.txt"/>
+            <note>
+                <para>
+                    Currently only the <literal>expand-xincludes</literal> option is implemented. 
+                </para>
+            </note>
 
             <para>General options:</para>
             <variablelist>
