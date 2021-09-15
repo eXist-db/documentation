@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>XQuery in eXist-db</title>
-        <date>1Q20</date>
+        <date>3Q21</date>
         <keywordset>
             <keyword>xquery</keyword>
         </keywordset>
@@ -609,7 +609,7 @@
                 default and need not be specified explicitly.</para>
             <para>Options are specified within the option's string literal, separated by
                 whitespace.</para>
-
+            
 
             <para>General options:</para>
             <variablelist>
@@ -728,6 +728,65 @@
 
 
         </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="fn-serialize">
+            <title>Using <code>fn:serialize()</code></title>
+            <para>Another Serialization method that can be used is in-built function <literal>fn:serialize()</literal>.</para>
+            <para>
+                You can apply eXist-db legacy serialization parameters as well as W3C serialization parameters via a map.
+            </para>
+            <programlisting language="xquery" xlink:href="listings/listing-40.txt"/>
+            <note>
+                <para>
+                    For eXist-db legacy serialization parameters The option's QName must be <literal>exist:serialize</literal> as show in the example above
+                </para>
+            </note>
+            
+            <para>For W3C serialization parameters check:<link condition="_blank"
+                xlink:href="https://www.w3.org/TR/xslt-xquery-serialization-31/">W3C</link>
+            </para>
+            <para>EXist-db legacy Map options:</para>
+            <para>Check <link condition="_blank" xlink:href="https://github.com/eXist-db/exist/blob/develop/exist-core/src/test/xquery/xquery3/serialize.xql">Serialize Tests</link> to see the options in action</para>
+            <variablelist>
+                <varlistentry>
+                    <term> <literal>jsonp= myFunctionName</literal> </term>
+                    <listitem>
+                        <programlisting language="xquery" xlink:href="listings/listing-41.txt"/>
+                        <para>output: <code>'functionName({})'</code> </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <literal>expand-xincludes= yes | no</literal> </term>
+                    <listitem>
+                        <programlisting language="xquery" xlink:href="listings/listing-42.txt"/>
+                        <para>expand XInclude elements</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <literal>highlight-matches= both | elements | attributes | none</literal> </term>
+                    <listitem>
+                        <programlisting language="xquery" xlink:href="listings/listing-43.txt"/>
+                        <para>A complete example <link condition="_blank" xlink:href="https://github.com/eXist-db/exist/tree/develop/extensions/indexes/lucene/src/test/xquery/lucene/serialize.xql">Serialize Test with <code>ft:query()</code></link></para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <literal>process-xsl-pi= yes | no</literal> </term>
+                    <listitem>
+                        <programlisting language="xquery" xlink:href="listings/listing-44.txt"/>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <literal>add-exist-id= element | all | none</literal> </term>
+                    <listitem>
+                        <programlisting language="xquery" xlink:href="listings/listing-45.txt"/>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            
+        </sect2>
+
 
     </sect1>
 
