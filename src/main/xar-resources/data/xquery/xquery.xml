@@ -610,15 +610,6 @@
             <para>Options are specified within the option's string literal, separated by
                 whitespace.</para>
             
-            <para>
-                You can also apply exist specific serialization options via a map to in-built function <literal>fn:serialize()</literal>.
-            </para>
-            <programlisting language="xquery" xlink:href="listings/listing-40.txt"/>
-            <note>
-                <para>
-                    Currently only the <literal>expand-xincludes</literal> option is implemented. 
-                </para>
-            </note>
 
             <para>General options:</para>
             <variablelist>
@@ -737,6 +728,33 @@
 
 
         </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="fn-serialize">
+            <title>Using <code>fn:serialize()</code></title>
+            <para>Another Serialization method that can be used is in-built function <literal>fn:serialize()</literal>.</para>
+            <para>
+                You can apply eXist-db legacy serialization parameters as well as W3C serialization parameters via a map.
+            </para>
+            <programlisting language="xquery" xlink:href="listings/listing-40.txt"/>
+            <note>
+                <para>
+                    For eXist-db legacy serialization parameters The option's QName must be exist:serialize as show in the example above
+                </para>
+            </note>
+            <para>Map options:</para>
+            <variablelist>
+                <varlistentry>
+                    <term> <literal>method= xml | xhtml | json | text</literal> </term>
+                    <listitem>
+                        <programlisting language="xquery" xlink:href="listings/listing-40.txt"/>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            
+        </sect2>
+
 
     </sect1>
 
