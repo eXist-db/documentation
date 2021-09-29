@@ -16,7 +16,7 @@ describe('running XQsuite test …', function () {
       .expect(200)
       .end(function (err, res) { // eslint-disable-line handle-callback-err
         console.info('response body: ' + JSON.stringify(res.body))
-        if (err) return done(err);
+        if (err) return done(err)
         try {
           console.group()
           console.group()

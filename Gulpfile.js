@@ -99,7 +99,7 @@ var uglify = require('gulp-uglify')
 var optimizejs = require('gulp-optimize-js')
 
 // Styles
-var sass = require('gulp-sass')
+var sass = require('gulp-sass')(require('sass'))
 var prefix = require('gulp-autoprefixer')
 var minify = require('gulp-cssnano')
 var sourcemaps = require('gulp-sourcemaps')
