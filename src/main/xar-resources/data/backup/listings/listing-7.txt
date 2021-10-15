@@ -1,53 +1,57 @@
-backup.sh --h 
+backup.sh --help
+    Help requested with --help. See usage below:
 
-    Usage: backup.sh [Arguments]
-    
+    Usage: AppassemblerBooter [Arguments]
+
     Arguments:
-    -a, --overwrite-apps                       overwrite newer applications
+    -a, --overwrite-apps                       Overwrite newer applications 
                                                installed in the database.
                                                Default: disabled
-    -b, --backup <string>                      backup the specified collection.
+    -b, --backup <string>                      Backup the specified collection.
                                                <string>: any string
-                                               Default:
-    -d, --dir <path>                           specify the directory to use for
+                                               Default: 
+    -d, --dir <path>                           Specify the directory to use for 
                                                backups.
                                                <path>: a file path
-                                               Default: /Users/aretter/code/exist.maven/.
+                                               Default: . (current directory)
     --deduplicate-blobs <boolean>              Deduplicate BLOBS in the backup.
                                                <boolean>: true or false
                                                Default: false
     -h, --help <argument-to-print-help-for>    <argument-to-print-help-for>: an argument to print help for
                                                Default: If no specific parameter is given the whole usage text is given
-    -o, --option<string>=<string>              specify extra options:
+    -i, --reindex                              Reindex database after restore.
+                                               Default: disabled
+    -o, --option<string>=<string>              Specify extra options: 
                                                property=value. For available properties see client.
                                                properties.
                                                <string>=<string>: where "<string>" is any string and "<string>" is any string
                                                Default: Empty map
-    -p, --password <string>                    set the password for connecting to
+    -p, --password <string>                    Set the password for connecting to 
                                                the database.
                                                <string>: any string
-                                               Default:
-    -P, --dba-password <string>                if the backup specifies a different
-                                               password for the admin user, use this option
-                                               to specify the new password. Otherwise
+                                               Default: 
+    -P, --dba-password <string>                If the backup specifies a different 
+                                               password for the admin user, use this option 
+                                               to specify the new password. Otherwise 
                                                you will get a permission denied
                                                <string>: any string
-                                               Default:
-    -q, --quiet                                be quiet. Just print errors.
+                                               Default: 
+    -q, --quiet                                Be quiet. Just print errors.
                                                Default: disabled
-    -r, --restore <path>                       read the specified __contents__.xml
-                                               file and restore the resources described
-                                               there.
+    -r, --restore <path>                       Restore from specified 'full' 
+                                               backup file in ZIP format, or read the 
+                                               specified __contents__.xml file and restore 
+                                               the resources described in there.
                                                <path>: a file path
-                                               Default: /Users/aretter/code/exist.maven/.
-    -R, --rebuild                              rebuild the EXpath app repository
+                                               Default: . (current directory)
+    -R, --rebuild                              Rebuild the EXpath app repository 
                                                after restore.
                                                Default: disabled
-    -S, --use-ssl                              Use SSL by default for remote
+    -S, --use-ssl                              Use SSL by default for remote 
                                                connections
                                                Default: disabled
-    -u, --user <string>                        set user.
+    -u, --user <string>                        Set user.
                                                <string>: any string
                                                Default: admin
-    -U, --gui                                  start in GUI mode
+    -U, --gui                                  Start in GUI mode
                                                Default: disabled
