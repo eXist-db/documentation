@@ -25,7 +25,7 @@
       for AntennaHouse, but that was removed as it was unmaintained, we would welcome a new
       contribution to support AntennaHouse again.</para>
     <para>Selection of the renderer is configured in eXist-db's <code>conf.xml</code> file.
-      By default eXist-db ships with and is configured to use Apache FOP, see: <link linkend="renderx">Using
+      By default eXist-db ships with and is configured to use Apache FOP, see: <link linkend="apachefop">Using
         the Apache FOP Renderer</link></para>
     <para>If you wish to use RenderX XEP instead, see <link linkend="renderx">Using
         the RenderX XEP FO Renderer</link>. </para>
@@ -35,10 +35,10 @@
 
     <sect2 xml:id="render">
       <title>
-        <code>xsl:render()</code>
+        <code>xslfo:render()</code>
       </title>
 
-      <para>The <code>xsl:render</code> function renders an FO document and returns you the result.
+      <para>The <code>xslfo:render</code> function renders an FO document and returns you the result.
         It has two signatures:</para>
       <programlisting language="xquery" xlink:href="listings/listing-1.txt"/>
       <programlisting language="xquery" xlink:href="listings/listing-2.txt"/>
