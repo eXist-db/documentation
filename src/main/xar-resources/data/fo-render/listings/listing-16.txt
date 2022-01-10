@@ -1,0 +1,13 @@
+xquery version "3.0";
+
+declare namespace file = "http://exist-db.org/xquery/file";
+declare namespace system = "http://exist-db.org/xquery/system";
+declare namespace xslfo = "http://exist-db.org/xquery/xslfo";
+
+let $config := fn:parse-xml(file:read(system:get-exist-home() || "/renderx/xep.xml"))
+return
+
+  let $fo := fn:doc('/db/test-fo.xml')
+  let $pdf := xslfo:render($fo, "application/pdf", (), $config)
+  return
+  file:serialize-binary($pdf, "/tmp/fop.pdf")
