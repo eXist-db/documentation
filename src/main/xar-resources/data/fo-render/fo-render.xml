@@ -1,0 +1,193 @@
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<article version="5.0" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <info>
+    <title>FO Rendering</title>
+    <date>1Q22</date>
+    <keywordset>
+      <keyword>application-development</keyword>
+    </keywordset>
+  </info>
+
+  <!-- ================================================================== -->
+
+  <para>eXist-db can perform FO (Formatting Objects) rendering inside XQuery code. The FO can be
+    generated used XSL (i.e. XSL:FO) if desired. For this you need to use the <code>xslfo</code>
+    module.</para>
+
+  <!-- ================================================================== -->
+
+  <sect1 xml:id="render-module">
+    <title>The <code>xslfo</code> module</title>
+
+    <para>eXist-db XSL:FO module allows you to do FO rendering from XQuery code using an appropriate
+      FO Renderer; eXist-db supports <link xlink:href="https://xmlgraphics.apache.org/fop/">Apache FOP</link> and <link xlink:href="http://www.renderx.com/tools/xep.html">RenderX XEP</link>. Previously there was also support
+      for AntennaHouse, but that was removed as it was unmaintained, we would welcome a new
+      contribution to support AntennaHouse again.</para>
+    <para>Selection of the renderer is configured in eXist-db's <code>conf.xml</code> file.
+      By default eXist-db ships with and is configured to use Apache FOP, see: <link linkend="apachefop">Using
+        the Apache FOP Renderer</link></para>
+    <para>If you wish to use RenderX XEP instead, see <link linkend="renderx">Using
+        the RenderX XEP FO Renderer</link>. </para>
+    <para>Its function namespace is <literal>http://exist-db.org/xquery/xslfo</literal>.</para>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2 xml:id="render">
+      <title>
+        <code>xslfo:render()</code>
+      </title>
+
+      <para>The <code>xslfo:render</code> function renders an FO document and returns you the result.
+        It has two signatures:</para>
+      <programlisting language="xquery" xlink:href="listings/listing-1.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-2.txt"/>
+
+      <variablelist>
+        <varlistentry>
+          <term>
+            <code>$document</code>
+          </term>
+          <listitem>
+            <para>The FO document to be rendered.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <code>$media-type</code>
+          </term>
+          <listitem>
+            <para>The Internet Media Type of the desired result. This provides a hint to the renderer as to what format it should render</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <code>$parameters</code>
+          </term>
+          <listitem>
+            <para>Specify any optional parameters for the rendering of the FO document, these are processor specific.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>$processor-config</term>
+          <listitem>
+            <para>An optional configuration document for the processor, this is processor specific.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </sect2>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2 xml:id="stream-render">
+      <title>
+        <code>Streaming the result to a Web Browser</code>
+      </title>
+
+      <para>If you wish to Stream the result of <code>xslfo:render</code> directly to the Web Browser (i.e. HTTP Response), you
+        can send the output of <code>xslfo:render</code> directly to the function <code>response:stream-binary</code>. This can be
+        useful for example when you want an XQuery to download a PDF directly to the Web Browser.</para>
+    </sect2>
+
+  </sect1>
+  
+  <sect1 xml:id="apachefop">
+    <title>Using the Apache FOP Renderer</title>
+    <para>By default eXist-db ships with and is configured to use Apache FOP. It is configured in eXist-db's <code>conf.xml</code> file through the following configuration option:</para>
+      <programlisting language="xml"><![CDATA[<module uri="http://exist-db.org/xquery/xslfo" class="org.exist.xquery.modules.xslfo.XSLFOModule">
+  <parameter name="processorAdapter" value="org.exist.xquery.modules.xslfo.ApacheFopProcessorAdapter"/>
+</module>]]></programlisting>
+    <para>
+      An example of using Apache FOP to transform FO and save the result to a PDF file in the database.
+    </para>
+    <example>
+      <title>Using Apache FOP from XQuery</title>
+      <programlisting language="xquery" xlink:href="listings/listing-3.txt"/>
+    </example>
+    
+  </sect1>
+  
+  <sect1 xml:id="renderx">
+    <title>Using the RenderX XEP FO Renderer</title>
+    <para>To configure eXist-db to use RenderX XEP instead of Apache FOP, follow these steps:</para>
+    <orderedlist>
+      <listitem>
+        <para>From a RenderX distribution, copy the files <code>lib/xep.jar</code> and <code>lib/xt.jar</code> into the folder <code>$EXIST_HOME/lib</code>.</para>
+      </listitem>
+      <listitem>
+        <para>eXist-db uses a number of configuration files, one per script, to determine which <code>jar</code> files to load. You should edit the XML files in the folder <code>$EXIST_HOME/etc</code> to add the following configuration (adjust the <emphasis>version</emphasis> numbers appropriately):</para>
+          <programlisting language="xml"><![CDATA[[<dependency>
+<groupId>com.renderx.xep</groupId>
+<artifactId>xep</artifactId>
+<version>4.30.961</version>
+<relativePath>xep.jar</relativePath>
+</dependency>
+<dependency>
+<groupId>com.renderx.xep.thirdparty.com.jclark.xsl</groupId>
+<artifactId>xt</artifactId>
+<version>4.30.961</version>
+<relativePath>xt.jar</relativePath>
+</dependency>]]></programlisting>
+      </listitem>
+      <listitem>
+        <para>Create the folder <code>$EXIST_HOME/renderx</code></para>
+      </listitem>
+      <listitem>
+        <para>From a RenderX distribution, copy the files <code>xep.xml</code> and <code>rolemap.xml</code>, and the folders <code>fonts</code>, <code>hyphen</code>, and <code>images</code> into the folder <code>$EXIST_HOME/renderx</code>.</para>
+      </listitem>
+      <listitem>
+        <para>Edit the file <code>$EXIST_HOME/renderx/xep.xml</code> to make the following changes:</para>
+        <itemizedlist>
+          <listitem>
+            <para>From:</para><programlisting language="xml"><![CDATA[<option name="LICENSE" value="license.xml"/>]]></programlisting>
+            <para>To:</para><programlisting language="xml"><![CDATA[<option name="LICENSE" value="renderx/license.xml"/>]]></programlisting>
+          </listitem>
+          <listitem>
+            <para>From:</para> <programlisting language="xml"><![CDATA[<option name="BROKENIMAGE" value="images/404.gif"/>
+<option name="LOGO" value="images/logo-renderx.svg"/>
+<option name="STAMP_PNG" value="images/stamp-renderx.png"/>
+<option name="ROLE_MAP" value="rolemap.xml"/>]]></programlisting>
+            <para>To:</para> <programlisting language="xml"><![CDATA[<option name="BROKENIMAGE" value="renderx/images/404.gif"/>
+<option name="LOGO" value="renderx/images/logo-renderx.svg"/>
+<option name="STAMP_PNG" value="renderx/images/stamp-renderx.png"/>
+<option name="ROLE_MAP" value="renderx/rolemap.xml"/>]]></programlisting>
+          </listitem>
+          <listitem>
+            <para>From:</para> <programlisting language="xml"><![CDATA[<fonts xml:base="fonts/" default-family="Helvetica">]]></programlisting>
+            <para>To:</para> <programlisting language="xml"><![CDATA[<fonts xml:base="renderx/fonts/" default-family="Helvetica">]]></programlisting>
+          </listitem>
+          <listitem>
+            <para>From:</para> <programlisting language="xml"><![CDATA[<languages default-language="en-US" xml:base="hyphen/">]]></programlisting>
+            <para>To:</para> <programlisting language="xml"><![CDATA[<languages default-language="en-US" xml:base="renderx/hyphen/">]]></programlisting>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+      <listitem>
+        <para>Copy your RenderX XEP license file (<code>license.xml</code>) that you have been provided by RenderX into <code>$EXIST_HOME/renderx</code>.</para>
+      </listitem>
+      <listitem>
+        <para>Edit the file <code>$EXIST_HOME/conf.xml</code> to make the following changes:</para>
+        <para>From:</para> <programlisting language="xml"><![CDATA[<module uri="http://exist-db.org/xquery/xslfo" class="org.exist.xquery.modules.xslfo.XSLFOModule">
+<parameter name="processorAdapter" value="org.exist.xquery.modules.xslfo.ApacheFopProcessorAdapter"/>
+</module>]]></programlisting>
+        <para>To: </para><programlisting language="xml"><![CDATA[<module uri="http://exist-db.org/xquery/xslfo" class="org.exist.xquery.modules.xslfo.XSLFOModule">
+<parameter name="processorAdapter" value="org.exist.xquery.modules.xslfo.RenderXXepProcessorAdapter"/>
+</module>]]></programlisting>
+      </listitem>
+      <listitem>
+        <para>If eXist-db was running whilst you were making these changes, then you will need to restart it for the change to take effect.</para>
+      </listitem>
+    </orderedlist>
+    <para>
+      An example of using RenderX XEP to transform FO and save the result to a PDF file on the filesystem.
+    </para>
+    <example>
+      <title>Using RenderX XEP from XQuery</title>
+      <programlisting language="xquery" xlink:href="listings/listing-4.txt"/>
+    </example>
+    
+  </sect1>
+
+  <!-- ================================================================== -->
+
+</article>
