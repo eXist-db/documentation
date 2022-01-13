@@ -94,15 +94,13 @@
   <sect1 xml:id="apachefop">
     <title>Using the Apache FOP Renderer</title>
     <para>By default eXist-db ships with and is configured to use Apache FOP. It is configured in eXist-db's <code>conf.xml</code> file through the following configuration option:</para>
-      <programlisting language="xml"><![CDATA[<module uri="http://exist-db.org/xquery/xslfo" class="org.exist.xquery.modules.xslfo.XSLFOModule">
-  <parameter name="processorAdapter" value="org.exist.xquery.modules.xslfo.ApacheFopProcessorAdapter"/>
-</module>]]></programlisting>
+      <programlisting language="xml" xlink:href="listings/listing-3.xml"/>
     <para>
       An example of using Apache FOP to transform FO and save the result to a PDF file in the database.
     </para>
     <example>
       <title>Using Apache FOP from XQuery</title>
-      <programlisting language="xquery" xlink:href="listings/listing-3.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-4.txt"/>
     </example>
     
   </sect1>
@@ -116,18 +114,7 @@
       </listitem>
       <listitem>
         <para>eXist-db uses a number of configuration files, one per script, to determine which <code>jar</code> files to load. You should edit the XML files in the folder <code>$EXIST_HOME/etc</code> to add the following configuration (adjust the <emphasis>version</emphasis> numbers appropriately):</para>
-          <programlisting language="xml"><![CDATA[[<dependency>
-<groupId>com.renderx.xep</groupId>
-<artifactId>xep</artifactId>
-<version>4.30.961</version>
-<relativePath>xep.jar</relativePath>
-</dependency>
-<dependency>
-<groupId>com.renderx.xep.thirdparty.com.jclark.xsl</groupId>
-<artifactId>xt</artifactId>
-<version>4.30.961</version>
-<relativePath>xt.jar</relativePath>
-</dependency>]]></programlisting>
+          <programlisting language="xml" xlink:href="listings/listing-5.txt"/>
       </listitem>
       <listitem>
         <para>Create the folder <code>$EXIST_HOME/renderx</code></para>
@@ -139,26 +126,20 @@
         <para>Edit the file <code>$EXIST_HOME/renderx/xep.xml</code> to make the following changes:</para>
         <itemizedlist>
           <listitem>
-            <para>From:</para><programlisting language="xml"><![CDATA[<option name="LICENSE" value="license.xml"/>]]></programlisting>
-            <para>To:</para><programlisting language="xml"><![CDATA[<option name="LICENSE" value="renderx/license.xml"/>]]></programlisting>
+            <para>From:</para><programlisting language="xml" xlink:href="listings/listing-6.xml"/>
+            <para>To:</para><programlisting language="xml" xlink:href="listings/listing-7.xml"/>
           </listitem>
           <listitem>
-            <para>From:</para> <programlisting language="xml"><![CDATA[<option name="BROKENIMAGE" value="images/404.gif"/>
-<option name="LOGO" value="images/logo-renderx.svg"/>
-<option name="STAMP_PNG" value="images/stamp-renderx.png"/>
-<option name="ROLE_MAP" value="rolemap.xml"/>]]></programlisting>
-            <para>To:</para> <programlisting language="xml"><![CDATA[<option name="BROKENIMAGE" value="renderx/images/404.gif"/>
-<option name="LOGO" value="renderx/images/logo-renderx.svg"/>
-<option name="STAMP_PNG" value="renderx/images/stamp-renderx.png"/>
-<option name="ROLE_MAP" value="renderx/rolemap.xml"/>]]></programlisting>
+            <para>From:</para> <programlisting language="xml" xlink:href="listings/listing-8.txt"/>
+            <para>To:</para> <programlisting language="xml" xlink:href="listings/listing-9.txt"/>
           </listitem>
           <listitem>
-            <para>From:</para> <programlisting language="xml"><![CDATA[<fonts xml:base="fonts/" default-family="Helvetica">]]></programlisting>
-            <para>To:</para> <programlisting language="xml"><![CDATA[<fonts xml:base="renderx/fonts/" default-family="Helvetica">]]></programlisting>
+            <para>From:</para> <programlisting language="xml" xlink:href="listings/listing-10.xml"/>
+            <para>To:</para> <programlisting language="xml" xlink:href="listings/listing-11.xml"/>
           </listitem>
           <listitem>
-            <para>From:</para> <programlisting language="xml"><![CDATA[<languages default-language="en-US" xml:base="hyphen/">]]></programlisting>
-            <para>To:</para> <programlisting language="xml"><![CDATA[<languages default-language="en-US" xml:base="renderx/hyphen/">]]></programlisting>
+            <para>From:</para> <programlisting language="xml" xlink:href="listings/listing-12.xml"/>
+            <para>To:</para> <programlisting language="xml" xlink:href="listings/listing-13.xml"/>
           </listitem>
         </itemizedlist>
       </listitem>
@@ -167,12 +148,8 @@
       </listitem>
       <listitem>
         <para>Edit the file <code>$EXIST_HOME/conf.xml</code> to make the following changes:</para>
-        <para>From:</para> <programlisting language="xml"><![CDATA[<module uri="http://exist-db.org/xquery/xslfo" class="org.exist.xquery.modules.xslfo.XSLFOModule">
-<parameter name="processorAdapter" value="org.exist.xquery.modules.xslfo.ApacheFopProcessorAdapter"/>
-</module>]]></programlisting>
-        <para>To: </para><programlisting language="xml"><![CDATA[<module uri="http://exist-db.org/xquery/xslfo" class="org.exist.xquery.modules.xslfo.XSLFOModule">
-<parameter name="processorAdapter" value="org.exist.xquery.modules.xslfo.RenderXXepProcessorAdapter"/>
-</module>]]></programlisting>
+        <para>From:</para> <programlisting language="xml" xlink:href="listings/listing-14.xml"/>
+        <para>To: </para><programlisting language="xml" xlink:href="listings/listing-15.xml"/>
       </listitem>
       <listitem>
         <para>If eXist-db was running whilst you were making these changes, then you will need to restart it for the change to take effect.</para>
@@ -183,7 +160,7 @@
     </para>
     <example>
       <title>Using RenderX XEP from XQuery</title>
-      <programlisting language="xquery" xlink:href="listings/listing-4.txt"/>
+      <programlisting language="xquery" xlink:href="listings/listing-16.txt"/>
     </example>
     
   </sect1>
