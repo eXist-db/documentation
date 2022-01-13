@@ -4,7 +4,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Full Text Index</title>
-        <date>2Q21</date>
+        <date>3Q21</date>
         <keywordset>
             <keyword>indexing</keyword>
         </keywordset>
@@ -314,27 +314,33 @@
                     These parameters must match a <code>Constructor</code> signature on the
                     underlying Java class of the Analyzer, please review the Javadoc for the
                     Analyzer that you wish to configure.</para>
-                <para>We currently support passing the following types: </para>
+                <para>We currently support passing the following types:</para>
                 <itemizedlist>
                     <listitem>
-                        <para> <code>String</code> (default if no type is specified)</para>
+                        <para><code>java.lang.String</code> (default if no type is specified)</para>
                     </listitem>
                     <listitem>
-                        <para> <code>java.io.FileReader</code> (since Lucene 4) or <code>file</code>
+                        <para><code>java.lang.String[]</code> (since eXist-db 5.4.0)</para>
+                    </listitem>
+                    <listitem>
+                        <para><code>char[]</code> (since eXist-db 5.4.0)</para>
+                    </listitem>
+                    <listitem>
+                        <para><code>java.io.FileReader</code> or <code>file</code>
                         </para>
                     </listitem>
                     <listitem>
-                        <para> <code>java.lang.Boolean</code> or <code>boolean</code> </para>
+                        <para><code>java.lang.Boolean</code> or <code>boolean</code></para>
                     </listitem>
                     <listitem>
-                        <para> <code>java.lang.Integer</code> or <code>int</code> </para>
+                        <para><code>java.lang.Integer</code> or <code>int</code></para>
                     </listitem>
                     <listitem>
-                        <para> <code>org.apache.lucene.analysis.util.CharArraySet</code> or
-                            <code>set</code> </para>
+                        <para><code>org.apache.lucene.analysis.util.CharArraySet</code> or
+                            <code>set</code></para>
                     </listitem>
                     <listitem>
-                        <para> <code>java.lang.reflect.Field</code> </para>
+                        <para><code>java.lang.reflect.Field</code></para>
                     </listitem>
                 </itemizedlist>
                 <para> The value <link condition="_blank"
@@ -348,6 +354,11 @@
                 <programlisting language="xml" xlink:href="listings/listing-30.xml"/>
 
                 <programlisting language="xml" xlink:href="listings/listing-31.xml"/>
+                
+                <para>For instance to construct your custom analyzer you might use
+                    something like:</para>
+                <programlisting language="xml" xlink:href="listings/listing-311.xml"/>
+                
 
                 <note>
                     <para>Using the Snowball analyzer requires you to add additional libraries to
