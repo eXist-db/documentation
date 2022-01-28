@@ -195,31 +195,30 @@
         </para>
         <variablelist>
             <varlistentry>
+                <term> <code>jetty.host</code></term>
                 <listitem>
-                    <term> <code>jetty.host</code></term>
                     <para>controls on which IP jetty binds to (default is 0.0.0.0)</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
+                <term> <code>jetty.http.port</code></term>
                 <listitem>
-                    <term> <code>jetty.http.port</code></term>
                     <para>controls on which port jetty will listen for HTTP-requests (default is
                         8080)</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
+                <term> <code>jetty.ssl.port</code></term>
                 <listitem>
-                     <term> <code>jetty.ssl.port</code></term>
                      <para>controls on which port jetty will listen for HTTPS-requests
                           (default is 8443)</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
+                <term> <code>JAVA_OPTS='-Djetty.host=127.0.0.1 -Djetty.http.port=9999' startup.sh</code>
+                </term>
                 <listitem>
                     <para>Example for linux/unix:</para>
-                    <term>
-                        <code>JAVA_OPTS='-Djetty.host=127.0.0.1 -Djetty.http.port=9999' startup.sh</code>
-                    </term>                    
                     <para>Starts the included Jetty web server at port 9999 that will only listen
                         on the local IP 127.0.0.1. eXist runs as a web application, located at
                         <link xlink:href="http://127.0.0.1:9999/exist/"
