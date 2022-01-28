@@ -161,33 +161,10 @@
                 <listitem>
                     <para>Starts the included Jetty web server at port 8080. eXist runs as a web
                         application, located at <link xlink:href="http://localhost:8080/exist/"
-                        >http://localhost:8080/exist/</link>. </para>
-                </listitem>
-                <listitem>
-                    <para>There are several java tool options available to change the host, http port
-                        https port on which existdb will listen.
+                        >http://localhost:8080/exist/</link>.
+                        For further options have a look at the following section about 
+                        <link xlink:href="#cli-flags">command line flags</link>.
                     </para>
-                        <term> <code>jetty.host</code></term> controls on which IP jetty binds to (
-                        default is 0.0.0.0)
-                    </para>
-                    </para>
-                        <term> <code>jetty.http.port</code></term> controls on which port jetty will
-                        listen for HTTP-requests (default is 8080)
-                    </para>
-                    </para>
-                        <term> <code>jetty.ssl.port</code></term> controls on which port jetty will
-                        listen for HTTPS-requests (default is 8443)
-                    </para>
-                    <para>
-                        Example for linux/unix:
-                        <term>
-                                <code>JAVA_OPTS='-Djetty.host=127.0.0.1 -Djetty.http.port=9999' startup.sh</code>
-                        </term>                        
-                    </para>
-                    <para>Starts the included Jetty web server at port 9999 that will only listen on the
-                        the local IP 127.0.0.1. eXist runs as a web
-                        application, located at <link xlink:href="http://127.0.0.1:9999/exist/"
-                        >http://127.0.0.1:9999/exist/</link>. </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -207,6 +184,46 @@
                 <listitem>
                     <para>Use one of these scripts to launch the <link
                         xlink:href="java-admin-client">Java Admin Client</link>.</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+    </sect1>
+    <sect1 xml:id="cli-flags">
+        <title>Command line flags to set host, ports and configuration</title>
+        <para>There are several java tool options available to change the host, http port
+            https port on which existdb will listen.
+        </para>
+        <variablelist>
+            <varlistentry>
+                <listitem>
+                    <term> <code>jetty.host</code></term>
+                    <para>controls on which IP jetty binds to (default is 0.0.0.0)</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <listitem>
+                    <term> <code>jetty.http.port</code></term>
+                    <para>controls on which port jetty will listen for HTTP-requests (default is
+                        8080)</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <listitem>
+                     <term> <code>jetty.ssl.port</code></term>
+                     <para>controls on which port jetty will listen for HTTPS-requests
+                          (default is 8443)</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <listitem>
+                    <para>Example for linux/unix:</para>
+                    <term>
+                        <code>JAVA_OPTS='-Djetty.host=127.0.0.1 -Djetty.http.port=9999' startup.sh</code>
+                    </term>                    
+                    <para>Starts the included Jetty web server at port 9999 that will only listen
+                        on the local IP 127.0.0.1. eXist runs as a web application, located at
+                        <link xlink:href="http://127.0.0.1:9999/exist/"
+                        >http://127.0.0.1:9999/exist/</link>.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
