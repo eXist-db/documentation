@@ -163,6 +163,32 @@
                         application, located at <link xlink:href="http://localhost:8080/exist/"
                         >http://localhost:8080/exist/</link>. </para>
                 </listitem>
+                <listitem>
+                    <para>There are several java tool options available to change the host, http port
+                        https port on which existdb will listen.
+                    </para>
+                        <term> <code>jetty.host</code></term> controls on which IP jetty binds to (
+                        default is 0.0.0.0)
+                    </para>
+                    </para>
+                        <term> <code>jetty.http.port</code></term> controls on which port jetty will
+                        listen for HTTP-requests (default is 8080)
+                    </para>
+                    </para>
+                        <term> <code>jetty.ssl.port</code></term> controls on which port jetty will
+                        listen for HTTPS-requests (default is 8443)
+                    </para>
+                    <para>
+                        Example for linux/unix:
+                        <term>
+                                <code>JAVA_OPTS='-Djetty.host=127.0.0.1 -Djetty.http.port=9999' startup.sh</code>
+                        </term>                        
+                    </para>
+                    <para>Starts the included Jetty web server at port 9999 that will only listen on the
+                        the local IP 127.0.0.1. eXist runs as a web
+                        application, located at <link xlink:href="http://127.0.0.1:9999/exist/"
+                        >http://127.0.0.1:9999/exist/</link>. </para>
+                </listitem>
             </varlistentry>
             <varlistentry>
                 <term> <code>shutdown.sh</code> (Unix) / <code>shutdown.bat</code> (Windows)</term>
