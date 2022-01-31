@@ -17,6 +17,14 @@
   <dependency package="http://exist-db.org/html-templating" semver-min="${templating.version}"/>
   <prepare>pre-install.xql</prepare>
   <changelog>
+    <change xmlns="http://exist-db.org/xquery/repo" version="5.4.0">
+      <ul xmlns="http://www.w3.org/1999/xhtml">
+        <li>New: Add a page about XSL-FO rendering - <a href="https://github.com/eXist-db/documentation/pull/726">#726</a></li>
+        <li>xquery: Expose eXist-specific serialization options to fn:serialize - <a href="https://github.com/eXist-db/documentation/pull/672">#672</a></li>
+        <li>backup: Remove comment on ZIP restrictions - <a href="https://github.com/eXist-db/documentation/pull/699">#699</a></li>
+        <li>lucene: Expand custom analyzer configuration info - <a href="https://github.com/eXist-db/documentation/pull/706">#706</a></li>
+      </ul>
+    </change>
     <change xmlns="http://exist-db.org/xquery/repo" version="5.3.0">
       <ul xmlns="http://www.w3.org/1999/xhtml">
         <li>updated validating against eXist-db XQuery engine</li>
