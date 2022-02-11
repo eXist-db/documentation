@@ -3,4 +3,4 @@ let $expanded := kwic:expand($hit)
 order by ft:score($hit) descending
 return
     kwic:get-summary($expanded, ($expanded//exist:match)[1], <config width="40"/>,
-        util:function(xs:QName("local:filter"), 2))
+        local:filter#2)
