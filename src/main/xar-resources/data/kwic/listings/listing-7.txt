@@ -6,5 +6,5 @@ return
         for $line in $expanded//LINE[.//exist:match]
         return
             kwic:get-summary($line, ($line/exist:match)[1], <config width="40"/>,
-                util:function(xs:QName("local:filter"), 2))
+                local:filter#2)
     }</div>
