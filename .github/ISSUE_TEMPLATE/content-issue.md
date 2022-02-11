@@ -1,6 +1,6 @@
 ---
 name: Content Issue
-about: Something is working with the contents
+about: Something isn't working with the contents
 title: "[ARTICLE.xml]: "
 labels: docs-outdated
 assignees: ''
