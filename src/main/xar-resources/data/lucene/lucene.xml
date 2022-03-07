@@ -483,12 +483,14 @@
                     atomic values, so no additional casting is necessary. However, typed fields
                     cannot be queried using Lucene's default query parser, only retrieved with
                     <literal>ft:field</literal>.</para>
-                <para> <emphasis role="bold">Storing fields</emphasis>: By default the complete
-                    content of a field is stored in the Lucene index, allowing later fast retrieval
-                    of the content using <literal>ft:field</literal>. You can disable storing the
-                    content by adding attribute <code>store="no"</code>. The field will still be
-                    indexed and available for queries though.</para>
-
+                <para> <emphasis role="bold">Storing fields</emphasis>: by default the complete content of a field is stored in the Lucene index, allowing later
+                    fast retrieval of the content using <literal>ft:field</literal>. You can disable storing the content by adding attribute
+                    <code>store="no"</code>. The field will still be indexed and available for queries though.</para>
+                <para><emphasis role="bold">Binary fields</emphasis>: a special type of field offering faster access times than a normal field. Binary fields
+                    are stored into a fast lookup table alongside the main index. Their content can be retrieved, but not queried, and you can declare a type
+                    (see <emphasis>typed fields</emphasis> above). The default type will be <literal>xs:string</literal>. Use a binary field if you frequently need to sort or
+                    filter large node sets by a given field, e.g. when sorting by date:</para>
+                <programlisting language="xml" xlink:href="listings/listing-581.xml"/>
                 <para xml:id="external-module"> <emphasis role="bold">Importing external
                     modules</emphasis>: as can be seen in the field definition for "author" above,
                     expressions can easily become quite verbose, so writing them into an attribute
@@ -569,16 +571,8 @@
         </sect2>
         <sect2 xml:id="retrieve-fields">
             <title>Retrieving Field Content</title>
-            <para>You can retrieve the content of a field for display or sorting purposes using the
-                <literal>ft:field</literal> function. However, fields are always bound to the result
-                of a full text query, so you cannot retrieve them without calling
-                <literal>ft:query</literal> first. Also, keeping track of fields can be expensive,
-                so <literal>ft:query</literal> needs to be explicitly passed a parameter specifying
-                which fields should be made available via the query result. The third, optional,
-                parameter to <literal>ft:query</literal> supports a <literal>fields</literal> option
-                listing the names of the fields to be provided. The values of the associated field
-                can then be retrieved for each item in the query result using
-                <literal>ft:field</literal>.</para>
+            <para>You can retrieve the content of a field for display or sorting purposes using the <literal>ft:field</literal> function. However, fields are
+                always bound to the result of a full text query, so you cannot retrieve them without calling <literal>ft:query</literal> first.</para>
             <para>One of the most common uses for retrieving field contents will be for sorting the
                 results of a query. The <code>order by</code> in the example below sorts results by
                 title first and then by author.</para>
