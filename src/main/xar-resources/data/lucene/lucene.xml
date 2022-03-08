@@ -571,8 +571,9 @@
         </sect2>
         <sect2 xml:id="retrieve-fields">
             <title>Retrieving Field Content</title>
-            <para>You can retrieve the content of a field for display or sorting purposes using the <literal>ft:field</literal> function. However, fields are
-                always bound to the result of a full text query, so you cannot retrieve them without calling <literal>ft:query</literal> first.</para>
+            <para>You can retrieve the content of a field for display or sorting purposes using the <literal>ft:field</literal> function or alternatively the
+                <literal>ft:binary-field</literal> function if you created a binary field. However, fields are always bound to the result of a full text query,
+                so you cannot retrieve them without calling <literal>ft:query</literal> first.</para>
             <para>One of the most common uses for retrieving field contents will be for sorting the
                 results of a query. The <code>order by</code> in the example below sorts results by
                 title first and then by author.</para>
@@ -582,14 +583,11 @@
                 set. For example, to view all articles in the collection you could pass in an empty
                 sequence in place of the query string like this:</para>
             <programlisting language="xquery" xlink:href="listings/listing-55.txt"/>
-            <para> <emphasis role="bold">Typed fields</emphasis>: If you declared a different type
-                than <literal>xs:string</literal> on a field, you should remember to use the
-                3-parameter variant of <literal>ft:field</literal> and pass in the name of the
-                desired target type as 3rd parameter. Reason: lucene basically stores all non-text
-                data types as numbers and eXist has no way to figure out the original type of the
-                field. So if you defined a field with type <literal>xs:date</literal>, make sure to
-                retrieve it with <literal>ft:field($node, "date", "xs:date")</literal>, otherwise
-                all you get is a number.</para>
+            <para> <emphasis role="bold">Typed fields</emphasis>: If you declared a different type than <literal>xs:string</literal> on a field, you should
+                remember to use the 3-parameter variant of <literal>ft:field</literal> or <literal>ft:binary-field</literal> and pass in the name of the desired
+                target type as 3rd parameter. Reason: lucene basically stores all non-text data types as numbers and eXist has no way to figure out the original
+                type of the field. So if you defined a field (binary or not) with type <literal>xs:date</literal>, make sure to retrieve it with
+                <literal>ft:binary-field($node, "date", "xs:date")</literal>, otherwise you'll either get an error or garbage returned.</para>
         </sect2>
         <sect2 xml:id="expand-fields">
             <title>Matches in fields</title>
