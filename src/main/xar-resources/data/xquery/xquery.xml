@@ -572,11 +572,13 @@
     <sect1 xml:id="serialization">
         <title>Serialization</title>
 
-        <para>Serialization is the transformation of query results into a binary stream. eXist-db
-            implements the <link condition="_blank" xlink:href="https://www.w3.org/TR/xquery/">"XSLT
-            and XQuery Serialization 3.1"</link> specification. For example, the following
-            serialization declaration instructs eXist-db to serialize query results as JSON and to
-            supply a JSON media-type:</para>
+        <para>Serialization is the transformation of query results into a string representation or 
+            binary stream. eXist-db implements the <link condition="_blank" 
+            xlink:href="https://www.w3.org/TR/xquery/">"XSLT and XQuery Serialization 3.1"</link>
+            specification with one exception, the <code>item-separator</code>.</para>
+        <para>
+            For example, the following serialization declaration instructs eXist-db to serialize
+            query results as JSON and to supply a JSON media-type:</para>
         <programlisting language="xquery" xlink:href="listings/listing-10.txt"/>
         <para>As this example shows, serialization parameters can be set within the query itself.
             However, the interpretation of serialization parameters depends on the context in which
@@ -584,37 +586,84 @@
             in only relevant in the context of an HTTP response header. Most output parameters are
             applicable only if the query is executed using the XQueryGenerator/XQueryServlet servlet
             or the REST server.</para>
-        <para>Before serialization parameters were standardized in XQuery 3.0, eXist-db developed
-            its own set of parameters, as described in below. These legacy parameters remain
-            supported for backwards compatibility. For example, the eXist-db legacy approach to the
-            JSON serialization declaration above is:</para>
-        <programlisting language="xquery">declare option exist:serialize "method=json media-type=application/json";</programlisting>
-        <para>Most of the legacy serialization parameters have an equivalent in the standard
-            serialization parameters, but others are truly specific to eXist-db, and are thus
-            accessible only using the legacy serialization approach.</para>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-        <sect2 xml:id="legacy-serialization">
-            <title>eXist-db legacy serialization parameters</title>
-
-            <para>Legacy serialization parameters can be set with a <literal>declare
-                option</literal> statement in the query prolog. For instance:</para>
-            <programlisting>declare option exist:serialize "method=xhtml media-type=application/xhtml+html";</programlisting>
-
-
-            <para>The option's QName must be <literal>exist:serialize</literal>. The
-                <literal>exist</literal> prefix is bound to the namespace
-                <literal>http://exist.sourceforge.net/NS/exist</literal>. This is declared by
-                default and need not be specified explicitly.</para>
-            <para>Options are specified within the option's string literal, separated by
-                whitespace.</para>
-            
-
-            <para>General options:</para>
+        <sect2 xml:id="exist-specific-options">
+            <title>eXist-db specific options</title>
+            <para>
+                These options are added in addition to the W3C options and can be set in the prolog,
+                in <code>fn:serialize#2</code> or <code>file:sync#3</code> alongside the standard W3C ones.
+                Their names have to be prefixed with "exist:" when used in <code>fn:serialize#2</code>
+                or <code>file:sync#3</code> option maps. See also the fn:serialize section below.
+            </para>
             <variablelist>
                 <varlistentry>
-                    <term> <literal>method= xml | xhtml | json | text</literal> </term>
+                    <term> <literal>jsonp : function-name (string)</literal> </term>
+                    <listitem>
+                        <para>Only relevant when the serialization method is set to
+                            <code>json</code>. Causes the JSON output to be wrapped in the named
+                            JSONP function. </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <literal>expand-xincludes : ( boolean )</literal> </term>
+                    <listitem>
+                        <para>Must the serializer expand XInclude elements?</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <literal>highlight-matches : [ both | elements | attributes | none ]</literal> </term>
+                    <listitem>
+                        <para>When querying text with the full text or n-gram extensions, the query
+                            engine tracks the exact position of all matches inside text content. The
+                            serializer can later use this information to mark those matches by
+                            wrapping them into an <tag>exist:match</tag> element.</para>
+                        <para>Setting <literal>highlight-matches=both</literal> will enable this
+                            feature for every kind of indexable node.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <literal>process-xsl-pi : ( boolean )</literal> </term>
+                    <listitem>
+                        <para>If a document is serialized and it has an XSL processing instruction,
+                            eXist-db can try to load the referenced stylesheet and apply it to the
+                            document.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <literal>add-exist-id : [ element | all | none ]</literal> </term>
+                    <listitem>
+                        <para>Shows the internal node ids of an element by adding an attribute
+                            <literal>exist:id="internal-node-id"</literal>. Setting add-exist-id to
+                            <code>element</code> will only show the node id of the top-level
+                            element, <code>all</code> will show the ids of all elements.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <literal>json-ignore-whitespace-text-nodes : ( boolean )</literal> </term>
+                    <listitem>
+                        <para>To discard white-space text nodes when serializing XML/XDM to
+                            JSON.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <literal>insert-final-newline : ( boolean )</literal> </term>
+                    <listitem>
+                        <para>Add a final newline at the end of an XML or JSON document. This is
+                            especially useful when serializing to a git repository.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para>
+                Legacy options:
+            </para>
+            <para>Before serialization parameters were standardized in XQuery 3.0, eXist-db developed
+                its own set of parameters. These are kept for backwards compatibility but shoudl be 
+                considered deprecated as they can be replaced with W3C standard options.</para>
+            <variablelist>
+                <varlistentry>
+                    <term> <literal>method : [ xml | xhtml | json | text ]</literal> </term>
                     <listitem>
                         <para>Determines the serialization method. Should be one of
                             <code>xml</code>, <code>xhtml</code>, <code>json</code> or
@@ -630,14 +679,6 @@
                             For instance, <code>&lt;A&gt;Content&lt;/A&gt;</code> is returned as
                             <literal>Content</literal>. Attribute values, processing instructions
                             and comments are ignored.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term> <literal>jsonp= myFunctionName</literal> </term>
-                    <listitem>
-                        <para>Only relevant when the serialization method is set to
-                            <code>json</code>. Causes the JSON output to be wrapped in the named
-                            JSONP function. </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -663,7 +704,6 @@
                             is taken from the value of the parameter.</para>
                     </listitem>
                 </varlistentry>
-
                 <varlistentry>
                     <term> <literal>indent= yes | no</literal> </term>
                     <listitem>
@@ -679,49 +719,34 @@
                         </para>
                     </listitem>
                 </varlistentry>
-
-                <varlistentry>
-                    <term> <literal>expand-xincludes= yes | no</literal> </term>
-                    <listitem>
-                        <para>Must the serializer expand XInclude elements?</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term> <literal>highlight-matches= both | elements | attributes | none</literal> </term>
-                    <listitem>
-                        <para>When querying text with the full text or n-gram extensions, the query
-                            engine tracks the exact position of all matches inside text content. The
-                            serializer can later use this information to mark those matches by
-                            wrapping them into an <tag>exist:match</tag> element.</para>
-                        <para>Setting <literal>highlight-matches=both</literal> will enable this
-                            feature for every kind of indexable node.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term> <literal>process-xsl-pi= yes | no</literal> </term>
-                    <listitem>
-                        <para>If a document is serialized and it has an XSL processing instruction,
-                            eXist-db can try to load the referenced stylesheet and apply it to the
-                            document.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term> <literal>add-exist-id= element | all | none</literal> </term>
-                    <listitem>
-                        <para>Shows the internal node ids of an element by adding an attribute
-                            <literal>exist:id="internal-node-id"</literal>. Setting add-exist-id to
-                            <code>element</code> will only show the node id of the top-level
-                            element, <code>all</code> will show the ids of all elements.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term> <literal>json-ignore-whitespace-text-nodes= yes | no</literal> </term>
-                    <listitem>
-                        <para>To discard white-space text nodes when serializing XML/XDM to
-                            JSON.</para>
-                    </listitem>
-                </varlistentry>
             </variablelist>
+        </sect2>
+
+        <sect2 xml:id="existdb-serialization-prolog">
+            <title>declaring eXist-db specific serialization parameters in prolog</title>
+            <para>Before serialization parameters were standardized in XQuery 3.0, eXist-db developed
+                its own set of parameters, as described in below. These legacy parameters remain
+                supported for backwards compatibility. For example, the eXist-db legacy approach to the
+                JSON serialization declaration above is:</para>
+            <programlisting language="xquery">declare option exist:serialize "method=json media-type=application/json";</programlisting>
+            <para>Most of the exist-db specific serialization parameters have an equivalent in the standard
+                serialization parameters, but others are truly specific to eXist-db.</para>
+    
+            <para>To declare them in the prolog of a XQuery module use the <literal>declare
+                option</literal> statement. The syntax differs from the W3C that all options
+                are declared in a single statement. <code>parameter=value</code> pairs are
+                separated by whitespace in a single string. For instance:</para>
+            <programlisting>declare option exist:serialize "method=xhtml media-type=application/xhtml+html";</programlisting>
+
+
+            <para>The option's QName must be <literal>exist:serialize</literal>. The
+                <literal>exist</literal> prefix is bound to the namespace
+                <literal>http://exist.sourceforge.net/NS/exist</literal>. This is declared by
+                default and need not be specified explicitly.</para>
+            <para>Options are specified within the option's string literal, separated by
+                whitespace.</para>
+            
+
             <para>For example, to disable XInclude expansion and indent the output, use the
                 following syntax:</para>
             <programlisting>declare option exist:serialize "expand-xincludes=no indent=yes";</programlisting>
@@ -735,50 +760,56 @@
             <title>Using <code>fn:serialize()</code></title>
             <para>Another Serialization method that can be used is in-built function <literal>fn:serialize()</literal>.</para>
             <para>
-                You can apply eXist-db legacy serialization parameters as well as W3C serialization parameters via a map.
+                You can apply eXist-db specific serialization parameters as well as W3C serialization parameters via a map.
             </para>
             <programlisting language="xquery" xlink:href="listings/listing-40.txt"/>
             <note>
                 <para>
-                    For eXist-db legacy serialization parameters The option's QName must be <literal>exist:serialize</literal> as show in the example above
+                    For eXist-db serialization parameters the option's name must be prefixed with <literal>exist:</literal> as shown in the example above
                 </para>
             </note>
             
             <para>For W3C serialization parameters check:<link condition="_blank"
                 xlink:href="https://www.w3.org/TR/xslt-xquery-serialization-31/">W3C</link>
             </para>
-            <para>EXist-db legacy Map options:</para>
+            <para>eXist-db specific options:</para>
             <para>Check <link condition="_blank" xlink:href="https://github.com/eXist-db/exist/blob/develop/exist-core/src/test/xquery/xquery3/serialize.xql">Serialize Tests</link> to see the options in action</para>
             <variablelist>
                 <varlistentry>
-                    <term> <literal>jsonp= myFunctionName</literal> </term>
+                    <term> <literal>jsonp: function-name as xs:string </literal> </term>
                     <listitem>
                         <programlisting language="xquery" xlink:href="listings/listing-41.txt"/>
                         <para>output: <code>'functionName({})'</code> </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>expand-xincludes= yes | no</literal> </term>
+                    <term> <literal>expand-xincludes: xs:boolean</literal> </term>
                     <listitem>
                         <programlisting language="xquery" xlink:href="listings/listing-42.txt"/>
                         <para>expand XInclude elements</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>highlight-matches= both | elements | attributes | none</literal> </term>
+                    <term> <literal>highlight-matches: "both" | "elements" | "attributes" | "none"</literal> </term>
                     <listitem>
                         <programlisting language="xquery" xlink:href="listings/listing-43.txt"/>
                         <para>A complete example <link condition="_blank" xlink:href="https://github.com/eXist-db/exist/tree/develop/extensions/indexes/lucene/src/test/xquery/lucene/serialize.xql">Serialize Test with <code>ft:query()</code></link></para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>process-xsl-pi= yes | no</literal> </term>
+                    <term> <literal>process-xsl-pi: xs:boolean</literal> </term>
                     <listitem>
                         <programlisting language="xquery" xlink:href="listings/listing-44.txt"/>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>add-exist-id= element | all | none</literal> </term>
+                    <term> <literal>add-exist-id: "element" | "all" | "none"</literal> </term>
+                    <listitem>
+                        <programlisting language="xquery" xlink:href="listings/listing-45.txt"/>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <literal>insert-final-newline: xs:boolean</literal> </term>
                     <listitem>
                         <programlisting language="xquery" xlink:href="listings/listing-45.txt"/>
                     </listitem>
