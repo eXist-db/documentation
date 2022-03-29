@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Configuring Database Triggers</title>
-        <date>1Q18</date>
+        <date>1Q22</date>
         <keywordset>
             <keyword>application-development</keyword>
         </keywordset>
@@ -60,6 +60,11 @@
 
         <para>Triggers can be defined for running both <emphasis>before</emphasis> and
             <emphasis>after</emphasis> the event.</para>
+        <para>Triggers may be chained together into a pipeline like approach. For example, if a
+            document is stored into Collection A (configured with Trigger A), Trigger A may process
+            the document and in response store a new document into Collection B (configured with
+            Trigger B), which will in turn cause the document to be processed by Trigger B and so
+            on.</para>
 
     </sect1>
 
