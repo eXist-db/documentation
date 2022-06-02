@@ -313,7 +313,7 @@
 
             <para>To store a set of documents, use the <literal>-m</literal> and
                 <literal>-p</literal> parameters. For instance:</para>
-            <programlisting>bin/client.sh -m /db/shakespeare/plays -p /home/exist/xml/shakespeare</programlisting>
+            <programlisting>bin/client.sh -c /db/shakespeare/plays -m /db/shakespeare/plays -p /home/exist/xml/shakespeare</programlisting>
             <itemizedlist>
                 <listitem>
                     <para>The <literal>-m</literal> tells the client to implicitly create any
@@ -329,7 +329,7 @@
                         documents in that directory into the database. However, it will
                         <emphasis>not</emphasis> recurse into subdirectories. For this, you have to
                         pass the <literal>-d</literal> option. For example:</para>
-                    <programlisting>bin/client.sh -d -m /db/movies -p /home/exist/xml/movies</programlisting>
+                    <programlisting>bin/client.sh -d -c /db/movies -m /db/movies -p /home/exist/xml/movies</programlisting>
                     <para>This will recurse into all directories below
                         <literal>/home/exist/xml/movies</literal>. For each subdirectory, a
                         collection will be created below the <literal>/db/movies</literal>
