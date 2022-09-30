@@ -7,6 +7,8 @@ After=syslog.target
 Type=simple
 User=existdb
 Group=existdb
+Environment="JAVA_HOME=/path/to/jdk8"
+Environment="JAVA_OPTS=-XX:+UseG1GC -XX:+UseStringDeduplication -XX:MaxRAMPercentage=75.0"
 ExecStart=/path/to/exist-5.0.0/bin/startup.sh
 
 [Install]
