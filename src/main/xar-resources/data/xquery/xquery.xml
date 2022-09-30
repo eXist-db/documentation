@@ -607,7 +607,13 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>expand-xincludes : ( boolean )</literal> </term>
+                    <term> <literal>output-doctype : ( "yes" | "no" )</literal> </term>
+                    <listitem>
+                        <para>Serializes the document's Document Type Declaration if one is present.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term> <literal>expand-xincludes : ( "yes" | "no" )</literal> </term>
                     <listitem>
                         <para>Must the serializer expand XInclude elements?</para>
                     </listitem>
@@ -624,7 +630,7 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>process-xsl-pi : ( boolean )</literal> </term>
+                    <term> <literal>process-xsl-pi : ( "yes" | "no" )</literal> </term>
                     <listitem>
                         <para>If a document is serialized and it has an XSL processing instruction,
                             eXist-db can try to load the referenced stylesheet and apply it to the
@@ -641,14 +647,14 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>json-ignore-whitespace-text-nodes : ( boolean )</literal> </term>
+                    <term> <literal>json-ignore-whitespace-text-nodes : ( "yes" | "no" )</literal> </term>
                     <listitem>
                         <para>To discard white-space text nodes when serializing XML/XDM to
                             JSON.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>insert-final-newline : ( boolean )</literal> </term>
+                    <term> <literal>insert-final-newline : ( "yes" | "no" )</literal> </term>
                     <listitem>
                         <para>Add a final newline at the end of an XML or JSON document. This is
                             especially useful when serializing to a git repository.</para>
