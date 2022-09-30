@@ -88,7 +88,7 @@
                 non-privileged user.</para>
             <para>Begin by creating a new user in your system which is being created specifically to
                 run eXist-db as a service. You can do this by typing the following command:</para>
-            <programlisting>sudo adduser --system --shell /sbin/nologin --comment "eXist-db Service Account" existdb</programlisting>
+            <programlisting>sudo useradd --system --shell /sbin/nologin --comment "eXist-db Service Account" existdb</programlisting>
             <para>This command creates a new system user named "existdb" which does not need to
                 login in order to run a service. In order for this new system user to be able to run
                 eXist-db, we need to change the permission of eXist-db to match this new user. You
