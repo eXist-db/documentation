@@ -1,0 +1,18 @@
+<testsuites>
+    <testsuite package="http://exist-db.org/xquery/test/xqsuite" timestamp="2022-04-12T14:24:15.72+02:00" 
+        tests="4" failures="3" errors="0" pending="0" time="PT0.008S">
+        <testcase name="test-missing-key" class="t:test-missing-key">
+            <failure message="Key 'b' is missing" type="map-assertion"/>
+            <output>map{"a":1,"c":4}</output>
+        </testcase>
+        <testcase name="test-passing" class="t:test-passing"/>
+        <testcase name="test-wrong-type" class="t:test-wrong-type">
+            <failure message="Type mismatch" type="map-assertion"/>
+            <output>[1,2]</output>
+        </testcase>
+        <testcase name="test-wrong-value" class="t:test-wrong-value">
+            <failure message="Value mismatch for key 'b'" type="map-assertion"/>
+            <output>map{"a":1,"b":3}</output>
+        </testcase>
+    </testsuite>
+</testsuites>

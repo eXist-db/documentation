@@ -1,0 +1,22 @@
+xquery version "3.1";
+
+module namespace assert="http://line-o.de/xq/assert";
+
+import module namespace test="http://exist-db.org/xquery/xqsuite"
+    at "resource:org/exist/xquery/lib/xqsuite/xqsuite.xql";
+
+declare function assert:map ($e as map(*), $a as item()*) as xs:boolean? {
+    if (exists($a) and count($a) eq 1  and $a instance of map(*))
+    then (
+        for-each(map:keys($e), function ($key as xs:anyAtomicType) {
+            if (not(map:contains($a, $key)))
+            then test:fail("Key " || $key || " is missing", $e, $a, "map-assertion")
+            else if ($e($key) ne $a($key))
+            then test:fail("Value mismatch for key '" || $key || "'", $e, $a, "map-assertion")
+            else ()
+        })
+        ,
+        true()
+    )
+    else test:fail("Type mismatch", $e, $a, "map-assertion")
+};

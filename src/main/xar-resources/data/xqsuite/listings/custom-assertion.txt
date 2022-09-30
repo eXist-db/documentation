@@ -1,0 +1,25 @@
+xquery version "3.1";
+
+module namespace t="http://exist-db.org/xquery/test/xqsuite";
+
+import module namespace assert="http://line-o.de/xq/assert" at "./assert.xqm";
+
+declare namespace test="http://exist-db.org/xquery/xqsuite";
+
+declare variable $t:var := map {"a": 1, "b": 2};
+
+declare %test:assertTrue function t:test-missing-key() as xs:boolean? {
+    assert:map($t:var, map {"a": 1, "c": 4})
+};
+
+declare %test:assertTrue function t:test-wrong-value() as xs:boolean? {
+    assert:map($t:var, map {"a": 1, "b": 3})
+};
+
+declare %test:assertTrue function t:test-wrong-type() as xs:boolean? {
+    assert:map($t:var, [1,2])
+};
+
+declare %test:assertTrue function t:test-passing() as xs:boolean? {
+    assert:map($t:var, $t:var)
+};

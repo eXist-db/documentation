@@ -1,0 +1,15 @@
+xquery version "3.1";
+
+module namespace t="http://exist-db.org/xquery/test/xqsuite";
+
+declare namespace test="http://exist-db.org/xquery/xqsuite";
+
+declare %test:assertTrue function t:test-type() as xs:boolean? {
+    t:assert-is-foo(())
+};
+
+(: will only return true  :)
+declare function t:assert-is-foo($actual as item()*) as xs:boolean? {
+    $actual eq "foo" or
+        test:fail("Is not foo", $actual, "foo")
+};

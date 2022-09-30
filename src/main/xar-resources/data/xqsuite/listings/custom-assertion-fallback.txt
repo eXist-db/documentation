@@ -1,0 +1,26 @@
+xquery version "3.1";
+
+module namespace assert="http://line-o.de/xq/assert";
+
+import module namespace test="http://exist-db.org/xquery/xqsuite"
+    at "resource:org/exist/xquery/lib/xqsuite/xqsuite.xql";
+
+declare variable $assert:fail :=
+    let $builtin := function-lookup(xs:QName("test:fail"), 4)
+    return
+        if (exists($builtin))
+        then
+            $builtin
+        else (: fallback :)
+            function ($message, $expected, $actual, $type) {
+                error(xs:QName("assert:" || $type), $message, map {
+                    "expected": $expected,
+                    "actual": $actual
+                })
+            }
+
+declare function assert:map ($e as map(*), $a as item()*) as xs:boolean? {
+    if (exists($a) and count($a) eq 1  and $a instance of map(*))
+    then true()
+    else $assert:fail("Type mismatch", $e, $a, "map-assertion")
+};

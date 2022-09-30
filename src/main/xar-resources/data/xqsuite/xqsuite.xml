@@ -3,7 +3,7 @@
 <article version="5.0" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
   <info>
     <title>XQSuite - Annotation-based Test Framework for XQuery</title>
-    <date>1Q20</date>
+    <date>3Q22</date>
     <keywordset>
       <keyword>application-development</keyword>
       <keyword>testing</keyword>
@@ -300,6 +300,43 @@
         type declared for the function parameter. The same applies to the assertion values.</para>
       <para>Type conversion works for atomic types as well as XML nodes.</para>
       <para>If automatic type conversion fails the test case will fail as well.</para>
+    </sect2>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <sect2 xml:id="custom-assertions">
+      <title>Custom Assertions</title>
+
+      <para>Annotation based assertions are limited in so that you can
+      </para>
+      <itemizedlist>
+        <listitem>
+          <para>a) can only use (sequences of) string and numeric literals</para>
+        </listitem>
+        <listitem>
+          <para>b) the value must be static, meaning you cannot use variables in annotations</para>
+        </listitem>
+        <listitem>
+          <para>c) there is no way to add assertions that are specific to your domain</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>This is why the function <code>test:fail</code> was introduced allowing you to create
+      custom assertion functions.</para>
+      <programlisting language="xquery" xlink:href="listings/minimal-example.txt"/>
+      <para>These functions can also be in a module to re-use them.</para>
+      <programlisting language="xquery" xlink:href="listings/assertion-lib.txt"/>
+      <para>Here is an example using the above assertion library</para>
+      <programlisting language="xquery" xlink:href="listings/assertion-lib.txt"/>
+      <para>The output will look like this</para>
+      <programlisting language="xquery" xlink:href="listings/custom-assertion-output.xml"/>
+
+      <sect3 xml:id="custom-assertion-fallback">
+        <title>Fallback for backwards compatibility</title>
+        <para>If you want to run custom assertions on versions of eXist-db that do not have <code>test:fail</code>
+        there is a fallback that you can use. This could be the tests for a library package, for instance</para>
+        <programlisting language="xquery" xlink:href="listings/custom-assertion-fallback.txt"/>
+      </sect3>
     </sect2>
 
   </sect1>
