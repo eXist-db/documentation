@@ -5,6 +5,7 @@ let $options :=
         <phrase-slop>1</phrase-slop>
         <leading-wildcard>no</leading-wildcard>
         <filter-rewrite>yes</filter-rewrite>
+        <lowercase-expanded-terms>yes</lowercase-expanded-terms>
     </options>
 return
     //SPEECH[ft:query(., $query, $options)]

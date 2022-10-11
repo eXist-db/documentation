@@ -872,6 +872,15 @@
                             that this can produce very slow queries on big indexes.</para>
                     </listitem>
                 </varlistentry>
+                <varlistentry>
+                    <term> <code>lowercase-expanded-terms</code> </term>
+                    <listitem>
+                        <para>An option used to set whether the terms in wildcard, prefix, fuzzy, or range queries should be
+                        automatically lower-cased or left in their original case. 
+                        When set to <code>yes</code>, query terms are lower-cased (i.e., as if <code>fn:lower-case()</code> were applied to the query string).
+                        Default value is <code>no</code>.</para>
+                    </listitem>
+                </varlistentry>
             </variablelist>
         </sect2>
     </sect1>
