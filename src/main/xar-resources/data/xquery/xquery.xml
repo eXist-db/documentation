@@ -147,14 +147,9 @@
                     <para> <literal>map:merge#2</literal> </para>
                 </listitem>
             </itemizedlist>
-
-            <para>eXist-db supports all standard serialization parameters except the
-                following:</para>
-            <itemizedlist>
-                <listitem>
-                    <para> <literal>item-separator</literal> </para>
-                </listitem>
-            </itemizedlist>
+                <para>eXist-db supports all standard serialization parameters, but some bugs remain in the implementation, as reported by XQuery Test Suite (XQTS). For the internal tests that pass, see the <link condition="_blank"
+            xlink:href="https://github.com/eXist-db/exist/blob/develop/exist-core/src/test/xquery/xquery3/serialize.xql">eXist-db serialization tests</link>. 
+                    </para>
         </sect2>
 
     </sect1>
