@@ -91,10 +91,6 @@
                         supported, but the type portion of the test <literal>element(test-node,
                         xs:integer)</literal> is ignored.</para>
                 </listitem>
-                <listitem>
-                    <para>eXist supports all datatypes except <literal>xs:dateTimeStamp</literal>
-                    </para>
-                </listitem>
             </itemizedlist>
 
             <para>eXist-db supports standard XQuery FLWOR clause constructs except for the
@@ -108,46 +104,17 @@
                 </listitem>
             </itemizedlist>
 
-            <para>eXist-db supports all standard XQuery functions except for the following:</para>
+            <para>eXist-db supports all standard XQuery functions except for the following known issues:</para>
             <itemizedlist>
                 <listitem>
-                    <para> <literal>fn:collation-key#1, #2</literal> </para>
-                </listitem>
-                <listitem>
-                    <para> <literal>fn:default-language#0</literal> </para>
-                </listitem>
-                <listitem>
-                    <para> <literal>fn:document-uri#0</literal> </para>
-                </listitem>
-                <listitem>
-                    <para> <literal>fn:element-with-id#1, #2</literal> </para>
-                </listitem>
-                <listitem>
-                    <para> <literal>fn:format-integer#2, #3</literal> </para>
-                </listitem>
-                <listitem>
-                    <para> <literal>fn:nilled#0</literal> </para>
-                </listitem>
-                <listitem>
-                    <para> <literal>fn:path#0, #1</literal> </para>
-                </listitem>
-                <listitem>
-                    <para> <literal>fn:round#2</literal> </para>
-                </listitem>
-                <listitem>
-                    <para> <literal>fn:transform#1</literal> </para>
-                </listitem>
-                <listitem>
-                    <para> <literal>fn:uri-collection#0, #1</literal> </para>
-                </listitem>
-                <listitem>
-                    <para> <literal>map:find#2</literal> </para>
-                </listitem>
-                <listitem>
-                    <para> <literal>map:merge#2</literal> </para>
+                    <para> <literal>map:merge</literal> should default to "use-first" but eXist-db defaults to
+                        "use-last." The developers plan to <link condition="_blank"
+                            xlink:href="https://github.com/eXist-db/exist/pull/3738">adopt the
+                            standard option</link> in the next major version of eXist. </para>
                 </listitem>
             </itemizedlist>
-                <para>eXist-db supports all standard serialization parameters, but some bugs remain in the implementation, as reported by XQuery Test Suite (XQTS). For the internal tests that pass, see the <link condition="_blank"
+            
+            <para>eXist-db supports all standard serialization parameters, but some bugs remain in the implementation, as reported by XQuery Test Suite (XQTS). For the internal tests that pass, see the <link condition="_blank"
             xlink:href="https://github.com/eXist-db/exist/blob/develop/exist-core/src/test/xquery/xquery3/serialize.xql">eXist-db serialization tests</link>. 
                     </para>
         </sect2>
