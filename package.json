@@ -3,7 +3,6 @@
   "version": "5.4.1-SNAPSHOT",
   "description": "Documentation package for eXist-db",
   "scripts": {
-    "test": "mocha src/test/mocha/ --recursive --exit",
     "cypress": "cypress run"
   },
   "repository": {
@@ -23,11 +22,6 @@
     "url": "https://github.com/eXist-db/documentation/issues"
   },
   "homepage": "https://github.com/eXist-db/documentation#readme",
-  "standard": {
-    "env": [
-      "mocha"
-    ]
-  },
   "devDependencies": {
     "acorn": "^8.8.1",
     "chai": "^4.3.7",
@@ -48,7 +42,6 @@
     "gulp-svgmin": "^4.1.0",
     "gulp-uglify": "^3.0.2",
     "lazypipe": "^1.0.2",
-    "mocha": "^10.2.0",
     "sass": "^1.57.1",
     "supertest": "^6.3.3"
   },

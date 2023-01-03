@@ -186,17 +186,6 @@
             </goals>
             <phase>compile</phase>
           </execution>
-          <!-- Mocha is used for integration tests of xqsuite -->
-          <execution>
-            <id>mocha tests</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <phase>integration-test</phase>
-            <configuration>
-              <arguments>test</arguments>
-            </configuration>
-          </execution>
         </executions>
         <configuration>
           <nodeVersion>${node.version}</nodeVersion>
