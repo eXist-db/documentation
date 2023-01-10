@@ -45,68 +45,8 @@
     <programlisting xmlns:xlink="http://www.w3.org/1999/xlink" language="xquery" xlink:href="listings/listing-2.txt"/>
     <para>Every <tag>dispatch</tag> fragment must contain at least one step, followed by an optional <tag>view</tag> element grouping any number of follow up steps. In the example, the first <tag>forward</tag> step simply loads the XML document requested and returns its content. The output of the first step is passed to the second step via the HTTP request (and can be accessed via the XQuery function <code>request:get-data()</code>).</para>
   </sect1>
-  <sect1 xml:id="url-basics">
-    <title>Basics</title>
-
-    <para>URL rewriting is done by a standard Java servlet filter called
-      <code>XQueryURLRewrite</code>. Its main job is to intercept incoming requests and forward them to the appropriate handlers, which are again standard servlets. In fact, there's nothing eXist-specific to the servlet filter, except that it uses XQuery
-      scripts to configure the forwarding and URL rewriting. Like any other servlet filter, it is configured in
-      <literal>etc/webapp/WEB-INF/web.xml</literal>.</para>
-    <para>A controller XQuery is executed once for every requests. It must return an XML fragment, which tells the servlet filter how to proceed with the request. The returned XML fragment can range from simply define forwarding up to describing complex
-      pipelines involving multiple steps.</para>
-    <para>The main advantage of using XQuery for the controller is that we have the whole power of the language available. The controller can look at request parameters or headers, add new parameters or attributes, rewrite the request URI or access the
-      database. There's basically no limit.</para>
-  </sect1>
 
   <!-- ================================================================== -->
-
-  <sect1 xml:id="rewrite">
-    <title>URL Rewriting</title>
-
-    <para>When designing RESTful web applications, a common rule is to provide meaningful URIs to the user. For example, our eXist wiki implements a hierarchical document space. The user can directly browse to a document by entering the path to it into
-      the browser's location bar. The URL
-      <link xlink:href="http://atomic.exist-db.org/HowTo/OxygenXML/">http://atomic.exist-db.org/HowTo/OxygenXML/eXistXmlRpcChanged</link>
-      will directly lead to the corresponding document.</para>
-    <para>Internally all document views are handled by the same XQuery script. Above URL will be forwarded to an XQuery called
-      <literal>index.xql</literal>
-      as follows:</para>
-    <programlisting>index.xql?feed=HowTo/OxygenXML/&amp;ref=eXistXmlRpcChanged</programlisting>
-    <para>The XQuery code which does the rewrite magic is shown below:</para>
-    <programlisting language="xquery" xlink:href="listings/listing-2.txt"/>
-
-    <para>The
-      <tag>forward</tag>
-      element tells
-      <code>XQueryURLRewrite</code>
-      to pass the request to the specified URL. The forwarding is done via the
-      <literal>RequestDispatcher</literal>
-      of the servlet engine and is thus invisible to the user.
-    </para>
-    <para>Relative URLs within forward or redirect elements are interpreted relative to the request URI, absolute paths relative to the root of the current controller hierarchy. If the controller which processes the request is stored in the database, all
-      absolute and relative paths will be resolved against the database. This is explained in more detail below.</para>
-    <para>If you want the user to see the rewritten URL, replace the
-      <tag>forward</tag>
-      action with a
-      <tag>redirect</tag>. A common use for
-      <tag>redirect</tag>
-      is to send the user to a default page:</para>
-    <programlisting language="xquery" xlink:href="listings/listing-3.txt"/>
-
-    <para>If no action is specified within the dispatch element, the request will be passed through the filter chain and handled normally. The same happens if the action is the
-      <tag>ignore</tag>
-      element. For example, the simplest controller script consist of a single ignore:</para>
-    <para>eXist's URL rewriting mechanism lets you specify an <tag>error handler</tag> element for each dispatch directive in your <literal>controller.xq</literal>. <emphasis>NOTE</emphasis>: In eXist-db versions prior to 5.3.0, <literal>controller.xql</literal> must be used instead.</para>
-    <programlisting language="xml" xlink:href="listings/listing-4.xml"/>
-
-    <note>
-      <para>It is important to understand that only one (!) controller will ever be applied to a given request. It is not possible to forward from one controller to another (or to the same). Once you either ignored or forwarded a request in the controller,
-        it will be passed to the servlet which handles it or, if it references a resource, it will be processed by the servlet engine itself. The controller will
-        <emphasis>not</emphasis>
-        be called again for the same request.</para>
-      <para>Redirects are different in this respect: they cause the client (the web browser) to send a second request. This will again be filtered by
-        <code>XQueryURLRewrite</code>. It is therefore possible to create redirect loops this way!</para>
-    </note>
-  </sect1>
 
   <!-- ================================================================== -->
 
