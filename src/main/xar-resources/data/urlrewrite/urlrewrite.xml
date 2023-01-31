@@ -125,7 +125,7 @@
 &lt;/dispatch></programlisting>
       <para>The <tag>forward</tag> element can contain the optional children elements <link linkend="add-parameter"><tag>add-parameter</tag></link>, <link linkend="set-attribute"><tag>set-attribute</tag></link>, <link linkend="clear-attribute"><tag>clear-attribute</tag></link>, and <link linkend="set-header"><tag>set-header</tag></link>.</para>
     </sect2>
-    <sect2>
+    <sect2 xml:id="view">
       <title>The <tag>view</tag> Action</title>
       <para>The <tag>view</tag> action is used to define processing pipelines, and may follow <link linkend="redirect"><tag>redirect</tag></link> or <link linkend="forward"><tag>forward</tag></link> actions.</para>
       <para>The element is used to wrap a sequence of action elements such as <link linkend="forward"><tag>forward</tag></link>, often calling another servlet to process the results of the initial action.  This is discussed in <xref linkend="mvc-pipelines"/></para>
