@@ -29,16 +29,16 @@
           <para><code>XQueryURLRewrite</code> uses the controller XML fragment as an instruction on what to do next.  This instruction may be as simple as forwarding to a resource on (or off) the server, or it may be as complex as a pipeline using the <emphasis>Model-View-Controller</emphasis> pattern (see <xref linkend="mvc-pipelines"/>) and other servlets such as eXist's <xref linkend="xq-servlet"/> or <xref linkend="xslt-servlet"/>.</para>
         </listitem>
       </orderedlist>
-    <sect2>
+    <sect2 xml:id="eg1">
       <title>Example I: A Simple Implementation</title>
       <para>Consider  the document you are currently reading; a direct URL pointing to the source data might be <code>/exist/apps/doc/data/urlrewrite.xml</code>.  But accessing this URI  would only show a user the raw XML: instead users should get a properly formatted HTML version of the text, accessible through a simple URL like <code>/exist/apps/doc/urlrewrite</code>.</para>
       <para>To achieve this we need a mechanism to map or rewrite a given URL to an application specific endpoint. So in the simplest case, calling <code>/exist/apps/doc/urlrewrite</code> would locate the source document, transform it into HTML and return the result.</para>
-      <para><literal>controller.xq</literal> is invoked for all URL paths targeting the collection in which it resides. It has access to a number of <xref linkend="variables" xreflabel="controller variables"/> pre-filled with details about the request, including <literal>$exist:resource</literal>, containing the name of the resource (without path components) the request tries to access; also the <literal>$exist:controller</literal> variable which points to the collection the <literal>controller.xq</literal> is located in.</para>
+      <para><literal>controller.xq</literal> is invoked for all URL paths targeting the collection in which it resides. It has access to a number of <xref linkend="variables"/> pre-filled with details about the request, including <literal>$exist:resource</literal>, containing the name of the resource (without path components) the request tries to access; also the <literal>$exist:controller</literal> variable which points to the collection the <literal>controller.xq</literal> is located in.</para>
       <para>For example, one may want to direct all requests to <literal>/exist/apps/doc/{resource}</literal> to an XQuery, <literal>transform.xq</literal>, which is responsible for converting the XML content into HTML:</para>
       <programlisting language="xquery" xlink:href="listings/listing-1.txt"/>
       <para>This example controller returns a simple <tag>dispatch</tag> fragment which will be passed back to the URL rewriting framework. The <tag>forward</tag> element instructs the framework to call the URL <literal>modules/transform.xq</literal> relative to the collection in which the controller resides. It adds a request parameter, named <literal>doc</literal>, which translates the requested resource into an actual document path to be transformed.</para>
     </sect2>
-    <sect2>
+    <sect2 xml:id="eg2">
       <title>Example 2: Defining a Pipeline</title>
       <para>Real world controllers are typically more complex and may contain arbitrary XQuery code to distinguish between different scenarios. The URL rewriting framework allows you to turn simple requests into complex processing pipelines, involving any number of steps.</para>
       <para>For example, let us split above <tag>dispatch</tag> fragment into a pipeline involving two steps:</para>
@@ -61,20 +61,20 @@
     <para>As we've seen, <code>controller.xq</code> is expected to return a single XML document, the root element of which must be either <tag>dispatch xmlns="http://exist.sourceforge.net/NS/exist"</tag>, or <tag>ignore xmlns="http://exist.sourceforge.net/NS/exist"</tag>. </para>
     <para>Note that all of the elements discussed in this statement must be in this <code>http://exist.sourceforge.net/NS/exist</code> namespace.</para>
     <para>The <tag>dispatch</tag> element must contain one of the <emphasis>action elements</emphasis>
-      <link linkend="redirect"><tag>redirect</tag></link> or <link linkend="forward"><tag>forward</tag></link>, followed by an optional <link linkend="view"><tag>view</tag></link> action. It may also contain an optional <link linkend="cache-control"><tag>cache-control</tag></link> element.</para>
+      <link linkend="redirect"><literal>redirect</literal></link> or <link linkend="forward"><literal>forward</literal></link>, followed by an optional <link linkend="view"><literal>view</literal></link> action. It may also contain an optional <link linkend="cache-control"><literal>cache-control</literal></link> element.</para>
     <sect2 xml:id="ignore">
       <title>The <tag>ignore</tag> Action</title>
       <para>The <tag>ignore</tag> action simply bypasses the URL rewriting process. This may be useful for requests to fixed resources like images or stylesheets. An alternative may be to handle requests for such resources separately from the <code>XQueryUrlRewrite</code> servlet; this is discussed in <xref linkend="controller-mappings"/>.</para>
-      <programlisting language="xml">&lt;ignore xmlns="http://exist.sourceforge.net/NS/exist"/></programlisting>
-      <para>The <tag>ignore</tag> element may include an optional <link linkend="cache-control"><tag>cache-control</tag></link> element.</para>
+      <programlisting language="xml">&lt;ignore xmlns="http://exist.sourceforge.net/NS/exist"/&gt;</programlisting>
+      <para>The <tag>ignore</tag> element may include an optional <link linkend="cache-control"><literal>cache-control</literal></link> element.</para>
     </sect2>
     <sect2 xml:id="redirect">
       <title>The <tag>redirect</tag> Action</title>
       <para>The <tag>redirect</tag> Action redirects the client to another URL, indicating that the other URL must be used for subsequent requests. Note that this causes the client to issue a new request, potentially triggering the controller again; care should be taken to avoid looping behaviours.</para>
       <para>The URL to redirect to is given in attribute <literal>url</literal>. </para>
-      <programlisting language="xml">&lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-  &lt;redirect url="..."/>
-&lt;/dispatch></programlisting>
+      <programlisting language="xml">&lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist"&gt;
+  &lt;redirect url="..."/&gt;
+&lt;/dispatch&gt;</programlisting>
       <para>A redirect will be visible to the user: for instance the user's browser will be updated to show the specified new URL.</para>
     </sect2>
     <sect2 xml:id="forward">
@@ -118,50 +118,50 @@
           </listitem>
         </varlistentry>
       </variablelist>
-      <programlisting language="xml">&lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-  &lt;forward url="{$exist:controller}/modules/transform.xql">
-    &lt;add-parameter name="doc" value="{$exist:resource}.xml"/>
-  &lt;/forward>
-&lt;/dispatch></programlisting>
-      <para>The <tag>forward</tag> element can contain the optional children elements <link linkend="add-parameter"><tag>add-parameter</tag></link>, <link linkend="set-attribute"><tag>set-attribute</tag></link>, <link linkend="clear-attribute"><tag>clear-attribute</tag></link>, and <link linkend="set-header"><tag>set-header</tag></link>.</para>
+      <programlisting language="xml">&lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist"&gt;
+  &lt;forward url="{$exist:controller}/modules/transform.xql"&gt;
+    &lt;add-parameter name="doc" value="{$exist:resource}.xml"/&gt;
+  &lt;/forward&gt;
+&lt;/dispatch&gt;</programlisting>
+      <para>The <tag>forward</tag> element can contain the optional children elements <link linkend="add-parameter"><literal>add-parameter</literal></link>, <link linkend="set-attribute"><literal>set-attribute</literal></link>, <link linkend="clear-attribute"><literal>clear-attribute</literal></link>, and <link linkend="set-header"><literal>set-header</literal></link>.</para>
     </sect2>
     <sect2 xml:id="view">
       <title>The <tag>view</tag> Action</title>
-      <para>The <tag>view</tag> action is used to define processing pipelines, and may follow <link linkend="redirect"><tag>redirect</tag></link> or <link linkend="forward"><tag>forward</tag></link> actions.</para>
-      <para>The element is used to wrap a sequence of action elements such as <link linkend="forward"><tag>forward</tag></link>, often calling another servlet to process the results of the initial action.  This is discussed in <xref linkend="mvc-pipelines"/></para>
+      <para>The <tag>view</tag> action is used to define processing pipelines, and may follow <link linkend="redirect"><literal>redirect</literal></link> or <link linkend="forward"><literal>forward</literal></link> actions.</para>
+      <para>The element is used to wrap a sequence of action elements such as <link linkend="forward"><literal>forward</literal></link>, often calling another servlet to process the results of the initial action.  This is discussed in <xref linkend="mvc-pipelines"/></para>
     </sect2>
     <sect2 xml:id="add-parameter">
       <title>The <tag>add-parameter</tag> Option</title>
       <para>The <tag>add-parameter</tag> option adds (or overwrites) a request parameter.</para>
       <para>The name of the parameter is taken from attribute <literal>name</literal>, the value from attribute <literal>value</literal>.</para>
-      <programlisting language="xml">&lt;add-parameter name="xxx" value="yyy"/></programlisting>
+      <programlisting language="xml">&lt;add-parameter name="xxx" value="yyy"/&gt;</programlisting>
       <para>The original HTTP request will be copied before the change is applied. Subsequent steps in the pipeline will not see the parameter. </para>
     </sect2>
     <sect2 xml:id="set-attribute">
       <title>The <tag>set-attribute</tag> Option</title>
       <para>The <tag>set-attribute</tag> option sets a request attribute to the given value.</para>
       <para>The name of the request attribute is read from  <literal>name</literal>, the value from  <literal>value</literal>.</para>
-      <programlisting language="xml">&lt;set-attribute name="xxx" value="yyy"/></programlisting>
+      <programlisting language="xml">&lt;set-attribute name="xxx" value="yyy"/&gt;</programlisting>
       <para>You can set arbitrary request attributes, for instance to pass information between XQueries. Some attributes may be reserved by called servlets.</para>
     </sect2>
     <sect2 xml:id="clear-attribute"><title>The <tag>clear-attribute</tag> Option</title>
       <para>The <tag>clear-attribute</tag> option clears a request attribute.</para>
       <para>The name of the request attribute is read from the XML attribute <literal>name</literal>.</para>
-      <programlisting language="xml">&lt;clear-attribute name="xxx"/></programlisting>
+      <programlisting language="xml">&lt;clear-attribute name="xxx"/&gt;</programlisting>
       <para>Unlike parameters, request attributes will be visible to subsequent steps in the processing pipeline. They need to be cleared once they are no longer needed. </para></sect2>
     <sect2 xml:id="set-header"><title>The <tag>set-header</tag> Option</title>
       <para>The <tag>set-header</tag> option sets an HTTP response header field.</para>
       <para>The name of the header is read from attribute <literal>name</literal>, the value from attribute <literal>value</literal>.</para>
-      <programlisting language="xml">&lt;set-header name="xxx" value="yyy"/></programlisting>
+      <programlisting language="xml">&lt;set-header name="xxx" value="yyy"/&gt;</programlisting>
       <para>The HTTP response is shared between all steps in the pipeline, so all following steps will be able to see the change.</para></sect2>
     <sect2 xml:id="cache-control">
       <title>The <tag>cache-control</tag> Option</title>
       <para>The <tag>cache-control</tag> element is used to tell XQueryURLRewrite if the current URL rewrite should be cached. It has a single attribute <literal>cache="yes|no"</literal>. </para>
       <para>Internally, XQueryURLRewrite keeps a map of input URIs to dispatch rules. With the cache enabled, the controller XQuery only needs to be executed once for every input URI. Subsequent requests will use the cache.</para>
-      <programlisting language="xml">&lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-  &lt;redirect url="..."/>
-  &lt;cache-control cache="yes"/>
-&lt;/dispatch></programlisting>
+      <programlisting language="xml">&lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist"&gt;
+  &lt;redirect url="..."/&gt;
+  &lt;cache-control cache="yes"/&gt;
+&lt;/dispatch&gt;</programlisting>
       <para>Watch out: only the URL rewrite rule is cached, not the HTTP response. The cache-control setting has nothing to do with the corresponding HTTP cache headers or client-side caching within the browser</para>
     </sect2>
   </sect1>
@@ -301,7 +301,7 @@
   <sect1 xml:id="EXTERNAL_RESOURCES">
     <title>Accessing resources not stored in the database</title>
     <para>If your <code>controller.xq</code> is stored in a database collection, all relative and/or absolute URIs within the controller will be resolved against the database, not the file system. This can be a problem if you need to access common resources, which should be shared with other applications residing on the file system or in the database.</para>
-    <para>The <link linkend="forward"><tag>forward</tag></link> directive accepts an optional attribute <literal>absolute="yes|no"</literal> to handle this. If one sets <literal>absolute="yes"</literal>, an absolute path (starting with a <code>/</code>) in the <literal>url</literal> attribute will resolve relative to the current servlet context, not the controller context.</para>
+    <para>The <link linkend="forward"><literal>forward</literal></link> directive accepts an optional attribute <literal>absolute="yes|no"</literal> to handle this. If one sets <literal>absolute="yes"</literal>, an absolute path (starting with a <code>/</code>) in the <literal>url</literal> attribute will resolve relative to the current servlet context, not the controller context.</para>
     <para>For example, to forward all requests starting with a path <literal>/libs/</literal> to a directory within the <literal>webapp</literal> folder of eXist, you can use the following snippet:</para>
     <programlisting language="xquery" xlink:href="listings/listing-12.txt"/>
     <para>This simply removes the /libs/ prefix and sets absolute="yes", so the path will be resolved relative to the main context of the servlet engine, usually /exist/. In your HTML, you can now write:</para>
