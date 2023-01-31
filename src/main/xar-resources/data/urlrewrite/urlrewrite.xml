@@ -422,11 +422,7 @@
       throughout the entire pipeline, we need to clear the
       <literal>xslt.input</literal>
       with an explicit call to clear-attribute.</para>
-    <para>The benefit does to exchanging data through request attributes is that we save one serialization step.
-      <code>XQueryServlet</code>
-      directly passes the node tree of its output as a valid XQuery value, so
-      <code>XSLTServlet</code>
-      does not need to parse it again.</para>
+    <para>The benefit of exchanging data through request attributes is that we save one serialization step: <code>XQueryServlet</code> directly passes the node tree of its output as a valid XQuery value, so <code>XSLTServlet</code> does not need to parse it again.</para>
     <para>The advantages become more obvious if you have two or more XQueries which need to exchange information: XQuery 1 can use the XQuery extension function
       <code>request:set-attribute()</code>
       to save an arbitrary XQuery sequence to an attribute. XQuery 2 then calls
