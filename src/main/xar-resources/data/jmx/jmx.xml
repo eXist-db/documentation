@@ -167,6 +167,20 @@
             <para>For example, to get a report on current memory usage and running instances, use
                 the following URL:</para>
             <programlisting>http://localhost:8080/exist/status?c=memory&amp;c=instances</programlisting>
+            <note>
+                <para>The JMX information is only accessible via the HTTP interface when either:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>the client accesses the API on localhost</para>
+                    </listitem>
+                    <listitem>
+                        <para>a valid token is provided when accessing the API from a remote IP address</para>
+                    </listitem>
+                </itemizedlist>
+            </note>
+            <note>
+                <para>Use <link xlink:href="production_web_proxying">a web proxy</link> if you wish to provide this service separately from other eXist applications.</para>
+            </note>
             <para>This returns something like:</para>
             <programlisting language="xml" xlink:href="listings/listing-8.xml"/>
             <para>The different JMX objects in eXist are organized into categories. One or more
