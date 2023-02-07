@@ -9,6 +9,6 @@ declare variable $exist:root external;
 <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
     <forward url="data/{$exist:resource}.xml"/>
     <view>
-        <forward url="{$exist:controller}/modules/transform.xql"/>
+        <forward url="{$exist:controller}/modules/transform.xq"/>
     </view>
 </dispatch>

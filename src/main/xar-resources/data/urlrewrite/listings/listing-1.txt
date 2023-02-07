@@ -7,7 +7,7 @@ declare variable $exist:prefix external;
 declare variable $exist:root external;
 
 <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-    <forward url="{$exist:controller}/modules/transform.xql">
+    <forward url="{$exist:controller}/modules/transform.xq">
         <add-parameter name="doc" value="{$exist:resource}.xml"/>
     </forward>
 </dispatch>

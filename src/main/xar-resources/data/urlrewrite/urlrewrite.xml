@@ -1,7 +1,7 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
   <info>
     <title>URL Rewriting</title>
-    <date>2Q19</date>
+    <date>2022-02</date>
     <keywordset>
       <keyword>application-development</keyword>
     </keywordset>
@@ -30,13 +30,13 @@
         </listitem>
       </orderedlist>
     <sect2 xml:id="eg1">
-      <title>Example I: A Simple Implementation</title>
-      <para>Consider  the document you are currently reading; a direct URL pointing to the source data might be <code>/exist/apps/doc/data/urlrewrite.xml</code>.  But accessing this URI  would only show a user the raw XML: instead users should get a properly formatted HTML version of the text, accessible through a simple URL like <code>/exist/apps/doc/urlrewrite</code>.</para>
+      <title>Example 1: A Simple Implementation</title>
+      <para>Consider a document similar to the one you are currently reading; a direct URL pointing to the source data might be <code>/exist/apps/doc/data/urlrewrite.xml</code>. But accessing this URI would only show a user the raw XML: instead users should get a properly formatted HTML version of the text, accessible through a simple URL like <code>/exist/apps/doc/urlrewrite</code>.</para>
       <para>To achieve this we need a mechanism to map or rewrite a given URL to an application specific endpoint. So in the simplest case, calling <code>/exist/apps/doc/urlrewrite</code> would locate the source document, transform it into HTML and return the result.</para>
       <para><literal>controller.xq</literal> is invoked for all URL paths targeting the collection in which it resides. It has access to a number of <xref linkend="variables"/> pre-filled with details about the request, including <literal>$exist:resource</literal>, containing the name of the resource (without path components) the request tries to access; also the <literal>$exist:controller</literal> variable which points to the collection the <literal>controller.xq</literal> is located in.</para>
       <para>For example, one may want to direct all requests to <literal>/exist/apps/doc/{resource}</literal> to an XQuery, <literal>transform.xq</literal>, which is responsible for converting the XML content into HTML:</para>
       <programlisting language="xquery" xlink:href="listings/listing-1.txt"/>
-      <para>This example controller returns a simple <tag>dispatch</tag> fragment which will be passed back to the URL rewriting framework. The <tag>forward</tag> element instructs the framework to call the URL <literal>modules/transform.xq</literal> relative to the collection in which the controller resides. It adds a request parameter, named <literal>doc</literal>, which translates the requested resource into an actual document path to be transformed.</para>
+      <para>This example controller returns a simple <tag>dispatch</tag> fragment which will be passed back to the URL rewriting framework. The <tag>forward</tag> element instructs the framework to call the URL <literal>modules/transform.xq</literal> relative to the collection in which the controller resides. It adds a request parameter, named <literal>doc</literal>, which indicates the resource to be transformed.  The receiving query could access this parameter using <code>request:get-parameter("doc", ())</code> in order to retrieve the requested article.</para>
     </sect2>
     <sect2 xml:id="eg2">
       <title>Example 2: Defining a Pipeline</title>
@@ -119,7 +119,7 @@
         </varlistentry>
       </variablelist>
       <programlisting language="xml">&lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist"&gt;
-  &lt;forward url="{$exist:controller}/modules/transform.xql"&gt;
+  &lt;forward url="{$exist:controller}/modules/transform.xq"&gt;
     &lt;add-parameter name="doc" value="{$exist:resource}.xml"/&gt;
   &lt;/forward&gt;
 &lt;/dispatch&gt;</programlisting>
