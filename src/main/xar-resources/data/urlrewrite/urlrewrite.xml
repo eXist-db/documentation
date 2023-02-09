@@ -17,7 +17,7 @@
     <para>A typical URL rewriting operation might be handled as follows:</para>
     <orderedlist>
         <listitem>
-          <para>eXist receives a HTTP request; in the default configuration this is handled by the <code>XQueryUrlRewrite</code> servlet for any URI starting with the path <code>/exist</code>.</para>
+          <para>eXist receives an HTTP request; in the default configuration this is handled by the <code>XQueryUrlRewrite</code> servlet for any URI starting with the path <code>/exist</code>.</para>
         </listitem>
         <listitem>
           <para>The <code>XQueryUrlRewrite</code> servlet looks for an XQuery script to interpret the rest of the URI (see <xref linkend="controller-mappings"/>).  By convention this is called <code>controller.xq</code> (or in older applications <code>controller.xql</code>).  The default configuration will work with a script saved with this name in the base collection of an application.</para>
@@ -439,14 +439,7 @@
       <code>util:eval</code>, the controller code below passes the user-supplied query to XQueryServlet first, then post-processes the returned result and stores it into a session for later use by the ajax frontend:</para>
 
     <programlisting language="xquery" xlink:href="listings/listing-11.txt"/>
-    <para>The client passes the user-supplied query string in a request parameter, so the controller has to forward this to
-      <code>XQueryServlet</code>
-      somehow.
-      <code>XQueryServlet</code>
-      has an option to read the XQuery source from a request attribute,
-      <literal>xquery.source</literal>. The query result will be saved to the attribute
-      <literal>results</literal>. The second XQuery,
-      <literal>session.xq</literal>, takes the result and stores it into a HTTP session, returning only the number of hits and the elapsed time.</para>
+    <para>The client passes the user-supplied query string in a request parameter, so the controller has to forward this to <code>XQueryServlet</code> somehow. <code>XQueryServlet</code> has an option to read the XQuery source from a request attribute, <literal>xquery.source</literal>. The query result will be saved to the attribute <literal>results</literal>. The second XQuery, <literal>session.xq</literal>, takes the result and stores it into an HTTP session, returning only the number of hits and the elapsed time.</para>
     <para>When called through retrieve,
       <literal>session.xq</literal>
       looks at parameter
