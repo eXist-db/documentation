@@ -41,7 +41,7 @@
     <sect2 xml:id="eg2">
       <title>Example 2: Defining a Pipeline</title>
       <para>Real world controllers are typically more complex and may contain arbitrary XQuery code to distinguish between different scenarios. The URL rewriting framework allows you to turn simple requests into complex processing pipelines, involving any number of steps.</para>
-      <para>For example, let us split above <tag>dispatch</tag> fragment into a pipeline involving two steps:</para>
+      <para>For example, let us split the <tag>dispatch</tag> fragment above into a pipeline involving two steps:</para>
       <orderedlist>
         <listitem>
           <para>load the resource to be transformed</para>
@@ -332,15 +332,8 @@
         </para>
       </listitem>
     </itemizedlist>
-    <para>The
-      <tag>forward</tag>
-      tags specify path mappings for common servlets, similar to a servlet mapping in
-      <literal>web.xml</literal>. The advantage is that XQueryURLRewrite becomes a single point of entry for the entire web application and we don't need to handle any of the servlet paths in the main controller. For example, if we registered a servlet mapping for
-      <literal>/rest</literal>
-      in
-      <literal>web.xml</literal>, we would need to make sure that this path is ignored in our main
-      <literal>controller.xq</literal>. However, if the mapping is done via
-      <literal>controller-config.xml</literal>, it will already been known to XQueryURLRewrite and we don't need take care of the path in our controller.</para>
+    <para>The <tag>forward</tag> tags specify path mappings for common servlets, similar to a servlet mapping in <literal>web.xml</literal>. The advantage is that XQueryURLRewrite becomes a single point of entry for the entire web application and we don't need to handle any of the servlet paths in the main controller.</para>
+    <para>For example, if we registered a servlet mapping for <literal>/rest</literal> in <literal>web.xml</literal>, we would need to make sure that this path is ignored in our main <literal>controller.xq</literal>. However, if the mapping is done via <literal>controller-config.xml</literal>,  XQueryURLRewrite will have already handled the path, which won't need to be accounted for in our controller.</para>
     <para>The
       <tag>root</tag>
       elements define the roots of a directory or database collection hierarchy, mapped to a certain base path. For example, the default
@@ -390,12 +383,7 @@
       fragment by
       <literal>controller.xq</literal>:</para>
     <programlisting language="xml" xlink:href="listings/listing-9.xml"/>
-    <para>In this example there's no forwarding action except for the view, So the request will be handled by the servlet engine the normal way. The response is then passed to
-      <code>XSLTServlet</code>. A new HTTP POST request is created whose body is set to the response data of the previous step.
-      <code>XSLTServlet</code>
-      gets the path to the stylesheet from the request attribute
-      <code>xslt.stylesheet</code>
-      and applies it to the data.</para>
+    <para>In this example there are no forwarding actions except for the view, so the request will be handled by the servlet engine the normal way. The response is then passed to <code>XSLTServlet</code>. A new HTTP POST request is created whose body is set to the response data of the previous step. <code>XSLTServlet</code> gets the path to the stylesheet from the request attribute <code>xslt.stylesheet</code> and applies it to the data.</para>
     <para>If any step in the pipeline generates an error or returns an HTTP status code &gt;= 400, the pipeline processing stops and the response is send back to the client immediately. The same happens if the first step returns with an HTTP status 304
       (NOT MODIFIED), which indicates that the client can use the version it has cached.</para>
     <para>We can also pass a request through more than one view. The following fragment applies two stylesheets in sequence:</para>
