@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Java Management Extensions (JMX)</title>
-        <date>2022-02</date>
+        <date>1Q23</date>
         <keywordset>
             <keyword>java-development</keyword>
             <keyword>operations</keyword>
@@ -14,7 +14,7 @@
 
     <!-- ================================================================== -->
 
-    <para>eXist-db provides access to various management interfaces via Java Management Extensions (JMX). An agent in the Java virtual machine exposes agent services as <emphasis>MBeans</emphasis> that belong to different components running within the virtual machine. A JMX-compliant management application can then connect to the agent through the MBeans and access the available services in a standardized way. </para>
+    <para>eXist-db provides access to various management interfaces via Java Management Extensions (JMX). An agent in the Java Virtual Machine exposes agent services as <emphasis>MBeans</emphasis> that belong to different components running within the Virtual Machine. A JMX-compliant management application can then connect to the agent through the MBeans and access the available services in a standardized way. </para>
     <para>The standard Java installation includes a simple client, JConsole, which will display the eXist-specific services. eXist also provides a command-line client for quick access to server statistics and other information.</para>
     <para>eXist only exposes a limited set of read-only services. Most of them are useful for debugging purposes only.</para>
 
@@ -160,7 +160,7 @@
                         <para>the client accesses the API on localhost</para>
                     </listitem>
                     <listitem>
-                        <para>a valid token is provided when accessing the API from a remote IP address. A file containing this token and an example of its use can be found in the eXist data directory at <code>$(EXIST_HOME)/data/jmxservlet.token</code>.</para>
+                        <para>a valid token is provided when accessing the API from a remote IP address. A file containing this token and an example of its use can be found in the eXist data directory at <code>$EXIST_HOME/data/jmxservlet.token</code>.</para>
                     </listitem>
                 </itemizedlist>
             </note>
