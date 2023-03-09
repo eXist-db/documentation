@@ -1,4 +1,5 @@
-if (starts-with($exist:path, "/libs/")) then
+if (starts-with($exist:path, "/libs/"))
+then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="/{substring-after($exist:path, '/libs/')}" absolute="yes"/>
     </dispatch>

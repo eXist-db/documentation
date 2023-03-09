@@ -8,79 +8,156 @@
   </info>
 
   <!-- ================================================================== -->
-  <para>How to use <code>controller.xq</code> files to map URIs to resources in exist-db.</para>
+  <para>How to use <code>controller.xq</code> files to map URLs to resources in eXist-db.</para>
   <!-- ================================================================== -->
 
   <sect1 xml:id="intro">
     <title>Introduction</title>
-    <para>Good web applications provide meaningful, consistent URIs to the user. <emphasis>URL rewriting</emphasis> is one way to provide short, human-readable URIs that provide access to the often complex heirarchy of XQuery modules, HTML files data and other resources that are combined into an application.</para>
-    <para>A typical URL rewriting operation might be handled as follows:</para>
+    <para>Good Web Applications provide meaningful and consistent URLs to the user. <emphasis>URL
+        Rewriting</emphasis> is one possible mechanism for providing short, human-readable URLs that
+      provide access to the often complex heirarchy of XQuery modules, HTML files, data, and other
+      resources that are combined into an XQuery Web Application. Another alternative mechanism to
+      URL Rewriting that is directly supported by eXist-db is <link
+        xlink:href="http://exquery.github.io/exquery/exquery-restxq-specification/restxq-1.0-specification.html"
+        >RESTXQ</link>. It is also possible to manage URL mapping or rewritting outside of eXist-db
+      by placing a <link xlink:href="production_web_proxying">Reverse Proxy</link> between eXist-db
+      and the end-user.</para>
+    <para>A typical URL Rewriting operation might be handled as follows:</para>
     <orderedlist>
         <listitem>
-          <para>eXist receives an HTTP request; in the default configuration this is handled by the <code>XQueryUrlRewrite</code> servlet for any URI starting with the path <code>/exist</code>.</para>
+          <para>eXist-db receives an HTTP request; in the default configuration this is handled by
+          the <code>XQueryUrlRewrite</code> servlet for any URL starting with the path
+            <code>/exist</code>.</para>
         </listitem>
         <listitem>
-          <para>The <code>XQueryUrlRewrite</code> servlet looks for an XQuery script to interpret the rest of the URI (see <xref linkend="controller-mappings"/>).  By convention this is called <code>controller.xq</code> (or in older applications <code>controller.xql</code>).  The default configuration will work with a script saved with this name in the base collection of an application.</para>
+          <para>The <code>XQueryUrlRewrite</code> servlet looks for an XQuery Main Module to
+          interpret the rest of the URL (see <xref linkend="controller-mappings"/>). By convention
+          this Main Module should be called <code>controller.xq</code> (or in older applications
+            <code>controller.xql</code>). The default configuration will work with a Main Module
+          saved with this name in the base collection of an application.</para>
         </listitem>
         <listitem>
-          <para><code>controller.xq</code> examines the URI using pre-defined <xref linkend="variables"/>, and produces a fragment in the <xref linkend="controller-xml"/>.</para>
+          <para>The <code>controller.xq</code> examines the URL using the provided <xref
+            linkend="variables"/>, and may produce an XML document in the <xref
+            linkend="controller-xml"/>.</para>
         </listitem>
         <listitem>
-          <para><code>XQueryURLRewrite</code> uses the controller XML fragment as an instruction on what to do next.  This instruction may be as simple as forwarding to a resource on (or off) the server, or it may be as complex as a pipeline using the <emphasis>Model-View-Controller</emphasis> pattern (see <xref linkend="mvc-pipelines"/>) and other servlets such as eXist's <xref linkend="xq-servlet"/> or <xref linkend="xslt-servlet"/>.</para>
+          <para>The <code>XQueryURLRewrite</code> servlet interprets the Controller XML document as
+          a series of instructions on what to do next. These instructions may be as simple as
+          forwarding to a resource on (or off) the server, or it may be as complex as a pipeline
+          using the <emphasis>Model-View-Controller</emphasis> pattern (see <xref
+            linkend="mvc-pipelines"/>) and other servlets such as eXist-db's <xref
+            linkend="xq-servlet"/> or <xref linkend="xslt-servlet"/>.</para>
         </listitem>
       </orderedlist>
     <sect2 xml:id="eg1">
       <title>Example 1: A Simple Implementation</title>
-      <para>Consider a document similar to the one you are currently reading; a direct URL pointing to the source data might be <code>/exist/apps/doc/data/urlrewrite.xml</code>. But accessing this URI would only show a user the raw XML: instead users should get a properly formatted HTML version of the text, accessible through a simple URL like <code>/exist/apps/doc/urlrewrite</code>.</para>
-      <para>To achieve this we need a mechanism to map or rewrite a given URL to an application specific endpoint. So in the simplest case, calling <code>/exist/apps/doc/urlrewrite</code> would locate the source document, transform it into HTML and return the result.</para>
-      <para><literal>controller.xq</literal> is invoked for all URL paths targeting the collection in which it resides. It has access to a number of <xref linkend="variables"/> pre-filled with details about the request, including <literal>$exist:resource</literal>, containing the name of the resource (without path components) the request tries to access; also the <literal>$exist:controller</literal> variable which points to the collection the <literal>controller.xq</literal> is located in.</para>
-      <para>For example, one may want to direct all requests to <literal>/exist/apps/doc/{resource}</literal> to an XQuery, <literal>transform.xq</literal>, which is responsible for converting the XML content into HTML:</para>
+      <para>Consider a document similar to the one you are currently reading; a direct URL pointing
+        to that XML document might be: <code>/exist/apps/doc/data/urlrewrite.xml</code>. By
+        accessing this URL, eXist-db would only return the XML document's content, however it may be
+        preferable that users should get a properly formatted HTML page instead that they can easily
+        consume in their web-browser. We may wish to make the HTML rendered version of that document
+        accessible through a simplified URL like: <code>/exist/apps/doc/urlrewrite</code>.</para>
+      <para>To achieve this we need a mechanism to map or rewrite a given URL to an application
+        specific endpoint. So in the simplest case, visiting the URL:
+          <code>/exist/apps/doc/urlrewrite</code> would initiate an XQuery process that locates the
+        source document, transforms it into HTML, and finally returns the HTML page.</para>
+      <para>Any XQuery Main Module named <literal>controller.xq</literal> is invoked for all URL
+        paths targeting the collection in which it resides. It has access to a number of <xref
+          linkend="variables"/> pre-bound with details about the request, including
+          <literal>$exist:resource</literal>, containing the name of the resource (without path
+        components) the request tries to access; also the <literal>$exist:controller</literal>
+        variable which is bound to the path of the database collection that the
+          <literal>controller.xq</literal> is located in.</para>
+      <para>For example, one may want to direct all requests to
+          <literal>/exist/apps/doc/{resource}</literal> to an XQuery,
+          <literal>transform.xq</literal>, which is responsible for converting the XML document
+        named in place of <literal>{resource}</literal> into an HTML page. To achieve this, one
+        could create the following XQuery Main Module and store it in the database at the path:
+          <literal>/db/apps/doc/controller.xq</literal>:</para>
       <programlisting language="xquery" xlink:href="listings/listing-1.txt"/>
-      <para>This example controller returns a simple <tag>dispatch</tag> fragment which will be passed back to the URL rewriting framework. The <tag>forward</tag> element instructs the framework to call the URL <literal>modules/transform.xq</literal> relative to the collection in which the controller resides. It adds a request parameter, named <literal>doc</literal>, which indicates the resource to be transformed.  The receiving query could access this parameter using <code>request:get-parameter("doc", ())</code> in order to retrieve the requested article.</para>
+      <para>This example controller returns a simple <tag>dispatch</tag> document which will be
+        passed back to the URL Rewriting framework. The <tag>forward</tag> element instructs the
+        framework to call the URL <literal>modules/transform.xq</literal> relative to the collection
+        in which the controller resides. It adds an HTTP request parameter, named
+          <literal>doc</literal>, which indicates the resource to be transformed. The receiving
+        query can access this parameter using the XQuery HTTP Request Module by calling the XQuery
+        function: <code>request:get-parameter("doc", ())</code> in order to retrieve the requested
+        article.</para>
     </sect2>
     <sect2 xml:id="eg2">
       <title>Example 2: Defining a Pipeline</title>
-      <para>Real world controllers are typically more complex and may contain arbitrary XQuery code to distinguish between different scenarios. The URL rewriting framework allows you to turn simple requests into complex processing pipelines, involving any number of steps.</para>
-      <para>For example, let us split the <tag>dispatch</tag> fragment above into a pipeline involving two steps:</para>
+      <para>Real world controllers are often far more complex and may contain arbitrary XQuery code
+        to distinguish between different scenarios. The URL Rewriting framework allows you to turn
+        simple requests into complex processing pipelines, involving any number of steps.</para>
+      <para>For example, let us split the <tag>dispatch</tag> element from above into a pipeline
+        involving two steps:</para>
       <orderedlist>
         <listitem>
-          <para>load the resource to be transformed</para>
+          <para>Load the resource to be transformed</para>
         </listitem>
         <listitem>
-          <para>pass the content of the resource to <literal>modules/transform.xq</literal></para>
+          <para>Pass the content of the resource to <literal>modules/transform.xq</literal></para>
         </listitem>
       </orderedlist>
       <programlisting language="xquery" xlink:href="listings/listing-2.txt"/>
-      <para>Every <tag>dispatch</tag> fragment must contain at least one step, followed by an optional <tag>view</tag> element grouping any number of follow up steps. In the example, the first <tag>forward</tag> step simply loads the XML document requested and returns its content. The output of the first step is passed to the second step via the HTTP request (and can be accessed via the XQuery function <code>request:get-data()</code>).</para>
+      <para>Every <tag>dispatch</tag> element must contain at least one step, followed by an
+        optional <tag>view</tag> element grouping any number of follow up steps. In the example, the
+        first <tag>forward</tag> element simply instructs eXist-db to load the requested XML
+        document and then return its content. The output of the first step is passed to the second
+        step via the HTTP request (and can be accessed via the XQuery function:
+          <code>request:get-data()</code>).</para>
     </sect2>
   </sect1>
 
   <!-- ================================================================== -->
   <sect1 xml:id="controller-xml">
     <title>Controller XML Format</title>
-    <para>As we've seen, <code>controller.xq</code> is expected to return a single XML document, the root element of which must be either <tag>dispatch xmlns="http://exist.sourceforge.net/NS/exist"</tag>, or <tag>ignore xmlns="http://exist.sourceforge.net/NS/exist"</tag>. </para>
-    <para>Note that all of the elements discussed in this statement must be in this <code>http://exist.sourceforge.net/NS/exist</code> namespace.</para>
-    <para>The <tag>dispatch</tag> element must contain one of the <emphasis>action elements</emphasis>
-      <link linkend="redirect"><literal>redirect</literal></link> or <link linkend="forward"><literal>forward</literal></link>, followed by an optional <link linkend="view"><literal>view</literal></link> action. It may also contain an optional <link linkend="cache-control"><literal>cache-control</literal></link> element.</para>
+    <para>As we have seen, the <code>controller.xq</code> XQuery Main Module is expected to return a
+      single XML document, the root element of which must be either <tag>dispatch
+        xmlns="http://exist.sourceforge.net/NS/exist"</tag>, or <tag>ignore
+        xmlns="http://exist.sourceforge.net/NS/exist"</tag>. </para>
+    <para>Note that all of the elements discussed in this article must be in the
+        <code>http://exist.sourceforge.net/NS/exist</code> namespace.</para>
+    <para>The <tag>dispatch</tag> element must contain one of the <emphasis>action
+        elements</emphasis>
+      <link linkend="redirect"><literal>redirect</literal></link> or <link linkend="forward"
+          ><literal>forward</literal></link>, followed by an optional <link linkend="view"
+          ><literal>view</literal></link> element. It may also contain an optional <link
+        linkend="cache-control"><literal>cache-control</literal></link> element.</para>
     <sect2 xml:id="ignore">
       <title>The <tag>ignore</tag> Action</title>
-      <para>The <tag>ignore</tag> action simply bypasses the URL rewriting process. This may be useful for requests to fixed resources like images or stylesheets. An alternative may be to handle requests for such resources separately from the <code>XQueryUrlRewrite</code> servlet; this is discussed in <xref linkend="controller-mappings"/>.</para>
+      <para>The <tag>ignore</tag> action simply bypasses the URL Rewriting process. This may be
+        useful for requests to fixed resources like images or stylesheets. An alternative may be to
+        handle requests for such resources separately from the <code>XQueryUrlRewrite</code>
+        servlet; this is discussed in <xref linkend="controller-mappings"/>.</para>
       <programlisting language="xml">&lt;ignore xmlns="http://exist.sourceforge.net/NS/exist"/&gt;</programlisting>
       <para>The <tag>ignore</tag> element may include an optional <link linkend="cache-control"><literal>cache-control</literal></link> element.</para>
     </sect2>
     <sect2 xml:id="redirect">
       <title>The <tag>redirect</tag> Action</title>
-      <para>The <tag>redirect</tag> Action redirects the client to another URL, indicating that the other URL must be used for subsequent requests. Note that this causes the client to issue a new request, potentially triggering the controller again; care should be taken to avoid looping behaviours.</para>
-      <para>The URL to redirect to is given in attribute <literal>url</literal>. </para>
+      <para>The <tag>redirect</tag> action redirects the client to another URL, indicating that the
+        other URL must be used for subsequent requests. Note that this is implemented by eXist-db
+        returning an <link xlink:href="https://www.rfc-editor.org/rfc/rfc2616.html#section-10.3.3"
+          >HTTP 302 redirect response</link> to the client. This causes the client to issue a new
+        request, and this can potentially trigger the controller again; care must be taken to avoid
+        creaing an un-exitable loop.</para>
+      <para>The URL to the <literal>redirect</literal> element is given in an attribute named <literal>url</literal>.</para>
       <programlisting language="xml">&lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist"&gt;
   &lt;redirect url="..."/&gt;
 &lt;/dispatch&gt;</programlisting>
-      <para>A redirect will be visible to the user: for instance the user's browser will be updated to show the specified new URL.</para>
+      <para>A redirect will be visible to the user: for instance the user's web-browser will be
+        updated to show the specified new URL.</para>
     </sect2>
     <sect2 xml:id="forward">
       <title>The <tag>forward</tag> Action</title>
-      <para>The <tag>forward</tag> Action forwards the current request to another request path or servlet. The forwarding is done on the server only (via the <code>RequestDispatcher</code> of the servlet engine). The client can't see where the request was forwarded to.</para>
-      <para>The element is allowed the following attributes, and must define either <literal>url</literal> or <literal>servlet</literal>:</para>
+      <para>The <tag>forward</tag> action forwards the current request to another request path or
+        servlet. Unlike the <literal>redirect</literal> action, the <literal>forward</literal>
+        action is performed server-side within eXist-db (via the <code>RequestDispatcher</code> of
+        the servlet engine); therefore the client cannot see where the request was forwarded
+        to.</para>
+      <para>The element is allowed the following attributes, and must define either
+          <literal>url</literal> or <literal>servlet</literal> attributes:</para>
       <variablelist>
         <varlistentry>
           <term>
@@ -88,8 +165,12 @@
           </term>
           <listitem>
             <para>The new request path, which will be processed by the servlet engine in the normal way, as if it were directly called.</para>
-            <para>A relative path will be relative to the current request path. An absolute path will be resolved relative to the path that triggered the controller.</para>
-            <para>For example, if the current web context is <literal>/exist</literal> and the supplied attribute reads <literal>url="/admin"</literal>, the resulting path will be <literal>/exist/admin</literal>.</para>
+            <para>If a relative path is provided, then it is resolved relative to to the current
+              request path. An absolute path will be resolved relative to the path that triggered
+              the controller.</para>
+            <para>For example, if the current URL context is <literal>/exist</literal> and the
+              supplied attribute reads <literal>url="/admin"</literal>, the resulting path will be
+                <literal>/exist/admin</literal>.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -97,8 +178,12 @@
             <code>servlet</code>
           </term>
           <listitem>
-            <para>The name of a servlet as given in the <tag>servlet-name</tag> element in the corresponding servlet definition of the web descriptor <literal>web.xml</literal>. </para>
-            <para>For example, valid names within the eXist standard setup would be <code>XQueryServlet</code> or <code>XSLTServlet</code>. See some examples of these in <xref linkend="mvc-pipelines"/>.</para>
+            <para>The name of a servlet as given in the <tag>servlet-name</tag> element of the
+              corresponding servlet definition from eXist-db's web descriptor
+                <literal>$EXIST_HOME/etc/webapp/WEB-INF/web.xml</literal> configuration file. </para>
+            <para>For example, valid names within the eXist-db's standard setup would be
+                <code>XQueryServlet</code> or <code>XSLTServlet</code>. You can see some examples of
+              these in the article <xref linkend="mvc-pipelines"/>.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -114,7 +199,9 @@
             <code>method</code>
           </term>
           <listitem>
-            <para>The HTTP method (POST, GET, PUT ...) to use when passing the request to the next step in a pipeline (and so does not apply to the first step). The default method for pipeline steps in the view section is always POST.</para>
+            <para>The HTTP method (POST, GET, PUT ...) to use when passing the request to the next
+              step in the pipeline; not applicable to the first step. The default method for
+              pipeline steps in the view section is always <literal>POST</literal>.</para>
           </listitem>
         </varlistentry>
       </variablelist>
@@ -123,46 +210,71 @@
     &lt;add-parameter name="doc" value="{$exist:resource}.xml"/&gt;
   &lt;/forward&gt;
 &lt;/dispatch&gt;</programlisting>
-      <para>The <tag>forward</tag> element can contain the optional children elements <link linkend="add-parameter"><literal>add-parameter</literal></link>, <link linkend="set-attribute"><literal>set-attribute</literal></link>, <link linkend="clear-attribute"><literal>clear-attribute</literal></link>, and <link linkend="set-header"><literal>set-header</literal></link>.</para>
+      <para>The <tag>forward</tag> element can contain the optional child elements: <link
+          linkend="add-parameter"><literal>add-parameter</literal></link>, <link
+          linkend="set-attribute"><literal>set-attribute</literal></link>, <link
+          linkend="clear-attribute"><literal>clear-attribute</literal></link>, and <link
+          linkend="set-header"><literal>set-header</literal></link>.</para>
     </sect2>
     <sect2 xml:id="view">
       <title>The <tag>view</tag> Action</title>
       <para>The <tag>view</tag> action is used to define processing pipelines, and may follow <link linkend="redirect"><literal>redirect</literal></link> or <link linkend="forward"><literal>forward</literal></link> actions.</para>
-      <para>The element is used to wrap a sequence of action elements such as <link linkend="forward"><literal>forward</literal></link>, often calling another servlet to process the results of the initial action.  This is discussed in <xref linkend="mvc-pipelines"/></para>
+      <para>The <tag>view</tag> element is used to wrap a sequence of action elements such as <link
+          linkend="forward"><literal>forward</literal></link>. It is often used to call another
+        servlet to process the results of the initial action. This is discussed in the article:
+          <xref linkend="mvc-pipelines"/></para>
     </sect2>
     <sect2 xml:id="add-parameter">
       <title>The <tag>add-parameter</tag> Option</title>
-      <para>The <tag>add-parameter</tag> option adds (or overwrites) a request parameter.</para>
-      <para>The name of the parameter is taken from attribute <literal>name</literal>, the value from attribute <literal>value</literal>.</para>
+      <para>The <tag>add-parameter</tag> option adds (or overwrites) a HTTP Request
+        Parameter.</para>
+      <para>The name of the parameter is taken from the <literal>name</literal> attribute, and the
+        value from the <literal>value</literal> attribute.</para>
       <programlisting language="xml">&lt;add-parameter name="xxx" value="yyy"/&gt;</programlisting>
-      <para>The original HTTP request will be copied before the change is applied. Subsequent steps in the pipeline will not see the parameter. </para>
+      <para>The original HTTP request will be copied before the change is applied. This applies only
+        to the step on which it is placed, that is to say that subsequent steps in the pipeline will
+        not see the parameter. </para>
     </sect2>
     <sect2 xml:id="set-attribute">
       <title>The <tag>set-attribute</tag> Option</title>
-      <para>The <tag>set-attribute</tag> option sets a request attribute to the given value.</para>
-      <para>The name of the request attribute is read from  <literal>name</literal>, the value from  <literal>value</literal>.</para>
+      <para>The <tag>set-attribute</tag> option sets a request attribute to the given value.
+        Attributes are internal to the pipeline, and are part of the Java Servlet specification,
+        they and are not related to the HTTP Request or HTTP Response.</para>
+      <para>The name of the request attribute is read from the <literal>name</literal> attribute,
+        and the value from the <literal>value</literal> attribute.</para>
       <programlisting language="xml">&lt;set-attribute name="xxx" value="yyy"/&gt;</programlisting>
-      <para>You can set arbitrary request attributes, for instance to pass information between XQueries. Some attributes may be reserved by called servlets.</para>
+      <para>You can set arbitrary request attributes, for instance to pass information between
+        XQuery modules. Some attribute names may be reserved by various servlets in the
+        pipeline.</para>
     </sect2>
     <sect2 xml:id="clear-attribute"><title>The <tag>clear-attribute</tag> Option</title>
       <para>The <tag>clear-attribute</tag> option clears a request attribute.</para>
-      <para>The name of the request attribute is read from the XML attribute <literal>name</literal>.</para>
+      <para>The name of the request attribute is read from the <literal>name</literal>
+        attribute.</para>
       <programlisting language="xml">&lt;clear-attribute name="xxx"/&gt;</programlisting>
-      <para>Unlike parameters, request attributes will be visible to subsequent steps in the processing pipeline. They need to be cleared once they are no longer needed. </para></sect2>
+      <para>Unlike parameters, request attributes will be visible to subsequent steps in the
+        processing pipeline. They only need to be explicitly cleared once they are no longer needed
+        by the user. eXist-db places no requirement on the user having to ever clear the
+        attributes.</para></sect2>
     <sect2 xml:id="set-header"><title>The <tag>set-header</tag> Option</title>
-      <para>The <tag>set-header</tag> option sets an HTTP response header field.</para>
-      <para>The name of the header is read from attribute <literal>name</literal>, the value from attribute <literal>value</literal>.</para>
+      <para>The <tag>set-header</tag> option sets an HTTP Response Header field.</para>
+      <para>The name of the header is read from the <literal>name</literal> attribute, and the value
+        from the <literal>value</literal> attribute.</para>
       <programlisting language="xml">&lt;set-header name="xxx" value="yyy"/&gt;</programlisting>
       <para>The HTTP response is shared between all steps in the pipeline, so all following steps will be able to see the change.</para></sect2>
     <sect2 xml:id="cache-control">
       <title>The <tag>cache-control</tag> Option</title>
-      <para>The <tag>cache-control</tag> element is used to tell XQueryURLRewrite if the current URL rewrite should be cached. It has a single attribute <literal>cache="yes|no"</literal>. </para>
-      <para>Internally, XQueryURLRewrite keeps a map of input URIs to dispatch rules. With the cache enabled, the controller XQuery only needs to be executed once for every input URI. Subsequent requests will use the cache.</para>
+      <para>The <tag>cache-control</tag> element is used to tell the URL Rewriting framework if the
+        current URL that is being rewritten should be cached. It has a single attribute:
+          <literal>cache="yes|no"</literal>. </para>
+      <para>Internally the URL Rewriting framework maintains a mapping between Input URLs and
+        Dispatch Rules. When the cache is enabled, the <literal>controller.xq</literal> XQuery Main Module only needs to be
+        executed once for each distinct input URL. Subsequent requests for the same URL will be served from the cache.</para>
       <programlisting language="xml">&lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist"&gt;
   &lt;redirect url="..."/&gt;
   &lt;cache-control cache="yes"/&gt;
 &lt;/dispatch&gt;</programlisting>
-      <para>Watch out: only the URL rewrite rule is cached, not the HTTP response. The cache-control setting has nothing to do with the corresponding HTTP cache headers or client-side caching within the browser</para>
+      <para>Note: only the URL rewrite rule is cached, the HTTP response itself is not cached! The <literal>cache-control</literal> setting is unrelated to any HTTP Cache Headers in the HTTP Response, and is unrelated to any client-side caching within a web-browser.</para>
     </sect2>
   </sect1>
 
@@ -170,7 +282,10 @@
 
   <sect1 xml:id="variables">
     <title>Controller Variables</title>
-    <para>Several variables are made available to the <code>controller.xq</code> script; for example, if the request path is <literal>/exist/tools/sandbox/get-examples.xq</literal> the following variables populated:</para>
+    <para>Several variables are pre-bound and made available to the <code>controller.xq</code>
+      XQuery Main Module for convenience. For example, if the request path is
+        <literal>/exist/tools/sandbox/get-examples.xq</literal> the following variables will be
+      bound to the the values:</para>
     <table>
       <title>Table title</title>
       <tgroup cols="2">
@@ -178,8 +293,8 @@
         <colspec/>
         <thead>
           <row>
-            <entry>Variable</entry>
-            <entry>Contents</entry>
+            <entry>Variable Name</entry>
+            <entry>Variable Value</entry>
           </row>
         </thead>
         <tbody>
@@ -246,22 +361,34 @@
         </tbody>
       </tgroup>
     </table>
-    <para>You do not need to explicitly declare the variables or the namespace. However you can add an external declaration for these variables at the top of your XQuery. For instance:</para>
-    <programlisting language="xquery">declare variable $exist:path as external;</programlisting>
+    <para>You do not need to explicitly declare the variables or the namespace. However doing so is
+      considered best practice, and you can add an external declaration for these variables at the
+      top of your XQuery. For instance:</para>
+    <programlisting language="xquery">declare namespace exist = "http://exist.sourceforge.net/NS/exist";
+
+declare variable $exist:path external;
+declare variable $exist:resource external;
+declare variable $exist:controller external;
+declare variable $exist:prefix external;
+declare variable $exist:root external;</programlisting>
     <variablelist>
       <varlistentry>
         <term>
           <code>exist:path</code>
         </term>
         <listitem>
-          <para>The last part of the request URI after the section leading to the controller. </para>
-          <para>For instance: If the resource <literal>example.xml</literal> resides within the same directory as the controller query, <literal>$exist:path</literal> will be <literal>/example.xml</literal>.</para>
+          <para>Is bound to the last part of the request URL, i.e. after the section leading to the
+            collection containing the controller.xq. </para>
+          <para>For instance, if the resource <literal>example.xml</literal> resides within the same
+            collection as the controller query, the <literal>$exist:path</literal> variable would be
+            bound to the value <literal>/example.xml</literal>.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term><code>exist:resource</code></term>
         <listitem>
-          <para>The section of the URI after the last <literal>/</literal>, usually pointing to a resource. </para>
+          <para>Is bound to the part of the URL after the last <literal>/</literal>; this is usually
+            pointing to a resource. </para>
           <para>For instance: <literal>example.xml</literal>.</para>
         </listitem>
       </varlistentry>
@@ -270,8 +397,11 @@
           <code>exist:controller</code>
         </term>
         <listitem>
-          <para>The part of the URI leading to the current controller script.</para>
-          <para>For example: if the request path is <literal>/xquery/test.xq</literal> and the controller is in the <literal>xquery</literal> collection, <literal>$exist:controller</literal> will contain <literal>/xquery</literal>.</para>
+          <para>Is bound to the part of the URL leading to the current controller.xq.</para>
+          <para>For example, if the request path is <literal>/xquery/test.xq</literal> and the
+            controller is in the <literal>xquery</literal> collection, the
+              <literal>$exist:controller</literal> variable will be bound to the value
+              <literal>/xquery</literal>.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
@@ -279,8 +409,12 @@
           <code>exist:prefix</code>
         </term>
         <listitem>
-          <para>If the current controller hierarchy is mapped to a certain path prefix, <literal>$exist:prefix</literal> returns that prefix.</para>
-          <para> For example: the default configuration maps the path <literal>/tools</literal> to a collection in the database (see below). In this case, <literal>$exist:prefix</literal> would contain <literal>/tools</literal>.</para>
+          <para>If the current controller hierarchy is mapped to a certain path prefix, then the
+              <literal>$exist:prefix</literal> variable will be bound to that prefix.</para>
+          <para> For example: the default configuration maps the path <literal>/tools</literal> to a
+            collection in the database (see below). In this case, the
+              <literal>$exist:prefix</literal> variable would be bound to the value
+              <literal>/tools</literal>.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
@@ -288,23 +422,42 @@
           <code>exist:root</code>
         </term>
         <listitem>
-          <para>The root of the current controller hierarchy. This may either point to the file system or to a collection in the database. Use this variable to locate resources relative to the root of the application.</para>
-          <para> For example: assume you want to process a request using stylesheet <literal>db2xhtml.xsl</literal>, which could <emphasis>either</emphasis> be stored in the <literal>/stylesheets</literal> directory in the root of the webapp or, if the app is running from within the database, the corresponding <literal>/stylesheets</literal> collection. You want your app to be able to run from either location. The solution is to use <literal>exist:root</literal>:</para>
+          <para>Is bound to the root of the current controller hierarchy. This may either point to
+            the file system or to a collection in the database. You can use this variable to locate
+            resources relative to the root of the application.</para>
+          <para> For example, assume that you want to process a request using stylesheet
+              <literal>db2xhtml.xsl</literal>, which could <emphasis>either</emphasis> be stored in
+            the <literal>/stylesheets</literal> directory in the root of the webapp or, if the app
+            is running from within the database, the corresponding <literal>/stylesheets</literal>
+            collection. You want your app to be able to run from either location. The solution is to
+            incorporate the value of the <literal>exist:root</literal> variable into your
+            logic:</para>
           <programlisting language="xml" xlink:href="listings/listing-5.xml"/>
         </listitem>
       </varlistentry>
     </variablelist>
-    <para>These variables are recommended for simplicity and convenience; however note that within a <code>controller.xq</code> file, you also have access to the entire XQuery function library, including the functions in the <code>request</code>, <code>response</code> and <code>session</code> modules.</para>
+    <para>These variables are recommended for simplicity and convenience. In addition, within a
+        <code>controller.xq</code> file, you also have access to the entire XQuery function library,
+      including the functions in the HTTP <code>request</code>, <code>response</code> and
+        <code>session</code> modules.</para>
   </sect1>
 
   <!-- ================================================================== -->
   <sect1 xml:id="EXTERNAL_RESOURCES">
-    <title>Accessing resources not stored in the database</title>
-    <para>If your <code>controller.xq</code> is stored in a database collection, all relative and/or absolute URIs within the controller will be resolved against the database, not the file system. This can be a problem if you need to access common resources, which should be shared with other applications residing on the file system or in the database.</para>
+    <title>Accessing Resources not Stored in the Database</title>
+    <para>If your <code>controller.xq</code> is stored in a database collection, all relative and/or
+      absolute URLs within the controller will be resolved against the database, not the file
+      system. This can be a problem if you need to access common resources, which should be shared
+      with other applications residing on the file system or in the database.</para>
     <para>The <link linkend="forward"><literal>forward</literal></link> directive accepts an optional attribute <literal>absolute="yes|no"</literal> to handle this. If one sets <literal>absolute="yes"</literal>, an absolute path (starting with a <code>/</code>) in the <literal>url</literal> attribute will resolve relative to the current servlet context, not the controller context.</para>
-    <para>For example, to forward all requests starting with a path <literal>/libs/</literal> to a directory within the <literal>webapp</literal> folder of eXist, you can use the following snippet:</para>
+    <para>For example, to forward all requests starting with a path <literal>/libs/</literal> to a
+      directory within the <literal>webapp</literal> folder of eXist-db, you can build upon the
+      following example snippet:</para>
     <programlisting language="xquery" xlink:href="listings/listing-12.txt"/>
-    <para>This simply removes the /libs/ prefix and sets absolute="yes", so the path will be resolved relative to the main context of the servlet engine, usually /exist/. In your HTML, you can now write:</para>
+    <para>This simply removes the <literal>/libs/</literal> prefix and sets the attribute
+        <literal>absolute="yes"</literal>, so that the path will be resolved relative to the main
+      context of the servlet engine, typically <literal>/exist/</literal>. In your HTML, you can now
+      write paths such as:</para>
     <programlisting language="xml" xlink:href="listings/listing-13.xml"/>
     <para>This will locate the jquery file in <literal>webapp/scripts/jquery/...</literal>, even if the rest of your application is stored in the db and not on the file system.</para>
   </sect1>
@@ -313,109 +466,114 @@
   <sect1 xml:id="controller-mappings">
     <title>Locating Controller Scripts and Configuring Base Mappings</title>
 
-    <para>By convention, the controller XQueries are called <literal>controller.xq</literal>.  Note that other users (i.e. <code>guest</code>) will need to have execute permissions for this file.</para>
-    <para>By default, <code>XQueryURLRewrite</code> will try to guess the path to the controller by looking at the request path, starting with the most specific collection, and looking in each parent collection until the controller is found.</para>
-    <para>This can be configured and over-ridden in the <literal>controller-config.xml</literal> file in <literal>etc/webapp/WEB-INF</literal>, which defines the base mappings used.</para>
+    <para>By convention, the controller XQuery Main Module must be named
+        <literal>controller.xq</literal>. If you wish anonymous users to be able to be influenced by
+      the XQuery URL Rewritting framework then you need to ensure that the <code>guest</code> user
+      has execute permissions granted on your <literal>controller.xq</literal> files.</para>
+    <para>By default, URL Rewritting framework will try to guess the path to the controller XQuery
+      Main Module by looking at the request path, starting with the most specific collection, and
+      then looking into each parent collection until the controller is found or the root of the
+      database has been reached.</para>
+    <para>This can be configured and over-ridden in eXist-db's
+        <literal>controller-config.xml</literal> configuration file in
+        <literal>$EXIST_HOME/etc/webapp/WEB-INF</literal>, which defines the base mappings
+      used.</para>
 
     <para>In fact, one web application may have more than one controller hierarchy. For example, you may want to keep the main webapp within the file system, while some tools and scripts should be served from a database collection. This can be done by configuring two roots within the <literal>controller-config.xml</literal> file.</para>
-    <para>It has two components:</para>
+    <para>The configuration file has two components:</para>
     <itemizedlist>
       <listitem>
         <para>
-          <tag>forward</tag>
-          actions which map patterns to servlets</para>
+          <tag>forward</tag> actions which map URL patterns to servlets</para>
       </listitem>
       <listitem>
         <para>
-          <tag>root</tag>
-          elements define the root for a file system or db collection hierarchy
-        </para>
+          <tag>root</tag> elements that define the root for a file system or db collection hierarchy </para>
       </listitem>
     </itemizedlist>
-    <para>The <tag>forward</tag> tags specify path mappings for common servlets, similar to a servlet mapping in <literal>web.xml</literal>. The advantage is that XQueryURLRewrite becomes a single point of entry for the entire web application and we don't need to handle any of the servlet paths in the main controller.</para>
-    <para>For example, if we registered a servlet mapping for <literal>/rest</literal> in <literal>web.xml</literal>, we would need to make sure that this path is ignored in our main <literal>controller.xq</literal>. However, if the mapping is done via <literal>controller-config.xml</literal>,  XQueryURLRewrite will have already handled the path, which won't need to be accounted for in our controller.</para>
+    <para>The <tag>forward</tag> elements specify path mappings for common servlets, similar to a
+      servlet mapping in <literal>$EXIST_HOME/etc/webapp/WEB-INF/web.xml</literal>. The advantage is
+      that the XQueryURLRewrite servlet (which implements the URL Rewriting framework). becomes a
+      single point of entry for the entire web application and we don't need to handle any of the
+      servlet paths in the main controller.</para>
+    <para>For example, if we registered a servlet mapping for <literal>/rest</literal> in
+        <literal>web.xml</literal>, we would need to make sure that this path is ignored in our main
+        <literal>controller.xq</literal>. However, if the mapping is done via
+        <literal>controller-config.xml</literal>, XQueryURLRewrite will already have handled the
+      path, which then won't need to be accounted for in our controller.</para>
     <para>The
       <tag>root</tag>
       elements define the roots of a directory or database collection hierarchy, mapped to a certain base path. For example, the default
       <literal>controller-config.xml</literal>
       uses two roots:</para>
     <programlisting language="xml" xlink:href="listings/listing-7.txt"/>
-    <para>This means that paths starting with
-      <literal>/tools</literal>
-      will be mapped to the collection hierarchy below
-      <literal>/db/www</literal>. Everything else is handled by the catch all pattern pointing to the root directory of the webapp (by default corresponding to
-      <literal>$EXIST_HOME/etc/webapp</literal>). For example, the URI</para>
+    <para>This means that paths starting with <literal>/tools</literal> will be mapped to the
+      collection hierarchy below <literal>/db/www</literal>. Everything else is handled by the catch
+      all pattern pointing to the root directory of the webapp (by default corresponding to
+        <literal>$EXIST_HOME/etc/webapp</literal>). For example, the URL</para>
     <programlisting>http://localhost:8080/exist/tools/admin/admin.xq</programlisting>
     <para>will be handled by the controller stored in database collection
-      <literal>/db/www/admin/</literal>
-      (if there is one) or will directly resolve to
-      <literal>/db/www/admin/admin.xq</literal>. In this case, all relative or absolute URIs within the controller will be resolved against the database, not the file system. However, there's a possibility to escape this path interpretation, described
-      <link xlink:href="#EXTERNAL_RESOURCES">below</link>.</para>
+        <literal>/db/www/admin/</literal> (if there is one) or will directly resolve to
+        <literal>/db/www/admin/admin.xq</literal>. In this case, all relative or absolute URLs
+      within the controller will be resolved against the database, not the file system. However,
+      there's a possibility to escape this path interpretation as described <link
+        xlink:href="#EXTERNAL_RESOURCES">below</link>.</para>
   </sect1>
   <!-- ================================================================== -->
 
   <sect1 xml:id="mvc-pipelines">
     <title>MVC and Pipelines</title>
 
-    <para>
-      <code>XQueryURLRewrite</code>
-      does more than just forward or redirect requests: the response can be processed by passing it to a pipeline of views. "Views" are again just plain Java servlets. The most common use of a view would be to post-processes the XML returned from the
-      primary URL, either through another XQuery or an XSLT stylesheet (<code>XSLTServlet</code>).
-      <code>XQueryURLRewrite</code>
-      passes the HTTP response stream of the previous servlet to the HTTP request received by the next servlet.
-    </para>
+    <para>The  <code>XQueryURLRewrite</code> servlet does more than just forward or redirect
+      requests: the response can be processed by passing it to a pipeline of views. "Views" are
+      again just plain Java servlets. The most common use of a view would be to post-processes the
+      XML returned from the primary URL, either through another XQuery or an XSLT stylesheet
+        (<code>XSLTServlet</code>). <code>XQueryURLRewrite</code> passes the HTTP response stream of
+      the previous servlet to the HTTP request received by the next servlet. It is fully possible to
+      extend eXist-db by adding in your custom own servlets.</para>
     <para>Views may also directly exchange information through the use of request attributes (more on that below).</para>
 
-    <para>You define a view pipeline by adding a
-      <tag>view</tag>
-      element to the
-      <tag>dispatch</tag>
-      fragment returned by the controller. The
-      <tag>view</tag>
-      element is a wrapper around another sequence of
-      <tag>forward</tag>
-      or
-      <tag>rewrite</tag>
-      actions.</para>
-    <para>For example, assume we have XML written in docbook format and want to show this as HTML by sending this through an XSLT stylesheet
-      <literal>webapp/stylesheets/db2html.xsl</literal>. This can be done by returning the following
-      <tag>dispatch</tag>
-      fragment by
-      <literal>controller.xq</literal>:</para>
+    <para>You define a view pipeline by adding a <tag>view</tag> element to the <tag>dispatch</tag>
+      element returned by the controller. The <tag>view</tag> element is a wrapper around another
+      sequence of <tag>forward</tag> or <tag>rewrite</tag> actions.</para>
+    <para>For example, assume we have some XML documents written in DocBook format, and that we wish
+      to render this as HTML by transforming the XML to HTML through an XSLT stylesheet
+        <literal>webapp/stylesheets/db2html.xsl</literal>. This can be done by returning the
+      following <tag>dispatch</tag> element from a <literal>controller.xq</literal>:</para>
     <programlisting language="xml" xlink:href="listings/listing-9.xml"/>
-    <para>In this example there are no forwarding actions except for the view, so the request will be handled by the servlet engine the normal way. The response is then passed to <code>XSLTServlet</code>. A new HTTP POST request is created whose body is set to the response data of the previous step. <code>XSLTServlet</code> gets the path to the stylesheet from the request attribute <code>xslt.stylesheet</code> and applies it to the data.</para>
+    <para>In this example there are no forwarding actions except for the view, so the request will
+      be handled by the servlet engine in the default way. The response is then passed to the
+        <code>XSLTServlet</code>. A new HTTP POST request is created whose body is set to the
+      response data of the previous step. The <code>XSLTServlet</code> gets the path to the
+      stylesheet from the request attribute <code>xslt.stylesheet</code> and applies it to the
+      provided data.</para>
     <para>If any step in the pipeline generates an error or returns an HTTP status code &gt;= 400, the pipeline processing stops and the response is send back to the client immediately. The same happens if the first step returns with an HTTP status 304
       (NOT MODIFIED), which indicates that the client can use the version it has cached.</para>
-    <para>We can also pass a request through more than one view. The following fragment applies two stylesheets in sequence:</para>
+    <para>We can also pass a request through more than one view. The following document applies two
+      stylesheets in sequence:</para>
 
     <programlisting language="xquery" xlink:href="listings/listing-10.txt"/>
     <para>The example also demonstrates how information can be passed between actions.
-      <code>XQueryServlet</code>
-      (which is called implicitly because the URL ends with
-      <code>.xq</code>) can save the results of the called XQuery to a request attribute instead of writing them to the HTTP output stream. It does so if it finds a request attribute
-      <literal>xquery.attribute</literal>, which should contain the name of the attribute the output should be saved to.</para>
-    <para>In the example above,
-      <literal>xquery.attribute</literal>
-      is set to
-      <code>model</code>. This causes
-      <code>XQueryServlet</code>
-      to fill the request attribute
-      <literal>model</literal>
-      with the results of the XQuery it executes. The query result will not be written to the HTTP response as you would normally expect, the HTTP response body will just be empty.</para>
+        <code>XQueryServlet</code> (which is called implicitly because the URL ends with
+        <code>.xq</code>) can save the results of the called XQuery to a request attribute instead
+      of writing them to the HTTP output stream. It does so if it finds a request attribute named
+        <literal>xquery.attribute</literal>, which should in turn contain the name of the request
+      attribute that the output should be saved to.</para>
+    <para>In the example above, <literal>xquery.attribute</literal> is set to <code>model</code>.
+      This causes <code>XQueryServlet</code> to fill the request attribute <literal>model</literal>
+      with the results of the XQuery it executes. The query result will not be written to the HTTP
+      response as you would normally expect, instead at this point the HTTP response body remains
+      empty as the data is inside the request attribute.</para>
     <para>Likewise,
       <code>XSLTServlet</code>
       can take its input from a request attribute instead of parsing the HTTP request body. The name of the request attribute should be given in attribute
       <literal>xslt.model</literal>. XSLTServlet discards the current request content (which is empty anyway) and uses the data in the attribute's value as input for the transformation process.</para>
-    <para>XSLTServlet will always write to the HTTP response. The second invocation of XSLTServlet therefore needs to read its input from the HTTP request body which contains the response of the first servlet. Since request attributes are preserved
-      throughout the entire pipeline, we need to clear the
-      <literal>xslt.input</literal>
-      with an explicit call to clear-attribute.</para>
+    <para><literal>XSLTServlet</literal> will always write to the HTTP response. The second invocation of <literal>XSLTServlet</literal> therefore needs to read its input from the HTTP request body which contains the response of the first servlet. Since request attributes are preserved
+      throughout the entire pipeline, we need to clear the <literal>xslt.input</literal> with an explicit call to <literal>clear-attribute</literal>.</para>
     <para>The benefit of exchanging data through request attributes is that we save one serialization step: <code>XQueryServlet</code> directly passes the node tree of its output as a valid XQuery value, so <code>XSLTServlet</code> does not need to parse it again.</para>
     <para>The advantages become more obvious if you have two or more XQueries which need to exchange information: XQuery 1 can use the XQuery extension function
-      <code>request:set-attribute()</code>
-      to save an arbitrary XQuery sequence to an attribute. XQuery 2 then calls
-      <code>request:get-attribute()</code>
-      to retrieve this value. It can directly access the data passed in from XQuery 1. No time is lost serializing/deserializing the data.</para>
+      <code>request:set-attribute()</code> to save an arbitrary XQuery sequence to an attribute. XQuery 2 then subsequently calls <code>request:get-attribute()</code>
+      to retrieve this value. As it can directly access the data passed in from XQuery 1, no time is lost serializing and deserializing the data.</para>
 
     <para>Let's have a look at a more complex example: the XQuery sandbox web application needs to execute a user-supplied XQuery fragment. The results should be retrieved in an asynchronous way, so the user doesn't need to wait and the web interface
       remains usable.</para>
@@ -424,7 +582,7 @@
       function to evaluate the query. However, this has side-effects because
       <code>util:eval</code>
       executes the query within the context of another query. Some features like module imports will not work properly this way. To avoid
-      <code>util:eval</code>, the controller code below passes the user-supplied query to XQueryServlet first, then post-processes the returned result and stores it into a session for later use by the ajax frontend:</para>
+      <code>util:eval</code>, the controller code below passes the user-supplied query to <literal>XQueryServlet</literal> first, then post-processes the returned result and stores it into a session for later use by the AJAX frontend:</para>
 
     <programlisting language="xquery" xlink:href="listings/listing-11.txt"/>
     <para>The client passes the user-supplied query string in a request parameter, so the controller has to forward this to <code>XQueryServlet</code> somehow. <code>XQueryServlet</code> has an option to read the XQuery source from a request attribute, <literal>xquery.source</literal>. The query result will be saved to the attribute <literal>results</literal>. The second XQuery, <literal>session.xq</literal>, takes the result and stores it into an HTTP session, returning only the number of hits and the elapsed time.</para>
@@ -438,13 +596,11 @@
   <!-- ================================================================== -->
 
   <sect1 xml:id="special-attributes">
-    <title>Special Attributes Accepted by eXist Servlets</title>
+    <title>Special Attributes Accepted by eXist-db Servlets</title>
 
-    <para>eXist's
-      <code>XQueryServlet</code>
-      as well as the
-      <code>XSLTServlet</code>
-      will listen to a few predefined request attributes. The names of these attributes are listed below and should not be used for other purposes.</para>
+    <para>eXist-db's <code>XQueryServlet</code> as well as the <code>XSLTServlet</code> expect a few
+      predefined request attributes. The names of these attributes are listed below, and are
+      reserved, that is to say that they should not be used for other purposes.</para>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
@@ -457,7 +613,10 @@
             <code>xquery.attribute</code>
           </term>
           <listitem>
-            <para>Contains the name of a request attribute. Instead of writing query results to the response output stream, XQueryServlet will store them into the named attribute. The value of the attribute will be an XQuery Sequence (<literal>org.exist.xquery.Sequence</literal>). If no query results were returned, the attribute will contain an empty sequence.</para>
+            <para>Contains the name of a request attribute. Instead of writing query results to the
+              response output stream, <literal>XQueryServlet</literal> will store them into the
+              named attribute. The value of the attribute will be an XQuery Sequence. If no query
+              results were returned, the attribute will contain an empty sequence.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -465,11 +624,11 @@
             <code>xquery.source</code>
           </term>
           <listitem>
-            <para>If set, the value of this attribute must contain the XQuery code to execute. Normally,
-              <code>XQueryServlet</code>
-              reads the XQuery from the file given in the request path.
-              <literal>xquery.source</literal>
-              is a way to overwrite this behaviour, e.g. if you want to evaluate an XQuery which was generated within the controller.</para>
+            <para>If set, the value of this attribute must contain the XQuery code to execute.
+              Normally, <code>XQueryServlet</code> reads the XQuery from the file given in the
+              request path. Use of the <literal>xquery.source</literal> attribute allows you to
+              overwrite this behaviour, e.g. if you want to evaluate an XQuery which was generated
+              within the controller.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -484,12 +643,10 @@
               <literal>xquery.module-load-path</literal>
               to
               <code>xmldb:exist:///db/test</code>. If the query contains an expression:</para>
-            <programlisting language="xquery">import module namespace test="http://exist-db.org/test" at "test.xq";</programlisting>
-            <para>the XQuery engine will try to find the module
-              <literal>test.xq</literal>
-              in the filesystem by default, which is not what you want. Setting
-              <literal>xquery.module-load-path</literal>
-              fixes this.</para>
+            <programlisting language="xquery">import module namespace test = "http://exist-db.org/test" at "test.xq";</programlisting>
+            <para>The XQuery engine will try to find the module <literal>test.xq</literal> in the
+              filesystem by default, which may not be what you were expecting! Setting the
+                <literal>xquery.module-load-path</literal> allows you to configure this.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -497,10 +654,10 @@
             <code>xquery.report-errors</code>
           </term>
           <listitem>
-            <para>If set to
-              <code>yes</code>, an error in the XQuery will not result in an HTTP error. Instead, the string message of the error is enclosed in an element
-              <tag>error</tag>
-              which is then written to the response stream. The HTTP status is not changed.</para>
+            <para>If set to <code>yes</code>, an error in the XQuery will not result in an HTTP
+              error. Instead, the string message of the error is enclosed in an element
+                <tag>error</tag> and then written to the response stream. The HTTP Response's Status
+              Code will remain unchanged.</para>
           </listitem>
         </varlistentry>
       </variablelist>
@@ -517,8 +674,11 @@
             <code>xslt.stylesheet</code>
           </term>
           <listitem>
-            <para>The path to the XSL stylesheet. Relative paths will be resolved against the current request URI, absolute paths against the context of the web application (/exist). To reference a stylesheet which is stored in the database, use an XML:DB URI like
-              <literal>xmldb:exist:///db/styles/myxsl.xsl</literal>.</para>
+            <para>The path to the XSLT stylesheet. Relative paths will be resolved against the
+              current request URL, absolute paths against the context of the web application
+                (<literal>/exist</literal>). To reference a stylesheet which is stored in the
+              database, use an XML:DB URL like
+                <literal>xmldb:exist:///db/styles/myxsl.xslt</literal>.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -526,12 +686,12 @@
             <code>xslt.input</code>
           </term>
           <listitem>
-            <para>Contains the name of a request attribute from which the input to the transformation process should be taken. The input has to be a valid eXist XQuery sequence.</para>
-            <para>This attribute is usually combined with
-              <literal>xquery.attribute</literal>
-              provided by
-              <code>XQueryServlet</code>
-              and allows passing data between the two without additional serialization/parsing overhead.</para>
+            <para>Contains the name of a request attribute from which the input to the
+              transformation process should be taken. The input has to be a valid eXist-db XQuery
+              Sequence.</para>
+            <para>This attribute is usually combined with the <literal>xquery.attribute</literal>
+              attribute provided by <code>XQueryServlet</code> and allows passing data between the
+              two without additional serialization or deserialization overhead.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -539,7 +699,8 @@
             <code>xslt.user</code>
           </term>
           <listitem>
-            <para>The name of the eXist user to read and apply the stylesheet.</para>
+            <para>The name of the eXist -db user account to use when reading and executing the
+              stylesheet.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -547,22 +708,19 @@
             <code>xslt.password</code>
           </term>
           <listitem>
-            <para>Password for the user given in
-              <literal>xslt.user</literal>
+            <para>The password for the user given in <literal>xslt.user</literal>
             </para>
           </listitem>
         </varlistentry>
       </variablelist>
       <para>
-        <code>XSLTServlet</code>
-        will attempt to map all other request attributes starting with the prefix
-        <literal>xslt.</literal>
-        into
-        <emphasis>stylesheet parameters</emphasis>. So, for example, if you set a request attribute
-        <literal>xslt.myattr</literal>
-        it will be available within the stylesheet as parameter
-        <literal>$xslt.myattr</literal>. For security reasons, this is the only way to pass request parameters into the stylesheet: use the controller query to transform the request parameter into a request attribute and pass that to the view.</para>
-      <para>However, depending on the XSLT engine used, automatic conversion of types between eXist/Java and the XSLT processor may not always work. Best to limit your attribute values to strings.</para>
+        <code>XSLTServlet</code> will attempt to map all other request attributes starting with the
+        prefix <literal>xslt.</literal> into <emphasis>stylesheet parameters</emphasis>. So, for
+        example, if you set a request attribute <literal>xslt.myattr</literal> it will be available
+        within the stylesheet as parameter <literal>$xslt.myattr</literal>. For security reasons,
+        this is the only way to pass request parameters into the stylesheet; you can use your
+          <literal>controller.xq</literal> to transform a HTTP Request parameter into a request
+        attribute and pass that on to the view.</para>
     </sect2>
   </sect1>
   <!-- ================================================================== -->
