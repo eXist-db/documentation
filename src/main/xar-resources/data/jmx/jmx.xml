@@ -22,14 +22,12 @@
 
     <sect1 xml:id="enable">
         <title>Enabling the JMX agent</title>
-
-        <para>To enable the platform server on the host virtual machine, pass the following Java system properties:</para>
+        <para>The JMX agent is enabled by default for connections to local processes only: it is not exposed over TCP by default.</para>
+        <para>To enable the platform server on the host virtual machine over TCP, pass the following Java system properties (e.g. as part of the <code>JAVA_OPTS</code> environment variable):</para>
         <programlisting xlink:href="listings/listing-1.txt"/>
         <warning>
             <para>These options make the server publicly accessible. Please check the Oracle <link xlink:href="https://docs.oracle.com/javase/1.5.0/docs/guide/management/agent.html"> JMX documentation</link> for details.</para>
         </warning>
-        <para>The extension can now be activated by passing a <code>-j</code> or <code>-jmx</code> command-line parameter to the eXist start scripts (<literal>client.sh</literal>, <literal>startup.sh</literal> etc.). This parameter must be followed by the port number through which the JMX/RMI connections are enabled, for instance:</para>
-        <programlisting xlink:href="listings/listing-2.txt"/>
     </sect1>
 
     <!-- ================================================================== -->
@@ -46,7 +44,11 @@
             <title>Use JConsole</title>
 
             <para>Use a JMX compliant management console to access the management interfaces. For example, call JConsole, which is included with the JDK:</para>
-            <programlisting>jconsole localhost:1099</programlisting>
+            <programlisting>jconsole</programlisting>
+            <para>When connecting locally, select the entry starting <code>org.codehaus.mojo.appessembler.booter.Appass...</code> under "Local Proccess"</para>
+            <para>When connecting remotely over TVP, provide the hostname and port under "Remote Process", or provide them directly from the command line:</para>
+            <programlisting>jconsole hostname:port</programlisting>
+            <para>You may be presented with a dialogue box stating that a secure connection could not be established: it should be possible to continue with an insecure connection.</para>
             <para>Clicking on the <guimenuitem>MBeans</guimenuitem> tab should show some
                 eXist-specific MBeans below the standard Java MBeans (in the tree component to the
                 left).</para>
