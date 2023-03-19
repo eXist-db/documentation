@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Java Management Extensions (JMX)</title>
-        <date>2Q19</date>
+        <date>1Q23</date>
         <keywordset>
             <keyword>java-development</keyword>
             <keyword>operations</keyword>
@@ -14,42 +14,27 @@
 
     <!-- ================================================================== -->
 
-    <para>eXist-db provides access to various management interfaces via Java Management Extensions
-        (JMX). An agent in the Java virtual machine exposes agent services as so-called MBeans that
-        belong to different components running within the virtual machine. A JMX-compliant
-        management application can then connect to the agent through the MBeans and access the
-        available services in a standardized way. </para>
-    <para>The standard Java installation includes a simple client, JConsole, which will also display
-        the eXist-specific services. eXist also provides a command-line client for quick access to
-        server statistics and other information.</para>
-    <para>Right now, eXist only exposes a limited set of read-only services. Most of them are useful
-        for debugging purposes only.</para>
+    <para>eXist-db provides access to various management interfaces via Java Management Extensions (JMX). An agent in the Java Virtual Machine exposes agent services as <emphasis>MBeans</emphasis> that belong to different components running within the Virtual Machine. A JMX-compliant management application can then connect to the agent through the MBeans and access the available services in a standardized way. </para>
+    <para>The standard Java installation includes a simple client, JConsole, which will display the eXist-specific services. eXist also provides a command-line client for quick access to server statistics and other information.</para>
+    <para>eXist only exposes a limited set of read-only services. Most of them are useful for debugging purposes only.</para>
 
     <!-- ================================================================== -->
 
     <sect1 xml:id="enable">
         <title>Enabling the JMX agent</title>
-
-        <para>To enable the platform server within the host virtual machine, pass the following Java
-            system properties:</para>
+        <para>The JMX agent is enabled by default for connections to local processes only: it is not exposed over TCP by default.</para>
+        <para>To enable the platform server on the host virtual machine over TCP, pass the following Java system properties (e.g. as part of the <code>JAVA_OPTS</code> environment variable):</para>
         <programlisting xlink:href="listings/listing-1.txt"/>
         <warning>
-            <para>These options makes the server publicly accessible. Please check the Oracle <link
-                xlink:href="https://docs.oracle.com/javase/1.5.0/docs/guide/management/agent.html">
-                JMX documentation</link> for details.</para>
+            <para>These options make the server publicly accessible. Please check the Oracle <link xlink:href="https://docs.oracle.com/javase/1.5.0/docs/guide/management/agent.html"> JMX documentation</link> for details.</para>
         </warning>
-        <para>The extension can now be activated by passing a <code>-j</code> or <code>-jmx</code>
-            command-line parameter to the eXist start scripts (<literal>client.sh</literal>,
-            <literal>startup.sh</literal> etc.). This parameter must be followed by the port number
-            through which the JMX/RMI connections are enabled. For instance:</para>
-        <programlisting xlink:href="listings/listing-2.txt"/>
     </sect1>
 
     <!-- ================================================================== -->
 
     <sect1 xml:id="monitoring">
         <title>Monitoring and Management</title>
-        <para>This sections explains how to monitor an exist instant using common java tools.</para>
+        <para>This section explains how to monitor an eXist instance using common Java tools.</para>
 
 
 
@@ -58,9 +43,12 @@
         <sect2 xml:id="jconsole">
             <title>Use JConsole</title>
 
-            <para>Use a JMX-compliant management console to access the management interfaces. For
-                example, call JConsole, which is included with the JDK:</para>
-            <programlisting>jconsole localhost:1099</programlisting>
+            <para>Use a JMX compliant management console to access the management interfaces. For example, call JConsole, which is included with the JDK:</para>
+            <programlisting>jconsole</programlisting>
+            <para>When connecting locally, select the entry starting <code>org.codehaus.mojo.appessembler.booter.Appass...</code> under "Local Proccess"</para>
+            <para>When connecting remotely over TCP, provide the hostname and port under "Remote Process", or provide them directly from the command line:</para>
+            <programlisting>jconsole hostname:port</programlisting>
+            <para>You may be presented with a dialogue box stating that a secure connection could not be established: it should be possible to continue with an insecure connection.</para>
             <para>Clicking on the <guimenuitem>MBeans</guimenuitem> tab should show some
                 eXist-specific MBeans below the standard Java MBeans (in the tree component to the
                 left).</para>
@@ -167,11 +155,23 @@
             <para>For example, to get a report on current memory usage and running instances, use
                 the following URL:</para>
             <programlisting>http://localhost:8080/exist/status?c=memory&amp;c=instances</programlisting>
+            <note>
+                <para>The JMX information is only accessible via the HTTP interface when either:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>the client accesses the API on localhost</para>
+                    </listitem>
+                    <listitem>
+                        <para>a valid token is provided when accessing the API from a remote IP address. A file containing this token and an example of its use can be found in the eXist data directory at <code>$EXIST_HOME/data/jmxservlet.token</code>.</para>
+                    </listitem>
+                </itemizedlist>
+            </note>
+            <note>
+                <para>Consider using <link xlink:href="production_web_proxying">a web proxy</link> if you wish to provide this service separately from other eXist applications.</para>
+            </note>
             <para>This returns something like:</para>
             <programlisting language="xml" xlink:href="listings/listing-8.xml"/>
-            <para>The different JMX objects in eXist are organized into categories. One or more
-                categories can be passed to the servlet in parameter <literal>c</literal>. The
-                following categories are recognized:</para>
+            <para>The different JMX objects in eXist are organized into categories. One or more categories can be passed to the servlet in the URL parameter <literal>c</literal>. The following categories are recognized:</para>
             <variablelist>
                 <varlistentry>
                     <term><code>memory</code></term>
@@ -195,7 +195,7 @@
                 <varlistentry>
                     <term><code>system</code></term>
                     <listitem>
-                        <para>Contains system information: eXist version ...</para>
+                        <para>Contains system information, such as the running eXist version.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
