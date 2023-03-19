@@ -17,7 +17,7 @@ let $config := map {
     $templates:CONFIG_APP_ROOT : $config:app-root,
     $templates:CONFIG_STOP_ON_ERROR : true()
 }
-let $lookup := function($functionName as xs:string, $arity as xs:int) {
+let $lookup := function($functionName as xs:string, $arity as xs:integer) {
     try {
         function-lookup(xs:QName($functionName), $arity)
     } catch * {
