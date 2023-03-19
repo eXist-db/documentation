@@ -3,7 +3,7 @@
 <article version="5.0" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
   <info>
     <title>XQSuite - Annotation-based Test Framework for XQuery</title>
-    <date>3Q22</date>
+    <date>1Q23</date>
     <keywordset>
       <keyword>application-development</keyword>
       <keyword>testing</keyword>
@@ -158,10 +158,38 @@
           <code>%test:assertXPath($path-as-string)</code>
         </term>
         <listitem>
-          <para>Tests if the return value of the tested function using the given XPath expression.</para>
-          <para>The annotation value is executed as an XPath expression. The assert passes if the XPath expression returns a non-empty sequence or a single atomic item whose effective boolean value is true. Within the XPath expression, the variable
-            <code>$result</code>
-            contains a reference to the result sequence returned by the tested function.</para>
+          <para>Tests if the return value of the tested function using the given XPath expression. The annotation value is executed as an XPath expression. The assertion passes if the XPath expression returns a non-empty sequence or a single atomic item whose effective boolean value is true.</para>
+          <itemizedlist>
+            <listitem>
+              <para>Within the XPath expression, you may refer to the sequence of items returned by
+                the tested function using the variable <code>$result</code>. For example, if the
+                result returns the element <code>&lt;x/&gt;</code>, you can test for this result with
+                the annotation <code>%test:assertXPath("$result/self::x")</code>. If the result
+                returns <code>&lt;x&gt;&lt;y/&gt;&lt;/x&gt;</code>, the presence of the
+                  <code>&lt;y&gt;</code> element can be tested with the annotation expression
+                  <code>%test:assertXPath("$result/y")</code></para>
+            </listitem>
+            <listitem>
+              <para>When selecting nodes with namespaces, use the namespace prefixes defined in the
+                result sequence. For example, if the result returns an element <code>&lt;foo:x
+                  xmlns:foo="bar"/&gt;</code>, the annotation can test for this result with
+                  <code>%test:assertXPath("$result/self::foo:x")</code>.</para>
+            </listitem>
+            <listitem>
+              <para>If the result contains node with a default namespace declaration, XQSuite
+                assigns that namespace as the default element namespace for the annotation. For
+                example, a result <code>&lt;x xmlns="foo"/&gt;</code> can be tested with the
+                annotation <code>%test:assertXPath("$result/self::x")</code>.</para>
+            </listitem>
+            <listitem>
+              <para>When selecting a result's descendant nodes that are assigned yet a different
+                default namespace declaration, address these via namespace wildcard or "braced URI
+                literal" notation. For example, the <code>&lt;y&gt;</code> element in the result
+                  <code>&lt;x xmlns="foo"&gt;&lt;y xmlns="bar"/&gt;&lt;/x&gt;</code> can be tested
+                with the annotation <code>%test:assertXPath("$result/*:y")</code> or
+                  <code>%test:assertXPath("$result/Q{bar}y")</code>.</para>
+            </listitem>
+          </itemizedlist>
         </listitem>
       </varlistentry>
       <varlistentry>
