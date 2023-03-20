@@ -489,13 +489,22 @@
 
   <xsl:template match="db5:link" mode="mode-process-inline-contents">
     <a href="{@xlink:href}">
-
-      <xsl:if test="exists(@condition)">
-        <xsl:attribute name="target" select="@condition"/>
-      </xsl:if>
+      <xsl:apply-templates select="(@linkend|@xlink:href)[1], @condition" mode="#current"/>
 
       <xsl:apply-templates mode="#current"/>
     </a>
+  </xsl:template>
+  
+  <xsl:template match="db5:link/@xlink:href" mode="mode-process-inline-contents">
+    <xsl:attribute name="href" select="."/>
+  </xsl:template>
+  
+  <xsl:template match="db5:link/@linkend" mode="mode-process-inline-contents">
+    <xsl:attribute name="href" select="'#'||."/>
+  </xsl:template>
+  
+  <xsl:template match="db5:link/@condition" mode="mode-process-inline-contents">
+    <xsl:attribute name="target" select="."/>
   </xsl:template>
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
