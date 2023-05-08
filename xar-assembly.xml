@@ -17,6 +17,19 @@
   <dependency package="http://exist-db.org/html-templating" semver-min="${templating.version}"/>
   <prepare>pre-install.xql</prepare>
   <changelog>
+    <change xmlns="http://exist-db.org/xquery/repo" version="6.1.1">
+      <ul xmlns="http://www.w3.org/1999/xhtml">
+        <li>Make compatible with eXist-db 7.x.x - <a href="https://github.com/eXist-db/documentation/pull/904">#904</a> - by @adamretter</li>
+        <li>urlrewrite: Rewrite article on URL Rewriting - <a href="https://github.com/eXist-db/documentation/pull/872">#872</a> - by @wolfgangmm @marmoure @yamahito and @adamretter</li>
+        <li>jmx: Clarify access details methods for accessing JMX over HTTP - <a href="https://github.com/eXist-db/documentation/pull/891">#891</a>- by @yamahito</li>
+        <li>xqsuite: Flesh out docs for %test:assertXPath annotation - <a href="https://github.com/eXist-db/documentation/pull/902">#902</a> - by @joewiz</li>
+      </ul>
+    </change>
+    <change xmlns="http://exist-db.org/xquery/repo" version="6.1.0">
+      <ul xmlns="http://www.w3.org/1999/xhtml">
+        <li>Updated for eXist-db 6.1.0</li>
+      </ul>
+    </change>
     <change xmlns="http://exist-db.org/xquery/repo" version="5.4.0">
       <ul xmlns="http://www.w3.org/1999/xhtml">
         <li>New: Add a page about XSL-FO rendering - <a href="https://github.com/eXist-db/documentation/pull/726">#726</a></li>
