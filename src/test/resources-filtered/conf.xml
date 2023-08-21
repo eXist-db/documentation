@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<exist>
+
+    <db-connection cacheSize="256M" checkMaxCacheSize="true" collectionCache="64M" database="native"
+        files="${basedir}/target/test-data" pageSize="4096" nodesBuffer="1000" cacheShrinkThreshold="10000"
+        doc-ids="default" minDiskSpace="128M" posix-chown-restricted="true" preserve-on-copy="false">
+        <startup>
+            <triggers>
+		        <trigger class="org.exist.security.BouncyCastleJceProviderStartupTrigger"/>
+
+                <!--
+                    AutoDeploymentTrigger will install any .xar application package it finds
+                    in the autodeploy directory unless the application has already been installed
+                    in the db.
+                -->
+                <trigger class="org.exist.repo.AutoDeploymentTrigger">
+                    <parameter name="ignore-autodeploy-system-property" value="true"/>
+                    <parameter name="dir" value="${basedir}/target/autodeploy"/>
+                </trigger>
+            </triggers>
+        </startup>
+        <pool max="20" min="1" sync-period="120000" wait-before-shutdown="120000"/>
+        <query-pool max-stack-size="64" size="128" timeout="120000"/>
+        <recovery enabled="yes"  group-commit="no" journal-dir="${basedir}/target/test-data"
+                  size="100M" sync-on-commit="no" force-restart="no"  consistency-check="yes"/>
+        <watchdog output-size-limit="1000000" query-timeout="-1"/>
+    </db-connection>
+
+    <repository root="/db/apps"/>
+
+    <binary-manager>
+        <cache class="org.exist.util.io.FileFilterInputStreamCache"/>
+    </binary-manager>
+
+    <indexer caseSensitive="yes" index-depth="5" preserve-whitespace-mixed-content="no"
+        suppress-whitespace="none">
+        <modules>
+
+            <!--
+                Needed by the documentation app under test
+            -->
+            <module id="lucene-index" buffer="32" class="org.exist.indexing.lucene.LuceneIndex" />
+
+        </modules>
+        <index/>
+    </indexer>
+
+    <scheduler/>
+
+    <parser>
+        <xml>
+            <features>
+                <feature name="http://xml.org/sax/features/external-general-entities" value="false"/>
+                <feature name="http://xml.org/sax/features/external-parameter-entities" value="false"/>
+                <feature name="http://javax.xml.XMLConstants/feature/secure-processing" value="true"/>
+            </features>
+        </xml>
+        <html-to-xml class="org.cyberneko.html.parsers.SAXParser">
+            <properties>
+                <property name="http://cyberneko.org/html/properties/names/elems" value="match"/>
+                <property name="http://cyberneko.org/html/properties/names/attrs" value="no-change"/>
+            </properties>
+        </html-to-xml>
+    </parser>
+
+    <serializer add-exist-id="none" compress-output="no" enable-xinclude="yes"
+                enable-xsl="no" indent="yes" match-tagging-attributes="no" 
+                match-tagging-elements="no"/>
+
+    <transformer class="net.sf.saxon.TransformerFactoryImpl" caching="yes">
+        <attribute name="http://saxon.sf.net/feature/version-warning" value="false" type="boolean"/>
+    </transformer>
+
+    <validation mode="no">
+        <entity-resolver>
+            <catalog uri="${project.build.testOutputDirectory}/org/exist/validation/catalog.xml"/>
+        </entity-resolver>
+    </validation>
+
+    <xquery enable-java-binding="no" disable-deprecated-functions="no" 
+            enable-query-rewriting="yes" backwardCompatible="no" 
+            enforce-index-use="always"
+            raise-error-on-failed-retrieval="no">
+        
+        <builtin-modules>
+            <!-- 
+                Needed by the documentation app under test
+            -->
+            <module uri="http://exist-db.org/xquery/lucene" class="org.exist.xquery.modules.lucene.LuceneModule" />
+
+            <!-- Needed for XQSuite! -->
+            <module uri="http://www.w3.org/2005/xpath-functions/map" class="org.exist.xquery.functions.map.MapModule" />
+            <module uri="http://www.w3.org/2005/xpath-functions/array" class="org.exist.xquery.functions.array.ArrayModule" />
+            <module uri="http://exist-db.org/xquery/inspection" class="org.exist.xquery.functions.inspect.InspectionModule"/>
+            <module uri="http://exist-db.org/xquery/response" class="org.exist.xquery.functions.response.ResponseModule" />
+            <module uri="http://exist-db.org/xquery/system" class="org.exist.xquery.functions.system.SystemModule" />
+            <module uri="http://exist-db.org/xquery/util" class="org.exist.xquery.functions.util.UtilModule">
+                <parameter name="evalDisabled" value="false"/>
+            </module>
+            <module uri="http://exist-db.org/xquery/xmldb" class="org.exist.xquery.functions.xmldb.XMLDBModule"/>
+
+        </builtin-modules>
+    </xquery>
+
+    <xupdate allowed-fragmentation="50000" enable-consistency-checks="no"/>
+
+</exist>
