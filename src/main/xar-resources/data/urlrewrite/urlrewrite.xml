@@ -131,7 +131,7 @@
         useful for requests to fixed resources like images or stylesheets. An alternative may be to
         handle requests for such resources separately from the <code>XQueryUrlRewrite</code>
         servlet; this is discussed in <xref linkend="controller-mappings"/>.</para>
-      <programlisting language="xml">&lt;ignore xmlns="http://exist.sourceforge.net/NS/exist"/&gt;</programlisting>
+      <programlisting language="xml" xlink:href="listings/listing-14.xml"/>
       <para>The <tag>ignore</tag> element may include an optional <link linkend="cache-control"><literal>cache-control</literal></link> element.</para>
     </sect2>
     <sect2 xml:id="redirect">
@@ -143,9 +143,7 @@
         request, and this can potentially trigger the controller again; care must be taken to avoid
         creaing an un-exitable loop.</para>
       <para>The URL to the <literal>redirect</literal> element is given in an attribute named <literal>url</literal>.</para>
-      <programlisting language="xml">&lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist"&gt;
-  &lt;redirect url="..."/&gt;
-&lt;/dispatch&gt;</programlisting>
+      <programlisting language="xml" xlink:href="listings/listing-15.xml"/>
       <para>A redirect will be visible to the user: for instance the user's web-browser will be
         updated to show the specified new URL.</para>
     </sect2>
@@ -205,11 +203,7 @@
           </listitem>
         </varlistentry>
       </variablelist>
-      <programlisting language="xml">&lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist"&gt;
-  &lt;forward url="{$exist:controller}/modules/transform.xq"&gt;
-    &lt;add-parameter name="doc" value="{$exist:resource}.xml"/&gt;
-  &lt;/forward&gt;
-&lt;/dispatch&gt;</programlisting>
+      <programlisting language="xml" xlink:href="listings/listing-16.xml"/>
       <para>The <tag>forward</tag> element can contain the optional child elements: <link
           linkend="add-parameter"><literal>add-parameter</literal></link>, <link
           linkend="set-attribute"><literal>set-attribute</literal></link>, <link
@@ -230,7 +224,7 @@
         Parameter.</para>
       <para>The name of the parameter is taken from the <literal>name</literal> attribute, and the
         value from the <literal>value</literal> attribute.</para>
-      <programlisting language="xml">&lt;add-parameter name="xxx" value="yyy"/&gt;</programlisting>
+      <programlisting language="xml" xlink:href="listings/listing-17.xml"/>
       <para>The original HTTP request will be copied before the change is applied. This applies only
         to the step on which it is placed, that is to say that subsequent steps in the pipeline will
         not see the parameter. </para>
@@ -242,7 +236,7 @@
         they and are not related to the HTTP Request or HTTP Response.</para>
       <para>The name of the request attribute is read from the <literal>name</literal> attribute,
         and the value from the <literal>value</literal> attribute.</para>
-      <programlisting language="xml">&lt;set-attribute name="xxx" value="yyy"/&gt;</programlisting>
+      <programlisting language="xml" xlink:href="listings/listing-18.xml"/>
       <para>You can set arbitrary request attributes, for instance to pass information between
         XQuery modules. Some attribute names may be reserved by various servlets in the
         pipeline.</para>
@@ -251,7 +245,7 @@
       <para>The <tag>clear-attribute</tag> option clears a request attribute.</para>
       <para>The name of the request attribute is read from the <literal>name</literal>
         attribute.</para>
-      <programlisting language="xml">&lt;clear-attribute name="xxx"/&gt;</programlisting>
+      <programlisting language="xml" xlink:href="listings/listing-19.xml"/>
       <para>Unlike parameters, request attributes will be visible to subsequent steps in the
         processing pipeline. They only need to be explicitly cleared once they are no longer needed
         by the user. eXist-db places no requirement on the user having to ever clear the
@@ -260,7 +254,7 @@
       <para>The <tag>set-header</tag> option sets an HTTP Response Header field.</para>
       <para>The name of the header is read from the <literal>name</literal> attribute, and the value
         from the <literal>value</literal> attribute.</para>
-      <programlisting language="xml">&lt;set-header name="xxx" value="yyy"/&gt;</programlisting>
+      <programlisting language="xml" xlink:href="listings/listing-20.xml"/>
       <para>The HTTP response is shared between all steps in the pipeline, so all following steps will be able to see the change.</para></sect2>
     <sect2 xml:id="cache-control">
       <title>The <tag>cache-control</tag> Option</title>
@@ -270,10 +264,7 @@
       <para>Internally the URL Rewriting framework maintains a mapping between Input URLs and
         Dispatch Rules. When the cache is enabled, the <literal>controller.xq</literal> XQuery Main Module only needs to be
         executed once for each distinct input URL. Subsequent requests for the same URL will be served from the cache.</para>
-      <programlisting language="xml">&lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist"&gt;
-  &lt;redirect url="..."/&gt;
-  &lt;cache-control cache="yes"/&gt;
-&lt;/dispatch&gt;</programlisting>
+      <programlisting language="xml" xlink:href="listings/listing-21.xml"/>
       <para>Note: only the URL rewrite rule is cached, the HTTP response itself is not cached! The <literal>cache-control</literal> setting is unrelated to any HTTP Cache Headers in the HTTP Response, and is unrelated to any client-side caching within a web-browser.</para>
     </sect2>
   </sect1>

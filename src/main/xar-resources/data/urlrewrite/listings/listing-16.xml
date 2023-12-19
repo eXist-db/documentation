@@ -1,0 +1,5 @@
+<dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+  <forward url="{$exist:controller}/modules/transform.xq">
+    <add-parameter name="doc" value="{$exist:resource}.xml"/>
+  </forward>
+</dispatch>
