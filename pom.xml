@@ -338,7 +338,6 @@
               <alias>existdb-docs-tests</alias>
               <name>duncdrum/existdb:latest</name>
               <run>
-                <autoRemove>true</autoRemove>
                 <ports>
                   <port>8080:8080</port>
                 </ports>
@@ -369,6 +368,9 @@
             <goals>
               <goal>stop</goal>
             </goals>
+            <configuration>
+              <executeStopOnVMShutdown>true</executeStopOnVMShutdown>
+            </configuration>
           </execution>
         </executions>
       </plugin>
