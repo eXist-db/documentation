@@ -50,8 +50,8 @@
 
     <exist.version>${project.version}</exist.version>
     <templating.version>1.1.0</templating.version>
-    <node.version>v14.17.6</node.version>
-    <npm.version>7.24.0</npm.version>
+    <node.version>v18.18.2</node.version>
+    <npm.version>10.2.1</npm.version>
 
     <package-name>http://exist-db.org/apps/doc</package-name>
     <project.scm.id>github</project.scm.id>
@@ -336,7 +336,7 @@
           <images>
             <image>
               <alias>existdb-docs-tests</alias>
-              <name>existdb/existdb:latest</name>
+              <name>duncdrum/existdb:latest</name>
               <run>
                 <ports>
                   <port>8080:8080</port>
@@ -368,6 +368,9 @@
             <goals>
               <goal>stop</goal>
             </goals>
+            <configuration>
+              <executeStopOnVMShutdown>true</executeStopOnVMShutdown>
+            </configuration>
           </execution>
         </executions>
       </plugin>
