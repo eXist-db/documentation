@@ -142,7 +142,6 @@ function tests:equal-listing($path1 as xs:string, $path2 as xs:string) as xs:boo
 declare
 %test:name('Pro angular brackets')
 %test:assertEmpty
-%test:pending
 function tests:no-ecaped-listings() {
   let $target := collection($config:data-root)//db5:programlisting[@language='xml']
 
