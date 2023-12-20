@@ -19,7 +19,7 @@
     <para>Good web applications provide meaningful and consistent URLs to the user. eXist-db's
         <emphasis>URL Rewriting</emphasis> facility is eXist's oldest internal mechanism for
       providing short, human-readable URLs to XQuery web applications, conveniently masking the
-      often complex heirarchy of XQuery modules, HTML files, data, and other resources. (A newer
+      often complex hierarchy of XQuery modules, HTML files, data, and other resources. (A newer
       facility for achieving these goals is eXist-db's implementation of <link
         xlink:href="http://exquery.github.io/exquery/exquery-restxq-specification/restxq-1.0-specification.html"
         >RESTXQ</link>. A third method is to place a <link xlink:href="production_web_proxying"
@@ -41,10 +41,11 @@
             <emphasis>root pattern</emphasis>, which is <code>/apps</code> by default, eXist-db will
           look within the associated <emphasis>controller root path</emphasis>, which is the
             <code>/db/apps</code> database collection by default, for <emphasis>controller
-            scripts</emphasis>: special XQuery files named <code>controller.xq</code>. These
-          controller scripts apply to the collections where they are stored and their descendant
-          collections. They form a <emphasis>collection hierarchy</emphasis>—a URL space within
-          which URL rewriting can be flexibly applied.</para>
+            scripts</emphasis>: special XQuery files named <code>controller.xq</code> (or in older
+          applications <code>controller.xql</code>). A controller script applies to the collection
+          it is stored in and its descendants. They form a <emphasis>collection
+          hierarchy</emphasis>—a URL space within which URL rewriting can be flexibly
+          applied.</para>
       </listitem>
       <listitem>
         <para>The <code>controller.xq</code> script examines the URL using the provided <xref
@@ -54,10 +55,12 @@
       <listitem>
         <para>The <code>XQueryURLRewrite</code> servlet interprets the directive as a series of
           instructions on what to do next. These instructions may be as simple as forwarding the
-          request to a resource on the server (or elsewhere), or it may be as complex as a pipeline
-          using the <emphasis>Model-View-Controller</emphasis> pattern (see <xref
-            linkend="mvc-pipelines"/>) and other servlets such as eXist-db's <xref
-            linkend="xq-servlet"/> or <xref linkend="xslt-servlet"/>.</para>
+          request to a resource on the server (or elsewhere), or as complex as a pipeline using the
+            <emphasis>Model-View-Controller</emphasis> pattern (see <xref linkend="mvc-pipelines"/>)
+          and other servlets such as eXist-db's <xref linkend="xq-servlet"/> or <xref
+            linkend="xslt-servlet"/>. The controller script isn't limited to returning these types
+          of instructions; like any XQuery main module, they can return any data you may wish. But
+          URL Rewriting instructions are the special capability of controller scripts.</para>
       </listitem>
     </orderedlist>
     <sect2 xml:id="eg1">
@@ -86,10 +89,10 @@
           script</emphasis>, an XQuery main module named <literal>controller.xq</literal>. This
         script is invoked for all URL paths targeting the collection in which it resides. It has
         access to a number of <xref linkend="variables"/> pre-bound with details about the request,
-        including <literal>$exist:resource</literal>, which conveniently contains the name of the
+        including <code>$exist:resource</code>, which conveniently contains the name of the
         requested resource (without any leading path components). It also includes
-          <literal>$exist:controller</literal>, which contains the path to the database collection
-        where the <literal>controller.xq</literal> is located.</para>
+          <code>$exist:controller</code>, which contains the path to the database collection where
+        the <literal>controller.xq</literal> is located.</para>
       <para>This information allows a controller script to forward all requests for
           <literal>/exist/apps/doc/{resource}</literal> to an XQuery,
           <literal>transform.xq</literal>, which converts the XML document located via the
@@ -138,8 +141,10 @@
   <sect1 xml:id="controller-xml">
     <title>Controller XML Format</title>
     <para>As we have seen, the <code>controller.xq</code> script is expected to return a single XML
-      element: either a <tag>dispatch</tag> element or an <tag>ignore</tag> element.</para>
-    <para>Note that all of the elements discussed in this article must be in the
+      element: a <tag>dispatch</tag> or <tag>ignore</tag> element. The script can actually return
+      any data, as you wish, but the <tag>dispatch</tag> or <tag>ignore</tag> elements have special
+      properties in the context of a <code>controller.xq</code> script.</para>
+    <para>Note that all of the elements described in this section must be in the
         <code>http://exist.sourceforge.net/NS/exist</code> namespace.</para>
     <sect2 xml:id="dispatch">
       <title>The <tag>dispatch</tag> Action</title>
@@ -365,7 +370,7 @@ Content-Length: 0</programlisting>
           <row>
             <entry>
               <para>
-                <literal>$exist:root</literal>
+                <code>$exist:root</code>
               </para>
             </entry>
             <entry>
@@ -377,7 +382,7 @@ Content-Length: 0</programlisting>
           <row>
             <entry>
               <para>
-                <literal>$exist:prefix</literal>
+                <code>$exist:prefix</code>
               </para>
             </entry>
             <entry>
@@ -389,7 +394,7 @@ Content-Length: 0</programlisting>
           <row>
             <entry>
               <para>
-                <literal>$exist:controller</literal>
+                <code>$exist:controller</code>
               </para>
             </entry>
             <entry>
@@ -401,7 +406,7 @@ Content-Length: 0</programlisting>
           <row>
             <entry>
               <para>
-                <literal>$exist:path</literal>
+                <code>$exist:path</code>
               </para>
             </entry>
             <entry>
@@ -413,7 +418,7 @@ Content-Length: 0</programlisting>
           <row>
             <entry>
               <para>
-                <literal>$exist:resource</literal>
+                <code>$exist:resource</code>
               </para>
             </entry>
             <entry>
@@ -444,7 +449,7 @@ declare variable $exist:resource external;
     <variablelist>
       <varlistentry>
         <term>
-          <code>exist:root</code>
+          <code>$exist:root</code>
         </term>
         <listitem>
           <para>Is bound to the root of the current controller hierarchy. This may either point to
@@ -455,51 +460,49 @@ declare variable $exist:resource external;
             the <literal>/stylesheets</literal> directory in the root of the webapp or, if the app
             is running from within the database, the corresponding <literal>/stylesheets</literal>
             collection. You want your app to be able to run from either location. The solution is to
-            incorporate the value of the <literal>exist:root</literal> variable into your
-            logic:</para>
+            incorporate the value of the <code>$exist:root</code> variable into your logic:</para>
           <programlisting language="xml" xlink:href="listings/listing-5.xml"/>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term>
-          <code>exist:prefix</code>
+          <code>$exist:prefix</code>
         </term>
         <listitem>
           <para>If the current controller hierarchy is mapped to a certain path prefix, then the
-              <literal>$exist:prefix</literal> variable will be bound to that prefix.</para>
+              <code>$exist:prefix</code> variable will be bound to that prefix.</para>
           <para>For example: the default configuration maps the path <literal>/apps</literal> to a
-            collection in the database (see below). In this case, the
-              <literal>$exist:prefix</literal> variable would be bound to the value
-              <literal>/apps</literal>.</para>
+            collection in the database (see below). In this case, the <code>$exist:prefix</code>
+            variable would be bound to the value <literal>/apps</literal>.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term>
-          <code>exist:controller</code>
+          <code>$exist:controller</code>
         </term>
         <listitem>
           <para>Is bound to the part of the URL leading to the current
               <literal>controller.xq</literal>.</para>
           <para>For example, if the request path is <literal>/sandbox/test.xq</literal> and the
             controller is in the <literal>xquery</literal> collection, the
-              <literal>$exist:controller</literal> variable will be bound to the value
+              <code>$exist:controller</code> variable will be bound to the value
               <literal>/sandbox</literal>.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term>
-          <code>exist:path</code>
+          <code>$exist:path</code>
         </term>
         <listitem>
           <para>Is bound to the last part of the request URL, i.e., after the section leading to the
             collection containing the controller.xq.</para>
           <para>For instance, if the resource <literal>example.xml</literal> resides within the same
-            collection as the controller query, the <literal>$exist:path</literal> variable would be
-            bound to the value <literal>/example.xml</literal>.</para>
+            collection as the controller query, the <code>$exist:path</code> variable would be bound
+            to the value <literal>/example.xml</literal>.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
-        <term><code>exist:resource</code></term>
+        <term><code>$exist:resource</code></term>
         <listitem>
           <para>Is bound to the part of the URL after the last <literal>/</literal>; this is usually
             pointing to a resource.</para>
@@ -542,14 +545,16 @@ declare variable $exist:resource external;
     <title>Locating Controller Scripts and Configuring Base Mappings</title>
 
     <para>By convention, the controller script must be named <literal>controller.xq</literal> (or in
-      older applications <code>controller.xql</code>). If you wish to allow anonymous users to
-      access resources using the URL Rewriting framework then you need to ensure that the
-        <literal>controller.xq</literal> script is world-executable, e.g.,
-        <code>sm:chmod(xs:anyURI("/path/to/controller.xq")), "o+x")</code>.</para>
+      older applications <code>controller.xql</code>; if both <literal>controller.xq</literal> and
+      <code>controller.xql</code> are placed in the same collection, the former takes precedence,
+      and the latter is ignored).</para>
+    <para>If you wish to allow anonymous users to access resources using the URL Rewriting framework
+      then you need to ensure that the <literal>controller.xq</literal> script is world-executable,
+      e.g., <code>sm:chmod(xs:anyURI("/path/to/controller.xq")), "o+x")</code>.</para>
     <para>By default, the URL Rewriting framework will try to guess the path to the controller
       script by looking at the request path, starting with the deepest, most specific collection,
-      and then looking into each parent collection until the controller script is found or the root
-      of the database has been reached.</para>
+      and then examining each parent collection until a controller script is found or the root of
+      the database has been reached.</para>
     <para>This can be configured and overridden via the <literal>controller-config.xml</literal>
       configuration file in <literal>$EXIST_HOME/etc/webapp/WEB-INF</literal>, which defines the
       base mappings used.</para>
@@ -576,7 +581,7 @@ declare variable $exist:resource external;
       entire web application, and no additional handling of the servlet paths is necessary in the
       controller script.</para>
     <para>For example, if we had registered a servlet mapping for <literal>/rest</literal> in
-        <literal>web.xml</literal>, we would jave needed to make sure that this path is ignored in
+        <literal>web.xml</literal>, we would have needed to make sure that this path is ignored in
       our main <literal>controller.xq</literal> scripts. However, since the mapping is done via
         <literal>controller-config.xml</literal>, XQueryURLRewrite handles the path, which then
       doesn't need to be accounted for in our controller.</para>
