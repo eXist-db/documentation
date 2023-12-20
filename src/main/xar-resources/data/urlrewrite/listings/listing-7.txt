@@ -1,6 +1,8 @@
-<!-- 
- Default configuration: main web application is served from the
- webapp directory. 
+<!-- HTTP requests to /apps are mapped onto the database path /db/apps -->
+<root pattern="/apps" path="xmldb:exist:///db/apps"/>
+
+<!--
+  ++ The default fallback web application is served from the
+  ++ /etc/webapp directory on the filesystem. 
 -->
-<root pattern="/tools" path="xmldb:exist:///db/www"/>
 <root pattern=".*" path="/"/>
