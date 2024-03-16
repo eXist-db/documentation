@@ -1008,9 +1008,9 @@
             <sect3 xml:id="content-file">
                 <title> <tag>rpc-server</tag>/<tag>content-file</tag> element</title>
 
-                <para>This element configures the maximum amount of data held in the HEAP space before
+                <para>This element configures the maximum amount of data in bytes held in the heap space before
                     the data is moved to the temporary disk space. While using memory improves the performance
-                    and not triggering eventually existing virus scanners it comes with the cost of HEAP size usage.
+                    and not triggering eventually existing virus scanners it comes with the cost of heap size usage.
                     The location, size and other parameters for this file can be set using the
                     <tag>content-file</tag> element.</para>
                 <para> <tag>content-file</tag> Attributes:</para>
@@ -1018,7 +1018,8 @@
                     <varlistentry>
                         <term> <code>max-in-memory-size</code> </term>
                         <listitem>
-                            <para>Defines the maximum in memory hold data before storing on temporary disk space.</para>
+                            <para>Defines the maximum amount of data in bytes to hold in memory, before storing on
+                                temporary disk space.</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>
@@ -1028,7 +1029,7 @@
                 <title> <tag>rpc-server</tag>/<tag>content-file-pool</tag> element</title>
 
                 <para>This element configures the pool used to hold the content file entries in order to reuse the once
-                    initialized instances to further improve the performance and to limit the amount of used HEAP size.
+                    initialized instances to further improve the performance and to limit the amount of used heap size.
                     To calculate the maximum size of used memory the maximum in memory size of a single content file has
                     to be multiplied by the size of the pool.
                     The location, size and other parameters for this file can be set using the
