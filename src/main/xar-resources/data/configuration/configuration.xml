@@ -65,6 +65,9 @@
           <listitem>
             <para><tag>xupdate</tag>: Configuration options related to XUpdate processing.</para>
           </listitem>
+          <listitem>
+            <para><tag>rpc-server</tag>: Configuration options related to RPC result pooling.</para>
+          </listitem>
         </orderedlist>
         <para>The following sections describe the most commonly modified of the above elements,
             including how to change the default behavior of eXist-db's handling of whitespace
@@ -993,6 +996,63 @@
                     ordinary XQuery import statement.</para>
             </sect3>
         </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="rpc-server">
+            <title> <tag>rpc-server</tag> element </title>
+
+            <para>Defines the RPC server backend specific options used to process the requests and caching
+                result values.</para>
+
+            <sect3 xml:id="content-file">
+                <title> <tag>rpc-server</tag>/<tag>content-file</tag> element</title>
+
+                <para>This element configures the maximum amount of data in bytes held in the heap space before
+                    the data is moved to the temporary disk space. While using memory improves the performance
+                    and not triggering eventually existing virus scanners it comes with the cost of heap size usage.
+                    The location, size and other parameters for this file can be set using the
+                    <tag>content-file</tag> element.</para>
+                <para> <tag>content-file</tag> Attributes:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term> <code>max-in-memory-size</code> </term>
+                        <listitem>
+                            <para>Defines the maximum amount of data in bytes to hold in memory, before storing on
+                                temporary disk space.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+            </sect3>
+
+            <sect3 xml:id="content-file-pool">
+                <title> <tag>rpc-server</tag>/<tag>content-file-pool</tag> element</title>
+
+                <para>This element configures the pool used to hold the content file entries in order to reuse the once
+                    initialized instances to further improve the performance and to limit the amount of used heap size.
+                    To calculate the maximum size of used memory the maximum in memory size of a single content file has
+                    to be multiplied by the size of the pool.
+                    The location, size and other parameters for this file can be set using the
+                    <tag>content-file-pool</tag> element.</para>
+                <para> <tag>content-file</tag> Attributes:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term> <code>size</code> </term>
+                        <listitem>
+                            <para>Specifies the maximum amount of content file objects that can be in use concurrently.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term> <code>max-idle</code> </term>
+                        <listitem>
+                            <para>Defines the maximum amount of idle pool entries that will not be removed for later reuse.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+            </sect3>
+
+        </sect2>
+
 
     </sect1>
 
