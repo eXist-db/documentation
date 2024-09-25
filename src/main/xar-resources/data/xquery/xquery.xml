@@ -884,6 +884,16 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
+                <term> <code>exist:profiling</code> </term>
+                <listitem>
+                    <para>Enables profiling for a query and logs the results.
+                        For example:</para>
+                    <programlisting>(# exist:profiling enabled=yes verbosity=10 logger=xquery.profiling #) { //some/path/expression }</programlisting>
+                    <para>This enables the profiler for the expression enclosed in curly braces and
+                        prints profiling information to the xquery.profiling logger (e.g. profile.log):</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
                 <term> <code>exist:batch-transaction</code> </term>
                 <listitem>
                     <para> <emphasis>Currently for XQuery Update Extensions only.</emphasis>
