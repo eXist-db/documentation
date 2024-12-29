@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>XQuery in eXist-db</title>
-        <date>3Q21</date>
+        <date>4Q24</date>
         <keywordset>
             <keyword>xquery</keyword>
         </keywordset>
@@ -27,19 +27,24 @@
     <sect1 xml:id="current-status-of-xquery-support">
         <title>Current Status of XQuery Support</title>
 
-        <para>eXist-db implements <link condition="_blank" xlink:href="https://www.w3.org/TR/xquery/"
-            >XQuery 3.1: An XML Query Language</link> and <link condition="_blank"
-            xlink:href="https://www.w3.org/TR/xpath-functions/">"XPath and XQuery Functions and
+        <para>eXist-db implements <link condition="_blank"
+                xlink:href="https://www.w3.org/TR/xquery/"
+            >XQuery 3.1: An XML Query Language</link>
+            and <link condition="_blank"
+                xlink:href="https://www.w3.org/TR/xpath-functions/">"XPath and XQuery Functions and
             Operators 3.1"</link>, with the exception of certain <link
-            xlink:href="#unsupported-features">unsupported features and functions</link>. </para>
-            <note><para>For
-            complete documentation on functions in eXist-db, see <link condition="_blank"
-            xlink:href="{${fundocs.pkg.abbrev}}">XQuery Function Documentation</link>.</para></note>
+                xlink:href="#unsupported-features">unsupported features and functions</link>. </para>
+        <note>
+            <para>For complete documentation on functions in eXist-db, see <link condition="_blank"
+                    xlink:href="{${fundocs.pkg.abbrev}}">XQuery Function Documentation</link>.</para>
+        </note>
         <para>eXist-db's XQuery implementation has been tested against the official <link
-            condition="_blank" xlink:href="https://dev.w3.org/2006/xquery-test-suite/">XML Query Test
-            Suite (XQTS)</link>. An updated test suite runner to test conformance against the
+                condition="_blank" xlink:href="https://dev.w3.org/2006/xquery-test-suite/">XML Query
+            Test
+                Suite (XQTS)</link>. An updated test suite runner to test conformance against the
             official <link condition="_blank" xlink:href="https://dev.w3.org/2011/QT3-test-suite/"
-            >XQuery/XPath/XSLT 3.* Test Suite (QT3)</link> is being planned.</para>
+            >XQuery/XPath/XSLT
+            3.* Test Suite (QT3)</link> is being planned.</para>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
@@ -47,13 +52,15 @@
             <title>Supported Optional Features</title>
 
             <para>In addition to the standard features, eXist-db provides extended support for <link
-                xlink:href="#module-system"> <emphasis>modules</emphasis> </link>.</para>
+                    xlink:href="#module-system">
+                    <emphasis>modules</emphasis>
+                </link>.</para>
             <para>It implements the <emphasis>full axis</emphasis> feature, providing support for
-                the following <emphasis>optional axes</emphasis>: <literal>ancestor::</literal>,
-                <literal>ancestor-or-self::</literal>, <literal>following::</literal>,
-                <literal>following-sibling::</literal>, <literal>preceding::</literal> and
-                <literal>preceding-sibling::</literal>. The only optional axis not supported is the
-                <literal>namespace</literal> axis.</para>
+                the following <emphasis>optional axes</emphasis>: <literal>ancestor::</literal>, <literal>
+                ancestor-or-self::</literal>, <literal>following::</literal>, <literal>
+                following-sibling::</literal>, <literal>preceding::</literal> and <literal>
+                preceding-sibling::</literal>. The only optional axis not supported is the <literal>
+                namespace</literal> axis.</para>
         </sect2>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -67,17 +74,20 @@
                 supported:</para>
             <itemizedlist>
                 <listitem>
-                    <para> <link condition="_blank"
-                        xlink:href="https://www.w3.org/TR/xquery/#id-schema-import-feature">schema
-                        import</link> and <link condition="_blank"
-                        xlink:href="https://www.w3.org/TR/xquery/#id-schema-validation-feature"
-                        >schema validation features</link> (defined as <link condition="_blank"
-                        xlink:href="https://www.w3.org/TR/xquery/#id-conform-optional-features"
-                        >optional</link> in the XQuery specification). Instead, eXist-db provides a
+                    <para>
                         <link condition="_blank"
-                        xlink:href="{${fundocs.pkg.abbrev}}/view.html?uri=http://exist-db.org/xquery/validation"
-                        >validation module</link> containing extension functions to perform XML
-                        validation.</para>
+                            xlink:href="https://www.w3.org/TR/xquery/#id-schema-import-feature">schema
+                        import</link> and <link condition="_blank"
+                            xlink:href="https://www.w3.org/TR/xquery/#id-schema-validation-feature"
+                        >schema
+                        validation features</link> (defined as <link condition="_blank"
+                            xlink:href="https://www.w3.org/TR/xquery/#id-conform-optional-features"
+                        >
+                        optional</link> in the XQuery specification). Instead, eXist-db provides a <link
+                            condition="_blank"
+                            xlink:href="{${fundocs.pkg.abbrev}}/view.html?uri=http://exist-db.org/xquery/validation"
+                        >validation
+                        module</link> containing extension functions to perform XML validation.</para>
                 </listitem>
                 <listitem>
                     <para>When storing XML documents, eXist-db does not store type information along
@@ -104,19 +114,23 @@
                 </listitem>
             </itemizedlist>
 
-            <para>eXist-db supports all standard XQuery functions except for the following known issues:</para>
+            <para>eXist-db supports all standard XQuery functions except for the following known
+                issues:</para>
             <itemizedlist>
                 <listitem>
-                    <para> <literal>map:merge</literal> should default to "use-first" but eXist-db defaults to
-                        "use-last." The developers plan to <link condition="_blank"
+                    <para>
+                        <literal>map:merge</literal> should default to "use-first" but eXist-db
+                        defaults to "use-last." The developers plan to <link condition="_blank"
                             xlink:href="https://github.com/eXist-db/exist/pull/3738">adopt the
-                            standard option</link> in the next major version of eXist. </para>
+                        standard option</link> in the next major version of eXist. </para>
                 </listitem>
             </itemizedlist>
-            
-            <para>eXist-db supports all standard serialization parameters, but some bugs remain in the implementation, as reported by XQuery Test Suite (XQTS). For the internal tests that pass, see the <link condition="_blank"
-            xlink:href="https://github.com/eXist-db/exist/blob/develop/exist-core/src/test/xquery/xquery3/serialize.xql">eXist-db serialization tests</link>. 
-                    </para>
+
+            <para>eXist-db supports all standard serialization parameters, but some bugs remain in
+                the implementation, as reported by XQuery Test Suite (XQTS). For the internal tests
+                that pass, see the <link condition="_blank"
+                    xlink:href="https://github.com/eXist-db/exist/blob/develop/exist-core/src/test/xquery/xquery3/serialize.xql">eXist-db
+                serialization tests</link>. </para>
         </sect2>
 
     </sect1>
@@ -128,11 +142,11 @@
 
         <para>eXist-db has an implementation-specific <link xlink:href="lucene">Full Text Search
             facility</link>, built on the <link condition="_blank"
-            xlink:href="https://lucene.apache.org/">Apache Lucene</link> library (see the full
-            documentation on <link xlink:href="indexing">indexing</link> in eXist-db). eXist-db
-            does not currently support the official W3C <link condition="_blank"
-            xlink:href="https://www.w3.org/TR/xpath-full-text/">"XQuery and XPath Full Text
-            3.0"</link> specification.</para>
+                xlink:href="https://lucene.apache.org/">Apache Lucene</link> library (see the full
+            documentation on <link xlink:href="indexing">indexing</link> in eXist-db). eXist-db does
+            not currently support the official W3C <link condition="_blank"
+                xlink:href="https://www.w3.org/TR/xpath-full-text/">"XQuery and XPath Full Text
+                3.0"</link> specification.</para>
 
     </sect1>
 
@@ -142,9 +156,9 @@
         <title>XQuery Update</title>
 
         <para>eXist-db has an implementation-specific <link xlink:href="update_ext">XQuery
-            Update facility</link>, which predates the development of the official W3C XQuery Update
-            facility. eXist-db does currently not support the official <link
-            xlink:href="https://www.w3.org/TR/xquery-update/">"XQuery Update Facility 3.0"</link>
+                Update facility</link>, which predates the development of the official W3C XQuery
+            Update facility. eXist-db does currently not support the official <link
+                xlink:href="https://www.w3.org/TR/xquery-update/">"XQuery Update Facility 3.0"</link>
             specification. The main difference between the eXist-db implementation and the official
             specification is that the eXist-db implementation supports in-place updates. Switching
             to the W3C recommendation would break backwards compatibility.</para>
@@ -158,14 +172,15 @@
         <title>Function Library</title>
 
         <para>A complete list of XQuery functions supported by eXist-db can be found in the <link
-            condition="_blank" xlink:href="{${fundocs.pkg.abbrev}}">XQuery Function
-            Documentation</link>. </para>
+                condition="_blank" xlink:href="{${fundocs.pkg.abbrev}}">XQuery Function
+                Documentation</link>. </para>
         <para>Each module's documentation is generated from a different sources, depending on
             whether the module is implemented in Java or XQuery. For modules implemented in Java,
             the documentation is taken directly from the signature provided by the class
             implementing the <literal>Function</literal> interface. For modules implemented in
             XQuery, the function descriptions are taken from <link xlink:href="xqdoc"
-            >XQDoc-formatted comments and annotations</link>.</para>
+            >XQDoc-formatted
+            comments and annotations</link>.</para>
     </sect1>
 
     <!-- ================================================================== -->
@@ -176,8 +191,7 @@
         <para>eXist-db supports the creation of <link xlink:href="development-starter">web
             applications in XQuery</link>. This can result in complex XQuery scripts, consisting of
             several thousand lines of code. Packaging related functions in modules is therefore an
-            important feature. eXist-db allows modules to be imported from a variety of
-            sources:</para>
+            important feature. eXist-db allows modules to be imported from a variety of sources:</para>
         <itemizedlist>
             <listitem>
                 <para>an URI</para>
@@ -194,24 +208,24 @@
         </itemizedlist>
 
         <para>For example, a typical import statement in an XQuery will look like this:</para>
-        <programlisting language="xquery" xlink:href="listings/listing-12.txt"/>
+        <programlisting language="xquery" xlink:href="listings/listing-12.txt" />
         <para>Provided the module namespace does not point to one of the preloaded standard modules
             (see below), the query engine will try to locate the module source by looking at the URI
             given after the <literal>at</literal> keyword. In the example above, the module was
             specified using a full URI and the query engine will attempt to load the module source
             from there. </para>
         <para>However, the module could also be stored in a database collection:</para>
-        <programlisting language="xquery" xlink:href="listings/listing-13.txt"/>
+        <programlisting language="xquery" xlink:href="listings/listing-13.txt" />
         <para>The query engine recognizes the module is stored in the local database instance and
             tries to load it from there.</para>
         <para>If the XQuery module is part of a Java application, it is also an option to pack the
             module into a Java archive (<code>.jar</code> file) along with the Java classes. Then
             use the following <code>import</code> to load it:</para>
-        <programlisting language="xquery" xlink:href="listings/listing-14.txt"/>
+        <programlisting language="xquery" xlink:href="listings/listing-14.txt" />
         <para>Finally, XQuery modules can also be implemented in Java (see <link
-            xlink:href="#calling-java">below</link>).You can import them by specifying the class
+                xlink:href="#calling-java">below</link>).You can import them by specifying the class
             path of the Module class:</para>
-        <programlisting language="xquery" xlink:href="listings/listing-15.txt"/>
+        <programlisting language="xquery" xlink:href="listings/listing-15.txt" />
         <para>The <literal>extensions/modules</literal> directory in the eXist-db distribution
             contains a number of useful modules. These can also serve as examples for implementing
             your own.</para>
@@ -230,8 +244,8 @@
                         path is the URI of that collection. For example if you access an XQuery via
                         the REST server:</para>
                     <programlisting>http://localhost:8080/exist/servlet/db/modules/test.xq</programlisting>
-                    <para>Now all relative module paths will be resolved relative to the
-                        <literal>/db/modules</literal> collection.</para>
+                    <para>Now all relative module paths will be resolved relative to the <literal>
+                        /db/modules</literal> collection.</para>
                 </listitem>
                 <listitem>
                     <para>If the main XQuery was retrieved from the file system, the module load
@@ -251,7 +265,7 @@
                 of queries. The <tag>builtin-modules</tag> element in <literal>conf.xml</literal>
                 lists the namespaces and the corresponding Java class that implements all modules to
                 be preloaded:</para>
-            <programlisting language="xml" xlink:href="listings/listing-17.xml"/>
+            <programlisting language="xml" xlink:href="listings/listing-17.xml" />
         </sect2>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -262,7 +276,7 @@
             <para>The eXist-db package repository makes it easy to manage and deploy external
                 packages (<code>.xar</code> archives) containing Java or XQuery libraries and even
                 full eXist-db applications. See the <link xlink:href="repo">Package
-                Repository</link> documentation.</para>
+                    Repository</link> documentation.</para>
         </sect2>
 
     </sect1>
@@ -292,32 +306,34 @@
 
         <para>eXist-db supports calls to arbitrary Java methods from within XQuery. The binding
             mechanism follows the short-cut technique introduced by <link condition="_blank"
-            xlink:href="http://saxon.sourceforge.net/">Saxon</link>.</para>
+                xlink:href="http://saxon.sourceforge.net/">Saxon</link>.</para>
         <para>The class of the external function is identified by the namespace URI of the function
             call. This namespace URI must start with the prefix <literal>java:</literal>, followed
             by the fully qualified class name of the class. For example, the following code snippet
-            calls the static method <literal>sqrt</literal> (square-root) of class
-            <literal>java.lang.Math</literal>:</para>
-        <programlisting language="xquery" xlink:href="listings/listing-18.txt"/>
+            calls the static method <literal>sqrt</literal> (square-root) of class <literal>
+            java.lang.Math</literal>:</para>
+        <programlisting language="xquery" xlink:href="listings/listing-18.txt" />
 
         <para>If the function name contains a hyphen, the letter following the hyphen is converted
             to upper-case and the hyphen is removed (to conform to the Java CamelCase naming
-            convention). So for example, <code>to-string()</code> will call the Java method
-            <code>toString()</code>.</para>
+            convention). So for example, <code>to-string()</code> will call the Java method <code>
+            toString()</code>.</para>
         <para>If more than one method in the class matches the given name and parameter count,
             eXist-db tries to select the method that best fits the passed parameter types at
             runtime. </para>
         <para>The result of the method call can be assigned to an XQuery variable. If possible, it
             will be mapped to the corresponding XML schema type. Otherwise, it's type is the
             eXist-db built-in type <literal>object</literal>.</para>
-        <para> <emphasis>Java constructors</emphasis> are called using the function
-            <literal>new</literal>. Again, a matching constructor is selected by looking at the
-            parameter count and types. The returned value is a new Java object with the built-in
-            type <literal>object</literal>.</para>
-        <para> <emphasis>Instance methods</emphasis> are called by supplying a valid Java object as
+        <para>
+            <emphasis>Java constructors</emphasis> are called using the function <literal>new</literal>.
+            Again, a matching constructor is selected by looking at the parameter count and types.
+            The returned value is a new Java object with the built-in type <literal>object</literal>
+            .</para>
+        <para>
+            <emphasis>Instance methods</emphasis> are called by supplying a valid Java object as
             first parameter. The Java object has to be an instance of the given class. For example,
             the following snippet lists all files and directories in the current directory:</para>
-        <programlisting language="xquery" xlink:href="listings/listing-19.txt"/>
+        <programlisting language="xquery" xlink:href="listings/listing-19.txt" />
 
         <note>
             <para>For security reasons, the Java binding is disabled by default. To enable it, the
@@ -338,7 +354,7 @@
 
         <para>eXist-db supports XQuery library modules, collections of function definitions and
             global variable declarations. eXist-db supports two types: <emphasis>External
-            Modules</emphasis>, written in XQuery, and <emphasis>Internal Modules</emphasis>,
+                Modules</emphasis>, written in XQuery, and <emphasis>Internal Modules</emphasis>,
             implemented in Java. The standard XPath/XQuery functions and all standard eXist-db
             extension functions are implemented as internal modules. This section describes how to
             create XQuery modules using XQuery and Java.</para>
@@ -348,10 +364,10 @@
         <sect2 xml:id="xquery-modules">
             <title>Creating Modules in XQuery</title>
 
-            <para>You can declare an XQuery file as a module and import it using the standard
-                <literal>import module</literal> directive. The XQuery engine imports each module
-                only once during compilation. The compiled module is made available through the
-                static XQuery context.</para>
+            <para>You can declare an XQuery file as a module and import it using the standard <literal>import
+                module</literal> directive. The XQuery engine imports each module only once during
+                compilation. The compiled module is made available through the static XQuery
+                context.</para>
         </sect2>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -361,41 +377,41 @@
 
             <para>To register Java-based XQuery modules, eXist-db requires a namespace URI to
                 identify it and the list of functions it supplies. For this, you need to pass a
-                driver class to the XQuery engine. This class must implement the interface
-                <literal>org.exist.xpath.InternalModule</literal>.</para>
+                driver class to the XQuery engine. This class must implement the interface <literal>
+                org.exist.xpath.InternalModule</literal>.</para>
             <note>
                 <para>Besides the basic methods for creating a Java-based XQuery module described
                     here, eXist-db provides a pluggable module interface that allows extension
                     modules to be easily developed in Java. See <link xlink:href="extensions"
-                    >XQuery Extension Modules</link> for the full documentation on this eXist-db
-                    development best practice. Also, see the <link xlink:href="repo">Package
-                    Repository</link> documentation for information on distributing and deploying
-                    XQuery and Java libraries for eXist-db.</para>
+                    >XQuery
+                    Extension Modules</link> for the full documentation on this eXist-db development
+                    best practice. Also, see the <link xlink:href="repo">Package
+                        Repository</link> documentation for information on distributing and
+                    deploying XQuery and Java libraries for eXist-db.</para>
             </note>
             <para>The class <literal>org.exist.xpath.AbstractInternalModule</literal> already
                 provides an implementation skeleton. The class constructor expects an array of
-                function definitions for all functions to registered. A function definition (class
-                <literal>FunctionDef</literal>) has two properties: the static signature of the
-                function (as an instance of <literal>FunctionSignature</literal>) and the Java Class
-                that implements the function.</para>
-            <para>A function is a class extending <literal>org.exist.xquery.Function</literal> or
-                <literal>org.exist.xquery.BasicFunction</literal>. Functions without special
-                requirements (like overloading) should subclass BasicFunction. To illustrate this a
-                simple function definition:</para>
-            <programlisting language="java" xlink:href="listings/listing-21.txt"/>
+                function definitions for all functions to registered. A function definition (class <literal>
+                FunctionDef</literal>) has two properties: the static signature of the function (as
+                an instance of <literal>FunctionSignature</literal>) and the Java Class that
+                implements the function.</para>
+            <para>A function is a class extending <literal>org.exist.xquery.Function</literal> or <literal>
+                org.exist.xquery.BasicFunction</literal>. Functions without special requirements
+                (like overloading) should subclass BasicFunction. To illustrate this a simple
+                function definition:</para>
+            <programlisting language="java" xlink:href="listings/listing-21.txt" />
             <itemizedlist>
                 <listitem>
-                    <para>Note that every function class has to provide a function
-                        <emphasis>signature</emphasis>. This defines the <emphasis>QName</emphasis>
-                        by which the function is identified, a documentation string, the sequence
-                        types of all arguments and the sequence type of the returned value. </para>
-                    <para>In the example above, we accept a single argument named "text" of type
-                        <literal>xs:string</literal> and a cardinality of
-                        <literal>ZERO_OR_MORE</literal> with the description "The text to echo". In
-                        other words, we accept any sequence of strings containing zero or more
-                        items. The return value is of type <literal>xs:string</literal> and a
-                        cardinality of <literal>ZERO_OR_MORE</literal> with the description "the
-                        echoed text". </para>
+                    <para>Note that every function class has to provide a function <emphasis>
+                        signature</emphasis>. This defines the <emphasis>QName</emphasis> by which
+                        the function is identified, a documentation string, the sequence types of
+                        all arguments and the sequence type of the returned value. </para>
+                    <para>In the example above, we accept a single argument named "text" of type <literal>
+                        xs:string</literal> and a cardinality of <literal>ZERO_OR_MORE</literal>
+                        with the description "The text to echo". In other words, we accept any
+                        sequence of strings containing zero or more items. The return value is of
+                        type <literal>xs:string</literal> and a cardinality of <literal>ZERO_OR_MORE</literal>
+                        with the description "the echoed text". </para>
                     <para>A parameter description should be normal sentence starting with a capital
                         letter. The return value description is always prefixed with "Returns ", so
                         make sure the text matches. </para>
@@ -403,8 +419,8 @@
                 <listitem>
                     <para>The subclass overwrites the <literal>eval</literal> method, which has two
                         arguments: the first contains the values of all arguments passed to the
-                        function, the second passes the current context sequence (which might be
-                        <code>null</code>). </para>
+                        function, the second passes the current context sequence (which might be <code>
+                        null</code>). </para>
                     <para>Note that the argument values in the array <literal>args</literal> have
                         already been checked to match the sequence types defined in the function
                         signature. We therefore do not have to recheck the length of the array: if
@@ -422,19 +438,17 @@
 
             </itemizedlist>
 
-            <para>Now we want to add the function to a new module, so we have to provide a
-                <emphasis>driver class</emphasis>. The driver class defines the namespace URI and
-                default prefix for the module. Functions are registered by passing an array of
-                <literal>FunctionDef</literal> to the constructor. The following is an example
-                driver class definition:</para>
-            <programlisting language="java" xlink:href="listings/listing-22.txt"/>
+            <para>Now we want to add the function to a new module, so we have to provide a <emphasis>driver
+                class</emphasis>. The driver class defines the namespace URI and default prefix for
+                the module. Functions are registered by passing an array of <literal>FunctionDef</literal>
+                to the constructor. The following is an example driver class definition:</para>
+            <programlisting language="java" xlink:href="listings/listing-22.txt" />
 
             <para>To use this in XQuery:</para>
-            <programlisting language="xquery" xlink:href="listings/listing-23.txt"/>
+            <programlisting language="xquery" xlink:href="listings/listing-23.txt" />
             <para>The query engine recognizes the <literal>java:</literal> prefix in the location
-                URI and treats the remaining part
-                <literal>org.exist.examples.xquery.ExampleModule</literal> as a fully qualified
-                class name leading to the driver class of the module.</para>
+                URI and treats the remaining part <literal>org.exist.examples.xquery.ExampleModule</literal>
+                as a fully qualified class name leading to the driver class of the module.</para>
 
         </sect2>
     </sect1>
@@ -453,7 +467,9 @@
 
         <variablelist>
             <varlistentry>
-                <term> <code>http://www.w3.org/2005/xpath-functions/collation/codepoint</code> </term>
+                <term>
+                    <code>http://www.w3.org/2005/xpath-functions/collation/codepoint</code>
+                </term>
                 <listitem>
                     <para>This URI selects the Unicode Codepoint Collation. This is default if no
                         collation is specified. eXist implements this using standard Java comparison
@@ -461,25 +477,33 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term> <code>http://www.w3.org/2013/collation/UCA</code> </term>
+                <term>
+                    <code>http://www.w3.org/2013/collation/UCA</code>
+                </term>
                 <listitem>
                     <para>This URI selects the standard <link condition="_blank"
-                        xlink:href="https://www.w3.org/TR/xpath-functions-31/#uca-collations"
-                        >Unicode Collation Algorithm (UCA)</link>, which accepts all standard
-                        parameters. eXist implements this using the ICU4J library.</para>
+                            xlink:href="https://www.w3.org/TR/xpath-functions-31/#uca-collations"
+                        >Unicode
+                        Collation Algorithm (UCA)</link>, which accepts all standard parameters.
+                        eXist implements this using the ICU4J library.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term>
-                    <code>http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive</code> </term>
+                    <code>
+                        http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive</code>
+                </term>
                 <listitem>
                     <para>This URI selects the standard <link condition="_blank"
-                        xlink:href="https://www.w3.org/TR/xpath-functions-31/#html-ascii-case-insensitive-collation"
-                        >HTML ASCII Case-Insensitive Collation</link>.</para>
+                            xlink:href="https://www.w3.org/TR/xpath-functions-31/#html-ascii-case-insensitive-collation"
+                        >HTML
+                        ASCII Case-Insensitive Collation</link>.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term> <code>http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind</code> </term>
+                <term>
+                    <code>http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind</code>
+                </term>
                 <listitem>
                     <para>This URI selects the Collation used by the XQTS (XQuery Test Suite) 3.1.
                         It is not recommended to use this for general purposes.</para>
@@ -493,15 +517,17 @@
         <variablelist>
             <varlistentry>
                 <term>
-                    <code>http://exist-db.org/collation?lang=xxx&amp;strength=xxx&amp;decomposition=xxx</code> </term>
+                    <code>
+                        http://exist-db.org/collation?lang=xxx&amp;strength=xxx&amp;decomposition=xxx</code>
+                </term>
                 <listitem>
 
                     <para>The <literal>lang</literal> parameter selects a locale, and should have
                         the same form as in <literal>xml:lang</literal>. For example, "de" or
                         "de-DE" to select the German locale.</para>
-                    <para>The optional <literal>strength</literal> parameter must be one of
-                        <code>primary</code>, <code>secondary</code>, <code>tertiary</code> or
-                        <code>identical</code>.</para>
+                    <para>The optional <literal>strength</literal> parameter must be one of <code>
+                        primary</code>, <code>secondary</code>, <code>tertiary</code> or <code>
+                        identical</code>.</para>
                     <para>The optional <code>decomposition</code> parameter (optional) has the value
                         of <code>none</code>, <code>full</code> or <code>standard</code>.</para>
                     <para>Instead of supplying the full URI, an abbreviated URI can be supplied
@@ -512,20 +538,21 @@
         </variablelist>
 
         <para>The following example selects the German locale for sorting:</para>
-        <programlisting language="xquery" xlink:href="listings/listing-27.txt"/>
+        <programlisting language="xquery" xlink:href="listings/listing-27.txt" />
         <para>It returns the following:</para>
         <programlisting>Bauer, Bäuerin, Buch, Bücher, das, daß, Jagen, Jäger</programlisting>
         <para>You can change the default collation in the XQuery prolog:</para>
-        <programlisting language="xquery" xlink:href="listings/listing-29.txt"/>
-        <para>This now returns <literal>true</literal> (the default collation would have returned
-            <literal>false</literal>).</para>
+        <programlisting language="xquery" xlink:href="listings/listing-29.txt" />
+        <para>This now returns <literal>true</literal> (the default collation would have returned <literal>
+            false</literal>).</para>
 
-        <para>Finally, you can also use Java class specified collators. They should be subclasses of
-            <literal>java.text.RuleBasedCollator</literal>. For example:</para>
-        <programlisting language="xquery" xlink:href="listings/listing-30.txt"/>
+        <para>Finally, you can also use Java class specified collators. They should be subclasses of <literal>
+            java.text.RuleBasedCollator</literal>. For example:</para>
+        <programlisting language="xquery" xlink:href="listings/listing-30.txt" />
         <para>The <code>.jar</code> with the <code>.class</code> file(s) of the collator needs to be
             placed in <literal>${EXIST_HOME}/lib</literal> and added to the appropriate classpath
-            config file in <literal>${EXIST_HOME}/etc</literal>, for standard server deployments this is <literal>${EXIST_HOME}/etc/startup.xml</literal>.</para>
+            config file in <literal>${EXIST_HOME}/etc</literal>, for standard server deployments
+            this is <literal>${EXIST_HOME}/etc/startup.xml</literal>.</para>
 
     </sect1>
 
@@ -534,14 +561,14 @@
     <sect1 xml:id="serialization">
         <title>Serialization</title>
 
-        <para>Serialization is the transformation of query results into a string representation or 
-            binary stream. eXist-db implements the <link condition="_blank" 
-            xlink:href="https://www.w3.org/TR/xquery/">"XSLT and XQuery Serialization 3.1"</link>
+        <para>Serialization is the transformation of query results into a string representation or
+            binary stream. eXist-db implements the <link condition="_blank"
+                xlink:href="https://www.w3.org/TR/xquery/">"XSLT and XQuery Serialization 3.1"</link>
             specification with one exception, the <code>item-separator</code>.</para>
         <para>
             For example, the following serialization declaration instructs eXist-db to serialize
             query results as JSON and to supply a JSON media-type:</para>
-        <programlisting language="xquery" xlink:href="listings/listing-10.txt"/>
+        <programlisting language="xquery" xlink:href="listings/listing-10.txt" />
         <para>As this example shows, serialization parameters can be set within the query itself.
             However, the interpretation of serialization parameters depends on the context in which
             the query is called. For instance, the JSON media-type declaration in the example above
@@ -553,35 +580,41 @@
 
         <sect2 xml:id="exist-specific-options">
             <title>eXist-db specific options</title>
-            <para>
-                These options are added in addition to the W3C options and can be set in the prolog,
-                in <code>fn:serialize#2</code> or <code>file:sync#3</code> alongside the standard W3C ones.
-                Their names have to be prefixed with "exist:" when used in <code>fn:serialize#2</code>
-                or <code>file:sync#3</code> option maps. See also the fn:serialize section below.
-            </para>
+            <para> These options are added in addition to the W3C options and can be set in the
+                prolog, in <code>fn:serialize#2</code> or <code>file:sync#3</code> alongside the
+                standard W3C ones. Their names have to be prefixed with "exist:" when used in <code>
+                fn:serialize#2</code> or <code>file:sync#3</code> option maps. See also the
+                fn:serialize section below. </para>
             <variablelist>
                 <varlistentry>
-                    <term> <literal>jsonp : function-name (string)</literal> </term>
+                    <term>
+                        <literal>jsonp : function-name (string)</literal>
+                    </term>
                     <listitem>
-                        <para>Only relevant when the serialization method is set to
-                            <code>json</code>. Causes the JSON output to be wrapped in the named
-                            JSONP function. </para>
+                        <para>Only relevant when the serialization method is set to <code>json</code>.
+                            Causes the JSON output to be wrapped in the named JSONP function. </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>output-doctype : ( "yes" | "no" )</literal> </term>
+                    <term>
+                        <literal>output-doctype : ( "yes" | "no" )</literal>
+                    </term>
                     <listitem>
                         <para>Serializes the document's Document Type Declaration if one is present.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>expand-xincludes : ( "yes" | "no" )</literal> </term>
+                    <term>
+                        <literal>expand-xincludes : ( "yes" | "no" )</literal>
+                    </term>
                     <listitem>
                         <para>Must the serializer expand XInclude elements?</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>highlight-matches : [ both | elements | attributes | none ]</literal> </term>
+                    <term>
+                        <literal>highlight-matches : [ both | elements | attributes | none ]</literal>
+                    </term>
                     <listitem>
                         <para>When querying text with the full text or n-gram extensions, the query
                             engine tracks the exact position of all matches inside text content. The
@@ -592,7 +625,9 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>process-xsl-pi : ( "yes" | "no" )</literal> </term>
+                    <term>
+                        <literal>process-xsl-pi : ( "yes" | "no" )</literal>
+                    </term>
                     <listitem>
                         <para>If a document is serialized and it has an XSL processing instruction,
                             eXist-db can try to load the referenced stylesheet and apply it to the
@@ -600,72 +635,57 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>add-exist-id : [ element | all | none ]</literal> </term>
+                    <term>
+                        <literal>add-exist-id : [ element | all | none ]</literal>
+                    </term>
                     <listitem>
-                        <para>Shows the internal node ids of an element by adding an attribute
-                            <literal>exist:id="internal-node-id"</literal>. Setting add-exist-id to
-                            <code>element</code> will only show the node id of the top-level
-                            element, <code>all</code> will show the ids of all elements.</para>
+                        <para>Shows the internal node ids of an element by adding an attribute <literal>
+                            exist:id="internal-node-id"</literal>. Setting add-exist-id to <code>
+                            element</code> will only show the node id of the top-level element, <code>
+                            all</code> will show the ids of all elements.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>json-ignore-whitespace-text-nodes : ( "yes" | "no" )</literal> </term>
+                    <term>
+                        <literal>json-ignore-whitespace-text-nodes : ( "yes" | "no" )</literal>
+                    </term>
                     <listitem>
                         <para>To discard white-space text nodes when serializing XML/XDM to
                             JSON.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>insert-final-newline : ( "yes" | "no" )</literal> </term>
+                    <term>
+                        <literal>insert-final-newline : ( "yes" | "no" )</literal>
+                    </term>
                     <listitem>
                         <para>Add a final newline at the end of an XML or JSON document. This is
                             especially useful when serializing to a git repository.</para>
                     </listitem>
                 </varlistentry>
-            </variablelist>
-            <para>
-                Legacy options:
-            </para>
-            <para>Before serialization parameters were standardized in XQuery 3.0, eXist-db developed
-                its own set of parameters. These are kept for backwards compatibility but should be 
-                considered deprecated as they can be replaced with W3C standard options.</para>
-            <variablelist>
+
                 <varlistentry>
-                    <term> <literal>method : [ xml | xhtml | json | text ]</literal> </term>
+                    <term>
+                        <literal>media-type</literal>
+                    </term>
                     <listitem>
-                        <para>Determines the serialization method. Should be one of
-                            <code>xml</code>, <code>xhtml</code>, <code>json</code> or
-                            <code>text</code>. </para>
-                        <para>The <code>xhtml</code> method makes sure that XHTML elements with an
-                            empty content model are serialized in minimized form. For instance
-                            <tag>img</tag> will be output as <tag>img/</tag>. </para>
-                        <para>Unlike the <code>xml</code> method, the <code>xhtml</code> setting
-                            uses only the short form for the elements declared empty in the xhtml
-                            DTD. For example, the <tag>br</tag> tag is always returned as
-                            <code>&lt;br/&gt;</code>. </para>
-                        <para>The <code>text</code> method returns the contents of elements only.
-                            For instance, <code>&lt;A&gt;Content&lt;/A&gt;</code> is returned as
-                            <literal>Content</literal>. Attribute values, processing instructions
-                            and comments are ignored.</para>
+                        <para>The MIME content type of the output. It will be used to set the HTTP <code>
+                            Content-Type</code> header if the query is running in an HTTP context.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>media-type</literal> </term>
-                    <listitem>
-                        <para>The MIME content type of the output. It will be used to set the HTTP
-                            <code>Content-Type</code> header if the query is running in an HTTP
-                            context.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term> <literal>encoding</literal> </term>
+                    <term>
+                        <literal>encoding</literal>
+                    </term>
                     <listitem>
                         <para>Specifies the character encoding to be used for outputting the
                             instance of the data model</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>doctype-public</literal> and <literal>doctype-system</literal> </term>
+                    <term>
+                        <literal>doctype-public</literal> and <literal>doctype-system</literal>
+                    </term>
                     <listitem>
                         <para>a doctype declaration will be output if <code>doctype-public</code>
                             and/or <code>doctype-system</code> are set. The corresponding identifier
@@ -673,7 +693,9 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>indent= yes | no</literal> </term>
+                    <term>
+                        <literal>indent= yes | no</literal>
+                    </term>
                     <listitem>
                         <para>Indent the document to make it easier to read. Indenting adds
                             whitespace characters to element nodes, restricted by the rules given in
@@ -681,7 +703,9 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>omit-xml-declaration= yes | no</literal> </term>
+                    <term>
+                        <literal>omit-xml-declaration= yes | no</literal>
+                    </term>
                     <listitem>
                         <para>Output an XML declaration if the parameter is set to <code>no</code>
                         </para>
@@ -690,30 +714,62 @@
             </variablelist>
         </sect2>
 
+        <sect2 xml:id='legacy-serialization'>
+            <title>Legacy options:</title>
+            <para>Before serialization parameters were standardized in XQuery 3.0, eXist-db
+                developed
+                its own set of parameters. These are kept for backwards compatibility but should be
+                considered deprecated as they can be replaced with W3C standard options.</para>
+            <variablelist>
+                <varlistentry>
+                    <term>
+                        <literal>method : [ xml | xhtml | json | text ]</literal>
+                    </term>
+                    <listitem>
+                        <para>Determines the serialization method. Should be one of <code>xml</code>
+                            , <code>xhtml</code>, <code>json</code> or <code>text</code>. </para>
+                        <para>The <code>xhtml</code> method makes sure that XHTML elements with an
+                            empty content model are serialized in minimized form. For instance <tag>
+                            img</tag> will be output as <tag>img/</tag>. </para>
+                        <para>Unlike the <code>xml</code> method, the <code>xhtml</code> setting
+                            uses only the short form for the elements declared empty in the xhtml
+                            DTD. For example, the <tag>br</tag> tag is always returned as <code>
+                            &lt;br/&gt;</code>. </para>
+                        <para>The <code>text</code> method returns the contents of elements only.
+                            For instance, <code>&lt;A&gt;Content&lt;/A&gt;</code> is returned as <literal>
+                            Content</literal>. Attribute values, processing instructions and
+                            comments are ignored.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </sect2>
+
         <sect2 xml:id="existdb-serialization-prolog">
             <title>Declaring eXist-db specific serialization parameters in prolog</title>
-            <para>Before serialization parameters were standardized in XQuery 3.0, eXist-db developed
+            <para>Before serialization parameters were standardized in XQuery 3.0, eXist-db
+                developed
                 its own set of parameters, as described in below. These legacy parameters remain
-                supported for backwards compatibility. For example, the eXist-db legacy approach to the
+                supported for backwards compatibility. For example, the eXist-db legacy approach to
+                the
                 JSON serialization declaration above is:</para>
             <programlisting language="xquery">declare option exist:serialize "method=json media-type=application/json";</programlisting>
-            <para>Most of the exist-db specific serialization parameters have an equivalent in the standard
+            <para>Most of the exist-db specific serialization parameters have an equivalent in the
+                standard
                 serialization parameters, but others are truly specific to eXist-db.</para>
-    
+
             <para>To declare them in the prolog of a XQuery module use the <literal>declare
-                option</literal> statement. The syntax differs from the W3C that all options
-                are declared in a single statement. <code>parameter=value</code> pairs are
-                separated by whitespace in a single string. For instance:</para>
+                    option</literal> statement. The syntax differs from the W3C that all options are
+                declared in a single statement. <code>parameter=value</code> pairs are separated by
+                whitespace in a single string. For instance:</para>
             <programlisting>declare option exist:serialize "method=xhtml media-type=application/xhtml+html";</programlisting>
 
 
-            <para>The option's QName must be <literal>exist:serialize</literal>. The
-                <literal>exist</literal> prefix is bound to the namespace
-                <literal>http://exist.sourceforge.net/NS/exist</literal>. This is declared by
-                default and need not be specified explicitly.</para>
+            <para>The option's QName must be <literal>exist:serialize</literal>. The <literal>exist</literal>
+                prefix is bound to the namespace <literal>http://exist.sourceforge.net/NS/exist</literal>.
+                This is declared by default and need not be specified explicitly.</para>
             <para>Options are specified within the option's string literal, separated by
                 whitespace.</para>
-            
+
 
             <para>For example, to disable XInclude expansion and indent the output, use the
                 following syntax:</para>
@@ -726,64 +782,82 @@
 
         <sect2 xml:id="fn-serialize">
             <title>Using <code>fn:serialize()</code></title>
-            <para>Another Serialization method that can be used is in-built function <literal>fn:serialize()</literal>.</para>
+            <para>Another Serialization method that can be used is in-built function <literal>
+                fn:serialize()</literal>.</para>
             <para>
-                You can apply eXist-db specific serialization parameters as well as W3C serialization parameters via a map.
+                You can apply eXist-db specific serialization parameters as well as W3C
+                serialization parameters via a map.
             </para>
-            <programlisting language="xquery" xlink:href="listings/listing-40.txt"/>
+            <programlisting language="xquery" xlink:href="listings/listing-40.txt" />
             <note>
-                <para>
-                    For eXist-db serialization parameters the option's name must be prefixed with <literal>exist:</literal> as shown in the example above
-                </para>
+                <para> For eXist-db serialization parameters the option's name must be prefixed with <literal>
+                    exist:</literal> as shown in the example above </para>
             </note>
-            
+
             <para>For W3C serialization parameters check:<link condition="_blank"
-                xlink:href="https://www.w3.org/TR/xslt-xquery-serialization-31/">W3C</link>
+                    xlink:href="https://www.w3.org/TR/xslt-xquery-serialization-31/">W3C</link>
             </para>
             <para>eXist-db specific options:</para>
-            <para>Check <link condition="_blank" xlink:href="https://github.com/eXist-db/exist/blob/develop/exist-core/src/test/xquery/xquery3/serialize.xql">Serialize Tests</link> to see the options in action</para>
+            <para>Check <link condition="_blank"
+                    xlink:href="https://github.com/eXist-db/exist/blob/develop/exist-core/src/test/xquery/xquery3/serialize.xql">Serialize
+                Tests</link> to see the options in action</para>
             <variablelist>
                 <varlistentry>
-                    <term> <literal>jsonp: function-name as xs:string </literal> </term>
+                    <term>
+                        <literal>jsonp: function-name as xs:string </literal>
+                    </term>
                     <listitem>
-                        <programlisting language="xquery" xlink:href="listings/listing-41.txt"/>
-                        <para>output: <code>'functionName({})'</code> </para>
+                        <programlisting language="xquery" xlink:href="listings/listing-41.txt" />
+                        <para>output: <code>'functionName({})'</code>
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>expand-xincludes: xs:boolean</literal> </term>
+                    <term>
+                        <literal>expand-xincludes: xs:boolean</literal>
+                    </term>
                     <listitem>
-                        <programlisting language="xquery" xlink:href="listings/listing-42.txt"/>
+                        <programlisting language="xquery" xlink:href="listings/listing-42.txt" />
                         <para>expand XInclude elements</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>highlight-matches: "both" | "elements" | "attributes" | "none"</literal> </term>
+                    <term>
+                        <literal>highlight-matches: "both" | "elements" | "attributes" | "none"</literal>
+                    </term>
                     <listitem>
-                        <programlisting language="xquery" xlink:href="listings/listing-43.txt"/>
-                        <para>A complete example <link condition="_blank" xlink:href="https://github.com/eXist-db/exist/tree/develop/extensions/indexes/lucene/src/test/xquery/lucene/serialize.xql">Serialize Test with <code>ft:query()</code></link></para>
+                        <programlisting language="xquery" xlink:href="listings/listing-43.txt" />
+                        <para>A complete example <link condition="_blank"
+                                xlink:href="https://github.com/eXist-db/exist/tree/develop/extensions/indexes/lucene/src/test/xquery/lucene/serialize.xql">Serialize
+                            Test with <code>ft:query()</code></link></para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>process-xsl-pi: xs:boolean</literal> </term>
+                    <term>
+                        <literal>process-xsl-pi: xs:boolean</literal>
+                    </term>
                     <listitem>
-                        <programlisting language="xquery" xlink:href="listings/listing-44.txt"/>
+                        <programlisting language="xquery" xlink:href="listings/listing-44.txt" />
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>add-exist-id: "element" | "all" | "none"</literal> </term>
+                    <term>
+                        <literal>add-exist-id: "element" | "all" | "none"</literal>
+                    </term>
                     <listitem>
-                        <programlisting language="xquery" xlink:href="listings/listing-45.txt"/>
+                        <programlisting language="xquery" xlink:href="listings/listing-45.txt" />
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <literal>insert-final-newline: xs:boolean</literal> </term>
+                    <term>
+                        <literal>insert-final-newline: xs:boolean</literal>
+                    </term>
                     <listitem>
-                        <programlisting language="xquery" xlink:href="listings/listing-45.txt"/>
+                        <programlisting language="xquery" xlink:href="listings/listing-45.txt" />
                     </listitem>
                 </varlistentry>
             </variablelist>
-            
+
         </sect2>
 
 
@@ -805,14 +879,18 @@
                 are two options to control this behaviour:</para>
             <variablelist>
                 <varlistentry>
-                    <term> <code>declare option exist:timeout "time-in-ms";</code> </term>
+                    <term>
+                        <code>declare option exist:timeout "time-in-ms";</code>
+                    </term>
                     <listitem>
                         <para>Specifies the maximum amount of query processing time (in
                             milliseconds) before it is cancelled by the XQuery engine.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <code>declare option exist:output-size-limit "size-hint";</code> </term>
+                    <term>
+                        <code>declare option exist:output-size-limit "size-hint";</code>
+                    </term>
                     <listitem>
                         <para>Defines a limit for the maximum size of a document fragment created
                             within an XQuery. The limit is just an estimation, specified in terms of
@@ -833,23 +911,29 @@
                 context:</para>
             <variablelist>
                 <varlistentry>
-                    <term> <code>declare option exist:implicit-timezone "duration";</code> </term>
+                    <term>
+                        <code>declare option exist:implicit-timezone "duration";</code>
+                    </term>
                     <listitem>
                         <para>Specifies the <link condition="_blank"
-                            xlink:href="https://www.w3.org/TR/xquery/#dt-timezone">implicit
+                                xlink:href="https://www.w3.org/TR/xquery/#dt-timezone">implicit
                             timezone</link> for the XQuery context.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <code>declare option exist:current-dateTime "dateTime";</code> </term>
+                    <term>
+                        <code>declare option exist:current-dateTime "dateTime";</code>
+                    </term>
                     <listitem>
                         <para>Specifies the <link condition="_blank"
-                            xlink:href="https://www.w3.org/TR/xquery/#GLdt-date-time">current
+                                xlink:href="https://www.w3.org/TR/xquery/#GLdt-date-time">current
                             dateTime</link> for the XQuery context.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term> <code>declare option exist:optimize "enable=yes|no";</code> </term>
+                    <term>
+                        <code>declare option exist:optimize "enable=yes|no";</code>
+                    </term>
                     <listitem>
                         <para>Temporarily disables the query rewriting optimizer for the current
                             query. Use for testing/debugging.</para>
@@ -865,14 +949,17 @@
         <title>Pragmas</title>
 
         <para>XQuery <link xlink:href="https://www.w3.org/TR/xquery/#id-extension-expressions"
-            >pragmas</link> are a way to pass implementation-specific information to the query
+            >
+            pragmas</link> are a way to pass implementation-specific information to the query
             engine. Pragmas can be wrapped around an arbitrary XQuery expression.</para>
 
         <para>eXist-db recognizes the following pragmas:</para>
 
         <variablelist>
             <varlistentry>
-                <term> <code>exist:timer</code> </term>
+                <term>
+                    <code>exist:timer</code>
+                </term>
                 <listitem>
                     <para>Provides a simple way to measure the time executing a given expression.
                         For example:</para>
@@ -880,62 +967,74 @@
                     <para>This creates a timer for the expression enclosed in curly braces and
                         prints timing information to the trace logger. Tracing needs to be enabled
                         in <literal>log4j.xml</literal>:</para>
-                    <programlisting language="xml" xlink:href="listings/listing-36.xml"/>
+                    <programlisting language="xml" xlink:href="listings/listing-36.xml" />
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term> <code>exist:profiling</code> </term>
+                <term>
+                    <code>exist:profiling</code>
+                </term>
                 <listitem>
                     <para>Enables profiling for a query and logs the results.
                         For example:</para>
                     <programlisting>(# exist:profiling enabled=yes verbosity=10 logger=xquery.profiling #) { //some/path/expression }</programlisting>
                     <para>This enables the profiler for the expression enclosed in curly braces and
-                        prints profiling information to the xquery.profiling logger (e.g. profile.log):</para>
+                        prints profiling information to the xquery.profiling logger (e.g.
+                        profile.log):</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term> <code>exist:batch-transaction</code> </term>
+                <term>
+                    <code>exist:batch-transaction</code>
+                </term>
                 <listitem>
-                    <para> <emphasis>Currently for XQuery Update Extensions only.</emphasis>
-                        Provides a method for batching updates on the database into a single
-                        transaction, allowing a set of updates to be atomically guaranteed. </para>
+                    <para>
+                        <emphasis>Currently for XQuery Update Extensions only.</emphasis> Provides a
+                        method for batching updates on the database into a single transaction,
+                        allowing a set of updates to be atomically guaranteed. </para>
                     <para>For each affected document or collection, any configured Triggers will
                         only be called once, the <literal>prepare()</literal> method will be fired
-                        before the first update to the configured resource and the
-                        <literal>finish()</literal> method fired after the last update to the
-                        configured resource.</para>
-                    <programlisting xlink:href="listings/listing-37.txt"/>
+                        before the first update to the configured resource and the <literal>finish()</literal>
+                        method fired after the last update to the configured resource.</para>
+                    <programlisting xlink:href="listings/listing-37.txt" />
                     <para>Uses a single Transaction and Trigger events for the expressions enclosed
                         in curly braces.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term> <code>exist:force-index-use</code> </term>
+                <term>
+                    <code>exist:force-index-use</code>
+                </term>
                 <listitem>
-                    <para> <emphasis>For debugging purposes</emphasis>. Apply on an expression that
+                    <para>
+                        <emphasis>For debugging purposes</emphasis>. Apply on an expression that
                         uses indexes: comparisons, <literal>fn:matches()</literal>, etc. Will raise
                         an error if, for any reason, the index cannot be used. This helps checking
                         whether indexes are correctly defined or not.</para>
-                    <programlisting xlink:href="listings/listing-38.txt"/>
+                    <programlisting xlink:href="listings/listing-38.txt" />
                     <para>Raises an error if the general comparison doesn't use a range or a QName
                         index (<code>XPDYxxxx</code>).</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term> <code>exist:no-index</code> </term>
+                <term>
+                    <code>exist:no-index</code>
+                </term>
                 <listitem>
                     <para>Prevents the query engine using any index. Useful if the searched value
                         isn't very selective or if it is cheaper to traverse the previous step of a
                         path expression than querying the index.</para>
-                    <programlisting xlink:href="listings/listing-39.txt"/>
+                    <programlisting xlink:href="listings/listing-39.txt" />
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term> <code>exist:optimize</code> </term>
+                <term>
+                    <code>exist:optimize</code>
+                </term>
                 <listitem>
                     <para>This pragma is inserted automatically by the query rewriter to optimize an
-                        expression that implements the
-                        <literal>org.exist.xquery.Optimizable</literal> interface.</para>
+                        expression that implements the <literal>org.exist.xquery.Optimizable</literal>
+                        interface.</para>
                     <programlisting>//((#exist:optimize#) { item[stock = 10] })</programlisting>
                 </listitem>
             </varlistentry>
@@ -949,44 +1048,49 @@
         <title>Community Specifications</title>
         <para>In addition to providing robust support for the XPath and XQuery family of
             specifications, eXist-db has also implemented a number of <link condition="_blank"
-            xlink:href="http://expath.org/">EXPath</link> and <link condition="_blank"
-            xlink:href="http://exquery.org/">EXQuery</link> community specifications and modules
+                xlink:href="http://expath.org/">EXPath</link> and <link condition="_blank"
+                xlink:href="http://exquery.org/">EXQuery</link> community specifications and modules
             that extend XPath and XQuery with cross-platform functions and capabilities. (Only those
             built into eXist are listed below; see eXist-db's Package Repository for others.)</para>
 
         <sect2 xml:id="http-client-module">
-          <title>HTTP Client</title>
-          <para>eXist-db implements the <link condition="_blank" xlink:href="http://expath.org/spec/http-client">HTTP Client Module</link>, an EXPath specification for interacting with HTTP servers.</para>
+            <title>HTTP Client</title>
+            <para>eXist-db implements the <link condition="_blank"
+                    xlink:href="http://expath.org/spec/http-client">HTTP Client Module</link>, an
+                EXPath specification for interacting with HTTP servers.</para>
         </sect2>
         <sect2 xml:id="packaging-system">
             <title>Packaging System</title>
             <para>eXist-db implements the <link xlink:href="http://expath.org/spec/pkg">Packaging
                 System</link>, an EXPath community specification for library and application
-                packages. See the <link xlink:href="repo">Package Repository</link>
-                documentation.</para>
+                packages. See the <link xlink:href="repo">Package Repository</link> documentation.</para>
         </sect2>
 
         <sect2 xml:id="restxq">
             <title>RESTXQ</title>
             <para>eXist-db implements <link condition="_blank"
-                xlink:href="http://exquery.github.io/exquery/exquery-restxq-specification/restxq-1.0-specification.html"
-                >RESTXQ</link>, an EXQuery community effort to develop a clean approach for the
+                    xlink:href="http://exquery.github.io/exquery/exquery-restxq-specification/restxq-1.0-specification.html"
+                >
+                RESTXQ</link>, an EXQuery community effort to develop a clean approach for the
                 deployment of RESTful services based on XQuery code annotations. This is in addition
                 to eXist-db's native function libraries for performing HTTP <link
-                xlink:href="{${fundocs.pkg.abbrev}}/view.html?uri=http://exist-db.org/xquery/request"
-                >requests</link> and <link
-                xlink:href="{${fundocs.pkg.abbrev}}/view.html?uri=http://exist-db.org/xquery/response"
-                >responses</link>.</para>
+                    xlink:href="{${fundocs.pkg.abbrev}}/view.html?uri=http://exist-db.org/xquery/request"
+                >
+                requests</link> and <link
+                    xlink:href="{${fundocs.pkg.abbrev}}/view.html?uri=http://exist-db.org/xquery/response"
+                >
+                responses</link>.</para>
         </sect2>
 
         <sect2 xml:id="zip-module">
             <title>ZIP</title>
             <para>eXist-db implements the <link xlink:href="http://expath.org/spec/zip">ZIP
-                Module</link>, an EXPath community specification and module for performing
+                    Module</link>, an EXPath community specification and module for performing
                 compression. This is in addition to eXist-db's native function libraries for
                 performing <link
-                xlink:href="{${fundocs.pkg.abbrev}}/view.html?uri=http://exist-db.org/xquery/compression"
-                >compression</link>.</para>
+                    xlink:href="{${fundocs.pkg.abbrev}}/view.html?uri=http://exist-db.org/xquery/compression"
+                >
+                compression</link>.</para>
         </sect2>
     </sect1>
 
