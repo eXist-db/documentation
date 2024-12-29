@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Getting Started with Web Application Development</title>
-        <date>2Q19</date>
+        <date>4Q24</date>
         <keywordset>
             <keyword>getting-started</keyword>
             <keyword>application-development</keyword>
@@ -86,144 +86,7 @@
     <sect1 xml:id="starting">
         <title>Starting a New Application</title>
 
-        <para>To start a new application, open <link xlink:href="{eXide}/index.html">eXide</link> by
-            clicking the link or by going via the dashboard or the system tray menu of
-            eXist-db.</para>
-        <orderedlist>
-            <listitem>
-                <para>From the main menu, select <literal>Application</literal>/<literal>New
-                    Application</literal>. The Deployment Editor dialog should pop up. (If you are
-                    not logged in as an admin user yet, you'll first be asked to do so.)</para>
-            </listitem>
-            <listitem>
-                <para>Fill out the form by choosing a template, a target collection, a name, an
-                    abbreviation and a title for the application (see below). All other form fields
-                    and pages are optional, so you can ignore them for now.</para>
-                <figure>
-                    <title>Deployment Editor Dialog</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="assets/new-application-screen.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <para>The important fields are:</para>
-                <variablelist>
-                    <varlistentry>
-                        <term>Template</term>
-                        <listitem>
-                            <para>The template used to generate the new application. Right now three
-                                templates are available: </para>
-                            <itemizedlist>
-                                <listitem>
-                                    <para>The "eXist-db Design" template is based on the standard
-                                        eXist-db page layout and design.</para>
-                                </listitem>
-                                <listitem>
-                                    <para>The "Plain" template creates a basic page layout without
-                                        eXist-db specific stuff.</para>
-                                </listitem>
-                                <listitem>
-                                    <para>The "Empty Package" creates an empty package with just the
-                                        descriptors in it.</para>
-                                </listitem>
-                            </itemizedlist>
-                            <para>Both the "eXist-db Design" and "Plain" templates use the Bootstrap
-                                CSS library for styling and the HTML templating XQuery module to
-                                achieve a clean separation of concerns. More about this
-                                later.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term>Type of the package</term>
-                        <listitem>
-                            <para>The main distinction between "library" and "application" is: a
-                                "library" does not have an HTML view and will therefore not show a
-                                clickable icon in the dashboard. If you want to create a library,
-                                use the "Empty Package" template.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term>Target collection</term>
-                        <listitem>
-                            <para>This is the collection where your app will be installed by
-                                default. Please note that this can be changed by the package manager
-                                during install. It is a recommendation, not a requirement.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term>Name</term>
-                        <listitem>
-                            <para>A unique identifier for the application. The EXPath proposal
-                                recommends to use a URI here to avoid name collisions so we have
-                                made this is a requirement.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term>Abbreviation</term>
-                        <listitem>
-                            <para>A short abbreviation for the application. Among other things, it
-                                will be used as the file name of the final <code>.xar</code> package
-                                and for the name of the collection into which the application
-                                installs. Choose a simple abbreviation without spaces or punctuation
-                                characters.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term>Title</term>
-                        <listitem>
-                            <para>A short description of the application, which will be displayed to
-                                the user in the dashboard.</para>
-                        </listitem>
-                    </varlistentry>
-                </variablelist>
-            </listitem>
-            <listitem>
-                <para>Click on <guimenuitem>Done</guimenuitem> when you have completed the form.
-                    eXide will now generate a collection hierarchy for the application based on the
-                    template selected. Once completed, the <guimenuitem>Open Document</guimenuitem>
-                    dialog will pop up to indicate that you can start editing files.</para>
-                <para>In the following, we assume that the app has been called "Tutorial" and its
-                    abbreviation is "tutorial".</para>
-                <figure>
-                    <title>Open Document Dialog after generating application</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="assets/new-application-completed.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-            </listitem>
-            <listitem>
-
-                <para>To test if the application has been generated properly, select the
-                    <literal>index.html</literal> page of the new app in the open dialog and load it
-                    into eXide. With <literal>index.html</literal> open, select
-                    <guimenuitem>Application, Run App</guimenuitem> from the menu. A small dialog
-                    box will pop up, showing you a link to the application.</para>
-                <para>Click on the link to run the application in a separate browser tab. </para>
-                <figure>
-                    <title>Run Dialog</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="assets/new-application-run.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <figure>
-                    <title>The Default Start Page of the Application</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="assets/new-application-home.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure>
-                <para>All the items in the <literal>Application</literal> menu apply to the active
-                    app (the application to which the file currently open in the editor belongs).
-                    You can check which app is active by looking at the <guimenuitem>Current
-                    app:</guimenuitem> status label at the top right of the eXide window.</para>
-            </listitem>
-        </orderedlist>
+        <para>There are many ways to start new applications on your local environment, we provide a  <link xlink:href="https://github.com/eXist-db/generator-exist">yeoman generator</link> to be run from your commandline.</para>
     </sect1>
 
     <!-- ================================================================== -->
