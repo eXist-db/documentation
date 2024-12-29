@@ -282,7 +282,7 @@ var vendorFiles = function(done) {
 
 
   // copy vendor scripts
-  src(['node_modules/bootstrap/dist/js/bootstrap.min.*', 'node_modules/jquery/dist/jquery.slim.min.*'])
+  src(['node_modules/bootstrap/dist/js/bootstrap.min.*', 'node_modules/@popperjs/core/dist/umd/popper.min.*'])
   .pipe(dest(paths.scripts.output))
 
   // copy vendor Styles
