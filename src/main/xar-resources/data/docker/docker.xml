@@ -127,7 +127,7 @@
         <code>.xar</code>
         app inside a build folder on the same level as your own
         <literal>Dockerfile</literal>. To get an image of an eXist-db instance with your app installed and running, you would then:</para>
-      <programlisting xlink:href="listings/listing-2.txt"/>
+      <programlisting language="docker" xlink:href="listings/listing-2.txt"/>
       <para>You should see something like this:</para>
       <programlisting xlink:href="listings/listing-3.txt"/>
       <para>The result is a new image of your app installed into eXist-db. Since you didn't provide further instructions it will simply reuse the
@@ -149,7 +149,7 @@
         <code>docker exec …
         </code>style commands from this readme, use
         <code>RUN</code>.</para>
-      <programlisting xlink:href="listings/listing-4.txt"/>
+      <programlisting language="docker" xlink:href="listings/listing-4.txt"/>
       <para>The above demonstrates different kind of operations available to you in a single stage build. You have just executed the
         <link xlink:href="java-admin-client">Java Admin Client</link>
         from inside a Dockerfile, which in turn allows you to run any XQuery code you want when modifying the eXist-db instance that will ship with your images. You can also chain multiple RUN commands.</para>
@@ -173,7 +173,7 @@
         begins a stage) is the simple example again from before. Such a setup ensures that non of your collaborators has to have
         <literal>java, nodeJS, ect</literal>
         installed, and is great for fully automated builds and deployment.</para>
-      <programlisting xlink:href="listings/listing-5.txt"/>
+      <programlisting language="docker" xlink:href="listings/listing-5.txt"/>
       <para>The basic idea behind multi-staging is that everything you need for building your software should be managed by docker, so that all collaborators can rely on one stable environment. In the end, and after how ever many stages you need, only the
         files necessary to run your app should go into the final stage. The possibilities are virtually endless, but with this example and the Dockerfile in this repo you should get a pretty good idea of how you might apply this idea to your own projects.</para>
     </sect2>

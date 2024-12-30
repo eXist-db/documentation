@@ -1,5 +1,5 @@
-<job type="system" name="databackup" class="org.exist.storage.DataBackup" period="120000">
-  <parameter name="output-dir" value="backup"/>
+<job type="system" name="databackup" class="org.exist.storage.BackupSystemTask" period="120000">
+  <parameter name="dir" value="backup"/>
   <parameter name="suffix" value=".zip"/>
   <parameter name="prefix" value="backup-"/>
   <parameter name="collection" value="/db"/>

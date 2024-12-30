@@ -216,7 +216,7 @@
 
       <xsl:when test="exists(@language)">
         <pre>
-          <code class="{@language}">
+          <code class="{concat('language-', @language)}">
             <xsl:value-of select="$contents"/>
           </code>
         </pre>

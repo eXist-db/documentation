@@ -112,7 +112,7 @@ var svgmin = require('gulp-svgmin')
  */
 
 // Remove pre-existing content from output folders
-var cleanDist = function(done) {
+var cleanDist = function (done) {
   // Make sure this feature is activated before running
   if (!settings.clean) return done()
 
@@ -143,13 +143,13 @@ var jsTasks = lazypipe()
   .pipe(dest, paths.scripts.output)
 
 // Lint, minify, and concatenate scripts
-var buildScripts = function(done) {
+var buildScripts = function (done) {
   // Make sure this feature is activated before running
   if (!settings.scripts) return done()
 
   // Run tasks on script files
   src(paths.scripts.input)
-    .pipe(flatmap(function(stream, file) {
+    .pipe(flatmap(function (stream, file) {
       // If the file is a directory
       if (file.isDirectory()) {
         // Setup a suffix variable
@@ -184,7 +184,7 @@ var buildScripts = function(done) {
 }
 
 // Lint scripts
-var lintScripts = function(done) {
+var lintScripts = function (done) {
   // Make sure this feature is activated before running
   if (!settings.scripts) return done()
 
@@ -201,24 +201,24 @@ var lintScripts = function(done) {
 
 // pretty print all xml listings
 // articles not yet decided
-var prettyXml = function(done) {
+var prettyXml = function (done) {
   src(paths.xml.listings, { base: "./" })
-  .pipe(muxml({
-    stripComments: false,
-    stripCdata: false,
-    stripInstruction: false,
-    saxOptions: {
-      trim: true,
-      normalize: true
-    }
-  }))
+    .pipe(muxml({
+      stripComments: false,
+      stripCdata: false,
+      stripInstruction: false,
+      saxOptions: {
+        trim: true,
+        normalize: true
+      }
+    }))
     .pipe(dest("./"))
-    // Signal completion
-    done()
+  // Signal completion
+  done()
 }
 
 // Process, lint, and minify Sass files
-var buildStyles = function(done) {
+var buildStyles = function (done) {
   // Make sure this feature is activated before running
   if (!settings.styles) return done()
 
@@ -258,7 +258,7 @@ var buildStyles = function(done) {
 }
 
 // Optimize SVG files
-var buildSVGs = function(done) {
+var buildSVGs = function (done) {
   // Make sure this feature is activated before running
   if (!settings.svgs) return done()
 
@@ -272,7 +272,7 @@ var buildSVGs = function(done) {
 }
 
 // Copy third-party dependencies from node_modules into resources
-var vendorFiles = function(done) {
+var vendorFiles = function (done) {
   // Make sure this feature is activated before running
   if (!settings.vendor) return done()
 
@@ -282,11 +282,16 @@ var vendorFiles = function(done) {
 
 
   // copy vendor scripts
-  src(['node_modules/bootstrap/dist/js/bootstrap.min.*', 'node_modules/jquery/dist/jquery.slim.min.*'])
+  src(['node_modules/bootstrap/dist/js/bootstrap.min.*', 'node_modules/@popperjs/core/dist/umd/popper.min.*', 'node_modules/@highlightjs/cdn-assets/highlight.min.js', 'node_modules/@highlightjs/cdn-assets/languages/xquery.min.js', 'node_modules/@highlightjs/cdn-assets/languages/dockerfile.min.js'])
+    .pipe(dest(paths.scripts.output))
+
+  // copy pre-packed lang definitions for code highlighter
+  // CSS Bash Makefile Diff JSON Markdown Perl SQL Shell Properties Less SCSS Puppet'
+  src(['node_modules/@highlightjs/cdn-assets/languages/xquery.min.js', 'node_modules/@highlightjs/cdn-assets/languages/dockerfile.min.js', 'node_modules/@highlightjs/cdn-assets/languages/apache.min.js', 'node_modules/@highlightjs/cdn-assets/languages/http.min.js', 'node_modules/@highlightjs/cdn-assets/languages/nginx.min.js'])
   .pipe(dest(paths.scripts.output))
 
   // copy vendor Styles
-  src(['node_modules/bootstrap/dist/css/bootstrap.min.*', 'node_modules/highlight.js/styles/atom-one-dark.css'])
+  src(['node_modules/bootstrap/dist/css/bootstrap.min.*', 'node_modules/@highlightjs/cdn-assets/styles/atom-one-dark.min.css'])
     .pipe(dest(paths.styles.output))
 
   // copy vendor fonts
@@ -298,39 +303,13 @@ var vendorFiles = function(done) {
 
 
 // Copy static files into output folder
-var copyFiles = function(done) {
+var copyFiles = function (done) {
   // Make sure this feature is activated before running
   if (!settings.copy) return done()
 
   // Copy static files
   src(paths.copy.input)
     .pipe(dest(paths.copy.output))
-
-  // Signal completion
-  done()
-}
-
-// Build and copy highlight.js
-var buildPack = function(done) {
-  // Make sure this feature is activated before running
-  if (!settings.hjs) return done()
-
-  // build highlight pack
-  // see https://highlightjs.readthedocs.io/en/latest/building-testing.html
-  // TODO currently building is bugged when using npm
-  let command = 'cd node_modules/highlight.js'
-                    + ' && npm install'
-                    + ' && node tools/build Apache CSS HTTP JavaScript Bash Makefile PHP Diff JSON Markdown Perl SQL HTML Java Nginx Shell Properties Less SCSS Puppet Dockerfile xquery'
-
-  exec(command, (err, stdout, stderr)=> {
-    console.log(stderr)
-    console.log(stdout)
-
-    callback(err)
-  })
-
-  src('node_modules/highlight.js/build/*pack.js')
-    .pipe(dest(paths.scripts.output))
 
   // Signal completion
   done()
@@ -351,7 +330,6 @@ exports.default = series(
     buildStyles,
     buildSVGs,
     copyFiles,
-    buildPack,
     prettyXml
   )
 )

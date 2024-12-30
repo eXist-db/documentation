@@ -8,7 +8,7 @@
 
     <info>
         <title>Advanced Installation Methods</title>
-        <date>1Q20</date>
+        <date>4Q24</date>
         <keywordset>
             <keyword>installation</keyword>
             <keyword>operations</keyword>
@@ -89,6 +89,8 @@
             <para>Begin by creating a new user in your system which is being created specifically to
                 run eXist-db as a service. You can do this by typing the following command:</para>
             <programlisting>sudo useradd --system --shell /sbin/nologin --comment "eXist-db Service Account" existdb</programlisting>
+            <para>To follow the examples here this user is part of an existdb user group:</para>
+            <programlisting>sudo groupadd existdb</programlisting>
             <para>This command creates a new system user named "existdb" which does not need to
                 login in order to run a service. In order for this new system user to be able to run
                 eXist-db, we need to change the permission of eXist-db to match this new user. You

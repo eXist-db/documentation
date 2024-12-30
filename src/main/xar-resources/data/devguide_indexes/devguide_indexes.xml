@@ -594,7 +594,7 @@
                 suggests if eXist doesn't own the admin rights. Conversely,
                 <literal>removeIndexContent()</literal> wiould probably have nothing to do if eXist
                 owns the admin rights since physically destroying the DB would probably be more
-                efficient than deleteing table contents.</para>
+                efficient than deleting table contents.</para>
             <para> <literal>checkIndex()</literal> will delegate the task to the
                 <literal>broker</literal>'s <literal>IndexWorker</literal>.</para>
             <para>The remaining methods are DB-dependant and thus abstract:</para>
@@ -648,7 +648,7 @@
                 remember that the database should be closed at that moment no file locking
                 issues.</para>
             <para> <literal>removeIndexContent()</literal> deletes the table that contains spatial
-                data. As explained above, this is less efficient than deleteing the whole databse
+                data. As explained above, this is less efficient than deleting the whole database
                 though!</para>
             <para>The two next methods are totally JDBC-specific and, given the way they are
                 implemented, are totally embedded HSQLDB-specific. The <emphasis>current</emphasis>
