@@ -7,7 +7,7 @@
   <link rel="shortcut icon" href="resources/images/exist_icon_16x16.ico" />
   <link rel="stylesheet" type="text/css" href="resources/styles/exist-2.2.min.css" />
   <link rel="stylesheet" type="text/css" href="resources/styles/doc.min.css" />
-  <link rel="stylesheet" type="text/css" href="resources/styles/atom-one-dark.css" />
+  <link rel="stylesheet" type="text/css" href="resources/styles/atom-one-dark.min.css" />
 </head>
 
 <body id="grey-top" data-template="lib:parse-params" data-template-start="\{">
@@ -134,16 +134,16 @@
       </div>
     </div>
   </div>
-  <!-- <script type="text/javascript" src="resources/scripts/jquery.slim.min.js" /> -->
   <script type="text/javascript" src="resources/scripts/popper.min.js" />
   <script type="text/javascript" src="resources/scripts/bootstrap.min.js" />
-  <script type="text/javascript" src="resources/scripts/highlight.pack.js" />
+  <script type="text/javascript" src="resources/scripts/highlight.min.js" />
+  <script type="text/javascript" src="resources/scripts/xquery.min.js" />
+  <script type="text/javascript" src="resources/scripts/dockerfile.min.js" />
+  <script type="text/javascript" src="resources/scripts/apache.min.js" />
+  <script type="text/javascript" src="resources/scripts/http.min.js" />
+  <script type="text/javascript" src="resources/scripts/nginx.min.js" />
   <script type="text/javascript">
-    $(document).ready(function () {
-      $('pre code').each(function (i, block) {
-        hljs.highlightBlock(block);
-      });
-    });
+    hljs.highlightAll();
   </script>
 </body>
 

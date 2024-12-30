@@ -45,7 +45,7 @@ context('Documentation', () => {
 
     describe('navbar', () => {
       it('should enable simple search', () => {
-        cy.get('.search-query')
+        cy.get('.form-control')
           .type('testing{enter}')
           .url().should('include', 'search.html')
         cy.get('body')
