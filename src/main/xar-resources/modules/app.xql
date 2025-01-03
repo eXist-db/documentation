@@ -16,10 +16,12 @@ declare function app:bread-nav($node as node(), $model as map(*)) as element(nav
 
 
     return
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="documentation" data-toggle="popover" title="Version: {data($config:expath-descriptor//@version)}">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">{$file}</a></li>
-        </ol>
+    <nav aria-label="breadcrumb" class="breadcrumb-bar">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="documentation" data-toggle="popover" title="Version: {data($config:expath-descriptor//@version)}">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">{$file}</a></li>
+            </ol>
+        </div>
     </nav>
 };
