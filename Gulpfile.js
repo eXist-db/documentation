@@ -42,9 +42,6 @@ var paths = {
     input: 'node_modules/',
     output: 'target/generated-resources/frontend/xar-resources/resources/'
   },
-  fonts: {
-    output: 'target/generated-resources/frontend/xar-resources/resources/fonts/'
-  },
   xml: {
     listings: 'src/main/xar-resources/data/*/listings/*.xml',
     articles: 'src/main/xar-resources/data/*/*.xml'
@@ -294,9 +291,6 @@ var vendorFiles = function (done) {
   src(['node_modules/bootstrap/dist/css/bootstrap.min.*', 'node_modules/@highlightjs/cdn-assets/styles/atom-one-dark.min.css'])
     .pipe(dest(paths.styles.output))
 
-  // copy vendor fonts
-  src('node_modules/@neos21/bootstrap3-glyphicons/dist/fonts/*')
-    .pipe(dest(paths.fonts.output))
   // Signal completion
   done()
 }
