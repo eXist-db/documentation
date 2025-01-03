@@ -10,7 +10,6 @@ var settings = {
   polyfills: false,
   styles: true,
   svgs: true,
-  copy: true,
   vendor: true
 }
 
@@ -34,12 +33,7 @@ var paths = {
     input: 'src/main/frontend/img/*.svg',
     output: 'target/generated-resources/frontend/xar-resources/resources/images/'
   },
-  copy: {
-    input: 'src/main/frontend/copy/**',
-    output: 'target/generated-resources/frontend/xar-resources/resources/'
-  },
   vendor: {
-    input: 'node_modules/',
     output: 'target/generated-resources/frontend/xar-resources/resources/'
   },
   xml: {
@@ -295,20 +289,6 @@ var vendorFiles = function (done) {
   done()
 }
 
-
-// Copy static files into output folder
-var copyFiles = function (done) {
-  // Make sure this feature is activated before running
-  if (!settings.copy) return done()
-
-  // Copy static files
-  src(paths.copy.input)
-    .pipe(dest(paths.copy.output))
-
-  // Signal completion
-  done()
-}
-
 /**
  * Export Tasks
  */
@@ -323,7 +303,6 @@ exports.default = series(
     lintScripts,
     buildStyles,
     buildSVGs,
-    copyFiles,
     prettyXml
   )
 )
