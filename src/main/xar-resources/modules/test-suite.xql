@@ -96,7 +96,8 @@ declare
 %test:name('ToC rendering')
 %test:assertTrue
 function tests:toc-inline() {
-  let $output := <ul class="toc">
+  let $toc :=
+    <ul class="toc">
       <li>
           <a href="#main-id">Title of first main section</a>
           <ul>
@@ -108,12 +109,17 @@ function tests:toc-inline() {
       <li>
           <a href="#next-id">Title of second main section</a>
       </li>
-      <button class="btn btn-outline-primary btn-sm btn-block">
-          <a href="https://github.com/eXist-db/documentation/issues/new?title=error on Document title">Improve this article</a>
-      </button>
-  </ul>
-return
-    docbook:toc-db5($tests:article) eq $output
+    </ul>
+
+  let $improve-link :=
+    <a 
+        class="btn btn-outline-primary btn-sm btn-block" 
+        href="https://github.com/eXist-db/documentation/issues/new?title=error on Document title"
+    >Improve this article</a>
+
+  let $actual := docbook:toc-db5($tests:article)
+  
+  return $actual[1] eq $toc and $actual[2] eq $improve-link
 };
 
 (:~ Check if two listings that should be identical actually are.

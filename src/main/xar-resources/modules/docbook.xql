@@ -67,32 +67,32 @@ declare %private function docbook:to-html($nodes as node()*) {
 (:== DB5 HANDLING: ==:)
 
 (: Will create the TOC for the DB5 document. Will only go two levels deep (deeper is not very useful for a TOC). :)
-declare %public function docbook:toc-db5($node as node()) as element(ul) {
+declare %public function docbook:toc-db5($node as node()) as element()+ {
   element ul {
-        attribute class {'toc'},
-        for $l1 in $node//db5:sect1
-        let $l2 := $l1/db5:sect2
-        return
-            element li {
-                element a {
-                    attribute href {'#' || data($l1/@xml:id)},
-                    $l1/db5:title/string()
-                },
-                if ($l2)
-                then (
+      attribute class {'toc'},
+      for $l1 in $node//db5:sect1
+      let $l2 := $l1/db5:sect2
+      return
+          element li {
+              element a {
+                  attribute href {'#' || data($l1/@xml:id)},
+                  $l1/db5:title/string()
+              },
+              if ($l2) then (
                 element ul {
-                for $n in $l2
-                return
-                    element li {element a {attribute href {'#' || data($n/@xml:id)}, $n/db5:title/string()}}})
-                else ()
-            },
-            element button { attribute class {'btn btn-outline-primary btn-sm btn-block'},
-        element a {
-                    attribute href {escape-html-uri('https://github.com/eXist-db/documentation/issues/new?assignees=&amp;labels=docs-outdated&amp;template=content-issue.md&amp;title=[' || $node//db5:info/db5:title || ']:')},
-                    'Improve this article'
-                }
-        }
-    }
+                  for $n in $l2
+                  return
+                      element li {
+                          element a {
+                              attribute href {'#' || data($n/@xml:id)}, $n/db5:title/string()}}})
+              else ()
+          }
+  },
+  element a {
+      attribute class {'btn btn-info btn-sm btn-block'},
+      attribute href {escape-html-uri('https://github.com/eXist-db/documentation/issues/new?assignees=&amp;labels=docs-outdated&amp;template=content-issue.md&amp;title=[' || $node//db5:info/db5:title || ']:')},
+      'Improve this article'
+  }
 };
 
 declare %private function docbook:to-html-db5($node as node()) {

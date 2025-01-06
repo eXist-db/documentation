@@ -3,14 +3,13 @@
  * Turn on/off build features
  */
 
-var settings = {
+const settings = {
   clean: true,
   scripts: true,
   hjs: false,
   polyfills: false,
   styles: true,
   svgs: true,
-  copy: true,
   vendor: true
 }
 
@@ -18,7 +17,7 @@ var settings = {
  * Paths to project folders
  */
 
-var paths = {
+const paths = {
   input: 'src/main/frontend/',
   output: 'target/generated-resources/frontend/xar-resources/resources/',
   scripts: {
@@ -31,19 +30,11 @@ var paths = {
     output: 'target/generated-resources/frontend/xar-resources/resources/styles/'
   },
   svgs: {
-    input: 'src/main/frontend/img/*.svg',
+    input: 'src/main/frontend/svg/*.svg',
     output: 'target/generated-resources/frontend/xar-resources/resources/images/'
   },
-  copy: {
-    input: 'src/main/frontend/copy/**',
-    output: 'target/generated-resources/frontend/xar-resources/resources/'
-  },
   vendor: {
-    input: 'node_modules/',
     output: 'target/generated-resources/frontend/xar-resources/resources/'
-  },
-  fonts: {
-    output: 'target/generated-resources/frontend/xar-resources/resources/fonts/'
   },
   xml: {
     listings: 'src/main/xar-resources/data/*/listings/*.xml',
@@ -55,7 +46,7 @@ var paths = {
  * Template for banner to add to file headers
  */
 
-var banner = {
+const banner = {
   full: '/*!\n' +
     ' * <%= package.name %> v<%= package.version %>\n' +
     ' * <%= package.description %>\n' +
@@ -76,43 +67,43 @@ var banner = {
  */
 
 // General
-var {
+const {
   gulp,
   src,
   dest,
   series,
   parallel
 } = require('gulp')
-var del = require('del')
-var flatmap = require('gulp-flatmap')
-var lazypipe = require('lazypipe')
-var rename = require('gulp-rename')
-var header = require('gulp-header')
-var pkg = require('./package.json')
-var muxml = require('gulp-muxml')
+const del = require('del')
+const flatmap = require('gulp-flatmap')
+const lazypipe = require('lazypipe')
+const rename = require('gulp-rename')
+const header = require('gulp-header')
+const pkg = require('./package.json')
+const muxml = require('gulp-muxml')
 
 
 // Scripts
-var standard = require('gulp-standard')
-var concat = require('gulp-concat')
-var uglify = require('gulp-uglify')
-var optimizejs = require('gulp-optimize-js')
+const standard = require('gulp-standard')
+const concat = require('gulp-concat')
+const uglify = require('gulp-uglify')
+const optimizejs = require('gulp-optimize-js')
 
 // Styles
-var sass = require('gulp-sass')(require('sass'))
-var prefix = require('gulp-autoprefixer')
-var minify = require('gulp-cssnano')
-var sourcemaps = require('gulp-sourcemaps')
+const sass = require('gulp-sass')(require('sass'))
+const prefix = require('gulp-autoprefixer')
+const minify = require('gulp-cssnano')
+const sourcemaps = require('gulp-sourcemaps')
 
 // SVGs
-var svgmin = require('gulp-svgmin')
+const svgmin = require('gulp-svgmin')
 
 /**
  * Gulp Tasks
  */
 
 // Remove pre-existing content from output folders
-var cleanDist = function (done) {
+const cleanDist = function (done) {
   // Make sure this feature is activated before running
   if (!settings.clean) return done()
 
@@ -126,7 +117,7 @@ var cleanDist = function (done) {
 }
 
 // Repeated JavaScript tasks
-var jsTasks = lazypipe()
+const jsTasks = lazypipe()
   .pipe(header, banner.full, {
     package: pkg
   })
@@ -143,7 +134,7 @@ var jsTasks = lazypipe()
   .pipe(dest, paths.scripts.output)
 
 // Lint, minify, and concatenate scripts
-var buildScripts = function (done) {
+const buildScripts = function (done) {
   // Make sure this feature is activated before running
   if (!settings.scripts) return done()
 
@@ -153,7 +144,7 @@ var buildScripts = function (done) {
       // If the file is a directory
       if (file.isDirectory()) {
         // Setup a suffix variable
-        var suffix = ''
+        const suffix = ''
 
         // If separate polyfill files enabled
         if (settings.polyfills) {
@@ -184,7 +175,7 @@ var buildScripts = function (done) {
 }
 
 // Lint scripts
-var lintScripts = function (done) {
+const lintScripts = function (done) {
   // Make sure this feature is activated before running
   if (!settings.scripts) return done()
 
@@ -201,7 +192,7 @@ var lintScripts = function (done) {
 
 // pretty print all xml listings
 // articles not yet decided
-var prettyXml = function (done) {
+const prettyXml = function (done) {
   src(paths.xml.listings, { base: "./" })
     .pipe(muxml({
       stripComments: false,
@@ -218,7 +209,7 @@ var prettyXml = function (done) {
 }
 
 // Process, lint, and minify Sass files
-var buildStyles = function (done) {
+const buildStyles = function (done) {
   // Make sure this feature is activated before running
   if (!settings.styles) return done()
 
@@ -258,7 +249,7 @@ var buildStyles = function (done) {
 }
 
 // Optimize SVG files
-var buildSVGs = function (done) {
+const buildSVGs = function (done) {
   // Make sure this feature is activated before running
   if (!settings.svgs) return done()
 
@@ -272,13 +263,13 @@ var buildSVGs = function (done) {
 }
 
 // Copy third-party dependencies from node_modules into resources
-var vendorFiles = function (done) {
+const vendorFiles = function (done) {
   // Make sure this feature is activated before running
   if (!settings.vendor) return done()
 
   // TODO ensure each declared third-parrty dep has a corresponding command below
   // TODO modernizr@2 needs refactor via npm or gulp-modernizr
-  var deps = pkg.dependencies.length
+  const deps = pkg.dependencies.length
 
 
   // copy vendor scripts
@@ -293,23 +284,6 @@ var vendorFiles = function (done) {
   // copy vendor Styles
   src(['node_modules/bootstrap/dist/css/bootstrap.min.*', 'node_modules/@highlightjs/cdn-assets/styles/atom-one-dark.min.css'])
     .pipe(dest(paths.styles.output))
-
-  // copy vendor fonts
-  src('node_modules/@neos21/bootstrap3-glyphicons/dist/fonts/*')
-    .pipe(dest(paths.fonts.output))
-  // Signal completion
-  done()
-}
-
-
-// Copy static files into output folder
-var copyFiles = function (done) {
-  // Make sure this feature is activated before running
-  if (!settings.copy) return done()
-
-  // Copy static files
-  src(paths.copy.input)
-    .pipe(dest(paths.copy.output))
 
   // Signal completion
   done()
@@ -329,7 +303,6 @@ exports.default = series(
     lintScripts,
     buildStyles,
     buildSVGs,
-    copyFiles,
     prettyXml
   )
 )
