@@ -89,7 +89,7 @@ declare %public function docbook:toc-db5($node as node()) as element()+ {
           }
   },
   element a {
-      attribute class {'btn btn-outline-primary btn-sm btn-block'},
+      attribute class {'btn btn-info btn-sm btn-block'},
       attribute href {escape-html-uri('https://github.com/eXist-db/documentation/issues/new?assignees=&amp;labels=docs-outdated&amp;template=content-issue.md&amp;title=[' || $node//db5:info/db5:title || ']:')},
       'Improve this article'
   }

@@ -2,41 +2,28 @@
 
 /* CSS Document */
 
-.form-group {
-  select {
-    width: 8em;
-    padding-right: 4px;
-  }
-  input {
-    width: 20em;
-  }
-  select {
-    width: 10em;
-  }
-}
-
 table a {
   padding-left: 3px;
   padding-right: 3px;
 }
 
 span.score {
-  color: #B2B2B2;
+  color: var(--lightgrey);
 }
 
-div.headings {
-  background: #EBEBEB;
-  font-size: 110%;
+.section {
+  margin-block-end: 1rem;
+  color: var(--darktext);
 }
 
-td {
-  &.headings {
-    background: #EBEBEB;
-    font-size: 110%;
-  }
-  &.previous {
+div.headings, td.headings {
+  background: var(--lightgrey);
+  font-size: 1.5rem;
+  color: var(--grey);
+}
+
+td.previous {
     text-align: right;
-  }
 }
 
 .kwic .hi {
