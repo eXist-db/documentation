@@ -87,11 +87,13 @@ declare %public function docbook:toc-db5($node as node()) as element()+ {
               else ()
           }
   },
-  element a {
-      attribute class {'btn btn-info btn-sm btn-block'},
-      attribute href {escape-html-uri('https://github.com/eXist-db/documentation/issues/new?assignees=&amp;labels=docs-outdated&amp;template=content-issue.md&amp;title=[' || $node//db5:info/db5:title || ']:')},
-      'Improve this article'
-  }
+  let $maybe-date := normalize-space($node/db5:info/db5:date)
+  return if ($maybe-date ne '') then <p>Last updated in {$maybe-date}</p>
+  else (),
+  let $issue-title := escape-html-uri($node//db5:info/db5:title)
+  let $href := 'https://github.com/eXist-db/documentation/issues/new?assignees=&amp;labels=docs-outdated&amp;template=content-issue.md&amp;title=[' || $issue-title || ']:'
+  return
+    <a class="btn btn-info btn-sm btn-block" href="{$href}">Improve this article</a>
 };
 
 declare %private function docbook:to-html-db5($node as node()) {

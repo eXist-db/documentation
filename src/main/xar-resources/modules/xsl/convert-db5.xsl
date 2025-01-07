@@ -42,11 +42,6 @@
         <h1 class="front-title">
           <xsl:value-of select="(db5:title, '?NO TITLE?')[1]"/>
         </h1>
-
-        <xsl:if test="normalize-space(db5:date) ne ''">
-          <p>(<xsl:value-of select="db5:date"/>)</p>
-        </xsl:if>
-        <br/>
       </xsl:for-each>
 
       <!-- Contents -->
