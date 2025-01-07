@@ -159,10 +159,10 @@
     <div class="alert alert-success">
       <xsl:call-template name="do-anchor"/>
       <xsl:if test="exists(db5:title)">
-        <h2>
+        <h4>
           <xsl:text>Note: </xsl:text>
           <xsl:value-of select="db5:title"/>
-        </h2>
+        </h4>
       </xsl:if>
 
       <xsl:apply-templates select="db5:* except db5:title" mode="#current"/>
@@ -174,11 +174,11 @@
   <xsl:template match="db5:warning | db5:important" mode="mode-process-block-contents">
     <div class="alert alert-danger">
       <xsl:call-template name="do-anchor"/>
-      <h2>
+      <h4>
         <xsl:value-of select="concat(upper-case(substring(local-name(), 1, 1)), substring(local-name(), 2))"/>
         <xsl:text>: </xsl:text>
         <xsl:value-of select="db5:title"/>
-      </h2>
+      </h4>
 
       <xsl:apply-templates select="db5:* except db5:title" mode="#current"/>
     </div>
