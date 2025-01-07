@@ -73,36 +73,25 @@ function dq:do-query($context as node()*, $query as xs:string?, $field as xs:str
 declare
     %private
 function dq:print-results($hits as element()*, $search-params as map(xs:string, xs:string), $view as xs:string) {
-		<div id="f-results">
-			<p class="heading">Found {count($hits)} result{if (count($hits) eq 1) then "" else "s"}.</p>
-			{
-				if ($view eq 'summary') then
-					for $hit in $hits
-					let $score := ft:score($hit)
-					order by $score descending
-					return
-					    <div class="section">
-					        <span class="score">Score: {round-half-to-even($score, 2)}</span>
-							<div class="headings">{ dq:print-headings($hit, $search-params) }</div>
-							{ dq:print($hit, $search-params, $view) }
-						</div>
-				else
-					<table class="kwic">
-					{
-						for $hit in $hits
-						order by ft:score($hit) descending
-						return (
-							<tr>
-								<td class="headings" colspan="3">
-								{dq:print-headings($hit, $search-params)}
-								</td>
-							</tr>,
-							dq:print($hit, $search-params, $view)
-						)
-					}
-					</table>
-			}
-		</div>
+    <section id="f-results">
+        <p class="heading">Found {count($hits)} result{if (count($hits) eq 1) then "" else "s"}.</p>
+        {
+            for $hit in $hits
+            let $score := ft:score($hit)
+            order by $score descending
+            return
+                <article class="hit hit__{$view}" data-score="{$score}">
+                {
+                    dq:print-headings($hit, $search-params),
+                    dq:print($hit, $search-params, $view)
+                }
+                </article>
+        }
+    </section>
+};
+
+declare %private function dq:get-id ($e) {
+    ($e/@xml:id/string(), "D" || util:node-id($e))[1]
 };
 
 (:~
@@ -111,20 +100,21 @@ function dq:print-results($hits as element()*, $search-params as map(xs:string, 
 declare
     %private
 function dq:print-headings($hit as element(), $search-params as map(xs:string, xs:string)) {
-    let $search-params-uri-query := dq:to-uri-query($search-params)
-	let $uri := util:document-name(root($hit)) || "?" || $search-params-uri-query || "&amp;id=D" || util:node-id($hit)
-	return
-	(
-        <a href="{$uri}">{$hit/ancestor-or-self::db5:article/db5:info/db5:title/text()}</a>
-        ,
-        for $sect at $pos in $hit/(ancestor-or-self::db5:sect3|ancestor-or-self::db5:sect2|ancestor-or-self::db5:sect1)
-        let $nodeId := util:node-id($sect)
-        let $uri := util:document-name(root($sect)) || "?" || $search-params-uri-query || "&amp;id=D" || $nodeId || "#D" || $nodeId
-        return
-            (" > ", <a href="{$uri}">{$sect/db5:title/text()}</a>)
-    )
+    let $article-url := util:document-name(root($hit))
+    return
+        <header class="hit-heading">
+        {
+            <a class="hit-link hit-link__article" href="{ $article-url }">{
+                $hit/ancestor-or-self::db5:article/db5:info/db5:title/text()
+            }</a>,
+            for $sect at $pos in $hit/(ancestor-or-self::db5:sect3|ancestor-or-self::db5:sect2|ancestor-or-self::db5:sect1)
+            return (
+                <span class="separator">&gt;</span>,
+                <a class="hit-link" href="{$article-url|| "#" || dq:get-id($sect) }">{$sect/db5:title/text()}</a>
+            )
+        }
+        </header>
 };
-
 
 (:~
 : Display the hits: this function iterates through all hits and calls
@@ -134,54 +124,52 @@ declare
     %private
 function dq:print($hit as element(), $search-params as map(xs:string, xs:string), $view as xs:string) as element()* {
     let $matches := kwic:get-matches($hit)
+    let $ancestors := (
+        $matches/ancestor::db5:para |
+        $matches/ancestor::db5:title |
+        $matches/ancestor::db5:td |
+        $matches/ancestor::db5:note[not(db5:para)]
+    )
+
     return
         if ($view eq "kwic") then
-            let $nodeId := util:node-id($hit)
-            let $uri := util:document-name(root($hit)) || "?" || dq:to-uri-query($search-params) || "&amp;id=D" || $nodeId || "#D" || $nodeId
-            let $config :=
-                    <config xmlns="" width="{if ($view eq 'summary') then $dq:CHARS_SUMMARY else $dq:CHARS_KWIC}"
-         			    table="{if ($view eq 'summary') then 'no' else 'yes'}"
-         			    link="{$uri}"/>
+            let $config := <config xmlns="" width="{ $dq:CHARS_KWIC }" table="no" />
 
-            for $ancestor in ($matches/ancestor::db5:para | $matches/ancestor::db5:title | $matches/ancestor::db5:td | $matches/ancestor::db5:note[not(db5:para)])
+            for $ancestor in $ancestors
             for $match in $ancestor//exist:match
             return
                 kwic:get-summary($ancestor, $match, $config)
         else
-            let $ancestors := ($matches/ancestor::db5:para | $matches/ancestor::db5:title | $matches/ancestor::db5:td | $matches/ancestor::db5:note[not(db5:para)])
-            return
-                for $ancestor in $ancestors
-            return
-                dq:match-to-copy($ancestor)
+            for $ancestor in $ancestors
+            return <p class="hit-summary">{ dq:transform-hit($ancestor) }</p>
 };
 
 declare
     %private
-function dq:match-to-copy($element as element()) as element() {
-    element { node-name($element) } {
-        $element/@*,
-        for $child in $element/node()
-        return
-            if ($child instance of element()) then
-                if ($child instance of element(exist:match)) then
-                      <mark>{ $child/string() }</mark>
-                else
-                    dq:match-to-copy($child)
-            else
-                $child
-    }
+function dq:transform-hit($element as node()) as node()* {
+    typeswitch($element) 
+    case element(exist:match)
+        return element mark { $element/node() ! dq:transform-hit(.) }
+    case element()
+        return $element/node() ! dq:transform-hit(.)
+    case text() return $element
+    default return ()
+};
+
+declare
+    %private
+function dq:serialize-parameter($key as xs:string, $value as xs:string) as xs:string {
+    $key || "=" || $value
 };
 
 declare
     %private
 function dq:to-uri-query($search-params as map(xs:string, xs:string)) as xs:string {
     string-join(
-        map:for-each($search-params, function($k, $v) {
-            if ($k eq "q") then
-                ()
-            else
-                $k || "=" || $v
-        }),
+        map:for-each(
+            map:remove($search-params, "q"),
+            dq:serialize-parameter#2
+        ),
         "&amp;"
     )
 };

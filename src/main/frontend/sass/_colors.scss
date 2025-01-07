@@ -1,17 +1,28 @@
 :root {
-    --primary: #3B86C6;
-    --grey: #737577;
-    --darkgrey: #4D4C4E;
-
-    --lighterprimary: #d3e1ec;
-
-    --secondary: color-mix(in oklab, var(--primary) 80%, var(--black));
-    --darktext: #47453f;
-    --lightgrey: #dfdfe0;
-
+    /* black and white */
     --white: #f3f3f3;
     --black: #232528;
 
-    --yell: #ffcb05;
-    --whisper: #fef8c4;
+    /* brand colors */
+    --primary: #0088cc;
+    --grey: #737577;
+    --darkgrey: #4D4C4E;
+
+    /* shades */
+    --lighterprimary: color-mix(in oklab, var(--primary) 50%, var(--white));
+    --lightprimary: color-mix(in oklab, var(--primary) 25%, var(--white));
+    --darkerprimary: color-mix(in oklab, var(--primary) 85%, var(--black));
+    --darkprimary: color-mix(in oklab, var(--primary) 50%, var(--black));
+    --lightgrey: #dfdfe0;
+
+    /* text */
+    --darktext: #383426;
+
+    /* secondary color + shade */
+    --secondary: #ffcb05;
+    --lightersecondary: #fef8c4;
+}
+
+::selection {
+    background: var(--lightprimary);
 }

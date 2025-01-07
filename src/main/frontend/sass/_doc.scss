@@ -1,38 +1,42 @@
 @charset "utf-8";
 
-table a {
-  padding-left: 3px;
-  padding-right: 3px;
+/* toc */
+#sidebar h3 {
+  margin-block: 1.21rem .96rem;
 }
 
-span.score {
-  color: var(--lightgrey);
-}
 
-.section {
-  margin-block-end: 1rem;
+/* search results rendering  */
+
+/* hit row */
+article.hit {
+  border-block-start: thin solid var(--lighterprimary);
   color: var(--darktext);
+  margin-block-end: 1rem;
 }
 
-div.headings, td.headings {
-  background: var(--lightgrey);
+/* hit headline (breadcrumb) */
+header.hit-heading {
   font-size: 1.5rem;
   color: var(--grey);
+  margin-block-start: .5rem;
+  margin-block-end: .25rem;
 }
 
-td.previous {
-    text-align: right;
+header .separator {
+  margin-inline: .2rem;
 }
 
-.kwic .hi {
-  margin: 0 .5em 0 .5em;
+.hit mark, .hit .hi {
+  background: var(--lightersecondary);
   text-align: center;
 }
 
-table[class="kwic"] {
-  border-collapse: separate;
-  border-spacing: 0 .5em;
+/*
+p.previous {
+  text-align: right;
 }
+*/
 
 section dl.dl-horizontal {
   dt {
@@ -50,34 +54,21 @@ section dl.dl-horizontal {
   padding: 6px 4px;
 }
 
-#content .content dt {
-  font-weight: bold;
-  word-wrap: break-word;
+/* note blocks */
+
+.alert-success h4 {
+  color: var(--bs-success-text-emphasis);
+}
+
+.alert-danger h4 {
+  color: var(--bs-danger-text-emphasis);
 }
 
 .content {
-  font: 16px/24px Georgia, "Times New Roman", Times, serif;
-  color: #555;
+  color: var(--darktext);
+
   section {
     clear: both;
-  }
-  h1 {
-    font-family: "QuicksandBook", "Arial", Helvetica, sans-serif;
-    font-size: 1.75em;
-    font-weight: bold;
-    margin: .8em 0 0 0;
-  }
-  h2 {
-    color: var(--primary);
-    font-family: "QuicksandBook", "Arial", Helvetica, sans-serif;
-    font-size: 1.33em;
-    font-weight: bold;
-    margin: .3em 0 0;
-    padding: 10px 0 5px;
-  }
-  h3 {
-    font-size: 1em;
-    font-weight: bold;
   }
   table {
     margin: .5em 1em;
@@ -140,8 +131,8 @@ section dl.dl-horizontal {
   }
   dl.wide {
     dt {
-      width: 35em;
       word-wrap: break-word;
+      font-weight: bold;
     }
     dd {
       margin-left: 1.5em;
@@ -181,11 +172,15 @@ section dl.dl-horizontal {
     margin-bottom: .85em;
   }
   .guimenuitem {
-    background: var(--whisper);
+    background: var(--lightersecondary);
   }
   .example {
     margin: .25em 0 .25em 1em;
     padding: 10px 10px;
-    border: 1px solid #707070;
+    border: 1px solid var(--grey);
+  }
+
+  a[name] {
+    scroll-margin-top: 1rem;
   }
 }
