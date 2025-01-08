@@ -132,7 +132,7 @@
 
     <xsl:variable name="spacing" as="xs:string" select="normalize-space((@spacing, 'normal')[1])"/>
     <xsl:call-template name="do-anchor"/>
-    <dl class="row {if ($spacing = 'normal') then 'wide' else ''}">
+    <dl class="{if ($spacing = 'normal') then 'wide' else ''}">
 
       <xsl:for-each select="db5:varlistentry">
         <dt>
