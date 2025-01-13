@@ -196,13 +196,15 @@
                         <colspec colwidth="25%"/>
                         <colspec colwidth="30%"/>
                         <colspec colwidth="20%"/>
-                        <tbody>
+                        <thead>
                             <row>
                                 <entry> <para>Field Name</para> </entry>
                                 <entry> <para>Mandatory?</para> </entry>
                                 <entry> <para>Allowed Values</para> </entry>
                                 <entry> <para>Allowed Special Characters</para> </entry>
                             </row>
+                        </thead>
+                        <tbody>
                             <row>
                                 <entry> <para>Seconds</para> </entry>
                                 <entry> <para>YES</para> </entry>
@@ -336,11 +338,13 @@
                     <tgroup cols="2">
                         <colspec colwidth="30%"/>
                         <colspec colwidth="70%"/>
-                        <tbody>
+                        <thead>
                             <row>
                                 <entry> <para>Expression</para> </entry>
                                 <entry> <para>Meaning</para> </entry>
                             </row>
+                        </thead>
+                        <tbody>
                             <row>
                                 <entry> <para> <code>0 0 12 * * ? </code> </para> </entry>
                                 <entry> <para> Fire at 12pm (noon) every day </para> </entry>

@@ -64,17 +64,13 @@ section dl.dl-horizontal {
   color: var(--bs-danger-text-emphasis);
 }
 
+/* content */
+
 .content {
   color: var(--darktext);
 
   section {
     clear: both;
-  }
-  table {
-    margin: .5em 1em;
-  }
-  td {
-    padding: 6px 4px;
   }
   .strong {
     font-weight: bold;
@@ -83,12 +79,17 @@ section dl.dl-horizontal {
     font-style: italic;
   }
 
+  /* code listings (syntax highlighted) */
   pre > code {
     background-color: var(--black);
     color: var(--white);
     font-size: .92em;
+    border-radius: .375rem; /* var(--bs-alert-border-radius) */
+    padding: 1rem; /* var(--bs-alert-padding-y) var(--bs-alert-padding-x) */
+    border: thin solid var(--lightgrey);
   }
 
+  /* inline code */
   code {
     background-color: inherit;
     color: inherit;
@@ -180,6 +181,7 @@ section dl.dl-horizontal {
     border: 1px solid var(--grey);
   }
 
+  /* nicer scroll targets */
   a[name] {
     scroll-margin-top: 1rem;
   }
