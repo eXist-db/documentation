@@ -1,8 +1,7 @@
 <?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng"
         schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml"
         schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<article version="5.0" xmlns="http://docbook.org/ns/docbook"
-    xmlns:xlink="http://www.w3.org/1999/xlink">
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
     <info>
         <title>Basic Installation</title>
         <date>2Q19</date>
@@ -29,10 +28,11 @@
         <itemizedlist>
 
             <listitem>
-                <para>At least Java version 8 (since eXist-db 3.0)</para>
+                <para>Java version 8 (eXist-db 3.x - 6.x)</para>
+                <para>Java version 21 (eXist-db 7.x)</para>
             </listitem>
             <listitem>
-                <para>About 200Mb of disk space for the installation</para>
+                <para>About 500Mb of disk space for the installation</para>
             </listitem>
             <listitem>
                 <para>At least 512Mb memory to run</para>
@@ -47,10 +47,8 @@
             <para>eXist-db is built on Java, a free, cross-platform software development
                 environment. Java comes in a number of versions, so it is important that you use the
                 version that eXist-db requires: Java 8 (since eXist-db 3.0). For instructions about
-                running Java on your operating system, see Oracle's <link condition="_blank"
-                xlink:href="https://www.java.com/en/download/help/index_installing.xml">Installing
-                Java</link> page. <link condition="_blank" xlink:href="https://openjdk.java.net"
-                >OpenJDK</link> is a good open source alternative to the Oracle JVM and known to
+                running Java on your operating system, see Oracle's <link condition="_blank" xlink:href="https://www.java.com/en/download/help/index_installing.xml">Installing
+                Java</link> page. <link condition="_blank" xlink:href="https://openjdk.java.net">OpenJDK</link> is a good open source alternative to the Oracle JVM and known to
                 work well with eXist-db.</para>
             <para>eXist-db runs with both the Java JRE (Java Runtime Environment) and the JDK (Java
                 Development Kit). The JRE usually suffices. You only need the JDK to compile
@@ -63,13 +61,7 @@
             <para>For Linux users: Unfortunately, Oracle's own pages (such as the link above) focus
                 on commercial Linux distributions. Users of other distributions are better served by
                 distribution-specific instructions. More information for specific versions of Linux
-                can be found at <link condition="_blank"
-                xlink:href="https://livingtao.blogspot.com/2012/01/few-easy-steps-to-install-sunoracle-jdk.html"
-                >Amazon Linux</link>, <link condition="_blank"
-                xlink:href="http://www.webupd8.org/2012/01/install-oracle-java-jdk-7-in-ubuntu-via.html"
-                >Ubuntu</link> and <link condition="_blank"
-                xlink:href="http://www.webupd8.org/2012/06/how-to-install-oracle-java-7-in-debian.html"
-                >Debian</link>.</para>
+                can be found at <link condition="_blank" xlink:href="https://livingtao.blogspot.com/2012/01/few-easy-steps-to-install-sunoracle-jdk.html">Amazon Linux</link>, <link condition="_blank" xlink:href="http://www.webupd8.org/2012/01/install-oracle-java-jdk-7-in-ubuntu-via.html">Ubuntu</link> and <link condition="_blank" xlink:href="http://www.webupd8.org/2012/06/how-to-install-oracle-java-7-in-debian.html">Debian</link>.</para>
 
 
             <para>Note for pre eXist-db v2.2 versions: Due to compatibility issues it is NOT
@@ -94,12 +86,12 @@
             up:</para>
         <itemizedlist>
             <listitem>
-                <para>Download the installer by following the download link on the <link
-                    xlink:href="https://exist-db.org/">eXist-db homepage</link> page. We recommend
+                <para>Download the installer by following the download link on the 
+					<link xlink:href="https://exist-db.org/">eXist-db homepage</link> page. We recommend
                     that you download the latest stable release.</para>
                 <para>The installer is a single file called
-                    <literal>eXist-db-setup-[version].jar</literal> (for instance
-                    <literal>eXist-db-setup-3.6.1.jar</literal>). </para>
+                    <literal>exist-installer-[version].jar</literal> (for instance
+                    <literal>exist-installer-6.3.0.jar</literal>). </para>
             </listitem>
             <listitem>
                 <para>Launch the eXist-db installer:</para>
@@ -108,8 +100,8 @@
                         <para>On Mac and Windows, simply double-click the downloaded
                             <code>.jar</code> file.</para>
                         <note>
-                            <para>On Mac OS X 10.7 and higher, a security feature called <link
-                                xlink:href="https://support.apple.com/kb/HT5290">Gatekeeper</link>
+                            <para>On Mac OS X 10.7 and higher, a security feature called 
+								<link xlink:href="https://support.apple.com/kb/HT5290">Gatekeeper</link>
                                 may prevent the installer from running since eXist-db is not
                                 registered with Apple. To circumvent the warning dialog and allow
                                 the installer to run, right-click or control-click the file and
@@ -125,7 +117,7 @@
                     <listitem>
                         <para>If necessary you can launch the installer from the command line with
                             the following command:</para>
-                        <programlisting>java -jar eXist-db-setup-[version].jar</programlisting>
+                        <programlisting>java -jar exist-installer-[version].jar</programlisting>
                     </listitem>
                 </itemizedlist>
             </listitem>
@@ -134,7 +126,8 @@
                     described in the <link xlink:href="advanced-installation#headless">Advanced
                     Installation</link> article. If you wish to compile and run exist from source
                     please see the article on <link xlink:href="exist-building.xml">building
-                    eXist</link></para>
+                    eXist</link>
+                </para>
             </listitem>
         </itemizedlist>
 
@@ -160,7 +153,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term>Admin Password and Memory Settings:</term>
+                <term>Admin Password:</term>
                 <listitem>
                     <informalfigure>
                         <mediaobject>
@@ -178,9 +171,9 @@
                         users on your local network (be it in your home or office, or at a cafe or
                         on a train). So, securing your administrator's account on eXist-db is a good
                         way to protect your data and prevent others from abusing the account.</para>
-                    <para>Configure the maximum amount of memory which will be available to Java
+                    <!--para>Configure the maximum amount of memory which will be available to Java
                         (and eXist-db) and the portion of it which will be reserved for internal
-                        caches.</para>
+                        caches.</para-->
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -195,18 +188,13 @@
                     </informalfigure>
                     <itemizedlist>
                         <listitem>
-                            <para>The "core" package is required to run eXist-db.</para>
+                            <para>The "Server" package is required to run eXist-db.</para>
                         </listitem>
                         <listitem>
-                            <para>The "sources" package is optional. Removing "sources" cuts the
-                                installation size considerably, but best to install everything
-                                unless you are starved for disk space.</para>
-                        </listitem>
-                        <listitem>
-                            <para>The "apps" package allows you to select or deselect a number of
+                            <para>The "Apps" package allows you to select or deselect a number of
                                 applications which will be installed into eXist-db when it starts
-                                the first time. If you are new to eXist-db, we recommend to at least
-                                select "dashboard", "demo", "doc", "eXide" and "fundocs". You'll
+                                the first time. If you are new to eXist-db, we recommend to install
+                                all applications. You'll
                                 need those to make your first steps in XQuery development.</para>
                         </listitem>
                     </itemizedlist>
@@ -317,15 +305,12 @@
             <para>If you want to launch eXist-db without a GUI, use the shell scripts in the
                 <literal>bin/</literal> sub-directory. On Linux or Mac, enter
                 <code>bin/startup.sh</code>, on Windows <code>bin\startup.bat</code>. More
-                information about these start-up scripts in the <link
-                xlink:href="advanced-installation#headless">Advanced Installation</link>
+                information about these start-up scripts in the <link xlink:href="advanced-installation#headless">Advanced Installation</link>
                 article.</para>
 
             <note>
                 <title>Having trouble?</title>
-                <para>If you're having trouble launching eXist-db, see our articles on <link
-                    xlink:href="troubleshooting">Troubleshooting</link> and <link
-                    xlink:href="advanced-installation#headless">Advanced
+                <para>If you're having trouble launching eXist-db, see our articles on <link xlink:href="troubleshooting">Troubleshooting</link> and <link xlink:href="advanced-installation#headless">Advanced
                     Installation</link>.</para>
             </note>
         </sect2>
@@ -336,12 +321,10 @@
     <sect1 xml:id="diving-in">
         <title>Diving In</title>
 
-        <para>After a successful installation and launch, access eXist-db's <link
-            xlink:href="{dashboard}/">Dashboard</link>, the central administration and application
+        <para>After a successful installation and launch, access eXist-db's <link xlink:href="{dashboard}/">Dashboard</link>, the central administration and application
             hub of eXist-db. If the system tray icon works on your system, select <guimenuitem>Open
             Dashboard</guimenuitem> from the pop-up menu. Or just open a web browser and enter the
-            following URL: <link xlink:href="http://localhost:8080/exist/"
-            >http://localhost:8080/exist/</link> </para>
+            following URL: <link xlink:href="http://localhost:8080/exist/">http://localhost:8080/exist/</link> </para>
         <para>The following page appears:</para>
         <informalfigure>
             <mediaobject>
@@ -350,12 +333,10 @@
                 </imageobject>
             </mediaobject>
         </informalfigure>
-        <para>Seeing it? Congratulations! (Not seeing it? See our article on <link
-            xlink:href="troubleshooting">Troubleshooting</link>).</para>
+        <para>Seeing it? Congratulations! (Not seeing it? See our article on <link xlink:href="troubleshooting">Troubleshooting</link>).</para>
 
         <para>All right, ready to dive in! Your local installation includes everything you need.
-            Access is easy, through the applications on the <link xlink:href="{dashboard}/"
-            >Dashboard</link> (see also the <link xlink:href="dashboard">article on the
+            Access is easy, through the applications on the <link xlink:href="{dashboard}/">Dashboard</link> (see also the <link xlink:href="dashboard">article on the
             Dashboard</link>).</para>
 
     </sect1>
