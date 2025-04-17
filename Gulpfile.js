@@ -221,7 +221,6 @@ const buildStyles = function (done) {
       sourceComments: true
     }))
     .pipe(prefix({
-      browsers: ['last 2 version', '> 0.25%'],
       cascade: true,
       remove: true
     }))
