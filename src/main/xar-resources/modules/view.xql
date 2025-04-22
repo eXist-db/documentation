@@ -15,17 +15,19 @@ import module namespace app="http://exist-db.org/apps/docs/app" at "app.xql";
 
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
-declare option output:method "html5";
+declare option output:method "html";
+declare option output:html-version "5.0";
 declare option output:media-type "text/html";
+declare option output:indent "no";
 
 declare function local:lookup ($functionName as xs:string, $arity as xs:integer) {
     function-lookup(xs:QName($functionName), $arity)
 };
 
 declare variable $local:templating-configuration := map {
-    $templates:CONFIG_FILTER_ATTRIBUTES : true(),
-    $templates:CONFIG_USE_CLASS_SYNTAX : false(),
     $templates:CONFIG_APP_ROOT : $config:app-root,
+    $templates:CONFIG_USE_CLASS_SYNTAX : false(),
+    $templates:CONFIG_FILTER_ATTRIBUTES : true(),
     $templates:CONFIG_STOP_ON_ERROR : true()
 };
 
