@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>HTML Templating Module</title>
-        <date>2Q21</date>
+        <date>3Q25</date>
         <keywordset>
             <keyword>application-development</keyword>
         </keywordset>
@@ -23,11 +23,12 @@
 
         <para>The main goal of the HTML templating framework is a clean separation of concerns.
             Generating entire pages in XQuery is quick and dirty, but makes maintenance and code
-            sharing difficult. Ideally people should be able to look at the HTML view of an
+            sharing difficult. Ideally, people should be able to look at the HTML view of an
             application and modify its look and feel without knowing XQuery. The application logic,
             written in XQuery, should be kept separate. Likewise, the XQuery developer should only
             have to deal with the minimal amount of HTML (generated dynamically).</para>
-        <para>The templating module also handles most of the HTTP processing an application
+        <para>
+            The templating module also handles most of the HTTP processing an application
             requires. It does so using sophisticated features like automatic parameter injection and
             type conversion. The goal was to remove repeating code like:</para>
         <programlisting language="xquery" xlink:href="listings/listing-1.txt"/>
@@ -45,28 +46,54 @@
     <sect1 xml:id="write-html">
         <title>Writing the HTML</title>
 
-        <para>The templating module is based mainly on conventions. Wherever possible it tries to
+        <para>
+            The templating module is based mainly on conventions. Wherever possible it tries to
             make a best guess instead of requiring additional code or annotations. This works as
-            long as the conventions used are sufficiently clear.</para>
-        <para>The input for the templating framework is always a plain HTML file. The module scans
+            long as the conventions used are sufficiently clear.
+        </para>
+        <para>
+            The input for the templating framework is always a plain HTML file. The module scans
             the HTML view for elements with <code>data-template</code> attributes 
             following a simple convention and tries to translate them into XQuery
             function calls. By using <code>data-*</code> attributes, the HTML remains sufficiently clean and does
             not get messed up with application code. A web designer could take the HTML files and
-            work on it without being bothered by the extra class names.</para>
-        <para>To start with the usual "Hello world" example:</para>
+            work on it without being bothered by the extra class names.
+        </para>
+        <para>
+            To start with the usual "Hello world" example:
+        </para>
         <programlisting language="xml" xlink:href="listings/listing-2.xml"/>
 
-        <para>When the module encounters <code>data-template="demo:hello"</code>, it will try to find a function named
+        <para>
+            When the module encounters <code>data-template="demo:hello"</code>, it will try to find a function named
             <literal>demo:hello</literal> in all the modules known within the current XQuery context. If a function is found and its signature
             follows a certain convention, it will be called and the <tag>div</tag> will
             either be replaced or enhanced by whatever the function returns.</para>
 
-        <para>The <literal>data-template</literal> attribute must follow the function naming pattern.
+        <para>
+            The <literal>data-template</literal> attribute must follow the function naming pattern.
             It is also possible to pass static parameters to a template call.
             Additional parameters go into one or more attributes
             <literal>data-template-*</literal>, where the * should be replace by the name of the parameter, 
-            e.g. <literal>data-template-path="menu.html"</literal>.</para>
+            e.g. <literal>data-template-path="menu.html"</literal>.
+        </para>
+        <sect2 xml:id="legacy-template-syntax">
+            <title>Legacy Template Syntax</title>
+            <para>
+                You might encounter older templates that use the class attribute to call template functions.
+                Like <code>&lt;title class="app:title" /&gt;</code>
+            </para>
+            <para>
+                This is considered <emphasis>legacy</emphasis> syntax and should be re-written to use <code>data-template</code>
+                attributes instead.
+            </para>
+            <para>
+                In fact, version 1.1.0 introduced a configuration option <literal>$templates:CONFIG_USE_CLASS_SYNTAX</literal>.
+                Setting it to <literal>false()</literal> will cause all class attributes to be ignored when reading
+                template files. This is necessary in order to use colons in class names, which some CSS frameworks tend to do.
+                This option will likely be <emphasis>turned on by default</emphasis> with the next major release of this library.
+            </para>
+        </sect2>
     </sect1>
 
     <!-- ================================================================== -->
@@ -74,10 +101,15 @@
     <sect1 xml:id="templating">
         <title>Templating Functions</title>
 
-        <para>A templating function is an ordinary XQuery function in a module which takes at least
-            two parameters of a specific type. Additional parameters are allowed. If a function does
-            not follow this convention it will be ignored by the framework.</para>
-        <para> For example, our "Hello world!" function could be defined as follows:</para>
+        <para>
+            A templating function is an ordinary XQuery function in a module. It <emphasis>must</emphasis> accept at least 
+            two parameters, <code>$node</code> and <code>$model</code>.
+            Additional parameters are allowed. If a function does not follow this convention it will be
+            ignored by the framework.
+        </para>
+        <para>
+            For example, our "Hello world!" function could be defined as follows:
+        </para>
         <programlisting language="xquery" xlink:href="listings/listing-5.txt"/>
         <para>The two required parameters are <code>$node</code> and <code>$model</code>: </para>
         <itemizedlist>
@@ -228,8 +260,7 @@
             <title>Important Note</title>
             <para>The old version of the templating module used to be part of the <emphasis>deprecated</emphasis>
                 shared-resources package, while a <link xlink:href="https://github.com/eXist-db/templating/">new and improved version</link> 
-                is now available in its own
-                expath package. We recommend to update to the new package with the short name
+                is now available as its own expath library package. We recommend to update to the new package with the short name
                 <emphasis>templating</emphasis>, available on the eXist-db dashboard. To update, follow the 3 steps below:</para>
             <orderedlist>
                 <listitem>
@@ -241,31 +272,39 @@
                     <programlisting language="xquery" xlink:href="listings/listing-15.txt"/>
                 </listitem>
                 <listitem>
-                    <para>New standard templating functions will go into a separate module, so you may want to add the following import in addition to the one above, which will give you access to the lib:parse-params template function (and others in the future):</para>
+                    <para>
+                        New standard templating functions will go into a separate module, so you may want to add the following import
+                        in addition to the one above, which will give you access to the lib:parse-params template function (and others in the future):
+                    </para>
                     <programlisting language="xquery" xlink:href="listings/listing-16.txt"/>
                 </listitem>
             </orderedlist>
         </sect2>
         <sect2 xml:id="main-xquery">
             <title>Calling the Templating from a Main XQuery</title>
-            <para>A complete main module which calls the
-                templating framework to process an HTML file passed in the HTTP request body could look
-                as follows:</para>
+            <para>
+                A complete main module which calls the templating framework to process an HTML file passed
+                in the HTTP request body could look as follows:
+            </para>
             <programlisting language="xquery" xlink:href="listings/listing-12.txt"/>
-            <para>This module would be called from the URL rewriting controller. For example, we could
+            <para>This module can now be called from the URL rewriting controller. For example, we can
                 add a rule to <literal>controller.xq</literal> to pass any .html resource to the above
                 main query (saved to <literal>modules/view.xq</literal>):</para>
             <programlisting language="xquery" xlink:href="listings/listing-13.txt"/>
-            <para>The only part of the main module code which might look a bit unusual is the inline
+            <para>
+                The only part of the main module code which might look a bit unusual is the inline
                 lookup function: the templating module uses dynamic function calls to execute template
                 functions in application modules. But unfortunately, XQuery modules can only "see"
                 functions in their own context. There is therefore no way for the templating module to
                 determine what functions are defined in application modules which are outside its
                 context. So it needs to be "helped" by providing a callback function to resolve function
                 references. The lookup function is defined in the main context and can access all the
-                modules imported into the main module.</para>
-            <para>Normally you can just copy and paste the main module code as given above. To adapt it
-                to your own application, just import your application modules and you're done.</para>
+                modules imported into the main module.
+            </para>
+            <para>
+                Normally you can just copy and paste the main module code as given above. To adapt it
+                to your own application, just import your application modules and you're done.
+            </para>
         </sect2>
     </sect1>
 
