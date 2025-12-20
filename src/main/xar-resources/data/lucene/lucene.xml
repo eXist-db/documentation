@@ -246,23 +246,23 @@
                     attribute boosting allows you to weight the results based on the value of the
                     <code>att</code> attribute so that hits in definitions come before hits in
                     comments and examples. This behaviour is enabled by adding a child
-                    <tag>match-sibling-attr</tag> to a Lucene configuration <tag>text</tag> element.
+                    <tag>has-sibling-attribute</tag> to a Lucene configuration <tag>text</tag> element.
                     An example index configuration for it looks like this:</para>
                 <programlisting language="xml" xlink:href="listings/listing-27.xml"/>
                 <para>This means that the <code>ft:score#1</code> function will boost hits in
                     <code>val</code> attributes with a factor of 25 times for the
                     <code>writtenForm</code> value of the <code>att</code> attribute.</para>
-                <para>In the same way <tag>match-attr</tag> would be used for element qnames in the
+                <para>In the same way <tag>match-attribute</tag> would be used for element qnames in the
                     <tag>text</tag> element.</para>
                 <para>If you do not care about any value of the sibling attribute, use the
                     <tag>has-attribute</tag> index configuration variant. An example index
-                    configuration with <tag>has-attr</tag> looks like this:</para>
+                    configuration with <tag>has-attribute</tag> looks like this:</para>
                 <programlisting language="xml" xlink:href="listings/listing-28.xml"/>
                 <para>This means that if your <tag>feat</tag> elements have an attribute
                     <tag>xml:lang</tag> it will score them nil and push them last of the pack, which
                     might be useful to demote hits in features in other languages than the main
                     entry language.</para>
-                <para>In the same way <tag>has-sibling-attr</tag> would be used for attributes in
+                <para>In the same way <tag>has-sibling-attribute</tag> would be used for attributes in
                     the <tag>text</tag> element.</para>
             </sect3>
         </sect2>
