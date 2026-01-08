@@ -1069,17 +1069,18 @@
         <sect2 xml:id="restxq">
             <title>RESTXQ</title>
             <para>eXist-db implements <link condition="_blank"
-                    xlink:href="http://exquery.github.io/exquery/exquery-restxq-specification/restxq-1.0-specification.html"
-                >
-                RESTXQ</link>, an EXQuery community effort to develop a clean approach for the
+                    xlink:href="http://exquery.github.io/exquery/exquery-restxq-specification/restxq-1.0-specification.html">RESTXQ</link>,
+                an EXQuery community effort to develop a clean approach for the
                 deployment of RESTful services based on XQuery code annotations. This is in addition
                 to eXist-db's native function libraries for performing HTTP <link
-                    xlink:href="{${fundocs.pkg.abbrev}}/view.html?uri=http://exist-db.org/xquery/request"
-                >
+                    xlink:href="{${fundocs.pkg.abbrev}}/view.html?uri=http://exist-db.org/xquery/request">
                 requests</link> and <link
-                    xlink:href="{${fundocs.pkg.abbrev}}/view.html?uri=http://exist-db.org/xquery/response"
-                >
+                    xlink:href="{${fundocs.pkg.abbrev}}/view.html?uri=http://exist-db.org/xquery/response">
                 responses</link>.</para>
+            <para>To enable RESTXQ support for a collection and its descendant collections, ensure your collection configuration file
+                (e.g., <code>collection.xconf</code>) has a <code>trigger</code> element matching the structure of the following template:
+            </para>
+            <programlisting language="xml" xlink:href="listings/listing-46.xml" />
         </sect2>
 
         <sect2 xml:id="zip-module">
