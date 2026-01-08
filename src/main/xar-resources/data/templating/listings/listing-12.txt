@@ -16,7 +16,8 @@ import module namespace templates="http://exist-db.org/xquery/html-templating";
 import module namespace app="http://my.domain/myapp" at "app.xql";
 
 declare option output:method "html";
-declare option output:html-version "5";
+declare option output:html-version "5.0";
+declare option output:media-type "text/html";
 
 (:
  : We have to provide a lookup function to templates:apply to help it
@@ -24,17 +25,16 @@ declare option output:html-version "5";
  : module cannot see the application modules, but the inline function
  : below does see them.
  :)
-let $lookup := function($functionName as xs:string, $arity as xs:int) {
-    try {
-        function-lookup(xs:QName($functionName), $arity)
-    } catch * {
-        ()
-    }
+declare variable $lookup := function($functionName as xs:string, $arity as xs:integer) as function(*)? {
+    function-lookup(xs:QName($functionName), $arity)
 }
+
 (:
  : The HTML is passed in the request from the controller.
  : Run it through the templating framework and return the result.
  :)
-let $content := request:get-data()
-return
-    templates:apply($content, $lookup, ())
+templates:apply(
+    request:get-data(),
+    $lookup,
+    () (: the third parameter is the initial model :)
+)
