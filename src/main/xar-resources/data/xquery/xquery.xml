@@ -1077,6 +1077,9 @@
                 requests</link> and <link
                     xlink:href="{${fundocs.pkg.abbrev}}/view.html?uri=http://exist-db.org/xquery/response">
                 responses</link>.</para>
+            <para>Starting with eXist-db v7 the configuration entry for the RESTXQ feature in <code>/db/collection.xconf</code> has been
+                commented out. The recommendation is only to enable the RESTXQ configuration in the collection (hierarchy)
+                that actually requires this function.</para>
             <para>To enable RESTXQ support for a collection and its descendant collections, ensure your collection configuration file
                 (e.g., <code>collection.xconf</code>) has a <code>trigger</code> element matching the structure of the following template:
             </para>
