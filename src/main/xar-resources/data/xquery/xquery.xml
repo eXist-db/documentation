@@ -67,12 +67,20 @@
 
         <sect2 xml:id="unsupported-features">
             <title>Unsupported features</title>
-
             <para>eXist-db supports strong typing whenever the expected type of an expression,
                 function argument, or function return value is explicitly specified or can be known
                 otherwise. However, the following schema- and data type-related features are not
                 supported:</para>
             <itemizedlist>
+                <listitem>
+                    <para>
+                        eXist-db does not support the static typing feature as described in
+                        <link condition="_blank"
+                            xlink:href="https://www.w3.org/TR/xquery-31/#id-static-typing-feature"
+                        >XQuery specification version 3.1 §5.2.3</link>
+                    </para>
+                </listitem>
+
                 <listitem>
                     <para>
                         <link condition="_blank"
