@@ -296,6 +296,11 @@
         <para>All other attributes or nested configuration elements below the <tag>module</tag>
             element are specific to the implementation and will differ between indexes. They should
             be documented by the index implementer.</para>
+        <para>Some indexes may also create additional files in the database data directory. For
+            example, when Lucene vector indexing is enabled and configured with
+            <code>vector-store="db"</code>, the database maintains a <literal>vector.dbx</literal>
+            store alongside the Lucene index. This file is part of the database’s on-disk state and
+            is included in server-side backups.</para>
         <para>If an index implementation cannot be loaded from the specified class, the entry will
             simply be ignored. A warning will be written to the logs. </para>
     </sect1>

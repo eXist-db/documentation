@@ -1,0 +1,7 @@
+<vector-models>
+  <!-- Local ONNX model (resolved under exist.home when relative) -->
+  <model id="all-MiniLM-L6-v2" path="onnx-models/all-MiniLM-L6-v2" dimension="384"/>
+  <!-- HTTP provider: path is the API base URL; set the API key env var before starting eXist -->
+  <model id="text-embedding-3-small" path="https://api.openai.com/v1" dimension="1536"/>
+  <!-- Or Cohere: <model id="embed-english-v3.0" path="https://api.cohere.ai/v1" dimension="1024"/> -->
+</vector-models>
