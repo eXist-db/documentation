@@ -1,0 +1,11 @@
+<xquery enable-java-binding="no" enable-query-rewriting="no" enforce-index-use="always" disable-deprecated-functions="no" raise-error-on-failed-retrieval="no" backwardCompatible="no">
+  <builtin-modules>
+    <!-- Default Modules -->
+    <module class="org.exist.xquery.functions.util.UtilModule" uri="http://exist-db.org/xquery/util"/>
+    <!-- ... more modules ... -->
+  </builtin-modules>
+  <vector-models>
+    <model id="all-MiniLM-L6-v2" path="onnx-models/all-MiniLM-L6-v2" dimension="384"/>
+    <!-- Or HuggingFace URL: path="https://huggingface.co/onnx-models/all-MiniLM-L6-v2-onnx/resolve/main" -->
+  </vector-models>
+</xquery>
