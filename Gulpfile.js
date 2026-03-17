@@ -5,9 +5,6 @@
 
 const settings = {
   clean: true,
-  scripts: true,
-  hjs: false,
-  polyfills: false,
   styles: true,
   svgs: true,
   vendor: true
@@ -21,8 +18,6 @@ const paths = {
   input: 'src/main/frontend/',
   output: 'target/generated-resources/frontend/xar-resources/resources/',
   scripts: {
-    input: 'src/main/frontend/javascript/*',
-    polyfills: '.polyfill.js',
     output: 'target/generated-resources/frontend/xar-resources/resources/scripts/'
   },
   styles: {
@@ -74,120 +69,50 @@ const {
   series,
   parallel
 } = require('gulp')
-const del = require('del')
-const flatmap = require('gulp-flatmap')
-const lazypipe = require('lazypipe')
 const rename = require('gulp-rename')
 const header = require('gulp-header')
 const pkg = require('./package.json')
 const muxml = require('gulp-muxml')
 
 
-// Scripts
-const standard = require('gulp-standard')
-const concat = require('gulp-concat')
-const uglify = require('gulp-uglify')
-const optimizejs = require('gulp-optimize-js')
-
 // Styles
 const sass = require('gulp-sass')(require('sass'))
-const prefix = require('gulp-autoprefixer')
-const minify = require('gulp-cssnano')
+const postcss = require('gulp-postcss')
+const autoprefixer = require('autoprefixer')
+const cssnano = require('cssnano')
 const sourcemaps = require('gulp-sourcemaps')
 
 // SVGs
-const svgmin = require('gulp-svgmin')
+const through2 = require('through2')
+
+let delApi
+async function getDel () {
+  if (delApi) return delApi
+  // del@8 is ESM-only
+  delApi = await import('del')
+  return delApi
+}
+
+let svgoApi
+async function getSvgo () {
+  if (svgoApi) return svgoApi
+  // svgo@4 is ESM-only
+  svgoApi = await import('svgo')
+  return svgoApi
+}
 
 /**
  * Gulp Tasks
  */
 
 // Remove pre-existing content from output folders
-const cleanDist = function (done) {
+const cleanDist = async function () {
   // Make sure this feature is activated before running
-  if (!settings.clean) return done()
+  if (!settings.clean) return
 
   // Clean the dist folder
-  del.sync([
-    paths.output
-  ])
-
-  // Signal completion
-  return done()
-}
-
-// Repeated JavaScript tasks
-const jsTasks = lazypipe()
-  .pipe(header, banner.full, {
-    package: pkg
-  })
-  .pipe(optimizejs)
-  .pipe(dest, paths.scripts.output)
-  .pipe(rename, {
-    suffix: '.min'
-  })
-  .pipe(uglify)
-  .pipe(optimizejs)
-  .pipe(header, banner.min, {
-    package: pkg
-  })
-  .pipe(dest, paths.scripts.output)
-
-// Lint, minify, and concatenate scripts
-const buildScripts = function (done) {
-  // Make sure this feature is activated before running
-  if (!settings.scripts) return done()
-
-  // Run tasks on script files
-  src(paths.scripts.input)
-    .pipe(flatmap(function (stream, file) {
-      // If the file is a directory
-      if (file.isDirectory()) {
-        // Setup a suffix variable
-        const suffix = ''
-
-        // If separate polyfill files enabled
-        if (settings.polyfills) {
-          // Update the suffix
-          suffix = '.polyfills'
-
-          // Grab files that aren't polyfills, concatenate them, and process them
-          src([file.path + '/*.js', '!' + file.path + '/*' + paths.scripts.polyfills])
-            .pipe(concat(file.relative + '.js'))
-            .pipe(jsTasks())
-        }
-
-        // Grab all files and concatenate them
-        // If separate polyfills enabled, this will have .polyfills in the filename
-        src(file.path + '/*.js')
-          .pipe(concat(file.relative + suffix + '.js'))
-          .pipe(jsTasks())
-
-        return stream
-      }
-
-      // Otherwise, process the file
-      return stream.pipe(jsTasks())
-    }))
-
-  // Signal completion
-  done()
-}
-
-// Lint scripts
-const lintScripts = function (done) {
-  // Make sure this feature is activated before running
-  if (!settings.scripts) return done()
-
-  // Lint scripts
-  src(paths.scripts.input)
-    .pipe(standard({
-      fix: true
-    }))
-    .pipe(standard.reporter('default'))
-
-  // Signal completion
-  done()
+  const { deleteSync } = await getDel()
+  deleteSync([paths.output])
 }
 
 // pretty print all xml listings
@@ -209,9 +134,9 @@ const prettyXml = function (done) {
 }
 
 // Process, lint, and minify Sass files
-const buildStyles = function (done) {
+const buildStyles = async function () {
   // Make sure this feature is activated before running
-  if (!settings.styles) return done()
+  if (!settings.styles) return
 
   // Run tasks on all Sass files
   src(paths.styles.input)
@@ -220,10 +145,12 @@ const buildStyles = function (done) {
       outputStyle: 'expanded',
       sourceComments: true
     }))
-    .pipe(prefix({
-      cascade: true,
-      remove: true
-    }))
+    .pipe(postcss([
+      autoprefixer({
+        cascade: true
+      }),
+      cssnano()
+    ]))
     // Uncomment if you want the non minified files
     // .pipe(header(banner.full, {
     //   package: pkg
@@ -232,33 +159,32 @@ const buildStyles = function (done) {
     .pipe(rename({
       suffix: '.min'
     }))
-    .pipe(minify({
-      discardComments: {
-        removeAll: true
-      }
-    }))
     .pipe(header(banner.min, {
       package: pkg
     }))
     .pipe(sourcemaps.write('.'))
     .pipe(dest(paths.styles.output))
-
-  // Signal completion
-  done()
 }
 
 // Optimize SVG files
-const buildSVGs = function (done) {
+const buildSVGs = function () {
   // Make sure this feature is activated before running
-  if (!settings.svgs) return done()
+  if (!settings.svgs) return Promise.resolve()
 
-  // Optimize SVG files
-  src(paths.svgs.input)
-    .pipe(svgmin())
+  return src(paths.svgs.input)
+    .pipe(through2.obj(function (file, enc, cb) {
+      if (!file.isBuffer()) return cb(null, file)
+
+      getSvgo()
+        .then(({ optimize }) => {
+          const input = file.contents.toString('utf8')
+          const result = optimize(input, { path: file.path })
+          file.contents = Buffer.from(result.data, 'utf8')
+          cb(null, file)
+        })
+        .catch(cb)
+    }))
     .pipe(dest(paths.svgs.output))
-
-  // Signal completion
-  done()
 }
 
 // Copy third-party dependencies from node_modules into resources
@@ -268,9 +194,7 @@ const vendorFiles = function (done) {
 
   // TODO ensure each declared third-parrty dep has a corresponding command below
   // TODO modernizr@2 needs refactor via npm or gulp-modernizr
-  const deps = pkg.dependencies.length
-
-
+ 
   // copy vendor scripts
   src(['node_modules/bootstrap/dist/js/bootstrap.min.*', 'node_modules/@popperjs/core/dist/umd/popper.min.*', 'node_modules/@highlightjs/cdn-assets/highlight.min.js', 'node_modules/@highlightjs/cdn-assets/languages/xquery.min.js', 'node_modules/@highlightjs/cdn-assets/languages/dockerfile.min.js'])
     .pipe(dest(paths.scripts.output))
@@ -298,8 +222,6 @@ exports.default = series(
   cleanDist,
   vendorFiles,
   parallel(
-    buildScripts,
-    lintScripts,
     buildStyles,
     buildSVGs,
     prettyXml
