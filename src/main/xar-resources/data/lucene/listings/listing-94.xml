@@ -1,0 +1,5 @@
+<lucene vector-store="db">
+  <text qname="article">
+    <vector-field name="embedding" expression="." dimension="384" similarity="cosine" embedding="local" model="all-MiniLM-L6-v2"/>
+  </text>
+</lucene>

@@ -41,7 +41,7 @@
             <code>/</code> <tag>module</tag> element called <code>buffer</code>. It defines the
             amount of memory (in megabytes) Lucene will use for buffering index entries before they
             are written to disk. See the <link condition="_blank"
-            xlink:href="https://lucene.apache.org/core/4_10_4/core/org/apache/lucene/index/IndexWriterConfig.html#setRAMBufferSizeMB(double)"
+            xlink:href="https://lucene.apache.org/core/10_3_0/core/org/apache/lucene/index/IndexWriterConfig.html#setRAMBufferSizeMB(double)"
             >Lucene Javadocs</link>.</para>
 
         <para>Like other indexes, you create a Lucene index by configuring it in a
@@ -284,7 +284,7 @@
             <programlisting language="xml" xlink:href="listings/listing-29.xml"/>
 
             <para>In the example above, we define that Lucene's <link condition="_blank"
-                xlink:href="https://lucene.apache.org/core/4_10_4/analyzers-common/org/apache/lucene/analysis/standard/StandardAnalyzer.html"
+                xlink:href="https://lucene.apache.org/core/10_3_0/analyzers-common/org/apache/lucene/analysis/standard/StandardAnalyzer.html"
                 >StandardAnalyzer</link> should be used by default (the <tag>analyzer</tag> element
                 without <literal>id</literal> attribute). We provide an additional analyzer and
                 assign it the id <literal>ws</literal>, by which the analyzer can be referenced in
@@ -292,7 +292,7 @@
                 should be used to process them (see <code>query-analyzer-id</code> in
                 <link linkend="parameters">Additional parameters</link>).</para>
             <para>The <link condition="_blank"
-                xlink:href="https://lucene.apache.org/core/4_10_4/analyzers-common/org/apache/lucene/analysis/core/WhitespaceAnalyzer.html"
+                xlink:href="https://lucene.apache.org/core/10_3_0/analyzers-common/org/apache/lucene/analysis/core/WhitespaceAnalyzer.html"
                 >whitespace analyzer</link> is the most basic one. As the name implies, it tokenizes
                 the text at white space characters, but treats all other characters - including
                 punctuation - as part of the token. The tokens are not converted to lower case and
@@ -343,12 +343,10 @@
                         <para><code>java.lang.reflect.Field</code></para>
                     </listitem>
                 </itemizedlist>
-                <para> The value <link condition="_blank"
-                    xlink:href="https://lucene.apache.org/core/4_10_4/core/org/apache/lucene/util/Version.html#LUCENE_CURRENT"
-                    >Version#LUCENE_CURRENT</link> is always added as first parameter for the
-                    analyzer constructor (a fallback mechanism is present for older analyzers). The
-                    previously valid values <code>java.io.File</code> and <code>java.util.Set</code>
-                    can not be used since Lucene 4.</para>
+                <para>The parameters you declare must match a constructor signature on the analyzer
+                    class. If you reference an analyzer which cannot be constructed with the provided
+                    parameters, eXist-db will report an error when parsing the collection
+                    configuration.</para>
                 <para>For instance to add a stopword list, use one of the following
                     constructions:</para>
                 <programlisting language="xml" xlink:href="listings/listing-30.xml"/>
@@ -525,6 +523,161 @@
                     explicitely.</para>
             </sect3>
         </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="vector-fields">
+            <title>Vector fields (KNN / semantic search)</title>
+
+            <para>Lucene 10 adds support for indexing dense float vectors and searching them using
+                K-nearest-neighbour (KNN) queries. In eXist-db, vector fields are configured as part
+                of the Lucene full-text index and can be queried from XQuery.</para>
+
+            <para>Vector indexing is configured by adding a <tag>vector-field</tag> element inside a
+                <tag>text</tag> index definition:</para>
+
+            <example>
+                <title>collection.xconf with a vector field</title>
+                <programlisting language="xml" xlink:href="listings/listing-90.xml"/>
+            </example>
+
+            <para>Vector indexing can be used with two storage modes. Use attribute
+                <code>vector-store</code> on the <tag>lucene</tag> element:</para>
+            <itemizedlist>
+                <listitem>
+                    <para><code>vector-store="db"</code> (default): stores vectors in the Lucene index
+                        and additionally in <literal>vector.dbx</literal>. This can speed up some
+                        reindex workflows and keeps vectors available to the database backup
+                        mechanism.</para>
+                </listitem>
+                <listitem>
+                    <para><code>vector-store="lucene"</code>: stores vectors in the Lucene index only
+                        (no <literal>vector.dbx</literal>).</para>
+                </listitem>
+            </itemizedlist>
+
+            <table>
+                <title>Choosing a vector-store mode</title>
+                <tgroup cols="3">
+                    <thead>
+                        <row>
+                            <entry>Mode</entry>
+                            <entry>Use when</entry>
+                            <entry>Trade-offs</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry><para><code>db</code></para></entry>
+                            <entry>
+                                <para>You want a native store (<literal>vector.dbx</literal>) to
+                                    support faster/scoped reindex workflows and to keep vectors
+                                    available to server-side backup/restore.</para>
+                            </entry>
+                            <entry>
+                                <para>Additional on-disk storage (vectors stored twice: Lucene index
+                                    and <literal>vector.dbx</literal>).</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><para><code>lucene</code></para></entry>
+                            <entry>
+                                <para>You want Lucene to be the only source of truth for vectors and
+                                    you are fine recomputing vectors from source text on reindex.</para>
+                            </entry>
+                            <entry>
+                                <para>No <literal>vector.dbx</literal> is maintained; reindex must
+                                    recompute vectors.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+
+            <para>The following attributes are commonly used on <tag>vector-field</tag>:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><code>name</code></term>
+                    <listitem>
+                        <para>Field name used for indexing and querying.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>expression</code></term>
+                    <listitem>
+                        <para>XPath expression selecting the embedding content. For pre-computed
+                            vectors this typically selects a child element containing the vector
+                            representation.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>dimension</code></term>
+                    <listitem>
+                        <para>Vector dimension. Query-time vectors must use the same dimension.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>similarity</code></term>
+                    <listitem>
+                        <para>Similarity function used by Lucene, e.g. <code>cosine</code>,
+                            <code>euclidean</code> or <code>dot_product</code>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>encoding</code></term>
+                    <listitem>
+                        <para>Encoding used for vectors stored in XML, e.g. <code>base64</code> or
+                            <code>text</code>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>embedding</code></term>
+                    <listitem>
+                        <para>Optional index-time embedding provider. Use <code>local</code> for
+                            ONNX-based embedding or <code>http</code> for an external HTTP API.
+                            Omit this attribute when embeddings are pre-computed and stored in XML.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><code>model</code>, <code>model-path</code></term>
+                    <listitem>
+                        <para>Model identifier and local path/URL. For <code>embedding="local"</code>,
+                            <code>model-path</code> points to the local model directory. For
+                            <code>embedding="http"</code>, it is the API base URL.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+
+            <para>Inline and ignore rules are honoured when vector text is extracted via the same
+                mechanism as full-text indexing: existing <tag>inline</tag> and <tag>ignore</tag>
+                rules apply and element names never pollute the embedding text.</para>
+
+            <para>If <code>model-path</code> is omitted, eXist-db may use the global vector model
+                registry from <literal>conf.xml</literal> to resolve the model’s default path and
+                dimension. See <link xlink:href="configuration#xq-vector-model-registry">Vector model
+                registry</link>.</para>
+
+            <para>If a vector cannot be decoded or validated at index time (for example: wrong
+                dimension, non-finite values, or invalid base64/text encoding), eXist-db skips the
+                vector field for that node and continues indexing other fields.</para>
+
+            <para>Resolution order:</para>
+            <orderedlist>
+                <listitem>
+                    <para>If <code>model-path</code> is specified on the <tag>vector-field</tag>, it
+                        is used.</para>
+                </listitem>
+                <listitem>
+                    <para>Otherwise, if a model id is registered in <literal>conf.xml</literal>
+                        (<tag>vector-models</tag>), eXist-db uses the registry entry’s path and
+                        dimension.</para>
+                </listitem>
+                <listitem>
+                    <para>Otherwise, indexing/query-time embedding fails because the model location
+                        is unknown.</para>
+                </listitem>
+            </orderedlist>
+        </sect2>
     </sect1>
 
     <!-- ================================================================== -->
@@ -534,7 +687,7 @@
         <para>Querying full text from XQuery is straightforward. For example:</para>
         <programlisting language="xquery" xlink:href="listings/listing-34.txt"/>
         <para>The query function takes a query string in Lucene's default <link condition="_blank"
-            xlink:href="https://lucene.apache.org/core/4_10_4/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description"
+            xlink:href="https://lucene.apache.org/core/10_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description"
             >query syntax</link>. It returns a set of nodes which are relevant with respect to the
             query. Lucene assigns a relevance score or rank (a decimal number) to each match. This
             score is preserved by eXist-db and can be accessed through the score function.</para>
@@ -568,6 +721,106 @@
             <programlisting language="xquery" xlink:href="listings/listing-53.txt"/>
             <para>Note how subexpressions can be grouped with parentheses to clearly state to which
                 field they apply.</para>
+        </sect2>
+
+        <sect2 xml:id="query-vector">
+            <title>Vector search (KNN)</title>
+
+            <para>Vector fields can be queried using K-nearest-neighbour search. The query vector is
+                supplied as an XQuery array of numbers. The functions return the <emphasis>k</emphasis>
+                most similar nodes, where a higher score means more similar.</para>
+
+            <para>The following functions are available:</para>
+            <itemizedlist>
+                <listitem>
+                    <para><literal>ft:query-vector($nodes, $vector)</literal> and
+                        <literal>ft:query-vector($nodes, $vector, $k)</literal></para>
+                </listitem>
+                <listitem>
+                    <para><literal>ft:query-field-vector($field, $vector)</literal> and
+                        <literal>ft:query-field-vector($field, $vector, $k)</literal></para>
+                </listitem>
+            </itemizedlist>
+
+            <para>Semantics:</para>
+            <itemizedlist>
+                <listitem>
+                    <para><code>$vector</code> must have the same dimension as the configured
+                        <tag>vector-field</tag>.</para>
+                </listitem>
+                <listitem>
+                    <para>When used as a predicate (for example:
+                        <literal>//article[ft:query-vector(., $vec, 10)]</literal>), the predicate is
+                        true when the context node is among the hits.</para>
+                </listitem>
+                <listitem>
+                    <para><literal>ft:score($hit)</literal> returns the Lucene similarity score for
+                        vector queries (higher = more similar).</para>
+                </listitem>
+            </itemizedlist>
+
+            <para>Vector query options can be passed via a map. Supported keys include:</para>
+            <itemizedlist>
+                <listitem>
+                    <para><code>filter-query</code>: a keyword filter string parsed with Lucene’s
+                        query parser.</para>
+                </listitem>
+                <listitem>
+                    <para><code>filter</code>: a map describing simple range filters
+                        (<code>field</code>/<code>value</code>).</para>
+                </listitem>
+                <listitem>
+                    <para><code>facets</code>: facet drill-down options (same structure as
+                        <literal>ft:query</literal> facets).</para>
+                </listitem>
+            </itemizedlist>
+
+            <example>
+                <title>Querying vector fields</title>
+                <programlisting language="xquery" xlink:href="listings/listing-91.txt"/>
+            </example>
+        </sect2>
+
+        <sect2 xml:id="vector-embed">
+            <title>Vector embedding module</title>
+
+            <para>eXist-db provides an XQuery module for generating embedding vectors. The module’s
+                namespace is <literal>http://exist-db.org/xquery/vector</literal> (prefix
+                <literal>vector</literal>). It exposes functions such as
+                <literal>vector:embed</literal>, <literal>vector:embed-batch</literal>,
+                <literal>vector:models</literal> and <literal>vector:diagnostics</literal>.</para>
+
+            <example>
+                <title>Embedding + vector search</title>
+                <programlisting language="xquery" xlink:href="listings/listing-93.txt"/>
+            </example>
+
+            <example>
+                <title>Minimal end-to-end semantic search</title>
+                <programlisting language="xml" xlink:href="listings/listing-94.xml"/>
+                <programlisting language="xquery" xlink:href="listings/listing-95.txt"/>
+            </example>
+        </sect2>
+
+        <sect2 xml:id="reindex-vector">
+            <title>Reindexing vector fields</title>
+
+            <para><literal>xmldb:reindex($collection)</literal> performs a full reindex (full-text
+                and vector fields). Reindexing can also be scoped to full-text fields or vector
+                fields by passing a mode parameter to <literal>xmldb:reindex</literal>. Valid modes
+                are <code>all</code>, <code>fulltext</code> and <code>vector</code>.</para>
+
+            <para>When <code>vector-store="db"</code> is used, <code>fulltext</code> reindex reads
+                vectors from <literal>vector.dbx</literal> when possible.</para>
+
+            <example>
+                <title>Reindex modes for Lucene (full-text vs vector)</title>
+                <programlisting language="xquery" xlink:href="listings/listing-92.txt"/>
+            </example>
+
+            <para>The same modes are also available through the XML-RPC API (for example
+                <literal>reindexCollection(String collectionName, String mode)</literal>), with
+                <code>mode</code> in <code>{"all","fulltext","vector"}</code>.</para>
         </sect2>
         <sect2 xml:id="retrieve-fields">
             <title>Retrieving Field Content</title>
