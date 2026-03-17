@@ -49,11 +49,17 @@
             string functions like <code>fn:contains</code>, <code>fn:starts-with</code>,
             <code>fn:ends-with</code>. </para>
         <note>
-            <para><code>fn:matches</code> is currently not supported due to limitations in Lucene's
-                regular expression handling. Alternatives include the new <code>range:matches</code>
-                function (which <emphasis>is</emphasis> supported with the new range index, although subject to
-                <link condition="_blank" xlink:href="https://lucene.apache.org/core/4_10_4/core/org/apache/lucene/util/automaton/RegExp.html">Lucene 
-                    limitations</link>) and the <link xlink:href="oldrangeindex">old range index</link> (which does not use Lucene).</para>
+            <para><code>fn:matches</code> can be optimized by the new range index for a subset of
+                patterns. In particular, anchored patterns (<code>^...</code>, <code>...$</code> or
+                <code>^...$</code>) may be translated to Lucene regular expressions and executed via
+                the range index. Patterns which cannot be translated fall back to the non-indexed
+                evaluation path.</para>
+            <para>For explicit index-backed regular expression lookups you can also use the
+                <code>range:matches</code> function. Note that Lucene's regular expression engine has
+                limitations; see <link condition="_blank"
+                    xlink:href="https://lucene.apache.org/core/10_3_0/core/org/apache/lucene/util/automaton/RegExp.html"
+                    >Lucene RegExp</link>. The <link xlink:href="oldrangeindex">old range index</link>
+                remains available for compatibility and does not use Lucene.</para>
         </note>
         <para>Above configuration applies to documents using MODS, a standard for bibliographical
             metadata. The following XPath expressions use the created indexes: </para>
