@@ -1,0 +1,10 @@
+//article[ft:query-vector(., $vec)]
+//article[ft:query-vector(., $vec, 10)]
+//article[ft:query-field-vector("embedding", $vec)]
+//article[ft:query-field-vector("embedding", $vec, 10)]
+
+//article[ft:query-vector(., $vec, 10, map {
+  "filter-query": "keyword",
+  "filter": map { "field": "year", "value": 2020 },
+  "facets": map { "year": "2020" }
+})]

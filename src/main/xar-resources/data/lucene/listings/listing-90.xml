@@ -1,0 +1,10 @@
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+  <index xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <lucene vector-store="db">
+      <text qname="article">
+        <field name="title" expression="title"/>
+        <vector-field name="embedding" expression="embedding" dimension="384" similarity="cosine" encoding="base64" embedding="local" model="all-MiniLM-L6-v2" model-path="onnx-models/all-MiniLM-L6-v2"/>
+      </text>
+    </lucene>
+  </index>
+</collection>

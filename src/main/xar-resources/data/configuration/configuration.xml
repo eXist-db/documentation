@@ -578,6 +578,11 @@
                     well as any nested elements, are specific to the index implementation. Detailed
                     information is available in the article on <link
                     xlink:href="indexing#moduleconf">Configuring Database Indexes</link>.</para>
+                <para>Lucene-based indexing modules may also maintain additional on-disk structures
+                    under the database data directory. For example, when Lucene vector indexing is
+                    enabled and <code>vector-store="db"</code> is used, the database maintains a
+                    <literal>vector.dbx</literal> store in addition to the Lucene index. See <link
+                    xlink:href="lucene">Full Text Index</link> for vector configuration.</para>
             </sect3>
 
             <sect3 xml:id="indexer-stopwords">
@@ -994,6 +999,67 @@
                 <para>For the <code>src</code> attribute, eXist understands the <link
                     xlink:href="xquery#module-system">same types of URIs</link> as in an
                     ordinary XQuery import statement.</para>
+            </sect3>
+
+            <sect3 xml:id="xq-vector-model-registry">
+                <title>Vector model registry</title>
+
+                <para>The vector embedding module (<literal>http://exist-db.org/xquery/vector</literal>)
+                    can use a global model registry declared in <literal>conf.xml</literal>. This is a
+                    user-facing configuration mechanism to make embedding models available across the
+                    instance without repeating configuration in every collection.</para>
+
+                <para>The registry defines model identifiers (as used by <literal>vector:embed</literal>
+                    and <literal>vector:models</literal>) and associates them with provider details such
+                    as a local ONNX model path or an HTTP API base URL. Per-collection Lucene index
+                    configuration can still reference models by id (for example in a
+                    <tag>vector-field</tag> element’s <code>model</code> attribute).</para>
+
+                <example>
+                    <title>Registering embedding models in conf.xml</title>
+                    <programlisting language="xml" xlink:href="listings/listing-11.xml"/>
+                </example>
+
+                <example>
+                    <title>Model registry with local and HTTP providers</title>
+                    <programlisting language="xml" xlink:href="listings/listing-13.xml"/>
+                </example>
+
+                <example>
+                    <title>Vector model registry location inside the xquery section</title>
+                    <programlisting language="xml" xlink:href="listings/listing-12.xml"/>
+                </example>
+
+                <para>For registry entries, a relative <code>path</code> is resolved under
+                    <literal>exist.home</literal>. This keeps models and any download/cache
+                    directories inside the configured eXist-db home directory.</para>
+
+                <para>When <literal>vector:embed</literal> or a Lucene <tag>vector-field</tag>
+                    configuration omits <code>model-path</code>, the registry supplies the default
+                    path and dimension for the given model id. A per-collection <code>model-path</code>
+                    overrides the registry.</para>
+
+                <para>Resolution order:</para>
+                <orderedlist>
+                    <listitem>
+                        <para>If <code>model-path</code> is specified (for example on
+                            <tag>vector-field</tag> or in a <literal>vector:embed</literal> call), it
+                            is used.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Otherwise, if the model id exists in the global <tag>vector-models</tag>
+                            registry, its <code>path</code> and <code>dimension</code> are used.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Otherwise, the operation fails because the model location (and/or
+                            dimension) is unknown.</para>
+                    </listitem>
+                </orderedlist>
+
+                <para>When using HTTP providers, API keys are typically supplied through environment
+                    variables (for example <literal>OPENAI_API_KEY</literal> or
+                    <literal>COHERE_API_KEY</literal>), though some embedding functions may also accept
+                    an explicit API key parameter.</para>
             </sect3>
         </sect2>
 
