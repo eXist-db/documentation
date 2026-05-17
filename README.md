@@ -9,8 +9,8 @@
 This repository contains the official documentation for the [eXist-db native XML database](http://www.exist-db.org) and the application for browsing it. You can browse the latest release of the documentation on [eXist-db homepage](http://exist-db.org/exist/apps/doc/). User reporting errors should check the [contributions](#contributions) section below. Core-contributors preparing a release should consult the [release procedure](RELEASE.md)
 
 ## Dependencies
--   [Maven](https://maven.apache.org): 3.6
--   [eXist-db](http://exist-db.org): 6.1.0
+-   [Maven](https://maven.apache.org): `3.9.11`
+-   [eXist-db](http://exist-db.org): `7.0.0-SNAPSHOT`
 
 ## Installation
 -   The default eXist-db installer includes the documentation app. Just go to your eXist server's Dashboard and select Documentation.
