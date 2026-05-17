@@ -18,8 +18,8 @@ jobs:
           cache: maven
           java-version: ${{ matrix.jdk }}
       - name: Maven Build
-        run: mvn clean package -DskipTests
+        run: mvn -DskipTests --no-transfer-progress clean package
       - name: Test
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-        run: mvn verify
+        run: mvn --no-transfer-progress verify
