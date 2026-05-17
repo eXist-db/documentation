@@ -90,10 +90,10 @@ declare %templates:wrap function config:app-title($node as node(), $model as map
   The name is returned including a relative path.
 :)
 declare function config:get-resource-path($base-collection as xs:string, $resource as xs:string) as xs:string? {
-  local:get-resource-path($base-collection, $resource, ())
+  config:get-resource-path($base-collection, $resource, ())
 };
 
-declare function local:get-resource-path($base-collection as xs:string, $resource as xs:string, $sub-path as xs:string?) as xs:string? {
+declare function config:get-resource-path($base-collection as xs:string, $resource as xs:string, $sub-path as xs:string?) as xs:string? {
   let $resource-name := tokenize($resource, '/')[last()]
   return
     if ($resource-name = xmldb:get-child-resources($base-collection))
@@ -104,7 +104,7 @@ declare function local:get-resource-path($base-collection as xs:string, $resourc
       let $sub-collection := concat($base-collection, '/', $collection)
       let $sub-sub-path := concat($sub-path, if (empty($sub-path)) then () else '/', $collection)
       return
-        local:get-resource-path($sub-collection, $resource-name, $sub-sub-path)
+        config:get-resource-path($sub-collection, $resource-name, $sub-sub-path)
       )[1]
 };
 

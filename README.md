@@ -9,8 +9,8 @@
 This repository contains the official documentation for the [eXist-db native XML database](http://www.exist-db.org) and the application for browsing it. You can browse the latest release of the documentation on [eXist-db homepage](http://exist-db.org/exist/apps/doc/). User reporting errors should check the [contributions](#contributions) section below. Core-contributors preparing a release should consult the [release procedure](RELEASE.md)
 
 ## Dependencies
--   [Maven](https://maven.apache.org): 3.6
--   [eXist-db](http://exist-db.org): 6.1.0
+-   [Maven](https://maven.apache.org): `3.9.11`
+-   [eXist-db](http://exist-db.org): `7.0.0-SNAPSHOT`
 
 ## Installation
 -   The default eXist-db installer includes the documentation app. Just go to your eXist server's Dashboard and select Documentation.
@@ -47,7 +47,7 @@ The full test-suite consists of validation, unit, and integration tests, it runs
     -   Validation uses both the official `docbook.rng` and our own `exist-docs.rng` (experimental) schema.
     -   The schema files are located at: `src/main/relaxng`
 -   to run the javascript or XQSuite unit tests run: `mvn test`. We do **not** support testing via node alone, aka `npm test`, use the maven command instead.
--   To run the Integrations tests, however, use `npm run cypress`.
+-   To run the Integrations tests, however, use `npm run cypress` or `mvn verify -P cypress-without-record`.
 
 Both unit and integration tests, expect a running instance of exist with a copy of the documentation app installed reachable at `localhost:8080` and an empty admin password. To simply build a new package, without a running instance, use the command provided in the [Build section](#Building-from-source). Omitting `-DskipTests` will run validation and unit tests as part of the build.
 

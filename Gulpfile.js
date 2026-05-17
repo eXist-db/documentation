@@ -5,7 +5,7 @@
 
 const settings = {
   clean: true,
-  scripts: true,
+  scripts: false,
   hjs: false,
   polyfills: false,
   styles: true,
@@ -91,7 +91,7 @@ const optimizejs = require('gulp-optimize-js')
 
 // Styles
 const sass = require('gulp-sass')(require('sass'))
-const prefix = require('gulp-autoprefixer')
+const prefix = require('gulp-autoprefixer').default
 const minify = require('gulp-cssnano')
 const sourcemaps = require('gulp-sourcemaps')
 
@@ -108,7 +108,7 @@ const cleanDist = function (done) {
   if (!settings.clean) return done()
 
   // Clean the dist folder
-  del.sync([
+  del.deleteSync([
     paths.output
   ])
 
