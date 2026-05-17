@@ -389,16 +389,15 @@
   <!--
     Cypress is used for integration tests
 
-    First profile enables to run Cypress without record (cypress.io) support.
-    Second profile enables to run Cypress with record support, e.g. for CI.
+    First profile enables to run Cypress without record (cypress.io) support, e.g. for CI in forks.
+    Second profile enables to run Cypress with record support.
   -->
   <profiles>
     <profile>
       <id>cypress-without-record</id>
       <activation>
         <property>
-          <name>env.GITHUB_BASE_REF</name>
-          <value>master</value>
+          <name>env.CI</name>
         </property>
       </activation>
       <build>

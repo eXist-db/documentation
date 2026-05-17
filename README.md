@@ -47,7 +47,7 @@ The full test-suite consists of validation, unit, and integration tests, it runs
     -   Validation uses both the official `docbook.rng` and our own `exist-docs.rng` (experimental) schema.
     -   The schema files are located at: `src/main/relaxng`
 -   to run the javascript or XQSuite unit tests run: `mvn test`. We do **not** support testing via node alone, aka `npm test`, use the maven command instead.
--   To run the Integrations tests, however, use `npm run cypress`.
+-   To run the Integrations tests, however, use `npm run cypress` or `mvn verify -P cypress-without-record`.
 
 Both unit and integration tests, expect a running instance of exist with a copy of the documentation app installed reachable at `localhost:8080` and an empty admin password. To simply build a new package, without a running instance, use the command provided in the [Build section](#Building-from-source). Omitting `-DskipTests` will run validation and unit tests as part of the build.
 
