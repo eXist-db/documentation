@@ -53,7 +53,7 @@ declare %public function review:editorial-view($node as node()*, $model as map(*
             <td>{count(tokenize(string($doc), '\s+'))}</td>
             <td>
             {
-              for $article in local:get-incoming-links($uri)
+              for $article in review:get-incoming-links($uri)
               let $uri := base-uri($article)
               order by $uri
               let $name := rvds:get-name-component($uri)
@@ -83,24 +83,24 @@ declare %public function review:editorial-view($node as node()*, $model as map(*
 (:============================================================================:)
 (:== /TBD/ ==:)
 
-declare function local:get-incoming-links($uri as xs:string) as item()*
+declare function review:get-incoming-links($uri as xs:string) as item()*
 {
-  for $article in $review:all-docs[local:has-link-to(., $uri)] 
+  for $article in $review:all-docs[review:has-link-to(., $uri)] 
   order by base-uri($article)
   return $article
 };
 
 (:----------------------------------------------------------------------------:)
 
-declare function local:has-link-to($doc as document-node(), $uri as xs:string) as xs:boolean
+declare function review:has-link-to($doc as document-node(), $uri as xs:string) as xs:boolean
 {
   let $name := substring-before(rvds:get-name-component($uri), '.xml')
-  return $name = local:get-article-links-out($doc)
+  return $name = review:get-article-links-out($doc)
 };
 
 (:----------------------------------------------------------------------------:)
 
-declare function local:get-article-links-out($doc as document-node()) as xs:string*
+declare function review:get-article-links-out($doc as document-node()) as xs:string*
 (: Returns a sequence of outgoing article links. Article resource name only, no .xml. :)
 {
   for $link in data($doc//db5:link/@xlink:href)
