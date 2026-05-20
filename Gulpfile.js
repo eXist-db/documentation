@@ -5,9 +5,6 @@
 
 const settings = {
   clean: true,
-  scripts: false,
-  hjs: false,
-  polyfills: false,
   styles: true,
   svgs: true,
   vendor: true
@@ -21,8 +18,6 @@ const paths = {
   input: 'src/main/frontend/',
   output: 'target/generated-resources/frontend/xar-resources/resources/',
   scripts: {
-    input: 'src/main/frontend/javascript/*',
-    polyfills: '.polyfill.js',
     output: 'target/generated-resources/frontend/xar-resources/resources/scripts/'
   },
   styles: {
@@ -68,238 +63,174 @@ const banner = {
 
 // General
 const {
-  gulp,
   src,
   dest,
   series,
   parallel
 } = require('gulp')
-const del = require('del')
-const flatmap = require('gulp-flatmap')
-const lazypipe = require('lazypipe')
 const rename = require('gulp-rename')
 const header = require('gulp-header')
 const pkg = require('./package.json')
-const muxml = require('gulp-muxml')
-
-
-// Scripts
-const standard = require('gulp-standard')
-const concat = require('gulp-concat')
-const uglify = require('gulp-uglify')
-const optimizejs = require('gulp-optimize-js')
+const { finished } = require('stream/promises')
+const concatStream = require('concat-stream')
+const intoStream = require('into-stream')
+const muxmlCore = require('muxml')
 
 // Styles
 const sass = require('gulp-sass')(require('sass'))
-const prefix = require('gulp-autoprefixer').default
-const minify = require('gulp-cssnano')
+const postcss = require('gulp-postcss')
+const autoprefixer = require('autoprefixer')
+const cssnano = require('cssnano')
 const sourcemaps = require('gulp-sourcemaps')
 
 // SVGs
-const svgmin = require('gulp-svgmin')
+const through2 = require('through2')
+
+let delApi
+async function getDel () {
+  if (delApi) return delApi
+  // del@8 is ESM-only
+  delApi = await import('del')
+  return delApi
+}
+
+let svgoApi
+async function getSvgo () {
+  if (svgoApi) return svgoApi
+  // svgo@4 is ESM-only
+  svgoApi = await import('svgo')
+  return svgoApi
+}
+
+const MUXML_OPTS = {
+  stripComments: false,
+  stripCdata: false,
+  stripInstruction: false,
+  saxOptions: {
+    trim: true,
+    normalize: true
+  }
+}
+
+/** muxml + concat-stream can yield a string; Vinyl requires Buffer | Stream | null */
+function toVinylContents (data) {
+  if (data == null) return Buffer.alloc(0)
+  if (Buffer.isBuffer(data)) return data
+  if (data instanceof Uint8Array) return Buffer.from(data)
+  return Buffer.from(String(data), 'utf8')
+}
+
+/** Drop-in for gulp-muxml that satisfies Vinyl 2+ file.contents rules */
+function prettyMuxml () {
+  return through2.obj(function (file, enc, cb) {
+    if (file.isNull()) return cb(null, file)
+    if (file.isStream()) {
+      file.contents = file.contents.pipe(muxmlCore(MUXML_OPTS))
+      return cb(null, file)
+    }
+    if (!file.isBuffer()) return cb(null, file)
+
+    const m = intoStream(file.contents).pipe(muxmlCore(MUXML_OPTS))
+    m.on('error', cb)
+    m.pipe(concatStream(function (data) {
+      file.contents = toVinylContents(data)
+      cb(null, file)
+    }))
+  })
+}
 
 /**
  * Gulp Tasks
  */
 
 // Remove pre-existing content from output folders
-const cleanDist = function (done) {
+const cleanDist = async function () {
   // Make sure this feature is activated before running
-  if (!settings.clean) return done()
+  if (!settings.clean) return
 
-  // Clean the dist folder
-  del.deleteSync([
-    paths.output
-  ])
-
-  // Signal completion
-  return done()
-}
-
-// Repeated JavaScript tasks
-const jsTasks = lazypipe()
-  .pipe(header, banner.full, {
-    package: pkg
-  })
-  .pipe(optimizejs)
-  .pipe(dest, paths.scripts.output)
-  .pipe(rename, {
-    suffix: '.min'
-  })
-  .pipe(uglify)
-  .pipe(optimizejs)
-  .pipe(header, banner.min, {
-    package: pkg
-  })
-  .pipe(dest, paths.scripts.output)
-
-// Lint, minify, and concatenate scripts
-const buildScripts = function (done) {
-  // Make sure this feature is activated before running
-  if (!settings.scripts) return done()
-
-  // Run tasks on script files
-  src(paths.scripts.input)
-    .pipe(flatmap(function (stream, file) {
-      // If the file is a directory
-      if (file.isDirectory()) {
-        // Setup a suffix variable
-        const suffix = ''
-
-        // If separate polyfill files enabled
-        if (settings.polyfills) {
-          // Update the suffix
-          suffix = '.polyfills'
-
-          // Grab files that aren't polyfills, concatenate them, and process them
-          src([file.path + '/*.js', '!' + file.path + '/*' + paths.scripts.polyfills])
-            .pipe(concat(file.relative + '.js'))
-            .pipe(jsTasks())
-        }
-
-        // Grab all files and concatenate them
-        // If separate polyfills enabled, this will have .polyfills in the filename
-        src(file.path + '/*.js')
-          .pipe(concat(file.relative + suffix + '.js'))
-          .pipe(jsTasks())
-
-        return stream
-      }
-
-      // Otherwise, process the file
-      return stream.pipe(jsTasks())
-    }))
-
-  // Signal completion
-  done()
-}
-
-// Lint scripts
-const lintScripts = function (done) {
-  // Make sure this feature is activated before running
-  if (!settings.scripts) return done()
-
-  // Lint scripts
-  src(paths.scripts.input)
-    .pipe(standard({
-      fix: true
-    }))
-    .pipe(standard.reporter('default'))
-
-  // Signal completion
-  done()
+  const { deleteSync } = await getDel()
+  deleteSync([paths.output])
 }
 
 // pretty print all xml listings
 // articles not yet decided
-const prettyXml = function (done) {
-  src(paths.xml.listings, { base: "./" })
-    .pipe(muxml({
-      stripComments: false,
-      stripCdata: false,
-      stripInstruction: false,
-      saxOptions: {
-        trim: true,
-        normalize: true
-      }
-    }))
-    .pipe(dest("./"))
-  // Signal completion
-  done()
+const prettyXml = function () {
+  return src(paths.xml.listings, { base: './' })
+    .pipe(prettyMuxml())
+    .pipe(dest('./'))
 }
 
 // Process, lint, and minify Sass files
-const buildStyles = function (done) {
-  // Make sure this feature is activated before running
-  if (!settings.styles) return done()
+const buildStyles = function () {
+  if (!settings.styles) return Promise.resolve()
 
-  // Run tasks on all Sass files
-  src(paths.styles.input)
+  return src(paths.styles.input)
     .pipe(sourcemaps.init())
     .pipe(sass({
       outputStyle: 'expanded',
       sourceComments: true
     }))
-    .pipe(prefix({
-      cascade: true,
-      remove: true
-    }))
-    // Uncomment if you want the non minified files
-    // .pipe(header(banner.full, {
-    //   package: pkg
-    // }))
-    // .pipe(dest(paths.styles.output))
+    .pipe(postcss([
+      autoprefixer({
+        cascade: true
+      }),
+      cssnano()
+    ]))
     .pipe(rename({
       suffix: '.min'
-    }))
-    .pipe(minify({
-      discardComments: {
-        removeAll: true
-      }
     }))
     .pipe(header(banner.min, {
       package: pkg
     }))
     .pipe(sourcemaps.write('.'))
     .pipe(dest(paths.styles.output))
-
-  // Signal completion
-  done()
 }
 
 // Optimize SVG files
-const buildSVGs = function (done) {
-  // Make sure this feature is activated before running
-  if (!settings.svgs) return done()
+const buildSVGs = function () {
+  if (!settings.svgs) return Promise.resolve()
 
-  // Optimize SVG files
-  src(paths.svgs.input)
-    .pipe(svgmin())
+  return src(paths.svgs.input)
+    .pipe(through2.obj(function (file, enc, cb) {
+      if (!file.isBuffer()) return cb(null, file)
+
+      getSvgo()
+        .then(({ optimize }) => {
+          const input = file.contents.toString('utf8')
+          const result = optimize(input, { path: file.path })
+          file.contents = Buffer.from(result.data, 'utf8')
+          cb(null, file)
+        })
+        .catch(cb)
+    }))
     .pipe(dest(paths.svgs.output))
-
-  // Signal completion
-  done()
 }
 
 // Copy third-party dependencies from node_modules into resources
-const vendorFiles = function (done) {
-  // Make sure this feature is activated before running
-  if (!settings.vendor) return done()
+const vendorFiles = async function () {
+  if (!settings.vendor) return
 
   // TODO ensure each declared third-parrty dep has a corresponding command below
   // TODO modernizr@2 needs refactor via npm or gulp-modernizr
-  const deps = pkg.dependencies.length
 
+  await finished(src(['node_modules/bootstrap/dist/js/bootstrap.min.*', 'node_modules/@popperjs/core/dist/umd/popper.min.*', 'node_modules/@highlightjs/cdn-assets/highlight.min.js', 'node_modules/@highlightjs/cdn-assets/languages/xquery.min.js', 'node_modules/@highlightjs/cdn-assets/languages/dockerfile.min.js'])
+    .pipe(dest(paths.scripts.output)))
 
-  // copy vendor scripts
-  src(['node_modules/bootstrap/dist/js/bootstrap.min.*', 'node_modules/@popperjs/core/dist/umd/popper.min.*', 'node_modules/@highlightjs/cdn-assets/highlight.min.js', 'node_modules/@highlightjs/cdn-assets/languages/xquery.min.js', 'node_modules/@highlightjs/cdn-assets/languages/dockerfile.min.js'])
-    .pipe(dest(paths.scripts.output))
+  await finished(src(['node_modules/@highlightjs/cdn-assets/languages/xquery.min.js', 'node_modules/@highlightjs/cdn-assets/languages/dockerfile.min.js', 'node_modules/@highlightjs/cdn-assets/languages/apache.min.js', 'node_modules/@highlightjs/cdn-assets/languages/http.min.js', 'node_modules/@highlightjs/cdn-assets/languages/nginx.min.js'])
+    .pipe(dest(paths.scripts.output)))
 
-  // copy pre-packed lang definitions for code highlighter
-  // CSS Bash Makefile Diff JSON Markdown Perl SQL Shell Properties Less SCSS Puppet'
-  src(['node_modules/@highlightjs/cdn-assets/languages/xquery.min.js', 'node_modules/@highlightjs/cdn-assets/languages/dockerfile.min.js', 'node_modules/@highlightjs/cdn-assets/languages/apache.min.js', 'node_modules/@highlightjs/cdn-assets/languages/http.min.js', 'node_modules/@highlightjs/cdn-assets/languages/nginx.min.js'])
-  .pipe(dest(paths.scripts.output))
-
-  // copy vendor Styles
-  src(['node_modules/bootstrap/dist/css/bootstrap.min.*', 'node_modules/@highlightjs/cdn-assets/styles/atom-one-dark.min.css'])
-    .pipe(dest(paths.styles.output))
-
-  // Signal completion
-  done()
+  await finished(src(['node_modules/bootstrap/dist/css/bootstrap.min.*', 'node_modules/@highlightjs/cdn-assets/styles/atom-one-dark.min.css'])
+    .pipe(dest(paths.styles.output)))
 }
 
 /**
  * Export Tasks
  */
 
-// Default task
-// gulp
 exports.default = series(
   cleanDist,
   vendorFiles,
   parallel(
-    buildScripts,
-    lintScripts,
     buildStyles,
     buildSVGs,
     prettyXml

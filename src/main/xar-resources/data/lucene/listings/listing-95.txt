@@ -1,0 +1,11 @@
+(: 1) Ensure the model is in the global registry (conf.xml):
+(:    <vector-models>
+(:      <model id="all-MiniLM-L6-v2" path="onnx-models/all-MiniLM-L6-v2" dimension="384"/>
+(:    </vector-models>
+:
+(: 2) Index-time embedding is enabled in collection.xconf via embedding="local" (see listing-94.xml).
+
+(: 3) Query-time: use vector:embed to create a query vector, then call ft:query-vector :)
+let $vec := vector:embed("user search query", "all-MiniLM-L6-v2")
+return
+    //article[ft:query-vector(., $vec, 10)]

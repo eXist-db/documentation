@@ -32,6 +32,10 @@
                         the data directly from the low-level database files. It is therefore much
                         faster then a client-side backup and also provides support for incremental
                         backups.</para>
+                    <para>This includes the database’s index-related on-disk structures (for example
+                        <literal>.dbx</literal> stores used by indexing modules). If Lucene vector
+                        indexing is enabled with <code>vector-store="db"</code>, this includes
+                        <literal>vector.dbx</literal>.</para>
                     <para>A server-side backup guarantees that the database is in a consistent state
                         during backup. Possible corruptions in the database will be detected and the
                         backup process will try to work around them. In many cases, damaged
@@ -470,6 +474,9 @@
                         <literal>.log</literal> files. <emphasis role="bold">This means removing all
                         your old data!</emphasis> eXist will recreate those files upon the next
                         restart.</para>
+                    <para>This includes any additional index stores created by optional indexing
+                        modules, such as <literal>vector.dbx</literal> when Lucene vector indexing is
+                        enabled with <code>vector-store="db"</code>.</para>
                 </listitem>
                 <listitem>
                     <para>Start eXist again and launch a restore.</para>
