@@ -43,7 +43,7 @@ declare function diag:diagnose($node as node(), $model as map(*)) as element()*
       <li>
       {
         <h3><code>{substring-after($uri, $config:data-root || '/')}</code></h3>,
-        local:diagnose-document($doc)
+        diag:diagnose-document($doc)
       }
       </li>
   }
@@ -53,7 +53,7 @@ declare function diag:diagnose($node as node(), $model as map(*)) as element()*
 (:============================================================================:)
 (:== LOCALS: ==:)
 
-declare function local:diagnose-document($doc as document-node()) as element()*
+declare function diag:diagnose-document($doc as document-node()) as element()*
 {
   (: Create a table with all outgoing links and analyze them: :)
   <table border="1">
@@ -73,8 +73,8 @@ declare function local:diagnose-document($doc as document-node()) as element()*
        <td>
        {
           switch ($link-type)
-            case $diag:link-resource return local:check-link-resource($doc, $link)
-            case $diag:link-article return local:check-link-article($doc, $link)
+            case $diag:link-resource return diag:check-link-resource($doc, $link)
+            case $diag:link-article return diag:check-link-article($doc, $link)
             case $diag:link-external return 'Not checked'
             case $diag:link-computed return 'Not checked'
             case $diag:link-unknown return 'Not checked'
@@ -95,14 +95,14 @@ declare function local:diagnose-document($doc as document-node()) as element()*
     </tr>
     {
       let $base-collection as xs:string := rvds:get-path-component(string(base-uri($doc)))
-      for $rel-resource-link in local:get-relative-resource-links($base-collection, ())
+      for $rel-resource-link in diag:get-relative-resource-links($base-collection, ())
       order by $rel-resource-link
       return
         <tr>
           <td><code>{$rel-resource-link}</code></td>
           <td>
           {
-            if (local:resource-link-exists($doc, $rel-resource-link))
+            if (diag:resource-link-exists($doc, $rel-resource-link))
               then $diag:ok-prompt
               else ($diag:error-prompt, ' Not referenced')
           }
@@ -114,7 +114,7 @@ declare function local:diagnose-document($doc as document-node()) as element()*
 
 (:----------------------------------------------------------------------------:)
 
-declare function local:get-relative-resource-links($collection-abs as xs:string, $collection-rel as xs:string?) as xs:string*
+declare function diag:get-relative-resource-links($collection-abs as xs:string, $collection-rel as xs:string?) as xs:string*
 (: Get a list of all (relative) resource links underneath (not in) a collection: :)
 {
   for $sub-collection in xmldb:get-child-collections($collection-abs)
@@ -124,13 +124,13 @@ declare function local:get-relative-resource-links($collection-abs as xs:string,
     (
       for $resource in xmldb:get-child-resources($sub-collection-abs)
         return $sub-collection-rel || '/' || $resource,
-      local:get-relative-resource-links($sub-collection-abs, $sub-collection-rel)
+      diag:get-relative-resource-links($sub-collection-abs, $sub-collection-rel)
     )
 };
 
 (:----------------------------------------------------------------------------:)
 
-declare function local:resource-link-exists($doc as document-node(), $rel-link as xs:string) as xs:boolean
+declare function diag:resource-link-exists($doc as document-node(), $rel-link as xs:string) as xs:boolean
 (: Rough computation whether a resource is referenced in a document: :)
 {
   $rel-link = (data($doc//@xlink:href), data($doc//@fileref))
@@ -138,7 +138,7 @@ declare function local:resource-link-exists($doc as document-node(), $rel-link a
 
 (:----------------------------------------------------------------------------:)
 
-declare function local:check-link-resource($from as document-node(), $link as xs:string) as item()*
+declare function diag:check-link-resource($from as document-node(), $link as xs:string) as item()*
 (: Checks whether a link to a resource actulaly exists: :)
 {
   let $full-collection := util:collection-name($from) || '/' || rvds:get-path-component($link)
@@ -153,7 +153,7 @@ declare function local:check-link-resource($from as document-node(), $link as xs
 
 (:----------------------------------------------------------------------------:)
 
-declare function local:check-link-article($doc as document-node(), $link as xs:string) as item()*
+declare function diag:check-link-article($doc as document-node(), $link as xs:string) as item()*
 (: Checks whether a link to some other article is ok (including its anchor): :)
 {
   let $link-no-anchor := rvds:link-no-anchor($link)
