@@ -71,7 +71,10 @@ const {
 const rename = require('gulp-rename')
 const header = require('gulp-header')
 const pkg = require('./package.json')
-const muxml = require('gulp-muxml')
+const { finished } = require('stream/promises')
+const concatStream = require('concat-stream')
+const intoStream = require('into-stream')
+const muxmlCore = require('muxml')
 
 // Styles
 const sass = require('gulp-sass')(require('sass'))
@@ -99,6 +102,43 @@ async function getSvgo () {
   return svgoApi
 }
 
+const MUXML_OPTS = {
+  stripComments: false,
+  stripCdata: false,
+  stripInstruction: false,
+  saxOptions: {
+    trim: true,
+    normalize: true
+  }
+}
+
+/** muxml + concat-stream can yield a string; Vinyl requires Buffer | Stream | null */
+function toVinylContents (data) {
+  if (data == null) return Buffer.alloc(0)
+  if (Buffer.isBuffer(data)) return data
+  if (data instanceof Uint8Array) return Buffer.from(data)
+  return Buffer.from(String(data), 'utf8')
+}
+
+/** Drop-in for gulp-muxml that satisfies Vinyl 2+ file.contents rules */
+function prettyMuxml () {
+  return through2.obj(function (file, enc, cb) {
+    if (file.isNull()) return cb(null, file)
+    if (file.isStream()) {
+      file.contents = file.contents.pipe(muxmlCore(MUXML_OPTS))
+      return cb(null, file)
+    }
+    if (!file.isBuffer()) return cb(null, file)
+
+    const m = intoStream(file.contents).pipe(muxmlCore(MUXML_OPTS))
+    m.on('error', cb)
+    m.pipe(concatStream(function (data) {
+      file.contents = toVinylContents(data)
+      cb(null, file)
+    }))
+  })
+}
+
 /**
  * Gulp Tasks
  */
@@ -114,26 +154,17 @@ const cleanDist = async function () {
 
 // pretty print all xml listings
 // articles not yet decided
-const prettyXml = function (done) {
-  src(paths.xml.listings, { base: './' })
-    .pipe(muxml({
-      stripComments: false,
-      stripCdata: false,
-      stripInstruction: false,
-      saxOptions: {
-        trim: true,
-        normalize: true
-      }
-    }))
+const prettyXml = function () {
+  return src(paths.xml.listings, { base: './' })
+    .pipe(prettyMuxml())
     .pipe(dest('./'))
-  done()
 }
 
 // Process, lint, and minify Sass files
-const buildStyles = async function () {
-  if (!settings.styles) return
+const buildStyles = function () {
+  if (!settings.styles) return Promise.resolve()
 
-  src(paths.styles.input)
+  return src(paths.styles.input)
     .pipe(sourcemaps.init())
     .pipe(sass({
       outputStyle: 'expanded',
@@ -176,22 +207,20 @@ const buildSVGs = function () {
 }
 
 // Copy third-party dependencies from node_modules into resources
-const vendorFiles = function (done) {
-  if (!settings.vendor) return done()
+const vendorFiles = async function () {
+  if (!settings.vendor) return
 
   // TODO ensure each declared third-parrty dep has a corresponding command below
   // TODO modernizr@2 needs refactor via npm or gulp-modernizr
 
-  src(['node_modules/bootstrap/dist/js/bootstrap.min.*', 'node_modules/@popperjs/core/dist/umd/popper.min.*', 'node_modules/@highlightjs/cdn-assets/highlight.min.js', 'node_modules/@highlightjs/cdn-assets/languages/xquery.min.js', 'node_modules/@highlightjs/cdn-assets/languages/dockerfile.min.js'])
-    .pipe(dest(paths.scripts.output))
+  await finished(src(['node_modules/bootstrap/dist/js/bootstrap.min.*', 'node_modules/@popperjs/core/dist/umd/popper.min.*', 'node_modules/@highlightjs/cdn-assets/highlight.min.js', 'node_modules/@highlightjs/cdn-assets/languages/xquery.min.js', 'node_modules/@highlightjs/cdn-assets/languages/dockerfile.min.js'])
+    .pipe(dest(paths.scripts.output)))
 
-  src(['node_modules/@highlightjs/cdn-assets/languages/xquery.min.js', 'node_modules/@highlightjs/cdn-assets/languages/dockerfile.min.js', 'node_modules/@highlightjs/cdn-assets/languages/apache.min.js', 'node_modules/@highlightjs/cdn-assets/languages/http.min.js', 'node_modules/@highlightjs/cdn-assets/languages/nginx.min.js'])
-    .pipe(dest(paths.scripts.output))
+  await finished(src(['node_modules/@highlightjs/cdn-assets/languages/xquery.min.js', 'node_modules/@highlightjs/cdn-assets/languages/dockerfile.min.js', 'node_modules/@highlightjs/cdn-assets/languages/apache.min.js', 'node_modules/@highlightjs/cdn-assets/languages/http.min.js', 'node_modules/@highlightjs/cdn-assets/languages/nginx.min.js'])
+    .pipe(dest(paths.scripts.output)))
 
-  src(['node_modules/bootstrap/dist/css/bootstrap.min.*', 'node_modules/@highlightjs/cdn-assets/styles/atom-one-dark.min.css'])
-    .pipe(dest(paths.styles.output))
-
-  done()
+  await finished(src(['node_modules/bootstrap/dist/css/bootstrap.min.*', 'node_modules/@highlightjs/cdn-assets/styles/atom-one-dark.min.css'])
+    .pipe(dest(paths.styles.output)))
 }
 
 /**
