@@ -217,6 +217,28 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
+                <term> <code>jetty.http.maxFormContentSize</code></term>
+                <listitem>
+                    <para>maximum size (in bytes) of an
+                        <literal>application/x-www-form-urlencoded</literal> request body
+                        before Jetty rejects it with HTTP 400 <emphasis>Unable to parse form
+                            content</emphasis>. Default is 200000 (~200 KB), which matches
+                        Jetty's own default. Raise this when the eXist server receives large
+                        form uploads (eXide editor saves, REST/RESTXQ form-encoded posts,
+                        bulk admin actions).</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term> <code>jetty.http.maxFormKeys</code></term>
+                <listitem>
+                    <para>maximum number of distinct keys in an
+                        <literal>application/x-www-form-urlencoded</literal> request body.
+                        Default is 1000, matching Jetty's own default. Most deployments will
+                        not need to change this; raise it if you see HTTP 400 form-parsing
+                        failures on requests with very many parameters.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
                 <term> <code>JAVA_OPTS='-Djetty.host=127.0.0.1 -Djetty.http.port=9999' startup.sh</code>
                 </term>
                 <listitem>
