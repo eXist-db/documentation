@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>XML Validation</title>
-        <date>4Q25</date>
+        <date>2Q26</date>
         <keywordset>
             <keyword>application-development</keyword>
         <keyword>testing</keyword>
@@ -109,9 +109,9 @@
             <para>All grammars (XML schema, DTD) used for implicit validation must be registered
                 with eXist using <link condition="_blank"
                 xlink:href="https://www.oasis-open.org/committees/download.php/14809/xml-catalogs.html"
-                >OASIS catalog</link> files. The actual resolving is performed by the Apache <link
-                condition="_blank" xlink:href="https://xml.apache.org/commons/components/resolver/"
-                >xml-commons resolver</link> library.</para>
+                >OASIS catalog</link> files. The actual resolving is performed by Norman Walsh's
+                <link condition="_blank" xlink:href="https://github.com/xmlresolver/xmlresolver"
+                >xmlresolver</link> library.</para>
             <para>Catalogs can be stored on disk and/or in the database.</para>
             <para>It is possible to configure multiple catalog entries in <tag>entity-resolver</tag>
                 child element(s) of <tag>validation</tag> in <code>conf.xml</code>. For instance: </para>
@@ -237,6 +237,23 @@
                     </listitem>
                 </varlistentry>
             </variablelist>
+
+            <para>XSD 1.1 schemas (declaring <code>vc:minVersion="1.1"</code>) are supported
+                transparently. The bundled Xerces library only wires XSD 1.1 support into the
+                <code>javax.xml.validation</code> API, not into the dynamic-discovery parser
+                <code>jaxp()</code>/<code>jaxp-report()</code> otherwise use, so when the instance's
+                own <code>xsi:schemaLocation</code>/<code>xsi:noNamespaceSchemaLocation</code> hint
+                resolves to an XSD 1.1 schema, validation is transparently routed through the
+                <link linkend="jaxv">JAXV</link> validator pipeline instead. This also works for
+                schemas resolved purely by namespace via a directory-search (collection) catalog,
+                with no <code>schemaLocation</code> hint present. <code>$cache-grammars</code>
+                applies in both cases.</para>
+            <note>
+                <para>The schemaLocation-hint resolution that picks the XSD 1.1 pipeline only ever
+                    follows locations within the instance document's own origin (same scheme and
+                    host/port) — an absolute, cross-origin hint is never followed, since the hint
+                    is document-author-controlled.</para>
+            </note>
         </sect2>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -247,9 +264,10 @@
             <para>The JAXV validation functions are based on the <link condition="_blank"
                 xlink:href="https://docs.oracle.com/javase/10/docs/api/javax/xml/validation/package-summary.html"
                 > <code>java.xml.validation</code> </link> API which has been introduced in Java 5
-                to provide a schema-language-independent interface to validation services. Although
-                officially the specification allows use of additional schema languages, only XML
-                schemas can be really used so far. </para>
+                to provide a schema-language-independent interface to validation services, backed
+                by a pluggable <code>SchemaFactory</code> per schema language. eXist-db bundles
+                factories for XSD 1.0, XSD 1.1, and RELAX NG 1.0 — see <code>$language</code>
+                below. </para>
             <para>The <code>jaxv()</code> and <code>jaxv-report()</code> functions accept the
                 following parameters: </para>
             <variablelist>
@@ -291,6 +309,33 @@
                         </itemizedlist>
                     </listitem>
                 </varlistentry>
+                <varlistentry>
+                    <term> <code>$catalogs</code> </term>
+                    <listitem>
+                        <para>Optional. One or more OASIS catalog files referenced as
+                            <code>xs:anyURI</code>, used for resolving <code>xs:import</code>/
+                            <code>xs:include</code> inside <code>$grammars</code>. Resolution
+                            happens when the grammar is compiled (before validation runs), and
+                            follows the same rules as <code>jaxp()</code>'s <code>$catalogs</code>
+                            parameter: </para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>When passing an empty sequence <code>()</code>, the catalog
+                                    files defined in <code>conf.xml</code> are used.</para>
+                            </listitem>
+                            <listitem>
+                                <para>If the URI ends with <code>.xml</code> the specified catalog
+                                    is used.</para>
+                            </listitem>
+                            <listitem>
+                                <para>If the URI ends with <code>/</code> it is supposed to point
+                                    to a collection. The grammar files are searched in this
+                                    collection and its sub-collections by their
+                                    <code>targetNamespace</code> attribute.</para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                </varlistentry>
             </variablelist>
         </sect2>
 
@@ -301,9 +346,9 @@
 
             <para>The Jing validation functions are based on James Clark's <link condition="_blank"
                 xlink:href="http://www.thaiopensource.com/relaxng/jing.html">Jing</link> library.
-                eXist uses the maintained version that is available via <link condition="_blank"
-                xlink:href="https://code.google.com/p/jing-trang/">Google Code</link>. The library
-                relies on the <link condition="_blank"
+                eXist uses the maintained <link condition="_blank"
+                xlink:href="https://github.com/relaxng/jing-trang">jing-trang</link> fork. The
+                library relies on the <link condition="_blank"
                 xlink:href="http://www.thaiopensource.com/relaxng/api/jing/com/thaiopensource/validate/ValidationDriver.html"
                 ><code>com.thaiopensource.validate.ValidationDriver</code></link> which supports a
                 wide range of grammar types: </para>
@@ -439,9 +484,8 @@
 
         <itemizedlist>
             <listitem>
-                <para>Apache <link condition="_blank"
-                    xlink:href="https://xml.apache.org/commons/components/resolver/">xml-commons
-                    resolver</link> </para>
+                <para> <link condition="_blank"
+                    xlink:href="https://github.com/xmlresolver/xmlresolver">xmlresolver</link> </para>
             </listitem>
             <listitem>
                 <para>OASIS <link condition="_blank"
