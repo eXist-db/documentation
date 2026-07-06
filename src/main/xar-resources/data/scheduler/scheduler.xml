@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Scheduler Module</title>
-        <date>2Q19</date>
+        <date>3Q26</date>
         <keywordset>
             <keyword>operations</keyword>
             <keyword>application-development</keyword>
@@ -28,11 +28,16 @@
                     <para>Jobs may be statically scheduled by configuring them in the
                         <tag>scheduler</tag> element of eXist-db's <code>conf.xml</code>
                         configuration file. When eXist-db starts-up this configuration is read and
-                        the jobs will be scheduled with the scheduler. The configuration file
-                        contains (commented out) example jobs. An example of a scheduler
+                        the jobs will be scheduled with the scheduler. An example of a scheduler
                         entry:</para>
 
                     <programlisting language="xml" xlink:href="listings/listing-3.xml"/>
+
+                    <para>Add <code>enabled="no"</code> to a <tag>job</tag> element to keep the
+                        entry in <code>conf.xml</code> without activating it at startup. This is
+                        useful for preparing a job configuration in advance or disabling a job
+                        temporarily without losing its parameters:</para>
+                    <programlisting language="xml" xlink:href="listings/listing-4.xml"/>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -119,8 +124,8 @@
                     <para>An XQuery job is a standard XQuery Main Module which is stored in the
                         database. You configure the scheduling of the job by providing the database
                         path to the XQuery, for example: <code>/db/my-collection/my-job.xq</code>. </para>
-                    <para>XQuery job's are launched under the <emphasis>guest</emphasis> account. If
-                        you wish to perform tasks as another user , either switch permissions by
+                    <para>XQuery jobs are launched under the <emphasis>guest</emphasis> account. If
+                        you wish to perform tasks as another user, either switch permissions by
                         calling <code>xmldb:login()</code> from within your job, or set the
                         <code>SetUid</code>/<code>SetGid</code> bits on the XQuery file's
                         permissions (see <link xlink:href="security">Security</link> for more
@@ -145,13 +150,13 @@
 
     <sect1 xml:id="schedule">
         <title>Job Schedule</title>
-        <para>Job's may be scheduled using one of two mechanisms, a simple mechanism for periodic
+        <para>Jobs may be scheduled using one of two mechanisms: a simple mechanism for periodic
             execution, or a more complex mechanism which uses the Cron syntax to offer greater
             flexibility.</para>
         <sect2 xml:id="period">
             <title>Periodic Scheduling</title>
 
-            <para>For period scheduling enables you can specify for the job to run every
+            <para>Periodic scheduling lets you specify that the job runs every
                 <code>n</code> milliseconds. There are additional options to specify a delay before
                 the first execution of the job, and to only repeat the execution of the job schedule
                 a fixed number of times.</para>

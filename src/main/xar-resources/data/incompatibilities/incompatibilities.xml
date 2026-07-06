@@ -3,7 +3,7 @@
 <article version="5.0" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
   <info>
     <title>Known Issues when upgrading</title>
-    <date>1Q20</date>
+    <date>3Q26</date>
     <keywordset>
       <keyword>operations</keyword>
     </keywordset>
@@ -12,6 +12,36 @@
   <!-- ================================================================== -->
 
   <para>This article lists known incompatibilities when upgrading from an older version of eXist-db.</para>
+  <!-- ================================================================== -->
+  <sect1 xml:id="v7.0.0">
+    <title>Upgrading to 7.0.0</title>
+
+    <itemizedlist>
+      <listitem>
+        <para><emphasis role="bold">conf.xml template trimmed — SPI auto-discovery for bundled
+            modules and indexes.</emphasis> Built-in XQuery modules and index modules are now
+            auto-discovered at startup via the Java <literal>ServiceLoader</literal> mechanism.
+            The default <literal>conf.xml</literal> template no longer lists them explicitly.
+            Installations upgrading with a hand-maintained <literal>conf.xml</literal> are
+            unaffected — explicit <tag>module</tag> entries are still honoured and take
+            precedence over SPI discovery for the same namespace URI or index
+            <literal>id</literal>. To suppress a bundled module or index without removing its
+            JAR, add <code>enabled="no"</code> to its entry.</para>
+      </listitem>
+      <listitem>
+        <para><emphasis role="bold">New <code>enabled</code> attribute on
+            <code>conf.xml</code> elements.</emphasis> The <tag>trigger</tag>,
+            <tag>job</tag>, <tag>module</tag>, <tag>feature</tag>, <tag>parameter</tag>, and
+            <tag>property</tag> elements in <literal>conf.xml</literal> now accept an
+            <code>enabled="yes|no"</code> attribute (default <code>yes</code>). Setting
+            <code>enabled="no"</code> disables the entry at startup without removing it from
+            the file. Existing configuration files without the attribute continue to work
+            unchanged.</para>
+      </listitem>
+    </itemizedlist>
+
+  </sect1>
+
   <!-- ================================================================== -->
   <sect1 xml:id="v5.0.0">
     <title>Upgrading to 5.0.0</title>
