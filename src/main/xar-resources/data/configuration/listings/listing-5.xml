@@ -1,4 +1,7 @@
 <modules>
-  <module id="ngram-index" class="org.exist.indexing.ngram.NGramIndex" file="ngram.dbx" n="3"/>
-  <!-- <module id="spatial-index" class="org.exist.indexing.spatial.GMLHSQLIndex" connectionTimeout="10000" flushAfter="300" /> -->
+  <!-- Bundled indexes (lucene-index, ngram-index, range-index, sort-index) are auto-discovered at startup; no entry needed to activate them. -->
+  <!-- Optional: spatial index requires GML/HSQL JARs on the classpath. -->
+  <!-- <module id="spatial-index" class="org.exist.indexing.spatial.GMLHSQLIndex" connectionTimeout="10000" flushAfter="300"/> -->
+  <!-- To suppress a bundled index without removing this file, add enabled="no": -->
+  <!-- <module id="ngram-index" class="org.exist.indexing.ngram.NGramIndex" file="ngram.dbx" n="3" enabled="no"/> -->
 </modules>
