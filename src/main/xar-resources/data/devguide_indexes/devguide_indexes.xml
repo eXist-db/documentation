@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Developer's Guide to Modularized Indexes</title>
-        <date>2Q19</date>
+        <date>3Q26</date>
         <keywordset>
             <keyword>java-development</keyword>
             <keyword>indexes</keyword>
@@ -355,6 +355,54 @@
             <para>This is where the class identifier of the <literal>Index</literal> is defined.
                 Override this member with, say, <literal>MyClass.class.getName()</literal> to
                 provide a reasonably unique identifier within your system.</para>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="spi-registration">
+            <title>Registering an Index via ServiceLoader (SPI)</title>
+
+            <para>Since eXist-db 7.0, index modules can be auto-discovered at startup through the
+                Java <literal>ServiceLoader</literal> mechanism without requiring an explicit
+                <tag>module</tag> entry in <literal>conf.xml</literal>. This is the recommended
+                registration mechanism for bundled and reusable third-party indexes.</para>
+
+            <para>To register an index via SPI:</para>
+
+            <orderedlist>
+                <listitem>
+                    <para>Implement the <literal>org.exist.indexing.IndexFactory</literal>
+                        interface. It has a single method:</para>
+                    <programlisting>public interface IndexFactory {
+    AbstractIndex create(BrokerPool pool, Path dataDir, Element config)
+        throws DatabaseConfigurationException;
+    String getId();
+}</programlisting>
+                    <para><literal>getId()</literal> must return the same stable identifier as
+                        <literal>AbstractIndex.getIndexId()</literal> in the index it creates.
+                        <literal>create()</literal> constructs and configures the index.</para>
+                </listitem>
+                <listitem>
+                    <para>Register the factory in the JAR's service descriptor. Create the file
+                        <literal>META-INF/services/org.exist.indexing.IndexFactory</literal>
+                        containing the fully-qualified class name of your factory, one per line:</para>
+                    <programlisting>com.example.myindex.MyIndexFactory</programlisting>
+                </listitem>
+                <listitem>
+                    <para>At startup, <literal>IndexManager</literal> scans all JARs on the
+                        classpath for <literal>IndexFactory</literal> providers and calls
+                        <literal>create()</literal> for each one whose
+                        <literal>id</literal> has not been mentioned in <literal>conf.xml</literal>
+                        (either as an active entry or as <code>enabled="no"</code>). The scan
+                        runs once inside the <literal>Configuration</literal> constructor —
+                        there is no per-query overhead.</para>
+                </listitem>
+            </orderedlist>
+
+            <para>An explicit <tag>module</tag> entry in <literal>conf.xml</literal> for the same
+                <literal>id</literal> always takes precedence over SPI discovery. To suppress a
+                SPI-registered index without removing its JAR, add a
+                <tag>module</tag> entry with <code>enabled="no"</code>.</para>
         </sect2>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
