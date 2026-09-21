@@ -685,14 +685,25 @@
                             parameter. eXist-db's node trees do, however, record where a CDATA
                             section was, and setting <literal>preserve-cdata=yes</literal> tells the
                             serializer to use that record.</para>
-                        <para>The default is <code>no</code>, which is the behavior the
-                            specification prescribes: the text is written out with <code>&lt;</code>,
-                            <code>&gt;</code> and <code>&amp;</code> escaped as character
-                            references. Either way the string value of the text node is the same —
-                            only its lexical form in the output differs — so this parameter matters
-                            when the output is read by something that treats the two forms
-                            differently, such as a browser parsing an inline <tag>script</tag> or
-                            <tag>style</tag> element.</para>
+                        <para>The default is <code>yes</code>. That is a deliberate divergence
+                            from the specification, which prescribes escaping here; it is the
+                            default because the alternative is more surprising in practice.
+                            Retrieving a stored document already preserved its CDATA sections while
+                            returning the same document from a query did not, so a document
+                            round-tripped through an editor lost them. Set the parameter to
+                            <code>no</code> for strictly specified output, in which the text is
+                            written out with <code>&lt;</code>, <code>&gt;</code> and
+                            <code>&amp;</code> escaped as character references.</para>
+                        <para>Either way the string value of the text node is the same — only its
+                            lexical form in the output differs — so this parameter matters when the
+                            output is read by something that treats the two forms differently.</para>
+                        <para>It applies only to a CDATA section that was present in a parsed or
+                            stored document. A CDATA section written in query source is an escaping
+                            convenience, letting an author type <code>&lt;</code> and
+                            <code>&gt;</code> without character references, and contributes an
+                            ordinary text node — so this parameter never introduces a CDATA section
+                            into constructed content, where it would be wrong inside an HTML5
+                            <tag>script</tag> or <tag>style</tag> element.</para>
                     </listitem>
                 </varlistentry>
 
