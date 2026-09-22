@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Application Server Configuration</title>
-        <date>4Q25</date>
+        <date>3Q26</date>
         <keywordset>
             <keyword>operations</keyword>
         </keywordset>
@@ -21,11 +21,11 @@
     <sect1 xml:id="conf.xml">
         <title>Main configuration file</title>
 
-        <para>The main configuration file for <literal>eXist-db</literal> is called
-            <literal>conf.xml</literal>, which is loaded the root directory of the
+        <para>The main configuration file for eXist-db is called
+            <literal>conf.xml</literal>, which is loaded from the root directory of the
             distribution (as specified by the system property <literal>exist.home</literal>).</para>
 
-        <para>The configuration file <literal>conf.xml</literal> is divided into twelve
+        <para>The configuration file <literal>conf.xml</literal> is divided into thirteen
             sections:</para>
         <orderedlist>
           <listitem>
@@ -279,7 +279,7 @@
                     <varlistentry>
                         <term> <code>size</code> </term>
                         <listitem>
-                            <para>This attributes sets the maximum allowed size of the journal file.
+                            <para>This attribute sets the maximum allowed size of the journal file.
                                 Once the journal reaches this limit, a checkpoint will be triggered
                                 and the journal will be cleaned. However, the database waits for
                                 running transactions to return before processing this checkpoint. In
@@ -321,7 +321,7 @@
                                 until the current file buffer (32kb) is really full. This can speed
                                 up eXist on some systems where a file sync is an expensive operation
                                 (mainly windows XP; not necessary on Linux).</para>
-                            <para>However, <literal>group-comit="yes"</literal> will increase the
+                            <para>However, <code>group-commit="yes"</code> will increase the
                                 chance that an already committed operation is rolled back after a
                                 database crash.</para>
                         </listitem>
@@ -340,7 +340,7 @@
                         </listitem>
                     </varlistentry>
                     <varlistentry>
-                        <term>consistency-check</term>
+                        <term><code>consistency-check</code></term>
                         <listitem>
                             <para>If set to <code>yes</code>, a consistency check will be run on the
                                 database if an error was detected during crash recovery. This option
@@ -421,7 +421,7 @@
                         <para>Tracking locks via the Lock Table imposes a small overhead per-Lock. Once users
                             have finished testing their system to ensure correct operation, they may wish to disable
                             this in production to ensure the absolute best performance.</para>
-                        <note><para>Unless nessecary, it is recommened to leave this enabled.</para></note>
+                        <note><para>Unless necessary, it is recommended to leave this enabled.</para></note>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -429,7 +429,7 @@
                     <listitem>
                         <para><emphasis>Experimental:</emphasis> Causes path locks to be used for documents as well as collection locks.</para>
                         <para>This has a performance and concurrency impact, but will ensure that you cannot have deadlocks between Collections and Documents.</para>
-                        <note><para>Unless nessecary, it is recommened to leave this at its default value.</para></note>
+                        <note><para>Unless necessary, it is recommended to leave this at its default value.</para></note>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -573,8 +573,16 @@
                     be plugged into the indexing pipeline. The <tag>modules</tag> section lists and
                     configures the indexes that will be available to the database:</para>
                 <programlisting language="xml" xlink:href="listings/listing-5.xml"/>
+                <para>Since eXist-db 7.0, all bundled index modules (Lucene full-text,
+                    n-gram, range, and sort) are auto-discovered at startup via the Java
+                    <literal>ServiceLoader</literal> mechanism. You no longer need an explicit
+                    <tag>module</tag> entry in <code>conf.xml</code> to activate them. An explicit
+                    entry takes precedence over SPI auto-discovery for the same <code>id</code>.
+                    Add <code>enabled="no"</code> to an entry to suppress a bundled index without
+                    removing the element from <code>conf.xml</code>. Third-party index modules still
+                    require an explicit entry.</para>
                 <para>The only common attributes for each <tag>module</tag> element are
-                    <literal>class</literal> and <literal>id</literal>. The other attributes, as
+                    <code>class</code> and <code>id</code>. The other attributes, as
                     well as any nested elements, are specific to the index implementation. Detailed
                     information is available in the article on <link
                     xlink:href="indexing#moduleconf">Configuring Database Indexes</link>.</para>
@@ -682,7 +690,7 @@
                         <listitem>
                             <para>If the job is written in XQuery (not suitable for system jobs)
                                 this should be a path to the XQuery stored in the database, e.g.
-                                <literal>/db/myCollection/myJob.xql</literal>. XQuery job's will be
+                                <literal>/db/myCollection/myJob.xql</literal>. XQuery jobs will be
                                 launched under the <code>guest</code> account initially. The running
                                 XQuery may switch permissions through calls to
                                 <literal>xmldb:login()</literal>.</para>
@@ -726,6 +734,16 @@
                             <para>Can be used for periodic jobs to define how many periods a job
                                 should be executed. If unspecified, jobs will repeat
                                 indefinitely.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term> <code>enabled</code> </term>
+                        <listitem>
+                            <para>Set to <code>no</code> to keep the job entry in
+                                <code>conf.xml</code> without activating it. The job will not be
+                                registered with the scheduler at startup. Useful for preparing a
+                                job definition or temporarily disabling a job during testing or
+                                deployment transitions. Defaults to <code>yes</code>.</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>
@@ -792,7 +810,7 @@
                         <term> <code>indent</code> </term>
                         <listitem>
                             <para>The serializer defaults to pretty-print the resulting XML source
-                                code. Setingt this option to <literal>no</literal> disables
+                                code. Setting this option to <literal>no</literal> disables
                                 pretty-printing.</para>
                         </listitem>
                     </varlistentry>
@@ -833,8 +851,8 @@
                 document <link xlink:href="validation">XML Validation</link>.</para>
 
             <para>The <tag>grammar-cache</tag> (added in eXist-db v7.0) configures the properties of the XML parser grammar cache. The cache contains
-                compiled versions of XSD and DTD grammar files that are generated by the XML parser when the XML parser is set in validating mode.
-                Re-use of these compiled versions can accellerate the validation process significantly.
+                compiled versions of XSD and DTD grammar files that are generated by the XML parser when the XML parser is set to validating mode.
+                Re-use of these compiled versions can accelerate the validation process significantly.
             </para>
             <para>
                 The following items can be configured:
@@ -849,7 +867,7 @@
                             <para>Specifies the maximum number of entries the cache may contain. The following values can be used: </para>
                             <itemizedlist>
                                 <listitem>
-                                    <para> <code> 0</code>: grammars will be evicted immediately after being loaded into the cache.</para>
+                                    <para> <code>0</code>: grammars will be evicted immediately after being loaded into the cache.</para>
                                 </listitem>
                                 <listitem>
                                     <para> <code>-1</code>: no maximum for the number of cached grammars.</para>
@@ -863,7 +881,7 @@
                         <term> <code>expire</code> </term>
                         <listitem>
                             <para>The time (in seconds) after which an unused grammar should expire and be removed
-                                from the grammar pool. For value <literal>-1</literal> grammars will not be removed over time.</para>
+                                from the grammar pool. For value <literal>-1</literal>, grammars will not be removed over time.</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>
@@ -997,7 +1015,7 @@
                         </listitem>
                     </varlistentry>
                     <varlistentry>
-                        <term> <code>enable-query-rewriting</code>o</term>
+                        <term> <code>enable-query-rewriting</code> </term>
                         <listitem>
                             <para>the query engine can often achieve considerable performance
                                 improvements by rewriting an XQuery expression into a more efficient
@@ -1012,7 +1030,7 @@
                     <varlistentry>
                         <term> <code>backwardCompatible</code> </term>
                         <listitem>
-                            <para>|Set to <code>yes</code> to enable XPath 1.0 backwards
+                            <para>Set to <code>yes</code> to enable XPath 1.0 backwards
                                 compatibility. The setting mainly effects automatic type
                                 conversions, which were less strict in XPath 1.0 than in later
                                 versions.</para>
@@ -1026,7 +1044,18 @@
 
                 <para>This section lists the XQuery extension modules which will be known to the
                     query engine. The modules in this list can be imported into a query without
-                    specifying a location. For example:</para>
+                    specifying a location.</para>
+
+                <para>Since eXist-db 7.0, all bundled XQuery extension modules are auto-discovered
+                    at startup via the Java <literal>ServiceLoader</literal> mechanism — no
+                    <tag>module</tag> entry is required to activate them. An explicit entry in
+                    <tag>builtin-modules</tag> takes precedence over SPI for the same namespace URI,
+                    allowing you to override the implementing class or supply module parameters.
+                    Add <code>enabled="no"</code> to suppress a bundled module without removing it
+                    from the configuration:</para>
+                <programlisting language="xml" xlink:href="listings/listing-15.xml"/>
+                <para>Third-party modules that are not bundled with eXist-db still require an
+                    explicit entry, for example:</para>
                 <programlisting language="xml" xlink:href="listings/listing-9.xml"/>
                 <para>This establishes a static mapping between the module URI for the file module
                     and the Java class which implements it. When using that module, it is sufficient
@@ -1054,6 +1083,11 @@
                     as a local ONNX model path or an HTTP API base URL. Per-collection Lucene index
                     configuration can still reference models by id (for example in a
                     <tag>vector-field</tag> element’s <code>model</code> attribute).</para>
+
+                <para>The entire registry can be disabled without removing it from
+                    <code>conf.xml</code> by setting <code>enabled="no"</code> on the
+                    <tag>vector-models</tag> element. When disabled, the vector embedding module
+                    falls back to resolving models by explicit path only.</para>
 
                 <example>
                     <title>Registering embedding models in conf.xml</title>
@@ -1114,11 +1148,9 @@
             <sect3 xml:id="content-file">
                 <title> <tag>rpc-server</tag>/<tag>content-file</tag> element</title>
 
-                <para>This element configures the maximum amount of data in bytes held in the heap space before
-                    the data is moved to the temporary disk space. While using memory improves the performance
-                    and not triggering eventually existing virus scanners it comes with the cost of heap size usage.
-                    The location, size and other parameters for this file can be set using the
-                    <tag>content-file</tag> element.</para>
+                <para>This element configures the threshold at which data held in heap memory is spilled to
+                    temporary disk space. Keeping data in memory improves performance and avoids triggering
+                    antivirus scanners, but increases heap usage.</para>
                 <para> <tag>content-file</tag> Attributes:</para>
                 <variablelist>
                     <varlistentry>
@@ -1134,13 +1166,11 @@
             <sect3 xml:id="content-file-pool">
                 <title> <tag>rpc-server</tag>/<tag>content-file-pool</tag> element</title>
 
-                <para>This element configures the pool used to hold the content file entries in order to reuse the once
-                    initialized instances to further improve the performance and to limit the amount of used heap size.
-                    To calculate the maximum size of used memory the maximum in memory size of a single content file has
-                    to be multiplied by the size of the pool.
-                    The location, size and other parameters for this file can be set using the
-                    <tag>content-file-pool</tag> element.</para>
-                <para> <tag>content-file</tag> Attributes:</para>
+                <para>This element configures the pool of reusable <tag>content-file</tag> instances. Reusing
+                    instances improves performance and caps heap consumption. To estimate the maximum memory
+                    footprint, multiply the <code>max-in-memory-size</code> value by the pool
+                    <code>size</code>.</para>
+                <para> <tag>content-file-pool</tag> Attributes:</para>
                 <variablelist>
                     <varlistentry>
                         <term> <code>size</code> </term>

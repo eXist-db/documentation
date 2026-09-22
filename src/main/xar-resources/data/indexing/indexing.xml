@@ -3,7 +3,7 @@
         schematypens="http://purl.oclc.org/dsdl/schematron"?><article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
     <info>
         <title>Configuring Database Indexes</title>
-        <date>2Q21</date>
+        <date>3Q26</date>
         <keywordset>
             <keyword>application-development</keyword>
         </keywordset>
@@ -284,13 +284,20 @@
 
     <sect1 xml:id="moduleconf">
         <title>Enabling Index Modules</title>
-        <para> To activate an index plug-in, it needs to be added to the <tag>modules</tag> section
-            within the global configuration file <literal>conf.xml</literal>:</para>
+        <para>Since eXist-db 7.0, bundled index modules (Lucene, ngram, range, sort) are
+            auto-discovered at startup via the Java <literal>ServiceLoader</literal> mechanism. No
+            <tag>module</tag> entry in <literal>conf.xml</literal> is required to activate them.
+            Third-party index modules (not bundled with eXist-db) still require an explicit
+            <tag>module</tag> entry in the <tag>modules</tag> section of
+            <literal>conf.xml</literal>:</para>
 
         <programlisting language="xml" xlink:href="listings/listing-8.xml"/>
 
-        <para>Every <tag>module</tag> element needs at least an <literal>id</literal> and
-            <literal>class</literal> attribute. The class attribute contains the name of the plug-in
+        <para>An explicit <tag>module</tag> entry always takes precedence over SPI
+            auto-discovery for the same <code>id</code>. To suppress a bundled index without
+            removing its JAR from the classpath, add <code>enabled="no"</code> to the entry.</para>
+        <para>Every <tag>module</tag> element needs at least an <code>id</code> and
+            <code>class</code> attribute. The class attribute contains the name of the plug-in
             class, which has to be an implementation of
             <literal>org.exist.indexing.Index</literal>.</para>
         <para>All other attributes or nested configuration elements below the <tag>module</tag>

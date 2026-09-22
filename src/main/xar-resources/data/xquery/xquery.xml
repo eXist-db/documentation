@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>XQuery in eXist-db</title>
-        <date>1Q26</date>
+        <date>3Q26</date>
         <keywordset>
             <keyword>xquery</keyword>
         </keywordset>
@@ -270,9 +270,13 @@
             <title>Preloaded Modules</title>
 
             <para>Preloaded modules do not need to be explicitly imported or declared in the prolog
-                of queries. The <tag>builtin-modules</tag> element in <literal>conf.xml</literal>
-                lists the namespaces and the corresponding Java class that implements all modules to
-                be preloaded:</para>
+                of queries. Since eXist-db 7.0, bundled modules are auto-discovered at startup via
+                the Java <literal>ServiceLoader</literal> mechanism — no <tag>builtin-modules</tag>
+                entry in <literal>conf.xml</literal> is required to activate them.</para>
+            <para>An explicit <tag>module</tag> entry in <tag>builtin-modules</tag> always takes
+                precedence over SPI auto-discovery for the same namespace URI. Third-party modules
+                still require an explicit entry. To suppress a bundled module without removing its
+                JAR, set <code>enabled="no"</code> on its <tag>module</tag> entry:</para>
             <programlisting language="xml" xlink:href="listings/listing-17.xml" />
         </sect2>
 

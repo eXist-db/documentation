@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Extension Modules</title>
-        <date>2Q21</date>
+        <date>3Q26</date>
         <keywordset>
             <keyword>java-development</keyword>
         </keywordset>
@@ -36,15 +36,20 @@
             may then be added to <literal>$EXIST_HOME/extensions/indexes/pom.xml</literal>. They
             will be compiled automatically by the standard build targets or as indicated
             above.</para>
-        <para>eXist-db must also be told which modules to load at startup, this is done in
-                <literal>conf.xml</literal> and the Class name and Namespace for each module is
-            listed below. </para>
+        <para>Since eXist-db 7.0, bundled extension modules are auto-discovered at startup via
+            the Java <literal>ServiceLoader</literal> mechanism — no <literal>conf.xml</literal>
+            entry is needed to activate them. Third-party modules (not bundled with eXist-db)
+            still require an explicit <tag>module</tag> entry in the
+            <tag>builtin-modules</tag> section of <literal>conf.xml</literal>. An explicit entry
+            always takes precedence over SPI auto-discovery for the same namespace URI; set
+            <code>enabled="no"</code> on an entry to suppress a bundled module. The class name
+            and namespace for each module are listed below.</para>
         <note>
             <para>eXist-db will require a restart to load any new modules added. </para>
         </note>
-        <para>Once a Module is configured and loaded eXist-db will display the module and its
+        <para>Once a module is configured and loaded, eXist-db will display the module and its
             function definitions as part of the <link xlink:href="{${fundocs.pkg.abbrev}}">function
-            library</link> page or through <literal>util:decribe-function()</literal>.</para>
+            library</link> page or through <literal>util:describe-function()</literal>.</para>
     </sect1>
 
     <!-- ================================================================== -->
@@ -80,12 +85,12 @@
                 </listitem>
             </itemizedlist>
             <para>
-                The Cache module can be configured for with a bounded size, or time, or both. eXist-db cannot
+                The Cache module can be configured with a bounded size, or time, or both. eXist-db cannot
                 know how much memory the data you will put in the cache will take, so it is up to you to
                 manage your own memory needs here.
             </para>
             <para>A named cache can either be explicitly created by calling the <code>cache:create</code> XQuery
-                function, or it can be implicitly created lazing on the first operation performed on the cache.
+                function, or it can be implicitly created lazily on the first operation performed on the cache.
                 Configuration of the Cache module is specified within the module definition of eXist-db's
                 <code>conf.xml</code> file:</para>
             <programlisting language="xml" xlink:href="listings/listing-2.xml"/>
@@ -116,7 +121,7 @@
                 </listitem>
             </itemizedlist>
             <para>
-                The SQL Module can be configured with additional which allow Connection Pooling of the SQL connections to be utilised.
+                The SQL Module can be configured with additional options that enable connection pooling for SQL connections.
                 For this purpose the <link xlink:href="https://github.com/brettwooldridge/HikariCP">HikariCP</link> connection pool implementation is used.
             </para>
             <para>Multiple connection pools can be configured and used from XQuery via the <code>sql:get-connection-from-pool</code> function.</para>
