@@ -73,7 +73,9 @@ const header = require('gulp-header')
 const pkg = require('./package.json')
 const { finished } = require('stream/promises')
 const concatStream = require('concat-stream')
-const intoStream = require('into-stream')
+// into-stream@9 / through2@5 are ESM; require(esm) yields the module namespace
+const intoStream = require('into-stream').default
+const { objectTransform } = require('through2')
 const muxmlCore = require('muxml')
 
 // Styles
@@ -82,9 +84,6 @@ const postcss = require('gulp-postcss')
 const autoprefixer = require('autoprefixer')
 const cssnano = require('cssnano')
 const sourcemaps = require('gulp-sourcemaps')
-
-// SVGs
-const through2 = require('through2')
 
 let delApi
 async function getDel () {
@@ -122,7 +121,7 @@ function toVinylContents (data) {
 
 /** Drop-in for gulp-muxml that satisfies Vinyl 2+ file.contents rules */
 function prettyMuxml () {
-  return through2.obj(function (file, enc, cb) {
+  return objectTransform(function (file, enc, cb) {
     if (file.isNull()) return cb(null, file)
     if (file.isStream()) {
       file.contents = file.contents.pipe(muxmlCore(MUXML_OPTS))
@@ -191,7 +190,7 @@ const buildSVGs = function () {
   if (!settings.svgs) return Promise.resolve()
 
   return src(paths.svgs.input)
-    .pipe(through2.obj(function (file, enc, cb) {
+    .pipe(objectTransform(function (file, enc, cb) {
       if (!file.isBuffer()) return cb(null, file)
 
       getSvgo()
