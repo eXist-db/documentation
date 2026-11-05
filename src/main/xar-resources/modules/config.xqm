@@ -72,14 +72,16 @@ declare function config:expath-descriptor() as element(expath:package) {
 (:----------------------------------------------------------------------------:)
 
 declare %templates:wrap function config:app-title($node as node(), $model as map(*)) as xs:string {
-  let $doc-uri := request:get-uri()
-  let $doc-path := concat(replace(replace($doc-uri, '^/exist/', '/db/'), concat('^(.*)', '/', '.*'), '$1'), '/data/', replace($doc-uri, concat('^.*', '/'), ''))
-  let $doc-title := doc($doc-path)/book/bookinfo/title
-  return
-    concat($config:expath-descriptor/expath:title, if ($doc-title) then
-      ' - '
+  (: Use the controller's doc param; avoid doc() on missing paths (throws under current eXist). :)
+  let $doc := request:get-parameter("doc", ())
+  let $path := if ($doc) then $config:data-root || "/" || $doc else ()
+  let $title :=
+    if ($path and doc-available($path)) then
+      doc($path)/*:article/*:info/*:title/string()
     else
-      '', $doc-title)
+      ()
+  return
+    string-join(($config:expath-descriptor/expath:title/string(), $title)[. != ""], " - ")
 };
 
 (:----------------------------------------------------------------------------:)

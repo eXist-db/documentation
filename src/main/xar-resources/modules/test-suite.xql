@@ -131,7 +131,7 @@ function tests:toc-inline() {
  :)
 declare
 %test:name('Listing consistency')
-%test:args('backup/listings/listing-3.xml.','configuration/listings/listing-6.xml')
+%test:args('/backup/listings/listing-3.xml','/configuration/listings/listing-6.xml')
 %test:assertTrue
 function tests:equal-listing($path1 as xs:string, $path2 as xs:string) as xs:boolean {
     let $a := $config:data-root || $path1
