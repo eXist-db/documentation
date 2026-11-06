@@ -164,13 +164,50 @@
             <title>Scheduling Backups</title>
 
             <para>You can use eXist-db's <link xlink:href="configuration#scheduler">scheduler</link> to
-                schedule server-side backup and consistency check tasks. To do this, add the
-                following definition to the scheduler section in the configuration file
+                schedule server-side backup and consistency check tasks. To do this, add a job
+                definition to the scheduler section in the configuration file
                 <literal>$EXIST_HOME/etc/conf.xml</literal>.</para>
 
+            <para>eXist-db provides three related system tasks. Each uses a different parameter name
+                for its output directory; do not mix them:</para>
+            <informaltable>
+                <tgroup cols="3">
+                    <thead>
+                        <row>
+                            <entry><para>Class</para></entry>
+                            <entry><para>Directory parameter</para></entry>
+                            <entry><para>Other parameters</para></entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry><para><code>org.exist.storage.DataBackup</code></para></entry>
+                            <entry><para><literal>output-dir</literal></para></entry>
+                            <entry><para>none</para></entry>
+                        </row>
+                        <row>
+                            <entry><para><code>org.exist.storage.BackupSystemTask</code></para></entry>
+                            <entry><para><literal>dir</literal></para></entry>
+                            <entry><para><literal>suffix</literal>, <literal>prefix</literal>,
+                                <literal>collection</literal>, <literal>user</literal>,
+                                <literal>password</literal>, <literal>zip-files-max</literal></para></entry>
+                        </row>
+                        <row>
+                            <entry><para><code>org.exist.storage.ConsistencyCheckTask</code></para></entry>
+                            <entry><para><literal>output</literal></para></entry>
+                            <entry><para><literal>backup</literal>, <literal>zip</literal>,
+                                <literal>incremental</literal>, <literal>incremental-check</literal>,
+                                <literal>max</literal>, <literal>check-documents</literal></para></entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <para>Relative paths for these directory parameters are resolved against the configured
+                data directory (by default <literal>$EXIST_HOME/data</literal>, unless changed in
+                <literal>conf.xml</literal>).</para>
 
             <example>
-                <title>Job Definition in conf.xml</title>
+                <title>ConsistencyCheckTask Job Definition in conf.xml</title>
                 <programlisting language="xml" xlink:href="listings/listing-1.xml"/>
             </example>
             <para>The time/frequency of the backup is specified in the
@@ -179,14 +216,14 @@
                 the Quartz documentation about <link
                     xlink:href="http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/tutorial-lesson-06.html"
                 >CronTrigger</link> configuration. The definition in the example means every 12
-                hours, starting at midnight. </para>
-            <para>The task accepts the following parameters:</para>
+                hours, starting at midnight.</para>
+            <para><code>ConsistencyCheckTask</code> accepts the following parameters:</para>
             <variablelist>
                 <varlistentry>
                     <term>output</term>
                     <listitem>
                         <para>The directory to which the backup is written. Relative paths are
-                            interpreted relative to eXist-db's main data directory <literal>$EXIST_HOME/data</literal>.</para>
+                            interpreted relative to the configured data directory.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -231,50 +268,86 @@
                     <term>max</term>
                     <listitem>
                         <para>On incremental backup, create a full backup every
-                            <literal>max</literal> backup runs. For eaxmple, if you set the
+                            <literal>max</literal> backup runs. For example, if you set the
                             parameter to <code>2</code>, a full backup will be performed after every
                             two incremental backups.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                  <!-- or output-dir or output ? -->
+                    <term>check-documents</term>
+                    <listitem>
+                        <para>Setting this to <code>yes</code> performs additional checks on every
+                            document. This is more thorough but can be slow on large databases. The
+                            default is <code>no</code>.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+
+            <example>
+                <title>BackupSystemTask Job Definition in conf.xml</title>
+                <programlisting language="xml" xlink:href="listings/listing-3.xml"/>
+            </example>
+            <para>You can schedule more than one backup job. For example, an incremental backup
+                could be done every few minutes while a full backup is created once during the
+                night.</para>
+            <para><code>BackupSystemTask</code> creates an XML backup of a collection. It accepts
+                the following parameters:</para>
+            <variablelist>
+                <varlistentry>
                     <term>dir</term>
                     <listitem>
-                        <para>The directory to store the backup in. The path is relative to exist's default data directory.</para>
+                        <para>The directory to store the backup in. Relative paths are interpreted
+                            relative to the configured data directory.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term>suffix / prefix</term>
                     <listitem>
-                        <para>Start and end of the filename for a zipped backup.</para>
+                        <para>Start and end of the filename for a zipped backup. If
+                            <literal>suffix</literal> ends with <literal>.zip</literal>, the backup
+                            is written directly into a zip file; otherwise it is written as a
+                            directory.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term>collection</term>
                     <listitem>
-                        <para>The name of the instances' collection to be included in the backup.</para>
+                        <para>The collection to include in the backup, as an absolute path (for
+                            example <literal>/db</literal>).</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term>user / password</term>
                     <listitem>
-                        <para>The username and password combination necessary for accessing the backup.</para>
+                        <para>The username and password used to run the backup. This usually needs
+                            to be a user in the <literal>dba</literal> group.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term>zip-files-max</term>
                     <listitem>
-                        <para>The maximum number of backups to keep in the backup location.</para>
+                        <para>The maximum number of zip backups to keep in the backup location.
+                            Older zip files are purged when this limit is exceeded.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
 
-            <note>
-                <para>You can schedule more than one backup job. For example, an incremental backup
-                    could be done multiple e.g. every two minutes while a full backup is created once during
-                    the night.</para>
-                    <programlisting language="xml" xlink:href="listings/listing-3.xml"/>
-            </note>
+            <example>
+                <title>DataBackup Job Definition in conf.xml</title>
+                <programlisting language="xml" xlink:href="listings/listing-4.xml"/>
+            </example>
+            <para><code>DataBackup</code> archives the raw database files into a timestamped zip
+                file. Unlike <code>BackupSystemTask</code>, it does not export collections as XML.
+                It accepts a single parameter:</para>
+            <variablelist>
+                <varlistentry>
+                    <term>output-dir</term>
+                    <listitem>
+                        <para>The directory to which the zip archive is written. Relative paths are
+                            interpreted relative to the configured data directory.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
         </sect2>
 
         <sect2 xml:id="trigger-xq">
