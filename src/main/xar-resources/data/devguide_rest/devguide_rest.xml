@@ -131,21 +131,6 @@
             <literal>yes</literal> or the request sets <literal>_xsl=yes</literal> (see below). As a
             consequence, the same request without <literal>_xsl</literal> may return different
             results on instances with different configurations.</para>
-        <para>At most one stylesheet is applied. eXist-db only considers
-            <literal>xml-stylesheet</literal> processing instructions that are direct children of
-            the document node (not those nested inside elements), and uses the first one that has
-            an <literal>href</literal> and a <literal>type</literal> of
-            <literal>text/xsl</literal>, <literal>application/xml</literal> or
-            <literal>application/xslt+xml</literal>. Any further stylesheet processing instructions
-            are ignored; stylesheets are not chained.</para>
-        <para>A relative <literal>href</literal> is resolved relative to the location of the source
-            document. For example, if the document
-            <literal>hamlet.xml</literal>, which is stored in
-            collection <literal>/db/shakespeare/plays</literal> contains the XSLT processing
-            instruction:</para>
-        <programlisting>&lt;?xml-stylesheet type="application/xml" href="shakes.xsl"?&gt;</programlisting>
-        <para>The database will load the stylesheet from
-            <literal>/db/shakespeare/plays/shakes.xsl</literal>.</para>
         <para> <code>GET</code> accepts the following optional request parameters (which must be
             URL-encoded):</para>
         <variablelist>
@@ -156,8 +141,12 @@
                         <code>enable-xsl</code> setting in <literal>conf.xml</literal> applies
                         (default <literal>no</literal>).</para>
                     <para>Setting <literal>_xsl</literal> to <literal>yes</literal> applies the
-                        stylesheet processing instruction of the requested document as described
-                        above, regardless of the <code>enable-xsl</code> setting.</para>
+                        stylesheet referenced by an <literal>xml-stylesheet</literal> processing
+                        instruction in the requested document, regardless of the
+                        <code>enable-xsl</code> setting. See <link
+                        xlink:href="xsl-transform#xsl-pi">Stylesheet processing instructions</link>
+                        for which processing instruction is used and how its
+                        <literal>href</literal> is resolved.</para>
                     <para>Setting <literal>_xsl</literal> to <literal>no</literal> disables any
                         stylesheet processing. This is useful for retrieving unprocessed XML from
                         documents that have a stylesheet declaration on instances where
