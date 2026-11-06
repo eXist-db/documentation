@@ -13,7 +13,9 @@
 
   <para>eXist-db can perform XSLT transformations inside XQuery code. For this you need to use the
     <code>transform</code>
-    module.</para>
+    module. The serializer can also apply a stylesheet referenced by an
+    <literal>xml-stylesheet</literal> processing instruction in a stored document, see <link
+    xlink:href="#xsl-pi">Stylesheet processing instructions</link>.</para>
 
   <!-- ================================================================== -->
 
@@ -141,6 +143,55 @@
       </para>
       <para>The servlet output stream will be closed afterwards.</para>
     </sect2>
+  </sect1>
+
+  <!-- ================================================================== -->
+
+  <sect1 xml:id="xsl-pi">
+    <title>Stylesheet processing instructions</title>
+
+    <para>An XML document stored in eXist-db may reference an XSLT stylesheet with an
+      <literal>xml-stylesheet</literal> processing instruction:</para>
+    <programlisting>&lt;?xml-stylesheet type="text/xsl" href="shakes.xsl"?&gt;</programlisting>
+    <para>When such a document is serialized, eXist-db can load the referenced stylesheet and
+      transform the document with it before returning the result. This is disabled by default. It
+      is controlled by the <code>enable-xsl</code> attribute of the <link
+      xlink:href="configuration#serializer-att">serializer</link> in <literal>conf.xml</literal>
+      (default <literal>no</literal>) and can be set per request or per query with the
+      <code>process-xsl-pi</code> <link xlink:href="xquery#exist-specific-options">serialization
+      option</link>.</para>
+    <para>The following rules apply:</para>
+    <itemizedlist>
+      <listitem>
+        <para>At most <emphasis>one</emphasis> stylesheet is applied. eXist-db does not chain
+          stylesheets: further <literal>xml-stylesheet</literal> processing instructions are
+          ignored, and the result of the transformation is not checked for processing instructions
+          again.</para>
+      </listitem>
+      <listitem>
+        <para>Only processing instructions that are direct children of the document node are
+          considered. Processing instructions nested inside elements are ignored.</para>
+      </listitem>
+      <listitem>
+        <para>The first processing instruction that has an <literal>href</literal> and a
+          <literal>type</literal> of <literal>text/xsl</literal>,
+          <literal>application/xml</literal> or <literal>application/xslt+xml</literal> is used.
+          Processing instructions with other types, such as <literal>text/css</literal>, are
+          skipped.</para>
+      </listitem>
+      <listitem>
+        <para>A relative <literal>href</literal> is resolved against the collection of the source
+          document. For example, if <literal>hamlet.xml</literal> is stored in
+          <literal>/db/shakespeare/plays</literal>, the processing instruction above loads the
+          stylesheet from <literal>/db/shakespeare/plays/shakes.xsl</literal>. An absolute URI
+          with a scheme such as <literal>http:</literal> is loaded from that location.</para>
+      </listitem>
+    </itemizedlist>
+    <note>
+      <para>A web browser receiving a document that still contains an
+        <literal>xml-stylesheet</literal> processing instruction may apply the stylesheet itself,
+        client-side.</para>
+    </note>
   </sect1>
 
   <!-- ================================================================== -->
