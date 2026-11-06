@@ -122,10 +122,25 @@
             an XML fragment. For example:</para>
         <programlisting language="xml" xlink:href="listings/listing-3.xml"/>
 
-        <para>If an <literal>xml-stylesheet</literal> processing instruction is found in a requested
-            XML document, the database will try to apply this stylesheet before returning the
-            document. A relative path will be resolved relative to the location of the source
-            document. For example, if the document <literal>hamlet.xml</literal>, which is stored in
+        <para>Whether an <literal>xml-stylesheet</literal> processing instruction found in a
+            requested XML document is applied before the document is returned depends on the
+            <code>enable-xsl</code> attribute of the <link
+            xlink:href="configuration#serializer-att">serializer</link> element in
+            <literal>conf.xml</literal>. The shipped default is <literal>no</literal>: stylesheet
+            processing instructions are only applied if <code>enable-xsl</code> is set to
+            <literal>yes</literal> or the request sets <literal>_xsl=yes</literal> (see below). As a
+            consequence, the same request without <literal>_xsl</literal> may return different
+            results on instances with different configurations.</para>
+        <para>At most one stylesheet is applied. eXist-db only considers
+            <literal>xml-stylesheet</literal> processing instructions that are direct children of
+            the document node (not those nested inside elements), and uses the first one that has
+            an <literal>href</literal> and a <literal>type</literal> of
+            <literal>text/xsl</literal>, <literal>application/xml</literal> or
+            <literal>application/xslt+xml</literal>. Any further stylesheet processing instructions
+            are ignored; stylesheets are not chained.</para>
+        <para>A relative <literal>href</literal> is resolved relative to the location of the source
+            document. For example, if the document
+            <literal>hamlet.xml</literal>, which is stored in
             collection <literal>/db/shakespeare/plays</literal> contains the XSLT processing
             instruction:</para>
         <programlisting>&lt;?xml-stylesheet type="application/xml" href="shakes.xsl"?&gt;</programlisting>
@@ -135,15 +150,23 @@
             URL-encoded):</para>
         <variablelist>
             <varlistentry>
-                <term> <code>_xsl=XSL Stylesheet</code> </term>
+                <term> <code>_xsl=yes | no | XSL Stylesheet</code> </term>
                 <listitem>
-                    <para>Applies an XSL stylesheet to the requested resource. A relative path is
-                        considered relative to the database root collection. This option will
-                        override any XSL stylesheet processing instructions found in the source XML
-                        file.</para>
+                    <para>Controls stylesheet processing for the requested resource. If omitted, the
+                        <code>enable-xsl</code> setting in <literal>conf.xml</literal> applies
+                        (default <literal>no</literal>).</para>
+                    <para>Setting <literal>_xsl</literal> to <literal>yes</literal> applies the
+                        stylesheet processing instruction of the requested document as described
+                        above, regardless of the <code>enable-xsl</code> setting.</para>
                     <para>Setting <literal>_xsl</literal> to <literal>no</literal> disables any
                         stylesheet processing. This is useful for retrieving unprocessed XML from
-                        documents that have a stylesheet declaration.</para>
+                        documents that have a stylesheet declaration on instances where
+                        <code>enable-xsl</code> is turned on.</para>
+                    <para>Any other value is taken as the path to an XSL stylesheet, which is applied
+                        to the requested resource. A relative path is considered relative to the
+                        database root collection. This option overrides any
+                        <literal>xml-stylesheet</literal> processing instruction found in the source
+                        XML file.</para>
                     <warning>
                         <para>If your document has a valid XSL stylesheet declaration, the web
                             browser may still decide to apply the XSL. In this case, passing
@@ -163,8 +186,13 @@
             <varlistentry>
                 <term> <code>_indent=yes | no</code> </term>
                 <listitem>
-                    <para>Whether to return indented pretty-printed XML. The default value is
-                        <literal>yes</literal>.</para>
+                    <para>Whether to return indented pretty-printed XML. If omitted, the
+                        <code>indent</code> setting of the serializer in
+                        <literal>conf.xml</literal> applies (shipped default
+                        <literal>yes</literal>). When a query is executed, a serialization option
+                        declared in the query (for example <code>declare option output:indent "no";</code>)
+                        takes precedence over <literal>conf.xml</literal>, while
+                        <literal>_indent</literal> takes precedence over both.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>

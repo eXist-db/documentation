@@ -135,13 +135,16 @@
         <sect2 xml:id="known-issues">
             <title>Known Issues</title>
 
-            <para>When you load an XForms document through eXist's REST interface, when the REST
-                server finds an <code>xsl-stylesheet</code> processing instruction in the document,
-                it tries to apply the referenced stylesheet server-side. Unfortunately, the default
-                serialization settings of the REST interface set <literal>indent="yes"</literal>,
-                which leads to problems with the XForms JavaScript library.</para>
+            <para>When you load an XForms document through eXist's REST interface and stylesheet
+                processing is enabled (<code>enable-xsl="yes"</code> in
+                <literal>conf.xml</literal>, or <literal>_xsl=yes</literal> on the request), the
+                REST server applies the stylesheet referenced by an <code>xml-stylesheet</code>
+                processing instruction in the document server-side. The shipped serializer default
+                in <literal>conf.xml</literal> is <literal>indent="yes"</literal>, which leads to
+                problems with the XForms JavaScript library.</para>
             <para>As a workaround, you can append a request parameter <literal>?_indent=no</literal>
-                to the REST URI. However, the recommended approach would be to use
+                to the REST URI, or set <code>indent="no"</code> for the serializer in
+                <literal>conf.xml</literal>. However, the recommended approach would be to use
                 <code>XQueryURLRewrite</code> to properly handle those requests and apply the
                 stylesheet.</para>
         </sect2>

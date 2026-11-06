@@ -778,10 +778,10 @@
                     <varlistentry>
                         <term> <code>enable-xsl</code> </term>
                         <listitem>
-                            <para>Setting this attribute to <literal>true</literal> tells the
+                            <para>Setting this attribute to <literal>yes</literal> tells the
                                 serializer to pass its output to an XSL stylesheet when it
                                 encounters an XSL processing-instruction at the start of the
-                                document.</para>
+                                document. The default is <literal>no</literal>.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
@@ -810,8 +810,8 @@
                         <term> <code>indent</code> </term>
                         <listitem>
                             <para>The serializer defaults to pretty-print the resulting XML source
-                                code. Setting this option to <literal>no</literal> disables
-                                pretty-printing.</para>
+                                code (<literal>yes</literal>). Setting this option to
+                                <literal>no</literal> disables pretty-printing.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
