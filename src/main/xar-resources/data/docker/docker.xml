@@ -154,10 +154,43 @@
         <link xlink:href="java-admin-client">Java Admin Client</link>
         from inside a Dockerfile, which in turn allows you to run any XQuery code you want when modifying the eXist-db instance that will ship with your images. You can also chain multiple RUN commands.</para>
       <warning>
-        <para>For security reasons more elaborate
-          <link xlink:href="https://docs.docker.com/engine/swarm/secrets/">techniques</link>
-          for not sharing your password in the clear are highly recommended, such as the use of secure variables inside your CI environment.</para>
+        <para>The password in the example above ends up in the image history in the clear. Do not use this for real passwords; use a
+          <link linkend="build-secret">build secret</link>
+          instead.</para>
       </warning>
+    </sect2>
+    <sect2 xml:id="build-secret">
+      <title>Setting the admin password with a build secret</title>
+      <para>The official images have no shell, so a
+        <code>RUN</code>
+        instruction cannot interpolate a password into the command line. With a
+        <link xlink:href="https://docs.docker.com/build/building/secrets/">BuildKit build secret</link>
+        mounted as an environment variable, the XQuery itself can read the password via
+        <code>environment-variable()</code>
+        (which requires a DBA user, such as
+        <literal>admin</literal>):</para>
+      <programlisting language="docker" xlink:href="listings/listing-6.txt"/>
+      <para>Pass the secret when building the image:</para>
+      <programlisting language="bash" xlink:href="listings/listing-7.txt"/>
+      <para>The plaintext password is neither stored in an image layer nor visible in
+        <code>docker history</code>
+        or
+        <code>docker inspect</code>.</para>
+      <para>A build secret only protects the plaintext. Keep the following in mind:</para>
+      <itemizedlist>
+        <listitem>
+          <para>The password <emphasis>hash</emphasis> is part of the database inside the image. Anyone who can pull the image can try to recover the password offline, so do not push such images to a public registry.</para>
+        </listitem>
+        <listitem>
+          <para>Every container started from the image shares the same admin password. Changing it requires a rebuild.</para>
+        </listitem>
+        <listitem>
+          <para>Runtime secrets, such as
+            <link xlink:href="https://docs.docker.com/engine/swarm/secrets/">Docker Swarm secrets</link>
+            mounted under
+            <literal>/run/secrets/</literal>, are not available while the image is being built.</para>
+        </listitem>
+      </itemizedlist>
     </sect2>
     <sect2 xml:id="multi-stage">
       <title>Multi-stage Images</title>

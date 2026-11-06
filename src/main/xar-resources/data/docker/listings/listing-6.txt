@@ -1,0 +1,7 @@
+# syntax=docker/dockerfile:1
+FROM existdb/existdb
+
+# the secret is exposed as an environment variable of this RUN step only
+RUN --mount=type=secret,id=admin_password,env=ADMIN_PASSWORD,required=true \
+    [ "java", "org.exist.start.Main", "client", "--no-gui", "-l", "-u", "admin", "-P", "", \
+      "-x", "sm:passwd('admin', environment-variable('ADMIN_PASSWORD'))" ]
