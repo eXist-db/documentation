@@ -778,10 +778,14 @@
                     <varlistentry>
                         <term> <code>enable-xsl</code> </term>
                         <listitem>
-                            <para>Setting this attribute to <literal>true</literal> tells the
-                                serializer to pass its output to an XSL stylesheet when it
-                                encounters an XSL processing-instruction at the start of the
-                                document.</para>
+                            <para>Setting this attribute to <literal>yes</literal> (or
+                                <literal>true</literal>) tells the serializer to pass its output to
+                                an XSL stylesheet when it encounters an XSL processing-instruction
+                                at the start of the document. The default is
+                                <literal>no</literal>. REST-style <code>GET</code> requests honour
+                                this setting when the <literal>_xsl</literal> request parameter is
+                                omitted; see <link xlink:href="devguide_rest#get-requests">GET
+                                Requests</link>.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
@@ -811,7 +815,11 @@
                         <listitem>
                             <para>The serializer defaults to pretty-print the resulting XML source
                                 code. Setting this option to <literal>no</literal> disables
-                                pretty-printing.</para>
+                                pretty-printing. REST-style <code>GET</code> requests use this
+                                value when the <literal>_indent</literal> request parameter is
+                                omitted; an explicit <literal>_indent</literal> overrides it (see
+                                <link xlink:href="devguide_rest#get-requests">GET
+                                Requests</link>).</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
