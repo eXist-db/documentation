@@ -5,7 +5,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>HTML Templating Module</title>
-        <date>3Q25</date>
+        <date>3Q26</date>
         <keywordset>
             <keyword>application-development</keyword>
         </keywordset>
@@ -531,6 +531,24 @@
             <para>Use on <tag>input</tag> and <tag>select</tag> elements: checks the HTTP request
                 for a parameter matching the name of the form control and fills it into the value of
                 an input or selects the corresponding option of a select.</para>
+        </sect2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <sect2 xml:id="copy-node">
+            <title>templates:copy-node</title>
+
+            <programlisting language="xquery">templates:copy-node</programlisting>
+            <para>Copies the current element and recursively processes its element children with
+                the current <code>$model</code>. Use this when a template function needs to keep
+                the calling element in the output and continue processing nested template
+                instructions, typically after updating the model from XQuery.</para>
+            <para>Unlike functions that go through <code>%templates:wrap</code> or
+                <code>templates:each</code>, <code>templates:copy-node</code> does
+                <emphasis>not</emphasis> strip <code>data-template</code> /
+                <code>data-template-*</code> attributes: they are copied into the output
+                verbatim. It also only recurses into element children (<code>$node/*</code>);
+                text and comment children of the calling element are dropped.</para>
         </sect2>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
