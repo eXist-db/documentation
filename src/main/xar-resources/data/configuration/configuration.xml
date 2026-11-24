@@ -228,16 +228,22 @@
                     <varlistentry>
                         <term> <code>max-stack-size</code> </term>
                         <listitem>
-                            <para>The maximum number of queries in the query-pool.</para>
+                            <para>The number of copies of the same query kept in the query-pool. The
+                                default is <code>"64"</code>. Queries cannot be shared by threads,
+                                each thread needs a private copy of a query.</para>
+                            <para>This limit is currently not enforced: the pool keeps a copy for
+                                each request that ran the query at the same time (see <link
+                                    xlink:href="https://github.com/eXist-db/exist/issues/7072"
+                                    >issue #7072</link>).</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
                         <term> <code>size</code> </term>
                         <listitem>
-                            <para>The number of copies of the same query kept in the query-pool.
-                                Value <code>"-1"</code> effectively disables caching. Queries cannot
-                                be shared by threads, each thread needs a private copy of a
-                                query.</para>
+                            <para>The maximum number of distinct queries in the query-pool. The
+                                default is <code>"128"</code>. When the pool is full, the least
+                                used queries are discarded. The value must not be negative: with a
+                                negative value, the database does not start.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
