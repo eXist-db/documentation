@@ -255,6 +255,46 @@
                                 queries to remain in the cache forever.</para>
                         </listitem>
                     </varlistentry>
+                    <varlistentry>
+                        <term> <code>eval-cache-size</code> </term>
+                        <listitem>
+                            <para>The number of compiled codes evaluated by <code>util:eval</code>
+                                with its cache flag (<code>util:eval($code, true())</code>) that
+                                each module calling it keeps for reuse, the least recently used
+                                being discarded first. Value <code>"0"</code> disables keeping them.
+                                The default is <code>"256"</code>.</para>
+                            <para>Such code is compiled in a copy of the calling module's context
+                                and uses the calling query's instances of the modules it imports,
+                                so it is kept by that context rather than in the query pool. Each
+                                copy of a query in the pool keeps its own codes, and they are
+                                discarded with it. The same code called from another module is
+                                compiled again for that module. Code evaluated with
+                                <code>util:eval-with-context</code> is still kept in the query
+                                pool.</para>
+                            <para>Only codes that are actually evaluated are kept, so unused
+                                capacity costs no memory. The memory they take is at most:</para>
+                            <programlisting>copies of the calling query in the pool
+  × modules calling util:eval with the cache flag
+  × min(distinct codes per module, eval-cache-size)
+  × size of a compiled code</programlisting>
+                            <para>The pool keeps a copy of a query for each request that ran it at
+                                the same time, so the first factor follows the peak number of
+                                concurrent requests. The size of a compiled code depends on the
+                                code: a generated page template with several imports took about
+                                110 KB, a short expression far less. For example, an application
+                                rendering 137 such templates through one module, with 16 copies of
+                                its main query in the pool, keeps about 240 MB of compiled
+                                templates.</para>
+                            <para>Raise the value when a module evaluates more distinct codes than
+                                this over and over: repeated calls then stay slow, as the least
+                                recently used codes are compiled again. Lower it, or leave out the
+                                cache flag, when the codes rarely repeat, for example when values
+                                are written into the code; such codes fill the cache without being
+                                reused, and passing the values as external variables keeps the
+                                code the same. Set it to <code>"0"</code> to rule the cache out
+                                when investigating a problem.</para>
+                        </listitem>
+                    </varlistentry>
                 </variablelist>
             </sect3>
 
