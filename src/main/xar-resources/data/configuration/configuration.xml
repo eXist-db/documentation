@@ -220,8 +220,8 @@
                 <title> <tag>db-connection</tag>/<tag>query-pool</tag> element</title>
 
                 <para>This element configures the global pool for compiled XQuery expressions. For
-                    each XQuery, a maximum number of compiled expressions are kept in the pool, and
-                    is removed if it hasn't been used for the defined timeout. The XQuery pool is
+                    each XQuery, compiled expressions are kept in the pool until it holds the
+                    maximum number of queries, when the least used are discarded. The XQuery pool is
                     multi-threaded.</para>
                 <para> <tag>query-pool</tag> Attributes:</para>
                 <variablelist>
@@ -244,21 +244,6 @@
                                 default is <code>"128"</code>. When the pool is full, the least
                                 used queries are discarded. The value must not be negative: with a
                                 negative value, the database does not start.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term> <code>timeout</code> </term>
-                        <listitem>
-                            <para>The amount of time that a query will be cached in the query-pool
-                                in milliseconds.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term> <code>timeout-check-interval</code> </term>
-                        <listitem>
-                            <para>The time between checking for timed out queries. For value
-                                <code>"-1"</code> the time out is switched off, resulting cached
-                                queries to remain in the cache forever.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
